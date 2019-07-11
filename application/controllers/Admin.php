@@ -47,8 +47,13 @@ class Admin extends CI_Controller
    **/
   public function list_closed()
   {
-    $syear = !empty($this->input->get('syear')) ? $this->input->get('syear') : date('Y');
-    $smonth = !empty($this->input->get('smonth')) ? $this->input->get('syear') : date('m');
+    // PHP Ver 7.x
+    //$syear = !empty($this->input->get('syear')) ? $this->input->get('syear') : date('Y');
+    //$smonth = !empty($this->input->get('smonth')) ? $this->input->get('syear') : date('m');
+
+    // PHP Ver 5.x
+    $syear = $this->input->get('syear') ? $this->input->get('syear') : date('Y');
+    $smonth = $this->input->get('smonth') ? $this->input->get('syear') : date('m');
     $viewData['list'] = $this->admin_model->listClosed($syear, $smonth, STATUS_CLOSED);
 
     $this->_viewPage('admin/list_closed', $viewData);
@@ -62,8 +67,13 @@ class Admin extends CI_Controller
    **/
   public function list_canceled()
   {
-    $syear = !empty($this->input->get('syear')) ? $this->input->get('syear') : date('Y');
-    $smonth = !empty($this->input->get('smonth')) ? $this->input->get('syear') : date('m');
+    // PHP Ver 7.x
+    //$syear = !empty($this->input->get('syear')) ? $this->input->get('syear') : date('Y');
+    //$smonth = !empty($this->input->get('smonth')) ? $this->input->get('syear') : date('m');
+
+    // PHP Ver 5.x
+    $syear = $this->input->get('syear') ? $this->input->get('syear') : date('Y');
+    $smonth = $this->input->get('smonth') ? $this->input->get('syear') : date('m');
     $viewData['list'] = $this->admin_model->listClosed($syear, $smonth, STATUS_CANCLE);
 
     $this->_viewPage('admin/list_canceled', $viewData);
@@ -90,7 +100,11 @@ class Admin extends CI_Controller
    **/
   public function list_attendance()
   {
-    $viewData['viewType'] = !empty($this->input->get('action')) ? $this->input->get('action') : '';
+    // PHP Ver 7.x
+    //$viewData['viewType'] = !empty($this->input->get('action')) ? $this->input->get('action') : '';
+
+    // PHP Ver 5.x
+    $viewData['viewType'] = $this->input->get('action') ? $this->input->get('action') : '';
     $cnt = 0;
     $buf = 0;
 
@@ -104,7 +118,10 @@ class Admin extends CI_Controller
     // 랭킹별 닉네임 추출
     $viewData['listNickname'] = $this->admin_model->listAttendanceNickname();
 
-    if (!empty($viewData['listNickname'])) {
+    // PHP Ver 7.x
+    //if (!empty($viewData['listNickname'])) {
+    // PHP Ver 5.x
+    if ($viewData['listNickname'] != '') {
       foreach ($viewData['listNickname'] as $key => $list) {
         if ($buf != $list['cnt']) {
           $viewData['listNickname'][$key]['rank'] = $key;
@@ -141,7 +158,10 @@ class Admin extends CI_Controller
 
       $cnt = 0;
       foreach ($entryMember as $key => $entry) {
-        if (!empty($arrDummy[$value['idx']])) {
+        // PHP Ver 7.x
+        //if (!empty($arrDummy[$value['idx']])) {
+        // PHP Ver 5.x
+        if ($arrDummy[$value['idx']] != '') {
           $cnt = 1;
           foreach ($arrDummy[$value['idx']] as $list) {
             if ($list == $entry['nickname']) $cnt++;
@@ -167,7 +187,10 @@ class Admin extends CI_Controller
       }
     }
 
-    if (empty($rtn)) {
+    // PHP Ver 7.x
+    //if (empty($rtn)) {
+    // PHP Ver 5.x
+    if (!$rtn) {
       $result['message'] = '에러가 발생했습니다.';
     } else {
       $result['message'] = '최신 데이터로 갱신했습니다.';
