@@ -69,16 +69,13 @@
                     <li>
                         <a href="#"> <i class="menu-icon fa fa-child"></i>산행지로 보기</a>
                     </li>
-                    <li>
-                        <a href="#"> <i class="menu-icon fa fa-download"></i>최신 데이터 받기</a>
-                    </li>
 
                     <h3 class="menu-title">활동관리</h3>
                     <li>
-                        <a href="#"> <i class="menu-icon fa fa-list"></i>회원 활동 목록</a>
+                        <a href="<?=base_url()?>admin/log_member"> <i class="menu-icon fa fa-list"></i>회원 활동 목록</a>
                     </li>
                     <li>
-                        <a href="#"> <i class="menu-icon fa fa-list-alt"></i>관리자 활동 목록</a>
+                        <a href="<?=base_url()?>admin/log_admin"> <i class="menu-icon fa fa-list-alt"></i>관리자 활동 목록</a>
                     </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
