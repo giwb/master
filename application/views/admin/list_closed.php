@@ -1,17 +1,14 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-  <div id="right-panel" class="right-panel">
-    <div class="breadcrumbs">
-      <div class="col-sm-4">
-        <div class="page-header float-left">
-          <div class="page-title">
-              <h1>다녀온 산행 목록</h1>
-          </div>
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+      <!-- Main Content -->
+      <div id="content">
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <h1 class="h3 mb-0 text-gray-800">다녀온 산행 목록</h1>
         </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-body">
+
         <table class="table">
           <tbody>
 <?php

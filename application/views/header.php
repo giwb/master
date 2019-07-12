@@ -13,7 +13,7 @@
   <link href="/public/images/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Montserrat:300,400,500,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 
   <!-- Bootstrap CSS File -->
   <link href="/public/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -145,7 +145,7 @@
     <div class="container-fluid">
 
       <div id="logo" class="pull-left">
-        <h1><a href="#intro" class="scrollto">경인웰빙산악회</a></h1>
+        <h1><a href="#intro" class="scrollto">경인 웰빙 산악회</a></h1>
         <!-- <a href="#intro"><img src="/public/images/logo.png" alt="" title="" /></a>-->
       </div>
 

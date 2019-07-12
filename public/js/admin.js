@@ -1,48 +1,49 @@
 (function($) {
+  "use strict"; // Start of use strict
 
-  "use strict";
-
-  [].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {
-    new SelectFx(el);
-  } );
-
-  jQuery('.selectpicker').selectpicker;
-
-  $('#menuToggle').on('click', function(event) {
-    $('body').toggleClass('open');
+  // Toggle the side navigation
+  $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
+    $("body").toggleClass("sidebar-toggled");
+    $(".sidebar").toggleClass("toggled");
+    if ($(".sidebar").hasClass("toggled")) {
+      $('.sidebar .collapse').collapse('hide');
+    };
   });
 
-  $('.search-trigger').on('click', function(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    $('.search-trigger').parent('.header-left').addClass('open');
+  // Close any open menu accordions when window is resized below 768px
+  $(window).resize(function() {
+    if ($(window).width() < 768) {
+      $('.sidebar .collapse').collapse('hide');
+    };
   });
 
-  $('.search-close').on('click', function(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    $('.search-trigger').parent('.header-left').removeClass('open');
-  });
-
-});
-
-$(document).on('click', '.btn-get-attendance', function() {
-  // 출석체크 최신 데이터 갱신
-  var $dom = $(this);
-  $.ajax({
-    url: $('input[name=base_url]').val() + 'admin/get_attendance',
-    dataType: 'json',
-    type: 'post',
-    beforeSend: function() {
-      $dom.css('opacity', '0.5').prop('disabled', true).text('갱신중...');
-    },
-    success: function(result) {
-      $dom.css('opacity', '1').prop('disabled', false).text('최신 데이터 받기');
-      $('#messageModal .modal-message').text(result.message);
-      $('#messageModal').modal('show');
+  // Prevent the content wrapper from scrolling when the fixed side navigation hovered over
+  $('body.fixed-nav .sidebar').on('mousewheel DOMMouseScroll wheel', function(e) {
+    if ($(window).width() > 768) {
+      var e0 = e.originalEvent,
+        delta = e0.wheelDelta || -e0.detail;
+      this.scrollTop += (delta < 0 ? 1 : -1) * 30;
+      e.preventDefault();
     }
   });
-}).on('click', '.btn-refresh', function() {
-  $(this).css('opacity', '0.5').prop('disabled', true).text('갱신중...');
-  location.reload();
-});
+
+  // Scroll to top button appear
+  $(document).on('scroll', function() {
+    var scrollDistance = $(this).scrollTop();
+    if (scrollDistance > 100) {
+      $('.scroll-to-top').fadeIn();
+    } else {
+      $('.scroll-to-top').fadeOut();
+    }
+  });
+
+  // Smooth scrolling using jQuery easing
+  $(document).on('click', 'a.scroll-to-top', function(e) {
+    var $anchor = $(this);
+    $('html, body').stop().animate({
+      scrollTop: ($($anchor.attr('href')).offset().top)
+    }, 1000, 'easeInOutExpo');
+    e.preventDefault();
+  });
+
+})(jQuery); // End of use strict

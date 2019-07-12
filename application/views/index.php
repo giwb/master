@@ -5,17 +5,19 @@
   ============================-->
   <section id="intro">
     <div class="intro-container">
-      <div id="introCarousel" class="carousel  slide carousel-fade" data-ride="carousel">
+      <div id="introCarousel" class="carousel slide carousel-fade" data-ride="carousel">
 
         <ol class="carousel-indicators"></ol>
 
         <div class="carousel-inner" role="listbox">
 
           <div class="carousel-item active">
-            <div class="carousel-background"><img src="/public/images/main_1.jpg" alt=""></div>
+            <div class="carousel-background">
+              <iframe src="https://www.youtube.com/embed/TMTul_kn1xw?loop=1&amp;autoplay=1&amp;controls=0&amp;modestbranding=0&amp;start=65&amp;playlist=TMTul_kn1xw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; loop" allowfullscreen></iframe>
+            </div>
             <div class="carousel-container">
               <div class="carousel-content">
-                <h2></h2>
+                <h2>경인 웰빙 산악회</h2>
                 <p></p>
                 <!--<a href="#featured-services" class="btn-get-started scrollto"></a>-->
               </div>
@@ -23,7 +25,7 @@
           </div>
 <!--
           <div class="carousel-item">
-            <div class="carousel-background"><img src="/public/images/intro-carousel/2.jpg" alt=""></div>
+            <div class="carousel-background"><img src="/public/images/main_1.jpg" alt=""></div>
             <div class="carousel-container">
               <div class="carousel-content">
                 <h2>인터넷 세상에 내 집을 만들다</h2>
@@ -32,7 +34,6 @@
               </div>
             </div>
           </div>
-
           <div class="carousel-item">
             <div class="carousel-background"><img src="/public/images/intro-carousel/3.jpg" alt=""></div>
             <div class="carousel-container">
@@ -67,7 +68,7 @@
           </div>
 -->
         </div>
-
+<!--
         <a class="carousel-control-prev" href="#introCarousel" role="button" data-slide="prev">
           <span class="carousel-control-prev-icon ion-chevron-left" aria-hidden="true"></span>
           <span class="sr-only">Previous</span>
@@ -77,7 +78,7 @@
           <span class="carousel-control-next-icon ion-chevron-right" aria-hidden="true"></span>
           <span class="sr-only">Next</span>
         </a>
-
+-->
       </div>
     </div>
   </section><!-- #intro -->
