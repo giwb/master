@@ -4,26 +4,15 @@
     Intro Section
   ============================-->
   <section id="intro">
+    <div class="intro-video">
+      <div class="intro-background">
+        <!--<iframe src="https://www.youtube.com/embed/TMTul_kn1xw?loop=1&amp;autoplay=1&amp;controls=0&amp;modestbranding=0&amp;start=65&amp;playlist=TMTul_kn1xw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; loop" allowfullscreen></iframe>-->
+      </div>
+    </div>
     <div class="intro-container">
       <div id="introCarousel" class="carousel slide carousel-fade" data-ride="carousel">
-
         <ol class="carousel-indicators"></ol>
-
         <div class="carousel-inner" role="listbox">
-
-          <div class="carousel-item active">
-            <div class="carousel-background">
-              <iframe src="https://www.youtube.com/embed/TMTul_kn1xw?loop=1&amp;autoplay=1&amp;controls=0&amp;modestbranding=0&amp;start=65&amp;playlist=TMTul_kn1xw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; loop" allowfullscreen></iframe>
-            </div>
-            <div class="carousel-container">
-              <div class="carousel-content">
-                <h2>경인 웰빙 산악회</h2>
-                <p></p>
-                <!--<a href="#featured-services" class="btn-get-started scrollto"></a>-->
-              </div>
-            </div>
-          </div>
-<!--
           <div class="carousel-item">
             <div class="carousel-background"><img src="/public/images/main_1.jpg" alt=""></div>
             <div class="carousel-container">
@@ -35,7 +24,7 @@
             </div>
           </div>
           <div class="carousel-item">
-            <div class="carousel-background"><img src="/public/images/intro-carousel/3.jpg" alt=""></div>
+            <div class="carousel-background"><img src="/public/images/main_1.jpg" alt=""></div>
             <div class="carousel-container">
               <div class="carousel-content">
                 <h2>인터넷 세상에 내 집을 만들다</h2>
@@ -44,31 +33,7 @@
               </div>
             </div>
           </div>
-
-          <div class="carousel-item">
-            <div class="carousel-background"><img src="/public/images/intro-carousel/4.jpg" alt=""></div>
-            <div class="carousel-container">
-              <div class="carousel-content">
-                <h2>인터넷 세상에 내 집을 만들다</h2>
-                <p>무한한 인터넷이라는 영토에 당신만의 집을 만들고,<br>전 세계 사람들과 소통하세요!</p>
-                <a href="#featured-services" class="btn-get-started scrollto">지금 시작합시다!</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="carousel-item">
-            <div class="carousel-background"><img src="/public/images/intro-carousel/5.jpg" alt=""></div>
-            <div class="carousel-container">
-              <div class="carousel-content">
-                <h2>인터넷 세상에 내 집을 만들다</h2>
-                <p>무한한 인터넷이라는 영토에 당신만의 집을 만들고,<br>전 세계 사람들과 소통하세요!</p>
-                <a href="#featured-services" class="btn-get-started scrollto">지금 시작합시다!</a>
-              </div>
-            </div>
-          </div>
--->
         </div>
-<!--
         <a class="carousel-control-prev" href="#introCarousel" role="button" data-slide="prev">
           <span class="carousel-control-prev-icon ion-chevron-left" aria-hidden="true"></span>
           <span class="sr-only">Previous</span>
@@ -78,19 +43,113 @@
           <span class="carousel-control-next-icon ion-chevron-right" aria-hidden="true"></span>
           <span class="sr-only">Next</span>
         </a>
--->
       </div>
     </div>
   </section><!-- #intro -->
 
   <main id="main">
 
-    <section id="about">
+    <link href="/public/css/fullcalendar.css" rel="stylesheet" />
+    <link href="/public/css/fullcalendar.print.css" rel="stylesheet" media="print" />
+    <script src="/public/js/fullcalendar.js" type="text/javascript"></script>
+    <script>
+      $(document).ready(function() {
+        var date = new Date();
+        var d = date.getDate();
+        var m = date.getMonth();
+        var y = date.getFullYear();
+
+        /* initialize the calendar
+        -----------------------------------------------------------------*/
+        var calendar =  $("#calendar").fullCalendar({
+          header: {
+            left: "prev",
+            center: "title",
+            right: "next"
+          },
+          editable: false,
+          selectable: false,
+          defaultView: "month",
+          axisFormat: "h:mm",
+          columnFormat: {
+                    month: "ddd",
+                    week: "ddd d",
+                    day: "dddd M/d",
+                    agendaDay: "dddd d"
+                },
+                titleFormat: {
+                    month: "yyyy년 MMMM",
+                    week: "yyyy년 MMMM",
+                    day: "yyyy년 MMMM"
+                },
+          allDaySlot: false,
+          selectHelper: true,
+          select: function(start, end, allDay) {
+            var title = prompt("Event Title:");
+            if (title) {
+              calendar.fullCalendar("renderEvent",
+                {
+                  title: title,
+                  start: start,
+                  end: end,
+                  allDay: allDay
+                },
+                true // make the event "stick"
+              );
+            }
+            calendar.fullCalendar("unselect");
+          },
+          droppable: false, // this allows things to be dropped onto the calendar !!!
+          drop: function(date, allDay) { // this function is called when something is dropped
+
+            // retrieve the dropped element"s stored Event Object
+            var originalEventObject = $(this).data("eventObject");
+
+            // we need to copy it, so that multiple events don"t have a reference to the same object
+            var copiedEventObject = $.extend({}, originalEventObject);
+
+            // assign it the date that was reported
+            copiedEventObject.start = date;
+            copiedEventObject.allDay = allDay;
+
+            // render the event on the calendar
+            // the last `true` argument determines if the event "sticks" (https://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+            $("#calendar").fullCalendar("renderEvent", copiedEventObject, true);
+
+            // is the "remove after drop" checkbox checked?
+            if ($("#drop-remove").is(":checked")) {
+              // if so, remove the element from the "Draggable Events" list
+              $(this).remove();
+            }
+          },
+          events: [
+  <?php
+    foreach ($listMonthNotice as $value) {
+      $startDate = strtotime($value['startdate']);
+      $endDate = calcEndDate($value['startdate'], $value['schedule']);
+      $viewNoticeStatus = viewNoticeStatus($value['status'])
+  ?>
+              {
+                title: '<?=$viewNoticeStatus?><?=$value['mname']?>',
+                start: new Date(y, m, <?=date('j', $startDate)?>),
+                end: new Date(y, m, <?=date('j', $endDate)?>),
+                url: '<?=base_url()?>admin/list_progress/<?=$value['idx']?>',
+                className: 'notice-status<?=$value['status']?>'
+              },
+  <?php
+    }
+  ?>
+          ],
+        });
+      });
+    </script>
+
+    <section id="schedule">
       <div class="container">
         <header class="section-header">
           <h3>산행 일정</h3>
         </header>
-        <div id='calendar'></div>
+        <div id="calendar"></div>
       </div>
     </section>
 

@@ -49,6 +49,16 @@ class Admin_model extends CI_Model
     return $this->db->get()->row_array(1);
   }
 
+  // 이번 달 산행 목록
+  public function listMonthNotice($syear, $smonth)
+  {
+    $this->db->select('*')
+          ->from(DB_NOTICE)
+          ->where("DATE_FORMAT(startdate, '%Y%m') = '" . $syear . $smonth . "'")
+          ->order_by('startdate', 'asc');
+    return $this->db->get()->result_array();
+  }
+
   // 진행중 산행 목록
   public function listProgress()
   {

@@ -42,4 +42,51 @@ if (!function_exists('cntRes')) {
     return $result['CNT'];
   }
 }
+
+// 산행 종료일 계산
+if (!function_exists('calcEndDate')) {
+  function calcEndDate($startDate, $schedule) {
+    switch ($schedule) {
+      case '2': // 1박 2일
+        $addedDate = ' +1 day';
+      break;
+      case '3': // 1무 1박 3일
+      case '4': // 2박 3일
+        $addedDate = ' +2 day';
+      break;
+      case '5': // 3박 4일
+        $addedDate = ' +3 day';
+      case '6': // 3박 5일
+      case '7': // 4박 5일
+        $addedDate = ' +4 day';
+      default: // 무박
+        $addedDate = '';
+    }
+    return strtotime($startDate . $addedDate);
+  }
+}
+
+// 산행 상태 표시
+if (!function_exists('viewNoticeStatus')) {
+  function viewNoticeStatus($status) {
+    switch ($status) {
+      case '1': // 예정
+        $result = '[예정]';
+      break;
+      case '2': // 확정
+        $result = '[확정]';
+      break;
+      case '8': // 취소
+        $result = '[취소]';
+      break;
+      case '9': // 종료
+        $result = '[종료]';
+      break;
+      default: // 무박
+        $result = '';
+    }
+    return $result;
+  }
+}
+
 ?>

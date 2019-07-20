@@ -19,8 +19,22 @@ class Admin extends CI_Controller
    **/
   public function index()
   {
+    // PHP Ver 7.x
+    //$syear = !empty($this->input->get('syear')) ? $this->input->get('syear') : date('Y');
+    //$smonth = !empty($this->input->get('smonth')) ? $this->input->get('syear') : date('m');
+
+    // PHP Ver 5.x
+    $syear = $this->input->get('syear') ? $this->input->get('syear') : date('Y');
+    $smonth = $this->input->get('smonth') ? $this->input->get('syear') : date('m');
+
+    // 이번 달 산행 목록
+    $viewData['listMonthNotice'] = $this->admin_model->listMonthNotice($syear, $smonth);
+
+    // 현재 회원수
     $viewData['cntTotalMember'] = $this->admin_model->cntTotalMember();
+    // 다녀온 산행횟수
     $viewData['cntTotalTour'] = $this->admin_model->cntTotalTour();
+    // 다녀온 산행 인원수
     $viewData['cntTotalCustomer'] = $this->admin_model->cntTotalCustomer();
 
     $this->_viewPage('admin/index', $viewData);

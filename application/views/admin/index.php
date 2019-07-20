@@ -71,13 +71,22 @@
             }
           },
           events: [
+<?php
+  foreach ($listMonthNotice as $value) {
+    $startDate = strtotime($value['startdate']);
+    $endDate = calcEndDate($value['startdate'], $value['schedule']);
+    $viewNoticeStatus = viewNoticeStatus($value['status'])
+?>
             {
-              title: 'Click for Google',
-              start: new Date(y, m, 28),
-              end: new Date(y, m, 29),
-              url: 'https://google.com/',
-              className: 'success'
-            }
+              title: '<?=$viewNoticeStatus?><?=$value['mname']?>',
+              start: new Date(y, m, <?=date('j', $startDate)?>),
+              end: new Date(y, m, <?=date('j', $endDate)?>),
+              url: '<?=base_url()?>admin/list_progress/<?=$value['idx']?>',
+              className: 'notice-status<?=$value['status']?>'
+            },
+<?php
+  }
+?>
           ],
         });
       });

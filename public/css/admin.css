@@ -21,6 +21,12 @@
 .w30 { flex: 1; -webkit-flex: 1; }
 .w100 { flex: 2; -webkit-flex: 2; }
 .modal-message { padding-top: 15px; }
+.fc-event { padding: 5px 5px 4px 5px; }
+.fc-event.notice-status1 { background-color: #FEECBF!important; }
+.fc-event.notice-status2 { background-color: #F6C23E!important; }
+.fc-event.notice-status8 { background-color: #EFEFEF!important; }
+.fc-event.notice-status8 .fc-event-title { color: #999; text-decoration: line-through; }
+.fc-event.notice-status9 { background-color: #EFEFEF!important; }
 
 :root {
   --blue: #4e73df;
