@@ -59,6 +59,8 @@ if (!function_exists('calcEndDate')) {
       case '6': // 3박 5일
       case '7': // 4박 5일
         $addedDate = ' +4 day';
+      case '7': // 7박 9일
+        $addedDate = ' +9 day';
       default: // 무박
         $addedDate = '';
     }
