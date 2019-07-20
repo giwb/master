@@ -49,18 +49,21 @@ if (!function_exists('calcEndDate')) {
     switch ($schedule) {
       case '2': // 1박 2일
         $addedDate = ' +1 day';
-      break;
+        break;
       case '3': // 1무 1박 3일
       case '4': // 2박 3일
         $addedDate = ' +2 day';
-      break;
+        break;
       case '5': // 3박 4일
         $addedDate = ' +3 day';
+        break;
       case '6': // 3박 5일
       case '7': // 4박 5일
         $addedDate = ' +4 day';
+        break;
       case '7': // 7박 9일
         $addedDate = ' +9 day';
+        break;
       default: // 무박
         $addedDate = '';
     }
