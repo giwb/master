@@ -9,7 +9,6 @@
         <iframe src="https://www.youtube.com/embed/TMTul_kn1xw?loop=1&amp;autoplay=1&amp;controls=0&amp;modestbranding=0&amp;start=65&amp;playlist=TMTul_kn1xw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; loop" allowfullscreen></iframe>
       </div>
     </div>
-    <!--
     <div class="intro-container">
       <div id="introCarousel" class="carousel slide carousel-fade" data-ride="carousel">
         <ol class="carousel-indicators"></ol>
@@ -46,7 +45,6 @@
         </a>
       </div>
     </div>
-  -->
   </section><!-- #intro -->
 
   <main id="main">
