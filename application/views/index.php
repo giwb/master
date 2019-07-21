@@ -23,8 +23,54 @@
             <div class="carousel-container">
               <div class="carousel-content">
                 <h2>경인 웰빙 산악회</h2>
-                <!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                <a href="#featured-services" class="btn-get-started scrollto">Get Started</a>-->
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="carousel-background"><img src="/public/images/main_3.jpg" alt=""></div>
+            <div class="carousel-container">
+              <div class="carousel-content">
+                <h2>경인 웰빙 산악회</h2>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="carousel-background"><img src="/public/images/main_4.jpg" alt=""></div>
+            <div class="carousel-container">
+              <div class="carousel-content">
+                <h2>경인 웰빙 산악회</h2>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="carousel-background"><img src="/public/images/main_5.jpg" alt=""></div>
+            <div class="carousel-container">
+              <div class="carousel-content">
+                <h2>경인 웰빙 산악회</h2>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="carousel-background"><img src="/public/images/main_6.jpg" alt=""></div>
+            <div class="carousel-container">
+              <div class="carousel-content">
+                <h2>경인 웰빙 산악회</h2>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="carousel-background"><img src="/public/images/main_7.jpg" alt=""></div>
+            <div class="carousel-container">
+              <div class="carousel-content">
+                <h2>경인 웰빙 산악회</h2>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="carousel-background"><img src="/public/images/main_8.jpg" alt=""></div>
+            <div class="carousel-container">
+              <div class="carousel-content">
+                <h2>경인 웰빙 산악회</h2>
               </div>
             </div>
           </div>
