@@ -19,7 +19,7 @@
             </div>
           </div>
           <div class="carousel-item">
-            <div class="carousel-background"><img src="/public/images/intro-carousel/5.jpg" alt=""></div>
+            <div class="carousel-background"><img src="/public/images/main_2.jpg" alt=""></div>
             <div class="carousel-container">
               <div class="carousel-content">
                 <h2>경인 웰빙 산악회</h2>
