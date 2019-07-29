@@ -1543,8 +1543,6 @@ body.mobile-nav-active #mobile-nav-toggle {
     border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
   }
-
-  .slick-next, .slick-prev { display: none!important; }
 }
 
 @media (min-width: 992px) {
@@ -1600,6 +1598,8 @@ body.mobile-nav-active #mobile-nav-toggle {
   #booking .project-text {
     padding: 1rem;
   }
+
+  .slick-next, .slick-prev { display: none!important; }
 }
 
 /* ---------
