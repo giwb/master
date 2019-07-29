@@ -1544,7 +1544,7 @@ body.mobile-nav-active #mobile-nav-toggle {
     border-right: 1px solid #ddd;
   }
 
-  .slick-next, .slick-prev { display: none; }
+  .slick-next, .slick-prev { display: none!important; }
 }
 
 @media (min-width: 992px) {
