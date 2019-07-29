@@ -24,13 +24,15 @@
   <link href="/public/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
   <link href="/public/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
   <link href="/public/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+  <link href="/public/css/slick.css" rel="stylesheet">
+  <link href="/public/css/slick-theme.css" rel="stylesheet">
 
   <!-- Main Stylesheet File -->
   <link href="/public/css/style.css" rel="stylesheet">
 
   <script src="/public/js/jquery-1.10.2.js" type="text/javascript"></script>
   <script src="/public/js/jquery-ui.custom.min.js" type="text/javascript"></script>
-
+  <script src="/public/js/slick.min.js" type="text/javascript"></script>
 </head>
 
 <body>

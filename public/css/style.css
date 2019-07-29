@@ -634,15 +634,38 @@ body.mobile-nav-active #mobile-nav-toggle {
   margin-bottom: 0;
 }
 
-/* About Us Section
+/* Booking Section
 --------------------------------*/
 
-#about {
+#booking {
+  width: 100%;
+  background-color: #111;
+  padding: 40px 0;
+}
+
+#booking .section-header h3 {
+  color: #fff;
+}
+
+#booking .project-text {
+  width: 100%;
+  color: #fff;
+  padding: 3rem;
+}
+
+#booking .img-fluid {
+  min-width: 100%;
+}
+
+/* Latest Section
+--------------------------------*/
+
+#latest {
   padding: 60px 0 40px 0;
   position: relative;
 }
 
-#about::before {
+#latest::before {
   content: '';
   position: absolute;
   left: 0;
@@ -653,27 +676,27 @@ body.mobile-nav-active #mobile-nav-toggle {
   z-index: 9;
 }
 
-#about .container {
+#latest .container {
   position: relative;
   z-index: 10;
 }
 
-#about .about-col {
+#latest .latest-col {
   background: #fff;
   border-radius: 0 0 4px 4px;
   box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.08);
   margin-bottom: 20px;
 }
 
-#about .about-col .img {
+#latest .latest-col .img {
   position: relative;
 }
 
-#about .about-col .img img {
+#latest .latest-col .img img {
   border-radius: 4px 4px 0 0;
 }
 
-#about .about-col .icon {
+#latest .latest-col .icon {
   width: 64px;
   height: 64px;
   padding-top: 8px;
@@ -688,22 +711,22 @@ body.mobile-nav-active #mobile-nav-toggle {
   transition: 0.3s;
 }
 
-#about .about-col i {
+#latest .latest-col i {
   font-size: 36px;
   line-height: 1;
   color: #fff;
   transition: 0.3s;
 }
 
-#about .about-col:hover .icon {
+#latest .latest-col:hover .icon {
   background-color: #fff;
 }
 
-#about .about-col:hover i {
+#latest .latest-col:hover i {
   color: #E0552a;
 }
 
-#about .about-col h2 {
+#latest .latest-col h2 {
   color: #000;
   text-align: center;
   font-weight: 700;
@@ -713,15 +736,15 @@ body.mobile-nav-active #mobile-nav-toggle {
   text-align: left;
 }
 
-#about .about-col h2 a {
+#latest .latest-col h2 a {
   color: #000;
 }
 
-#about .about-col h2 a:hover {
+#latest .latest-col h2 a:hover {
   color: #E0552a;
 }
 
-#about .about-col p {
+#latest .latest-col p {
   font-size: 14px;
   line-height: 24px;
   color: #333;
@@ -1571,6 +1594,10 @@ body.mobile-nav-active #mobile-nav-toggle {
 
   #mobile-nav-toggle {
     display: inline;
+  }
+
+  #booking .project-text {
+    padding: 1rem;
   }
 }
 

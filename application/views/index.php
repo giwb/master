@@ -193,20 +193,67 @@
       </div>
     </section>
 
-    <!--==========================
-      About Us Section
-    ============================-->
-    <section id="about">
+    <section id="booking">
+      <div class="container">
+        <header class="section-header">
+          <h3>예약 진행중인 다음 산행</h3>
+        </header>
+
+        <div class="row justify-content-center no-gutters mb-5 mb-lg-0">
+          <div class="col-lg-6">
+            <img class="img-fluid" src="/public/images/mt_1.png" alt="">
+          </div>
+          <div class="col-lg-6">
+            <div class="bg-black text-center h-100 project">
+              <div class="d-flex h-100">
+                <div class="project-text w-100 my-auto text-center text-lg-left">
+                  <h4 class="text-white">[확정] 울릉도 성인봉 & 독도 1무1박3일</h4>
+                  <p class="mb-0 text-white-50">
+                    일시 : 2019-06-28 (금) 23:30<br>
+                    분담금 : 310,000원<br>
+                    예약인원 : 42명
+                  </p>
+                  <hr class="d-none d-lg-block mb-0 ml-0">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row justify-content-center no-gutters">
+          <div class="col-lg-6">
+            <img class="img-fluid" src="/public/images/mt_3.png" alt="">
+          </div>
+          <div class="col-lg-6 order-lg-first">
+            <div class="bg-black text-center h-100 project">
+              <div class="d-flex h-100">
+                <div class="project-text w-100 my-auto text-center text-lg-right">
+                  <h4 class="text-white">[확정] 금대봉 매봉산 바람의언덕</h4>
+                  <p class="mb-0 text-white-50">
+                    일시 : 2019-07-06 (토) 6:30<br>
+                    분담금 : 30,000원<br>
+                    예약인원 : 28명
+                  </p>
+                  <hr class="d-none d-lg-block mb-0 mr-0">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="latest">
       <div class="container">
 
         <header class="section-header">
-          <h3>예약 진행중인 산행 내역</h3>
+          <h3>지난 산행 내역</h3>
         </header>
 
-        <div class="row about-cols">
+        <div class="row latest-cols slick">
 
           <div class="col-md-4 wow fadeInUp">
-            <div class="about-col">
+            <div class="latest-col">
               <div class="img">
                 <img src="/public/images/mt_1.png" alt="" class="img-fluid">
               </div>
@@ -220,7 +267,7 @@
           </div>
 
           <div class="col-md-4 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="about-col">
+            <div class="latest-col">
               <div class="img">
                 <img src="/public/images/mt_2.png" alt="" class="img-fluid">
               </div>
@@ -234,7 +281,7 @@
           </div>
 
           <div class="col-md-4 wow fadeInUp" data-wow-delay="0.2s">
-            <div class="about-col">
+            <div class="latest-col">
               <div class="img">
                 <img src="/public/images/mt_3.png" alt="" class="img-fluid">
               </div>
@@ -247,162 +294,88 @@
             </div>
           </div>
 
-        </div>
-
-      </div>
-    </section><!-- #about -->
-
-    <!--==========================
-      Portfolio Section
-    ============================-->
-    <section id="portfolio"  class="section-bg" >
-      <div class="container">
-
-        <header class="section-header">
-          <h3 class="section-title">지난 산행 내역</h3>
-        </header>
-
-        <div class="row portfolio-container">
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app wow fadeInUp">
-            <div class="portfolio-wrap">
-              <figure>
-                <img src="/public/images/oldmt_1.jpg" class="img-fluid" alt="">
-                <a href="#" data-lightbox="portfolio" data-title="App 1" class="link-preview" title="Preview"><i class="ion ion-eye"></i></a>
-                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-              </figure>
-
-              <div class="portfolio-info">
-                <h4><a href="#">소백산 국망봉</a></h4>
-                <p>2019-06-23 (일)</p>
+          <div class="col-md-4 wow fadeInUp" data-wow-delay="0.2s">
+            <div class="latest-col">
+              <div class="img">
+                <img src="/public/images/mt_3.png" alt="" class="img-fluid">
               </div>
+              <h2 class="title"><a href="#">[확정] 금대봉 매봉산 바람의언덕</a></h2>
+              <p>
+                일시 : 2019-07-06 (토) 6:30<br>
+                분담금 : 30,000원<br>
+                예약인원 : 28명
+              </p>
             </div>
           </div>
 
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web wow fadeInUp" data-wow-delay="0.1s">
-            <div class="portfolio-wrap">
-              <figure>
-                <img src="/public/images/oldmt_2.jpg" class="img-fluid" alt="">
-                <a href="#" class="link-preview" data-lightbox="portfolio" data-title="Web 3" title="Preview"><i class="ion ion-eye"></i></a>
-                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-              </figure>
-
-              <div class="portfolio-info">
-                <h4><a href="#">설악산 십이선녀탕 계곡</a></h4>
-                <p>2019-06-22 (토)</p>
+          <div class="col-md-4 wow fadeInUp">
+            <div class="latest-col">
+              <div class="img">
+                <img src="/public/images/mt_1.png" alt="" class="img-fluid">
               </div>
+              <h2 class="title"><a href="#">[확정] 울릉도 성인봉 & 독도 1무1박3일</a></h2>
+              <p>
+                일시 : 2019-06-28 (금) 23:30<br>
+                분담금 : 310,000원<br>
+                예약인원 : 42명
+              </p>
             </div>
           </div>
 
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app wow fadeInUp" data-wow-delay="0.2s">
-            <div class="portfolio-wrap">
-              <figure>
-                <img src="/public/images/oldmt_3.jpg" class="img-fluid" alt="">
-                <a href="#" class="link-preview" data-lightbox="portfolio" data-title="App 2" title="Preview"><i class="ion ion-eye"></i></a>
-                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-              </figure>
-
-              <div class="portfolio-info">
-                <h4><a href="#">쉰움산 두타산 무릉계곡</a></h4>
-                <p>2019-06-16 (일)</p>
+          <div class="col-md-4 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="latest-col">
+              <div class="img">
+                <img src="/public/images/mt_2.png" alt="" class="img-fluid">
               </div>
-            </div>
-          </div>
-<!--
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card wow fadeInUp">
-            <div class="portfolio-wrap">
-              <figure>
-                <img src="/public/images/portfolio/card2.jpg" class="img-fluid" alt="">
-                <a href="/public/images/portfolio/card2.jpg" class="link-preview" data-lightbox="portfolio" data-title="Card 2" title="Preview"><i class="ion ion-eye"></i></a>
-                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-              </figure>
-
-              <div class="portfolio-info">
-                <h4><a href="#">Card 2</a></h4>
-                <p>Card</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web wow fadeInUp" data-wow-delay="0.1s">
-            <div class="portfolio-wrap">
-              <figure>
-                <img src="/public/images/portfolio/web2.jpg" class="img-fluid" alt="">
-                <a href="/public/images/portfolio/web2.jpg" class="link-preview" data-lightbox="portfolio" data-title="Web 2" title="Preview"><i class="ion ion-eye"></i></a>
-                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-              </figure>
-
-              <div class="portfolio-info">
-                <h4><a href="#">Web 2</a></h4>
-                <p>Web</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app wow fadeInUp" data-wow-delay="0.2s">
-            <div class="portfolio-wrap">
-              <figure>
-                <img src="/public/images/portfolio/app3.jpg" class="img-fluid" alt="">
-                <a href="/public/images/portfolio/app3.jpg" class="link-preview" data-lightbox="portfolio" data-title="App 3" title="Preview"><i class="ion ion-eye"></i></a>
-                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-              </figure>
-
-              <div class="portfolio-info">
-                <h4><a href="#">App 3</a></h4>
-                <p>App</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card wow fadeInUp">
-            <div class="portfolio-wrap">
-              <figure>
-                <img src="/public/images/portfolio/card1.jpg" class="img-fluid" alt="">
-                <a href="/public/images/portfolio/card1.jpg" class="link-preview" data-lightbox="portfolio" data-title="Card 1" title="Preview"><i class="ion ion-eye"></i></a>
-                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-              </figure>
-
-              <div class="portfolio-info">
-                <h4><a href="#">Card 1</a></h4>
-                <p>Card</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card wow fadeInUp" data-wow-delay="0.1s">
-            <div class="portfolio-wrap">
-              <figure>
-                <img src="/public/images/portfolio/card3.jpg" class="img-fluid" alt="">
-                <a href="/public/images/portfolio/card3.jpg" class="link-preview" data-lightbox="portfolio" data-title="Card 3" title="Preview"><i class="ion ion-eye"></i></a>
-                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-              </figure>
-
-              <div class="portfolio-info">
-                <h4><a href="#">Card 3</a></h4>
-                <p>Card</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web wow fadeInUp" data-wow-delay="0.2s">
-            <div class="portfolio-wrap">
-              <figure>
-                <img src="/public/images/portfolio/web1.jpg" class="img-fluid" alt="">
-                <a href="/public/images/portfolio/web1.jpg" class="link-preview" data-lightbox="portfolio" data-title="Web 1" title="Preview"><i class="ion ion-eye"></i></a>
-                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-              </figure>
-
-              <div class="portfolio-info">
-                <h4><a href="#">Web 1</a></h4>
-                <p>Web</p>
-              </div>
+              <h2 class="title"><a href="#">[확정] 울릉도 성인봉 & 독도 유람선</a></h2>
+              <p>
+                일시 : 2019-06-28 (금) 23:30<br>
+                분담금 : 322,000원<br>
+                예약인원 : 44명
+              </p>
             </div>
           </div>
 
         </div>
--->
+
       </div>
-    </section><!-- #portfolio -->
+    </section>
+
+    <script type="text/javascript">
+      $('.slick').slick({
+        autoplay: true,
+        dots: false,
+        infinite: true,
+        speed: 300,
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        responsive: [
+          {
+            breakpoint: 1024,
+            settings: {
+              slidesToShow: 3,
+              slidesToScroll: 3,
+              infinite: true,
+              dots: true
+            }
+          },
+          {
+            breakpoint: 600,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 2
+            }
+          },
+          {
+            breakpoint: 480,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1
+            }
+          }
+        ]
+      });
+    </script>
 
   </main>
 
