@@ -147,7 +147,6 @@ h6 {
   line-height: 1;
   font-family: "Montserrat", sans-serif;
   font-weight: 700;
-  letter-spacing: 3px;
 }
 
 #header #logo h1 a,
@@ -1544,6 +1543,8 @@ body.mobile-nav-active #mobile-nav-toggle {
     border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
   }
+
+  .slick-next, .slick-prev { display: none; }
 }
 
 @media (min-width: 992px) {
@@ -1577,7 +1578,7 @@ body.mobile-nav-active #mobile-nav-toggle {
   }
 
   #header #logo h1 {
-    font-size: 28px;
+    font-size: 20px;
   }
 
   #header #logo img {
