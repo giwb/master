@@ -426,7 +426,7 @@ h6 {
   right: 0;
   top: 0;
   z-index: 999;
-  margin: 20px 20px 0 0;
+  margin: 10px 10px 0 0;
   border: 0;
   background: none;
   font-size: 24px;
@@ -1581,6 +1581,11 @@ body.mobile-nav-active #mobile-nav-toggle {
 
   #header #logo img {
     max-height: 40px;
+  }
+
+  #header.header-scrolled {
+    padding: 20px 0;
+    height: auto;
   }
 
   #intro h2 {
