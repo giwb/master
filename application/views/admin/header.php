@@ -11,10 +11,10 @@
   <link rel="stylesheet" type="text/css" href="/public/css/fullcalendar.css">
   <link rel="stylesheet" type="text/css" href="/public/css/fullcalendar.print.css">
   <link rel="stylesheet" type="text/css" href="/public/css/admin.css">
-  <script type="text/javascript" src="/public/js/jquery-1.10.2.js"></script>
-  <script type="text/javascript" src="/public/js/jquery-ui.custom.min.js"></script>
-  <script type="text/javascript" src="/public/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="/public/js/fullcalendar.js"></script>
+  <script src="/public/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+  <script src="/public/js/jquery-ui.custom.min.js" type="text/javascript"></script>
+  <script src="/public/vendors/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="/public/js/fullcalendar.js" type="text/javascript"></script>
 </head>
 
 <body id="page-top">

@@ -13,8 +13,6 @@
             <div class="carousel-container">
               <div class="carousel-content">
                 <h2>경인 웰빙 산악회</h2>
-                <!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                <a href="#featured-services" class="btn-get-started scrollto">Get Started</a>-->
               </div>
             </div>
           </div>
@@ -173,7 +171,7 @@
                 title: '<?=$viewNoticeStatus?><?=$value['mname']?>',
                 start: new Date(y, m, <?=date('j', $startDate)?>),
                 end: new Date(y, m, <?=date('j', $endDate)?>),
-                url: '<?=base_url()?>admin/list_progress/<?=$value['idx']?>',
+                url: '<?=base_url()?>reservation/view/<?=$value['idx']?>',
                 className: 'notice-status<?=$value['status']?>'
               },
   <?php
@@ -198,20 +196,20 @@
         <header class="section-header">
           <h3>예약 진행중인 다음 산행</h3>
         </header>
-
+<?php foreach ($listThisWeekNotice as $key => $value): ?>
         <div class="row justify-content-center no-gutters mb-5 mb-lg-0">
           <div class="col-lg-6">
-            <img class="img-fluid" src="/public/images/mt_1.png" alt="">
+            <a href="<?=base_url()?>reservation/view/<?=$value['idx']?>"><img class="img-fluid" src="/public/images/mt_1.png" alt=""></a>
           </div>
-          <div class="col-lg-6">
+          <div class="col-lg-6<?=$key%2 == 1 ? " order-lg-first" : ""?>">
             <div class="bg-black text-center h-100 project">
               <div class="d-flex h-100">
-                <div class="project-text w-100 my-auto text-center text-lg-left">
-                  <h4 class="text-white">[확정] 울릉도 성인봉 & 독도 1무1박3일</h4>
+                <div class="project-text w-100 my-auto text-center <?=$key%2 == 1 ? "text-lg-right" : "text-lg-left"?>">
+                  <h4 class="text-white"><a href="<?=base_url()?>reservation/view/<?=$value['idx']?>">[<?=viewStatus($value['status'])?>] <?=$value['subject']?></a></h4>
                   <p class="mb-0 text-white-50">
-                    일시 : 2019-06-28 (금) 23:30<br>
-                    분담금 : 310,000원<br>
-                    예약인원 : 42명
+                    <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?><br>
+                    분담금 : <?=number_format($value['cost'])?>원<br>
+                    예약인원 : <?=cntRes($value['idx'])?>명
                   </p>
                   <hr class="d-none d-lg-block mb-0 ml-0">
                 </div>
@@ -219,27 +217,7 @@
             </div>
           </div>
         </div>
-
-        <div class="row justify-content-center no-gutters">
-          <div class="col-lg-6">
-            <img class="img-fluid" src="/public/images/mt_3.png" alt="">
-          </div>
-          <div class="col-lg-6 order-lg-first">
-            <div class="bg-black text-center h-100 project">
-              <div class="d-flex h-100">
-                <div class="project-text w-100 my-auto text-center text-lg-right">
-                  <h4 class="text-white">[확정] 금대봉 매봉산 바람의언덕</h4>
-                  <p class="mb-0 text-white-50">
-                    일시 : 2019-07-06 (토) 6:30<br>
-                    분담금 : 30,000원<br>
-                    예약인원 : 28명
-                  </p>
-                  <hr class="d-none d-lg-block mb-0 mr-0">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+<?php endforeach; ?>
       </div>
     </section>
 
@@ -251,91 +229,21 @@
         </header>
 
         <div class="row latest-cols slick">
-
+<?php foreach ($listBeforeNotice as $value): ?>
           <div class="col-md-4 wow fadeInUp">
             <div class="latest-col">
               <div class="img">
-                <img src="/public/images/mt_1.png" alt="" class="img-fluid">
+                <a href="<?=base_url()?>reservation/view/<?=$value['idx']?>"><img src="/public/images/mt_1.png" alt="" class="img-fluid"></a>
               </div>
-              <h2 class="title"><a href="#">[확정] 울릉도 성인봉 & 독도 1무1박3일</a></h2>
+              <h2 class="title"><a href="<?=base_url()?>reservation/view/<?=$value['idx']?>">[<?=viewStatus($value['status'])?>] <?=$value['subject']?></a></h2>
               <p>
-                일시 : 2019-06-28 (금) 23:30<br>
-                분담금 : 310,000원<br>
-                예약인원 : 42명
+                <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?><br>
+                분담금 : <?=number_format($value['cost'])?>원<br>
+                예약인원 : <?=cntRes($value['idx'])?>명
               </p>
             </div>
           </div>
-
-          <div class="col-md-4 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="latest-col">
-              <div class="img">
-                <img src="/public/images/mt_2.png" alt="" class="img-fluid">
-              </div>
-              <h2 class="title"><a href="#">[확정] 울릉도 성인봉 & 독도 유람선</a></h2>
-              <p>
-                일시 : 2019-06-28 (금) 23:30<br>
-                분담금 : 322,000원<br>
-                예약인원 : 44명
-              </p>
-            </div>
-          </div>
-
-          <div class="col-md-4 wow fadeInUp" data-wow-delay="0.2s">
-            <div class="latest-col">
-              <div class="img">
-                <img src="/public/images/mt_3.png" alt="" class="img-fluid">
-              </div>
-              <h2 class="title"><a href="#">[확정] 금대봉 매봉산 바람의언덕</a></h2>
-              <p>
-                일시 : 2019-07-06 (토) 6:30<br>
-                분담금 : 30,000원<br>
-                예약인원 : 28명
-              </p>
-            </div>
-          </div>
-
-          <div class="col-md-4 wow fadeInUp" data-wow-delay="0.2s">
-            <div class="latest-col">
-              <div class="img">
-                <img src="/public/images/mt_3.png" alt="" class="img-fluid">
-              </div>
-              <h2 class="title"><a href="#">[확정] 금대봉 매봉산 바람의언덕</a></h2>
-              <p>
-                일시 : 2019-07-06 (토) 6:30<br>
-                분담금 : 30,000원<br>
-                예약인원 : 28명
-              </p>
-            </div>
-          </div>
-
-          <div class="col-md-4 wow fadeInUp">
-            <div class="latest-col">
-              <div class="img">
-                <img src="/public/images/mt_1.png" alt="" class="img-fluid">
-              </div>
-              <h2 class="title"><a href="#">[확정] 울릉도 성인봉 & 독도 1무1박3일</a></h2>
-              <p>
-                일시 : 2019-06-28 (금) 23:30<br>
-                분담금 : 310,000원<br>
-                예약인원 : 42명
-              </p>
-            </div>
-          </div>
-
-          <div class="col-md-4 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="latest-col">
-              <div class="img">
-                <img src="/public/images/mt_2.png" alt="" class="img-fluid">
-              </div>
-              <h2 class="title"><a href="#">[확정] 울릉도 성인봉 & 독도 유람선</a></h2>
-              <p>
-                일시 : 2019-06-28 (금) 23:30<br>
-                분담금 : 322,000원<br>
-                예약인원 : 44명
-              </p>
-            </div>
-          </div>
-
+<?php endforeach; ?>
         </div>
 
       </div>
@@ -399,7 +307,7 @@
               <li><i class="ion-ios-arrow-right"></i> <a href="#">산행일정</a></li>
               <li><i class="ion-ios-arrow-right"></i> <a href="#">백산백소</a></li>
               <li><i class="ion-ios-arrow-right"></i> <a href="#">마이페이지</a></li>
-              <li><i class="ion-ios-arrow-right"></i> <a href="#">로그인</a></li>
+              <li><i class="ion-ios-arrow-right"></i> <a href="javascript:;" class="login-popup">로그인</a></li>
             </ul>
           </div>
 

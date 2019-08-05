@@ -46,4 +46,32 @@
     e.preventDefault();
   });
 
+  $(document).on('click', '.btn-member-update', function() {
+    var $dom = $(this);
+    var formData = new FormData($('#formMember')[0]);
+    $.ajax({
+      url: $('input[name=base_url]').val() + 'admin/update_member',
+      data: formData,
+      processData: false,
+      contentType: false,
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $dom.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+      },
+      success: function() {
+        $dom.css('opacity', '1').prop('disabled', false).text('수정합니다');
+        $('.error-message').text('수정이 완료되었습니다.').slideDown();
+        setTimeout(function() {
+          $('.error-message').slideUp().text('');
+        }, 3000);
+      }
+    });
+  }).on('click', '.btn-member-delete', function() {
+    $('#messageModal .modal-message').text('정말로 이 회원을 삭제하시겠습니까?');
+    $('#messageModal').modal('show');
+  }).on('click', '.btn-member-delete', function() {
+  });
+
 })(jQuery); // End of use strict
+

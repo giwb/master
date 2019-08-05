@@ -203,5 +203,45 @@
     items: 1
   });
 
-})(jQuery);
+  $(document).on('click', '.login-popup', function() {
+    // 로그인 모달
+    $('#loginModal').modal('show');
+  }).on('click', '.btn-login', function(e) {
+    // 로그인
+    e.preventDefault();
+    var $dom = $(this);
+    var formData = new FormData($('#loginForm')[0]);
+    $.ajax({
+      url: $('input[name=base_url]').val() + 'login',
+      data: formData,
+      processData: false,
+      contentType: false,
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $dom.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+      },
+      success: function(result) {
+        if (result.error == 1) {
+          $dom.css('opacity', '1').prop('disabled', false).text('로그인');
+          $('.error-message').slideDown().text(result.message);
+        } else {
+          location.reload();
+        }
+      }
+    });
+  }).on('click', '.input-login', function() {
+    // 에러 메세지 없애기
+    $('.error-message').slideUp();
+  }).on('click', '.logout', function() {
+    // 로그아웃
+    $.ajax({
+      url: $('input[name=base_url]').val() + 'logout',
+      dataType: 'json',
+      success: function() {
+        location.reload();
+      }
+    });
+  });
 
+})(jQuery);

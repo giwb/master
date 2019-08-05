@@ -1,5 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
+  <footer id="footer" class="subpage">
     <div class="container">
       <div class="copyright">
         Copyright &copy; 2010~<?=date("Y")?> <strong>경인웰빙</strong>.<span class="spbr"> All Rights Reserved.</span>

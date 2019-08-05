@@ -69,6 +69,15 @@ class Admin_model extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  // 진행중 산행 예약 보기
+  public function viewProgress($rescode)
+  {
+    $this->db->select('*')
+          ->from(DB_RESERVATION)
+          ->where('rescode', $rescode);
+    return $this->db->get()->result_array();
+  }
+
   // 다녀온 산행 목록, 취소된 산행 목록
   public function listClosed($syear, $smonth, $status)
   {
@@ -86,6 +95,28 @@ class Admin_model extends CI_Model
     $this->db->select('*')
           ->from(DB_MEMBER)
           ->order_by('regdate', 'desc');
+    return $this->db->get()->result_array();
+  }
+
+  // 회원 정보
+  public function viewMember($idx)
+  {
+    $this->db->select('*')
+          ->from(DB_MEMBER)
+          ->where('idx', $idx);
+    return $this->db->get()->row_array(1);
+  }
+
+  // 산행횟수
+  public function cntPersonalReservation($userid)
+  {
+    $this->db->select('COUNT(b.idx) AS cnt')
+          ->from(DB_RESERVATION . ' a')
+          ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
+          ->where('a.userid', $userid)
+          ->where('a.status', 1)
+          ->where('b.status', 9)
+          ->group_by('b.idx');
     return $this->db->get()->result_array();
   }
 

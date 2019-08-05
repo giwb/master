@@ -40,6 +40,10 @@ class Admin extends CI_Controller
     $this->_viewPage('admin/index', $viewData);
   }
 
+  /** ---------------------------------------------------------------------------------------
+   * 산행관리
+  --------------------------------------------------------------------------------------- **/
+
   /**
    * 진행중 산행 목록
    *
@@ -51,6 +55,19 @@ class Admin extends CI_Controller
     $viewData['list'] = $this->admin_model->listProgress();
 
     $this->_viewPage('admin/list_progress', $viewData);
+  }
+
+  /**
+   * 진행중 산행 예약 보기
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function view_progress($rescode)
+  {
+    $viewData['view'] = $this->admin_model->viewProgress(html_escape($rescode));
+
+    $this->_viewPage('admin/view_progress', $viewData);
   }
 
   /**
@@ -93,6 +110,10 @@ class Admin extends CI_Controller
     $this->_viewPage('admin/list_canceled', $viewData);
   }
 
+  /** ---------------------------------------------------------------------------------------
+   * 회원관리
+  --------------------------------------------------------------------------------------- **/
+
   /**
    * 전체 회원 목록
    *
@@ -105,6 +126,59 @@ class Admin extends CI_Controller
 
     $this->_viewPage('admin/list_members', $viewData);
   }
+
+  /**
+   * 회원 정보 보기
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function view_member($idx)
+  {
+    $viewData['view'] = $this->admin_model->viewMember(html_escape($idx));
+    $viewData['view']['birthday'] = explode('/', $viewData['view']['birthday']);
+    $viewData['view']['phone'] = explode('-', $viewData['view']['phone']);
+
+    // 산행/예약횟수 구하기
+    $max = 0; $res = 0;
+    $viewData['view']['cntPersonalReservation'] = $this->admin_model->cntPersonalReservation($viewData['view']['userid']);
+    foreach ($viewData['view']['cntPersonalReservation'] as $value) {
+      // 예약횟수는 자신 이외의 사람을 포함하여 전체 예약한 숫자
+      $max += $value['cnt'];
+
+      // 산행횟수는 자신만 카운트
+      if ($value['cnt'] != 0) {
+        $res++;
+      }
+    }
+
+    // 산행횟수
+    $viewData['view']['cntPersonalReservation'] = $res;
+
+    // 예약횟수
+    $viewData['view']['cntTotalReservation'] = $max;
+
+    // 레벨
+    $viewData['view']['memberLevel'] = $viewData['view']['cntTotalReservation'] - $viewData['view']['penalty'];
+
+    $this->_viewPage('admin/view_member', $viewData);
+  }
+
+  /**
+   * 회원 정보 보기
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function update_member()
+  {
+    $result = 0;
+    $this->output->set_output(json_encode($result));
+  }
+
+  /** ---------------------------------------------------------------------------------------
+   * 출석현황
+  --------------------------------------------------------------------------------------- **/
 
   /**
    * 출석체크 보기

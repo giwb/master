@@ -71,6 +71,52 @@ if (!function_exists('calcEndDate')) {
   }
 }
 
+// 거리, 산행분담금
+if (!function_exists('calcSchedule')) {
+  function calcSchedule($schedule) {
+    switch ($schedule) {
+      case "1": $result = "무박"; break;
+      case "2": $result = "1박2일"; break;
+      case "3": $result = "1무1박3일"; break;
+      case "4": $result = "2박3일"; break;
+      case "5": $result = "3박4일"; break;
+      case "6": $result = "3박5일"; break;
+      case "7": $result = "4박5일"; break;
+      case "8": $result = "7박9일"; break;
+      default : $result = "당일";
+    }
+    return $result;
+  }
+}
+
+// 거리, 산행분담금
+if (!function_exists('calcDistance')) {
+  function calcDistance($distance) {
+    switch ($distance) {
+      case  "1": $result = "왕복 200km 미만구간"; break;
+      case  "2": $result = "왕복 250km 미만구간"; break;
+      case  "3": $result = "왕복 300km 미만구간"; break;
+      case  "4": $result = "왕복 350km 미만구간"; break;
+      case  "5": $result = "왕복 400km 미만구간"; break;
+      case  "6": $result = "왕복 450km 미만구간"; break;
+      case  "7": $result = "왕복 500km 미만구간"; break;
+      case  "8": $result = "왕복 550km 미만구간"; break;
+      case  "9": $result = "왕복 600km 미만구간"; break;
+      case "10": $result = "왕복 650km 미만구간"; break;
+      case "11": $result = "왕복 700km 미만구간"; break;
+      case "12": $result = "왕복 750km 미만구간"; break;
+      case "13": $result = "왕복 800km 미만구간"; break;
+      case "14": $result = "왕복 850km 미만구간"; break;
+      case "15": $result = "왕복 900km 미만구간"; break;
+      case "16": $result = "왕복 950km 미만구간"; break;
+      case "17": $result = "왕복 1000km 미만구간"; break;
+      case "18": $result = "왕복 1000km 이상구간"; break;
+      case "99": $result = "해외트래킹"; break;
+    }
+    return $result;
+  }
+}
+
 // 산행 상태 표시
 if (!function_exists('viewNoticeStatus')) {
   function viewNoticeStatus($status) {
@@ -94,4 +140,36 @@ if (!function_exists('viewNoticeStatus')) {
   }
 }
 
+// 승차위치
+if (!function_exists('arrLocation')) {
+  function arrLocation() {
+    return array(
+      '',
+      '계산역 4번출구',
+      '작전역 5번출구',
+      '갈산역 4번출구',
+      '부평구청역 4번출구',
+      '삼산체육관 맞은편',
+      '부천터미널 소풍',
+      '복사골 문화센터',
+      '송내남부 맥도날드',
+      '원종동'
+    );
+  }
+}
+
+// 조식 메뉴
+if (!function_exists('arrBreakfast')) {
+  function arrBreakfast() {
+    return array(
+      '',
+      '김밥',
+      '김치주먹밥',
+      '참치주먹밥',
+      '김치왕만두',
+      '고기왕만두',
+      '찐빵',
+    );
+  }
+}
 ?>
