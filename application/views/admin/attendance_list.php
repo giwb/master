@@ -7,7 +7,7 @@
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
           <h1 class="h3 mb-0 text-gray-800">출석체크 보기</h1>
-          <button class="btn-get-attendance">최신 데이터 받기</button>
+          <button class="btn btn-primary btn-get-attendance">최신 데이터 받기</button>
         </div>
 
         <div class="table-check">

@@ -16,7 +16,7 @@
 ?>
             <tr>
               <td>
-                <a href="<?=base_url()?>admin/view_member/<?=$value['idx']?>"><?=$value["realname"]?> / <?=$value["nickname"]?> / <?=$value["userid"]?></a><br>
+                <a href="<?=base_url()?>admin/member_view/<?=$value['idx']?>"><?=$value["realname"]?> / <?=$value["nickname"]?> / <?=$value["userid"]?></a><br>
                 <?=$value["phone"]?>, <?=$value["birthday"]?> <?=$value["birthday_type"] == "1" ? "(양력)" : "(음력)" ?>, <?=$value["location"]?><br />
                 등록일 : <?=date("Y-m-d, H:i:s", $value["regdate"])?>, <?php if ($value["lastdate"] != NULL) { echo "최종접속일 : " . date("Y-m-d, H:i:s", $value["lastdate"]) . ", "; } ?>접속횟수 : <?=$value["connect"]?>
               </td>

@@ -30,6 +30,7 @@
 .fc-event.notice-status8 { background-color: #EFEFEF!important; }
 .fc-event.notice-status8 .fc-event-title { color: #999; text-decoration: line-through; }
 .fc-event.notice-status9 { background-color: #EFEFEF!important; }
+#messageModal .btn-list { display: none; }
 
 :root {
   --blue: #4e73df;

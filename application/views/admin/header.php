@@ -56,13 +56,12 @@
           <i class="fas fa-fw fa-mountain"></i>
           <span>산행관리</span>
         </a>
-        <div id="collapseItem" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseItem" class="collapse<?=strstr($uri, 'main') ? " show" : ""?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <!--<h6 class="collapse-header">Custom Components:</h6>-->
-            <a class="collapse-item" href="<?=base_url()?>admin/list_progress"> <i class="menu-icon fas fa-calendar"></i> 진행중 산행 목록</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/list_closed"> <i class="menu-icon fas fa-calendar-check"></i> 다녀온 산행 목록</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/list_canceled"> <i class="menu-icon fas fa-calendar-times"></i> 취소된 산행 목록</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/entry_item"> <i class="menu-icon fas fa-calendar-plus"></i> 신규 산행 등록</a>
+            <a class="collapse-item" href="<?=base_url()?>admin/main_list_progress"> <i class="menu-icon fas fa-calendar"></i> 진행중 산행 목록</a>
+            <a class="collapse-item" href="<?=base_url()?>admin/main_list_closed"> <i class="menu-icon fas fa-calendar-check"></i> 다녀온 산행 목록</a>
+            <a class="collapse-item" href="<?=base_url()?>admin/main_list_canceled"> <i class="menu-icon fas fa-calendar-times"></i> 취소된 산행 목록</a>
+            <a class="collapse-item" href="<?=base_url()?>admin/main_entry"> <i class="menu-icon fas fa-calendar-plus"></i> 신규 산행 등록</a>
           </div>
         </div>
       </li>
@@ -73,10 +72,10 @@
           <i class="fas fa-fw fa-users"></i>
           <span>회원관리</span>
         </a>
-        <div id="collapseMember" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+        <div id="collapseMember" class="collapse<?=strstr($uri, 'member') ? " show" : ""?>" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="<?=base_url()?>admin/list_members"> <i class="menu-icon fas fa-user"></i> 전체 회원 목록</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/entry_member"> <i class="menu-icon fas fa-user-secret"></i> 관리자 등록</a>
+            <a class="collapse-item" href="<?=base_url()?>admin/member_list"> <i class="menu-icon fas fa-user"></i> 전체 회원 목록</a>
+            <a class="collapse-item" href="<?=base_url()?>admin/member_entry"> <i class="menu-icon fas fa-user-secret"></i> 관리자 등록</a>
           </div>
         </div>
       </li>
@@ -87,23 +86,23 @@
           <i class="fas fa-fw fa-user-check"></i>
           <span>출석현황</span>
         </a>
-        <div id="collapseAttendance" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="collapseAttendance" class="collapse<?=strstr($uri, 'attendance') ? " show" : ""?>" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="<?=base_url()?>admin/list_attendance"> <i class="menu-icon fas fa-check-square"></i> 출석체크 보기</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/list_item"> <i class="menu-icon fas fa-child"></i> 산행지로 보기</a>
+            <a class="collapse-item" href="<?=base_url()?>admin/attendance_list"> <i class="menu-icon fas fa-check-square"></i> 출석체크 보기</a>
+            <a class="collapse-item" href="<?=base_url()?>admin/attendance_mountain"> <i class="menu-icon fas fa-child"></i> 산행지로 보기</a>
           </div>
         </div>
       </li>
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLog" aria-expanded="true" aria-controls="collapseLog">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse<?=strstr($uri, 'log') ? " show" : ""?>" data-target="#collapseLog" aria-expanded="true" aria-controls="collapseLog">
           <i class="fas fa-fw fa-list"></i>
           <span>활동관리</span>
         </a>
         <div id="collapseLog" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="<?=base_url()?>admin/log_member"> <i class="menu-icon fas fa-th-list"></i> 회원 활동 목록</a>
+            <a class="collapse-item" href="<?=base_url()?>admin/log_user"> <i class="menu-icon fas fa-th-list"></i> 회원 활동 목록</a>
             <a class="collapse-item" href="<?=base_url()?>admin/log_admin"> <i class="menu-icon fas fa-list-alt"></i> 관리자 활동 목록</a>
           </div>
         </div>

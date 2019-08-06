@@ -81,7 +81,7 @@
               title: '<?=$viewNoticeStatus?><?=$value['mname']?>',
               start: new Date(y, m, <?=date('j', $startDate)?>),
               end: new Date(y, m, <?=date('j', $endDate)?>),
-              url: '<?=base_url()?>admin/list_progress/<?=$value['idx']?>',
+              url: '<?=base_url()?>admin/main_view_progress/<?=$value['idx']?>',
               className: 'notice-status<?=$value['status']?>'
             },
 <?php

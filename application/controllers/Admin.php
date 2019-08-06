@@ -50,11 +50,11 @@ class Admin extends CI_Controller
    * @return view
    * @author bjchoi
    **/
-  public function list_progress()
+  public function main_list_progress()
   {
     $viewData['list'] = $this->admin_model->listProgress();
 
-    $this->_viewPage('admin/list_progress', $viewData);
+    $this->_viewPage('admin/main_list_progress', $viewData);
   }
 
   /**
@@ -63,11 +63,11 @@ class Admin extends CI_Controller
    * @return view
    * @author bjchoi
    **/
-  public function view_progress($rescode)
+  public function main_view_progress($rescode)
   {
     $viewData['view'] = $this->admin_model->viewProgress(html_escape($rescode));
 
-    $this->_viewPage('admin/view_progress', $viewData);
+    $this->_viewPage('admin/main_view_progress', $viewData);
   }
 
   /**
@@ -76,7 +76,7 @@ class Admin extends CI_Controller
    * @return view
    * @author bjchoi
    **/
-  public function list_closed()
+  public function main_list_closed()
   {
     // PHP Ver 7.x
     //$syear = !empty($this->input->get('syear')) ? $this->input->get('syear') : date('Y');
@@ -87,7 +87,7 @@ class Admin extends CI_Controller
     $smonth = $this->input->get('smonth') ? $this->input->get('syear') : date('m');
     $viewData['list'] = $this->admin_model->listClosed($syear, $smonth, STATUS_CLOSED);
 
-    $this->_viewPage('admin/list_closed', $viewData);
+    $this->_viewPage('admin/main_list_closed', $viewData);
   }
 
   /**
@@ -96,7 +96,7 @@ class Admin extends CI_Controller
    * @return view
    * @author bjchoi
    **/
-  public function list_canceled()
+  public function main_list_canceled()
   {
     // PHP Ver 7.x
     //$syear = !empty($this->input->get('syear')) ? $this->input->get('syear') : date('Y');
@@ -107,7 +107,7 @@ class Admin extends CI_Controller
     $smonth = $this->input->get('smonth') ? $this->input->get('syear') : date('m');
     $viewData['list'] = $this->admin_model->listClosed($syear, $smonth, STATUS_CANCLE);
 
-    $this->_viewPage('admin/list_canceled', $viewData);
+    $this->_viewPage('admin/main_list_canceled', $viewData);
   }
 
   /** ---------------------------------------------------------------------------------------
@@ -120,11 +120,11 @@ class Admin extends CI_Controller
    * @return view
    * @author bjchoi
    **/
-  public function list_members()
+  public function member_list()
   {
     $viewData['list'] = $this->admin_model->listMembers();
 
-    $this->_viewPage('admin/list_members', $viewData);
+    $this->_viewPage('admin/member_list', $viewData);
   }
 
   /**
@@ -133,7 +133,7 @@ class Admin extends CI_Controller
    * @return view
    * @author bjchoi
    **/
-  public function view_member($idx)
+  public function member_view($idx)
   {
     $viewData['view'] = $this->admin_model->viewMember(html_escape($idx));
     $viewData['view']['birthday'] = explode('/', $viewData['view']['birthday']);
@@ -161,17 +161,31 @@ class Admin extends CI_Controller
     // 레벨
     $viewData['view']['memberLevel'] = $viewData['view']['cntTotalReservation'] - $viewData['view']['penalty'];
 
-    $this->_viewPage('admin/view_member', $viewData);
+    $this->_viewPage('admin/member_view', $viewData);
   }
 
   /**
-   * 회원 정보 보기
+   * 회원 정보 수정
    *
    * @return view
    * @author bjchoi
    **/
-  public function update_member()
+  public function member_update()
   {
+    $result = 0;
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 회원 정보 삭제
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function member_delete()
+  {
+    $idx = html_escape($this->input->post());
+
     $result = 0;
     $this->output->set_output(json_encode($result));
   }
@@ -186,7 +200,7 @@ class Admin extends CI_Controller
    * @return view
    * @author bjchoi
    **/
-  public function list_attendance()
+  public function attendance_list()
   {
     // PHP Ver 7.x
     //$viewData['viewType'] = !empty($this->input->get('action')) ? $this->input->get('action') : '';
@@ -222,7 +236,7 @@ class Admin extends CI_Controller
       }
     }
 
-    $this->_viewPage('admin/list_attendance', $viewData);
+    $this->_viewPage('admin/attendance_list', $viewData);
   }
 
   /**
@@ -231,7 +245,7 @@ class Admin extends CI_Controller
    * @return redirect
    * @author bjchoi
    **/
-  public function get_attendance()
+  public function attendance_make()
   {
     // 산행 추출
     $dateStart = '2019-04-06';
@@ -297,7 +311,8 @@ class Admin extends CI_Controller
    **/
   private function _viewPage($viewPage, $viewData=NULL)
   {
-    $this->load->view('admin/header');
+    $headerData['uri'] = $_SERVER['REQUEST_URI'];
+    $this->load->view('admin/header', $headerData);
     $this->load->view($viewPage, $viewData);
     $this->load->view('admin/footer');
   }
