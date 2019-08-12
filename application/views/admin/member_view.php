@@ -110,6 +110,7 @@
               <tr>
                 <td colspan="2" class="text-center">
                   <div class="error-message"></div>
+                  <input type="hidden" name="back_url" value="member_list">
                   <button type="button" class="btn btn-primary btn-member-update">수정합니다</button>
                   <button type="button" class="btn btn-primary btn-member-delete-modal ml10 mr10">삭제합니다</button>
                   <button type="button" class="btn btn-primary btn-member-list">목록으로</button>

@@ -22,13 +22,11 @@ class Welcome extends CI_Controller
    **/
   public function index()
   {
-    // PHP Ver 7.x
-    //$syear = !empty($this->input->get('syear')) ? $this->input->get('syear') : date('Y');
-    //$smonth = !empty($this->input->get('smonth')) ? $this->input->get('syear') : date('m');
+    // 대문
+    $viewData['listFront'] = $this->admin_model->listFront();
 
-    // PHP Ver 5.x
-    $syear = $this->input->get('syear') ? $this->input->get('syear') : date('Y');
-    $smonth = $this->input->get('smonth') ? $this->input->get('syear') : date('m');
+    // 등록된 산행 목록
+    $viewData['listNotice'] = $this->admin_model->listNotice();
 
     // 이번 주 산행
     $now = date('Y-m-d');

@@ -73,13 +73,22 @@
     $('#messageModal .btn-refresh, #messageModal .close').hide();
     $('#messageModal .btn-delete').show();
     $('#messageModal input[name=action]').val('member_delete');
+    $('#messageModal input[name=delete_idx]').val($('input[name=idx]').val());
+    $('#messageModal').modal({backdrop: 'static', keyboard: false});
+  }).on('click', '.btn-front-delete-modal', function() {
+    // 메인 사진 삭제 모달
+    $('#messageModal .modal-message').text('정말로 삭제하시겠습니까?');
+    $('#messageModal .btn-refresh, #messageModal .close').hide();
+    $('#messageModal .btn-delete').show();
+    $('#messageModal input[name=action]').val('setup_front_delete');
+    $('#messageModal input[name=delete_idx]').val($(this).data('filename'));
     $('#messageModal').modal({backdrop: 'static', keyboard: false});
   }).on('click', '.btn-delete', function() {
     // 삭제
     var $dom = $(this);
     $.ajax({
       url: $('input[name=base_url]').val() + 'admin/' + $('#messageModal input[name=action]').val(),
-      data: 'idx=' + $('input[name=idx]').val(),
+      data: 'idx=' + $('input[name=delete_idx]').val(),
       dataType: 'json',
       type: 'post',
       beforeSend: function() {
@@ -87,10 +96,97 @@
       },
       success: function() {
         $('#messageModal .btn-delete, #messageModal .btn-close').hide();
-        $('#messageModal .btn-list').attr('data-action', 'member_list').show();
+        $('#messageModal .btn-list').attr('data-action', $('input[name=back_url').val()).show();
         $('#messageModal .modal-message').text('삭제가 완료되었습니다.');
+        $('#messageModal').modal('show');
       }
     });
+  }).on('click', '.btn-front-submit', function() {
+    if ($('input[name=filename]').val() == '') {
+      $('#messageModal .btn-refresh, #messageModal .btn-delete').hide();
+      $('#messageModal .modal-message').text('파일을 선택해주세요.');
+      $('#messageModal').modal('show');
+    } else {
+      // 파일 업로드
+      var $dom = $('#formFront');
+      var $btn = $(this);
+      var action = $dom.attr('action');
+      var formData = new FormData($dom[0]);
+      var maxSize = 20480000;
+      var size = $('.file', $dom)[0].files[0].size;
+
+      if (size > maxSize) {
+        $('.file', $dom).val('');
+        $('#messageModal .btn-refresh, #messageModal .btn-delete').hide();
+        $('#messageModal .modal-message').text('파일의 용량은 20MB를 넘을 수 없습니다.');
+        $('#messageModal').modal('show');
+        return;
+      }
+
+      // 사진 형태 추가
+      formData.append('file_obj', $('.file', $dom)[0].files[0]);
+
+      $.ajax({
+        url: action,
+        processData: false,
+        contentType: false,
+        data: formData,
+        dataType: 'json',
+        type: 'post',
+        beforeSend: function() {
+          $btn.css('opacity', '0.5').prop('disabled', true).text('업로드중..');
+          $('.file', $dom).val('');
+        },
+        success: function(result) {
+          if (result.error == 1) {
+            $('#messageModal .btn-list, #messageModal .btn-refresh, #messageModal .btn-delete').hide();
+            $('#messageModal .modal-message').text(result.message);
+            $('#messageModal').modal('show');
+            $btn.css('opacity', '1').prop('disabled', false).text('등록하기');
+          } else {
+            location.reload();
+          }
+        }
+      });
+    }
+  }).on('click', '.btn-front-sort', function() {
+    var $dom = $('#formSort .sort-idx');
+    var $btn = $(this);
+    var formData = new FormData($('#formSort')[0]);
+    var temp = [];
+    var flag = false;
+    $dom.each(function(i) {
+      temp[i] = $(this).val();
+    });
+    $(temp).each(function(i) {
+      var x = 0;
+      $dom.each(function() {
+        if (temp[i] == $(this).val()) {
+          x++;
+        }
+      });
+      if (x > 1) flag = true;
+    });
+    if (flag == true) {
+      $('#messageModal .btn-list, #messageModal .btn-refresh, #messageModal .btn-delete').hide();
+      $('#messageModal .modal-message').text('중복된 정렬값이 있습니다.');
+      $('#messageModal').modal('show');
+    } else {
+      $.ajax({
+        url: $('#formSort').attr('action'),
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: 'json',
+        type: 'post',
+        beforeSend: function() {
+          $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+        },
+        success: function() {
+          location.href=($('input[name=base_url]').val() + 'admin/setup_front');
+        }
+      });
+    }
   }).on('click', '.btn-list', function() {
     // 모달 돌아가기 버튼
     location.replace($('input[name=base_url]').val() + 'admin/' + $(this).data('action'));

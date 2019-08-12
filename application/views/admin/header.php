@@ -26,7 +26,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?=base_url()?>admin">
         <div class="sidebar-brand-text mx-3">경인웰빙 관리자</div>
       </a>
 
@@ -75,7 +75,7 @@
         <div id="collapseMember" class="collapse<?=strstr($uri, 'member') ? " show" : ""?>" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="<?=base_url()?>admin/member_list"> <i class="menu-icon fas fa-user"></i> 전체 회원 목록</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/member_entry"> <i class="menu-icon fas fa-user-secret"></i> 관리자 등록</a>
+            <a class="collapse-item" href="<?=base_url()?>admin/member_entry"> <i class="menu-icon fas fa-address-card"></i> 회원 등록</a>
           </div>
         </div>
       </li>
@@ -96,11 +96,11 @@
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse<?=strstr($uri, 'log') ? " show" : ""?>" data-target="#collapseLog" aria-expanded="true" aria-controls="collapseLog">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLog" aria-expanded="true" aria-controls="collapseLog">
           <i class="fas fa-fw fa-list"></i>
           <span>활동관리</span>
         </a>
-        <div id="collapseLog" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="collapseLog" class="collapse<?=strstr($uri, 'log') ? " show" : ""?>" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="<?=base_url()?>admin/log_user"> <i class="menu-icon fas fa-th-list"></i> 회원 활동 목록</a>
             <a class="collapse-item" href="<?=base_url()?>admin/log_admin"> <i class="menu-icon fas fa-list-alt"></i> 관리자 활동 목록</a>
@@ -117,11 +117,12 @@
           <i class="fas fa-fw fa-cog"></i>
           <span>설정</span>
         </a>
-        <div id="collapseSetup" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="collapseSetup" class="collapse<?=strstr($uri, 'setup') ? " show" : ""?>" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="<?=base_url()?>admin/"> <i class="menu-icon fas fa-calendar"></i> 달력관리</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/"> <i class="menu-icon fas fa-bus"></i> 차종등록</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/"> <i class="menu-icon fas fa-mobile-alt"></i> 문자양식보기</a>
+            <a class="collapse-item" href="<?=base_url()?>admin/setup_front"> <i class="menu-icon fas fa-square"></i> 대문관리</a>
+            <a class="collapse-item" href="<?=base_url()?>admin/setup_calendar"> <i class="menu-icon fas fa-calendar"></i> 달력관리</a>
+            <a class="collapse-item" href="<?=base_url()?>admin/setup_bustype"> <i class="menu-icon fas fa-bus"></i> 차종등록</a>
+            <a class="collapse-item" href="<?=base_url()?>admin/setup_sms"> <i class="menu-icon fas fa-mobile-alt"></i> 문자양식보기</a>
           </div>
         </div>
       </li>

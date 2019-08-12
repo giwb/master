@@ -8,70 +8,16 @@
       <div id="introCarousel" class="carousel slide carousel-fade" data-ride="carousel">
         <ol class="carousel-indicators"></ol>
         <div class="carousel-inner" role="listbox">
-          <div class="carousel-item active">
-            <div class="carousel-background"><img src="/public/images/main_1.jpg" alt=""></div>
+<?php foreach ($listFront as $key => $value): ?>
+          <div class="carousel-item<?=$key == 0 ? " active" : ""?>">
+            <div class="carousel-background"><img src="<?=base_url()?><?=URL_FRONT?><?=$value['filename']?>"></div>
             <div class="carousel-container">
               <div class="carousel-content">
                 <h2>경인 웰빙 산악회</h2>
               </div>
             </div>
           </div>
-          <div class="carousel-item">
-            <div class="carousel-background"><img src="/public/images/main_2.jpg" alt=""></div>
-            <div class="carousel-container">
-              <div class="carousel-content">
-                <h2>경인 웰빙 산악회</h2>
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="carousel-background"><img src="/public/images/main_3.jpg" alt=""></div>
-            <div class="carousel-container">
-              <div class="carousel-content">
-                <h2>경인 웰빙 산악회</h2>
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="carousel-background"><img src="/public/images/main_4.jpg" alt=""></div>
-            <div class="carousel-container">
-              <div class="carousel-content">
-                <h2>경인 웰빙 산악회</h2>
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="carousel-background"><img src="/public/images/main_5.jpg" alt=""></div>
-            <div class="carousel-container">
-              <div class="carousel-content">
-                <h2>경인 웰빙 산악회</h2>
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="carousel-background"><img src="/public/images/main_6.jpg" alt=""></div>
-            <div class="carousel-container">
-              <div class="carousel-content">
-                <h2>경인 웰빙 산악회</h2>
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="carousel-background"><img src="/public/images/main_7.jpg" alt=""></div>
-            <div class="carousel-container">
-              <div class="carousel-content">
-                <h2>경인 웰빙 산악회</h2>
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="carousel-background"><img src="/public/images/main_8.jpg" alt=""></div>
-            <div class="carousel-container">
-              <div class="carousel-content">
-                <h2>경인 웰빙 산악회</h2>
-              </div>
-            </div>
-          </div>
+<?php endforeach; ?>
         </div>
         <a class="carousel-control-prev" href="#introCarousel" role="button" data-slide="prev">
           <span class="carousel-control-prev-icon ion-chevron-left" aria-hidden="true"></span>
@@ -162,17 +108,17 @@
           },
           events: [
   <?php
-    foreach ($listMonthNotice as $value) {
+    foreach ($listNotice as $value) {
       $startDate = strtotime($value['startdate']);
       $endDate = calcEndDate($value['startdate'], $value['schedule']);
       $viewNoticeStatus = viewNoticeStatus($value['status'])
   ?>
               {
                 title: '<?=$viewNoticeStatus?><?=$value['mname']?>',
-                start: new Date(y, m, <?=date('j', $startDate)?>),
-                end: new Date(y, m, <?=date('j', $endDate)?>),
-                url: '<?=base_url()?>reservation/view/<?=$value['idx']?>',
-                className: 'notice-status<?=$value['status']?>'
+              start: new Date('<?=date('Y', $startDate)?>/<?=date('m', $startDate)?>/<?=date('d', $startDate)?>/00:00:00'),
+              end: new Date('<?=date('Y', $endDate)?>/<?=date('m', $endDate)?>/<?=date('d', $endDate)?>/23:59:59'),
+              url: '<?=base_url()?>admin/main_view_progress/<?=$value['idx']?>',
+              className: 'notice-status<?=$value['status']?>'
               },
   <?php
     }

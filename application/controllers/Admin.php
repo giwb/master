@@ -19,16 +19,8 @@ class Admin extends CI_Controller
    **/
   public function index()
   {
-    // PHP Ver 7.x
-    //$syear = !empty($this->input->get('syear')) ? $this->input->get('syear') : date('Y');
-    //$smonth = !empty($this->input->get('smonth')) ? $this->input->get('syear') : date('m');
-
-    // PHP Ver 5.x
-    $syear = $this->input->get('syear') ? $this->input->get('syear') : date('Y');
-    $smonth = $this->input->get('smonth') ? $this->input->get('syear') : date('m');
-
-    // 이번 달 산행 목록
-    $viewData['listMonthNotice'] = $this->admin_model->listMonthNotice($syear, $smonth);
+    // 등록된 산행 목록
+    $viewData['listNotice'] = $this->admin_model->listNotice();
 
     // 현재 회원수
     $viewData['cntTotalMember'] = $this->admin_model->cntTotalMember();
@@ -108,6 +100,18 @@ class Admin extends CI_Controller
     $viewData['list'] = $this->admin_model->listClosed($syear, $smonth, STATUS_CANCLE);
 
     $this->_viewPage('admin/main_list_canceled', $viewData);
+  }
+
+  /**
+   * 산행 등록
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function main_entry()
+  {
+    $viewData = array();
+    $this->_viewPage('admin/main_entry', $viewData);
   }
 
   /** ---------------------------------------------------------------------------------------
@@ -190,6 +194,18 @@ class Admin extends CI_Controller
     $this->output->set_output(json_encode($result));
   }
 
+  /**
+   * 회원 등록
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function member_entry()
+  {
+    $viewData = array();
+    $this->_viewPage('admin/member_entry', $viewData);
+  }
+
   /** ---------------------------------------------------------------------------------------
    * 출석현황
   --------------------------------------------------------------------------------------- **/
@@ -237,6 +253,18 @@ class Admin extends CI_Controller
     }
 
     $this->_viewPage('admin/attendance_list', $viewData);
+  }
+
+  /**
+   * 산행지로 보기
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function attendance_mountain()
+  {
+    $viewData = array();
+    $this->_viewPage('admin/attendance_mountain', $viewData);
   }
 
   /**
@@ -299,6 +327,174 @@ class Admin extends CI_Controller
     }
 
     $this->output->set_output(json_encode($result));
+  }
+
+  /** ---------------------------------------------------------------------------------------
+   * 활동관리
+  --------------------------------------------------------------------------------------- **/
+
+  /**
+   * 활동관리 - 회원 활동 목록
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function log_user()
+  {
+    $viewData = array();
+    $this->_viewPage('admin/log_user', $viewData);
+  }
+
+  /**
+   * 활동관리 - 관리자 활동 목록
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function log_admin()
+  {
+    $viewData = array();
+    $this->_viewPage('admin/log_admin', $viewData);
+  }
+
+  /** ---------------------------------------------------------------------------------------
+   * 설정
+  --------------------------------------------------------------------------------------- **/
+
+  /**
+   * 설정 - 대문관리
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function setup_front()
+  {
+    $viewData['listFront'] = $this->admin_model->listFront();
+
+    $this->_viewPage('admin/setup_front', $viewData);
+  }
+
+  /**
+   * 설정 - 대문등록
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function setup_front_insert()
+  {
+    if ($_FILES['file_obj']['type'] == 'image/jpeg') {
+      $filename = time() . mt_rand(10000, 99999) . ".jpg";
+
+      if (move_uploaded_file($_FILES['file_obj']['tmp_name'], PATH_FRONT . $filename)) {
+        $maxIdx = $this->admin_model->getFrontSortMaxIdx();
+        $insertData = array(
+          'sort_idx' => $maxIdx['sort_idx'] + 1,
+          'filename' => $filename,
+        );
+        $this->admin_model->insertFront($insertData);
+
+        $result = array(
+          'error' => 0,
+          'message' => base_url() . URL_FRONT . $filename,
+          'filename' => $filename
+        );
+      } else {
+        $result = array(
+          'error' => 1,
+          'message' => '사진 업로드에 실패했습니다.'
+        );
+      }
+    } else {
+      $result = array(
+        'error' => 1,
+        'message' => 'jpg 형식의 사진만 업로드 할 수 있습니다.'
+      );
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 설정 - 정렬 순서 수정
+   *
+   * @return view
+   * @author bjchoi
+   **/
+
+  public function setup_front_sort()
+  {
+    $sortIdx = html_escape($this->input->post('sort_idx'));
+    $listFront = $this->admin_model->listFront();
+
+    foreach ($listFront as $key => $value) {
+      $result = $this->admin_model->updateFrontSortIdx($value['filename'], $sortIdx[$key]);
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 설정 - 대문삭제
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function setup_front_delete()
+  {
+    $filename = html_escape($this->input->post('idx'));
+
+    // 데이터 삭제
+    $result = $this->admin_model->deleteFront($filename);
+
+    // 파일 삭제
+    if (file_exists(PATH_FRONT . $filename)) {
+      unlink(PATH_FRONT . $filename);
+    }
+
+    // 정렬 순서 갱신
+    $listFront = $this->admin_model->listFront();
+
+    foreach ($listFront as $key => $value) {
+      $this->admin_model->updateFrontSortIdx($value['filename'], $key + 1);
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 설정 - 달력관리
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function setup_calendar()
+  {
+    $viewData = array();
+    $this->_viewPage('admin/setup_calendar', $viewData);
+  }
+
+  /**
+   * 설정 - 차종등록
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function setup_bustype()
+  {
+    $viewData = array();
+    $this->_viewPage('admin/setup_bustype', $viewData);
+  }
+
+  /**
+   * 설정 - 문자양식보기
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function setup_sms()
+  {
+    $viewData = array();
+    $this->_viewPage('admin/setup_sms', $viewData);
   }
 
   /**

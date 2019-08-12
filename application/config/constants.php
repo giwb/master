@@ -95,6 +95,7 @@ defined('DB_ADJUST')      OR define('DB_ADJUST', 'giwb_adjust');
 defined('DB_ATTENDANCE')  OR define('DB_ATTENDANCE', 'giwb_attendance');
 defined('DB_BOARD')       OR define('DB_BOARD', 'giwb_board');
 defined('DB_CALENDAR')    OR define('DB_CALENDAR', 'giwb_calendar');
+defined('DB_FRONT')       OR define('DB_FRONT', 'giwb_front');
 defined('DB_HISTORY')     OR define('DB_HISTORY', 'giwb_history');
 defined('DB_MEMBER')      OR define('DB_MEMBER', 'giwb_member');
 defined('DB_MTDB')        OR define('DB_MTDB', 'giwb_mtdb');
@@ -105,4 +106,8 @@ defined('DB_RESERVATION') OR define('DB_RESERVATION', 'giwb_reservation');
 defined('STATUS_NONE')    OR define('STATUS_NONE', 0);
 defined('STATUS_ABLE')    OR define('STATUS_ABLE', 1);
 defined('STATUS_CANCLE')  OR define('STATUS_CANCLE', 8);
-defined('STATUS_CLOSED')   OR define('STATUS_CLOSED', 9);
+defined('STATUS_CLOSED')  OR define('STATUS_CLOSED', 9);
+
+// 경로 설정
+defined('PATH_FRONT')     OR define('PATH_FRONT', PATH_MAIN . '/public/uploads/front/');
+defined('URL_FRONT')      OR define('URL_FRONT', 'public/uploads/front/');

@@ -50,11 +50,11 @@ class Admin_model extends CI_Model
   }
 
   // 이번 달 산행 목록
-  public function listMonthNotice($syear, $smonth)
+  public function listNotice()
   {
     $this->db->select('*')
           ->from(DB_NOTICE)
-          ->where("DATE_FORMAT(startdate, '%Y%m') = '" . $syear . $smonth . "'")
+/*          ->where("DATE_FORMAT(startdate, '%Y%m') = '" . $syear . $smonth . "'")*/
           ->order_by('startdate', 'asc');
     return $this->db->get()->result_array();
   }
@@ -176,6 +176,45 @@ class Admin_model extends CI_Model
   public function deleteAttendance()
   {
     $this->db->empty_table(DB_ATTENDANCE);
+  }
+
+  // 대문관리 - 목록
+  public function listFront()
+  {
+    $this->db->select('sort_idx, filename')
+          ->from(DB_FRONT)
+          ->order_by('sort_idx', 'asc');
+    return $this->db->get()->result_array();
+  }
+
+  // 대문관리 - 정렬 최대값 가져오기
+  public function getFrontSortMaxIdx()
+  {
+    $this->db->select('MAX(sort_idx) AS sort_idx')
+          ->from(DB_FRONT);
+    return $this->db->get()->row_array(1);
+  }
+
+  // 대문관리 - 등록
+  public function insertFront($data)
+  {
+    $this->db->insert(DB_FRONT, $data);
+    return $this->db->insert_id();
+  }
+
+  // 대문관리 - 정렬 순서 갱신
+  public function updateFrontSortIdx($filename, $sort_idx)
+  {
+    $this->db->set('sort_idx', $sort_idx);
+    $this->db->where('filename', $filename);
+    return $this->db->update(DB_FRONT);
+  }
+
+  // 대문관리 - 삭제
+  public function deleteFront($filename)
+  {
+    $this->db->where('filename', $filename);
+    return $this->db->delete(DB_FRONT);
   }
 }
 ?>
