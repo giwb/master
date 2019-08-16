@@ -51,7 +51,15 @@
         <ul class="nav-menu">
           <li class="menu-active"><a href="#intro">TOP</a></li>
           <li><a href="<?=base_url()?>reservation">산행일정</a></li>
-          <li><a href="<?=base_url()?>auth">백산백소</a></li>
+          <li class="menu-has-children">
+            <a href="javascript:;" class="sf-with-ul">산악회소개</a>
+            <ul>
+              <li><a href="#">산행 이력</a></li>
+              <li><a href="#">등산안내인 소개</a></li>
+              <li><a href="#">운영진 소개</a></li>
+              <li><a href="#">이용안내</a></li>
+            </ul>
+          </li>
           <li><a href="<?=base_url()?>member">마이페이지</a></li>
 <?php if ($userData['idx'] == ''): ?>
           <li><a href="javascript:;" class="login-popup">로그인</a></li>
