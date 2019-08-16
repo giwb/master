@@ -42,10 +42,10 @@
 
       <nav id="nav-menu-container">
         <ul class="nav-menu">
-          <li><a href="#intro">TOP</a></li>
+          <li><a href="<?=base_url()?>">TOP</a></li>
           <li class="menu-active"><a href="<?=base_url()?>reservation">산행일정</a></li>
-          <li><a href="#">백산백소</a></li>
-          <li><a href="#">마이페이지</a></li>
+          <li><a href="<?=base_url()?>auth">백산백소</a></li>
+          <li><a href="<?=base_url()?>member">마이페이지</a></li>
 <?php if ($userData['idx'] == ''): ?>
           <li><a href="javascript:;" class="login-popup">로그인</a></li>
 <?php else: ?>

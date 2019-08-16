@@ -9,7 +9,7 @@ class Welcome extends CI_Controller
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
     $this->load->library('session');
-    $this->load->model(array('admin_model', 'member_model', 'notice_model'));
+    $this->load->model(array('admin_model', 'notice_model'));
   }
 
   /**
@@ -40,52 +40,6 @@ class Welcome extends CI_Controller
   }
 
   /**
-   * 로그인
-   *
-   * @param $userid
-   * @param $password
-   * @return json
-   * @author bjchoi
-   **/
-  public function login()
-  {
-    $userid = html_escape($this->input->post('userid'));
-    $password = html_escape($this->input->post('password'));
-
-    $result = array(
-      'error' => 1,
-      'message' => '로그인에 실패했습니다. 다시 로그인 해주세요.'
-    );
-
-    if ($userid != '' || $password != '') {
-      $userData = $this->member_model->checkLogin($userid, md5($password));
-
-      if ($userData['idx'] != '') {
-        $this->session->set_userdata('userData', $userData);
-
-        $result = array(
-          'error' => 0,
-          'message' => ''
-        );
-      }
-    }
-
-    $this->output->set_output(json_encode($result));
-  }
-
-  /**
-   * 로그아웃
-   *
-   * @return json
-   * @author bjchoi
-   **/
-  public function logout()
-  {
-    $this->session->unset_userdata('userData');
-    $this->output->set_output(0);
-  }
-
-  /**
    * 페이지 표시
    *
    * @param $viewPage
@@ -95,7 +49,7 @@ class Welcome extends CI_Controller
    **/
   private function _viewPage($viewPage, $viewData=NULL)
   {
-    $headerData['userData'] = $this->session->userData;
+    $headerData['userData'] = $viewData['userData'] = $this->session->userData;
     $this->load->view('header', $headerData);
     $this->load->view($viewPage, $viewData);
     $this->load->view('footer');

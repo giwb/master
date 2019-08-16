@@ -212,7 +212,7 @@
     var $dom = $(this);
     var formData = new FormData($('#loginForm')[0]);
     $.ajax({
-      url: $('input[name=base_url]').val() + 'login',
+      url: $('input[name=base_url]').val() + 'member/login',
       data: formData,
       processData: false,
       contentType: false,
@@ -236,7 +236,7 @@
   }).on('click', '.logout', function() {
     // 로그아웃
     $.ajax({
-      url: $('input[name=base_url]').val() + 'logout',
+      url: $('input[name=base_url]').val() + 'member/logout',
       dataType: 'json',
       success: function() {
         location.reload();

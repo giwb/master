@@ -662,6 +662,13 @@ body.mobile-nav-active #mobile-nav-toggle {
   min-width: 100%;
 }
 
+/* Now Section
+--------------------------------*/
+
+#now {
+  padding: 60px 0 40px 0;
+}
+
 /* Latest Section
 --------------------------------*/
 
@@ -1616,6 +1623,21 @@ body.mobile-nav-active #mobile-nav-toggle {
   background-color: #E0552a;
   padding: 13px 15px 14px 15px;
 }
+
+#subpage h2 {
+  font-size: 20px;
+  font-weight: bold;
+  border-left: 5px solid #999;
+  border-bottom: 1px solid #ddd;
+  padding: 5px 0 10px 10px;
+}
+
+#subpage .box {
+  border: 1px solid #999;
+  padding: 20px;
+  margin: 0 0 30px 0;
+}
+
 
 /*--------------------------------------------------------------
 # Responsive Media Queries

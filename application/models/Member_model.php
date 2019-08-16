@@ -19,5 +19,14 @@ class Member_model extends CI_Model
           ->where('password', $password);
     return $this->db->get()->row_array(1);
   }
+
+  // 회원 정보
+  public function viewMember($idx)
+  {
+    $this->db->select('*')
+          ->from(DB_MEMBER)
+          ->where('idx', $idx);
+    return $this->db->get()->row_array(1);
+  }
 }
 ?>

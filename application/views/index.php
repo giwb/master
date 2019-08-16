@@ -140,7 +140,7 @@
     <section id="booking">
       <div class="container">
         <header class="section-header">
-          <h3>예약 진행중인 다음 산행</h3>
+          <h3>이번 주 산행</h3>
         </header>
 <?php foreach ($listThisWeekNotice as $key => $value): ?>
         <div class="row justify-content-center no-gutters mb-5 mb-lg-0">
@@ -167,11 +167,29 @@
       </div>
     </section>
 
+    <section id="now">
+      <div class="container">
+
+        <header class="section-header">
+          <h3>예약 진행중인 산행</h3>
+        </header>
+
+        <div class="row">
+<?php foreach ($listBeforeNotice as $value): ?>
+          <div class="col-md-12">
+            <a href="<?=base_url()?>reservation/view/<?=$value['idx']?>">[<?=viewStatus($value['status'])?>] <?=$value['subject']?></a><br>
+          </div>
+<?php endforeach; ?>
+        </div>
+
+      </div>
+    </section>
+
     <section id="latest">
       <div class="container">
 
         <header class="section-header">
-          <h3>지난 산행 내역</h3>
+          <h3>지난 산행</h3>
         </header>
 
         <div class="row latest-cols slick">
@@ -251,20 +269,24 @@
             <ul>
               <li><i class="ion-ios-arrow-right"></i> <a href="#">TOP</a></li>
               <li><i class="ion-ios-arrow-right"></i> <a href="#">산행일정</a></li>
-              <li><i class="ion-ios-arrow-right"></i> <a href="#">백산백소</a></li>
+              <li><i class="ion-ios-arrow-right"></i> <a href="#">산악회소개</a></li>
               <li><i class="ion-ios-arrow-right"></i> <a href="#">마이페이지</a></li>
+<?php if ($userData['idx'] == ''): ?>
               <li><i class="ion-ios-arrow-right"></i> <a href="javascript:;" class="login-popup">로그인</a></li>
+<?php else: ?>
+              <li><i class="ion-ios-arrow-right"></i> <a href="javascript:;" class="logout">로그아웃</a></li>
+<?php endif; ?>          
             </ul>
           </div>
 
           <div class="col-lg-3 col-md-6 footer-contact">
             <h4>Contact Us</h4>
             <p>
-              14545<br>
+              (우) 14545<br>
               경기도 부천시 상동로 90<br>
               메가플러스빌딩 6층<br>
               <strong>Phone :</strong> 010-7271-3050<br>
-              <strong>Email :</strong> giwb@giwb.kr<br>
+              <strong>Cafe :</strong> <a target="_blank" href="http://giwb.co.kr">http://giwb.co.kr</a><br>
             </p>
 
             <div class="social-links">
@@ -278,13 +300,8 @@
           </div>
 
           <div class="col-lg-3 col-md-6 footer-newsletter">
-            <h4>인터넷 대행 서비스 SayHome 안내</h4>
-            <p>SayHome은 2005년 창업하여 다양한 인터넷 사업을 진행하고 있는 인터넷 솔루션 전문 기업입니다. 인터넷 홈페이지, 모바일페이지 등과, 다양한 웹 솔루션 제작의 노하우를 가지고 있으며, 서버 운영과 관리, 사이트 분석까지 대행하는 토탈 인터넷 대행 서비스 입니다.</p>
-            URL : <a target="_blank" href="http://sayhome.co.kr">http://sayhome.co.kr</a><br>
-            <!--
-            <form action="" method="post">
-              <input type="email" name="email"><input type="submit"  value="Subscribe">
-            </form>-->
+            <h4>경인웰빙 노선안내 (6:30분 출발기준)</h4>
+            <p>06:30 계산역 4번출구<br>06:34 작전역 5번출구<br>06:38 갈산역 4번출구<br>06:42 부평구청역 4번출구<br>06:45 삼산체육관 맞은편<br>06:50 부천터미널 소풍<br>06:55 복사골문화센터<br>07:00 송내남부 맥도날드</p>
           </div>
 
         </div>
