@@ -481,8 +481,102 @@ class Admin extends CI_Controller
    **/
   public function setup_bustype()
   {
-    $viewData = array();
+    $viewData['listBustype'] = $this->admin_model->listBustype();
+
     $this->_viewPage('admin/setup_bustype', $viewData);
+  }
+
+  /**
+   * 설정 - 차종등록 추가
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function setup_bustype_add($idx=NULL)
+  {
+    if (!is_null($idx)) {
+      $idx = html_escape($idx);
+      $viewData['viewBustype'] = $this->admin_model->getBustype($idx);
+      $viewData['action'] = "setup_bustype_update";
+      $viewData['btnName'] = "수정합니다";
+    } else {
+      $viewData['viewBustype']['idx'] = '';
+      $viewData['viewBustype']['bus_name'] = '';
+      $viewData['viewBustype']['bus_owner'] = '';
+      $viewData['viewBustype']['bus_seat'] = '';
+      $viewData['action'] = "setup_bustype_insert";
+      $viewData['btnName'] = "등록합니다";
+    }
+
+    $viewData['listBusdata'] = $this->admin_model->listBusdata();
+
+    $this->_viewPage('admin/setup_bustype_add', $viewData);
+  }
+
+  /**
+   * 설정 - 차종등록 추가완료
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function setup_bustype_insert()
+  {
+    $now = time();
+    $bus_name   = $this->input->post('bus_name') != '' ? html_escape($this->input->post('bus_name')) : NULL;
+    $bus_owner  = $this->input->post('bus_owner') != '' ? html_escape($this->input->post('bus_owner')) : NULL;
+    $bus_seat   = $this->input->post('bus_seat') != '' ? html_escape($this->input->post('bus_seat')) : NULL;
+
+    $insertData = array(
+      'bus_name' => $bus_name,
+      'bus_owner' => $bus_owner,
+      'bus_seat' => $bus_seat,
+      'created_at' => $now,
+    );
+    $result = $this->admin_model->insertBustype($insertData);
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 설정 - 차종등록 수정
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function setup_bustype_update()
+  {
+    $idx        = $this->input->post('idx') != '' ? html_escape($this->input->post('idx')) : NULL;
+    $bus_name   = $this->input->post('bus_name') != '' ? html_escape($this->input->post('bus_name')) : NULL;
+    $bus_owner  = $this->input->post('bus_owner') != '' ? html_escape($this->input->post('bus_owner')) : NULL;
+    $bus_seat   = $this->input->post('bus_seat') != '' ? html_escape($this->input->post('bus_seat')) : NULL;
+    $result     = 0;
+
+    if (!is_null($idx)) {
+      $updateData = array(
+        'bus_name' => $bus_name,
+        'bus_owner' => $bus_owner,
+        'bus_seat' => $bus_seat,
+      );
+
+      $result = $this->admin_model->updateBustype($updateData, $idx);
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 설정 - 차종 삭제
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function setup_bustype_delete()
+  {
+    $idx = html_escape($this->input->post('idx'));
+
+    $result = $this->admin_model->deleteBustype($idx);
+
+    $this->output->set_output(json_encode($result));
   }
 
   /**

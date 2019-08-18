@@ -216,5 +216,55 @@ class Admin_model extends CI_Model
     $this->db->where('filename', $filename);
     return $this->db->delete(DB_FRONT);
   }
+
+  // 설정 - 차종 목록
+  public function listBustype()
+  {
+    $this->db->select('a.idx, a.bus_name, a.bus_owner, a.created_at, b.name AS bus_seat_name')
+          ->from(DB_BUSTYPE . ' a')
+          ->join(DB_BUSDATA . ' b', 'a.bus_seat=b.idx')
+          ->order_by('idx', 'asc');
+    return $this->db->get()->result_array();
+  }
+
+  // 설정 - 차종 정보
+  public function getBustype($idx)
+  {
+    $this->db->select('*')
+          ->from(DB_BUSTYPE)
+          ->where('idx', $idx);
+    return $this->db->get()->row_array(1);
+  }
+
+  // 설정 - 차종 추가
+  public function insertBustype($data)
+  {
+    $this->db->insert(DB_BUSTYPE, $data);
+    return $this->db->insert_id();
+  }
+
+  // 설정 - 차종 수정
+  public function updateBustype($data, $idx)
+  {
+    $this->db->set($data);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_BUSTYPE);
+  }
+
+  // 설정 - 차종 삭제
+  public function deleteBustype($idx)
+  {
+    $this->db->where('idx', $idx);
+    return $this->db->delete(DB_BUSTYPE);
+  }
+
+  // 등록된 차량 데이터
+  public function listBusdata()
+  {
+    $this->db->select('*')
+          ->from(DB_BUSDATA)
+          ->order_by('idx', 'asc');
+    return $this->db->get()->result_array();
+  }
 }
 ?>

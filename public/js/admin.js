@@ -83,6 +83,14 @@
     $('#messageModal input[name=action]').val('setup_front_delete');
     $('#messageModal input[name=delete_idx]').val($(this).data('filename'));
     $('#messageModal').modal({backdrop: 'static', keyboard: false});
+  }).on('click', '.btn-bustype-delete-modal', function() {
+    // 차종 삭제 모달
+    $('#messageModal .modal-message').text('정말로 삭제하시겠습니까?');
+    $('#messageModal .btn-refresh, #messageModal .close').hide();
+    $('#messageModal .btn-delete').show();
+    $('#messageModal input[name=action]').val('setup_bustype_delete');
+    $('#messageModal input[name=delete_idx]').val($(this).data('idx'));
+    $('#messageModal').modal({backdrop: 'static', keyboard: false});
   }).on('click', '.btn-delete', function() {
     // 삭제
     var $dom = $(this);
@@ -102,6 +110,7 @@
       }
     });
   }).on('click', '.btn-front-submit', function() {
+    // 대문 등록
     if ($('input[name=filename]').val() == '') {
       $('#messageModal .btn-refresh, #messageModal .btn-delete').hide();
       $('#messageModal .modal-message').text('파일을 선택해주세요.');
@@ -150,6 +159,7 @@
       });
     }
   }).on('click', '.btn-front-sort', function() {
+    // 대문 정렬
     var $dom = $('#formSort .sort-idx');
     var $btn = $(this);
     var formData = new FormData($('#formSort')[0]);
@@ -184,6 +194,40 @@
         },
         success: function() {
           location.href=($('input[name=base_url]').val() + 'admin/setup_front');
+        }
+      });
+    }
+  }).on('click', '.btn-bustype-add', function() {
+    var $btn = $(this);
+    var formData = new FormData($('#formBustype')[0]);
+    var error = 0;
+    var message = '';
+
+    if ($('input[name=bus_name]').val() == '') {
+      error = 1;
+      message = '차량명은 꼭 입력해주세요.';
+    }
+    if ($('select[name=bus_seat]').val() == '') {
+      error = 1;
+      message = '인원수는 꼭 선택해주세요.';
+    }
+
+    if (error == 1) {
+      $('.error-message').text(message).slideDown();
+      setTimeout(function() { $('.error-message').slideUp().text(''); }, 3000);
+    } else {
+      $.ajax({
+        url: $('#formBustype').attr('action'),
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: 'json',
+        type: 'post',
+        beforeSend: function() {
+          $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+        },
+        success: function() {
+          location.href=($('input[name=base_url]').val() + 'admin/setup_bustype');
         }
       });
     }

@@ -94,6 +94,8 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 defined('DB_ADJUST')      OR define('DB_ADJUST', 'giwb_adjust');
 defined('DB_ATTENDANCE')  OR define('DB_ATTENDANCE', 'giwb_attendance');
 defined('DB_BOARD')       OR define('DB_BOARD', 'giwb_board');
+defined('DB_BUSDATA')     OR define('DB_BUSDATA', 'giwb_busdata');
+defined('DB_BUSTYPE')     OR define('DB_BUSTYPE', 'giwb_bustype');
 defined('DB_CALENDAR')    OR define('DB_CALENDAR', 'giwb_calendar');
 defined('DB_FRONT')       OR define('DB_FRONT', 'giwb_front');
 defined('DB_HISTORY')     OR define('DB_HISTORY', 'giwb_history');
