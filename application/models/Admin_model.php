@@ -89,6 +89,30 @@ class Admin_model extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  // 등록된 산행 정보 보기
+  public function viewEntry($idx)
+  {
+    $this->db->select('*')
+          ->from(DB_NOTICE)
+          ->where('idx', $idx);
+    return $this->db->get()->row_array(1);
+  }
+
+  // 산행 정보 등록
+  public function insertEntry($data)
+  {
+    $this->db->insert(DB_NOTICE, $data);
+    return $this->db->insert_id();
+  }
+
+  // 산행 정보 수정
+  public function updateEntry($data, $idx)
+  {
+    $this->db->set($data);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_NOTICE);
+  }
+
   // 전체 회원 목록
   public function listMembers()
   {

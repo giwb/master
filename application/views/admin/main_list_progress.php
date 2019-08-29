@@ -16,11 +16,11 @@
 ?>
             <tr>
               <td>
-                <b>[<?=viewStatus($value['status'])?>]</b> <a href="<?=base_url()?>admin/view_progress/<?=$value['idx']?>"><?=$value['subject']?></a><br>
+                <b>[<?=viewStatus($value['status'])?>]</b> <a href="<?=base_url()?>admin/main_view_progress/<?=$value['idx']?>"><?=$value['subject']?></a><br>
                 <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost'])?>원 / 예약인원 <?=cntRes($value['idx'])?>명
               </td>
               <td align="right">
-                <button type="button" class="btn btn-primary btn-modify">수정</button>
+                <a href="<?=base_url()?>admin/main_entry/<?=$value['idx']?>"><button type="button" class="btn btn-primary">수정</button></a>
                 <button type="button" class="btn btn-primary btn-seat">승차</button>
                 <button type="button" class="btn btn-primary btn-adjust">정산</button>
               </td>

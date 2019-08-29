@@ -4,6 +4,25 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 $CI = get_instance();
 $CI->load->model('admin_model');
 
+// serialize
+if (!function_exists('make_serialize'))
+{
+  function make_serialize($data)
+  {
+    foreach ($data as $value) {
+      if ($value != '') {
+        $result[] = $value;
+      }
+    }
+    if (!empty($result)) {
+      $result = serialize(html_escape($result));
+    } else {
+      $result = '';
+    }
+    return $result;
+  }
+}
+
 // 산행 상태
 if (!function_exists('viewStatus')) {
   function viewStatus($status=0) {

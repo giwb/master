@@ -18,7 +18,7 @@
 .table-check { width: 100%; font-size: 12px; display: flex; display: -webkit-flex; text-align: center; }
 .table-check .table-head { font-weight: bold; border: 1px solid #d9d9d9; border-width: 1px 1px 0 0; padding: 5px 0; }
 .table-check .table-body { background-color: #fff; border: 1px solid #d9d9d9; border-width: 1px 1px 0 0; padding: 5px 0; }
-.table.form-small input.form-control { width: 100px; display: inline-block; }
+.table.form-small input.form-control { width: 140px; display: inline-block; }
 .table textarea { width: 95%; }
 .w30 { flex: 1; -webkit-flex: 1; }
 .w100 { flex: 2; -webkit-flex: 2; }

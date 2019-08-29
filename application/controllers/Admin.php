@@ -108,10 +108,107 @@ class Admin extends CI_Controller
    * @return view
    * @author bjchoi
    **/
-  public function main_entry()
+  public function main_entry($idx=NULL)
   {
-    $viewData = array();
+    if (!is_null($idx)) {
+      $viewData['btn'] = '수정';
+      $viewData['view'] = $this->admin_model->viewEntry(html_escape($idx));
+      $viewData['view']['bustype'] = unserialize($viewData['view']['bustype']);
+      $viewData['view']['road_course'] = unserialize($viewData['view']['road_course']);
+      $viewData['view']['road_distance'] = unserialize($viewData['view']['road_distance']);
+      $viewData['view']['road_runtime'] = unserialize($viewData['view']['road_runtime']);
+      $viewData['view']['road_cost'] = unserialize($viewData['view']['road_cost']);
+      $viewData['view']['driving_fuel'] = unserialize($viewData['view']['driving_fuel']);
+      $viewData['view']['driving_cost'] = unserialize($viewData['view']['driving_cost']);
+      $viewData['view']['driving_add'] = unserialize($viewData['view']['driving_add']);
+    } else {
+      $viewData['btn'] = '등록';
+      $viewData['view']['idx'] = '';
+      $viewData['view']['startdate'] = '';
+      $viewData['view']['starttime'] = '';
+      $viewData['view']['enddate'] = '';
+      $viewData['view']['mname'] = '';
+      $viewData['view']['subject'] = '';
+      $viewData['view']['content'] = '';
+      $viewData['view']['bustype'] = '';
+      $viewData['view']['article'] = '';
+      $viewData['view']['peak'] = '';
+      $viewData['view']['winter'] = '';
+      $viewData['view']['distance'] = '';
+      $viewData['view']['road_course'][0] = '기본운행구간';
+      $viewData['view']['road_distance'][0] = '43.44';
+      $viewData['view']['road_runtime'][0] = '0:50';
+      $viewData['view']['road_cost'][0] = '0';
+      $viewData['view']['driving_fuel'] = '';
+      $viewData['view']['driving_cost'] = '';
+      $viewData['view']['driving_add'] = '';
+      $viewData['view']['driving_total'] = '';
+      $viewData['view']['cost'] = '';
+      $viewData['view']['cost_added'] = '';
+      $viewData['view']['cost_total'] = '';
+      $viewData['view']['costmemo'] = '';
+    }
+
+    $viewData['listBustype'] = $this->admin_model->listBustype();
+
     $this->_viewPage('admin/main_entry', $viewData);
+  }
+
+  /**
+   * 산행 등록 처리
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function main_entry_update()
+  {
+    $idx = html_escape($this->input->post('idx'));
+    $result = array();
+
+    if (!$this->input->post('subject') || !$this->input->post('startdate') || !$this->input->post('enddate')) {
+      $result = array('error' => 1, 'message' => '에러가 발생했습니다.');
+    } else {
+      $postData = array(
+        'startdate'       => html_escape($this->input->post('startdate')),        // 출발일시
+        'starttime'       => html_escape($this->input->post('starttime')),        // 출발시간
+        'enddate'         => html_escape($this->input->post('enddate')),          // 도착일자
+        'mname'           => html_escape($this->input->post('mname')),            // 산 이름
+        'subject'         => html_escape($this->input->post('subject')),          // 산행제목
+        'content'         => html_escape($this->input->post('content')),          // 산행코스
+        'bustype'         => make_serialize($this->input->post('bustype')),       // 차량
+        'article'         => html_escape($this->input->post('article')),          // 메모
+        'distance'        => html_escape($this->input->post('distance')),         // 운행거리
+        'road_course'     => make_serialize($this->input->post('road_course')),   // 운행구간
+        'road_distance'   => make_serialize($this->input->post('road_distance')), // 거리
+        'road_runtime'    => make_serialize($this->input->post('road_runtime')),  // 소요시간
+        'road_cost'       => make_serialize($this->input->post('road_cost')),     // 통행료
+        'driving_default' => html_escape($this->input->post('driving_default')),  // 버스 기본요금
+        'driving_fuel'    => make_serialize($this->input->post('driving_fuel')),  // 주유비
+        'driving_cost'    => make_serialize($this->input->post('driving_cost')),  // 운행비
+        'driving_add'     => make_serialize($this->input->post('driving_add')),   // 추가비용
+        'driving_total'   => html_escape($this->input->post('driving_total')),    // 운행견적총액
+        'cost'            => html_escape($this->input->post('cost')),             // 산행분담금 기본비용
+        'cost_added'      => html_escape($this->input->post('cost_added')),       // 산행분담금 추가비용
+        'cost_total'      => html_escape($this->input->post('cost_total')),       // 산행분담금 합계
+        'costmemo'        => html_escape($this->input->post('cost_memo')),        // 포함사항
+      );
+
+      if (!$idx) {
+        // 등록
+        $rtn = $this->admin_model->insertEntry($postData);
+      } else {
+        // 수정
+        $rtn = $this->admin_model->updateEntry($postData, $idx);
+      }
+
+      if (!$rtn) {
+        $result = array('error' => 1, 'message' => '에러가 발생했습니다.');
+      } else {
+        $result = array('error' => 0, 'message' => '');
+      }
+    }
+
+    $this->output->set_output(json_encode($result));
   }
 
   /** ---------------------------------------------------------------------------------------
