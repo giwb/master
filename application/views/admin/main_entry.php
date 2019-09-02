@@ -30,19 +30,14 @@
                   <div class="col-md-2">
                     <select name="starttime" id="startTime" class="form-control">
 <?php
-  $startHour = 5;
-  $startMinute = '00';
-  for ($i=1; $i<40; $i++):
-    if ($i%2 == 0):
-      $startHour++;
-      $startMinute = '00';
-    else:
-      $startMinute = '30';
+  $tStart = $tNow = strtotime('06:00');
+  $tEnd = strtotime('23:30');
+  while ($tNow <= $tEnd): $nowTime = date('H:i', $tNow);
 ?>
-                  <option<?=$view['starttime'] == ($startHour.':'.$startMinute) || (!$view['starttime'] && ($startHour.':'.$startMinute) == '6:00') ? ' selected' : ''?> value="<?=$startHour?>:<?=$startMinute?>"><?=$startHour?>:<?=$startMinute?></option>
+                  <option<?=$view['starttime'] == $nowTime ? ' selected' : ''?> value="<?=$nowTime?>"><?=$nowTime?></option>
 <?php
-    endif;
-  endfor;
+    $tNow = strtotime('+30 minutes', $tNow);
+  endwhile;
 ?>
                     </select>
                   </div>
@@ -156,7 +151,7 @@
 <?php foreach (range(1, 10) as $key => $value): ?>
             <tr>
               <td><?=$value?></td>
-              <td><input class="form-control" type="text" size="20" name="road_course[]" value="<?=!empty($view['road_course'][$key]) ? $view['road_course'][$key] : ''?>"></td>
+              <td><input class="form-control w2x" type="text" size="20" name="road_course[]" value="<?=!empty($view['road_course'][$key]) ? $view['road_course'][$key] : ''?>"></td>
               <td><input class="form-control road-distance" type="text" size="4" name="road_distance[]" value="<?=!empty($view['road_distance'][$key]) ? $view['road_distance'][$key] : ''?>">km</td>
               <td><input class="form-control road-runtime" type="text" size="4" name="road_runtime[]" value="<?=!empty($view['road_runtime'][$key]) ? $view['road_runtime'][$key] : ''?>"></td>
               <td><input class="form-control road-cost" type="text" size="4" name="road_cost[]" value="<?=!empty($view['road_cost'][$key]) ? $view['road_cost'][$key] : ''?>">원</td>
@@ -189,9 +184,9 @@
               <td width="9%">총주행</td>
               <td width="18%"><input class="form-control total-distance" readonly type="text" size="3" name="driving_fuel[]">km</td>
               <td width="9%">통행료</td>
-              <td width="16%"><input class="form-control driving-cost" type="text" size="4" name="driving_cost[]" value="<?=!empty($view['driving_cost'][0]) ? $view['driving_cost'][0] : ''?>">원</td>
+              <td width="16%"><input class="form-control driving-cost total-cost" readonly type="text" size="4" name="driving_cost[]" value="<?=!empty($view['driving_cost'][0]) ? $view['driving_cost'][0] : ''?>">원</td>
               <td width="12%">일정추가</td>
-              <td width="16%"><input class="form-control driving-add" type="text" size="4" name="driving_add[]" value="<?=!empty($view['driving_add'][0]) ? $view['driving_add'][0] : ''?>">원</td>
+              <td width="16%"><input class="form-control driving-add cost-add-schedule" readonly type="text" size="4" name="driving_add[]" value="<?=!empty($view['driving_add'][0]) ? $view['driving_add'][0] : ''?>">원</td>
             </tr>
             <tr>
               <td>연비</td>
@@ -212,7 +207,7 @@
             <tr>
               <td colspan="2">&nbsp;</td>
               <td>숙박</td>
-              <td><input class="form-control driving-cost" type="text" size="4" name="driving_cost[]" value="<?=!empty($view['driving_cost'][3]) ? $view['driving_cost'][3] : '16000'?>">원</td>
+              <td><input class="form-control driving-cost" type="text" size="4" name="driving_cost[]" value="<?=!empty($view['driving_cost'][3]) ? $view['driving_cost'][3] : ''?>">원</td>
               <td colspan="2">&nbsp;</td>
             </tr>
             <tr>
@@ -252,7 +247,7 @@
               </td>
             </tr>
             <tr>
-              <th>최종 분담금</th>
+              <th>산행 분담금</th>
               <td class="form-row">
                 <div class="col-md-4"><input type="text" name="cost_total" class="form-control cost-total" value="<?=$view['cost_total'] != '' ? $view['cost_total'] : '0'?>"></div>
               </td>
@@ -284,7 +279,7 @@
         $.calcTotalDriving(); // 운행비 합계
         $.calcAdd(); // 추가비용 합계
         $.calcTotalBus(); // 추가비용 합계
-        $.calcCost(); // 최종 분담금 계산
+        $.calcCost(); // 산행 분담금 계산
 
         // 출발일시
         $('#startDatePicker').datepicker({

@@ -293,17 +293,22 @@
     }
   }).on('change', '.road-cost', function() {
     $.calcRoadCost(); // 통행료 계산
+    $.calcTotalBus(); // 운행견적총액
   }).on('change', '.road-distance', function() {
     // 거리/연비/기본비용 계산
     var totalDistance = $.calcTotalDistance(); // 총 거리 계산
     $.calcFuel(); // 연비 계산 (총주행 / 3.5)
     $.calcBusCost(totalDistance); // 버스비용/산행분담 기본비용 계산
     $.calcCost(); // 최종 분담금 계산
+    $.calcTotalBus(); // 운행견적총액
   }).on('change', '.cost-gas', function() {
     $.calcTotalFuel(); // 주유비 합계
+    $.calcTotalBus(); // 운행견적총액
   }).on('change', '.driving-cost', function() {
     $.calcTotalDriving(); // 운행비 합계
-  }).on('change', '.driving-default, .total-driving-fuel, .total-driving-cost, .total-driving-add', function() {
+    $.calcTotalBus(); // 운행견적총액
+  }).on('change', '.driving-add', function() {
+    $.calcAdd(); // 추가비용 합계
     $.calcTotalBus(); // 운행견적총액
   });
 
@@ -325,11 +330,16 @@
       if (parseInt(sTime) <= '2200') {
         // 22시 이전 출발은 1박 확정
         result = resultDay + '박 ' + addDay + '일';
+
+        $.calcAddSchedule(resultDay, 0); // 일정추가
       } else {
         // 22시 이후 출발은 1일 무박
         result = '1무 ' + (parseInt(resultDay) - 1) + '박 ' + addDay + '일';
+
+        $.calcAddSchedule(resultDay, 1); // 일정추가 (무박)
       }
     }
+
 
     // 성수기 계산 (04/01 ~ 06/10, 07/21 ~ 08/20, 09/21 ~ 11/10)
     var sPeak1 = new Date(sDateArr[0], '04', '01')
@@ -389,11 +399,12 @@
       totalCost += Number($(this).val());
     });
     $('.total-cost').val(totalCost);
+    $.calcTotalDriving();
   }
 
   // 연비 계산
   $.calcFuel = function() {
-    $('.driving-fuel').val( (Number( $('.total-distance').val() ) / 3.5).toFixed(1) );
+    $('.driving-fuel').val( (Number( $('.total-distance').val() ) / 3.5).toFixed(2) );
     $.calcTotalFuel(); // 주유비 합계
   }
 
@@ -437,6 +448,13 @@
       total += Number( $(this).val() );
     });
     $('.total-driving-cost').val(total);
+  }
+
+  // 일정추가
+  $.calcAddSchedule = function(day, nosleep) {
+    // 일정추가 (무박은 15만원, 1박은 25만원)
+    $('.cost-add-schedule').val( (nosleep * 150000) + (Number(day) * 250000) );
+    $.calcAdd();
   }
 
   // 추가비용 합계

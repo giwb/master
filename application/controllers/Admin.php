@@ -211,6 +211,26 @@ class Admin extends CI_Controller
     $this->output->set_output(json_encode($result));
   }
 
+  /**
+   * 
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function main_notice()
+  {
+    // PHP Ver 7.x
+    //$syear = !empty($this->input->get('syear')) ? $this->input->get('syear') : date('Y');
+    //$smonth = !empty($this->input->get('smonth')) ? $this->input->get('syear') : date('m');
+
+    // PHP Ver 5.x
+    $syear = $this->input->get('syear') ? $this->input->get('syear') : date('Y');
+    $smonth = $this->input->get('smonth') ? $this->input->get('syear') : date('m');
+    $viewData['list'] = $this->admin_model->listClosed($syear, $smonth, STATUS_CANCLE);
+
+    $this->_viewPage('admin/main_notice', $viewData);
+  }
+
   /** ---------------------------------------------------------------------------------------
    * 회원관리
   --------------------------------------------------------------------------------------- **/
