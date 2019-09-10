@@ -33,6 +33,123 @@ class Admin extends CI_Controller
   }
 
   /** ---------------------------------------------------------------------------------------
+   * 예약
+  --------------------------------------------------------------------------------------- **/
+
+  /**
+   * 예약 정보
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function reserve_information()
+  {
+    $idx = html_escape($this->input->post('idx'));
+    $resIdx = html_escape($this->input->post('resIdx'));
+    $viewData['view'] = $this->admin_model->viewEntry($idx);
+
+    if (!empty($resIdx)) {
+      $result['reserve'] = $this->admin_model->viewReserve($resIdx);
+    } else {
+      $result['reserve']['nickname'] = '';
+      $result['reserve']['gender'] = 'M';
+      $result['reserve']['loc'] = '';
+      $result['reserve']['bref'] = '';
+      $result['reserve']['depositname'] = '';
+      $result['reserve']['memo'] = '';
+      $result['reserve']['vip'] = '';
+      $result['reserve']['manager'] = '';
+      $result['reserve']['priority'] = '';
+    }
+
+    $result['busType'] = getBusType($viewData['view']['bustype'], $viewData['view']['bus']); // 버스 형태별 좌석 배치
+
+    // 해당 버스의 좌석
+    foreach ($result['busType'] as $busType) {
+      foreach (range(1, $busType['seat']) as $seat) {
+        $result['seat'][] = $seat;
+      }
+    }
+
+    $result['location'] = arrLocation(); // 승차위치
+    $result['breakfast'] = arrBreakfast(); // 아침식사
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 예약 처리
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function reserve_complete()
+  {
+    $idx = html_escape($this->input->post('idx'));
+    $arrSeat = $this->input->post('seat');
+
+    foreach ($arrSeat as $key => $seat) {
+      $postData = array(
+        'rescode' => $idx,
+        'nickname' => html_escape($this->input->post('nickname')[$key]),
+        'gender' => html_escape($this->input->post('gender')[$key]),
+        'bus' => html_escape($this->input->post('bus')[$key]),
+        'seat' => html_escape($seat),
+        'loc' => html_escape($this->input->post('location')[$key]),
+        'memo' => html_escape($this->input->post('memo')[$key]),
+        'depositname' => html_escape($this->input->post('depositname')[$key]),
+        'vip' => html_escape($this->input->post('vip')[$key]) == 'true' ? 1 : 0,
+        'manager' => html_escape($this->input->post('manager')[$key]) == 'true' ? 1 : 0,
+        'priority' => html_escape($this->input->post('priority')[$key]) == 'true' ? 1 : 0,
+        'regdate' => time(),
+      );
+
+      $resIdx = html_escape($this->input->post('resIdx')[$key]);
+
+      if (empty($resIdx)) {
+        $result = $this->admin_model->insertReserve($postData);
+      } else {
+        $result = $this->admin_model->updateReserve($postData, $resIdx);
+      }
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 예약 취소
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function reserve_cancel()
+  {
+    // 예약 정보 삭제
+    $this->admin_model->deleteReserve(html_escape($this->input->post('idx')));
+
+    $result['reload'] = true;
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 입금 확인
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function reserve_deposit()
+  {
+    // 입금 확인 완료
+    $idx = html_escape($this->input->post('idx'));
+    $updateData['status'] = 1;
+
+    $this->admin_model->updateReserve($updateData, $idx);
+
+    $result['reload'] = true;
+    $this->output->set_output(json_encode($result));
+  }
+
+  /** ---------------------------------------------------------------------------------------
    * 산행관리
   --------------------------------------------------------------------------------------- **/
 
@@ -55,9 +172,16 @@ class Admin extends CI_Controller
    * @return view
    * @author bjchoi
    **/
-  public function main_view_progress($rescode)
+  public function main_view_progress($idx)
   {
-    $viewData['view'] = $this->admin_model->viewProgress(html_escape($rescode));
+    $idx = html_escape($idx);
+    $viewData['view'] = $this->admin_model->viewEntry($idx);
+
+    // 버스 형태별 좌석 배치
+    $viewData['busType'] = getBusType($viewData['view']['bustype'], $viewData['view']['bus']);
+
+    // 예약 정보
+    $viewData['reservation'] = $this->admin_model->viewProgress($idx);
 
     $this->_viewPage('admin/main_view_progress', $viewData);
   }
@@ -212,23 +336,51 @@ class Admin extends CI_Controller
   }
 
   /**
-   * 
+   * 공지사항 폼
    *
    * @return view
    * @author bjchoi
    **/
-  public function main_notice()
+  public function main_notice($idx=NULL)
   {
-    // PHP Ver 7.x
-    //$syear = !empty($this->input->get('syear')) ? $this->input->get('syear') : date('Y');
-    //$smonth = !empty($this->input->get('smonth')) ? $this->input->get('syear') : date('m');
+    if (is_null($idx)) exit;
 
-    // PHP Ver 5.x
-    $syear = $this->input->get('syear') ? $this->input->get('syear') : date('Y');
-    $smonth = $this->input->get('smonth') ? $this->input->get('syear') : date('m');
-    $viewData['list'] = $this->admin_model->listClosed($syear, $smonth, STATUS_CANCLE);
+    $viewData['view'] = $this->admin_model->viewEntry(html_escape($idx));
 
     $this->_viewPage('admin/main_notice', $viewData);
+  }
+
+  /**
+   * 공지사항 수정 처리
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function main_notice_update()
+  {
+    $idx = html_escape($this->input->post('idx'));
+    if ($idx == '') exit;
+
+    $postData = array(
+      'plan'        => html_escape($this->input->post('plan')),         // 기획의도
+      'point'       => html_escape($this->input->post('point')),        // 핵심안내
+      'timetable'   => html_escape($this->input->post('timetable')),    // 타임테이블
+      'information' => html_escape($this->input->post('information')),  // 산행안내
+      'course'      => html_escape($this->input->post('course')),       // 산행코스안내
+      'intro'       => html_escape($this->input->post('intro')),        // 산행지 소개
+      'photo'       => make_serialize($this->input->post('photos')),    // 산행지 사진
+      'map'         => make_serialize($this->input->post('maps')),      // 산행 지도 사진
+    );
+
+    $rtn = $this->admin_model->updateEntry($postData, $idx);
+
+    if (!$rtn) {
+      $result = array('error' => 1, 'message' => '에러가 발생했습니다.');
+    } else {
+      $result = array('error' => 0, 'message' => '');
+    }
+
+    $this->output->set_output(json_encode($result));
   }
 
   /** ---------------------------------------------------------------------------------------

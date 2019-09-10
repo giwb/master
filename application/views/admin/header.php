@@ -10,7 +10,7 @@
   <link rel="stylesheet" type="text/css" href="/public/css/fontawesome/css/all.min.css">
   <link rel="stylesheet" type="text/css" href="/public/css/fullcalendar.css">
   <link rel="stylesheet" type="text/css" href="/public/css/fullcalendar.print.css">
-  <link rel="stylesheet" type="text/css" href="/public/css/admin.css">
+  <link rel="stylesheet" type="text/css" href="/public/css/admin.css?<?=time()?>">
   <script src="/public/js/jquery-1.11.1.min.js" type="text/javascript"></script>
   <script src="/public/js/jquery-ui.custom.min.js" type="text/javascript"></script>
   <script src="/public/vendors/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>

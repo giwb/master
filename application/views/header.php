@@ -28,7 +28,7 @@
   <link href="/public/css/slick-theme.css" rel="stylesheet">
 
   <!-- Main Stylesheet File -->
-  <link href="/public/css/style.css" rel="stylesheet">
+  <link href="/public/css/style.css?<?=time()?>" rel="stylesheet">
 
   <script src="/public/js/jquery-1.11.1.min.js" type="text/javascript"></script>
   <script src="/public/js/jquery-ui.custom.min.js" type="text/javascript"></script>

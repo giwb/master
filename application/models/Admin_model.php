@@ -78,6 +78,37 @@ class Admin_model extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  // 예약 정보 보기
+  public function viewReserve($idx)
+  {
+    $this->db->select('*')
+          ->from(DB_RESERVATION)
+          ->where('idx', $idx);
+    return $this->db->get()->row_array(1);
+  }
+
+  // 예약 정보 등록
+  public function insertReserve($data)
+  {
+    $this->db->insert(DB_RESERVATION, $data);
+    return $this->db->insert_id();
+  }
+
+  // 예약 정보 수정
+  public function updateReserve($data, $idx)
+  {
+    $this->db->set($data);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_RESERVATION);
+  }
+
+  // 예약 취소
+  public function deleteReserve($idx)
+  {
+    $this->db->where('idx', $idx);
+    return $this->db->delete(DB_RESERVATION);
+  }
+
   // 다녀온 산행 목록, 취소된 산행 목록
   public function listClosed($syear, $smonth, $status)
   {
@@ -254,9 +285,10 @@ class Admin_model extends CI_Model
   // 설정 - 차종 정보
   public function getBustype($idx)
   {
-    $this->db->select('*')
-          ->from(DB_BUSTYPE)
-          ->where('idx', $idx);
+    $this->db->select('a.idx, a.bus_name, a.bus_owner, b.seat, b.direction')
+          ->from(DB_BUSTYPE . ' a')
+          ->join(DB_BUSDATA . ' b', 'a.bus_seat=b.idx', 'left')
+          ->where('a.idx', $idx);
     return $this->db->get()->row_array(1);
   }
 

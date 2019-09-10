@@ -34,7 +34,7 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <script src="/public/js/admin.js" type="text/javascript"></script>
+  <script src="/public/js/admin.js?<?=time()?>" type="text/javascript"></script>
 
 </body>
 </html>

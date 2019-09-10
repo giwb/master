@@ -12,94 +12,100 @@
     </div>
 
     <div class="sub-contents">
-      <form id="myForm" method="post">
+      <form id="myForm" method="post" action="<?=base_url()?>admin/main_notice_update" enctype="multipart/form-data">
+        <input type="hidden" name="idx" value="<?=$view['idx']?>">
+        <input type="hidden" name="notice" value="1">
         <h2>■ 산행 공지</h2>
-        <table class="table form-small">
+        <table class="table table-notice">
           <colgroup>
             <col width="150">
           </colgroup>
           <tbody>
             <tr>
+              <th>산행 제목</th>
+              <td><?=$view['subject']?></td>
+            </tr>
+            <tr>
               <th>기획의도</th>
-              <td><textarea name="plan" id="plan" rows="10" cols="100"></textarea></td>
+              <td><textarea name="plan" id="plan" rows="10" cols="100"><?=$view['plan']?></textarea></td>
             </tr>
             <tr>
               <th>핵심안내</th>
-              <td><textarea name="point" id="point" rows="10" cols="100"></textarea></td>
+              <td><textarea name="point" id="point" rows="10" cols="100"><?=$view['point']?></textarea></td>
             </tr>
             <tr>
               <th>타임테이블</th>
-              <td><textarea name="timetable" id="timetable" rows="10" cols="100"></textarea></td>
+              <td><textarea name="timetable" id="timetable" rows="10" cols="100"><?=$view['timetable']?></textarea></td>
             </tr>
             <tr>
               <th>산행안내</th>
-              <td><textarea name="information" id="information" rows="10" cols="100"></textarea></td>
+              <td><textarea name="information" id="information" rows="10" cols="100"><?=$view['information']?></textarea></td>
             </tr>
             <tr>
               <th>산행코스안내</th>
-              <td><textarea name="course" id="course" rows="10" cols="100"></textarea></td>
+              <td><textarea name="course" id="course" rows="10" cols="100"><?=$view['course']?></textarea></td>
             </tr>
             <tr>
               <th>산행지 소개</th>
-              <td><textarea name="intro" id="intro" rows="10" cols="100"></textarea></td>
+              <td><textarea name="intro" id="intro" rows="10" cols="100"><?=$view['intro']?></textarea></td>
             </tr>
             <tr>
               <th>산행지 사진</th>
-              <td><input type="file" name="file"></td>
+              <td><input type="hidden" name="photos[]"><input type="file" name="photo"></td>
             </tr>
             <tr>
               <th>산행 지도 사진</th>
-              <td><input type="file" name="map"></td>
+              <td><input type="hidden" name="maps[]"><input type="file" name="map"></td>
             </tr>
             <tr><td colspan="2"></td></tr>
           </tbody>
         </table>
 
         <div class="text-center mb-5">
-          <button type="button" class="btn btn-primary btn-entry">등록합니다</button>
+          <button type="button" class="btn btn-primary btn-entry">확인합니다</button>
         </div>
       </form>
     </div>
 
     <script type="text/javascript">
+      var oEditors1 = [];
+      nhn.husky.EZCreator.createInIFrame({
+        oAppRef: oEditors1,
+        elPlaceHolder: 'plan',
+        sSkinURI: '/public/editor/SmartEditor2Skin.html',
+        fCreator: 'createSEditor2'
+      });
       var oEditors2 = [];
       nhn.husky.EZCreator.createInIFrame({
         oAppRef: oEditors2,
-        elPlaceHolder: 'plan',
+        elPlaceHolder: 'point',
         sSkinURI: '/public/editor/SmartEditor2Skin.html',
         fCreator: 'createSEditor2'
       });
       var oEditors3 = [];
       nhn.husky.EZCreator.createInIFrame({
         oAppRef: oEditors3,
-        elPlaceHolder: 'point',
+        elPlaceHolder: 'timetable',
         sSkinURI: '/public/editor/SmartEditor2Skin.html',
         fCreator: 'createSEditor2'
       });
       var oEditors4 = [];
       nhn.husky.EZCreator.createInIFrame({
         oAppRef: oEditors4,
-        elPlaceHolder: 'timetable',
+        elPlaceHolder: 'information',
         sSkinURI: '/public/editor/SmartEditor2Skin.html',
         fCreator: 'createSEditor2'
       });
       var oEditors5 = [];
       nhn.husky.EZCreator.createInIFrame({
         oAppRef: oEditors5,
-        elPlaceHolder: 'information',
+        elPlaceHolder: 'course',
         sSkinURI: '/public/editor/SmartEditor2Skin.html',
         fCreator: 'createSEditor2'
       });
       var oEditors6 = [];
       nhn.husky.EZCreator.createInIFrame({
         oAppRef: oEditors6,
-        elPlaceHolder: 'course',
-        sSkinURI: '/public/editor/SmartEditor2Skin.html',
-        fCreator: 'createSEditor2'
-      });
-      var oEditors7 = [];
-      nhn.husky.EZCreator.createInIFrame({
-        oAppRef: oEditors7,
         elPlaceHolder: 'intro',
         sSkinURI: '/public/editor/SmartEditor2Skin.html',
         fCreator: 'createSEditor2'

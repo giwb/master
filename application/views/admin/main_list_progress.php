@@ -20,6 +20,7 @@
                 <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost'])?>원 / 예약인원 <?=cntRes($value['idx'])?>명
               </td>
               <td align="right">
+                <a href="<?=base_url()?>admin/main_notice/<?=$value['idx']?>"><button type="button" class="btn btn-primary">공지</button></a>
                 <a href="<?=base_url()?>admin/main_entry/<?=$value['idx']?>"><button type="button" class="btn btn-primary">수정</button></a>
                 <button type="button" class="btn btn-primary btn-seat">승차</button>
                 <button type="button" class="btn btn-primary btn-adjust">정산</button>

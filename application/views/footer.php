@@ -52,7 +52,7 @@
   <script src="/public/lib/isotope/isotope.pkgd.min.js"></script>
   <script src="/public/lib/lightbox/js/lightbox.min.js"></script>
   <script src="/public/lib/touchSwipe/jquery.touchSwipe.min.js"></script>
-  <script src="/public/js/main.js"></script>
+  <script src="/public/js/main.js?<?=time()?>"></script>
 
 </body>
 </html>

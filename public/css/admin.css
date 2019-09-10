@@ -13,6 +13,8 @@
 @charset "UTF-8";
 
 /* Custom */
+#messageModal .btn-list { display: none; }
+.ui-widget { font-size: 14px!important; }
 .scrolling { width: 100%; height: 540px; overflow-y: scroll; }
 ::-webkit-scrollbar { display:none; }
 .table-check { width: 100%; font-size: 12px; display: flex; display: -webkit-flex; text-align: center; }
@@ -21,6 +23,7 @@
 .table.form-small input.form-control { width: 140px; display: inline-block; }
 .table.form-small input.form-control.w2x { width: 320px; display: inline-block; }
 .table textarea { width: 95%; }
+.table-notice textarea { display: none; }
 .w30 { flex: 1; -webkit-flex: 1; }
 .w100 { flex: 2; -webkit-flex: 2; }
 .ml10 { margin-left: 10px; }
@@ -34,10 +37,29 @@
 .fc-event.notice-status8 { background-color: #EFEFEF!important; }
 .fc-event.notice-status8 .fc-event-title { color: #999; text-decoration: line-through; }
 .fc-event.notice-status9 { background-color: #EFEFEF!important; }
-.ui-widget { font-size: 14px!important; }
-#messageModal .btn-list { display: none; }
 
-.sub-contents h2 { font-size: 20px; font-weight: bold; }
+.sub-contents { margin-bottom: 100px; }
+.sub-contents h2 { font-size: 20px; font-family: "Malgun Gothic"; font-weight: bold; }
+.area-reservation { width: 680px; }
+.area-reservation .area-btn { height: 30px; margin: 20px 0 10px 0; }
+
+.area-bus-table { padding-top: 20px; }
+.area-bus-table table { width: 100%; font-size: 14px; margin: 0px; }
+.area-bus-table table thead th { border-top: 5px solid #E0552A; }
+.area-bus-table table th, .area-bus-table table td { padding: 0.5rem; vertical-align: middle; border: 1px solid #999; cursor: pointer; }
+.area-bus-table table td.table-blank { border: 0px; }
+.area-bus-table table tr:last-child td.table-blank { border-bottom: 1px solid #999; }
+.area-bus-table .male { background-color: #E5FAFF; }
+.area-bus-table .female { background-color: #FFEAFA; }
+.area-bus-table .active { background-color: #FFCC00; }
+
+#addedInfo .reserve { font-size: 12px; background-color: #fff; border: 1px solid #999; margin: 10px 0; padding: 0.5rem 0 0.3rem 0.5rem; }
+#addedInfo .reserve input, #addedInfo .reserve select { font-size: 14px; }
+#addedInfo .reserve input { padding: 2px 4px; }
+#addedInfo .reserve input[type=checkbox] { margin: 3px 2px 0 4px; vertical-align: top; }
+#addedInfo .reserve select { padding: 3px 2px; }
+#addedInfo .reserve .btn { font-size: 12px; margin: 0 0 3px 3px; padding: 2px 5px; }
+#reserveForm .btn-reserve-confirm { display: none; }
 
 :root {
   --blue: #4e73df;
@@ -260,7 +282,7 @@ th {
 
 label {
   display: inline-block;
-  margin-bottom: 0.5rem;
+  margin: 0;
 }
 
 button {
