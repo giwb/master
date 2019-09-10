@@ -86,25 +86,35 @@ class Admin extends CI_Controller
   public function reserve_complete()
   {
     $idx = html_escape($this->input->post('idx'));
+    $arrResIdx = $this->input->post('resIdx');
     $arrSeat = $this->input->post('seat');
+    $arrNickname = $this->input->post('nickname');
+    $arrGender = $this->input->post('gender');
+    $arrBus = $this->input->post('bus');
+    $arrLocation = $this->input->post('location');
+    $arrMemo = $this->input->post('memo');
+    $arrDepositName = $this->input->post('depositname');
+    $arrVip = $this->input->post('vip');
+    $arrManager = $this->input->post('manager');
+    $arrPriority = $this->input->post('priority');
 
     foreach ($arrSeat as $key => $seat) {
       $postData = array(
         'rescode' => $idx,
-        'nickname' => html_escape($this->input->post('nickname')[$key]),
-        'gender' => html_escape($this->input->post('gender')[$key]),
-        'bus' => html_escape($this->input->post('bus')[$key]),
+        'nickname' => html_escape($arrNickname[$key]),
+        'gender' => html_escape($arrGender[$key]),
+        'bus' => html_escape($arrBus[$key]),
         'seat' => html_escape($seat),
-        'loc' => html_escape($this->input->post('location')[$key]),
-        'memo' => html_escape($this->input->post('memo')[$key]),
-        'depositname' => html_escape($this->input->post('depositname')[$key]),
-        'vip' => html_escape($this->input->post('vip')[$key]) == 'true' ? 1 : 0,
-        'manager' => html_escape($this->input->post('manager')[$key]) == 'true' ? 1 : 0,
-        'priority' => html_escape($this->input->post('priority')[$key]) == 'true' ? 1 : 0,
+        'loc' => html_escape($arrLocation[$key]),
+        'memo' => html_escape($arrMemo[$key]),
+        'depositname' => html_escape($arrDepositName[$key]),
+        'vip' => html_escape($arrVip[$key]) == 'true' ? 1 : 0,
+        'manager' => html_escape($arrManager[$key]) == 'true' ? 1 : 0,
+        'priority' => html_escape($arrPriority[$key]) == 'true' ? 1 : 0,
         'regdate' => time(),
       );
 
-      $resIdx = html_escape($this->input->post('resIdx')[$key]);
+      $resIdx = html_escape($arrResIdx[$key]);
 
       if (empty($resIdx)) {
         $result = $this->admin_model->insertReserve($postData);
