@@ -12134,7 +12134,7 @@ body.sidebar-toggled footer.sticky-footer {
   .area-bus-table { padding-top: 0px; }
   .area-bus-table table { font-size: 11px; }
   .area-bus-table table th, .area-bus-table table td { padding: 5px 1px; }
-  .area-bus-table input.seat { font-size: 10px; }
+  .area-bus-table input.seat { font-size: 10px; padding: 0px; }
   .btn { font-size: 0.7rem; padding: 0.275rem 0.15rem; }
   #addedInfo .reserve select, #addedInfo .reserve input { font-size: 12px; }
 }
