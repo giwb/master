@@ -6,6 +6,9 @@
   <title>경인웰빙 관리페이지</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
+  <meta property="og:title" content="경인웰빙 관리페이지" />
+  <meta property="og:image" content="<?=base_url()?>public/images/logo.jpg" />
+  <meta property="og:url" content="http://giwb.kr/" />
   <link rel="stylesheet" type="text/css" href="/public/vendors/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="/public/css/fontawesome/css/all.min.css">
   <link rel="stylesheet" type="text/css" href="/public/css/fullcalendar.css">
