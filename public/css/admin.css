@@ -12117,6 +12117,7 @@ body.sidebar-toggled footer.sticky-footer {
 .area-bus-table .male { background-color: #E5FAFF; }
 .area-bus-table .female { background-color: #FFEAFA; }
 .area-bus-table .active { background-color: #FFCC00; }
+.area-bus-table input.seat { width: 20px; }
 
 #addedInfo .reserve { font-size: 12px; background-color: #fff; border: 1px solid #999; margin: 10px 0; padding: 0.5rem 0 0.3rem 0.5rem; }
 #addedInfo .reserve input, #addedInfo .reserve select { font-size: 14px; }

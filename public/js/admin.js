@@ -368,6 +368,32 @@
     $('#messageModal .modal-footer input[name=delete_idx]').val($(this).data('idx'));
     $('#messageModal .modal-message').text('정말로 이 좌석의 예약을 취소하시겠습니까?');
     $('#messageModal').modal('show');
+  }).on('click', '.btn-change-seat', function() {
+    // 좌석 변경
+    var $btn = $(this);
+    var formData = new FormData($('#changeSeatForm')[0]);
+    $.ajax({
+        url: $('#changeSeatForm').attr('action'),
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: 'json',
+        type: 'post',
+        beforeSend: function() {
+          $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+        },
+        success: function(result) {
+          $btn.css('opacity', '1').prop('disabled', false).text('좌석 변경 완료');
+          if (result.error == 1) {
+            $('#messageModal .modal-footer .btn').hide();
+            $('#messageModal .modal-footer .btn-close').show();
+            $('#messageModal .modal-message').text(result.message);
+            $('#messageModal').modal('show');
+          } else {
+            location.replace($('input[name=base_url]').val() + 'admin/main_view_progress/' + $('input[name=idx]').val());
+          }
+        }
+      });
   }).on('change', '#startDatePicker, #endDatePicker, #startTime', function() {
     // 산행일자 계산
     var startDate = $('#startDatePicker').val();

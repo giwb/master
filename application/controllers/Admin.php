@@ -159,6 +159,39 @@ class Admin extends CI_Controller
     $this->output->set_output(json_encode($result));
   }
 
+  /**
+   * 좌석 변경
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function reserve_change_seat()
+  {
+    $idx = html_escape($this->input->post('idx'));
+    $reserve_seat = html_escape($this->input->post('reserve'));
+    $array_seat = array();
+
+    // 좌석 중복 확인
+    foreach ($reserve_seat as $value) {
+      $array_seat[] = $value['seat'];
+    }
+
+    if ((count(array_keys(array_flip($array_seat))) !== count($array_seat)) > 0) {
+      $result = array('error' => 1, 'message' => '중복되는 좌석이 있습니다.');
+    } else {
+      foreach ($reserve_seat as $value) {
+        if ($value['seat'] > 0 && $value['seat'] != $value['origin_seat']) {
+          $updateData['seat'] = $value['seat'];
+          $this->admin_model->updateReserve($updateData, $value['idx']);
+        }
+      }
+
+      $result = array('error' => 0, 'message' => '');
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
   /** ---------------------------------------------------------------------------------------
    * 산행관리
   --------------------------------------------------------------------------------------- **/
@@ -391,6 +424,26 @@ class Admin extends CI_Controller
     }
 
     $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 좌석 변경
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function main_change_seat($idx)
+  {
+    $idx = html_escape($idx);
+    $viewData['view'] = $this->admin_model->viewEntry($idx);
+
+    // 버스 형태별 좌석 배치
+    $viewData['busType'] = getBusType($viewData['view']['bustype'], $viewData['view']['bus']);
+
+    // 예약 정보
+    $viewData['reservation'] = $this->admin_model->viewProgress($idx);
+
+    $this->_viewPage('admin/main_change_seat', $viewData);
   }
 
   /** ---------------------------------------------------------------------------------------

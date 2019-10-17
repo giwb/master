@@ -13,29 +13,13 @@
 
     <div class="sub-contents">
       <h2><b>[<?=viewStatus($view['status'])?>]</b> <?=$view['subject']?></h2>
-      산행분담금 : <?=number_format($view['cost'])?>원 (<?=calcTerm($view['startdate'], $view['starttime'], $view['enddate'], $view['schedule'])?>)<br>
-      산행일시 : <?=$view['startdate']?> (<?=calcWeek($view['startdate'])?>) <?=$view['starttime']?><br>
-      예약인원 : <?=cntRes($view['idx'])?>명<br>
 
       <div class="area-reservation">
-        <div class="area-btn">
-          <div class="float-left">
-            <button type="button" class="btn btn-secondary">승차</button>
-            <a href="<?=base_url()?>admin/main_change_seat/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">좌석</button></a>
-            <button type="button" class="btn btn-secondary">정산</button>
-            <button type="button" class="btn btn-secondary">문자</button>
-          </div>
-          <div class="float-right">
-            <button type="button" class="btn btn-secondary">숨김</button>
-            <button type="button" class="btn btn-secondary">예정</button>
-            <button type="button" class="btn btn-secondary">취소</button>
-            <button type="button" class="btn btn-secondary">종료</button>
-          </div>
-        </div>
-
+        <form id="changeSeatForm" method="post" action="<?=base_url()?>admin/reserve_change_seat">
 <?php
   // 이번 산행에 등록된 버스 루프
   $bus = 0;
+  $cnt = 0;
   foreach ($busType as $value): $bus++;
 ?>
         <div class="area-bus-table">
@@ -69,23 +53,25 @@
       $reserveInfo = getReserve($reservation, $bus, $seat); // 예약자 정보
 ?>
                 <?=$tableMake?>
+                <?php if (!empty($reserveInfo['idx'])): ?>
+                <td><input type="text" name="reserve[<?=$cnt?>][seat]" value="<?=$seat?>" class="seat"><input type="hidden" name="reserve[<?=$cnt?>][origin_seat]" value="<?=$seat?>"><input type="hidden" name="reserve[<?=$cnt?>][idx]" value="<?=$reserveInfo['idx']?>"></td>
+                <?php $cnt++; else: ?>
                 <td><?=$seat?></td>
+                <?php endif; ?>
                 <td class="seat<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>" data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$reserveInfo['nickname']?></td>
 <?php
     endforeach;
 ?>
             </tbody>
           </table>
-        </div>
+        </div><br>
 <?php
   endforeach;
 ?>
 
-        <form id="reserveForm" method="post" action="<?=base_url()?>admin/reserve_complete">
-          <div id="addedInfo"></div>
-          <input type="hidden" name="idx" value="<?=$view['idx']?>">
-          <button type="button" class="btn btn-primary btn-reserve-confirm">예약을 확정합니다</button>
-        </form>
 
+        <input type="hidden" name="idx" value="<?=$view['idx']?>">
+        <button type="button" class="btn btn-primary btn-change-seat">좌석 변경 완료</button>
+        </form>
       </div>
     </div>
