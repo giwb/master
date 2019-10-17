@@ -60,7 +60,7 @@
             <tbody>
               <tr>
                 <th colspan="4" align="left">운전석</th>
-                <th colspan="6" align="right">출입구 (예약인원 <b><?=count($reservation)?></b>명)</th>
+                <th colspan="6" style="text-align: right;">출입구</th>
               </tr>
 <?php
     // 버스 형태 좌석 배치
