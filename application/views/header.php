@@ -71,8 +71,8 @@
           </h1>
           <ul class="nav-menu">
             <li<?=$uri == 'top' ? ' class="active"' : ''?>><a href="<?=base_url()?>">TOP</a></li>
-            <li<?=$uri == 'place' ? ' class="active"' : ''?>><a href="<?=base_url()?>place">여행정보</a></li>
-            <li<?=$uri == 'club' ? ' class="active"' : ''?>><a href="<?=base_url()?>club">산악회정보</a></li>
+            <li<?=$uri == 'place' ? ' class="active"' : ''?>><a href="http://tripkorea.net/place">여행정보</a></li>
+            <li<?=$uri == 'club' ? ' class="active"' : ''?>><a href="http://tripkorea.net/club">산악회정보</a></li>
 <?php if ($userData['idx'] == ''): ?>
             <li><a href="javascript:;" class="login-popup">로그인</a></li>
             <!--<li><button class="search-btn"><i class="fa fa-search"></i></button></li>-->
@@ -108,8 +108,8 @@
           <li><a href="<?=base_url()?>">TOP</a></li>
           <li><a href="javascript:;">산행일정</a></li>
           <li><a href="javascript:;">사진첩</a></li>
-          <li><a href="<?=base_url()?>place">여행정보</a></li>
-          <li><a href="<?=base_url()?>club">산악회정보</a></li>
+          <li><a href="http://tripkorea.net/place">여행정보</a></li>
+          <li><a href="http://tripkorea.net/club">산악회정보</a></li>
 <?php if ($userData['idx'] == ''): ?>
           <li><a href="javascript:;" class="login-popup">로그인</a></li>
 <?php else: ?>
