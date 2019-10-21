@@ -4,6 +4,18 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 $CI = get_instance();
 $CI->load->model('admin_model');
 
+// html_escape 리셋
+if (!function_exists('reset_html_escape'))
+{
+  function reset_html_escape($data)
+  {
+    $trans = get_html_translation_table();
+    $trans = array_flip($trans);
+    $result = strtr($data, $trans);
+    return $result;
+  }
+}
+
 // serialize
 if (!function_exists('make_serialize'))
 {
@@ -51,6 +63,24 @@ if (!function_exists('calcWeek')) {
       default : $week = "일"; break;
     }
     return $week;
+  }
+}
+
+// 날짜 계산
+if (!function_exists('calcDate')) {
+  function calcDate($date) {
+    $week = date("w", $date);
+    switch ($week) {
+      case "1": $week = "월"; break;
+      case "2": $week = "화"; break;
+      case "3": $week = "수"; break;
+      case "4": $week = "목"; break;
+      case "5": $week = "금"; break;
+      case "6": $week = "토"; break;
+      default : $week = "일"; break;
+    }
+
+    return date("Y년 m월 d일 (" . $week . ") H:i:s", $date);
   }
 }
 
@@ -287,6 +317,173 @@ if (!function_exists('getReserve')) {
         if ($value['gender'] == 'M') $value['class'] = ' male';
         elseif ($value['gender'] == 'F') $value['class'] = ' female';
         $result = $value;
+      }
+    }
+    return $result;
+  }
+}
+
+// 단체 유형
+if (!function_exists('getClubType')) {
+  function getClubType($data) {
+    $arr = '';
+    $result = '';    
+    if (strlen($data) >= 3) {
+      $arr = unserialize($data);
+    }
+
+    if ($arr != '') {
+      foreach ($arr as $value) {
+        if ($result != '') $result .= ' / ';
+        switch ($value) {
+          case '1':
+            $result .= '친목';
+          break;
+          case '2':
+            $result .= '안내';
+          break;
+          case '3':
+            $result .= '동호회';
+          break;
+          case '4':
+            $result .= '여행사';
+          break;
+        }
+      }
+    }
+    return $result;
+  }
+}
+
+// 제공사항
+if (!function_exists('getClubOption')) {
+  function getClubOption($data) {
+    $arr = '';
+    $result = '';    
+    if (strlen($data) >= 3) {
+      $arr = unserialize($data);
+    }
+
+    if ($arr != '') {
+      foreach ($arr as $value) {
+        if ($result != '') $result .= ' / ';
+        switch ($value) {
+          case '1':
+            $result .= '조식';
+          break;
+          case '2':
+            $result .= '중식';
+          break;
+          case '3':
+            $result .= '석식';
+          break;
+          case '4':
+            $result .= '하산주';
+          break;
+          case '5':
+            $result .= '산행지도';
+          break;
+          case '6':
+            $result .= '기념품';
+          break;
+        }
+      }
+    }
+    return $result;
+  }
+}
+
+// 운행주간
+if (!function_exists('getClubCycle')) {
+  function getClubCycle($data) {
+    $arr = '';
+    $result = '';    
+    if (strlen($data) >= 3) {
+      $arr = unserialize($data);
+    }
+
+    if ($arr != '') {
+      foreach ($arr as $value) {
+        if ($result != '') $result .= ' / ';
+        switch ($value) {
+          case '1':
+            $result .= '1주';
+          break;
+          case '2':
+            $result .= '2주';
+          break;
+          case '3':
+            $result .= '3주';
+          break;
+          case '4':
+            $result .= '4주';
+          break;
+          case '5':
+            $result .= '5주';
+          break;
+        }
+      }
+    }
+    return $result;
+  }
+}
+
+// 운행시기
+if (!function_exists('getClubWeek')) {
+  function getClubWeek($data) {
+    $arr = '';
+    $result = '';    
+    if (strlen($data) >= 3) {
+      $arr = unserialize($data);
+    }
+
+    if ($arr != '') {
+      foreach ($arr as $value) {
+        if ($result != '') $result .= ' / ';
+        switch ($value) {
+          case '1':
+            $result .= '월';
+          break;
+          case '2':
+            $result .= '화';
+          break;
+          case '3':
+            $result .= '수';
+          break;
+          case '4':
+            $result .= '목';
+          break;
+          case '5':
+            $result .= '금';
+          break;
+          case '6':
+            $result .= '토';
+          break;
+          case '7':
+            $result .= '일';
+          break;
+        }
+      }
+    }
+    return $result;
+  }
+}
+
+// 승하차 위치
+if (!function_exists('getClubGetonoff')) {
+  function getClubGetonoff($data) {
+    $arr = '';
+    $result = '';    
+    if (strlen($data) >= 3) {
+      $arr = unserialize($data);
+    }
+
+    if ($arr != '') {
+      foreach ($arr as $value) {
+        if ($value != '') {
+          if ($result != '') $result .= ' / ';
+          $result .= $value;
+        }
       }
     }
     return $result;

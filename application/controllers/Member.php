@@ -74,6 +74,30 @@ class Member extends CI_Controller
   }
 
   /**
+   * 회원가입 페이지
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function entry()
+  {
+    $viewData = array();
+    $this->_viewPage('member/entry', $viewData);
+  }
+
+  /**
+   * 아이디/비밀번호 찾기 페이지
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function forgot()
+  {
+    $viewData = array();
+    $this->_viewPage('member/forgot', $viewData);
+  }
+
+  /**
    * 페이지 표시
    *
    * @param $viewPage

@@ -9,34 +9,42 @@ class Welcome extends CI_Controller
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
     $this->load->library('session');
-    $this->load->model(array('admin_model', 'notice_model'));
+    $this->load->model(array('admin_model', 'club_model', 'file_model', 'notice_model', 'story_model'));
   }
 
   /**
-   * 톱 페이지
+   * 클럽 메인 페이지
    *
-   * @param $syear
-   * @param $smonth
    * @return view
    * @author bjchoi
    **/
-  public function index()
+  public function index($idx=NULL)
   {
-    // 대문
-    $viewData['listFront'] = $this->admin_model->listFront();
+    if (is_null($idx)) {
+      $idx = 1; // 최초는 경인웰빙
+    }
+
+    $viewData['view'] = $this->club_model->viewClub($idx);
+    $viewData['view']['photo'] = array();
+    $viewData['view']['content'] = nl2br(reset_html_escape($viewData['view']['content']));
+
+    $files = $this->file_model->getFile('club', $idx);
+
+    foreach ($files as $key => $value) {
+      if (!$value['filename'] == '') {
+        $viewData['view']['photo'][$key] = $value['filename'];
+      } else {
+        $viewData['view']['photo'][$key] = '';
+      }
+    }
 
     // 등록된 산행 목록
-    $viewData['listNotice'] = $this->admin_model->listNotice();
+    $viewData['listNotice'] = $this->club_model->listNotice($idx);
 
-    // 이번 주 산행
-    $now = date('Y-m-d');
-    $till = date('Y-m-d', strtotime('+1 week', time()));
-    $viewData['listThisWeekNotice'] = $this->notice_model->listThisWeekNotice($now, $till);
+    // 클럽 이야기
+    $viewData['listStory'] = $this->story_model->listStory($idx);
 
-    // 지난 산행 목록
-    $viewData['listBeforeNotice'] = $this->notice_model->listBeforeNotice($now);
-
-    $this->_viewPage('index', $viewData);
+    $this->_viewPage('club/index', $viewData);
   }
 
   /**
@@ -50,6 +58,7 @@ class Welcome extends CI_Controller
   private function _viewPage($viewPage, $viewData=NULL)
   {
     $headerData['userData'] = $viewData['userData'] = $this->session->userData;
+    $headerData['uri'] = 'top';
     $this->load->view('header', $headerData);
     $this->load->view($viewPage, $viewData);
     $this->load->view('footer');

@@ -90,7 +90,7 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 |--------------------------------------------------------------------------
 */
 
-// 테이블명
+// 테이블명 - 경인웰빙
 defined('DB_ADJUST')      OR define('DB_ADJUST', 'giwb_adjust');
 defined('DB_ATTENDANCE')  OR define('DB_ATTENDANCE', 'giwb_attendance');
 defined('DB_BOARD')       OR define('DB_BOARD', 'giwb_board');
