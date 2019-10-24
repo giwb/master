@@ -1923,7 +1923,7 @@ h1.nav-logo small {
 #club .club-main article .post-profile a { font-size: 14px; font-weight: bold; color: #000; }
 #club .club-main article .post-profile img { margin: 0 10px 0 0; float: left; }
 #club .club-main article .post-content { width: 100%; padding: 20px 0; }
-#club .club-main article .post-content img { width: 100%; margin-bottom: 10px; }
+#club .club-main article .post-content img { width: 100px; margin-bottom: 10px; }
 #club .club-main article .post-reaction { border: 1px solid #999; border-width: 1px 0; display: flex; }
 #club .club-main article .post-reaction button { font-size: 14px; background-color: #fff; border: 0px; padding: 5px 0; flex: 1; cursor: pointer; }
 #club .club-main article .post-reaction button:hover { color: #fff; background-color: #FF6C00; }
