@@ -1965,7 +1965,7 @@ h1.nav-logo small {
 /* Responsive */
 @media only screen and (max-width: 767px) {
   #club .club-left, #club .club-right { display: none; }
-  #club .club-main { margin: 0px; }
+  #club .club-main { flex: auto; -webkit-flex: auto; display: block; margin: 0px; }
 
   .header-nickname { margin-left: 15px; color: #fff; }
   table.fc-header { border: 0px; }
