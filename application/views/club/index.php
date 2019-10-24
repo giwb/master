@@ -9,87 +9,6 @@
 
     /* initialize the calendar
     -----------------------------------------------------------------*/
-    var calendar =  $('#calendar').fullCalendar({
-      header: {
-        left: 'prev',
-        center: 'title',
-        right: 'next'
-      },
-      editable: false,
-      selectable: false,
-      defaultView: 'month',
-      axisFormat: 'h:mm',
-      columnFormat: {
-                month: 'ddd',
-                week: 'ddd d',
-                day: 'dddd M/d',
-                agendaDay: 'dddd d'
-            },
-            titleFormat: {
-                month: 'yyyy년 MMMM',
-                week: "yyyy년 MMMM",
-                day: 'yyyy년 MMMM'
-            },
-      allDaySlot: false,
-      selectHelper: true,
-      select: function(start, end, allDay) {
-        var title = prompt('Event Title:');
-        if (title) {
-          calendar.fullCalendar('renderEvent',
-            {
-              title: title,
-              start: start,
-              end: end,
-              allDay: allDay
-            },
-            true // make the event "stick"
-          );
-        }
-        calendar.fullCalendar('unselect');
-      },
-      droppable: false, // this allows things to be dropped onto the calendar !!!
-      drop: function(date, allDay) { // this function is called when something is dropped
-
-        // retrieve the dropped element's stored Event Object
-        var originalEventObject = $(this).data('eventObject');
-
-        // we need to copy it, so that multiple events don't have a reference to the same object
-        var copiedEventObject = $.extend({}, originalEventObject);
-
-        // assign it the date that was reported
-        copiedEventObject.start = date;
-        copiedEventObject.allDay = allDay;
-
-        // render the event on the calendar
-        // the last `true` argument determines if the event "sticks" (https://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-        $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-
-        // is the "remove after drop" checkbox checked?
-        if ($('#drop-remove').is(':checked')) {
-          // if so, remove the element from the "Draggable Events" list
-          $(this).remove();
-        }
-      },
-      events: [
-<?php
-  foreach ($listNotice as $value) {
-    $startDate = strtotime($value['startdate']);
-    $endDate = calcEndDate($value['startdate'], $value['schedule']);
-    $viewNoticeStatus = viewNoticeStatus($value['status'])
-?>
-        {
-          title: '<?=$viewNoticeStatus?><?=$value['mname']?>',
-          start: new Date('<?=date('Y', $startDate)?>/<?=date('m', $startDate)?>/<?=date('d', $startDate)?>/00:00:00'),
-          end: new Date('<?=date('Y', $endDate)?>/<?=date('m', $endDate)?>/<?=date('d', $endDate)?>/23:59:59'),
-          url: '<?=base_url()?>admin/main_view_progress/<?=$value['idx']?>',
-          className: 'notice-status<?=$value['status']?>'
-        },
-<?php
-  }
-?>
-      ],
-    });
-
     $('#calendar').fullCalendar({
       header: {
         left: 'prev',
@@ -126,22 +45,60 @@
                 day: 'yyyy년 MMMM'
             },
       events: [
-  <?php
-  foreach ($listNotice as $value) {
-    $startDate = strtotime($value['startdate']);
-    $endDate = calcEndDate($value['startdate'], $value['schedule']);
-    $viewNoticeStatus = viewNoticeStatus($value['status'])
-?>
         {
-          title: '<?=$viewNoticeStatus?><?=$value['mname']?>',
-          start: new Date('<?=date('Y', $startDate)?>/<?=date('m', $startDate)?>/<?=date('d', $startDate)?>/00:00:00'),
-          end: new Date('<?=date('Y', $endDate)?>/<?=date('m', $endDate)?>/<?=date('d', $endDate)?>/23:59:59'),
-          url: '<?=base_url()?>admin/main_view_progress/<?=$value['idx']?>',
-          className: 'notice-status<?=$value['status']?>'
+          title: 'All Day Event',
+          start: '2019-10-01'
         },
-<?php
-  }
-?>
+        {
+          title: 'Long Event',
+          start: '2019-10-07',
+          end: '2019-10-10'
+        },
+        {
+          id: 999,
+          title: 'Repeating Event',
+          start: '2019-10-09T16:00:00'
+        },
+        {
+          id: 999,
+          title: 'Repeating Event',
+          start: '2019-10-16T16:00:00'
+        },
+        {
+          title: 'Conference',
+          start: '2019-10-11',
+          end: '2019-10-13'
+        },
+        {
+          title: 'Meeting',
+          start: '2019-10-12T10:30:00',
+          end: '2019-10-12T12:30:00'
+        },
+        {
+          title: 'Lunch',
+          start: '2019-10-12T12:00:00'
+        },
+        {
+          title: 'Meeting',
+          start: '2019-10-12T14:30:00'
+        },
+        {
+          title: 'Happy Hour',
+          start: '2019-10-12T17:30:00'
+        },
+        {
+          title: 'Dinner',
+          start: '2019-10-12T20:00:00'
+        },
+        {
+          title: 'Birthday Party',
+          start: '2019-10-13T07:00:00'
+        },
+        {
+          title: 'Click for Google',
+          url: 'http://google.com/',
+          start: '2019-10-28'
+        }
       ]
     });
 
