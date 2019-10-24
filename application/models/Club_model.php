@@ -55,7 +55,7 @@ class Club_model extends CI_Model
   {
     $this->db->select('*')
           ->from(DB_NOTICE)
-          /*->where('club_idx', $club_idx)*/
+          ->where_in('status', array(1, 2))
           ->order_by('startdate', 'asc');
     return $this->db->get()->result_array();
   }
