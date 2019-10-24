@@ -31,7 +31,7 @@
   <link href="/public/css/fullcalendar.print.css" rel="stylesheet">
 
   <!-- Main Stylesheet File -->
-  <link href="/public/css/style.css" rel="stylesheet">
+  <link href="/public/css/style.css?<?=time()?>" rel="stylesheet">
 
   <!--<script src="/public/js/jquery-1.11.1.min.js" type="text/javascript"></script>-->
   <script src="/public/js/jquery-2.1.4.min.js" type="text/javascript"></script>
@@ -55,7 +55,7 @@
   <script src="/public/editor/js/service/HuskyEZCreator.js" type="text/javascript" charset="utf-8"></script>
 
   <!-- Template Main Javascript File -->
-  <script src="/public/js/main.js"></script>
+  <script src="/public/js/main.js?<?=time()?>"></script>
 
 </head>
 <body>
