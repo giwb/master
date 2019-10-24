@@ -1904,7 +1904,7 @@ h1.nav-logo small {
 #club .club-left .banner { width: 100%; border: 1px solid #999; margin: 10px 0; padding: 10px 0; text-align: center; cursor: pointer; }
 
 #club .club-main .your-story { width: 100%; clear: both; margin: 20px 0 0 0; text-align: justify; }
-#club .club-main .your-story textarea { width: 100%; height: 105px; padding: 10px; }
+#club .club-main .your-story textarea { width: 50%; height: 105px; padding: 10px; }
 #club .club-main .your-story .area-btn { height: 40px; margin: 10px 0; }
 #club .club-main .your-story .area-btn .btn-photo { font-size: 14px; border-radius: 10px; padding: 3px 15px; float: left; }
 #club .club-main .your-story .area-btn .btn-photo:hover { border: 1px solid #d9d9d9; box-shadow: 1px 1px 3px #ddd; }
