@@ -45,60 +45,22 @@
                 day: 'yyyy년 MMMM'
             },
       events: [
+  <?php
+  foreach ($listNotice as $value) {
+    $startDate = strtotime($value['startdate']);
+    $endDate = calcEndDate($value['startdate'], $value['schedule']);
+    $viewNoticeStatus = viewNoticeStatus($value['status'])
+?>
         {
-          title: 'All Day Event',
-          start: '2019-10-01'
+          title: '<?=$viewNoticeStatus?><?=$value['mname']?>',
+          start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>T00:00:00'),
+          end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>T23:59:59'),
+          url: '<?=base_url()?>admin/main_view_progress/<?=$value['idx']?>',
+          className: 'notice-status<?=$value['status']?>'
         },
-        {
-          title: 'Long Event',
-          start: '2019-10-07',
-          end: '2019-10-10'
-        },
-        {
-          id: 999,
-          title: 'Repeating Event',
-          start: '2019-10-09T16:00:00'
-        },
-        {
-          id: 999,
-          title: 'Repeating Event',
-          start: '2019-10-16T16:00:00'
-        },
-        {
-          title: 'Conference',
-          start: '2019-10-11',
-          end: '2019-10-13'
-        },
-        {
-          title: 'Meeting',
-          start: '2019-10-12T10:30:00',
-          end: '2019-10-12T12:30:00'
-        },
-        {
-          title: 'Lunch',
-          start: '2019-10-12T12:00:00'
-        },
-        {
-          title: 'Meeting',
-          start: '2019-10-12T14:30:00'
-        },
-        {
-          title: 'Happy Hour',
-          start: '2019-10-12T17:30:00'
-        },
-        {
-          title: 'Dinner',
-          start: '2019-10-12T20:00:00'
-        },
-        {
-          title: 'Birthday Party',
-          start: '2019-10-13T07:00:00'
-        },
-        {
-          title: 'Click for Google',
-          url: 'http://google.com/',
-          start: '2019-10-28'
-        }
+<?php
+  }
+?>
       ]
     });
 
