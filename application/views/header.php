@@ -33,10 +33,9 @@
   <!-- Main Stylesheet File -->
   <link href="/public/css/style.css" rel="stylesheet">
 
-  <!--<script src="/public/js/jquery-1.11.1.min.js" type="text/javascript"></script>
-  <script src="/public/js/jquery-ui.custom.min.js" type="text/javascript"></script>-->
-<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-<script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
+  <!--<script src="/public/js/jquery-1.11.1.min.js" type="text/javascript"></script>-->
+  <script src="/public/js/jquery-2.1.4.min.js" type="text/javascript"></script>
+  <script src="/public/js/jquery-ui.custom.min.js" type="text/javascript"></script>
 
   <!-- JavaScript Libraries -->
   <script src="/public/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
