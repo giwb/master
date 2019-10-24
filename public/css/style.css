@@ -1918,12 +1918,12 @@ h1.nav-logo small {
 #club .club-main .your-story .area-photo .icon-photo-delete:before { transform: rotate(45deg); }
 #club .club-main .your-story .area-photo .icon-photo-delete:after { transform: rotate(-45deg); }
 
-#club .club-main article { clear: both; display: block; padding: 10px 0; }
+#club .club-main article { width: 100%; clear: both; display: block; margin: 0px; padding: 10px 0; }
 #club .club-main article .post-profile { font-size: 12px; }
 #club .club-main article .post-profile a { font-size: 14px; font-weight: bold; color: #000; }
 #club .club-main article .post-profile img { margin: 0 10px 0 0; float: left; }
 #club .club-main article .post-content { width: 100%; padding: 20px 0; }
-#club .club-main article .post-content img { width: 100px; margin-bottom: 10px; }
+#club .club-main article .post-content img { width: 100%; margin-bottom: 10px; }
 #club .club-main article .post-reaction { border: 1px solid #999; border-width: 1px 0; display: flex; }
 #club .club-main article .post-reaction button { font-size: 14px; background-color: #fff; border: 0px; padding: 5px 0; flex: 1; cursor: pointer; }
 #club .club-main article .post-reaction button:hover { color: #fff; background-color: #FF6C00; }
@@ -1965,7 +1965,7 @@ h1.nav-logo small {
 /* Responsive */
 @media only screen and (max-width: 767px) {
   #club .club-left, #club .club-right { display: none; }
-  #club .club-main { flex: auto; -webkit-flex: auto; display: block; margin: 0px; }
+  #club .club-main { width: 100%; flex: auto; -webkit-flex: auto; display: block; margin: 0px; }
 
   .header-nickname { margin-left: 15px; color: #fff; }
   table.fc-header { border: 0px; }
