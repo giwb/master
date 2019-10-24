@@ -1904,14 +1904,14 @@ h1.nav-logo small {
 #club .club-left .banner { width: 100%; border: 1px solid #999; margin: 10px 0; padding: 10px 0; text-align: center; cursor: pointer; }
 
 #club .club-main .your-story { width: 100%; clear: both; margin: 20px 0 0 0; text-align: justify; overflow: hidden; }
-#club .club-main .your-story textarea { width: 100%!important; height: 105px; padding: 10px; }
+#club .club-main .your-story textarea { height: 105px; padding: 10px; }
 #club .club-main .your-story .area-btn { height: 40px; margin: 10px 0; }
 #club .club-main .your-story .area-btn .btn-photo { font-size: 14px; border-radius: 10px; padding: 3px 15px; float: left; }
 #club .club-main .your-story .area-btn .btn-photo:hover { border: 1px solid #d9d9d9; box-shadow: 1px 1px 3px #ddd; }
 #club .club-main .your-story .area-btn .btn-post { font-size: 14px; color: #fff; background-color: #FF6C00; padding: 3px 15px; float: right; }
 #club .club-main .your-story .area-btn .btn-post:hover { color: #000; background-color: #F6C23E; border: 1px solid #FF6C00; }
 #club .club-main .your-story .file { width: 0px; }
-#club .club-main .your-story .area-photo { position: relative; }
+#club .club-main .your-story .area-photo { width: 100%; overflow: hidden; position: relative; }
 #club .club-main .your-story .area-photo img { width: 100%; }
 #club .club-main .your-story .area-photo .icon-photo-delete { position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; background-color: rgba(0, 0, 0, 0.77); border-radius: 100px; cursor: pointer; }
 #club .club-main .your-story .area-photo .icon-photo-delete:before, #club .club-main .your-story .area-photo .icon-photo-delete:after { position: absolute; top: 5px; left: 15px; content: ' '; height: 20px; width: 2px; background-color: #fff; }
