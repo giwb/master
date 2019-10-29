@@ -1945,7 +1945,7 @@ h1.nav-logo small {
 #club .club-right ul.club-gallery li img:hover { transform: scale(1.2); }
 
 #club .sub-contents { width: 100%!important; clear: both; margin: 0px; }
-#club .sub-contents h2 { font-size: 24px; font-family: "Malgun Gothic"; font-weight: bold; border-bottom: 1px solid #d9d9d9; padding-bottom: 20px; }
+#club .sub-contents h2 { font-size: 24px; font-family: "Malgun Gothic"; font-weight: bold; border-bottom: 1px solid #d9d9d9; padding: 17px 0 20px; }
 #club .sub-contents .area-reservation { width: 100%; }
 #club .sub-contents .area-reservation .area-btn { height: 30px; margin: 20px 0 10px 0; }
 #club .sub-contents .area-bus-table { padding-top: 20px; }
@@ -2005,8 +2005,10 @@ h1.nav-logo small {
 
 /* Responsive */
 @media only screen and (max-width: 767px) {
+  #club { padding-top: 70px; }
   #club .club-left, #club .club-right { display: none; }
   #club .club-main { width: 100%; flex: auto; -webkit-flex: auto; display: block; margin: 0px; }
+  #club .sub-contents h2 { font-size: 18px; padding: 10px 0 20px; }
 
   .header-nickname { margin-left: 15px; color: #fff; }
   table.fc-header { border: 0px; }
@@ -2042,4 +2044,8 @@ h1.nav-logo small {
   .memberForm .col-sm-2 { width: 65px!important; padding: 3px 5px!important; }
   .memberForm .col-sm-3 { width: 95px!important; padding: 3px 5px!important; }
   .memberForm .area-btn { margin: 20px 0 0 0; }
+
+  #club .sub-contents .area-bus-table table td { font-size: 11px; padding: 10px 0px; text-align: center; }
+  #club .sub-contents .area-bus-table input.seat { font-size: 10px; padding: 0px; }
+  #club .sub-contents #addedInfo .reserve select, #addedInfo .reserve input { font-size: 12px; }
 }
