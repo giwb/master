@@ -515,27 +515,6 @@
     var formCheck = true;
     var formData = new FormData($('#reserveForm')[0]);
 
-    // 체크박스는 formData에 들어가지 않으니 수동으로 확인
-    formData.delete('vip[]');
-    formData.delete('manager[]');
-    formData.delete('priority[]');
-    var checkbox = $("#reserveForm").find("input[type=checkbox]");
-    $.each(checkbox, function(i, v) {
-      formData.append($(v).attr('name'), $(this).is(':checked'))
-    });
-
-    // 예약시 닉네임은 필수
-    $('.nickname').each(function() {
-      if ($(this).val() == '') {
-        $('#messageModal .modal-footer .btn').hide();
-        $('#messageModal .modal-footer .btn-close').show();
-        $('#messageModal .modal-message').text('닉네임은 꼭 모두 입력해주세요.');
-        $('#messageModal').modal('show');
-        formCheck = false;
-        return false;
-      }
-    });
-
     if (formCheck == true) {
       $.ajax({
         url: $('#reserveForm').attr('action'),

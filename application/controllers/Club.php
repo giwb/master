@@ -55,7 +55,7 @@ class Club extends CI_Controller
    * @return view
    * @author bjchoi
    **/
-  public function reservation($club_idx=NULL)
+  public function reserve($club_idx=NULL)
   {
     if (is_null($club_idx)) {
       $club_idx = 1; // 최초는 경인웰빙
@@ -89,14 +89,65 @@ class Club extends CI_Controller
       $viewData['busType'] = getBusType($viewData['notice']['bustype'], $viewData['notice']['bus']);
 
       // 예약 정보
-      $viewData['reservation'] = $this->club_model->viewProgress($club_idx, $idx);
+      $viewData['reserve'] = $this->club_model->viewProgress($club_idx, $idx);
     } else {
       $viewData['notice'] = array();
       $viewData['busType'] = array();
-      $viewData['reservation'] = array();
+      $viewData['reserve'] = array();
     }
 
-    $this->_viewPage('club/reservation', $viewData);
+    $this->_viewPage('club/reserve', $viewData);
+  }
+
+  /**
+   * 예약 처리
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function reserve_complete()
+  {
+    print_r($this->input->post());
+    exit;
+    $idx = html_escape($this->input->post('idx'));
+    $arrResIdx = $this->input->post('resIdx');
+    $arrSeat = $this->input->post('seat');
+    $arrNickname = $this->input->post('nickname');
+    $arrGender = $this->input->post('gender');
+    $arrBus = $this->input->post('bus');
+    $arrLocation = $this->input->post('location');
+    $arrMemo = $this->input->post('memo');
+    $arrDepositName = $this->input->post('depositname');
+    $arrVip = $this->input->post('vip');
+    $arrManager = $this->input->post('manager');
+    $arrPriority = $this->input->post('priority');
+
+    foreach ($arrSeat as $key => $seat) {
+      $postData = array(
+        'rescode' => $idx,
+        'nickname' => html_escape($arrNickname[$key]),
+        'gender' => html_escape($arrGender[$key]),
+        'bus' => html_escape($arrBus[$key]),
+        'seat' => html_escape($seat),
+        'loc' => html_escape($arrLocation[$key]),
+        'memo' => html_escape($arrMemo[$key]),
+        'depositname' => html_escape($arrDepositName[$key]),
+        'vip' => html_escape($arrVip[$key]) == 'true' ? 1 : 0,
+        'manager' => html_escape($arrManager[$key]) == 'true' ? 1 : 0,
+        'priority' => html_escape($arrPriority[$key]) == 'true' ? 1 : 0,
+        'regdate' => time(),
+      );
+
+      $resIdx = html_escape($arrResIdx[$key]);
+
+      if (empty($resIdx)) {
+        $result = $this->admin_model->insertReserve($postData);
+      } else {
+        $result = $this->admin_model->updateReserve($postData, $resIdx);
+      }
+    }
+
+    $this->output->set_output(json_encode($result));
   }
 
   /**
