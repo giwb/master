@@ -21,20 +21,20 @@ class Story extends CI_Controller
   public function story_insert()
   {
     $now = time();
-    $input_data = $this->input->post();
-    $input_data['member_idx'] = 1;
-    $input_data['photo'] = html_escape($input_data['photo']);
-    $input_data['page'] = html_escape($input_data['page']);
+    $inputData = $this->input->post();
+    $inputData['member_idx'] = 1;
+    $inputData['photo'] = html_escape($inputData['photo']);
+    $inputData['page'] = html_escape($inputData['page']);
 
-    $insert_values = array(
-      'club_idx'    => html_escape($input_data['club_idx']),
-      'member_idx'  => html_escape($input_data['member_idx']),
-      'content'     => html_escape($input_data['content']),
-      'created_by'  => html_escape($input_data['member_idx']),
+    $insertValues = array(
+      'club_idx'    => html_escape($inputData['club_idx']),
+      'member_idx'  => html_escape($inputData['member_idx']),
+      'content'     => html_escape($inputData['content']),
+      'created_by'  => html_escape($inputData['member_idx']),
       'created_at'  => $now
     );
 
-    $idx = $this->story_model->insertStory($insert_values);
+    $idx = $this->story_model->insertStory($insertValues);
 
     if ($idx == '') {
       $return = array(
@@ -45,23 +45,23 @@ class Story extends CI_Controller
       // 파일 등록
       //foreach ($files as $value) {
         // 업로드 된 파일이 있을 경우에만 등록 후 이동
-        if (!empty($input_data['photo']) && file_exists(UPLOAD_PATH . $input_data['photo'])) {
+        if (!empty($inputData['photo']) && file_exists(UPLOAD_PATH . $inputData['photo'])) {
           $file_values = array(
-            'page' => $input_data['page'],
+            'page' => $inputData['page'],
             'page_idx' => $idx,
-            'filename' => $input_data['photo'],
+            'filename' => $inputData['photo'],
             'created_at' => $now
           );
           $this->file_model->insertFile($file_values);
 
           // 파일 이동
-          rename(UPLOAD_PATH . $input_data['photo'], PHOTO_PATH . $input_data['photo']);
+          rename(UPLOAD_PATH . $inputData['photo'], PHOTO_PATH . $inputData['photo']);
 
           // 썸네일 만들기
           $this->image_lib->clear();
           $config['image_library'] = 'gd2';
-          $config['source_image'] = PHOTO_PATH . $input_data['photo'];
-          $config['new_image'] = PHOTO_PATH . 'thumb_' . $input_data['photo'];
+          $config['source_image'] = PHOTO_PATH . $inputData['photo'];
+          $config['new_image'] = PHOTO_PATH . 'thumb_' . $inputData['photo'];
           $config['create_thumb'] = TRUE;
           $config['maintain_ratio'] = TRUE;
           $config['thumb_marker'] = '';

@@ -51,11 +51,37 @@ class Club_model extends CI_Model
   }
 
   // 등록된 산행 목록
-  public function listNotice($club_idx)
+  public function listNotice($club_idx, $status=NULL)
   {
     $this->db->select('*')
           ->from(DB_NOTICE)
+          ->where('club_idx', $club_idx)
           ->order_by('startdate', 'asc');
+
+    if (!is_null($status)) {
+      $this->db->where_in('status', $status);
+    }
+
+    return $this->db->get()->result_array();
+  }
+
+  // 등록된 산행 상세 정보
+  public function viewNotice($club_idx, $idx)
+  {
+    $this->db->select('*')
+          ->from(DB_NOTICE)
+          ->where('club_idx', $club_idx)
+          ->where('idx', $idx);
+    return $this->db->get()->row_array(1);
+  }
+
+  // 선택된 산행 예약 목록
+  public function viewProgress($club_idx, $rescode)
+  {
+    $this->db->select('*')
+          ->from(DB_RESERVATION)
+          ->where('club_idx', $club_idx)
+          ->where('rescode', $rescode);
     return $this->db->get()->result_array();
   }
 }

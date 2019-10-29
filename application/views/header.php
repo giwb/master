@@ -80,7 +80,7 @@
 <?php else: ?>
             <!--<li><button class="search-btn"><i class="fa fa-search"></i></button></li>-->
             <li>
-              <img class="img-profile" src="<?=base_url()?>public/images/profile.png">
+              <img class="img-profile" src="<?=base_url()?>public/photos/<?=$userData['idx']?>">
               <div class="profile-box">
                 <strong><?=$userData['nickname']?></strong><hr>
                 <a href="javascript:;">내 정보</a><br>
@@ -102,13 +102,11 @@
       <div id="nav-aside">
         <ul class="nav-aside-menu">
 <?php if ($userData['idx'] != ''): ?>
-          <li><img class="img-profile" src="<?=base_url()?>public/images/profile.png"><span class="header-nickname"><?=$userData['nickname']?></span></li>
+          <li><img class="img-profile" src="<?=base_url()?>public/photos/<?=$userData['idx']?>"><span class="header-nickname"><?=$userData['nickname']?></span></li>
 <?php else: ?>
           <li><p>&nbsp;</p></li>
 <?php endif; ?>
           <li><a href="<?=base_url()?>">TOP</a></li>
-          <li><a href="javascript:;">산행일정</a></li>
-          <li><a href="javascript:;">사진첩</a></li>
           <li><a href="http://tripkorea.net/place">여행정보</a></li>
           <li><a href="http://tripkorea.net/club">산악회정보</a></li>
 <?php if ($userData['idx'] == ''): ?>
@@ -137,3 +135,27 @@
     <!-- /NAV -->
   </header>
   <!-- /HEADER -->
+
+  <section id="club">
+    <div class="container">
+      <div class="club-left">
+        <div class="club-header">
+  <?php if (!empty($view['photo'][0])): ?>
+          <!-- 대표 사진 -->
+          <img src="<?=base_url()?><?=PHOTO_URL?><?=$view['photo'][0]?>">
+  <?php endif; ?>
+          <h3><?=$view['title']?></h3>
+        </div>
+        <div class="desc">
+          <?=$view['content']?>
+          ・설립년도 : <?=$view['establish']?>년<br>
+          ・단체유형 : <?=getClubType($view['club_type'])?><br>
+          ・제공사항 : <?=getClubOption($view['club_option'])?> / <?=$view['club_option_text']?><br>
+          ・운행주간 : <?=getClubCycle($view['club_cycle'])?><br>
+          ・운행시기 : <?=getClubWeek($view['club_week'])?><br>
+          ・승차위치 : <?=getClubGetonoff($view['club_geton'])?><br>
+          ・하차위치 : <?=getClubGetonoff($view['club_getoff'])?><br>
+          ・연락처 : <?=$view['phone']?><br>
+          <!--<?=$view['homepage'] != '' ? '<a target="_blank" href="' . $view['homepage'] . '" class="url">' . $view['homepage'] . '</a>' : ''?>-->
+        </div>
+      </div>

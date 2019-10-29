@@ -65,7 +65,8 @@ h4 {
 h5 {}
 
 p {
-  margin: 0px 0px 20px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 a {
@@ -287,7 +288,9 @@ textarea.input {
 ===========================================================*/
 
 #nav {
-  margin-bottom: 30px;
+  width: 100%;
+  position: fixed;
+  z-index: 10000;
 }
 
 #nav:after {
@@ -1885,7 +1888,7 @@ h1.nav-logo small {
 .profile-box hr { margin: 10px 0; }
 
 /* Club Main */
-#club { width: 100%; margin: 0 0 30px 0; }
+#club { width: 100%; margin: 0 0 30px 0; padding-top: 90px; }
 #club a:link, #club a:active, #club a:visited { color: #FF6C00; }
 #club a:hover { color: #0AB031; }
 #club .container { display: flex; display: -webkit-flex; }
@@ -1893,13 +1896,14 @@ h1.nav-logo small {
 #club .club-main { flex: 3; -webkit-flex: 3; margin: 0 20px; }
 #club .club-right { flex: 1; -webkit-flex: 1; }
 
-#club .club-left img { width: 100%; border: 1px solid #999; margin: 0 0 10px 0; }
-#club .club-left h3 { margin: 0px; }
+#club .club-left .club-header { display: table; margin-bottom: 10px; }
+#club .club-left .club-header img { width: 50px; display: table-cell; vertical-align: middle; margin-right: 10px; }
+#club .club-left .club-header h3 { margin: 0px; display: table-cell; vertical-align: middle; }
 #club .club-left ul.navi { font-size: 14px; border: 1px solid #d9d9d9; border-width: 1px 0; margin: 10px 0 15px 0; padding: 10px 0; }
 #club .club-left ul.navi li a { padding: 3px 0 3px 3px; display: block; }
 #club .club-left ul.navi li i { width: 20px; text-align: center; }
 #club .club-left .url { font-size: 12px; }
-#club .club-left .desc { font-size: 13px; text-align: justify; margin: 0 0 15px 0; }
+#club .club-left .desc { font-size: 13px; border: 1px solid #d9d9d9; border-width: 1px 0 0 0; text-align: justify; margin: 15px 0; padding: 15px 0; }
 #club .club-left .desc p { margin: 0 0 10px 0; }
 #club .club-left .banner { width: 100%; border: 1px solid #999; margin: 10px 0; padding: 10px 0; text-align: center; cursor: pointer; }
 
@@ -1940,6 +1944,29 @@ h1.nav-logo small {
 #club .club-right ul.club-gallery li img { -webkit-transition: 1.6s -webkit-transform; transition: 1.6s -webkit-transform; transition: 1.6s transform; transition: 1.6s transform, 1.6s -webkit-transform; }
 #club .club-right ul.club-gallery li img:hover { transform: scale(1.2); }
 
+#club .sub-contents { width: 100%!important; clear: both; margin: 0px; }
+#club .sub-contents h2 { font-size: 24px; font-family: "Malgun Gothic"; font-weight: bold; border-bottom: 1px solid #d9d9d9; padding-bottom: 20px; }
+#club .sub-contents .area-reservation { width: 100%; }
+#club .sub-contents .area-reservation .area-btn { height: 30px; margin: 20px 0 10px 0; }
+#club .sub-contents .area-bus-table { padding-top: 20px; }
+#club .sub-contents .area-bus-table table { width: 100%; font-size: 14px; margin: 0px; }
+#club .sub-contents .area-bus-table table thead th { border-top: 5px solid #E0552A; }
+#club .sub-contents .area-bus-table table th, .area-bus-table table td { padding: 0.5rem; vertical-align: middle; border: 1px solid #999; cursor: pointer; }
+#club .sub-contents .area-bus-table table td.table-blank { border: 0px; }
+#club .sub-contents .area-bus-table table tr:last-child td.table-blank { border-bottom: 1px solid #999; }
+#club .sub-contents .area-bus-table .male { background-color: #E5FAFF; }
+#club .sub-contents .area-bus-table .female { background-color: #FFEAFA; }
+#club .sub-contents .area-bus-table .active { background-color: #FFCC00; }
+#club .sub-contents .area-bus-table input.seat { width: 20px; }
+#club .sub-contents #reserveForm { text-align: center; margin: 10px 0; }
+#club .sub-contents #reserveForm .btn-reserve-confirm { display: none; }
+#club .sub-contents #addedInfo .reserve { font-size: 12px; background-color: #fff; border: 1px solid #999; margin: 10px 0; padding: 0.5rem 0 0.3rem 0.5rem; }
+#club .sub-contents #addedInfo .reserve input, #club .sub-contents #addedInfo .reserve select { font-size: 12px; }
+#club .sub-contents #addedInfo .reserve input { padding: 2px 4px; }
+#club .sub-contents #addedInfo .reserve input[type=checkbox] { margin: 3px 2px 0 4px; vertical-align: top; }
+#club .sub-contents #addedInfo .reserve select { padding: 3px 2px; }
+#club .sub-contents #addedInfo .reserve .btn { font-size: 12px; margin: 0 0 3px 3px; padding: 2px 5px; }
+
 #calendar .fc-event { padding: 5px 5px 4px 5px; }
 #calendar .fc-event.notice-status1 { color: #000; background-color: #FEECBF!important; }
 #calendar .fc-event.notice-status2 { color: #000; background-color: #F6C23E!important; }
@@ -1961,6 +1988,20 @@ h1.nav-logo small {
 #loginModal .modal-footer .modal-footer-left { float: left; }
 #loginModal .modal-footer .modal-footer-right { float: right; }
 #loginModal .modal-footer div button { font-size: 14px!important; }
+
+/* Member Entry Page */
+.memberForm { width: 680px; margin: 0 auto 50px; }
+.memberForm h2 { text-align: center; border-bottom: 1px solid #999; margin: 0 0 20px; padding: 0 0 20px; }
+.memberForm dl { width: 90%; display: table; margin: 10px auto; }
+.memberForm dl dt { width: 20%; display: table-cell; margin: 5px 0; vertical-align: middle; }
+.memberForm dl dd { position: relative; width: 80%; display: table-cell; margin: 5px 0; }
+.memberForm dl dd .form-control { width: 100%; }
+.memberForm dl dd label { margin: 0 20px 0 0; }
+.memberForm dl dd img { position: absolute; top: 10px; right: 10px; width: 20px; }
+.memberForm dl dd .photo { position: relative; width: 110px; top: auto; right: auto; display: block; }
+.memberForm dl dd .btn-upload { font-size: 14px; margin-top: 10px; padding: 5px 19px; }
+.memberForm .area-btn { border-top: 1px solid #999; margin: 20px 0 0 0; padding: 20px 0 0; text-align: center; }
+.memberForm .area-btn .btn { margin: 0 20px; }
 
 /* Responsive */
 @media only screen and (max-width: 767px) {
@@ -1993,4 +2034,12 @@ h1.nav-logo small {
   #loginModal dl dt { width: 30%; }
   #loginModal dl dd { width: 60%; }
   #loginModal .modal-footer div button { font-size: 12px!important; padding: .375rem .3rem; }
+
+  .memberForm { width: 100%; }
+  .memberForm h2 { text-align: center; border-bottom: 1px solid #999; margin: 20px 0; padding: 0 0 20px; }
+  .memberForm dl dt { width: 100%; display: block; }
+  .memberForm dl dd { width: 100%; display: block; }
+  .memberForm .col-sm-2 { width: 65px!important; padding: 3px 5px!important; }
+  .memberForm .col-sm-3 { width: 95px!important; padding: 3px 5px!important; }
+  .memberForm .area-btn { margin: 20px 0 0 0; }
 }

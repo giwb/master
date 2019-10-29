@@ -247,7 +247,7 @@
       dataType: 'json',
       type: 'post',
       beforeSend: function() {
-        $('.btn-upload').css('opacity', '0.5').prop('disabled', true).text('업로드중..');
+        $('.btn-upload').css('opacity', '0.5').prop('disabled', true).text('업로드중.....');
         $dom.val('');
       },
       success: function(result) {
@@ -261,6 +261,10 @@
             // 클럽 스토리
             $('.area-photo').append('<img src="' + result.message + '"><div class="icon-photo-delete" data-filename="' + result.filename + '"></div>');
             $('.btn-photo').hide();
+          } else if (page == 'member') {
+            // 회원가입
+            $('.photo').attr('src', result.message);
+            $('input[name=filename]').val(result.filename);
           } else {
             // 그 외
             var $domFiles = $('input[name=file_' + fileType + ']');
@@ -282,8 +286,11 @@
     e.preventDefault();
     var $dom = $(this);
     var formData = new FormData($('#loginForm')[0]);
+    var baseUrl = $('input[name=base_url]').val();
+    var clubIdx = $('input[name=club_idx]').val();
+
     $.ajax({
-      url: $('input[name=base_url]').val() + 'member/login',
+      url: baseUrl + 'member/login/' + clubIdx,
       data: formData,
       processData: false,
       contentType: false,
@@ -297,10 +304,121 @@
           $dom.css('opacity', '1').prop('disabled', false).text('로그인');
           $('.error-message').slideDown().text(result.message);
         } else {
-          location.reload();
+          location.replace(baseUrl);
         }
       }
     });
+  }).on('blur', '.check-userid', function() {
+    // 아이디 중복 체크
+    var $dom = $(this);
+    var userid = $('input[name=userid]').val();
+
+    if (userid != '') {
+      $.ajax({
+        url: $('input[name=base_url]').val() + 'member/check_userid',
+        data: 'userid=' + userid + '&club_idx=' + $('input[name=club_idx]').val(),
+        dataType: 'json',
+        type: 'post',
+        success: function(result) {
+          $('img', $dom).remove();
+          $dom.append(result.message);
+        }
+      });
+    } else {
+      $('img', $dom).remove();
+    }
+  }).on('blur', '.check-nickname', function() {
+    // 닉네임 중복 체크
+    var $dom = $(this);
+    var nickname = $('input[name=nickname]').val();
+
+    if (nickname != '') {
+      $.ajax({
+        url: $('input[name=base_url]').val() + 'member/check_nickname',
+        data: 'nickname=' + nickname + '&club_idx=' + $('input[name=club_idx]').val(),
+        dataType: 'json',
+        type: 'post',
+        success: function(result) {
+          $('img', $dom).remove();
+          $dom.append(result.message);
+        }
+      });
+    } else {
+      $('img', $dom).remove();
+    }
+  }).on('blur', '.check-password', function() {
+    // 비밀번호 확인
+    var $dom = $('.check-password-message');
+    $('img', $dom).remove();
+
+    if ($('input[name=password]').val() == $('input[name=password_check]').val()) {
+      $dom.append('<img class="check-password-complete" src="/public/images/icon_check.png">')
+    } else {
+      $dom.append('<img src="/public/images/icon_cross.png">')
+    }
+  }).on('click', '.btn-entry', function() {
+    // 회원가입
+    if ($('.check-userid img').hasClass('check-userid-complete') == false) {
+      $.openMsgModal('아이디를 확인해주세요.');
+      return false;
+    }
+    if ($('.check-nickname img').hasClass('check-nickname-complete') == false) {
+      $.openMsgModal('닉네임을 확인해주세요.');
+      return false;
+    }
+    if ($('.check-password img').hasClass('check-password-complete') == false) {
+      $.openMsgModal('비밀번호를 확인해주세요.');
+      return false;
+    }
+    if ($('input[name=realname]').val() == '') {
+      $.openMsgModal('실명은 꼭 입력해주세요.');
+      return false;
+    }
+    if ($('input:radio[name=gender]').is(':checked') == false) {
+      $.openMsgModal('성별은 꼭 선택해주세요.');
+      return false;
+    }
+    if ($('select[name=birthday_year]').val() == '' || $('select[name=birthday_month]').val() == '' || $('select[name=birthday_day]').val() == '') {
+      $.openMsgModal('생년월일은 꼭 선택해주세요.');
+      return false;
+    }
+    if ($('input:radio[name=birthday_type]').is(':checked') == false) {
+      $.openMsgModal('양력/음력은 꼭 선택해주세요.');
+      return false;
+    }
+    if ($('input[name=phone1]').val() == '' || $('input[name=phone2]').val() == '' || $('input[name=phone3]').val() == '') {
+      $.openMsgModal('전화번호는 꼭 입력해주세요.');
+      return false;
+    }
+
+    var $btn = $(this);
+    var formData = new FormData($('#entryForm')[0]);
+    var baseUrl = $('input[name=base_url]').val();
+
+    $.ajax({
+      url: baseUrl + 'member/insert',
+      data: formData,
+      processData: false,
+      contentType: false,
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+      },
+      success: function(result) {
+        if (result.error == 1) {
+          $btn.css('opacity', '1').prop('disabled', false).text('등록합니다');
+          $.openMsgModal(result.message)
+        } else {
+          $('#messageModal .modal-message').text('회원가입이 성공적으로 완료되었습니다.');
+          $('#messageModal .btn').hide();
+          $('#messageModal .btn-top').show();
+          $('#messageModal').modal({backdrop: 'static', keyboard: false});
+        }
+      }
+    });
+  }).on('click', '.btn-upload', function() {
+    $(this).prev().click();
   }).on('click', '.input-login', function() {
     // 에러 메세지 없애기
     $('.error-message').slideUp();
@@ -372,6 +490,106 @@
         }
       }
     });
+}).on('click', '.area-bus-table .seat', function() {
+    // 산행 예약/수정 버튼
+    var resIdx = $(this).data('id');
+    var bus = $(this).data('bus');
+    var seat = $(this).data('seat');
+
+    // 좌석 배경색 토글
+    if ($(this).hasClass('active')) {
+      // 삭제
+      $(this).removeClass('active');
+      $('#addedInfo .reserve[data-seat=' + seat + ']').remove();
+
+      // 예약 내용이 없으면 예약 확정 버튼 삭제
+      if ($('#addedInfo .reserve').length == 0) $('.btn-reserve-confirm').hide();
+    } else {
+      // 예약 활성화
+      $(this).addClass('active');
+      $.viewReserveInfo(resIdx, bus, seat); // 예약 정보
+    }
+  }).on('click', '.btn-reserve-confirm', function() {
+    // 예약 확정
+    var $btn = $(this);
+    var formCheck = true;
+    var formData = new FormData($('#reserveForm')[0]);
+
+    // 체크박스는 formData에 들어가지 않으니 수동으로 확인
+    formData.delete('vip[]');
+    formData.delete('manager[]');
+    formData.delete('priority[]');
+    var checkbox = $("#reserveForm").find("input[type=checkbox]");
+    $.each(checkbox, function(i, v) {
+      formData.append($(v).attr('name'), $(this).is(':checked'))
+    });
+
+    // 예약시 닉네임은 필수
+    $('.nickname').each(function() {
+      if ($(this).val() == '') {
+        $('#messageModal .modal-footer .btn').hide();
+        $('#messageModal .modal-footer .btn-close').show();
+        $('#messageModal .modal-message').text('닉네임은 꼭 모두 입력해주세요.');
+        $('#messageModal').modal('show');
+        formCheck = false;
+        return false;
+      }
+    });
+
+    if (formCheck == true) {
+      $.ajax({
+        url: $('#reserveForm').attr('action'),
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: 'json',
+        type: 'post',
+        beforeSend: function() {
+          $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+        },
+        success: function() {
+          location.reload();
+        }
+      });
+    }
   });
+
+  // 예약 정보
+  $.viewReserveInfo = function(resIdx, bus, seat) {
+    var cnt = 0;
+    var selected = '';
+    $.ajax({
+      url: $('input[name=base_url]').val() + 'admin/reserve_information',
+      data: 'idx=' + $('input[name=idx]').val() + '&resIdx=' + resIdx,
+      dataType: 'json',
+      type: 'post',
+      success: function(reserveInfo) {
+        var header = '<div class="reserve" data-seat="' + seat + '"><input type="hidden" name="resIdx[]" value="' + resIdx + '">';
+        var nickname = '<input type="text" name="nickname[]" size="20" placeholder="닉네임" class="nickname" value="' + reserveInfo.reserve.nickname + '"> ';
+        var gender = '<select name="gender[]"><option'; if (reserveInfo.reserve.gender == 'M') gender += ' selected'; gender += ' value="M">남</option><option '; if (reserveInfo.reserve.gender == 'F') gender += ' selected'; gender +=' value="F">여</option></select> ';
+        var busType = '<select name="bus[]">'; $.each(reserveInfo.busType, function(i, v) { if (v.idx == '') v.idx = '버스'; cnt = i + 1; if (cnt == bus) selected = ' selected'; else selected = ''; busType += '<option' + selected + ' value="' + cnt + '">' + cnt + '호차</option>'; }); busType += '</select> ';
+        var selectSeat = '<select name="seat[]">'; $.each(reserveInfo.seat, function(i, v) { if (v == seat) selected = ' selected'; else selected = ''; selectSeat += '<option' + selected + ' value="' + v + '">' + v + '번</option>'; }); selectSeat += '</select> ';
+        var location = '<select name="location[]">'; $.each(reserveInfo.location, function(i, v) { if (v == '') v = '승차위치'; cnt = i + 1; if (reserveInfo.reserve.loc == i) selected = ' selected'; else selected = ''; location += '<option' + selected + ' value="' + i + '">' + v + '</option>'; }); location += '</select> ';
+        //var breakfast = '<select name="breakfast[]">'; $.each(reserveInfo.breakfast, function(i, v) { if (v == '') v = '아침식사'; cnt = i + 1; if (reserveInfo.reserve.bref == i) selected = ' selected'; else selected = ''; breakfast += '<option' + selected + ' value="' + cnt + '">' + v + '</option>'; }); breakfast += '</select> ';
+        var depositname = '<input type="text" name="depositname[]" size="20" placeholder="입금자명" value="' + reserveInfo.reserve.depositname + '">';
+        var memo = '<div class="mt-1"><input type="text" name="memo[]" size="40" placeholder="메모" value="' + reserveInfo.reserve.memo + '"> ';
+        var options = '<label><input'; if (reserveInfo.reserve.vip == 1) options += ' checked'; options += ' type="checkbox" name="vip[]">평생회원</label> <label><input'; if (reserveInfo.reserve.manager == 1) options += ' checked'; options += ' type="checkbox" name="manager[]">운영진우선</label> <label><input'; if (reserveInfo.reserve.priority == 1) options += ' checked'; options += ' type="checkbox" name="priority[]">2인우선</label> ';
+        if (resIdx != '') var button = '<button type="button" class="btn btn-secondary btn-reserve-deposit" data-idx="' + resIdx + '">입금확인</button> <button type="button" class="btn btn-secondary btn-reserve-cancel" data-idx="' + resIdx + '">예약취소</button> '; else var button = ''; // 수정일 경우에만
+        var footer = '</div></div>';
+        $('#addedInfo').append(header + busType + selectSeat + nickname + gender + location + depositname + memo + options + button + footer);
+
+        // 예약 확정 버튼
+        if ($('.btn-reserve-confirm').is(':visible') == false) $('.btn-reserve-confirm').show();
+      }
+    });
+  }
+
+  // 메세지 모달
+  $.openMsgModal = function(msg) {
+    $('#messageModal .modal-footer .btn').hide();
+    $('#messageModal .modal-footer .btn-close').show();
+    $('#messageModal .modal-message').text(msg);
+    $('#messageModal').modal('show');
+  }
 
 })(jQuery);
