@@ -1960,7 +1960,7 @@ h1.nav-logo small {
 #club .sub-contents .area-bus-table input.seat { width: 20px; }
 #club .sub-contents #reserveForm { text-align: center; margin: 10px 0; }
 #club .sub-contents #reserveForm .btn-reserve-confirm { display: none; }
-#club .sub-contents #addedInfo .reserve { font-size: 12px; background-color: #fff; border: 1px solid #999; margin: 10px 0; padding: 0.5rem 0 0.3rem 0.5rem; }
+#club .sub-contents #addedInfo .reserve { font-size: 12px; background-color: #fff; border: 1px solid #999; margin: 10px 0; padding: 0.5rem 0.3rem; }
 #club .sub-contents #addedInfo .reserve input, #club .sub-contents #addedInfo .reserve select { font-size: 12px; }
 #club .sub-contents #addedInfo .reserve input { padding: 2px 4px; }
 #club .sub-contents #addedInfo .reserve input[type=checkbox] { margin: 3px 2px 0 4px; vertical-align: top; }

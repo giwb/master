@@ -565,18 +565,12 @@
       type: 'post',
       success: function(reserveInfo) {
         var header = '<div class="reserve" data-seat="' + seat + '"><input type="hidden" name="resIdx[]" value="' + resIdx + '">';
-        var nickname = '<input type="text" name="nickname[]" size="20" placeholder="닉네임" class="nickname" value="' + reserveInfo.reserve.nickname + '"> ';
-        var gender = '<select name="gender[]"><option'; if (reserveInfo.reserve.gender == 'M') gender += ' selected'; gender += ' value="M">남</option><option '; if (reserveInfo.reserve.gender == 'F') gender += ' selected'; gender +=' value="F">여</option></select> ';
-        var busType = '<select name="bus[]">'; $.each(reserveInfo.busType, function(i, v) { if (v.idx == '') v.idx = '버스'; cnt = i + 1; if (cnt == bus) selected = ' selected'; else selected = ''; busType += '<option' + selected + ' value="' + cnt + '">' + cnt + '호차</option>'; }); busType += '</select> ';
-        var selectSeat = '<select name="seat[]">'; $.each(reserveInfo.seat, function(i, v) { if (v == seat) selected = ' selected'; else selected = ''; selectSeat += '<option' + selected + ' value="' + v + '">' + v + '번</option>'; }); selectSeat += '</select> ';
+        var busType = bus + '호차 ';
+        var selectSeat = seat + '번 ';
         var location = '<select name="location[]">'; $.each(reserveInfo.location, function(i, v) { if (v == '') v = '승차위치'; cnt = i + 1; if (reserveInfo.reserve.loc == i) selected = ' selected'; else selected = ''; location += '<option' + selected + ' value="' + i + '">' + v + '</option>'; }); location += '</select> ';
-        //var breakfast = '<select name="breakfast[]">'; $.each(reserveInfo.breakfast, function(i, v) { if (v == '') v = '아침식사'; cnt = i + 1; if (reserveInfo.reserve.bref == i) selected = ' selected'; else selected = ''; breakfast += '<option' + selected + ' value="' + cnt + '">' + v + '</option>'; }); breakfast += '</select> ';
-        var depositname = '<input type="text" name="depositname[]" size="20" placeholder="입금자명" value="' + reserveInfo.reserve.depositname + '">';
-        var memo = '<div class="mt-1"><input type="text" name="memo[]" size="40" placeholder="메모" value="' + reserveInfo.reserve.memo + '"> ';
-        var options = '<label><input'; if (reserveInfo.reserve.vip == 1) options += ' checked'; options += ' type="checkbox" name="vip[]">평생회원</label> <label><input'; if (reserveInfo.reserve.manager == 1) options += ' checked'; options += ' type="checkbox" name="manager[]">운영진우선</label> <label><input'; if (reserveInfo.reserve.priority == 1) options += ' checked'; options += ' type="checkbox" name="priority[]">2인우선</label> ';
-        if (resIdx != '') var button = '<button type="button" class="btn btn-secondary btn-reserve-deposit" data-idx="' + resIdx + '">입금확인</button> <button type="button" class="btn btn-secondary btn-reserve-cancel" data-idx="' + resIdx + '">예약취소</button> '; else var button = ''; // 수정일 경우에만
-        var footer = '</div></div>';
-        $('#addedInfo').append(header + busType + selectSeat + nickname + gender + location + depositname + memo + options + button + footer);
+        var memo = '<input type="text" name="memo[]" size="20" placeholder="요청사항" value="' + reserveInfo.reserve.memo + '">';
+        var footer = '</div>';
+        $('#addedInfo').append(header + busType + selectSeat + location + memo + footer);
 
         // 예약 확정 버튼
         if ($('.btn-reserve-confirm').is(':visible') == false) $('.btn-reserve-confirm').show();
