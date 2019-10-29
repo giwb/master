@@ -514,6 +514,18 @@
     var $btn = $(this);
     var formCheck = true;
     var formData = new FormData($('#reserveForm')[0]);
+    var cnt = 0;
+
+    // 승차위치 선택 확인
+    $('.location').each(function() {
+      if ($(this).val() == 0) {
+        cnt++;
+      }
+    });
+    if (cnt >= 1) {
+      $.openMsgModal('승차위치는 꼭 선택해주세요.');
+      return false;
+    }
 
     if (formCheck == true) {
       $.ajax({
@@ -546,7 +558,7 @@
         var header = '<div class="reserve" data-seat="' + seat + '"><input type="hidden" name="resIdx[]" value="' + resIdx + '">';
         var busType = bus + '호차 ';
         var selectSeat = seat + '번 ';
-        var location = '<select name="location[]">'; $.each(reserveInfo.location, function(i, v) { if (v == '') v = '승차위치'; cnt = i + 1; if (reserveInfo.reserve.loc == i) selected = ' selected'; else selected = ''; location += '<option' + selected + ' value="' + i + '">' + v + '</option>'; }); location += '</select> ';
+        var location = '<select name="location[]" class="location">'; $.each(reserveInfo.location, function(i, v) { if (v == '') v = '승차위치'; cnt = i + 1; if (reserveInfo.reserve.loc == i) selected = ' selected'; else selected = ''; location += '<option' + selected + ' value="' + i + '">' + v + '</option>'; }); location += '</select> ';
         var memo = '<input type="text" name="memo[]" size="20" placeholder="요청사항" value="' + reserveInfo.reserve.memo + '">';
         var footer = '</div>';
         $('#addedInfo').append(header + busType + selectSeat + location + memo + footer);
