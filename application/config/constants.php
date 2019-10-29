@@ -107,6 +107,7 @@ defined('DB_RESERVATION') OR define('DB_RESERVATION', 'giwb_reservation');
 // 산행 상태
 defined('STATUS_NONE')    OR define('STATUS_NONE', 0);
 defined('STATUS_ABLE')    OR define('STATUS_ABLE', 1);
+defined('STATUS_CONFIRM') OR define('STATUS_CONFIRM', 2);
 defined('STATUS_CANCLE')  OR define('STATUS_CANCLE', 8);
 defined('STATUS_CLOSED')  OR define('STATUS_CLOSED', 9);
 

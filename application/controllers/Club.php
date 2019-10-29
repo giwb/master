@@ -114,7 +114,7 @@ class Club extends CI_Controller
     $headerData['uri'] = 'top';
 
     // 진행 중 산행
-    $footerData['listNotice'] = $this->club_model->listNotice($viewData['view']['idx'], array(STATUS_NONE, STATUS_ABLE));
+    $footerData['listNotice'] = $this->club_model->listNotice($viewData['view']['idx'], array(STATUS_NONE, STATUS_ABLE, STATUS_CONFIRM));
 
     $this->load->view('header', $headerData);
     $this->load->view($viewPage, $viewData);
