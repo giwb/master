@@ -60,7 +60,7 @@
               <form id="reserveForm" method="post" action="<?=base_url()?>club/reserve_insert">
                 <div id="addedInfo"></div>
                 <input type="hidden" name="idx" value="<?=$notice['idx']?>">
-                <button type="button" class="btn btn-primary btn-reserve-confirm">예약을 확정합니다</button>
+                <button type="button" class="btn btn-primary btn-reserve-confirm">예약신청</button>
               </form>
 
             </div>
