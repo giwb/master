@@ -105,10 +105,15 @@ class Club extends CI_Controller
    * @return json
    * @author bjchoi
    **/
-  public function reserve_complete()
+  public function reserve_insert()
   {
-    print_r($this->input->post());
-    exit;
+    //print_r($this->input->post());
+    $result = array(
+      'error' => 0,
+      'url' => base_url() . 'club/reserve_check/1?n=407&c=1000'
+    );
+    $this->output->set_output(json_encode($result));
+/*
     $idx = html_escape($this->input->post('idx'));
     $arrResIdx = $this->input->post('resIdx');
     $arrSeat = $this->input->post('seat');
@@ -148,6 +153,57 @@ class Club extends CI_Controller
     }
 
     $this->output->set_output(json_encode($result));
+*/
+  }
+
+  /**
+   * 예약 확인
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function reserve_check($club_idx=NULL)
+  {
+    if (is_null($club_idx)) {
+      $club_idx = 1; // 최초는 경인웰빙
+    } else {
+      $club_idx = html_escape($club_idx);
+    }
+    $idx = html_escape($this->input->get('n'));
+
+    $viewData['view'] = $this->club_model->viewClub($club_idx);
+    $viewData['view']['photo'] = array();
+    $viewData['view']['content'] = nl2br(reset_html_escape($viewData['view']['content']));
+
+    $files = $this->file_model->getFile('club', $club_idx);
+
+    foreach ($files as $key => $value) {
+      if (!$value['filename'] == '') {
+        $viewData['view']['photo'][$key] = $value['filename'];
+      } else {
+        $viewData['view']['photo'][$key] = '';
+      }
+    }
+
+    // 등록된 산행 목록
+    $viewData['listNotice'] = $this->club_model->listNotice($club_idx);
+
+    if (!empty($idx)) {
+      // 예약 공지
+      $viewData['notice'] = $this->club_model->viewNotice($club_idx, $idx);
+
+      // 버스 형태별 좌석 배치
+      $viewData['busType'] = getBusType($viewData['notice']['bustype'], $viewData['notice']['bus']);
+
+      // 예약 정보
+      $viewData['reserve'] = $this->club_model->viewProgress($club_idx, $idx);
+    } else {
+      $viewData['notice'] = array();
+      $viewData['busType'] = array();
+      $viewData['reserve'] = array();
+    }
+
+    $this->_viewPage('club/check', $viewData);
   }
 
   /**

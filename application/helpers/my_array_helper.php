@@ -323,6 +323,21 @@ if (!function_exists('getReserve')) {
   }
 }
 
+// 예약자 정보 확인
+if (!function_exists('getCheck')) {
+  function getCheck($reservation, $bus, $seat) {
+    $result = array('idx' => '', 'nickname' => '', 'class' => '');
+    foreach ($reservation as $value) {
+      if ($value['bus'] == $bus && $value['seat'] == $seat) {
+        if ($value['gender'] == 'M') $value['class'] = ' male';
+        elseif ($value['gender'] == 'F') $value['class'] = ' female';
+        $result = $value;
+      }
+    }
+    return $result;
+  }
+}
+
 // 단체 유형
 if (!function_exists('getClubType')) {
   function getClubType($data) {

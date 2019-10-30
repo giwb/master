@@ -142,11 +142,26 @@
         <div class="club-header">
   <?php if (!empty($view['photo'][0])): ?>
           <!-- 대표 사진 -->
-          <img src="<?=base_url()?><?=PHOTO_URL?><?=$view['photo'][0]?>">
+          <!--<img src="<?=base_url()?><?=PHOTO_URL?><?=$view['photo'][0]?>">-->
+          <img src="http://giwb.localhost/public/photos/157163703348608.jpg">
   <?php endif; ?>
           <h3><?=$view['title']?></h3>
         </div>
+        <?=$view['homepage'] != '' ? '<a target="_blank" href="' . $view['homepage'] . '" class="url">' . $view['homepage'] . '</a>' : ''?>
+        <ul class="navi">
+          <li>・산악회 소개</li>
+          <li>・등산 안내인 소개</li>
+          <li>・이용안내</li><br>
+          <li>・백산백소 소개</li>
+          <li>・백산백소 인증현황</li><br>
+          <li>・지난 산행보기</li>
+        </ul>
         <div class="desc">
+        ・개설일 : <?=$view['establish']?>년<br>
+        ・관리자 : 캔총무<br>
+        ・회원수 : 2470명 / 오늘 5명<br>
+        ・방문수 : 22470회 / 오늘 10명<br>
+          <!--
           <?=$view['content']?>
           ・설립년도 : <?=$view['establish']?>년<br>
           ・단체유형 : <?=getClubType($view['club_type'])?><br>
@@ -156,6 +171,6 @@
           ・승차위치 : <?=getClubGetonoff($view['club_geton'])?><br>
           ・하차위치 : <?=getClubGetonoff($view['club_getoff'])?><br>
           ・연락처 : <?=$view['phone']?><br>
-          <!--<?=$view['homepage'] != '' ? '<a target="_blank" href="' . $view['homepage'] . '" class="url">' . $view['homepage'] . '</a>' : ''?>-->
+          <?=$view['homepage'] != '' ? '<a target="_blank" href="' . $view['homepage'] . '" class="url">' . $view['homepage'] . '</a>' : ''?>-->
         </div>
       </div>

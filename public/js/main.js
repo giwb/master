@@ -410,9 +410,9 @@
           $btn.css('opacity', '1').prop('disabled', false).text('등록합니다');
           $.openMsgModal(result.message)
         } else {
-          $('#messageModal .modal-message').text('회원가입이 성공적으로 완료되었습니다.');
           $('#messageModal .btn').hide();
           $('#messageModal .btn-top').show();
+          $('#messageModal .modal-message').text('회원가입이 성공적으로 완료되었습니다.');
           $('#messageModal').modal({backdrop: 'static', keyboard: false});
         }
       }
@@ -510,7 +510,7 @@
       $.viewReserveInfo(resIdx, bus, seat); // 예약 정보
     }
   }).on('click', '.btn-reserve-confirm', function() {
-    // 예약 확정
+    // 좌석 예약
     var $btn = $(this);
     var formCheck = true;
     var formData = new FormData($('#reserveForm')[0]);
@@ -538,11 +538,20 @@
         beforeSend: function() {
           $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
         },
-        success: function() {
-          location.reload();
+        success: function(result) {
+          if (result.error == 1) {
+            $('#messageModal .btn').hide();
+            $('#messageModal .btn-refresh').show();
+            $('#messageModal .modal-message').text('이미 예약된 좌석입니다. 다시 예약해주세요.');
+            $('#messageModal').modal({backdrop: 'static', keyboard: false});
+          } else {
+            location.replace(result.url);
+          }
         }
       });
     }
+  }).on('click', '.btn-refresh', function() {
+    location.reload();
   });
 
   // 예약 정보

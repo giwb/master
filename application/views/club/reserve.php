@@ -3,9 +3,9 @@
       <div class="club-main">
         <div class="sub-contents">
           <h2><b>[<?=viewStatus($notice['status'])?>]</b> <?=$notice['subject']?></h2>
-          산행분담금 : <?=number_format($notice['cost'])?>원 (<?=calcTerm($notice['startdate'], $notice['starttime'], $notice['enddate'], $notice['schedule'])?>)<br>
           산행일시 : <?=$notice['startdate']?> (<?=calcWeek($notice['startdate'])?>) <?=$notice['starttime']?><br>
-          예약인원 : <?=cntRes($notice['idx'])?>명<br>
+          산행분담금 : <?=number_format($notice['cost'])?>원 (<?=calcTerm($notice['startdate'], $notice['starttime'], $notice['enddate'], $notice['schedule'])?>)<br>
+          <?=!empty($notice['content']) ? "산행코스 : " . $notice['content'] : ""?>
 
           <div class="area-reservation">
 <?php
@@ -29,13 +29,14 @@
                 </colgroup>
                 <thead>
                   <tr>
-                    <th colspan="10"><?=$bus?>호차 - <?=$value['bus_name']?> (<?=$value['bus_owner']?>)</td>
+                    <th colspan="7" style="border-right: 0px;"><?=$bus?>호차 - <?=$value['bus_name']?> (<?=$value['bus_owner']?> 기사님)</td>
+                    <th colspan="3" style="border-left: 0px;" class="text-right">예약인원 : <?=cntRes($notice['idx'])?>명</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <th colspan="4" align="left">운전석</th>
-                    <th colspan="6" style="text-align: right;">출입구</th>
+                    <th colspan="4" class="text-left">운전석</th>
+                    <th colspan="6" class="text-right">출입구</th>
                   </tr>
 <?php
     // 버스 형태 좌석 배치
@@ -56,7 +57,7 @@
   endforeach;
 ?>
 
-              <form id="reserveForm" method="post" action="<?=base_url()?>club/reserve_complete">
+              <form id="reserveForm" method="post" action="<?=base_url()?>club/reserve_insert">
                 <div id="addedInfo"></div>
                 <input type="hidden" name="idx" value="<?=$notice['idx']?>">
                 <button type="button" class="btn btn-primary btn-reserve-confirm">예약을 확정합니다</button>
