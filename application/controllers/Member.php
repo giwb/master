@@ -46,7 +46,7 @@ class Member extends CI_Controller
       'message' => '로그인에 실패했습니다. 다시 로그인 해주세요.'
     );
 
-    if ($userid != '' || $password != '') {
+    if ($userid != '' && $password != '') {
       $userData = $this->member_model->checkLogin($userid, md5($password), $club_idx);
 
       if ($userData['idx'] != '') {

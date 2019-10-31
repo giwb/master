@@ -1955,6 +1955,7 @@ h1.nav-logo small {
 #club .sub-contents .area-bus-table table tr:last-child td.table-blank { border-bottom: 1px solid #999; }
 #club .sub-contents .area-bus-table .male { background-color: #E5FAFF; }
 #club .sub-contents .area-bus-table .female { background-color: #FFEAFA; }
+#club .sub-contents .area-bus-table .reserved { background-color: #FBEFD8; }
 #club .sub-contents .area-bus-table .active { background-color: #FFCC00; }
 #club .sub-contents .area-bus-table input.seat { width: 20px; }
 #club .sub-contents #reserveForm { text-align: center; margin: 10px 0; }

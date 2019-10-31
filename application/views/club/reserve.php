@@ -42,11 +42,11 @@
     // 버스 형태 좌석 배치
     foreach (range(1, $value['seat']) as $seat):
       $tableMake = getBusTableMake($value['seat'], $value['direction'], $seat); // 버스 좌석 테이블 만들기
-      $reserveInfo = getReserve($reserve, $bus, $seat); // 예약자 정보
+      $reserveInfo = getReserve($reserve, $bus, $seat, $userData); // 예약자 정보
 ?>
                     <?=$tableMake?>
                     <td><?=$seat?></td>
-                    <td class="seat<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>" data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$reserveInfo['nickname']?></td>
+                    <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>" data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$reserveInfo['nickname']?></td>
 <?php
     endforeach;
 ?>
@@ -56,10 +56,10 @@
 <?php
   endforeach;
 ?>
-
               <form id="reserveForm" method="post" action="<?=base_url()?>club/reserve_insert">
                 <div id="addedInfo"></div>
-                <input type="hidden" name="idx" value="<?=$notice['idx']?>">
+                <input type="hidden" name="club_idx" value="<?=$view['idx']?>">
+                <input type="hidden" name="notice_idx" value="<?=$notice['idx']?>">
                 <button type="button" class="btn btn-primary btn-reserve-confirm">예약신청</button>
               </form>
 

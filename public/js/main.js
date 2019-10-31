@@ -542,10 +542,10 @@
           if (result.error == 1) {
             $('#messageModal .btn').hide();
             $('#messageModal .btn-refresh').show();
-            $('#messageModal .modal-message').text('이미 예약된 좌석입니다. 다시 예약해주세요.');
+            $('#messageModal .modal-message').text(result.message);
             $('#messageModal').modal({backdrop: 'static', keyboard: false});
           } else {
-            location.replace(result.url);
+            location.replace(result.message);
           }
         }
       });
@@ -565,8 +565,8 @@
       type: 'post',
       success: function(reserveInfo) {
         var header = '<div class="reserve" data-seat="' + seat + '"><input type="hidden" name="resIdx[]" value="' + resIdx + '">';
-        var busType = bus + '호차 ';
-        var selectSeat = seat + '번 ';
+        var busType = bus + '호차<input type="hidden" name="bus[]" value="' + bus + '"> ';
+        var selectSeat = seat + '번<input type="hidden" name="seat[]" value="' + seat + '"> ';
         var location = '<select name="location[]" class="location">'; $.each(reserveInfo.location, function(i, v) { if (v == '') v = '승차위치'; cnt = i + 1; if (reserveInfo.reserve.loc == i) selected = ' selected'; else selected = ''; location += '<option' + selected + ' value="' + i + '">' + v + '</option>'; }); location += '</select> ';
         var memo = '<input type="text" name="memo[]" size="20" placeholder="요청사항" value="' + reserveInfo.reserve.memo + '">';
         var footer = '</div>';

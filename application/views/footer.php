@@ -1,24 +1,19 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
       <div class="club-right">
-        <h3><i class="fa fa-calendar" aria-hidden="true"></i> 진행 중 산행</h3>
+        <h3><i class="fa fa-calendar" aria-hidden="true"></i> 현재 진행중인 산행</h3>
         <ul class="club-schedule">
 <?php foreach ($listNotice as $value): ?>
           <li><a href="<?=base_url()?>club/reserve/<?=$value['club_idx']?>?n=<?=$value['idx']?>"><strong><?=$value['subject']?></strong></a><br>
           <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost'])?>원 / <?=cntRes($value['idx'])?>명</li>
 <?php endforeach; ?>
         </ul>
-        <h3><i class="fa fa-camera" aria-hidden="true"></i> 사진첩</h3>
-        <ul class="club-gallery">
-          <li><a href="#"><img src="<?=base_url()?>public/images/sample_photo_2.jpg"></a></li>
-          <li><a href="#"><img src="<?=base_url()?>public/images/sample_photo_3.jpg"></a></li>
-          <li><a href="#"><img src="<?=base_url()?>public/images/sample_photo_4.jpg"></a></li>
-        </ul>
       </div>
     </div>
   </section>
 
   <input type="hidden" name="base_url" value="<?=base_url()?>">
+  <input type="hidden" name="club_idx" value="<?=$view['idx']?>">
 
   <!-- Login Modal -->
   <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">

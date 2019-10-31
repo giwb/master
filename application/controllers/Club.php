@@ -9,7 +9,7 @@ class Club extends CI_Controller
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
     $this->load->library('session');
-    $this->load->model(array('admin_model', 'club_model', 'file_model', 'notice_model', 'story_model'));
+    $this->load->model(array('club_model', 'file_model', 'notice_model', 'story_model'));
   }
 
   /**
@@ -18,33 +18,22 @@ class Club extends CI_Controller
    * @return view
    * @author bjchoi
    **/
-  public function index($club_idx=NULL)
+  public function index($clubIdx=NULL)
   {
-    if (is_null($club_idx)) {
-      $club_idx = 1; // 최초는 경인웰빙
+    if (is_null($clubIdx)) {
+      $clubIdx = 1; // 최초는 경인웰빙
     } else {
-      $club_idx = html_escape($club_idx);
+      $clubIdx = html_escape($clubIdx);
     }
 
-    $viewData['view'] = $this->club_model->viewClub($club_idx);
-    $viewData['view']['photo'] = array();
-    $viewData['view']['content'] = nl2br(reset_html_escape($viewData['view']['content']));
-
-    $files = $this->file_model->getFile('club', $club_idx);
-
-    foreach ($files as $key => $value) {
-      if (!$value['filename'] == '') {
-        $viewData['view']['photo'][$key] = $value['filename'];
-      } else {
-        $viewData['view']['photo'][$key] = '';
-      }
-    }
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
     // 등록된 산행 목록
-    $viewData['listNotice'] = $this->club_model->listNotice($club_idx);
+    $viewData['listNotice'] = $this->club_model->listNotice($clubIdx);
 
     // 클럽 이야기
-    $viewData['listStory'] = $this->story_model->listStory($club_idx);
+    $viewData['listStory'] = $this->story_model->listStory($clubIdx);
 
     $this->_viewPage('club/index', $viewData);
   }
@@ -55,41 +44,30 @@ class Club extends CI_Controller
    * @return view
    * @author bjchoi
    **/
-  public function reserve($club_idx=NULL)
+  public function reserve($clubIdx=NULL)
   {
-    if (is_null($club_idx)) {
-      $club_idx = 1; // 최초는 경인웰빙
+    if (is_null($clubIdx)) {
+      $clubIdx = 1; // 최초는 경인웰빙
     } else {
-      $club_idx = html_escape($club_idx);
+      $clubIdx = html_escape($clubIdx);
     }
-    $idx = html_escape($this->input->get('n'));
+    $noticeIdx = html_escape($this->input->get('n'));
 
-    $viewData['view'] = $this->club_model->viewClub($club_idx);
-    $viewData['view']['photo'] = array();
-    $viewData['view']['content'] = nl2br(reset_html_escape($viewData['view']['content']));
-
-    $files = $this->file_model->getFile('club', $club_idx);
-
-    foreach ($files as $key => $value) {
-      if (!$value['filename'] == '') {
-        $viewData['view']['photo'][$key] = $value['filename'];
-      } else {
-        $viewData['view']['photo'][$key] = '';
-      }
-    }
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
     // 등록된 산행 목록
-    $viewData['listNotice'] = $this->club_model->listNotice($club_idx);
+    $viewData['listNotice'] = $this->club_model->listNotice($clubIdx);
 
-    if (!empty($idx)) {
+    if (!empty($noticeIdx)) {
       // 예약 공지
-      $viewData['notice'] = $this->club_model->viewNotice($club_idx, $idx);
+      $viewData['notice'] = $this->club_model->viewNotice($clubIdx, $noticeIdx);
 
       // 버스 형태별 좌석 배치
       $viewData['busType'] = getBusType($viewData['notice']['bustype'], $viewData['notice']['bus']);
 
       // 예약 정보
-      $viewData['reserve'] = $this->club_model->viewProgress($club_idx, $idx);
+      $viewData['reserve'] = $this->club_model->viewProgress($clubIdx, $noticeIdx);
     } else {
       $viewData['notice'] = array();
       $viewData['busType'] = array();
@@ -107,53 +85,85 @@ class Club extends CI_Controller
    **/
   public function reserve_insert()
   {
-    //print_r($this->input->post());
-    $result = array(
-      'error' => 0,
-      'url' => base_url() . 'club/reserve_check/1?n=407&c=1000'
-    );
-    $this->output->set_output(json_encode($result));
-/*
-    $idx = html_escape($this->input->post('idx'));
-    $arrResIdx = $this->input->post('resIdx');
-    $arrSeat = $this->input->post('seat');
-    $arrNickname = $this->input->post('nickname');
-    $arrGender = $this->input->post('gender');
-    $arrBus = $this->input->post('bus');
-    $arrLocation = $this->input->post('location');
-    $arrMemo = $this->input->post('memo');
-    $arrDepositName = $this->input->post('depositname');
-    $arrVip = $this->input->post('vip');
-    $arrManager = $this->input->post('manager');
-    $arrPriority = $this->input->post('priority');
+    $userData   = $this->session->userData;
+    $postData   = $this->input->post();
+    $clubIdx    = html_escape($postData['club_idx']);
+    $noticeIdx  = html_escape($postData['notice_idx']);
 
-    foreach ($arrSeat as $key => $seat) {
-      $postData = array(
-        'rescode' => $idx,
-        'nickname' => html_escape($arrNickname[$key]),
-        'gender' => html_escape($arrGender[$key]),
-        'bus' => html_escape($arrBus[$key]),
-        'seat' => html_escape($seat),
-        'loc' => html_escape($arrLocation[$key]),
-        'memo' => html_escape($arrMemo[$key]),
-        'depositname' => html_escape($arrDepositName[$key]),
-        'vip' => html_escape($arrVip[$key]) == 'true' ? 1 : 0,
-        'manager' => html_escape($arrManager[$key]) == 'true' ? 1 : 0,
-        'priority' => html_escape($arrPriority[$key]) == 'true' ? 1 : 0,
-        'regdate' => time(),
+    /*
+    // 페널티 지급 적용자인지 체크
+    $arrWhere = array("idx" => $_POST["resCode"]);
+    $resNotice = $db->select("giwb_notice", $arrWhere);
+    $startTime = explode(":", $resNotice[0]["starttime"]);
+    $startDate = explode("-", $resNotice[0]["startdate"]);
+    $limitDate = mktime($startTime[0], $startTime[1], 0, $startDate[1], $startDate[2], $startDate[0]);
+    $nowDate = time();
+    if ( $limitDate < ($nowDate + 172800) ) $penalty = 1; else $penalty = 0;
+
+    // 이미 예약이 되어 있는지 체크
+    for ($i=0; $i<$maxBus; $i++) {
+      if ($bus[$i] != "") {
+        $arrWhere = array(
+          "rescode" => $_POST["resCode"],
+          "bus" => $bus[$i],
+          "seat" => $seat[$i],
+        );
+        $checkRes = $db->select("giwb_reservation", $arrWhere);
+
+        if ($checkRes[0]["userid"] != "") {
+          $message->jsonMsg(1, "이미 예약된 좌석이 포함되어 있습니다.");
+          exit;
+        }
+      }
+    }
+    */
+
+    foreach ($postData['seat'] as $key => $seat) {
+      $bus          = $postData['bus'];
+      $location     = $postData['location'];
+      $memo         = $postData['memo'];
+      $resIdx       = $postData['resIdx'];
+
+      $processData  = array(
+        'club_idx'  => $clubIdx,
+        'rescode'   => $noticeIdx,
+        'userid'    => $userData['userid'],
+        'nickname'  => $userData['nickname'],
+        'gender'    => $userData['gender'],
+        'bus'       => html_escape($bus[$key]),
+        'seat'      => html_escape($seat),
+        'loc'       => html_escape($location[$key]),
+        'memo'      => html_escape($memo[$key]),
+        'regdate'   => time(),
       );
 
-      $resIdx = html_escape($arrResIdx[$key]);
+      $resIdx = html_escape($resIdx[$key]);
 
       if (empty($resIdx)) {
-        $result = $this->admin_model->insertReserve($postData);
+        $result = $this->club_model->insertReserve($processData);
       } else {
-        $result = $this->admin_model->updateReserve($postData, $resIdx);
+        $result = $this->club_model->updateReserve($processData, $resIdx);
       }
     }
 
+    /*
+    // 로그 기록
+    insertHistory(2, $_POST["resCode"], $_COOKIE["GIWB_USERID"], $noticeInfo[0]["subject"]);
+    */
+
+    if (empty($result)) {
+      $result = array(
+        'error' => 1,
+        'message' => '예약에 실패했습니다. 다시 시도해주세요.'
+      );
+    } else {
+      $result = array(
+        'error' => 0,
+        'message' => base_url() . 'club/reserve_check/' . $clubIdx . '?n=' . $noticeIdx . '&c=' . $result
+      );
+    }
+
     $this->output->set_output(json_encode($result));
-*/
   }
 
   /**
@@ -162,46 +172,22 @@ class Club extends CI_Controller
    * @return json
    * @author bjchoi
    **/
-  public function reserve_check($club_idx=NULL)
+  public function reserve_check($clubIdx=NULL)
   {
-    if (is_null($club_idx)) {
-      $club_idx = 1; // 최초는 경인웰빙
+    if (is_null($clubIdx)) {
+      $clubIdx = 1; // 최초는 경인웰빙
     } else {
-      $club_idx = html_escape($club_idx);
+      $clubIdx = html_escape($clubIdx);
     }
-    $idx = html_escape($this->input->get('n'));
+    $noticeIdx = html_escape($this->input->get('n'));
+    $reserveIdx = html_escape($this->input->get('c'));
 
-    $viewData['view'] = $this->club_model->viewClub($club_idx);
-    $viewData['view']['photo'] = array();
-    $viewData['view']['content'] = nl2br(reset_html_escape($viewData['view']['content']));
-
-    $files = $this->file_model->getFile('club', $club_idx);
-
-    foreach ($files as $key => $value) {
-      if (!$value['filename'] == '') {
-        $viewData['view']['photo'][$key] = $value['filename'];
-      } else {
-        $viewData['view']['photo'][$key] = '';
-      }
-    }
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+    $viewData['view']['noticeIdx'] = $noticeIdx;
 
     // 등록된 산행 목록
-    $viewData['listNotice'] = $this->club_model->listNotice($club_idx);
-
-    if (!empty($idx)) {
-      // 예약 공지
-      $viewData['notice'] = $this->club_model->viewNotice($club_idx, $idx);
-
-      // 버스 형태별 좌석 배치
-      $viewData['busType'] = getBusType($viewData['notice']['bustype'], $viewData['notice']['bus']);
-
-      // 예약 정보
-      $viewData['reserve'] = $this->club_model->viewProgress($club_idx, $idx);
-    } else {
-      $viewData['notice'] = array();
-      $viewData['busType'] = array();
-      $viewData['reserve'] = array();
-    }
+    $viewData['listNotice'] = $this->club_model->listNotice($clubIdx);
 
     $this->_viewPage('club/check', $viewData);
   }
@@ -216,16 +202,15 @@ class Club extends CI_Controller
    **/
   private function _viewPage($viewPage, $viewData=NULL)
   {
-    $headerData['userData'] = $viewData['userData'] = $this->session->userData;
-    $headerData['view'] = $viewData['view'];
-    $headerData['uri'] = 'top';
+    $viewData['uri'] = 'top';
+    $viewData['userData'] = $this->session->userData;
 
     // 진행 중 산행
-    $footerData['listNotice'] = $this->club_model->listNotice($viewData['view']['idx'], array(STATUS_NONE, STATUS_ABLE, STATUS_CONFIRM));
+    $viewData['listNotice'] = $this->club_model->listNotice($viewData['view']['idx'], array(STATUS_NONE, STATUS_ABLE, STATUS_CONFIRM));
 
-    $this->load->view('header', $headerData);
+    $this->load->view('header', $viewData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view('footer', $footerData);
+    $this->load->view('footer', $viewData);
   }
 }
 ?>

@@ -308,15 +308,54 @@ if (!function_exists('getBusTableMake')) {
   }
 }
 
-// 예약자 정보
-if (!function_exists('getReserve')) {
-  function getReserve($reservation, $bus, $seat) {
+// 예약자 정보 (관리용)
+if (!function_exists('getAdminReserve')) {
+  function getAdminReserve($reservation, $bus, $seat) {
     $result = array('idx' => '', 'nickname' => '예약가능', 'class' => '');
     foreach ($reservation as $value) {
       if ($value['bus'] == $bus && $value['seat'] == $seat) {
         if ($value['gender'] == 'M') $value['class'] = ' male';
         elseif ($value['gender'] == 'F') $value['class'] = ' female';
         $result = $value;
+      }
+    }
+    return $result;
+  }
+}
+
+// 예약자 정보
+if (!function_exists('getReserve')) {
+  function getReserve($reservation, $bus, $seat, $userData) {
+    $result = array('idx' => '', 'userid' => '', 'nickname' => '예약가능', 'class' => 'seat ');
+    foreach ($reservation as $key => $value) {
+      if ($value['bus'] == $bus && $value['seat'] == $seat) {
+        if ($userData['userid'] == $value['userid']) {
+          $value['class'] = 'seat ';
+        } else {
+          $value['class'] = '';
+        }
+        $value['class'] .= 'reserved';
+        $result = $value;
+      }
+      $checkGender[$value['bus']][$value['seat']] = $value['gender'];
+    }
+    if ($result['idx'] == '') {
+      // 붙어있는 좌석은 같은 성별로만
+      $message = "<span class='text-danger'>예약불가</span>";
+      if ($seat %2 == 1) {
+        // 현재 좌석은 홀수
+        $nextSeat = $seat + 1;
+        if (!empty($checkGender[$bus][$nextSeat]) && $userData['gender'] != $checkGender[$bus][$nextSeat]) {
+          $result['class'] = '';
+          $result['nickname'] = $message;
+        }
+      } elseif ($seat %2 == 0) {
+        // 현재 좌석은 짝수
+        $prevSeat = $seat - 1;
+        if (!empty($checkGender[$bus][$prevSeat]) && $userData['gender'] != $checkGender[$bus][$prevSeat]) {
+          $result['class'] = '';
+          $result['nickname'] = $message;
+        }
       }
     }
     return $result;
