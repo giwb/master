@@ -85,38 +85,18 @@ class Club extends CI_Controller
    **/
   public function reserve_insert()
   {
+    $now = time();
     $userData   = $this->session->userData;
     $postData   = $this->input->post();
     $clubIdx    = html_escape($postData['club_idx']);
     $noticeIdx  = html_escape($postData['notice_idx']);
 
-    /*
     // 페널티 지급 적용자인지 체크
-    $arrWhere = array("idx" => $_POST["resCode"]);
-    $resNotice = $db->select("giwb_notice", $arrWhere);
-    $startTime = explode(":", $resNotice[0]["starttime"]);
-    $startDate = explode("-", $resNotice[0]["startdate"]);
+    $viewNotice = $this->club_model->viewNotice($clubIdx, $noticeIdx);
+    $startTime = explode(':', $viewNotice['starttime']);
+    $startDate = explode('-', $viewNotice['startdate']);
     $limitDate = mktime($startTime[0], $startTime[1], 0, $startDate[1], $startDate[2], $startDate[0]);
-    $nowDate = time();
-    if ( $limitDate < ($nowDate + 172800) ) $penalty = 1; else $penalty = 0;
-
-    // 이미 예약이 되어 있는지 체크
-    for ($i=0; $i<$maxBus; $i++) {
-      if ($bus[$i] != "") {
-        $arrWhere = array(
-          "rescode" => $_POST["resCode"],
-          "bus" => $bus[$i],
-          "seat" => $seat[$i],
-        );
-        $checkRes = $db->select("giwb_reservation", $arrWhere);
-
-        if ($checkRes[0]["userid"] != "") {
-          $message->jsonMsg(1, "이미 예약된 좌석이 포함되어 있습니다.");
-          exit;
-        }
-      }
-    }
-    */
+    if ( $limitDate < ($now + 172800) ) $penalty = 1; else $penalty = 0;
 
     foreach ($postData['seat'] as $key => $seat) {
       $bus          = $postData['bus'];
@@ -124,37 +104,41 @@ class Club extends CI_Controller
       $memo         = $postData['memo'];
       $resIdx       = $postData['resIdx'];
 
-      $processData  = array(
-        'club_idx'  => $clubIdx,
-        'rescode'   => $noticeIdx,
-        'userid'    => $userData['userid'],
-        'nickname'  => $userData['nickname'],
-        'gender'    => $userData['gender'],
-        'bus'       => html_escape($bus[$key]),
-        'seat'      => html_escape($seat),
-        'loc'       => html_escape($location[$key]),
-        'memo'      => html_escape($memo[$key]),
-        'regdate'   => time(),
-      );
+      // 이미 예약이 되어 있는지 체크
+      $checkReserve = $this->club_model->checkReserve($clubIdx, $noticeIdx, $bus[$key], $seat);
 
-      $resIdx = html_escape($resIdx[$key]);
+      if (empty($checkReserve['idx'])) {
+        $processData  = array(
+          'club_idx'  => $clubIdx,
+          'rescode'   => $noticeIdx,
+          'userid'    => $userData['userid'],
+          'nickname'  => $userData['nickname'],
+          'gender'    => $userData['gender'],
+          'bus'       => $bus[$key],
+          'seat'      => $seat,
+          'loc'       => $location[$key],
+          'memo'      => $memo[$key],
+          'penalty'   => $penalty,
+          'regdate'   => $now,
+        );
 
-      if (empty($resIdx)) {
-        $result = $this->club_model->insertReserve($processData);
-      } else {
-        $result = $this->club_model->updateReserve($processData, $resIdx);
+        $resIdx = html_escape($resIdx[$key]);
+
+        if (empty($resIdx)) {
+          $result = $this->club_model->insertReserve($processData);
+        } else {
+          $result = $this->club_model->updateReserve($processData, $resIdx);
+        }
       }
     }
 
-    /*
     // 로그 기록
-    insertHistory(2, $_POST["resCode"], $_COOKIE["GIWB_USERID"], $noticeInfo[0]["subject"]);
-    */
+    setHistory(2, $noticeIdx, $userData['userid'], $viewNotice['subject'], $now);
 
     if (empty($result)) {
       $result = array(
         'error' => 1,
-        'message' => '예약에 실패했습니다. 다시 시도해주세요.'
+        'message' => '이미 예약된 좌석이 포함되어 있습니다. 다시 예약해주세요.'
       );
     } else {
       $result = array(

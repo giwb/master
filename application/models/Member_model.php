@@ -56,5 +56,12 @@ class Member_model extends CI_Model
     $this->db->insert(DB_MEMBER, $data);
     return $this->db->insert_id();
   }
+
+  // 로그 기록
+  public function insertHistory($data)
+  {
+    $this->db->insert(DB_HISTORY, $data);
+    return $this->db->insert_id();
+  }
 }
 ?>

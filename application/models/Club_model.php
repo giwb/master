@@ -99,5 +99,17 @@ class Club_model extends CI_Model
     $this->db->where('idx', $reserveIdx);
     return $this->db->update(DB_RESERVATION);
   }
+
+  // 예약 확인
+  public function checkReserve($clubIdx, $noticeIdx, $bus, $seat)
+  {
+    $this->db->select('idx')
+          ->from(DB_RESERVATION)
+          ->where('club_idx', $clubIdx)
+          ->where('rescode', $noticeIdx)
+          ->where('bus', $bus)
+          ->where('seat', $seat);
+    return $this->db->get()->row_array(1);
+  }
 }
 ?>

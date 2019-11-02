@@ -2,7 +2,7 @@
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 $CI = get_instance();
-$CI->load->model('admin_model');
+$CI->load->model(array('admin_model', 'member_model'));
 
 // html_escape 리셋
 if (!function_exists('reset_html_escape'))
@@ -541,6 +541,35 @@ if (!function_exists('getClubGetonoff')) {
       }
     }
     return $result;
+  }
+}
+
+// 로그 기록
+if (!function_exists('setHistory')) {
+  function setHistory($action, $fkey, $userid, $subject, $regdate, $point='') {
+    /*
+      action
+      1 - 회원가입
+      2 - 산행예약
+      3 - 산행취소
+      4 - 포인트 적립
+      5 - 포인트 감소
+      6 - 페널티 추가
+      7 - 페널티 감소
+      8 - 관리자 예약
+      9 - 관리자 취소
+    */
+    $data = array(
+      'action' => $action,
+      'fkey' => $fkey,
+      'userid' => $userid,
+      'subject' => $subject,
+      'regdate' => $regdate,
+    );
+    if (!empty($point)) {
+      $data['point'] = $point;
+    }
+    $GLOBALS['CI']->member_model->insertHistory($data);    
   }
 }
 ?>
