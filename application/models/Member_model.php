@@ -11,42 +11,59 @@ class Member_model extends CI_Model
   }
 
   // 로그인 확인
-  public function checkLogin($userid, $password, $club_idx)
+  public function checkLogin($userid, $password, $clubIdx)
   {
     $this->db->select('idx, userid, nickname, realname, gender, birthday, birthday_type, phone, admin')
           ->from(DB_MEMBER)
           ->where('userid', $userid)
           ->where('password', $password)
-          ->where('club_idx', $club_idx);
+          ->where('club_idx', $clubIdx);
     return $this->db->get()->row_array(1);
   }
 
   // 아이디 중복 확인
-  public function checkUserid($userid, $club_idx)
+  public function checkUserid($userid, $clubIdx)
   {
-    $this->db->select('idx')
+    $this->db->select('*')
           ->from(DB_MEMBER)
-          ->where('userid', $userid)
-          ->where('club_idx', $club_idx);
+          ->where('club_idx', $clubIdx)
+          ->where('userid', $userid);
     return $this->db->get()->row_array(1);
   }
 
   // 닉네임 중복 확인
-  public function checkNickname($nickname, $club_idx)
+  public function checkNickname($nickname, $clubIdx)
   {
     $this->db->select('idx')
           ->from(DB_MEMBER)
           ->where('nickname', $nickname)
-          ->where('club_idx', $club_idx);
+          ->where('club_idx', $clubIdx);
+    return $this->db->get()->row_array(1);
+  }
+
+  // 총 예약 횟수
+  public function cntReserve($userData, $status, $group=NULL)
+  {
+    $this->db->select('COUNT(idx) AS cntReserve')
+          ->from(DB_RESERVATION)
+          ->where('club_idx', $userData['club_idx'])
+          ->where('userid', $userData['userid'])
+          ->where('status', $status);
+
+    if (!is_null($group)) {
+      $this->db->group_by('rescode');
+    }
+
     return $this->db->get()->row_array(1);
   }
 
   // 회원 정보
-  public function viewMember($idx)
+  public function viewMember($clubIdx, $memberIdx)
   {
     $this->db->select('*')
           ->from(DB_MEMBER)
-          ->where('idx', $idx);
+          ->where('club_idx', $clubIdx)
+          ->where('idx', $memberIdx);
     return $this->db->get()->row_array(1);
   }
 

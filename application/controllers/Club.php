@@ -9,7 +9,7 @@ class Club extends CI_Controller
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
     $this->load->library('session');
-    $this->load->model(array('club_model', 'file_model', 'notice_model', 'story_model'));
+    $this->load->model(array('club_model', 'file_model', 'notice_model', 'member_model', 'story_model'));
   }
 
   /**
@@ -191,6 +191,10 @@ class Club extends CI_Controller
 
     // 진행 중 산행
     $viewData['listNotice'] = $this->club_model->listNotice($viewData['view']['idx'], array(STATUS_NONE, STATUS_ABLE, STATUS_CONFIRM));
+
+    // 회원 정보
+    $viewData['viewMember'] = $this->member_model->viewMember($viewData['view']['idx'], html_escape($viewData['userData']['idx']));
+    $viewData['viewLevel'] = memberLevel($viewData['viewMember']);
 
     $this->load->view('header', $viewData);
     $this->load->view($viewPage, $viewData);

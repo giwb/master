@@ -569,7 +569,61 @@ if (!function_exists('setHistory')) {
     if (!empty($point)) {
       $data['point'] = $point;
     }
-    $GLOBALS['CI']->member_model->insertHistory($data);    
+    $GLOBALS['CI']->member_model->insertHistory($data);
+  }
+}
+
+// 회원 레벨 계산
+if (!function_exists('memberLevel')) {
+  function memberLevel($userData) {
+    // 예약횟수 체크
+    $reserveGroup = $GLOBALS['CI']->member_model->cntReserve($userData, 1, 1);
+    $result = $GLOBALS['CI']->member_model->cntReserve($userData, 1);
+
+    // 페널티 횟수 차감 = 레벨
+    $result['level'] = $result['cntReserve'] - $userData['penalty'];
+
+    // 산행 횟수 (예약 그룹)
+    $result['cntNotice'] = number_format($reserveGroup['cntReserve']);
+
+    // 관리자 이외
+    if ($userData['admin'] != 1 && $userData['level'] != 1) {
+      if ($result['level'] >= 10 && $result['level'] <= 29) {
+        $result['levelType'] = 2;
+        $result['levelName'] = '두그루 회원';
+        $result['point'] = 2000;
+      } else if ($result['level'] >= 30 && $result['level'] <= 49) {
+        $result['levelType'] = 3;
+        $result['levelName'] = '세그루 회원';
+        $result['point'] = 3000;
+      } else if ($result['level'] >= 50 && $result['level'] <= 99) {
+        $result['levelType'] = 4;
+        $result['levelName'] = '네그루 회원';
+        $result['point'] = 4000;
+      } else if ($result['level'] >= 100) {
+        $result['levelType'] = 5;
+        $result['levelName'] = '다섯그루 회원';
+        $result['point'] = 5000;
+      } else {
+        $result['levelType'] = 1;
+        $result['levelName'] = '한그루 회원';
+        $result['point'] = 1000;
+      }
+    } else if ($userData['level'] == '1') {
+      $result['levelType'] = 8;
+      $result['levelName'] = '평생회원';
+      $result['point'] = 1000;
+    } else if ($userData['admin'] == '1') {
+      $result['levelType'] = 9;
+      $result['levelName'] = '관리자';
+      $result['point'] = 0;
+    } else {
+      $result['levelType'] = 0;
+      $result['levelName'] = '비회원';
+      $result['point'] = 0;
+    }
+
+    return $result;
   }
 }
 ?>

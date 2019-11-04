@@ -1990,7 +1990,7 @@ h1.nav-logo small {
 #loginModal .modal-footer div button { font-size: 14px!important; }
 
 /* Member Entry Page */
-.memberForm { width: 680px; margin: 0 auto 50px; }
+.memberForm { width: 100%; margin: 0 auto 50px; }
 .memberForm h2 { text-align: center; border-bottom: 1px solid #999; margin: 0 0 20px; padding: 0 0 20px; }
 .memberForm dl { width: 90%; display: table; margin: 10px auto; }
 .memberForm dl dt { width: 20%; display: table-cell; margin: 5px 0; vertical-align: middle; }
@@ -2037,7 +2037,6 @@ h1.nav-logo small {
   #loginModal dl dd { width: 60%; }
   #loginModal .modal-footer div button { font-size: 12px!important; padding: .375rem .3rem; }
 
-  .memberForm { width: 100%; }
   .memberForm h2 { text-align: center; border-bottom: 1px solid #999; margin: 20px 0; padding: 0 0 20px; }
   .memberForm dl dt { width: 100%; display: block; }
   .memberForm dl dd { width: 100%; display: block; }

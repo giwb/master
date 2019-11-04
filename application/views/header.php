@@ -82,9 +82,8 @@
             <li>
               <img class="img-profile" src="<?=base_url()?>public/photos/<?=$userData['idx']?>">
               <div class="profile-box">
-                <strong><?=$userData['nickname']?></strong><hr>
-                <a href="javascript:;">내 정보</a><br>
-                <a href="javascript:;">내 클럽</a><hr>
+                <strong><?=$userData['nickname']?></strong> (<?=$viewLevel['levelName']?>)<hr>
+                <a href="<?=base_url()?>member/<?=$view['idx']?>">마이페이지</a><br>
                 <a href="javascript:;" class="logout">로그아웃</a>
               </div>
             </li>
@@ -102,7 +101,7 @@
       <div id="nav-aside">
         <ul class="nav-aside-menu">
 <?php if ($userData['idx'] != ''): ?>
-          <li><img class="img-profile" src="<?=base_url()?>public/photos/<?=$userData['idx']?>"><span class="header-nickname"><?=$userData['nickname']?></span></li>
+          <li><img class="img-profile" src="<?=base_url()?>public/photos/<?=$userData['idx']?>"><span class="header-nickname"><?=$userData['nickname']?> (<?=$viewLevel['levelName']?>)</span></li>
 <?php else: ?>
           <li><p>&nbsp;</p></li>
 <?php endif; ?>
@@ -112,8 +111,7 @@
 <?php if ($userData['idx'] == ''): ?>
           <li><a href="javascript:;" class="login-popup">로그인</a></li>
 <?php else: ?>
-          <li><a href="javascript:;">내 정보</a></li>
-          <li><a href="javascript:;">내 클럽</a></li>
+          <li><a href="<?=base_url()?>member/<?=$view['idx']?>">마이페이지</a></li>
           <li><a href="javascript:;" class="logout">로그아웃</a></li>
 <?php endif; ?>
         </ul>

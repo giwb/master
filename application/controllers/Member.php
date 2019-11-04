@@ -18,11 +18,14 @@ class Member extends CI_Controller
    * @return view
    * @author bjchoi
    **/
-  public function index()
+  public function index($clubIdx=NULL)
   {
-    // 회원 정보
-    $memberIdx = html_escape($this->session->userData['idx']);
-    $viewData['viewMember'] = $this->member_model->viewMember($memberIdx);
+    if (is_null($clubIdx)) {
+      $clubIdx = 1; // 최초는 경인웰빙
+    } else {
+      $clubIdx = html_escape($clubIdx);
+    }
+    $viewData['view'] = $this->club_model->viewclub($clubIdx);
 
     $this->_viewPage('member/index', $viewData);
   }
@@ -35,9 +38,14 @@ class Member extends CI_Controller
    * @return json
    * @author bjchoi
    **/
-  public function login($club_idx)
+  public function login($clubIdx)
   {
-    $club_idx = html_escape($club_idx);
+    if (is_null($clubIdx)) {
+      $clubIdx = 1; // 최초는 경인웰빙
+    } else {
+      $clubIdx = html_escape($clubIdx);
+    }
+
     $userid = html_escape($this->input->post('userid'));
     $password = html_escape($this->input->post('password'));
 
@@ -47,7 +55,7 @@ class Member extends CI_Controller
     );
 
     if ($userid != '' && $password != '') {
-      $userData = $this->member_model->checkLogin($userid, md5($password), $club_idx);
+      $userData = $this->member_model->checkLogin($userid, md5($password), $clubIdx);
 
       if ($userData['idx'] != '') {
         $this->session->set_userdata('userData', $userData);
@@ -82,11 +90,11 @@ class Member extends CI_Controller
    **/
   public function check_userid()
   {
-    $club_idx = html_escape($this->input->post('club_idx'));
+    $clubIdx = html_escape($this->input->post('club_idx'));
     $userid = html_escape($this->input->post('userid'));
-    $check = $this->member_model->checkUserid($userid, $club_idx);
+    $check = $this->member_model->checkUserid($userid, $clubIdx);
 
-    if (empty($check)) {
+    if (empty($check['idx'])) {
       $result = array(
         'error' => 0,
         'message' => '<img class="check-userid-complete" src="/public/images/icon_check.png">'
@@ -109,9 +117,9 @@ class Member extends CI_Controller
    **/
   public function check_nickname()
   {
-    $club_idx = html_escape($this->input->post('club_idx'));
+    $clubIdx = html_escape($this->input->post('club_idx'));
     $userid = html_escape($this->input->post('userid'));
-    $check = $this->member_model->checkNickname($userid, $club_idx);
+    $check = $this->member_model->checkNickname($userid, $clubIdx);
 
     if (empty($check)) {
       $result = array(
@@ -134,9 +142,15 @@ class Member extends CI_Controller
    * @return view
    * @author bjchoi
    **/
-  public function entry($club_idx)
+  public function entry($clubIdx=NULL)
   {
-    $viewData['view'] = $this->club_model->viewClub($club_idx);
+    if (is_null($clubIdx)) {
+      $clubIdx = 1; // 최초는 경인웰빙
+    } else {
+      $clubIdx = html_escape($clubIdx);
+    }
+
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
     $this->_viewPage('member/entry', $viewData);
   }
 
@@ -253,11 +267,19 @@ class Member extends CI_Controller
    **/
   private function _viewPage($viewPage, $viewData=NULL)
   {
-    $headerData['userData'] = $this->session->userData;
-    $headerData['uri'] = 'member';
-    $this->load->view('header', $headerData);
+    $viewData['uri'] = 'top';
+    $viewData['userData'] = $this->session->userData;
+
+    // 진행 중 산행
+    $viewData['listNotice'] = $this->club_model->listNotice($viewData['view']['idx'], array(STATUS_NONE, STATUS_ABLE, STATUS_CONFIRM));
+
+    // 회원 정보
+    $viewData['viewMember'] = $this->member_model->viewMember($viewData['view']['idx'], html_escape($viewData['userData']['idx']));
+    $viewData['viewLevel'] = memberLevel($viewData['viewMember']);
+
+    $this->load->view('header', $viewData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view('footer');
+    $this->load->view('footer', $viewData);
   }
 }
 ?>
