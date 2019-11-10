@@ -5,6 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 defined('PATH_MAIN')      OR define('PATH_MAIN', '/home/sayhome/www/giwb');
 
 // 테이블명 - 한국여행
+defined('DB_AREAS')       OR define('DB_AREAS', 'sayhome_tripkorea.areas');
 defined('DB_CLUBS')       OR define('DB_CLUBS', 'sayhome_tripkorea.clubs');
 defined('DB_FILES')       OR define('DB_FILES', 'sayhome_tripkorea.files');
 defined('DB_STORY')       OR define('DB_STORY', 'sayhome_tripkorea.story');

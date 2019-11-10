@@ -140,9 +140,8 @@
         <div class="club-header">
   <?php if (!empty($view['photo'][0])): ?>
           <!-- 대표 사진 -->
-          <!--<img src="<?=base_url()?><?=PHOTO_URL?><?=$view['photo'][0]?>">-->
+          <img src="<?=base_url()?><?=PHOTO_URL?><?=$view['photo'][0]?>">
   <?php endif; ?>
-          <img src="http://new.giwb.kr/public/photos/157163703348608.jpg">
           <h3><?=$view['title']?></h3>
         </div>
         <?=$view['homepage'] != '' ? '<a target="_blank" href="' . $view['homepage'] . '" class="url">' . $view['homepage'] . '</a>' : ''?>

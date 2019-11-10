@@ -1932,6 +1932,15 @@ h1.nav-logo small {
 #club .club-main article .post-reaction button:hover { color: #fff; background-color: #FF6C00; }
 #club .club-main article .post-reaction button i { margin-right: 4px; }
 
+#club .club-main #myForm dl { width: 100%; font-size: 14px; display: table; padding: 0 30px; }
+#club .club-main #myForm dl dt { min-width: 160px; display: table-cell; margin: 0px; padding: 3px 0 0 0; vertical-align: top; }
+#club .club-main #myForm dl dd { width: 90%; display: table-cell; margin: 0px; padding: 0px; }
+#club .club-main #myForm dl dd input[type=text], #club .club-main #myForm dl dd textarea { width: 100%; size: 14px; }
+#club .club-main #myForm dl dd input.width-half { width: 40%; }
+#club .club-main #myForm dl dd input.w100 { width: 100px; }
+#club .club-main #myForm dl dd label { padding-right: 10px; }
+#club .club-main #myForm dl dd .btn { font-size: 14px; margin: 0 0 4px 0; padding: 1px 10px; }
+
 #club .club-right img { width: 100%; }
 #club .club-right h3 { font-size: 14px; background-color: #eee; margin: 0px; padding: 5px 10px; }
 #club .club-right ul { margin: 0 0 20px 0; padding: 0px; }

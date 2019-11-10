@@ -554,6 +554,51 @@
         }
       });
     }
+  }).on('click', '.btn-club-geton', function() {
+    // 승차위치 추가
+    var $dom = $('.club-geton-text');
+    $('.club-geton-added').append('<div class="club-geton-element"><input readonly type="text" name="club_geton[]" class="width-half" value="' + $dom.val() + '"> <button type="button" class="btn btn-primary btn-club-geton-delete">삭제</button></div>');
+    $dom.val('');
+  }).on('click', '.btn-club-geton-delete', function() {
+    // 승차위치 삭제
+    $(this).parent().remove();
+  }).on('click', '.btn-club-getoff', function() {
+    // 하차위치 추가
+    var $dom = $('.club-getoff-text');
+    $('.club-getoff-added').append('<div class="club-getoff-element"><input readonly type="text" name="club_getoff[]" class="width-half" value="' + $dom.val() + '"> <button type="button" class="btn btn-primary btn-club-getoff-delete">삭제</button></div>');
+    $dom.val('');
+  }).on('click', '.btn-club-getoff-delete', function() {
+    // 하차위치 삭제
+    $(this).parent().remove();
+  }).on('click', '.btn-setup', function() {
+    // 설정 수정
+    var $btn = $(this);
+    var formData = new FormData($('#myForm')[0]);
+
+    $.ajax({
+      url: $('#myForm').attr('action'),
+      processData: false,
+      contentType: false,
+      data: formData,
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+      },
+      success: function(result) {
+        $btn.css('opacity', '1').prop('disabled', false).text('수정합니다');
+        $.openMsgModal(result.message);
+        if (result.error == 1) {
+          $('#messageModal .btn').hide();
+          $('#messageModal .btn-close').show();
+        } else {
+          $('#messageModal .btn').hide();
+          $('#messageModal .btn-refresh').show();
+        }
+        $('#messageModal .modal-message').text(result.message);
+        $('#messageModal').modal('show');
+      }
+    });
   }).on('click', '.btn-refresh', function() {
     location.reload();
   });
