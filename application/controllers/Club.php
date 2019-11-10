@@ -2,12 +2,12 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 // 첫 페이지 클래스
-class Club extends CI_Controller
+class Club extends MY_Controller
 {
   function __construct()
   {
     parent::__construct();
-    $this->load->helper(array('url', 'my_array_helper'));
+    $this->load->helper(array('cookie', 'security', 'url', 'my_array_helper'));
     $this->load->library('session');
     $this->load->model(array('club_model', 'file_model', 'notice_model', 'member_model', 'story_model'));
   }
@@ -18,13 +18,9 @@ class Club extends CI_Controller
    * @return view
    * @author bjchoi
    **/
-  public function index($clubIdx=NULL)
+  public function index()
   {
-    if (is_null($clubIdx)) {
-      $clubIdx = 1; // 최초는 경인웰빙
-    } else {
-      $clubIdx = html_escape($clubIdx);
-    }
+    $clubIdx = $this->load->get_var('clubIdx');
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
@@ -44,13 +40,11 @@ class Club extends CI_Controller
    * @return view
    * @author bjchoi
    **/
-  public function reserve($clubIdx=NULL)
+  public function reserve()
   {
-    if (is_null($clubIdx)) {
-      $clubIdx = 1; // 최초는 경인웰빙
-    } else {
-      $clubIdx = html_escape($clubIdx);
-    }
+    checkUserLogin();
+
+    $clubIdx = $this->load->get_var('clubIdx');
     $noticeIdx = html_escape($this->input->get('n'));
 
     // 클럽 정보
@@ -78,6 +72,49 @@ class Club extends CI_Controller
   }
 
   /**
+   * 예약 정보
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function reserve_information()
+  {
+    $clubIdx = $this->load->get_var('clubIdx');
+    $noticeIdx = html_escape($this->input->post('idx'));
+    $resIdx = html_escape($this->input->post('resIdx'));
+
+    $notice = $this->club_model->viewNotice($clubIdx, $noticeIdx);
+
+    if (!empty($resIdx)) {
+      $result['reserve'] = $this->club_model->viewReserve($clubIdx, $resIdx);
+    } else {
+      $result['reserve']['nickname'] = '';
+      $result['reserve']['gender'] = 'M';
+      $result['reserve']['loc'] = '';
+      $result['reserve']['bref'] = '';
+      $result['reserve']['depositname'] = '';
+      $result['reserve']['memo'] = '';
+      $result['reserve']['vip'] = '';
+      $result['reserve']['manager'] = '';
+      $result['reserve']['priority'] = '';
+    }
+
+    $result['busType'] = getBusType($notice['bustype'], $notice['bus']); // 버스 형태별 좌석 배치
+
+    // 해당 버스의 좌석
+    foreach ($result['busType'] as $busType) {
+      foreach (range(1, $busType['seat']) as $seat) {
+        $result['seat'][] = $seat;
+      }
+    }
+
+    $result['location'] = arrLocation(); // 승차위치
+    $result['breakfast'] = arrBreakfast(); // 아침식사
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 예약 처리
    *
    * @return json
@@ -85,11 +122,17 @@ class Club extends CI_Controller
    **/
   public function reserve_insert()
   {
+    checkUserLogin();
+
     $now = time();
-    $userData   = $this->session->userData;
+    $userData   = $this->load->get_var('userData');
     $postData   = $this->input->post();
     $clubIdx    = html_escape($postData['club_idx']);
     $noticeIdx  = html_escape($postData['notice_idx']);
+    $bus        = $postData['bus'];
+    $location   = $postData['location'];
+    $memo       = $postData['memo'];
+    $resIdx     = $postData['resIdx'];
 
     // 페널티 지급 적용자인지 체크
     $viewNotice = $this->club_model->viewNotice($clubIdx, $noticeIdx);
@@ -99,41 +142,30 @@ class Club extends CI_Controller
     if ( $limitDate < ($now + 172800) ) $penalty = 1; else $penalty = 0;
 
     foreach ($postData['seat'] as $key => $seat) {
-      $bus          = $postData['bus'];
-      $location     = $postData['location'];
-      $memo         = $postData['memo'];
-      $resIdx       = $postData['resIdx'];
+      $resIdx   = html_escape($resIdx[$key]);
+      $processData  = array(
+        'club_idx'  => $clubIdx,
+        'rescode'   => $noticeIdx,
+        'userid'    => $userData['userid'],
+        'nickname'  => $userData['nickname'],
+        'gender'    => $userData['gender'],
+        'bus'       => html_escape($bus[$key]),
+        'seat'      => html_escape($seat),
+        'loc'       => html_escape($location[$key]),
+        'memo'      => html_escape($memo[$key]),
+        'penalty'   => $penalty,
+        'regdate'   => $now,
+      );
 
       // 이미 예약이 되어 있는지 체크
       $checkReserve = $this->club_model->checkReserve($clubIdx, $noticeIdx, $bus[$key], $seat);
 
-      if (empty($checkReserve['idx'])) {
-        $processData  = array(
-          'club_idx'  => $clubIdx,
-          'rescode'   => $noticeIdx,
-          'userid'    => $userData['userid'],
-          'nickname'  => $userData['nickname'],
-          'gender'    => $userData['gender'],
-          'bus'       => $bus[$key],
-          'seat'      => $seat,
-          'loc'       => $location[$key],
-          'memo'      => $memo[$key],
-          'penalty'   => $penalty,
-          'regdate'   => $now,
-        );
-
-        $resIdx = html_escape($resIdx[$key]);
-
-        if (empty($resIdx)) {
-          $result = $this->club_model->insertReserve($processData);
-        } else {
-          $result = $this->club_model->updateReserve($processData, $resIdx);
-        }
+      if (empty($resIdx) && empty($checkReserve['idx'])) {
+        $result = $this->club_model->insertReserve($processData);
+      } elseif (!empty($resIdx) && $checkReserve['userid'] == $userData['userid']) {
+        $result = $this->club_model->updateReserve($processData, $resIdx);
       }
     }
-
-    // 로그 기록
-    setHistory(2, $noticeIdx, $userData['userid'], $viewNotice['subject'], $now);
 
     if (empty($result)) {
       $result = array(
@@ -141,6 +173,9 @@ class Club extends CI_Controller
         'message' => '이미 예약된 좌석이 포함되어 있습니다. 다시 예약해주세요.'
       );
     } else {
+      // 로그 기록
+      setHistory(2, $noticeIdx, $userData['userid'], $viewNotice['subject'], $now);
+
       $result = array(
         'error' => 0,
         'message' => base_url() . 'club/reserve_check/' . $clubIdx . '?n=' . $noticeIdx . '&c=' . $result
@@ -156,13 +191,11 @@ class Club extends CI_Controller
    * @return json
    * @author bjchoi
    **/
-  public function reserve_check($clubIdx=NULL)
+  public function reserve_check()
   {
-    if (is_null($clubIdx)) {
-      $clubIdx = 1; // 최초는 경인웰빙
-    } else {
-      $clubIdx = html_escape($clubIdx);
-    }
+    checkUserLogin();
+
+    $clubIdx = $this->load->get_var('clubIdx');
     $noticeIdx = html_escape($this->input->get('n'));
     $reserveIdx = html_escape($this->input->get('c'));
 
@@ -177,6 +210,19 @@ class Club extends CI_Controller
   }
 
   /**
+   * 설정
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function setup()
+  {
+    checkAdminLogin();
+
+    $this->_viewPage('club/check', $viewData);
+  }
+
+  /**
    * 페이지 표시
    *
    * @param $viewPage
@@ -186,15 +232,14 @@ class Club extends CI_Controller
    **/
   private function _viewPage($viewPage, $viewData=NULL)
   {
-    $viewData['uri'] = 'top';
-    $viewData['userData'] = $this->session->userData;
+    $viewData['uri'] = 'club';
+
+    // 회원 정보
+    $viewData['userData'] = $this->load->get_var('userData');
+    $viewData['userLevel'] = $this->load->get_var('userLevel');
 
     // 진행 중 산행
     $viewData['listNotice'] = $this->club_model->listNotice($viewData['view']['idx'], array(STATUS_NONE, STATUS_ABLE, STATUS_CONFIRM));
-
-    // 회원 정보
-    $viewData['viewMember'] = $this->member_model->viewMember($viewData['view']['idx'], html_escape($viewData['userData']['idx']));
-    $viewData['viewLevel'] = memberLevel($viewData['viewMember']);
 
     $this->load->view('header', $viewData);
     $this->load->view($viewPage, $viewData);

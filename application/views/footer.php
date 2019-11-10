@@ -14,6 +14,7 @@
 
   <input type="hidden" name="base_url" value="<?=base_url()?>">
   <input type="hidden" name="club_idx" value="<?=$view['idx']?>">
+  <input type="hidden" name="redirect_url" value="">
 
   <!-- Login Modal -->
   <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -26,7 +27,7 @@
           </button>
         </div>
         <div class="modal-body text-center">
-          <form id="loginForm" method="post">
+          <form class="loginForm" method="post">
           <dl>
             <dt>아이디</dt>
             <dd><input type="text" name="userid" class="form-control input-login"></dd>
@@ -65,7 +66,7 @@
           <p class="modal-message"></p>
         </div>
         <div class="modal-footer">
-          <a href="<?=base_url()?>"><button type="button" class="btn btn-primary btn-top">메인 화면으로</button></a>
+          <a href="<?=base_url()?><?=$view['idx']?>"><button type="button" class="btn btn-primary btn-top">메인 화면으로</button></a>
           <button type="button" class="btn btn-primary btn-list">목록으로</button>
           <button type="button" class="btn btn-primary btn-refresh">새로고침</button>
           <button type="button" class="btn btn-primary btn-delete">삭제합니다</button>

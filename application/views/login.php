@@ -1,58 +1,30 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<!DOCTYPE html>
-<html lang="ja">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>BtoB - ログイン</title>
-    <link rel="shortcut icon" href="/public/images/favicon.ico">
-    <link href="/public/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="/public/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="/public/css/style.css" rel="stylesheet" type="text/css">
-  </head>
-  <body id="page-top" class="bg-dark">
 
-    <div class="container">
-      <div class="card card-login mx-auto mt-5">
-        <div class="card-header">ログイン</div>
-        <div class="card-body">
-          <form>
-            <div class="form-group">
-              <div class="form-label-group">
-                <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="required" autofocus="autofocus">
-                <label for="inputEmail">メールアドレス</label>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="form-label-group">
-                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="required">
-                <label for="inputPassword">パスワード</label>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" value="remember-me">
-                  パスワードを保存する
-                </label>
-              </div>
-            </div>
-            <a class="btn btn-primary btn-block" href="index.html">ログイン</a>
-          </form>
-          <div class="text-center">
-            <a class="d-block small mt-3 btn-ready" href="javascript:;">パスワードをお忘れの方</a>
-          </div>
+<div class="club-main">
+  <div class="memberForm">
+    <h2>로그인</h2>
+
+    <form class="loginForm" method="post" class="mt-5 mr-5 ml-5">
+      <dl>
+        <dt>아이디</dt>
+        <dd><input type="text" name="userid" class="form-control input-login"></dd>
+      </dl>
+      <dl>
+        <dt>비밀번호</dt>
+        <dd><input type="password" name="password" class="form-control input-login"></dd>
+      </dl>
+      <div class="error-message"></div>
+      <hr>
+      <div class="row mr-3 ml-3">
+        <div class="col-sm-8">
+          <a href="<?=base_url()?>member/entry/<?=$view['idx']?>"><button type="button" class="btn btn-primary">회원가입</button></a>
+          <a href="<?=base_url()?>member/forgot/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">아이디/비밀번호 찾기</button></a>
+        </div>
+        <div class="col-sm-4 text-right">
+          <input type="hidden" name="redirect_url" value="<?=$redirect_url?>">
+          <button type="button" class="btn btn-primary btn-login">로그인</button>
         </div>
       </div>
-    </div>
-
-    <script src="/public/js/jquery.min.js" type="text/javascript"></script>
-    <script src="/public/js/jquery.easing.min.js" type="text/javascript"></script>
-    <script src="/public/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="/public/js/script.js" type="text/javascript"></script>
-
-  </body>
-</html>
+    </form>
+  </div>
+</div>

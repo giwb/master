@@ -68,13 +68,13 @@
       <div id="nav-top">
         <div class="container">
           <h1 class="nav-logo">
-            <a href="<?=base_url()?>" class="logo">경인웰빙</a>
+            <a href="<?=base_url()?><?=$view['idx']?>" class="logo">경인웰빙</a>
           </h1>
           <ul class="nav-menu">
-            <li<?=$uri == 'top' ? ' class="active"' : ''?>><a href="<?=base_url()?>">TOP</a></li>
+            <li<?=$uri == 'top' ? ' class="active"' : ''?>><a href="<?=base_url()?><?=$view['idx']?>">TOP</a></li>
             <li<?=$uri == 'place' ? ' class="active"' : ''?>><a href="http://tripkorea.net/place">여행정보</a></li>
             <li<?=$uri == 'club' ? ' class="active"' : ''?>><a href="http://tripkorea.net/club">산악회정보</a></li>
-<?php if ($userData['idx'] == ''): ?>
+<?php if (empty($userData['idx'])): ?>
             <li><a href="javascript:;" class="login-popup">로그인</a></li>
             <!--<li><button class="search-btn"><i class="fa fa-search"></i></button></li>-->
 <?php else: ?>
@@ -82,8 +82,8 @@
             <li>
               <img class="img-profile" src="<?=base_url()?>public/photos/<?=$userData['idx']?>">
               <div class="profile-box">
-                <strong><?=$userData['nickname']?></strong> (<?=$viewLevel['levelName']?>)<hr>
-                <a href="<?=base_url()?>member/<?=$view['idx']?>">마이페이지</a><br>
+                <strong><?=$userData['nickname']?></strong> (<?=$userLevel['levelName']?>)<hr>
+                <a href="<?=base_url()?>/member/<?=$view['idx']?>">마이페이지</a><br>
                 <a href="javascript:;" class="logout">로그아웃</a>
               </div>
             </li>
@@ -101,17 +101,17 @@
       <div id="nav-aside">
         <ul class="nav-aside-menu">
 <?php if ($userData['idx'] != ''): ?>
-          <li><img class="img-profile" src="<?=base_url()?>public/photos/<?=$userData['idx']?>"><span class="header-nickname"><?=$userData['nickname']?> (<?=$viewLevel['levelName']?>)</span></li>
+          <li><img class="img-profile" src="<?=base_url()?>public/photos/<?=$userData['idx']?>"><span class="header-nickname"><?=$userData['nickname']?> (<?=$userLevel['levelName']?>)</span></li>
 <?php else: ?>
           <li><p>&nbsp;</p></li>
 <?php endif; ?>
-          <li><a href="<?=base_url()?>">TOP</a></li>
+          <li><a href="<?=base_url()?><?=$view['idx']?>">TOP</a></li>
           <li><a href="http://tripkorea.net/place">여행정보</a></li>
           <li><a href="http://tripkorea.net/club">산악회정보</a></li>
-<?php if ($userData['idx'] == ''): ?>
+<?php if (empty($userData['idx'])): ?>
           <li><a href="javascript:;" class="login-popup">로그인</a></li>
 <?php else: ?>
-          <li><a href="<?=base_url()?>member/<?=$view['idx']?>">마이페이지</a></li>
+          <li><a href="<?=base_url()?>/member/<?=$view['idx']?>">마이페이지</a></li>
           <li><a href="javascript:;" class="logout">로그아웃</a></li>
 <?php endif; ?>
         </ul>
@@ -153,7 +153,7 @@
           <li><a href="#"><i class="fa fa-map-o" aria-hidden="true"></i> 이용안내</a></li><br>
           <li><a href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 백산백소 소개</a></li>
           <li><a href="#"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소 인증현황</a></li><br>
-          <li><a href="#"><i class="fa fa-cog" aria-hidden="true"></i> 설정</a></li>
+          <li><a href="<?=base_url()?>club/setup/<?=$view['idx']?>"><i class="fa fa-cog" aria-hidden="true"></i> 설정</a></li>
         </ul>
         <div class="desc">
         ・개설일 : <?=$view['establish']?>년<br>

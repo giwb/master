@@ -285,12 +285,13 @@
     // 로그인
     e.preventDefault();
     var $dom = $(this);
-    var formData = new FormData($('#loginForm')[0]);
+    var formData = new FormData($('.loginForm')[0]);
     var baseUrl = $('input[name=base_url]').val();
     var clubIdx = $('input[name=club_idx]').val();
+    var redirectUrl = $('input[name=redirect_url]').val();
 
     $.ajax({
-      url: baseUrl + 'member/login/' + clubIdx,
+      url: baseUrl + 'login/' + clubIdx + '?r=' + redirectUrl,
       data: formData,
       processData: false,
       contentType: false,
@@ -304,19 +305,32 @@
           $dom.css('opacity', '1').prop('disabled', false).text('로그인');
           $('.error-message').slideDown().text(result.message);
         } else {
-          location.replace(baseUrl);
+          location.replace(result.url)
         }
+      }
+    });
+  }).on('click', '.input-login', function() {
+    // 에러 메세지 없애기
+    $('.error-message').slideUp();
+  }).on('click', '.logout', function() {
+    // 로그아웃
+    $.ajax({
+      url: $('input[name=base_url]').val() + 'logout',
+      dataType: 'json',
+      success: function() {
+        location.reload();
       }
     });
   }).on('blur', '.check-userid', function() {
     // 아이디 중복 체크
     var $dom = $(this);
     var userid = $('input[name=userid]').val();
+    var clubIdx = $('input[name=club_idx]').val();
 
     if (userid != '') {
       $.ajax({
-        url: $('input[name=base_url]').val() + 'member/check_userid',
-        data: 'userid=' + userid + '&club_idx=' + $('input[name=club_idx]').val(),
+        url: $('input[name=base_url]').val() + 'login/check_userid/' + clubIdx,
+        data: 'userid=' + userid,
         dataType: 'json',
         type: 'post',
         success: function(result) {
@@ -331,11 +345,12 @@
     // 닉네임 중복 체크
     var $dom = $(this);
     var nickname = $('input[name=nickname]').val();
+    var clubIdx = $('input[name=club_idx]').val();
 
     if (nickname != '') {
       $.ajax({
-        url: $('input[name=base_url]').val() + 'member/check_nickname',
-        data: 'nickname=' + nickname + '&club_idx=' + $('input[name=club_idx]').val(),
+        url: $('input[name=base_url]').val() + 'login/check_nickname/' + clubIdx,
+        data: 'nickname=' + nickname,
         dataType: 'json',
         type: 'post',
         success: function(result) {
@@ -394,9 +409,10 @@
     var $btn = $(this);
     var formData = new FormData($('#entryForm')[0]);
     var baseUrl = $('input[name=base_url]').val();
+    var clubIdx = $('input[name=club_idx]').val();
 
     $.ajax({
-      url: baseUrl + 'member/insert',
+      url: baseUrl + 'login/insert/' + clubIdx,
       data: formData,
       processData: false,
       contentType: false,
@@ -419,18 +435,6 @@
     });
   }).on('click', '.btn-upload', function() {
     $(this).prev().click();
-  }).on('click', '.input-login', function() {
-    // 에러 메세지 없애기
-    $('.error-message').slideUp();
-  }).on('click', '.logout', function() {
-    // 로그아웃
-    $.ajax({
-      url: $('input[name=base_url]').val() + 'member/logout',
-      dataType: 'json',
-      success: function() {
-        location.reload();
-      }
-    });
   }).on('click', '.search-btn', function() {
   $('#nav-search').toggleClass('active');
   }).on('click', '.search-close', function() {
@@ -558,9 +562,11 @@
   $.viewReserveInfo = function(resIdx, bus, seat) {
     var cnt = 0;
     var selected = '';
+    var clubIdx = $('input[name=club_idx]').val();
+
     $.ajax({
-      url: $('input[name=base_url]').val() + 'admin/reserve_information',
-      data: 'idx=' + $('input[name=idx]').val() + '&resIdx=' + resIdx,
+      url: $('input[name=base_url]').val() + 'club/reserve_information/' + clubIdx,
+      data: 'idx=' + $('input[name=notice_idx]').val() + '&resIdx=' + resIdx,
       dataType: 'json',
       type: 'post',
       success: function(reserveInfo) {

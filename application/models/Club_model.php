@@ -85,6 +85,16 @@ class Club_model extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  // 예약 정보 보기
+  public function viewReserve($clubIdx, $idx)
+  {
+    $this->db->select('*')
+          ->from(DB_RESERVATION)
+          ->where('club_idx', $clubIdx)
+          ->where('idx', $idx);
+    return $this->db->get()->row_array(1);
+  }
+
   // 예약 정보 등록
   public function insertReserve($data)
   {
@@ -103,7 +113,7 @@ class Club_model extends CI_Model
   // 예약 확인
   public function checkReserve($clubIdx, $noticeIdx, $bus, $seat)
   {
-    $this->db->select('idx')
+    $this->db->select('userid')
           ->from(DB_RESERVATION)
           ->where('club_idx', $clubIdx)
           ->where('rescode', $noticeIdx)

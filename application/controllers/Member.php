@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 // 회원 페이지 클래스
-class Member extends CI_Controller
+class Member extends MY_Controller
 {
   function __construct()
   {
@@ -18,197 +18,17 @@ class Member extends CI_Controller
    * @return view
    * @author bjchoi
    **/
-  public function index($clubIdx=NULL)
+  public function index()
   {
-    if (is_null($clubIdx)) {
-      $clubIdx = 1; // 최초는 경인웰빙
-    } else {
-      $clubIdx = html_escape($clubIdx);
-    }
+    checkUserLogin();
+
+    $clubIdx = $this->load->get_var('clubIdx');
     $viewData['view'] = $this->club_model->viewclub($clubIdx);
+    $viewData['viewMember'] = $this->load->get_var('userData');
+    $viewData['viewLevel'] = $this->load->get_var('userLevel');
 
+    // 예약 내역
     $this->_viewPage('member/index', $viewData);
-  }
-
-  /**
-   * 로그인
-   *
-   * @param $userid
-   * @param $password
-   * @return json
-   * @author bjchoi
-   **/
-  public function login($clubIdx)
-  {
-    if (is_null($clubIdx)) {
-      $clubIdx = 1; // 최초는 경인웰빙
-    } else {
-      $clubIdx = html_escape($clubIdx);
-    }
-
-    $userid = html_escape($this->input->post('userid'));
-    $password = html_escape($this->input->post('password'));
-
-    $result = array(
-      'error' => 1,
-      'message' => '로그인에 실패했습니다. 다시 로그인 해주세요.'
-    );
-
-    if ($userid != '' && $password != '') {
-      $userData = $this->member_model->checkLogin($userid, md5($password), $clubIdx);
-
-      if ($userData['idx'] != '') {
-        $this->session->set_userdata('userData', $userData);
-
-        $result = array(
-          'error' => 0,
-          'message' => ''
-        );
-      }
-    }
-
-    $this->output->set_output(json_encode($result));
-  }
-
-  /**
-   * 로그아웃
-   *
-   * @return json
-   * @author bjchoi
-   **/
-  public function logout()
-  {
-    $this->session->unset_userdata('userData');
-    $this->output->set_output(0);
-  }
-
-  /**
-   * 아이디 중복 체크
-   *
-   * @return json
-   * @author bjchoi
-   **/
-  public function check_userid()
-  {
-    $clubIdx = html_escape($this->input->post('club_idx'));
-    $userid = html_escape($this->input->post('userid'));
-    $check = $this->member_model->checkUserid($userid, $clubIdx);
-
-    if (empty($check['idx'])) {
-      $result = array(
-        'error' => 0,
-        'message' => '<img class="check-userid-complete" src="/public/images/icon_check.png">'
-      );
-    } else {
-      $result = array(
-        'error' => 1,
-        'message' => '<img src="/public/images/icon_cross.png">'
-      );
-    }
-
-    $this->output->set_output(json_encode($result));
-  }
-
-  /**
-   * 닉네임 중복 체크
-   *
-   * @return json
-   * @author bjchoi
-   **/
-  public function check_nickname()
-  {
-    $clubIdx = html_escape($this->input->post('club_idx'));
-    $userid = html_escape($this->input->post('userid'));
-    $check = $this->member_model->checkNickname($userid, $clubIdx);
-
-    if (empty($check)) {
-      $result = array(
-        'error' => 0,
-        'message' => '<img class="check-nickname-complete" src="/public/images/icon_check.png">'
-      );
-    } else {
-      $result = array(
-        'error' => 1,
-        'message' => '<img src="/public/images/icon_cross.png">'
-      );
-    }
-
-    $this->output->set_output(json_encode($result));
-  }
-
-  /**
-   * 회원가입 페이지
-   *
-   * @return view
-   * @author bjchoi
-   **/
-  public function entry($clubIdx=NULL)
-  {
-    if (is_null($clubIdx)) {
-      $clubIdx = 1; // 최초는 경인웰빙
-    } else {
-      $clubIdx = html_escape($clubIdx);
-    }
-
-    $viewData['view'] = $this->club_model->viewClub($clubIdx);
-    $this->_viewPage('member/entry', $viewData);
-  }
-
-  /**
-   * 회원 등록
-   *
-   * @return json
-   * @author bjchoi
-   **/
-  public function insert()
-  {
-    $inputData = $this->input->post();
-    $insertValues = array(
-      'club_idx'      => html_escape($inputData['club_idx']),
-      'userid'        => html_escape($inputData['userid']),
-      'password'      => md5(html_escape($inputData['password'])),
-      'nickname'      => html_escape($inputData['nickname']),
-      'realname'      => html_escape($inputData['realname']),
-      'gender'        => html_escape($inputData['gender']),
-      'birthday'      => html_escape($inputData['birthday_year']) . '/' . html_escape($inputData['birthday_month']) . '/' . html_escape($inputData['birthday_day']),
-      /*'birthday_type' => html_escape($inputData['birthday_type']),*/
-      'phone'         => html_escape($inputData['phone1']) . '-' . html_escape($inputData['phone2']) . '-' . html_escape($inputData['phone3']),
-      'regdate'       => time()
-    );
-
-    $idx = $this->member_model->insertMember($insertValues);
-
-    if (empty($idx)) {
-      $result = array(
-        'error' => 1,
-        'message' => '등록에 실패했습니다.'
-      );
-    } else {
-      // 사진 등록
-      if (!empty($inputData['filename']) && file_exists(UPLOAD_PATH . $inputData['filename'])) {
-        // 파일 이동
-        rename(UPLOAD_PATH . html_escape($inputData['filename']), PHOTO_PATH . $idx);
-      }
-
-      $result = array(
-        'error' => 0,
-        'message' => ''
-      );
-    }
-
-    $this->output->set_output(json_encode($result));
-  }
-
-  /**
-   * 아이디/비밀번호 찾기 페이지
-   *
-   * @return view
-   * @author bjchoi
-   **/
-  public function forgot()
-  {
-    $viewData = array();
-    $this->_viewPage('member/forgot', $viewData);
   }
 
   /**
@@ -267,15 +87,14 @@ class Member extends CI_Controller
    **/
   private function _viewPage($viewPage, $viewData=NULL)
   {
-    $viewData['uri'] = 'top';
-    $viewData['userData'] = $this->session->userData;
+    $viewData['uri'] = 'member';
+
+    // 회원 정보
+    $viewData['userData'] = $this->load->get_var('userData');
+    $viewData['userLevel'] = $this->load->get_var('userLevel');
 
     // 진행 중 산행
     $viewData['listNotice'] = $this->club_model->listNotice($viewData['view']['idx'], array(STATUS_NONE, STATUS_ABLE, STATUS_CONFIRM));
-
-    // 회원 정보
-    $viewData['viewMember'] = $this->member_model->viewMember($viewData['view']['idx'], html_escape($viewData['userData']['idx']));
-    $viewData['viewLevel'] = memberLevel($viewData['viewMember']);
 
     $this->load->view('header', $viewData);
     $this->load->view($viewPage, $viewData);

@@ -22,7 +22,7 @@
           </button>
         </div>
         <div class="modal-body text-center">
-          <form id="loginForm" method="post">
+          <form class="loginForm" method="post">
           <dl>
             <dt>아이디</dt>
             <dd><input type="text" name="userid" class="input-login"></dd>

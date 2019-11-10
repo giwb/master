@@ -5,10 +5,8 @@ $CI = get_instance();
 $CI->load->model(array('admin_model', 'member_model'));
 
 // html_escape 리셋
-if (!function_exists('reset_html_escape'))
-{
-  function reset_html_escape($data)
-  {
+if (!function_exists('reset_html_escape')) {
+  function reset_html_escape($data) {
     $trans = get_html_translation_table();
     $trans = array_flip($trans);
     $result = strtr($data, $trans);
@@ -17,10 +15,8 @@ if (!function_exists('reset_html_escape'))
 }
 
 // serialize
-if (!function_exists('make_serialize'))
-{
-  function make_serialize($data)
-  {
+if (!function_exists('make_serialize')) {
+  function make_serialize($data) {
     foreach ($data as $value) {
       if ($value != '') {
         $result[] = $value;
@@ -32,6 +28,30 @@ if (!function_exists('make_serialize'))
       $result = '';
     }
     return $result;
+  }
+}
+
+// 사용자 로그인 확인
+if (!function_exists('checkUserLogin')) {
+  function checkUserLogin() {
+    $CI =& get_instance();
+    $clubIdx = $CI->load->get_var('clubIdx');
+    $userData = $CI->load->get_var('userData');
+    if (empty($userData['idx'])) {
+      redirect(base_url() . 'login/' . $clubIdx . '?r=' . $_SERVER['REQUEST_URI']);
+    }
+  }
+}
+
+// 관리자 로그인 확인
+if (!function_exists('checkAdminLogin')) {
+  function checkAdminLogin() {
+    $CI =& get_instance();
+    $clubIdx = $CI->load->get_var('clubIdx');
+    $userData = $CI->load->get_var('userData');
+    if (empty($userData['idx']) || (!empty($userData['admin']) && $clubIdx != $userData['club_idx'])) {
+      redirect(base_url() . 'login/' . $clubIdx . '?r=' . $_SERVER['REQUEST_URI']);
+    }
   }
 }
 
@@ -577,8 +597,10 @@ if (!function_exists('setHistory')) {
 if (!function_exists('memberLevel')) {
   function memberLevel($userData) {
     // 예약횟수 체크
-    $reserveGroup = $GLOBALS['CI']->member_model->cntReserve($userData, 1, 1);
-    $result = $GLOBALS['CI']->member_model->cntReserve($userData, 1);
+    $CI =& get_instance();
+    $CI->load->model('member_model');
+    $reserveGroup = $CI->member_model->cntReserve($userData, 1, 1);
+    $result = $CI->member_model->cntReserve($userData, 1);
 
     // 페널티 횟수 차감 = 레벨
     $result['level'] = $result['cntReserve'] - $userData['penalty'];
