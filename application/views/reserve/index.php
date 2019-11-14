@@ -56,7 +56,7 @@
 <?php
   endforeach;
 ?>
-              <form id="reserveForm" method="post" action="<?=base_url()?>club/reserve_insert">
+              <form id="reserveForm" method="post" action="<?=base_url()?>reserve/insert">
                 <div id="addedInfo"></div>
                 <input type="hidden" name="club_idx" value="<?=$view['idx']?>">
                 <input type="hidden" name="notice_idx" value="<?=$notice['idx']?>">

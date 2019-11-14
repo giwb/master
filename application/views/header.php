@@ -83,7 +83,7 @@
               <img class="img-profile" src="<?=base_url()?>public/photos/<?=$userData['idx']?>">
               <div class="profile-box">
                 <strong><?=$userData['nickname']?></strong> (<?=$userLevel['levelName']?>)<hr>
-                <a href="<?=base_url()?>/member/<?=$view['idx']?>">마이페이지</a><br>
+                <a href="<?=base_url()?>member/<?=$view['idx']?>">마이페이지</a><br>
                 <a href="javascript:;" class="logout">로그아웃</a>
               </div>
             </li>

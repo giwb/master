@@ -9,7 +9,7 @@
             추후 마이페이지에서도 입력하실 수 있습니다.<br><br><br>
 
             <a href="<?=base_url()?>member/<?=$view['idx']?>"><button class="btn btn-primary">결제정보입력</button></a>
-            <a href="<?=base_url()?>club/reserve/<?=$view['idx']?>?n=<?=$view['noticeIdx']?>"><button class="btn btn-secondary">좌석현황보기</button></a>
+            <a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$view['noticeIdx']?>"><button class="btn btn-secondary">좌석현황보기</button></a>
           </div>
         </div>
       </div>

@@ -49,13 +49,13 @@
   foreach ($listNotice as $value) {
     $startDate = strtotime($value['startdate']);
     $endDate = calcEndDate($value['startdate'], $value['schedule']);
-    $viewNoticeStatus = viewNoticeStatus($value['status'])
+    $viewNoticeStatus = viewNoticeStatus($value['status']);
 ?>
         {
           title: '<?=$viewNoticeStatus?><?=$value['mname']?>',
           start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>T00:00:00'),
           end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>T23:59:59'),
-          url: '<?=base_url()?>club/reserve/<?=$view['idx']?>?n=<?=$value['idx']?>',
+          url: '<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$value['idx']?>',
           className: 'notice-status<?=$value['status']?>'
         },
 <?php

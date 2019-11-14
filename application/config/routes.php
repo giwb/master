@@ -55,6 +55,7 @@ $route['translate_uri_dashes']  = FALSE;
 
 $route['(:num)']                = 'club/index';
 $route['club/(:num)']           = 'club/index';
+$route['reserve/(:num)']        = 'reserve/index';
 $route['login/(:num)']          = 'login/index';
 $route['logout']                = 'login/logout';
 $route['member/(:num)']         = 'member/index';

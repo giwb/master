@@ -599,6 +599,91 @@
         $('#messageModal').modal('show');
       }
     });
+  }).on('click', '.btn-mypage-payment', function() {
+    // 결제정보 입력 모달
+    var resIdx = new Array();
+    var resCost = 0;
+    $('.check-reserve:checked').each(function() {
+      resIdx.push( $(this).val() );
+      resCost += Number($(this).data('cost'));
+    });
+    if (resIdx.length > 0) {
+      $('#reservePaymentModal input[name=reserveCost]').val(resCost);
+      $('#reservePaymentModal .reserveCost, #reservePaymentModal .paymentCost').text($.setNumberFormat(resCost) + '원');
+      $('#reservePaymentModal').modal({backdrop: 'static', keyboard: false});
+    } else {
+      $.openMsgModal('결제정보를 입력할 예약 내역을 선택해주세요.');
+    }
+  }).on('click', '.btn-reserve-payment', function() {
+    // 결제정보 입력 처리
+    var $btn = $(this);
+    var formData = new FormData($('#reserveForm')[0]);
+    formData.append('depositName', $('input[name=depositName]').val());
+    formData.append('usingPoint', $('input[name=usingPoint]').val());
+
+    $.ajax({
+      url: $('input[name=base_url]').val() + 'reserve/payment/' + $('input[name=club_idx]').val(),
+      data: formData,
+      processData: false,
+      contentType: false,
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+      },
+      success: function(result) {
+        if (result.error == 1) {
+          $('.error-message').text(result.message);
+        } else {
+          location.reload();
+        }
+      }
+    });
+  }).on('click', '.using-point-all', function() {
+    // 포인트 전액 사용
+    var reserveCost = $('#reservePaymentModal input[name=reserveCost]').val();
+    var userPoint = $('input[name=userPoint]').val();
+
+    if ($(this).is(':checked') == true) {
+      $('#reservePaymentModal input[name=usingPoint]').val(userPoint);
+      $('#reservePaymentModal .paymentCost').text($.setNumberFormat(reserveCost - userPoint) + '원');
+    } else {
+      $('#reservePaymentModal input[name=usingPoint]').val('');
+      $('#reservePaymentModal .paymentCost').text($.setNumberFormat(reserveCost) + '원');
+    }
+  }).on('click', '.btn-mypage-cancel', function() {
+    // 예약좌석 취소 모달
+    var resIdx = new Array();
+    $('.check-reserve:checked').each(function() {
+      resIdx.push( $(this).val() );
+    });
+    if (resIdx.length > 0) {
+      $('#reserveCancelModal').modal({backdrop: 'static', keyboard: false});
+    } else {
+      $.openMsgModal('취소할 예약 내역을 선택해주세요.');
+    }
+  }).on('click', '.btn-reserve-cancel', function() {
+    // 예약좌석 취소 처리
+    var $btn = $(this);
+    var formData = new FormData($('#reserveForm')[0]);
+    $.ajax({
+      url: $('input[name=base_url]').val() + 'reserve/cancel/' + $('input[name=club_idx]').val(),
+      data: formData,
+      processData: false,
+      contentType: false,
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+      },
+      success: function(result) {
+        if (result.error == 1) {
+          $('.modal-message').text(result.message);
+        } else {
+          location.reload();
+        }
+      }
+    });
   }).on('click', '.btn-refresh', function() {
     location.reload();
   });
@@ -610,7 +695,7 @@
     var clubIdx = $('input[name=club_idx]').val();
 
     $.ajax({
-      url: $('input[name=base_url]').val() + 'club/reserve_information/' + clubIdx,
+      url: $('input[name=base_url]').val() + 'reserve/information/' + clubIdx,
       data: 'idx=' + $('input[name=notice_idx]').val() + '&resIdx=' + resIdx,
       dataType: 'json',
       type: 'post',
@@ -635,6 +720,11 @@
     $('#messageModal .modal-footer .btn-close').show();
     $('#messageModal .modal-message').text(msg);
     $('#messageModal').modal('show');
+  }
+
+  // 숫자 자릿수 콤마 찍기
+  $.setNumberFormat = function(n) {
+    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   }
 
 })(jQuery);
