@@ -202,7 +202,8 @@ class Reserve extends MY_Controller
     $result = array('error' => 1, 'message' => '취소 처리 중 문제가 발생했습니다.<br>다시 승인해 주십시오.');
 
     if (!empty($arrReserveIdx)) {
-      if (!empty($this->reserve_model->cancelReserve($arrReserveIdx))) {
+      $rtn = $this->reserve_model->cancelReserve($arrReserveIdx);
+      if (!empty($rtn)) {
         $result = array('error' => 0, 'message' => '');
       }
     }
