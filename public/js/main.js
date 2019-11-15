@@ -601,15 +601,15 @@
     });
   }).on('click', '.btn-mypage-payment', function() {
     // 결제정보 입력 모달
-    var resIdx = new Array();
-    var resCost = 0;
+    var reserveIdx = new Array();
+    var reserveCost = 0;
     $('.check-reserve:checked').each(function() {
-      resIdx.push( $(this).val() );
-      resCost += Number($(this).data('cost'));
+      reserveIdx.push( $(this).val() );
+      reserveCost += Number($(this).data('cost'));
     });
-    if (resIdx.length > 0) {
-      $('#reservePaymentModal input[name=reserveCost]').val(resCost);
-      $('#reservePaymentModal .reserveCost, #reservePaymentModal .paymentCost').text($.setNumberFormat(resCost) + '원');
+    if (reserveIdx.length > 0) {
+      $('#reservePaymentModal input[name=reserveCost], #reservePaymentModal input[name=paymentCost]').val(reserveCost);
+      $('#reservePaymentModal .reserveCost, #reservePaymentModal .paymentCost').text($.setNumberFormat(reserveCost) + '원');
       $('#reservePaymentModal').modal({backdrop: 'static', keyboard: false});
     } else {
       $.openMsgModal('결제정보를 입력할 예약 내역을 선택해주세요.');
@@ -620,6 +620,7 @@
     var formData = new FormData($('#reserveForm')[0]);
     formData.append('depositName', $('input[name=depositName]').val());
     formData.append('usingPoint', $('input[name=usingPoint]').val());
+    formData.append('paymentCost', $('input[name=paymentCost]').val());
 
     $.ajax({
       url: $('input[name=base_url]').val() + 'reserve/payment/' + $('input[name=club_idx]').val(),
@@ -639,16 +640,43 @@
         }
       }
     });
+  }).on('blur', '.using-point', function() {
+    // 포인트 사용
+    var point = Number($(this).val());
+    var reserveCost = Number($('#reservePaymentModal input[name=reserveCost]').val());
+    var userPoint = Number($('input[name=userPoint]').val());
+    var result = 0;
+
+    if (point > userPoint) {
+      $.openMsgModal('보유한 포인트만 사용할 수 있습니다.');
+      $(this).val('');
+    } else {
+      if (reserveCost > point) {
+        result = reserveCost - point;
+      }
+
+      $('#reservePaymentModal input[name=paymentCost]').val(result);
+      $('#reservePaymentModal .paymentCost').text($.setNumberFormat(result) + '원');
+    }
   }).on('click', '.using-point-all', function() {
     // 포인트 전액 사용
-    var reserveCost = $('#reservePaymentModal input[name=reserveCost]').val();
-    var userPoint = $('input[name=userPoint]').val();
+    var reserveCost = Number($('#reservePaymentModal input[name=reserveCost]').val());
+    var userPoint = Number($('input[name=userPoint]').val());
+    var result = 0;
+
+    if (reserveCost > userPoint) {
+      result = reserveCost - userPoint;
+    } else {
+      userPoint = reserveCost;
+    }
 
     if ($(this).is(':checked') == true) {
       $('#reservePaymentModal input[name=usingPoint]').val(userPoint);
-      $('#reservePaymentModal .paymentCost').text($.setNumberFormat(reserveCost - userPoint) + '원');
+      $('#reservePaymentModal input[name=paymentCost]').val(result);
+      $('#reservePaymentModal .paymentCost').text($.setNumberFormat(result) + '원');
     } else {
       $('#reservePaymentModal input[name=usingPoint]').val('');
+      $('#reservePaymentModal input[name=paymentCost]').val(reserveCost);
       $('#reservePaymentModal .paymentCost').text($.setNumberFormat(reserveCost) + '원');
     }
   }).on('click', '.btn-mypage-cancel', function() {
@@ -678,6 +706,7 @@
       },
       success: function(result) {
         if (result.error == 1) {
+          $btn.hide();
           $('.modal-message').text(result.message);
         } else {
           location.reload();

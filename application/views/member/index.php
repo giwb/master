@@ -16,21 +16,76 @@
           <form id="reserveForm" method="post">
 <?php foreach ($userReserve as $key => $value): ?>
             <dl>
+              <?php if (empty($value['status']) || $value['status'] == STATUS_NONE): ?>
               <dt><input type="checkbox" id="cr<?=$key?>" name="checkReserve[]" class="check-reserve" value="<?=$value['idx']?>" data-cost="<?=$value['cost']?>"><label for="cr<?=$key?>"></label></dt>
+              <?php endif; ?>
               <dd>
                 <?=viewNoticeStatus($value['notice_status'])?> <a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=$value['seat']?>번 좌석<br>
                 <small>
                   일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 
-                  분담금 : <?=number_format($value['cost'])?>원
+                  분담금 : <?=number_format($value['cost'])?>원 /
+                  <?=!empty($value['status']) && $value['status'] == STATUS_ABLE ? '입금완료' : '입금대기'?>
                   <?=!empty($value['depositname']) ? ' / 입금자 : ' . $value['depositname'] : ''?>
                 </small>
               </dd>
             </dl>
 <?php endforeach; ?>
           </form>
+
           <h3>■ 산행 내역</h3>
-          <h3>■ 포인트 내역</h3>
+<?php foreach ($userVisit as $value): ?>
+            <dl>
+              <dd>
+                <?=viewNoticeStatus($value['notice_status'])?> <?=$value['subject']?> - <?=$value['seat']?>번 좌석<br>
+                <small>
+                  일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 
+                  분담금 : <?=number_format($value['cost'])?>원
+                </small>
+              </dd>
+            </dl>
+<?php endforeach; ?>
+
+          <h3>■ 포인트 내역 <small>- 잔액 <?=number_format($userData['point'])?> 포인트</small></h3>
+          <ul>
+<?php foreach ($userPoint as $value): ?>
+<?php
+  switch ($value['action']):
+    case LOG_POINTUP:
+?>
+              <li><strong><span class="text-primary">[포인트추가]</span> <?=number_format($value['point'])?> 포인트 추가</strong>
+<?php
+    break;
+    case LOG_POINTDN:
+?>
+              <li><strong><span class="text-danger">[포인트감소]</span> <?=number_format($value['point'])?> 포인트 감소</strong>
+<?php
+    break;
+  endswitch;
+?>
+              <small>일시 : <?=date('Y-m-d, H:i:s', $value['regdate'])?></small></li>
+<?php endforeach; ?>
+          </ul>
+
           <h3>■ 페널티 내역</h3>
+          <ul>
+<?php foreach ($userPenalty as $value): ?>
+<?php
+  switch ($value['action']):
+    case LOG_PENALTYUP:
+?>
+              <li><strong><span class="text-danger">[페널티추가]</span> <?=number_format($value['point'])?> 페널티 추가</strong>
+<?php
+    break;
+    case LOG_PENALTYDN:
+?>
+              <li><strong><span class="text-primary">[페널티감소]</span> <?=number_format($value['point'])?> 페널티 감소</strong>
+<?php
+    break;
+  endswitch;
+?>
+              <small>일시 : <?=date('Y-m-d, H:i:s', $value['regdate'])?></small></li>
+<?php endforeach; ?>
+          </ul>
         </div>
       </div>
 
@@ -51,7 +106,7 @@
               </dl>
               <dl>
                 <dt>결제금액</dt>
-                <dd><strong class="paymentCost text-danger"></strong></dd>
+                <dd><strong class="paymentCost text-danger"></strong><input type="hidden" name="paymentCost"></dd>
               </dl>
               <dl>
                 <dt>포인트 사용</dt>

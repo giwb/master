@@ -80,5 +80,49 @@ class Member_model extends CI_Model
     $this->db->insert(DB_HISTORY, $data);
     return $this->db->insert_id();
   }
+
+  // 사용자 포인트 기록
+  public function userPointLog($clubIdx, $userId)
+  {
+    $this->db->select('*')
+          ->from(DB_HISTORY)
+          ->where('club_idx', $clubIdx)
+          ->where('userid', $userId)
+          ->where_in('action', array(LOG_POINTUP, LOG_POINTDN))
+          ->order_by('regdate', 'desc')
+          ->limit(5);
+    return $this->db->get()->result_array();
+  }
+
+  // 사용자 페널티 기록
+  public function userPenaltyLog($clubIdx, $userId)
+  {
+    $this->db->select('*')
+          ->from(DB_HISTORY)
+          ->where('club_idx', $clubIdx)
+          ->where('userid', $userId)
+          ->where_in('action', array(LOG_PENALTYUP, LOG_PENALTYDN))
+          ->order_by('regdate', 'desc')
+          ->limit(5);
+    return $this->db->get()->result_array();
+  }
+
+  // 포인트 수정
+  public function updatePoint($clubIdx, $userId, $point)
+  {
+    $this->db->set('point', $point);
+    $this->db->where('club_idx', $clubIdx);
+    $this->db->where('userid', $userId);
+    $this->db->update(DB_MEMBER);
+  }
+
+  // 페널티 수정
+  public function updatePenalty($clubIdx, $userId, $penalty)
+  {
+    $this->db->set('penalty', $penalty);
+    $this->db->where('club_idx', $clubIdx);
+    $this->db->where('userid', $userId);
+    $this->db->update(DB_MEMBER);
+  }
 }
 ?>

@@ -566,7 +566,7 @@ if (!function_exists('getClubGetonoff')) {
 
 // 로그 기록
 if (!function_exists('setHistory')) {
-  function setHistory($action, $fkey, $userid, $subject, $regdate, $point='') {
+  function setHistory($action, $fkey, $userid, $subject, $regdate, $point=NULL) {
     /*
       action
       1 - 회원가입
@@ -586,7 +586,7 @@ if (!function_exists('setHistory')) {
       'subject' => $subject,
       'regdate' => $regdate,
     );
-    if (!empty($point)) {
+    if (!is_null($point)) {
       $data['point'] = $point;
     }
     $GLOBALS['CI']->member_model->insertHistory($data);

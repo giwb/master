@@ -111,6 +111,29 @@ defined('STATUS_CONFIRM') OR define('STATUS_CONFIRM', 2);
 defined('STATUS_CANCLE')  OR define('STATUS_CANCLE', 8);
 defined('STATUS_CLOSED')  OR define('STATUS_CLOSED', 9);
 
+// 로그 키
+/*
+  action
+  1 - 회원가입
+  2 - 산행예약
+  3 - 산행취소
+  4 - 포인트 적립
+  5 - 포인트 감소
+  6 - 페널티 추가
+  7 - 페널티 감소
+  8 - 관리자 예약
+  9 - 관리자 취소
+*/
+defined('LOG_ENTRY')          OR define('LOG_ENTRY', 1);
+defined('LOG_RESERVE')        OR define('LOG_RESERVE', 2);
+defined('LOG_CANCEL')         OR define('LOG_CANCEL', 3);
+defined('LOG_POINTUP')        OR define('LOG_POINTUP', 4);
+defined('LOG_POINTDN')        OR define('LOG_POINTDN', 5);
+defined('LOG_PENALTYUP')      OR define('LOG_PENALTYUP', 6);
+defined('LOG_PENALTYDN')      OR define('LOG_PENALTYDN', 7);
+defined('LOG_ADMIN_RESERVE')  OR define('LOG_ADMIN_RESERVE', 8);
+defined('LOG_ADMIN_CANCEL')   OR define('LOG_ADMIN_CANCEL', 8);
+
 // 경로 설정
 defined('PATH_FRONT')     OR define('PATH_FRONT', PATH_MAIN . '/public/uploads/front/');
 defined('URL_FRONT')      OR define('URL_FRONT', 'public/uploads/front/');

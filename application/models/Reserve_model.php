@@ -21,17 +21,39 @@ class Reserve_model extends CI_Model
   }
 
   // 마이페이지 사용자 예약 내역
-  public function userReserve($clubIdx, $userId)
+  public function userReserve($clubIdx, $userId=NULL, $idx=NULL)
+  {
+    $this->db->select('a.*, b.idx as resCode, b.subject, b.startdate, b.starttime, b.cost, b.status AS notice_status')
+          ->from(DB_RESERVATION . ' a')
+          ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
+          ->where('a.club_idx', $clubIdx);
+
+    if (!empty($userId)) {
+      $this->db->where('a.userid', $userId)
+            ->where('a.status <=', 7)
+            ->where('b.status <=', 7)
+            ->order_by('b.idx', 'desc')
+            ->order_by('a.seat', 'asc');
+      return $this->db->get()->result_array();
+    };
+    if (!empty($idx)) {
+      $this->db->where('a.idx', $idx);
+      return $this->db->get()->row_array(1);
+    };
+  }
+
+  // 마이페이지 사용자 산행 내역
+  public function userVisit($clubIdx, $userId)
   {
     $this->db->select('a.*, b.idx as resCode, b.subject, b.startdate, b.starttime, b.cost, b.status AS notice_status')
           ->from(DB_RESERVATION . ' a')
           ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
           ->where('a.club_idx', $clubIdx)
           ->where('a.userid', $userId)
-          ->where('a.status <=', 7)
-          ->where('b.status <=', 7)
+          ->where('a.status', STATUS_ABLE)
+          ->where('b.status', STATUS_CLOSED)
           ->order_by('b.idx', 'desc')
-          ->order_by('a.seat', 'asc');
+          ->limit(5);
     return $this->db->get()->result_array();
   }
 
@@ -61,9 +83,9 @@ class Reserve_model extends CI_Model
   }
 
   // 예약 취소
-  public function cancelReserve($data)
+  public function cancelReserve($idx)
   {
-    $this->db->where_in('idx', $data);
+    $this->db->where('idx', $idx);
     return $this->db->delete(DB_RESERVATION);
   }
 

@@ -29,6 +29,15 @@ class Member extends MY_Controller
     // 예약 내역
     $viewData['userReserve'] = $this->reserve_model->userReserve($clubIdx, $userData['userid']);
 
+    // 산행 내역
+    $viewData['userVisit'] = $this->reserve_model->userVisit($clubIdx, $userData['userid']);
+
+    // 포인트 내역
+    $viewData['userPoint'] = $this->member_model->userPointLog($clubIdx, $userData['userid']);
+
+    // 페널티 내역
+    $viewData['userPenalty'] = $this->member_model->userPenaltyLog($clubIdx, $userData['userid']);
+
     $this->_viewPage('member/index', $viewData);
   }
 
