@@ -111,6 +111,16 @@ defined('STATUS_CONFIRM') OR define('STATUS_CONFIRM', 2);
 defined('STATUS_CANCLE')  OR define('STATUS_CANCLE', 8);
 defined('STATUS_CLOSED')  OR define('STATUS_CLOSED', 9);
 
+// 스토리 리액션 형태
+defined('TYPE_REACTION_LIKE') OR define('TYPE_REACTION_LIKE', 1); // 좋아요
+defined('TYPE_REACTION_SHARE') OR define('TYPE_REACTION_SHARE', 2); // 공유하기
+
+// 스토리 공유 형태
+defined('TYPE_SHARE_FACEBOOK') OR define('TYPE_SHARE_FACEBOOK', 1); // 페이스북
+defined('TYPE_SHARE_INSTRAGRAM') OR define('TYPE_SHARE_INSTRAGRAM', 2); // 인스타그램
+defined('TYPE_SHARE_TWITTER') OR define('TYPE_SHARE_TWITTER', 3); // 트위터
+defined('TYPE_SHARE_BAND') OR define('TYPE_SHARE_BAND', 4); // 밴드
+
 // 로그 키
 /*
   action

@@ -450,51 +450,7 @@
     } else {
       $dom.slideUp();
     }
-  }).on('click', '.btn-post', function() {
-    // 클럽 스토리 작성
-    var $dom = $(this);
-    var content = $('#club-story-content').val();
-    var photo = $('.icon-photo-delete').data('filename');
-    var page = $('input[name=page]').val();
-
-    if (content == '') { return false; }
-    if (typeof(photo) == 'undefined') { photo = ''; }
-
-    $.ajax({
-      url: $('input[name=base_url]').val() + page + '/story_insert',
-      data: 'club_idx=' + $('input[name=club_idx]').val() + '&page=' + page + '&photo=' + photo + '&content=' + content,
-      dataType: 'json',
-      type: 'post',
-      beforeSend: function() {
-        $('#club-story-content').prop('disabled', true);
-        $dom.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
-      },
-      success: function(result) {
-        /*$('#club-story-content').prop('disabled', false).val('');
-        $dom.css('opacity', '1').prop('disabled', false).text('등록합니다');*/
-        location.reload();
-      }
-    });
-  }).on('click', '.btn-photo', function() {
-    // 사진 선택 클릭
-    $(this).prev().click();
-  }).on('click', '.icon-photo-delete', function() {
-    // 클럽 스토리 사진 삭제
-    var page = $('input[name=page]').val();
-
-    $.ajax({
-      url: $('input[name=base_url]').val() + page + '/delete_photo',
-      data: 'photo=' + $(this).data('filename'),
-      dataType: 'json',
-      type: 'post',
-      success: function(result) {
-        if (result.error == 0) {
-          $('.area-photo').empty();
-          $('.btn-photo').show();
-        }
-      }
-    });
-}).on('click', '.area-bus-table .seat', function() {
+  }).on('click', '.area-bus-table .seat', function() {
     // 산행 예약/수정 버튼
     var resIdx = $(this).data('id');
     var bus = $(this).data('bus');

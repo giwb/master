@@ -21,6 +21,8 @@ class Club extends MY_Controller
   public function index()
   {
     $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+    if (empty($userData['idx'])) $userData['idx'] = NULL;
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
@@ -28,8 +30,21 @@ class Club extends MY_Controller
     // 등록된 산행 목록
     $viewData['listNotice'] = $this->club_model->listNotice($clubIdx);
 
-    // 클럽 이야기
-    $viewData['listStory'] = $this->story_model->listStory($clubIdx);
+    // 클럽 스토리
+    $viewData['listStory'] = $this->story_model->listStory($clubIdx, $userData['idx']);
+
+    // 클럽 스토리 좋아요 확인 (로그인시에만)
+    if (!empty($userData['idx'])) {
+      $listStoryReaction = $this->story_model->listStoryReaction($clubIdx, $userData['idx']);
+
+      foreach ($viewData['listStory'] as $key => $value) {
+        foreach ($listStoryReaction as $reaction) {
+          if ($value['idx'] == $reaction['story_idx']) {
+            $viewData['listStory'][$key]['like'] = $reaction['created_by'];
+          }
+        }
+      }
+    }
 
     $this->_viewPage('club/index', $viewData);
   }

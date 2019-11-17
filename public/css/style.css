@@ -1907,7 +1907,7 @@ h1.nav-logo small {
 #club .club-left .banner { width: 100%; border: 1px solid #999; margin: 10px 0; padding: 10px 0; text-align: center; cursor: pointer; }
 
 #club .club-main .your-story { width: 100%!important; clear: both; margin: 20px 0 0 0; text-align: justify; overflow: hidden; }
-#club .club-main .your-story textarea { width: 100%!important; height: 105px; padding: 10px; }
+#club .club-main .your-story #club-story-content { width: 100%!important; height: 105px; padding: 10px; }
 #club .club-main .your-story .area-btn { height: 40px; margin: 10px 0; }
 #club .club-main .your-story .area-btn .btn-photo { font-size: 14px; border-radius: 10px; padding: 3px 15px; float: left; }
 #club .club-main .your-story .area-btn .btn-photo:hover { border: 1px solid #d9d9d9; box-shadow: 1px 1px 3px #ddd; }
@@ -1922,15 +1922,23 @@ h1.nav-logo small {
 #club .club-main .your-story .area-photo .icon-photo-delete:after { transform: rotate(-45deg); }
 
 #club .club-main article { width: 100%; clear: both; display: block; margin: 0px; padding: 10px 0; }
-#club .club-main article .post-profile { font-size: 12px; }
-#club .club-main article .post-profile a { font-size: 14px; font-weight: bold; color: #000; }
-#club .club-main article .post-profile img { margin: 0 10px 0 0; float: left; }
-#club .club-main article .post-content { width: 100%; padding: 20px 0; }
-#club .club-main article .post-content img { width: 100%; margin-bottom: 10px; }
-#club .club-main article .post-reaction { border: 1px solid #999; border-width: 1px 0; display: flex; }
-#club .club-main article .post-reaction button { font-size: 14px; background-color: #fff; border: 0px; padding: 5px 0; flex: 1; cursor: pointer; }
-#club .club-main article .post-reaction button:hover { color: #fff; background-color: #FF6C00; }
-#club .club-main article .post-reaction button i { margin-right: 4px; }
+#club .club-main article .story-profile { font-size: 12px; }
+#club .club-main article .story-profile a { font-size: 14px; font-weight: bold; color: #000; }
+#club .club-main article .story-profile img { margin: 0 10px 0 0; float: left; }
+#club .club-main article .story-content { width: 100%; padding: 20px 0; }
+#club .club-main article .story-content img { width: 100%; margin-bottom: 10px; }
+#club .club-main article .story-reaction { border: 1px solid #999; border-width: 1px 0; display: flex; }
+#club .club-main article .story-reaction button { font-size: 14px; background-color: #fff; border: 0px; padding: 5px 0; flex: 1; cursor: pointer; }
+#club .club-main article .story-reaction button:hover { color: #fff; background-color: #FF6C00; }
+#club .club-main article .story-reaction button i { margin-right: 4px; }
+#club .club-main article .story-reply { font-size: 14px; margin: 10px 0; display: none; }
+#club .club-main article .story-reply dl { width: 100%; display: table; }
+#club .club-main article .story-reply dl dt { width: 24%; display: table-cell; vertical-align: top; }
+#club .club-main article .story-reply dl dd { width: 76%; display: table-cell; vertical-align: middle; }
+#club .club-main article .story-reply dl dd .date { font-size: 12px; }
+#club .club-main article .story-reply .story-reply-input { width: 100%; display: table; }
+#club .club-main article .story-reply .story-reply-input textarea { width: 80%; height: 50px; display: table-cell; vertical-align: middle; }
+#club .club-main article .story-reply .story-reply-input button { width: 19%; height: 50px; display: table-cell; vertical-align: middle; float: right; }
 
 #club .club-main #myForm dl { width: 100%; font-size: 14px; display: table; padding: 0 30px; }
 #club .club-main #myForm dl dt { min-width: 160px; display: table-cell; margin: 0px; padding: 3px 0 0 0; vertical-align: top; }

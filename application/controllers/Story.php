@@ -7,7 +7,7 @@ class Story extends CI_Controller
   function __construct()
   {
     parent::__construct();
-    $this->load->helper(array('my_array_helper', 'url'));
+    $this->load->helper(array('security', 'url', 'my_array_helper'));
     $this->load->library(array('image_lib'));
     $this->load->model(array('story_model', 'file_model'));
   }
@@ -18,7 +18,7 @@ class Story extends CI_Controller
    * @return json
    * @author bjchoi
    **/
-  public function story_insert()
+  public function insert($clubIdx)
   {
     $now = time();
     $inputData = $this->input->post();
@@ -27,7 +27,7 @@ class Story extends CI_Controller
     $inputData['page'] = html_escape($inputData['page']);
 
     $insertValues = array(
-      'club_idx'    => html_escape($inputData['club_idx']),
+      'club_idx'    => html_escape($clubIdx),
       'member_idx'  => html_escape($inputData['member_idx']),
       'content'     => html_escape($inputData['content']),
       'created_by'  => html_escape($inputData['member_idx']),
@@ -37,7 +37,7 @@ class Story extends CI_Controller
     $idx = $this->story_model->insertStory($insertValues);
 
     if ($idx == '') {
-      $return = array(
+      $result = array(
         'error' => 1,
         'message' => '등록에 실패했습니다.'
       );
@@ -71,13 +71,123 @@ class Story extends CI_Controller
         }
       //}
 
-      $return = array(
+      $result = array(
         'error' => 0,
         'message' => '등록이 완료되었습니다.'
       );
     }
 
-    $this->output->set_output(json_encode($return));
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 스토리 댓글
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function reply($clubIdx)
+  {
+    $clubIdx = html_escape($clubIdx);
+    $storyIdx = html_escape($this->input->post('storyIdx'));
+    $result = array();
+
+    // 댓글 목록
+    $result = $this->story_model->listStoryReply($clubIdx, $storyIdx);
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 스토리 댓글 등록
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function insert_reply($clubIdx)
+  {
+    $now = time();
+    $result = array('error' => 0);
+    $clubIdx = html_escape($clubIdx);
+    $storyIdx = html_escape($this->input->post('storyIdx'));
+    $content = html_escape($this->input->post('content'));
+
+    $insertValues = array(
+      'club_idx' => $clubIdx,
+      'story_idx' => $storyIdx,
+      'content' => $content,
+      'created_by' => html_escape($this->input->post('userIdx')),
+      'created_at' => $now
+    );
+
+    $rtn = $this->story_model->insertStoryReply($insertValues);
+
+    if (empty($rtn)) {
+      $result = array('error' => 1);
+    } else {
+      // 스토리 댓글 개수 올리기
+      $cntStoryReply = $this->story_model->cntStoryReply($clubIdx, $storyIdx);
+      $updateData['reply_cnt'] = $cntStoryReply['cnt'] + 1;
+      $this->story_model->updateStory($updateData, $clubIdx, $storyIdx);
+
+      $result = array(
+        'error' => 0,
+        'content' => $content,
+        'created_at' => date('Y/m/d H:i:s', $now),
+        'reply_cnt' => $updateData['reply_cnt']
+      );
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 좋아요 추가/삭제
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function like($clubIdx)
+  {
+    $now = time();
+    $clubIdx = html_escape($clubIdx);
+    $storyIdx = html_escape($this->input->post('storyIdx'));
+    $userIdx = html_escape($this->input->post('userIdx'));
+    $cntStoryReaction = $this->story_model->cntStoryReaction($clubIdx, $storyIdx, TYPE_REACTION_LIKE);
+    $viewStoryReaction = $this->story_model->viewStoryReaction($clubIdx, $storyIdx, $userIdx);
+    $result = array();
+
+    if (!empty($viewStoryReaction['type_reaction']) && $viewStoryReaction['type_reaction'] == TYPE_REACTION_LIKE) {
+      // 데이터가 있으면 삭제
+      $rtn = $this->story_model->deleteStoryReaction($clubIdx, $storyIdx, $userIdx);
+
+      if (!empty($rtn)) {
+        $updateData['like_cnt'] = $cntStoryReaction['cnt'] - 1;
+        $result = array('type' => 0, 'count' => $updateData['like_cnt']);
+      }
+    } else {
+      // 데이터가 없으면 추가
+      $insertData = array(
+        'club_idx' => $clubIdx,
+        'story_idx' => $storyIdx,
+        'type_reaction' => TYPE_REACTION_LIKE,
+        'created_by' => $userIdx,
+        'created_at' => $now
+      );
+      $rtn = $this->story_model->insertStoryReaction($insertData);
+
+      if (!empty($rtn)) {
+        $updateData['like_cnt'] = $cntStoryReaction['cnt'] + 1;
+        $result = array('type' => 1, 'count' => $updateData['like_cnt']);
+      }
+    }
+
+    if (!empty($rtn)) {
+      // 스토리 좋아요 카운트 수정
+      $this->story_model->updateStory($updateData, $clubIdx, $storyIdx);
+    }
+
+    $this->output->set_output(json_encode($result));
   }
 
   /**
@@ -86,7 +196,7 @@ class Story extends CI_Controller
    * @return json
    * @author bjchoi
    **/
-  public function delete_photo()
+  public function delete_photo($clubIdx)
   {
     $filename = html_escape($this->input->post('photo'));
     $result = $this->file_model->deleteFile($filename);
