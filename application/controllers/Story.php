@@ -127,7 +127,7 @@ class Story extends CI_Controller
     } else {
       // 스토리 댓글 개수 올리기
       $cntStoryReply = $this->story_model->cntStoryReply($clubIdx, $storyIdx);
-      $updateData['reply_cnt'] = $cntStoryReply['cnt'] + 1;
+      $updateData['reply_cnt'] = $cntStoryReply['cnt'];
       $this->story_model->updateStory($updateData, $clubIdx, $storyIdx);
 
       $result = array(
