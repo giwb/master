@@ -216,9 +216,9 @@ class Club extends MY_Controller
       'club_week'         => make_serialize($input_data['club_week']),
       'club_geton'        => make_serialize($input_data['club_geton']),
       'club_getoff'       => make_serialize($input_data['club_getoff']),
-      'content'           => html_escape($input_data['content']),
-      'guide'             => html_escape($input_data['guide']),
       'about'             => html_escape($input_data['about']),
+      'guide'             => html_escape($input_data['guide']),
+      'howto'             => html_escape($input_data['howto']),
       'hundred'           => html_escape($input_data['hundred']),
       'updated_by'        => 1,
       'updated_at'        => $now
