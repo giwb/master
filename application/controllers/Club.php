@@ -50,6 +50,91 @@ class Club extends MY_Controller
   }
 
   /**
+   * 소개
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function about()
+  {
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    $this->_viewPage('club/about', $viewData);
+  }
+
+  /**
+   * 안내인 소개
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function guide()
+  {
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    $this->_viewPage('club/guide', $viewData);
+  }
+
+  /**
+   * 이용안내
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function howto()
+  {
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    $this->_viewPage('club/howto', $viewData);
+  }
+
+  /**
+   * 백산백소 소개
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function hundred()
+  {
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    $this->_viewPage('club/hundred', $viewData);
+  }
+
+  /**
+   * 백산백소 인증현황
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function hundred_auth()
+  {
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    $this->_viewPage('club/hundred_auth', $viewData);
+  }
+
+  /**
    * 설정
    *
    * @return json
@@ -123,7 +208,6 @@ class Club extends MY_Controller
       'phone'             => html_escape($input_data['phone']),
       'area_sido'         => make_serialize($input_data['area_sido']),
       'area_gugun'        => make_serialize($input_data['area_gugun']),
-      'content'           => html_escape($input_data['content']),
       'establish'         => html_escape($input_data['establish']),
       'club_type'         => make_serialize($input_data['club_type']),
       'club_option'       => make_serialize($input_data['club_option']),
@@ -132,8 +216,12 @@ class Club extends MY_Controller
       'club_week'         => make_serialize($input_data['club_week']),
       'club_geton'        => make_serialize($input_data['club_geton']),
       'club_getoff'       => make_serialize($input_data['club_getoff']),
-      'updated_by'  => 1,
-      'updated_at'  => $now
+      'content'           => html_escape($input_data['content']),
+      'guide'             => html_escape($input_data['guide']),
+      'about'             => html_escape($input_data['about']),
+      'hundred'           => html_escape($input_data['hundred']),
+      'updated_by'        => 1,
+      'updated_at'        => $now
     );
     $result = $this->club_model->updateClub($update_values, $clubIdx);
 
@@ -216,6 +304,14 @@ class Club extends MY_Controller
     // 진행 중 산행
     $viewData['listNotice'] = $this->club_model->listNotice($viewData['view']['idx'], array(STATUS_NONE, STATUS_ABLE, STATUS_CONFIRM));
 
+    // 회원수
+    $viewData['view']['cntMember'] = $this->member_model->cntMember($viewData['view']['idx']);
+    $viewData['view']['cntMemberToday'] = $this->member_model->cntMemberToday($viewData['view']['idx']);
+
+    // 방문자수
+    $viewData['view']['cntVisitor'] = $this->member_model->cntVisitor($viewData['view']['idx']);
+    $viewData['view']['cntVisitorToday'] = $this->member_model->cntVisitorToday($viewData['view']['idx']);
+
     // 클럽 대표이미지
     $files = $this->file_model->getFile('club', $viewData['view']['idx']);
 
@@ -230,6 +326,9 @@ class Club extends MY_Controller
         }
       }
     }
+
+    // 방문자 기록
+    setVisitor();
 
     $this->load->view('header', $viewData);
     $this->load->view($viewPage, $viewData);

@@ -28,10 +28,11 @@ class Club_model extends CI_Model
   // 산악회정보 - 보기
   public function viewClub($clubIdx)
   {
-    $this->db->select('*')
-          ->from(DB_CLUBS)
-          ->where('deleted_at', NULL)
-          ->where('idx', $clubIdx);
+    $this->db->select('a.*, b.nickname')
+          ->from(DB_CLUBS . ' a')
+          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx')
+          ->where('a.deleted_at', NULL)
+          ->where('a.idx', $clubIdx);
     return $this->db->get()->row_array(1);
   }
 

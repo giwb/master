@@ -1940,15 +1940,6 @@ h1.nav-logo small {
 #club .club-main article .story-reply .story-reply-input textarea { width: 80%; height: 50px; display: table-cell; vertical-align: middle; }
 #club .club-main article .story-reply .story-reply-input button { width: 19%; height: 50px; display: table-cell; vertical-align: middle; float: right; }
 
-#club .club-main #myForm dl { width: 100%; font-size: 14px; display: table; padding: 0 30px; }
-#club .club-main #myForm dl dt { min-width: 160px; display: table-cell; margin: 0px; padding: 3px 0 0 0; vertical-align: top; }
-#club .club-main #myForm dl dd { width: 90%; display: table-cell; margin: 0px; padding: 0px; }
-#club .club-main #myForm dl dd input[type=text], #club .club-main #myForm dl dd textarea { width: 100%; size: 14px; }
-#club .club-main #myForm dl dd input.width-half { width: 40%; }
-#club .club-main #myForm dl dd input.w100 { width: 100px; }
-#club .club-main #myForm dl dd label { padding-right: 10px; }
-#club .club-main #myForm dl dd .btn { font-size: 14px; margin: 0 0 4px 0; padding: 1px 10px; }
-
 #club .club-right img { width: 100%; }
 #club .club-right h3 { font-size: 14px; background-color: #eee; margin: 0px; padding: 5px 10px; }
 #club .club-right ul { margin: 0 0 20px 0; padding: 0px; }
@@ -2045,6 +2036,19 @@ h1.nav-logo small {
 #reservePaymentModal dl dd { width: 80%; display: table-cell; text-align: left; padding: 10px; vertical-align: middle; }
 #reservePaymentModal .paymentCost { font-size: 16px; }
 #reservePaymentModal .using-point { width: 80px; display: inline-block; }
+
+/* Setup */
+#setupForm .setup-header { background-color: #d9d9d9; border: 1px solid #999; border-width: 1px 0; margin: 0 0 20px 0; padding: 7px 15px; cursor: pointer; }
+#setupForm .setup-content dl { width: 100%; font-size: 14px; display: table; padding: 0px; }
+#setupForm .setup-content dl dt { min-width: 160px; display: table-cell; margin: 0px; padding: 3px 0 0 0; vertical-align: top; }
+#setupForm .setup-content dl dd { width: 90%; display: table-cell; margin: 0px; padding: 0px; }
+#setupForm .setup-content dl dd .btn { font-size: 14px; margin: 0 0 4px 0; padding: 1px 10px; }
+#setupForm .setup-content input[type=text] { width: 100%; size: 14px; }
+#setupForm .setup-content input.width-half { width: 40%; }
+#setupForm .setup-content input.w100 { width: 100px; }
+#setupForm .setup-content label { padding-right: 10px; }
+#setupForm .setup-content textarea { display: none; }
+#setupForm .area-btn { border-top: 1px solid #999; margin: 0 0 20px 0; padding: 20px 0 0 0; text-align: center; }
 
 /* Responsive */
 @media only screen and (max-width: 767px) {

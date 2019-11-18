@@ -58,12 +58,12 @@ class Member_model extends CI_Model
   }
 
   // 회원 정보
-  public function viewMember($clubIdx, $memberIdx)
+  public function viewMember($clubIdx, $userIdx)
   {
     $this->db->select('*')
           ->from(DB_MEMBER)
           ->where('club_idx', $clubIdx)
-          ->where('idx', $memberIdx);
+          ->where('idx', $userIdx);
     return $this->db->get()->row_array(1);
   }
 
@@ -123,6 +123,64 @@ class Member_model extends CI_Model
     $this->db->where('club_idx', $clubIdx);
     $this->db->where('userid', $userId);
     $this->db->update(DB_MEMBER);
+  }
+
+  // 회원수
+  public function cntMember($clubIdx)
+  {
+    $this->db->select('COUNT(idx) AS cnt')
+          ->from(DB_MEMBER)
+          ->where('club_idx', $clubIdx);
+    return $this->db->get()->row_array(1);
+  }
+
+  // 오늘 회원수
+  public function cntMemberToday($clubIdx)
+  {
+    $this->db->select('COUNT(idx) AS cnt')
+          ->from(DB_MEMBER)
+          ->where('club_idx', $clubIdx)
+          ->where('FROM_UNIXTIME(regdate, "%Y%m%d") =', date('Ymd', time()));
+    return $this->db->get()->row_array(1);
+  }
+
+  // 방문자수
+  public function cntVisitor($clubIdx)
+  {
+    $this->db->select('COUNT(idx) AS cnt')
+          ->from(DB_VISITOR)
+          ->where('club_idx', $clubIdx);
+    return $this->db->get()->row_array(1);
+  }
+
+  // 오늘 방문자수
+  public function cntVisitorToday($clubIdx)
+  {
+    $this->db->select('COUNT(idx) AS cnt')
+          ->from(DB_VISITOR)
+          ->where('club_idx', $clubIdx)
+          ->where('FROM_UNIXTIME(created_at, "%Y%m%d") =', date('Ymd', time()));
+    return $this->db->get()->row_array(1);
+  }
+
+  // 해당 사용자의 최근 방문 정보
+  public function viewVisitor($clubIdx, $userIdx, $ipAddress)
+  {
+    $this->db->select('*')
+          ->from(DB_VISITOR)
+          ->where('club_idx', $clubIdx)
+          ->where('ip_address', $ipAddress)
+          ->where('created_by', $userIdx)
+          ->order_by('idx', 'desc')
+          ->limit(1);
+    return $this->db->get()->row_array(1);
+  }
+
+  // 방문자 기록
+  public function insertVisitor($data)
+  {
+    $this->db->insert(DB_VISITOR, $data);
+    return $this->db->insert_id();
   }
 }
 ?>

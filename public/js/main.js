@@ -528,11 +528,16 @@
     $(this).parent().remove();
   }).on('click', '.btn-setup', function() {
     // 설정 수정
+    oEditors1.getById['about'].exec("UPDATE_CONTENTS_FIELD", []);
+    oEditors2.getById['guide'].exec("UPDATE_CONTENTS_FIELD", []);
+    oEditors3.getById['howto'].exec("UPDATE_CONTENTS_FIELD", []);
+    oEditors4.getById['hundred'].exec("UPDATE_CONTENTS_FIELD", []);
+
     var $btn = $(this);
-    var formData = new FormData($('#myForm')[0]);
+    var formData = new FormData($('#setupForm')[0]);
 
     $.ajax({
-      url: $('#myForm').attr('action'),
+      url: $('#setupForm').attr('action'),
       processData: false,
       contentType: false,
       data: formData,

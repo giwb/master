@@ -60,8 +60,8 @@
                 <div id="addedInfo"></div>
                 <input type="hidden" name="club_idx" value="<?=$view['idx']?>">
                 <input type="hidden" name="notice_idx" value="<?=$notice['idx']?>">
+                <button type="button" class="btn btn-primary btn-reserve-confirm">예약합니다</button>
               </form>
-              <button type="button" class="btn btn-primary btn-reserve-confirm">예약합니다</button>
             </div>
           </div>
         </div>

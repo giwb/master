@@ -103,6 +103,7 @@ defined('DB_MEMBER')      OR define('DB_MEMBER', 'giwb_member');
 defined('DB_MTDB')        OR define('DB_MTDB', 'giwb_mtdb');
 defined('DB_NOTICE')      OR define('DB_NOTICE', 'giwb_notice');
 defined('DB_RESERVATION') OR define('DB_RESERVATION', 'giwb_reservation');
+defined('DB_VISITOR')     OR define('DB_VISITOR', 'giwb_visitor');
 
 // 산행 상태
 defined('STATUS_NONE')    OR define('STATUS_NONE', 0);

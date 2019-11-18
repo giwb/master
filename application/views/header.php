@@ -72,8 +72,6 @@
           </h1>
           <ul class="nav-menu">
             <li<?=$uri == 'top' ? ' class="active"' : ''?>><a href="<?=base_url()?><?=$view['idx']?>">TOP</a></li>
-            <li<?=$uri == 'place' ? ' class="active"' : ''?>><a href="http://tripkorea.net/place">여행정보</a></li>
-            <li<?=$uri == 'club' ? ' class="active"' : ''?>><a href="http://tripkorea.net/club">산악회정보</a></li>
 <?php if (empty($userData['idx'])): ?>
             <li><a href="javascript:;" class="login-popup">로그인</a></li>
             <!--<li><button class="search-btn"><i class="fa fa-search"></i></button></li>-->
@@ -106,8 +104,6 @@
           <li><p>&nbsp;</p></li>
 <?php endif; ?>
           <li><a href="<?=base_url()?><?=$view['idx']?>">TOP</a></li>
-          <li><a href="http://tripkorea.net/place">여행정보</a></li>
-          <li><a href="http://tripkorea.net/club">산악회정보</a></li>
 <?php if (empty($userData['idx'])): ?>
           <li><a href="javascript:;" class="login-popup">로그인</a></li>
 <?php else: ?>
@@ -146,18 +142,18 @@
         </div>
         <?=$view['homepage'] != '' ? '<a target="_blank" href="' . $view['homepage'] . '" class="url">' . $view['homepage'] . '</a>' : ''?>
         <ul class="navi">
-          <li><a href="#"><i class="fa fa-picture-o" aria-hidden="true"></i> 산악회 소개</a></li>
-          <li><a href="#"><i class="fa fa-user-circle" aria-hidden="true"></i> 등산 안내인 소개</a></li>
-          <li><a href="#"><i class="fa fa-calendar" aria-hidden="true"></i> 지난 산행보기</a></li>
-          <li><a href="#"><i class="fa fa-map-o" aria-hidden="true"></i> 이용안내</a></li><br>
-          <li><a href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 백산백소 소개</a></li>
-          <li><a href="#"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소 인증현황</a></li><br>
+          <li><a href="<?=base_url()?>club/about"><i class="fa fa-picture-o" aria-hidden="true"></i> 산악회 소개</a></li>
+          <li><a href="<?=base_url()?>club/guide"><i class="fa fa-user-circle" aria-hidden="true"></i> 등산 안내인 소개</a></li>
+          <li><a href="javascript:;" onClick="alert('준비중입니다.');"><i class="fa fa-calendar" aria-hidden="true"></i> 지난 산행보기</a></li>
+          <li><a href="<?=base_url()?>club/howto"><i class="fa fa-map-o" aria-hidden="true"></i> 이용안내</a></li><br>
+          <li><a href="<?=base_url()?>club/hundred"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 백산백소 소개</a></li>
+          <li><a href="<?=base_url()?>club/hundred_auth"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소 인증현황</a></li><br>
           <li><a href="<?=base_url()?>club/setup/<?=$view['idx']?>"><i class="fa fa-cog" aria-hidden="true"></i> 설정</a></li>
         </ul>
         <div class="desc">
         ・개설일 : <?=$view['establish']?>년<br>
-        ・관리자 : 캔총무<br>
-        ・회원수 : 2470명 / 오늘 5명<br>
-        ・방문수 : 22470회 / 오늘 10명<br>
+        ・관리자 : <?=$view['nickname']?><br>
+        ・회원수 : <?=number_format($view['cntMember']['cnt'])?>명 / 오늘 <?=number_format($view['cntMemberToday']['cnt'])?>명<br>
+        ・방문수 : <?=number_format($view['cntVisitor']['cnt'])?>회 / 오늘 <?=number_format($view['cntVisitorToday']['cnt'])?>명<br>
         </div>
       </div>
