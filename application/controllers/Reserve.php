@@ -61,7 +61,7 @@ class Reserve extends MY_Controller
     $noticeIdx = html_escape($this->input->post('idx'));
     $resIdx = html_escape($this->input->post('resIdx'));
 
-    $notice = $this->club_model->viewNotice($clubIdx, $noticeIdx);
+    $notice = $this->reserve_model->viewNotice($clubIdx, $noticeIdx);
 
     if (!empty($resIdx)) {
       $result['reserve'] = $this->reserve_model->viewReserve($clubIdx, $resIdx);
