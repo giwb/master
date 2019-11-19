@@ -4,7 +4,7 @@
         <div class="sub-contents">
           <h2><b>[<?=viewStatus($notice['status'])?>]</b> <?=$notice['subject']?></h2>
           산행일시 : <?=$notice['startdate']?> (<?=calcWeek($notice['startdate'])?>) <?=$notice['starttime']?><br>
-          산행분담금 : <?=number_format($notice['cost'])?>원 (<?=calcTerm($notice['startdate'], $notice['starttime'], $notice['enddate'], $notice['schedule'])?>)<br>
+          산행분담금 : <?=number_format($notice['cost'])?>원 (<?=calcTerm($notice['startdate'], $notice['starttime'], $notice['enddate'], $notice['schedule'])?><?=!empty($notice['costmemo']) ? ', ' . $notice['costmemo'] : ''?>)<br>
           <?=!empty($notice['content']) ? "산행코스 : " . $notice['content'] : ""?>
 
           <div class="area-reservation">
@@ -30,7 +30,7 @@
                 <thead>
                   <tr>
                     <th colspan="7" style="border-right: 0px;"><?=$bus?>호차 - <?=$value['bus_name']?> (<?=$value['bus_owner']?> 기사님)</td>
-                    <th colspan="3" style="border-left: 0px;" class="text-right">예약인원 : <?=cntRes($notice['idx'])?>명</th>
+                    <th colspan="3" style="border-left: 0px;" class="text-right">예약인원 : <?=cntRes($notice['idx'], $bus)?>명</th>
                   </tr>
                 </thead>
                 <tbody>

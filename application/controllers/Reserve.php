@@ -308,7 +308,7 @@ class Reserve extends MY_Controller
    **/
   private function _viewPage($viewPage, $viewData=NULL)
   {
-    $viewData['uri'] = 'club';
+    $viewData['uri'] = 'reserve';
 
     // 회원 정보
     $viewData['userData'] = $this->load->get_var('userData');
@@ -316,6 +316,14 @@ class Reserve extends MY_Controller
 
     // 진행 중 산행
     $viewData['listNotice'] = $this->club_model->listNotice($viewData['view']['idx'], array(STATUS_NONE, STATUS_ABLE, STATUS_CONFIRM));
+
+    // 회원수
+    $viewData['view']['cntMember'] = $this->member_model->cntMember($viewData['view']['idx']);
+    $viewData['view']['cntMemberToday'] = $this->member_model->cntMemberToday($viewData['view']['idx']);
+
+    // 방문자수
+    $viewData['view']['cntVisitor'] = $this->member_model->cntVisitor($viewData['view']['idx']);
+    $viewData['view']['cntVisitorToday'] = $this->member_model->cntVisitorToday($viewData['view']['idx']);
 
     // 클럽 대표이미지
     $files = $this->file_model->getFile('club', $viewData['view']['idx']);
@@ -331,6 +339,9 @@ class Reserve extends MY_Controller
         }
       }
     }
+
+    // 방문자 기록
+    setVisitor();
 
     $this->load->view('header', $viewData);
     $this->load->view($viewPage, $viewData);

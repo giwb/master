@@ -16,9 +16,7 @@
           <form id="reserveForm" method="post">
 <?php foreach ($userReserve as $key => $value): ?>
             <dl>
-              <?php if (empty($value['status']) || $value['status'] == STATUS_NONE): ?>
               <dt><input type="checkbox" id="cr<?=$key?>" name="checkReserve[]" class="check-reserve" value="<?=$value['idx']?>" data-cost="<?=$value['cost']?>"><label for="cr<?=$key?>"></label></dt>
-              <?php endif; ?>
               <dd>
                 <?=viewNoticeStatus($value['notice_status'])?> <a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=$value['seat']?>번 좌석<br>
                 <small>

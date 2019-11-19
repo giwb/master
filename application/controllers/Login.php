@@ -9,7 +9,7 @@ class Login extends CI_Controller
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
     $this->load->library('session');
-    $this->load->model(array('club_model', 'member_model'));
+    $this->load->model(array('club_model', 'file_model', 'member_model'));
   }
 
   /**
@@ -194,9 +194,9 @@ class Login extends CI_Controller
    * @return view
    * @author bjchoi
    **/
-  public function forgot()
+  public function forgot($clubIdx)
   {
-    $viewData = array();
+    $viewData['view'] = $this->club_model->viewclub($clubIdx);
     $this->_viewPage('member/forgot', $viewData);
   }
 
@@ -264,6 +264,32 @@ class Login extends CI_Controller
 
     // 진행 중 산행
     $viewData['listNotice'] = $this->club_model->listNotice($viewData['view']['idx'], array(STATUS_NONE, STATUS_ABLE, STATUS_CONFIRM));
+
+    // 회원수
+    $viewData['view']['cntMember'] = $this->member_model->cntMember($viewData['view']['idx']);
+    $viewData['view']['cntMemberToday'] = $this->member_model->cntMemberToday($viewData['view']['idx']);
+
+    // 방문자수
+    $viewData['view']['cntVisitor'] = $this->member_model->cntVisitor($viewData['view']['idx']);
+    $viewData['view']['cntVisitorToday'] = $this->member_model->cntVisitorToday($viewData['view']['idx']);
+
+    // 클럽 대표이미지
+    $files = $this->file_model->getFile('club', $viewData['view']['idx']);
+
+    if (empty($files)) {
+      $viewData['view']['photo'][0] = 'noimage.png';
+    } else {
+      foreach ($files as $key => $value) {
+        if (!empty($value['filename'])) {
+          $viewData['view']['photo'][$key] = $value['filename'];
+        } else {
+          $viewData['view']['photo'][$key] = 'noimage.png';
+        }
+      }
+    }
+
+    // 방문자 기록
+    setVisitor();
 
     $this->load->view('header', $viewData);
     $this->load->view($viewPage, $viewData);

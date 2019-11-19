@@ -17,8 +17,8 @@
             <hr>
             <div class="row mr-3 ml-3">
               <div class="col-sm-8">
-                <a href="<?=base_url()?>member/entry/<?=$view['idx']?>"><button type="button" class="btn btn-primary">회원가입</button></a>
-                <a href="<?=base_url()?>member/forgot/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">아이디/비밀번호 찾기</button></a>
+                <a href="<?=base_url()?>login/entry/<?=$view['idx']?>"><button type="button" class="btn btn-primary">회원가입</button></a>
+                <a href="<?=base_url()?>login/forgot/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">아이디/비밀번호 찾기</button></a>
               </div>
               <div class="col-sm-4 text-right">
                 <input type="hidden" name="redirect_url" value="<?=$redirect_url?>">

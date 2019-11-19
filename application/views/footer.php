@@ -4,7 +4,7 @@
         <h3><i class="fa fa-calendar" aria-hidden="true"></i> 현재 진행중인 산행</h3>
         <ul class="club-schedule">
 <?php foreach ($listNotice as $value): ?>
-          <li><a href="<?=base_url()?>reserve/<?=$value['club_idx']?>?n=<?=$value['idx']?>"><strong><?=$value['subject']?></strong></a><br>
+          <li><a href="<?=base_url()?>reserve/<?=$value['club_idx']?>?n=<?=$value['idx']?>"><strong><?=viewNoticeStatus($value['status'])?> <?=$value['subject']?></strong></a><br>
           <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost'])?>원 / <?=cntRes($value['idx'])?>명</li>
 <?php endforeach; ?>
         </ul>

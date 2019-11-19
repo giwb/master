@@ -133,8 +133,8 @@ if (!function_exists('calcDate')) {
 
 // 산행 예약자 카운트
 if (!function_exists('cntRes')) {
-  function cntRes($rescode) {
-    $result = $GLOBALS['CI']->admin_model->cntReservation($rescode);
+  function cntRes($resCode, $bus=NULL) {
+    $result = $GLOBALS['CI']->admin_model->cntReservation($resCode, $bus);
     return $result['CNT'];
   }
 }
