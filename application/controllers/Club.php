@@ -28,7 +28,7 @@ class Club extends MY_Controller
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
     // 등록된 산행 목록
-    $viewData['listNotice'] = $this->club_model->listNotice($clubIdx);
+    $viewData['listNotice'] = $this->reserve_model->listNotice($clubIdx);
 
     // 클럽 스토리
     $viewData['listStory'] = $this->story_model->listStory($clubIdx, $userData['idx']);
@@ -302,7 +302,7 @@ class Club extends MY_Controller
     $viewData['userLevel'] = $this->load->get_var('userLevel');
 
     // 진행 중 산행
-    $viewData['listNotice'] = $this->club_model->listNotice($viewData['view']['idx'], array(STATUS_NONE, STATUS_ABLE, STATUS_CONFIRM));
+    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_NONE, STATUS_ABLE, STATUS_CONFIRM));
 
     // 회원수
     $viewData['view']['cntMember'] = $this->member_model->cntMember($viewData['view']['idx']);

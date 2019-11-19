@@ -50,30 +50,5 @@ class Club_model extends CI_Model
     $this->db->where('idx', $clubIdx);
     return $this->db->update(DB_CLUBS);
   }
-
-  // 등록된 산행 목록
-  public function listNotice($clubIdx, $status=NULL)
-  {
-    $this->db->select('*')
-          ->from(DB_NOTICE)
-          ->where('club_idx', $clubIdx)
-          ->order_by('startdate', 'asc');
-
-    if (!is_null($status)) {
-      $this->db->where_in('status', $status);
-    }
-
-    return $this->db->get()->result_array();
-  }
-
-  // 등록된 산행 상세 정보
-  public function viewNotice($clubIdx, $noticeIdx)
-  {
-    $this->db->select('*')
-          ->from(DB_NOTICE)
-          ->where('club_idx', $clubIdx)
-          ->where('idx', $noticeIdx);
-    return $this->db->get()->row_array(1);
-  }
 }
 ?>

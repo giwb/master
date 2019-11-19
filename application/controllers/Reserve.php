@@ -29,11 +29,11 @@ class Reserve extends MY_Controller
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
     // 등록된 산행 목록
-    $viewData['listNotice'] = $this->club_model->listNotice($clubIdx);
+    $viewData['listNotice'] = $this->reserve_model->listNotice($clubIdx);
 
     if (!empty($noticeIdx)) {
       // 예약 공지
-      $viewData['notice'] = $this->club_model->viewNotice($clubIdx, $noticeIdx);
+      $viewData['notice'] = $this->reserve_model->viewNotice($clubIdx, $noticeIdx);
 
       // 버스 형태별 좌석 배치
       $viewData['busType'] = getBusType($viewData['notice']['bustype'], $viewData['notice']['bus']);
@@ -113,7 +113,7 @@ class Reserve extends MY_Controller
     $resIdx     = $postData['resIdx'];
 
     // 페널티 지급 적용자인지 체크
-    $viewNotice = $this->club_model->viewNotice($clubIdx, $noticeIdx);
+    $viewNotice = $this->reserve_model->viewNotice($clubIdx, $noticeIdx);
     $startTime = explode(':', $viewNotice['starttime']);
     $startDate = explode('-', $viewNotice['startdate']);
     $limitDate = mktime($startTime[0], $startTime[1], 0, $startDate[1], $startDate[2], $startDate[0]);
@@ -182,7 +182,7 @@ class Reserve extends MY_Controller
     $viewData['view']['noticeIdx'] = $noticeIdx;
 
     // 등록된 산행 목록
-    $viewData['listNotice'] = $this->club_model->listNotice($clubIdx);
+    $viewData['listNotice'] = $this->reserve_model->listNotice($clubIdx);
 
     $this->_viewPage('club/check', $viewData);
   }
@@ -315,7 +315,7 @@ class Reserve extends MY_Controller
     $viewData['userLevel'] = $this->load->get_var('userLevel');
 
     // 진행 중 산행
-    $viewData['listNotice'] = $this->club_model->listNotice($viewData['view']['idx'], array(STATUS_NONE, STATUS_ABLE, STATUS_CONFIRM));
+    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_NONE, STATUS_ABLE, STATUS_CONFIRM));
 
     // 회원수
     $viewData['view']['cntMember'] = $this->member_model->cntMember($viewData['view']['idx']);

@@ -4,7 +4,7 @@
         <div class="sub-contents">
           <h2><b>[<?=viewStatus($notice['status'])?>]</b> <?=$notice['subject']?></h2>
           산행일시 : <?=$notice['startdate']?> (<?=calcWeek($notice['startdate'])?>) <?=$notice['starttime']?><br>
-          산행분담금 : <?=number_format($notice['cost'])?>원 (<?=calcTerm($notice['startdate'], $notice['starttime'], $notice['enddate'], $notice['schedule'])?><?=!empty($notice['costmemo']) ? ', ' . $notice['costmemo'] : ''?>)<br>
+          산행분담금 : <?=number_format($notice['cost'])?>원 (<?=calcTerm($notice['startdate'], $notice['starttime'], $notice['enddate'], $notice['schedule'])?>, <?=calcDistance($notice['distance'])?><?=!empty($notice['costmemo']) ? ', ' . $notice['costmemo'] : ''?>)<br>
           <?=!empty($notice['content']) ? "산행코스 : " . $notice['content'] : ""?>
 
           <div class="area-reservation">
