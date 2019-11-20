@@ -8,7 +8,7 @@ class Club extends MY_Controller
   {
     parent::__construct();
     $this->load->helper(array('cookie', 'security', 'url', 'my_array_helper'));
-    $this->load->library('session');
+    $this->load->library(array('image_lib', 'session'));
     $this->load->model(array('area_model', 'club_model', 'file_model', 'notice_model', 'member_model', 'reserve_model', 'story_model'));
   }
 
@@ -200,7 +200,8 @@ class Club extends MY_Controller
     $now = time();
     $input_data = $this->input->post();
     $clubIdx = html_escape($input_data['clubIdx']);
-    $files = explode(',', html_escape($input_data['file']));
+    $file = html_escape($input_data['file']);
+    $page = html_escape($input_data['page']);
 
     $update_values = array(
       'title'             => html_escape($input_data['title']),
@@ -225,35 +226,40 @@ class Club extends MY_Controller
     );
     $result = $this->club_model->updateClub($update_values, $clubIdx);
 
-    // 파일 등록
-    if ($files[0] != '') {
+    // 로고 파일 등록
+    if (!empty($file)) {
+      // 기존 로고 파일이 있는 경우 삭제
+      $files = $this->file_model->getFile($page, $clubIdx);
       foreach ($files as $value) {
-        // 업로드 된 파일이 있을 경우에만 등록 후 이동
-        if (file_exists(UPLOAD_PATH . $value)) {
-          $file_values = array(
-            'page' => html_escape($input_data['page']),
-            'page_idx' => $clubIdx,
-            'filename' => $value,
-            'created_at' => $now
-          );
-          $this->file_model->insertFile($file_values);
+        $this->file_model->deleteFile($value['filename']);
+        if (file_exists(PHOTO_PATH . $value['filename'])) unlink(PHOTO_PATH . $value['filename']);
+      }
 
-          // 파일 이동
-          rename(UPLOAD_PATH . $value, PHOTO_PATH . $value);
+      // 업로드 된 로고 파일이 있을 경우에만 등록 후 이동
+      if (file_exists(UPLOAD_PATH . $file)) {
+        $file_values = array(
+          'page' => $page,
+          'page_idx' => $clubIdx,
+          'filename' => $file,
+          'created_at' => $now
+        );
+        $this->file_model->insertFile($file_values);
 
-          // 썸네일 만들기
-          $this->image_lib->clear();
-          $config['image_library'] = 'gd2';
-          $config['source_image'] = PHOTO_PATH . $value;
-          $config['new_image'] = PHOTO_PATH . 'thumb_' . $value;
-          $config['create_thumb'] = TRUE;
-          $config['maintain_ratio'] = FALSE;
-          $config['thumb_marker'] = '';
-          $config['width'] = 200;
-          $config['height'] = 200;
-          $this->image_lib->initialize($config);
-          $this->image_lib->resize();
-        }
+        // 파일 이동
+        rename(UPLOAD_PATH . $file, PHOTO_PATH . $file);
+
+        // 썸네일 만들기
+        $this->image_lib->clear();
+        $config['image_library'] = 'gd2';
+        $config['source_image'] = PHOTO_PATH . $file;
+        $config['new_image'] = PHOTO_PATH . 'thumb_' . $file;
+        $config['create_thumb'] = TRUE;
+        $config['maintain_ratio'] = FALSE;
+        $config['thumb_marker'] = '';
+        $config['width'] = 200;
+        $config['height'] = 200;
+        $this->image_lib->initialize($config);
+        $this->image_lib->resize();
       }
     }
 
@@ -282,6 +288,53 @@ class Club extends MY_Controller
   {
     $parent = html_escape($this->input->post('parent'));
     $result = $this->area_model->listGugun($parent);
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 파일 업로드
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function upload()
+  {
+    if ($_FILES['file_obj']['type'] == 'image/jpeg') {
+      $filename = time() . mt_rand(10000, 99999) . ".jpg";
+
+      if (move_uploaded_file($_FILES['file_obj']['tmp_name'], UPLOAD_PATH . $filename)) {
+        // 사진 사이즈 줄이기 (가로가 사이즈가 1024보다 클 경우)
+        $maxSize = 800;
+        $size = getImageSize(UPLOAD_PATH . $filename);
+        if ($size[0] >= $maxSize) {
+          $this->image_lib->clear();
+          $config['image_library'] = 'gd2';
+          $config['source_image'] = UPLOAD_PATH . $filename;
+          //$config['new_image'] = UPLOAD_PATH . 'thumb_' . $filename;
+          $config['maintain_ratio'] = TRUE;
+          $config['width'] = $maxSize;
+          $this->image_lib->initialize($config);
+          $this->image_lib->resize();
+        }
+
+        $result = array(
+          'error' => 0,
+          'message' => base_url() . UPLOAD_URL . $filename,
+          'filename' => $filename
+        );
+      } else {
+        $result = array(
+          'error' => 1,
+          'message' => '사진 업로드에 실패했습니다.'
+        );
+      }
+    } else {
+      $result = array(
+        'error' => 1,
+        'message' => 'jpg 형식의 사진만 업로드 할 수 있습니다.'
+      );
+    }
+
     $this->output->set_output(json_encode($result));
   }
 

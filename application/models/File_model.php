@@ -31,9 +31,9 @@ class File_model extends CI_Model
   }
 
   // 파일 삭제
-  public function deleteFile($data)
+  public function deleteFile($filename)
   {
-    $this->db->where('filename', $data);
+    $this->db->where('filename', $filename);
     return $this->db->delete(DB_FILES);
   }
 }

@@ -58,7 +58,7 @@
             <dl>
               <dt>사진</dt>
               <dd>
-                <input type="file" name="file" class="file">
+                <input type="file" class="file">
                 <input type="hidden" name="file" value="">
                 <div class="added-files">
                 <?php

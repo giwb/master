@@ -265,6 +265,10 @@
             // 회원가입
             $('.photo').attr('src', result.message);
             $('input[name=filename]').val(result.filename);
+          } else if (page == 'club') {
+            // 클럽
+            $('.added-files').html('<img src="' + result.message + '" class="btn-photo-modal" data-photo="' + result.filename + '">');
+            $('input[name=file]').val(result.filename);
           } else {
             // 그 외
             var $domFiles = $('input[name=file_' + fileType + ']');
