@@ -229,8 +229,14 @@ class Reserve extends MY_Controller
           setHistory(6, $userReserve['resCode'], $userReserve['userid'], $userReserve['subject'] . ' 예약 취소', $nowDate, $penalty);
         }
 
-        // 예약정보에 포인트가 있을때 되돌려줌
-        if ($userReserve['point'] > 0) {
+        if ($userReserve['status'] == STATUS_ABLE) {
+          // 이미 입금을 마친 상태라면, 전액 포인트로 환불
+          $this->member_model->updatePoint($clubIdx, $userReserve['userid'], ($userData['point'] + $userReserve['cost']));
+
+          // 포인트 반환 로그 기록
+          setHistory(4, $userReserve['resCode'], $userReserve['userid'], $userReserve['subject'] . ' 예약 취소', $nowDate, $userReserve['cost']);
+        } elseif ($userReserve['status'] == STATUS_NONE && $userReserve['point'] > 0) {
+          // 예약정보에 포인트가 있을때 반환
           $this->member_model->updatePoint($clubIdx, $userReserve['userid'], ($userData['point'] + $userReserve['point']));
 
           // 포인트 반환 로그 기록

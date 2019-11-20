@@ -564,10 +564,20 @@
     // 결제정보 입력 모달
     var reserveIdx = new Array();
     var reserveCost = 0;
+    var reserveStatus = 0;
     $('.check-reserve:checked').each(function() {
       reserveIdx.push( $(this).val() );
       reserveCost += Number($(this).data('cost'));
+      if ($(this).data('status') == 1) {
+        reserveStatus = $(this).data('status');
+      }
     });
+
+    if (reserveStatus == 1) {
+      $.openMsgModal('이미 입금완료된 좌석이 포함되어 있습니다.');
+      return false;
+    }
+
     if (reserveIdx.length > 0) {
       $('#reservePaymentModal input[name=reserveCost], #reservePaymentModal input[name=paymentCost]').val(reserveCost);
       $('#reservePaymentModal .reserveCost, #reservePaymentModal .paymentCost').text($.setNumberFormat(reserveCost) + '원');
