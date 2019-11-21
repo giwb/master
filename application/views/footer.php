@@ -68,7 +68,6 @@
         <div class="modal-footer">
           <input type="hidden" name="action" value="">
           <input type="hidden" name="delete_idx" value="">
-          <input type="hidden" name="user_idx" value="<?=!empty($userData['idx']) ? $userData['idx'] : ''?>">
           <a href="<?=base_url()?><?=$view['idx']?>"><button type="button" class="btn btn-primary btn-top">메인 화면으로</button></a>
           <button type="button" class="btn btn-primary btn-list">목록으로</button>
           <button type="button" class="btn btn-primary btn-refresh">새로고침</button>

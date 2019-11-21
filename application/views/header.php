@@ -107,6 +107,13 @@
 <?php if (empty($userData['idx'])): ?>
           <li><a href="javascript:;" class="login-popup">로그인</a></li>
 <?php else: ?>
+          <li><a href="<?=base_url()?>club/about"> 산악회 소개</a></li>
+          <li><a href="<?=base_url()?>club/guide"> 등산 안내인 소개</a></li>
+          <li><a href="javascript:;" onClick="alert('준비중입니다.');"> 지난 산행보기</a></li>
+          <li><a href="<?=base_url()?>club/howto"> 이용안내</a></li><br>
+          <li><a href="<?=base_url()?>club/hundred"> 백산백소 소개</a></li>
+          <li><a href="<?=base_url()?>club/hundred_auth"> 백산백소 인증현황</a></li><br>
+          <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?><li><a href="<?=base_url()?>club/setup/<?=$view['idx']?>"> 설정</a></li><?php endif; ?>
           <li><a href="<?=base_url()?>/member/<?=$view['idx']?>">마이페이지</a></li>
           <li><a href="javascript:;" class="logout">로그아웃</a></li>
 <?php endif; ?>

@@ -52,21 +52,22 @@ class Story_model extends CI_Model
   // 스토리 댓글
   public function listStoryReply($clubIdx, $storyIdx)
   {
-    $this->db->select('a.idx, a.content, FROM_UNIXTIME(a.created_at, "%Y/%m/%d %H:%i:%s") AS created_at, b.idx AS member_idx, b.nickname')
+    $this->db->select('a.idx, a.content, a.created_by, FROM_UNIXTIME(a.created_at, "%Y/%m/%d %H:%i:%s") AS created_at, b.nickname')
           ->from(DB_STORY_REPLY . ' a')
           ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
           ->where('a.club_idx', $clubIdx)
-          ->where('a.story_idx', $storyIdx);
+          ->where('a.story_idx', $storyIdx)
+          ->where('a.deleted_at', NULL);
     return $this->db->get()->result_array();
   }
 
   // 스토리 댓글 보기 (댓글 삭제 확인용)
-  public function viewStoryReply($clubIdx, $storyIdx)
+  public function viewStoryReply($clubIdx, $idx)
   {
-    $this->db->select('created_by')
+    $this->db->select('story_idx, created_by')
           ->from(DB_STORY_REPLY)
           ->where('club_idx', $clubIdx)
-          ->where('story_idx', $storyIdx);
+          ->where('idx', $idx);
     return $this->db->get()->row_array(1);
   }
 
@@ -76,7 +77,8 @@ class Story_model extends CI_Model
     $this->db->select('COUNT(idx) AS cnt')
           ->from(DB_STORY_REPLY)
           ->where('club_idx', $clubIdx)
-          ->where('story_idx', $storyIdx);
+          ->where('story_idx', $storyIdx)
+          ->where('deleted_at', NULL);
     return $this->db->get()->row_array(1);
   }
 

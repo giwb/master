@@ -78,10 +78,7 @@
               dataType: 'json',
               type: 'post',
               success: function(result) {
-                $.each(result, function(e, v) {
-                  html += '<dl><dt><img class="img-profile" src="/public/photos/' + v.member_idx + '"> ' + v.nickname + '</dt><dd>' + v.content + ' <span class="date">(' + v.created_at + ')</span></dd></dl>'
-                });
-                $('.story-reply-content', $dom).append(html);
+                $('.story-reply-content', $dom).append(result.message);
                 $dom.slideDown();
               }
             });
@@ -141,7 +138,7 @@
           $('#messageModal .btn').hide();
           $('#messageModal .btn-delete, #messageModal .btn-close').show();
           $('#messageModal .modal-message').text('정말로 삭제하시겠습니까?');
-          $('#messageModal input[name=action]').val('delete');
+          $('#messageModal input[name=action]').val($(this).data('action'));
           $('#messageModal input[name=delete_idx]').val($(this).data('idx'));
           $('#messageModal').modal();
         }).on('click', '.btn-delete', function() {
@@ -149,7 +146,7 @@
           var $btn = $(this);
           $.ajax({
             url: $('input[name=base_url]').val() + 'story/' + $('#messageModal input[name=action]').val() + '/' + $('input[name=club_idx]').val(),
-            data: 'idx=' + $('input[name=delete_idx]').val() + '&user_idx=' + $('input[name=user_idx]').val(),
+            data: 'idx=' + $('input[name=delete_idx]').val(),
             dataType: 'json',
             type: 'post',
             beforeSend: function() {
@@ -182,7 +179,7 @@
 
           $.ajax({
             url: $('input[name=base_url]').val() + 'story/insert/' + $('input[name=club_idx]').val(),
-            data: 'user_idx=<?=$userData['idx']?>&page=' + $('input[name=page]').val() + '&photo=' + photo + '&content=' + content,
+            data: 'page=' + $('input[name=page]').val() + '&photo=' + photo + '&content=' + content,
             dataType: 'json',
             type: 'post',
             beforeSend: function() {
@@ -245,7 +242,7 @@
           <article id="post-<?=$value['idx']?>">
             <div class="story-profile">
               <img class="img-profile" src="<?=base_url()?>public/photos/<?=$value['user_idx']?>"> <strong><?=$value['user_nickname']?></strong><br>
-              <?=calcDate($value['created_at'])?><?=!empty($userData['idx']) && ($userData['idx'] == $value['created_by'] || $userData['admin'] == 1) ? ' | <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '">삭제</a>' : ''?>
+              <?=calcDate($value['created_at'])?><?=!empty($userData['idx']) && ($userData['idx'] == $value['created_by'] || $userData['admin'] == 1) ? ' | <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . ' data-action="delete">삭제</a>' : ''?>
             </div>
             <div class="story-content">
   <?php if (!empty($value['filename'])): ?><img src="<?=base_url()?>public/photos/<?=$value['filename']?>"><br><?php endif; ?>

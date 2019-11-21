@@ -1939,6 +1939,7 @@ h1.nav-logo small {
 #club .club-main article .story-reply .story-reply-input { width: 100%; display: table; }
 #club .club-main article .story-reply .story-reply-input textarea { width: 80%; height: 50px; display: table-cell; vertical-align: middle; }
 #club .club-main article .story-reply .story-reply-input button { width: 19%; height: 50px; display: table-cell; vertical-align: middle; float: right; }
+#club .club-main article .story-reply .btn-post-delete-modal { font-size: 12px; }
 
 #club .club-right img { width: 100%; }
 #club .club-right h3 { font-size: 14px; background-color: #eee; margin: 0px; padding: 5px 10px; }
