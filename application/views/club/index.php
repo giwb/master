@@ -161,6 +161,7 @@
                 $('#messageModal .btn').hide();
                 $('#messageModal .btn-refresh, #messageModal .btn-close').show();
                 $('#messageModal .modal-message').text(result.message);
+                $('#messageModal').modal();
               } else {
                 location.reload();
               }
@@ -178,17 +179,26 @@
 
           $.ajax({
             url: $('input[name=base_url]').val() + 'story/insert/' + $('input[name=club_idx]').val(),
-            data: 'page=' + $('input[name=page]').val() + '&photo=' + photo + '&content=' + content,
+            data: 'user_idx=<?=$userData['idx']?>&page=' + $('input[name=page]').val() + '&photo=' + photo + '&content=' + content,
             dataType: 'json',
             type: 'post',
             beforeSend: function() {
-              $('#club-story-content').prop('disabled', true);
               $dom.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+              $('#club-story-content').prop('disabled', true);
             },
             success: function(result) {
-              /*$('#club-story-content').prop('disabled', false).val('');
-              $dom.css('opacity', '1').prop('disabled', false).text('등록합니다');*/
-              location.reload();
+              if (result.error == 1) {
+                $dom.css('opacity', '1').prop('disabled', false).text('등록합니다');
+                $('#club-story-content').prop('disabled', false).val('');
+                $('#messageModal .btn').hide();
+                $('#messageModal .btn-refresh, #messageModal .btn-close').show();
+                $('#messageModal .modal-message').text(result.message);
+                $('#messageModal').modal();
+              } else {
+                /*$('#club-story-content').prop('disabled', false).val('');
+                $dom.css('opacity', '1').prop('disabled', false).text('등록합니다');*/
+                location.reload();
+              }
             }
           });
         }).on('click', '.btn-photo', function() {

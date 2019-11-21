@@ -21,17 +21,17 @@ class Story extends CI_Controller
   public function insert($clubIdx)
   {
     $now = time();
-    $userData = $this->load->get_var('userData');
     $inputData = $this->input->post();
     $inputData['photo'] = html_escape($inputData['photo']);
     $inputData['page'] = html_escape($inputData['page']);
-    $result = array('error' => 1, 'message' => $this->lang->line('error_delete'));
+    $inputData['userIdx'] = html_escape($inputData['user_idx']);
+    $result = array('error' => 1, 'message' => $this->lang->line('error_insert'));
 
-    if (!empty($userData['idx'])) {
+    if (!empty($inputData['userIdx'])) {
       $insertValues = array(
         'club_idx'    => html_escape($clubIdx),
         'content'     => html_escape($inputData['content']),
-        'created_by'  => html_escape($userData['idx']),
+        'created_by'  => html_escape($inputData['userIdx']),
         'created_at'  => $now
       );
 
