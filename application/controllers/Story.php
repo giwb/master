@@ -198,10 +198,11 @@ class Story extends CI_Controller
     $userIdx = html_escape($this->input->post('user_idx'));
     $result = array('error' => 1, 'message' => $this->lang->line('error_delete'));
 
-    // 해당 글을 작성한 사람이 맞는치 확인
+    // 해당 글을 작성한 사람이 맞는치 확인 (관리자는 모두 삭제 가능)
     $viewStory = $this->story_model->viewStory($clubIdx, $storyIdx);
+    $viewMember = $this->member_model->viewMember($clubIdx, $userIdx);
 
-    if (!empty($viewStory['created_by']) && $viewStory['created_by'] == $userIdx) {
+    if (!empty($viewStory['created_by']) && ($viewStory['created_by'] == $userIdx || $viewMember['admin'] == 1)) {
       // DB는 삭제 플래그만 세워줌
       $updateData = array(
         'deleted_by' => $userIdx,
