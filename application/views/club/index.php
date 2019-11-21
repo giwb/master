@@ -168,6 +168,9 @@
             }
           });
         }).on('click', '.btn-post', function() {
+          <?php if (empty($userData['idx'])): ?>
+          $.openMsgModal('로그인을 해주세요.');
+          <?php else: ?>
           // 스토리 작성
           var $dom = $(this);
           var content = $('#club-story-content').val();
@@ -201,6 +204,7 @@
               }
             }
           });
+          <?php endif; ?>
         }).on('click', '.btn-photo', function() {
           // 사진 선택
           $(this).prev().click();
