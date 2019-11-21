@@ -13,11 +13,12 @@ class Story_model extends CI_Model
   // 스토리 목록
   public function listStory($clubIdx)
   {
-    $this->db->select('a.*, b.nickname AS user_nickname, c.filename')
+    $this->db->select('a.*, b.idx AS user_idx, b.nickname AS user_nickname, c.filename')
           ->from(DB_STORY . ' a')
-          ->join(DB_MEMBER . ' b', 'a.member_idx=b.idx', 'left')
+          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
           ->join(DB_FILES . ' c', 'c.page="story" AND a.idx=c.page_idx', 'left')
           ->where('a.club_idx', $clubIdx)
+          ->where('a.deleted_at', NULL)
           ->order_by('a.created_at', 'desc');
     return $this->db->get()->result_array();
   }
@@ -59,6 +60,16 @@ class Story_model extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  // 스토리 댓글 보기 (댓글 삭제 확인용)
+  public function viewStoryReply($clubIdx, $storyIdx)
+  {
+    $this->db->select('created_by')
+          ->from(DB_STORY_REPLY)
+          ->where('club_idx', $clubIdx)
+          ->where('story_idx', $storyIdx);
+    return $this->db->get()->row_array(1);
+  }
+
   // 스토리 댓글 카운트
   public function cntStoryReply($clubIdx, $storyIdx)
   {
@@ -74,6 +85,20 @@ class Story_model extends CI_Model
   {
     $this->db->insert(DB_STORY_REPLY, $data);
     return $this->db->insert_id();
+  }
+
+  // 스토리 댓글 수정
+  public function updateStoryReply($data, $clubIdx, $storyIdx, $storyReplyIdx=NULL)
+  {
+    $this->db->set($data);
+    $this->db->where('club_idx', $clubIdx);
+    $this->db->where('story_idx', $storyIdx);
+
+    if (!is_null($storyReplyIdx)) {
+      $this->db->where('idx', $storyReplyIdx);
+    }
+
+    return $this->db->update(DB_STORY_REPLY);
   }
 
   // 스토리 리액션 회원별 목록

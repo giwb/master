@@ -21,60 +21,54 @@ class Story extends CI_Controller
   public function insert($clubIdx)
   {
     $now = time();
+    $userData = $this->load->get_var('userData');
     $inputData = $this->input->post();
-    $inputData['member_idx'] = 1;
     $inputData['photo'] = html_escape($inputData['photo']);
     $inputData['page'] = html_escape($inputData['page']);
+    $result = array('error' => 1, 'message' => $this->lang->line('error_delete'));
 
-    $insertValues = array(
-      'club_idx'    => html_escape($clubIdx),
-      'member_idx'  => html_escape($inputData['member_idx']),
-      'content'     => html_escape($inputData['content']),
-      'created_by'  => html_escape($inputData['member_idx']),
-      'created_at'  => $now
-    );
-
-    $idx = $this->story_model->insertStory($insertValues);
-
-    if ($idx == '') {
-      $result = array(
-        'error' => 1,
-        'message' => '등록에 실패했습니다.'
+    if (!empty($userData['idx'])) {
+      $insertValues = array(
+        'club_idx'    => html_escape($clubIdx),
+        'content'     => html_escape($inputData['content']),
+        'created_by'  => html_escape($userData['idx']),
+        'created_at'  => $now
       );
-    } else {
-      // 파일 등록
-      //foreach ($files as $value) {
-        // 업로드 된 파일이 있을 경우에만 등록 후 이동
-        if (!empty($inputData['photo']) && file_exists(UPLOAD_PATH . $inputData['photo'])) {
-          $file_values = array(
-            'page' => $inputData['page'],
-            'page_idx' => $idx,
-            'filename' => $inputData['photo'],
-            'created_at' => $now
-          );
-          $this->file_model->insertFile($file_values);
 
-          // 파일 이동
-          rename(UPLOAD_PATH . $inputData['photo'], PHOTO_PATH . $inputData['photo']);
+      $idx = $this->story_model->insertStory($insertValues);
 
-          // 썸네일 만들기
-          $this->image_lib->clear();
-          $config['image_library'] = 'gd2';
-          $config['source_image'] = PHOTO_PATH . $inputData['photo'];
-          $config['new_image'] = PHOTO_PATH . 'thumb_' . $inputData['photo'];
-          $config['create_thumb'] = TRUE;
-          $config['maintain_ratio'] = TRUE;
-          $config['thumb_marker'] = '';
-          $config['width'] = 650;
-          $this->image_lib->initialize($config);
-          $this->image_lib->resize();
-        }
-      //}
+      if (!empty($idx)) {
+        // 파일 등록
+        //foreach ($files as $value) {
+          // 업로드 된 파일이 있을 경우에만 등록 후 이동
+          if (!empty($inputData['photo']) && file_exists(UPLOAD_PATH . $inputData['photo'])) {
+            $file_values = array(
+              'page' => $inputData['page'],
+              'page_idx' => $idx,
+              'filename' => $inputData['photo'],
+              'created_at' => $now
+            );
+            $this->file_model->insertFile($file_values);
 
-      $result = array(
-        'error' => 0,
-        'message' => '등록이 완료되었습니다.'
-      );
+            // 파일 이동
+            rename(UPLOAD_PATH . $inputData['photo'], PHOTO_PATH . $inputData['photo']);
+
+            // 썸네일 만들기
+            $this->image_lib->clear();
+            $config['image_library'] = 'gd2';
+            $config['source_image'] = PHOTO_PATH . $inputData['photo'];
+            $config['new_image'] = PHOTO_PATH . 'thumb_' . $inputData['photo'];
+            $config['create_thumb'] = TRUE;
+            $config['maintain_ratio'] = TRUE;
+            $config['thumb_marker'] = '';
+            $config['width'] = 650;
+            $this->image_lib->initialize($config);
+            $this->image_lib->resize();
+          }
+        //}
+
+        $result = array('error' => 0);
+      }
     }
 
     $this->output->set_output(json_encode($result));
@@ -185,6 +179,86 @@ class Story extends CI_Controller
     if (!empty($rtn)) {
       // 스토리 좋아요 카운트 수정
       $this->story_model->updateStory($updateData, $clubIdx, $storyIdx);
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 스토리 삭제
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function delete($clubIdx)
+  {
+    $now = time();
+    $clubIdx = html_escape($clubIdx);
+    $storyIdx = html_escape($this->input->post('idx'));
+    $userIdx = html_escape($this->input->post('user_idx'));
+    $result = array('error' => 1, 'message' => $this->lang->line('error_delete'));
+
+    // 해당 글을 작성한 사람이 맞는치 확인
+    $viewStory = $this->story_model->viewStory($clubIdx, $storyIdx);
+
+    if (!empty($viewStory['created_by']) && $viewStory['created_by'] == $userIdx) {
+      // DB는 삭제 플래그만 세워줌
+      $updateData = array(
+        'deleted_by' => $userIdx,
+        'deleted_at' => $now
+      );
+
+      $rtn = $this->story_model->updateStory($updateData, $clubIdx, $storyIdx);
+
+      if (!empty($rtn)) {
+        // 댓글 삭제 플래그 세우기
+        $this->story_model->updateStoryReply($updateData, $clubIdx, $storyIdx);
+
+        // 화상 데이터는 삭제
+        $files = $this->file_model->getFile('story', $storyIdx);
+
+        foreach ($files as $value) {
+          if (file_exists(PHOTO_PATH . $value['filename'])) unlink(PHOTO_PATH . $value['filename']);
+          $this->file_model->deleteFile($value['filename']);
+        }
+
+        $result = array('error' => 0);
+      }
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 스토리 댓글 삭제
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function delete_reply($clubIdx)
+  {
+    $now = time();
+    $userData = $this->load->get_var('userData');
+    $clubIdx = html_escape($clubIdx);
+    $storyIdx = html_escape($this->input->post('story_idx'));
+    $storyReplyIdx = html_escape($this->input->post('idx'));
+    $result = array('error' => 1, 'message' => $this->lang->line('error_delete'));
+
+    // 해당 글을 작성한 사람이 맞는치 확인
+    $viewStoryReply = $this->story_model->viewStoryReply($clubIdx, $storyIdx);
+
+    if (!empty($viewStoryReply['created_by']) && $viewStoryReply['created_by'] == $userData['idx']) {
+      // 삭제는 삭제 플래그만 세워줌
+      $updateData = array(
+        'deleted_by' => $userData['idx'],
+        'deleted_at' => $now
+      );
+
+      $rtn = $this->story_model->updateStoryReply($updateData, $clubIdx, $storyIdx, $storyReplyIdx);
+
+      if (!empty($rtn)) {
+        $result = array('error' => 0);
+      }
     }
 
     $this->output->set_output(json_encode($result));

@@ -1923,7 +1923,7 @@ h1.nav-logo small {
 
 #club .club-main article { width: 100%; clear: both; display: block; margin: 0px; padding: 10px 0; }
 #club .club-main article .story-profile { font-size: 12px; }
-#club .club-main article .story-profile a { font-size: 14px; font-weight: bold; color: #000; }
+#club .club-main article .story-profile strong { font-size: 14px; font-weight: bold; color: #000; }
 #club .club-main article .story-profile img { margin: 0 10px 0 0; float: left; }
 #club .club-main article .story-content { width: 100%; padding: 20px 0; }
 #club .club-main article .story-content img { width: 100%; margin-bottom: 10px; }

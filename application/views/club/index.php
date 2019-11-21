@@ -136,6 +136,36 @@
           <?php endif; ?>
         }).on('click', '.btn-share', function() {
           // 공유하기
+        }).on('click', '.btn-post-delete-modal', function() {
+          // 삭제하기 모달
+          $('#messageModal .btn').hide();
+          $('#messageModal .btn-delete, #messageModal .btn-close').show();
+          $('#messageModal .modal-message').text('정말로 삭제하시겠습니까?');
+          $('#messageModal input[name=action]').val('delete');
+          $('#messageModal input[name=delete_idx]').val($(this).data('idx'));
+          $('#messageModal').modal();
+        }).on('click', '.btn-delete', function() {
+          // 삭제하기
+          var $btn = $(this);
+          $.ajax({
+            url: $('input[name=base_url]').val() + 'story/' + $('#messageModal input[name=action]').val() + '/' + $('input[name=club_idx]').val(),
+            data: 'idx=' + $('input[name=delete_idx]').val() + '&user_idx=' + $('input[name=user_idx]').val(),
+            dataType: 'json',
+            type: 'post',
+            beforeSend: function() {
+              $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+            },
+            success: function(result) {
+              if (result.error == 1) {
+                $btn.css('opacity', '1').prop('disabled', false).text('삭제합니다');
+                $('#messageModal .btn').hide();
+                $('#messageModal .btn-refresh, #messageModal .btn-close').show();
+                $('#messageModal .modal-message').text(result.message);
+              } else {
+                location.reload();
+              }
+            }
+          });
         }).on('click', '.btn-post', function() {
           // 스토리 작성
           var $dom = $(this);
@@ -200,7 +230,8 @@
   <?php foreach ($listStory as $value): ?>
           <article id="post-<?=$value['idx']?>">
             <div class="story-profile">
-              <img class="img-profile" src="<?=base_url()?>public/images/profile.png"> <a href="#"><?=$value['user_nickname']?></a><br><?=calcDate($value['created_at'])?>
+              <img class="img-profile" src="<?=base_url()?>public/photos/<?=$value['user_idx']?>"> <strong><?=$value['user_nickname']?></strong><br>
+              <?=calcDate($value['created_at'])?><?=!empty($userData['idx']) && $userData['idx'] == $value['created_by'] ? ' | <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '">삭제</a>' : ''?>
             </div>
             <div class="story-content">
   <?php if (!empty($value['filename'])): ?><img src="<?=base_url()?>public/photos/<?=$value['filename']?>"><br><?php endif; ?>
