@@ -57,14 +57,15 @@ class Club extends MY_Controller
    **/
   public function latest()
   {
+    $now = time();
     $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
     $sdate = html_escape($this->input->get('sdate'));
     $edate = html_escape($this->input->get('edate'));
     $keyword = html_escape($this->input->get('keyword'));
 
-    $viewData['searchData']['sdate'] = !empty($sdate) ? $sdate : NULL;
-    $viewData['searchData']['edate'] = !empty($edate) ? $edate : NULL;
+    $viewData['searchData']['sdate'] = !empty($sdate) ? $sdate : date('Y-m-01', $now);
+    $viewData['searchData']['edate'] = !empty($edate) ? $edate : date('Y-m-30', $now);
     $viewData['searchData']['keyword'] = !empty($keyword) ? $keyword : NULL;
 
     // 클럽 정보
