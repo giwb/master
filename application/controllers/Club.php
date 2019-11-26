@@ -63,6 +63,9 @@ class Club extends MY_Controller
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
+    // 지난 산행
+    $viewData['listLatestNotice'] = $this->reserve_model->listNotice($clubIdx, array(STATUS_CLOSED), 'desc');
+
     $this->_viewPage('club/latest', $viewData);
   }
 

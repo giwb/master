@@ -11,12 +11,13 @@ class Reserve_model extends CI_Model
   }
 
   // 등록된 산행 목록
-  public function listNotice($clubIdx, $status=NULL)
+  public function listNotice($clubIdx, $status=NULL, $order='asc')
   {
     $this->db->select('*')
           ->from(DB_NOTICE)
           ->where('club_idx', $clubIdx)
-          ->order_by('startdate', 'asc');
+          ->where('cost >', 0)
+          ->order_by('startdate', $order);
 
     if (!is_null($status)) {
       $this->db->where_in('status', $status);
