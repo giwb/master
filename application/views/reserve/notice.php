@@ -7,18 +7,25 @@
             <div class="area-btn"><a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$notice['idx']?>"><button type="button" class="btn btn-primary">좌석보기</button></a></div>
           </div>
           <div align="center"><img src="<?=base_url() . '/' . PHOTO_URL . $notice['photo']?>"></div><br>
-          기획의도<br>
-          <?=reset_html_escape($notice['plan'])?><br><br>
-          핵심안내<br>
-          <?=reset_html_escape($notice['point'])?><br><br>
-          타임테이블<br>
-          <?=reset_html_escape($notice['timetable'])?><br><br>
-          산행안내<br>
-          <?=reset_html_escape($notice['information'])?><br><br>
-          산행코스안내<br>
-          <?=reset_html_escape($notice['course'])?><br><br>
-          산행지소개<br>
-          <?=reset_html_escape($notice['intro'])?><br><br>
+
+          <div class="sub-header">기획의도</div>
+          <div class="sub-content"><?=reset_html_escape($notice['plan'])?></div>
+
+          <div class="sub-header">핵심안내</div>
+          <div class="sub-content"><?=reset_html_escape($notice['point'])?></div>
+
+          <div class="sub-header">타임테이블</div>
+          <div class="sub-content"><?=reset_html_escape($notice['timetable'])?></div>
+
+          <div class="sub-header">산행안내</div>
+          <div class="sub-content"><?=reset_html_escape($notice['information'])?></div>
+
+          <div class="sub-header">산행코스안내</div>
+          <div class="sub-content"><?=reset_html_escape($notice['course'])?></div>
+
+          <div class="sub-header">산행지소개</div>
+          <div class="sub-content"><?=reset_html_escape($notice['intro'])?></div>
+
           <div align="center"><img src="<?=base_url() . '/' . PHOTO_URL . $notice['map']?>"></div>
         </div>
       </div>
