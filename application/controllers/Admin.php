@@ -280,14 +280,14 @@ class Admin extends CI_Controller
     if (!is_null($idx)) {
       $viewData['btn'] = '수정';
       $viewData['view'] = $this->admin_model->viewEntry(html_escape($idx));
-      $viewData['view']['bustype'] = unserialize($viewData['view']['bustype']);
-      $viewData['view']['road_course'] = unserialize($viewData['view']['road_course']);
-      $viewData['view']['road_distance'] = unserialize($viewData['view']['road_distance']);
-      $viewData['view']['road_runtime'] = unserialize($viewData['view']['road_runtime']);
-      $viewData['view']['road_cost'] = unserialize($viewData['view']['road_cost']);
-      $viewData['view']['driving_fuel'] = unserialize($viewData['view']['driving_fuel']);
-      $viewData['view']['driving_cost'] = unserialize($viewData['view']['driving_cost']);
-      $viewData['view']['driving_add'] = unserialize($viewData['view']['driving_add']);
+      $viewData['view']['bustype'] = @unserialize($viewData['view']['bustype']);
+      $viewData['view']['road_course'] = @unserialize($viewData['view']['road_course']);
+      $viewData['view']['road_distance'] = @unserialize($viewData['view']['road_distance']);
+      $viewData['view']['road_runtime'] = @unserialize($viewData['view']['road_runtime']);
+      $viewData['view']['road_cost'] = @unserialize($viewData['view']['road_cost']);
+      $viewData['view']['driving_fuel'] = @unserialize($viewData['view']['driving_fuel']);
+      $viewData['view']['driving_cost'] = @unserialize($viewData['view']['driving_cost']);
+      $viewData['view']['driving_add'] = @unserialize($viewData['view']['driving_add']);
     } else {
       $viewData['btn'] = '등록';
       $viewData['view']['idx'] = '';
