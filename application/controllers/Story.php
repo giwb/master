@@ -87,17 +87,17 @@ class Story extends CI_Controller
   {
     $clubIdx = html_escape($clubIdx);
     $storyIdx = html_escape($this->input->post('storyIdx'));
-    $userIdx = $this->session->userData['idx'];
+    $userData = $this->session->userData;
     $message = '';
 
-    if (empty($userIdx)) {
+    if (empty($userData['idx'])) {
       $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
     } else {
       // 댓글 목록
       $reply = $this->story_model->listStoryReply($clubIdx, $storyIdx);
 
       foreach ($reply as $value) {
-        if ($userIdx == $value['created_by']) {
+        if ($userData['idx'] == $value['created_by'] || $userData['admin'] == 1) {
           $delete = '| <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '" data-action="delete_reply">삭제</a>';
         } else {
           $delete = '';
