@@ -85,7 +85,10 @@
               </tr>
               <tr>
                 <th>주 메뉴선택</th>
-                <td><input<?=$view['level'] == 1 ? ' checked' : ''?> type="checkbox" name="level" value="1"> 평생회원 체크</td>
+                <td>
+                  <label class="mr-2"><input<?=$view['level'] == LEVEL_LIFETIME ? ' checked' : ''?> type="checkbox" name="level" value="<?=LEVEL_LIFETIME?>"> 평생회원 체크</label>
+                  <label class="ml-2"><input<?=$view['level'] == LEVEL_FREE ? ' checked' : ''?> type="checkbox" name="level" value="<?=LEVEL_FREE?>"> 무료회원 체크</label>
+                </td>
               </tr>
               <tr>
                 <th>레벨</th>

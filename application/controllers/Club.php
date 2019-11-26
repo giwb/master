@@ -50,6 +50,23 @@ class Club extends MY_Controller
   }
 
   /**
+   * 지난 산행보기
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function latest()
+  {
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    $this->_viewPage('club/latest', $viewData);
+  }
+
+  /**
    * 소개
    *
    * @return view

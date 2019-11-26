@@ -50,6 +50,28 @@ class Reserve extends MY_Controller
   }
 
   /**
+   * 공지 페이지
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function notice()
+  {
+    checkUserLogin();
+
+    $clubIdx = $this->load->get_var('clubIdx');
+    $noticeIdx = html_escape($this->input->get('n'));
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    // 공지 정보
+    $viewData['notice'] = $this->reserve_model->viewNotice($clubIdx, $noticeIdx);
+
+    $this->_viewPage('reserve/notice', $viewData);
+  }
+
+  /**
    * 예약 정보
    *
    * @return json

@@ -37,8 +37,9 @@ if (!function_exists('setHistory')) {
     $CI =& get_instance();
     $clubIdx = $CI->load->get_var('clubIdx');
     $userData = $CI->load->get_var('userData');
+    if (empty($userData['idx'])) $userData['idx'] = NULL;
 
-    if (!empty($clubIdx) && !empty($userData['idx'])) {
+    if (!empty($clubIdx)) {
       $visitor = $GLOBALS['CI']->member_model->viewVisitor($clubIdx, $userData['idx'], $_SERVER['REMOTE_ADDR']);
 
       // 최근 30분 이내 접속했다면 동일 접속으로 취급
@@ -250,6 +251,7 @@ if (!function_exists('calcDistance')) {
       case "17": $result = "왕복 1000km 미만구간"; break;
       case "18": $result = "왕복 1000km 이상구간"; break;
       case "99": $result = "해외트래킹"; break;
+      default  : $result = "";
     }
     return $result;
   }

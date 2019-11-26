@@ -164,15 +164,19 @@ class Member_model extends CI_Model
   }
 
   // 해당 사용자의 최근 방문 정보
-  public function viewVisitor($clubIdx, $userIdx, $ipAddress)
+  public function viewVisitor($clubIdx, $userIdx=NULL, $ipAddress)
   {
     $this->db->select('*')
           ->from(DB_VISITOR)
           ->where('club_idx', $clubIdx)
           ->where('ip_address', $ipAddress)
-          ->where('created_by', $userIdx)
           ->order_by('idx', 'desc')
           ->limit(1);
+
+    if (!is_null($userIdx)) {
+      $this->db->where('created_by', $userIdx);
+    }
+
     return $this->db->get()->row_array(1);
   }
 

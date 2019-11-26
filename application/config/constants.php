@@ -146,5 +146,10 @@ defined('LOG_ADMIN_RESERVE')  OR define('LOG_ADMIN_RESERVE', 8);
 defined('LOG_ADMIN_CANCEL')   OR define('LOG_ADMIN_CANCEL', 8);
 
 // 경로 설정
-defined('PATH_FRONT')     OR define('PATH_FRONT', PATH_MAIN . '/public/uploads/front/');
-defined('URL_FRONT')      OR define('URL_FRONT', 'public/uploads/front/');
+defined('PATH_FRONT')         OR define('PATH_FRONT', PATH_MAIN . '/public/uploads/front/');
+defined('URL_FRONT')          OR define('URL_FRONT', 'public/uploads/front/');
+
+// 레벨 형태
+defined('LEVEL_NORMAL')       OR define('LEVEL_NORMAL', 0);
+defined('LEVEL_LIFETIME')     OR define('LEVEL_LIFETIME', 1);
+defined('LEVEL_FREE')         OR define('LEVEL_FREE', 2);

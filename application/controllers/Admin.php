@@ -401,8 +401,21 @@ class Admin extends CI_Controller
    **/
   public function main_notice_update()
   {
+    $now = time();
     $idx = html_escape($this->input->post('idx'));
     if ($idx == '') exit;
+    $photo = NULL;
+    $map = NULL;
+
+    if (!empty($_FILES['photo']['tmp_name']) && $_FILES['photo']['type'] == 'image/jpeg') {
+      $photo = $now . mt_rand(10000, 99999) . ".jpg";
+      move_uploaded_file($_FILES['photo']['tmp_name'], PHOTO_PATH . $photo);
+    }
+
+    if (!empty($_FILES['map']['tmp_name']) && $_FILES['map']['type'] == 'image/jpeg') {
+      $map = $now . mt_rand(10000, 99999) . ".jpg";
+      move_uploaded_file($_FILES['map']['tmp_name'], PHOTO_PATH . $map);
+    }
 
     $postData = array(
       'plan'        => html_escape($this->input->post('plan')),         // 기획의도
@@ -411,8 +424,8 @@ class Admin extends CI_Controller
       'information' => html_escape($this->input->post('information')),  // 산행안내
       'course'      => html_escape($this->input->post('course')),       // 산행코스안내
       'intro'       => html_escape($this->input->post('intro')),        // 산행지 소개
-      'photo'       => make_serialize($this->input->post('photos')),    // 산행지 사진
-      'map'         => make_serialize($this->input->post('maps')),      // 산행 지도 사진
+      'photo'       => $photo,        // 산행지 사진
+      'map'         => $map,          // 산행 지도 사진
     );
 
     $rtn = $this->admin_model->updateEntry($postData, $idx);

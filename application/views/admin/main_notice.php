@@ -51,11 +51,11 @@
             </tr>
             <tr>
               <th>산행지 사진</th>
-              <td><input type="hidden" name="photos[]"><input type="file" name="photo"></td>
+              <td><input type="file" name="photo"></td>
             </tr>
             <tr>
               <th>산행 지도 사진</th>
-              <td><input type="hidden" name="maps[]"><input type="file" name="map"></td>
+              <td><input type="file" name="map"></td>
             </tr>
             <tr><td colspan="2"></td></tr>
           </tbody>

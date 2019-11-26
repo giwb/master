@@ -109,7 +109,7 @@
 <?php else: ?>
           <li><a href="<?=base_url()?>club/about"> 산악회 소개</a></li>
           <li><a href="<?=base_url()?>club/guide"> 등산 안내인 소개</a></li>
-          <li><a href="javascript:;" onClick="alert('준비중입니다.');"> 지난 산행보기</a></li>
+          <li><a href="<?=base_url()?>club/latest"> 지난 산행보기</a></li>
           <li><a href="<?=base_url()?>club/howto"> 이용안내</a></li><br>
           <li><a href="<?=base_url()?>club/hundred"> 백산백소 소개</a></li>
           <li><a href="<?=base_url()?>club/hundred_auth"> 백산백소 인증현황</a></li><br>
@@ -151,7 +151,7 @@
         <ul class="navi">
           <li><a href="<?=base_url()?>club/about"><i class="fa fa-picture-o" aria-hidden="true"></i> 산악회 소개</a></li>
           <li><a href="<?=base_url()?>club/guide"><i class="fa fa-user-circle" aria-hidden="true"></i> 등산 안내인 소개</a></li>
-          <li><a href="javascript:;" onClick="alert('준비중입니다.');"><i class="fa fa-calendar" aria-hidden="true"></i> 지난 산행보기</a></li>
+          <li><a href="<?=base_url()?>club/latest"><i class="fa fa-calendar" aria-hidden="true"></i> 지난 산행보기</a></li>
           <li><a href="<?=base_url()?>club/howto"><i class="fa fa-map-o" aria-hidden="true"></i> 이용안내</a></li><br>
           <li><a href="<?=base_url()?>club/hundred"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 백산백소 소개</a></li>
           <li><a href="<?=base_url()?>club/hundred_auth"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소 인증현황</a></li><br>
