@@ -59,9 +59,13 @@ class Club extends MY_Controller
   {
     $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
-    $viewData['searchData']['sdate'] = !empty($this->input->get('sdate')) ? html_escape($this->input->get('sdate')) : NULL;
-    $viewData['searchData']['edate'] = !empty($this->input->get('edate')) ? html_escape($this->input->get('edate')) : NULL;
-    $viewData['searchData']['keyword'] = !empty($this->input->get('keyword')) ? html_escape($this->input->get('keyword')) : NULL;
+    $sdate = html_escape($this->input->get('sdate'));
+    $edate = html_escape($this->input->get('edate'));
+    $keyword = html_escape($this->input->get('keyword'));
+
+    $viewData['searchData']['sdate'] = !empty($sdate) ? $sdate : NULL;
+    $viewData['searchData']['edate'] = !empty($edate) ? $edate : NULL;
+    $viewData['searchData']['keyword'] = !empty($keyword) ? $keyword : NULL;
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
