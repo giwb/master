@@ -6,7 +6,7 @@
             <div class="area-title"><h2><b>[<?=viewStatus($notice['status'])?>]</b> <?=$notice['subject']?></h2></div>
             <div class="area-btn"><a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$notice['idx']?>"><button type="button" class="btn btn-primary">좌석보기</button></a></div>
           </div>
-          <div align="center"><img src="<?=base_url() . '/' . PHOTO_URL . $notice['photo']?>"></div><br>
+          <div class="sub-photo"><img src="<?=$notice['photo']?>"></div>
 
           <div class="sub-header">기획의도</div>
           <div class="sub-content"><?=reset_html_escape($notice['plan'])?></div>
@@ -26,6 +26,6 @@
           <div class="sub-header">산행지소개</div>
           <div class="sub-content"><?=reset_html_escape($notice['intro'])?></div>
 
-          <div align="center"><img src="<?=base_url() . '/' . PHOTO_URL . $notice['map']?>"></div>
+          <div class="sub-photo"><img src="<?=$notice['map']?>"></div>
         </div>
       </div>

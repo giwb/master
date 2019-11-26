@@ -68,6 +68,14 @@ class Reserve extends MY_Controller
     // 공지 정보
     $viewData['notice'] = $this->reserve_model->viewNotice($clubIdx, $noticeIdx);
 
+    if (file_exists(PHOTO_PATH . $viewData['notice']['photo'])) {
+      $viewData['notice']['photo'] = base_url() . '/' . PHOTO_URL . $viewData['notice']['photo'];
+    }
+
+    if (file_exists(PHOTO_PATH . $viewData['notice']['map'])) {
+      $viewData['notice']['map'] = base_url() . '/' . PHOTO_URL . $viewData['notice']['map'];
+    }
+
     $this->_viewPage('reserve/notice', $viewData);
   }
 
