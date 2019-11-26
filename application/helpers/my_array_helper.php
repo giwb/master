@@ -390,7 +390,9 @@ if (!function_exists('getReserve')) {
     }
     if ($result['idx'] == '') {
       // 붙어있는 좌석은 같은 성별로만
-      $message = "<span class='text-danger'>예약불가</span>";
+      if ($userData['gender'] == '1') $message = "<span class='text-danger'>남성우선</span>";
+      else $message = "<span class='text-danger'>여성우선</span>";
+
       if ($seat %2 == 1) {
         // 현재 좌석은 홀수
         $nextSeat = $seat + 1;

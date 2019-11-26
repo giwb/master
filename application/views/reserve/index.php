@@ -32,8 +32,8 @@
                 </colgroup>
                 <thead>
                   <tr>
-                    <th colspan="7" style="border-right: 0px;"><?=$bus?>호차 - <?=$value['bus_name']?> (<?=$value['bus_owner']?> 기사님)</td>
-                    <th colspan="3" style="border-left: 0px;" class="text-right">예약인원 : <?=cntRes($notice['idx'], $bus)?>명</th>
+                    <th colspan="7" style="border-right: 0px;"><?=count($busType) >= 2 ? $bus . '호차 - ' : ''?><?=$value['bus_name']?> (<?=$value['bus_owner']?> 기사님)</td>
+                    <th colspan="3" style="border-left: 0px;" class="text-right">예약 : <?=cntRes($notice['idx'], $bus)?>명</th>
                   </tr>
                 </thead>
                 <tbody>
