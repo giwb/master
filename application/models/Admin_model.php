@@ -66,7 +66,11 @@ class Admin_model extends CI_Model
     }
 
     if (!is_null($edate)) {
-      $this->db->or_where("DATE_FORMAT(startdate, '%m%d') <= '" . $edate . "'");
+      if ($edate < $sdate) {
+        $this->db->or_where("DATE_FORMAT(startdate, '%m%d') <= '" . $edate . "'");
+      } else {
+        $this->db->where("DATE_FORMAT(startdate, '%m%d') <= '" . $edate . "'");
+      }
     }
 
     return $this->db->get()->result_array();
