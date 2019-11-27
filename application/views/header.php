@@ -8,8 +8,9 @@
   <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
   <meta name="robots" content="noindex">
   <meta property="og:title" content="경인웰빙" />
-  <meta property="og:image" content="<?=base_url()?>public/images/logo.jpg" />
+  <meta property="og:type" content="website" />
   <meta property="og:url" content="http://giwb.kr/" />
+  <meta property="og:image" content="<?=base_url()?>public/images/logo.jpg" />
 
   <!-- Favicons -->
   <link href="/public/images/favicon.png" rel="icon">

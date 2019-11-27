@@ -9,7 +9,36 @@ class Story extends CI_Controller
     parent::__construct();
     $this->load->helper(array('security', 'url', 'my_array_helper'));
     $this->load->library(array('image_lib', 'session'));
-    $this->load->model(array('story_model', 'file_model'));
+    $this->load->model(array('club_model', 'file_model', 'reserve_model', 'story_model'));
+  }
+
+  /**
+   * 스토리 개별 페이지
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function view($clubIdx)
+  {
+    $clubIdx = html_escape($clubIdx);
+    $userIdx = !empty($this->session->userData['idx']) ? html_escape($this->session->userData['idx']) : NULL;
+    $storyIdx = html_escape($this->input->get('n'));
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    // 스토리 보기
+    $viewData['viewStory'] = $this->story_model->viewStory($clubIdx, $storyIdx);
+
+    // 스토리 좋아요 확인 (로그인시에만)
+    if (!empty($userIdx)) {
+      $viewStoryReaction = $this->story_model->viewStoryReaction($clubIdx, $storyIdx, $userIdx);
+      if ($viewData['viewStory']['idx'] == $viewStoryReaction['story_idx']) {
+        $viewData['viewStory']['like'] = $viewStoryReaction['created_by'];
+      }
+    }
+
+    $this->_viewPage('story/index', $viewData);
   }
 
   /**
@@ -388,6 +417,56 @@ class Story extends CI_Controller
     }
 
     $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 페이지 표시
+   *
+   * @param $viewPage
+   * @param $viewData
+   * @return view
+   * @author bjchoi
+   **/
+  private function _viewPage($viewPage, $viewData=NULL)
+  {
+    $viewData['uri'] = 'story';
+
+    // 회원 정보
+    $viewData['userData'] = $this->session->userData;
+    $viewData['userLevel'] = memberLevel($viewData['userData']);
+
+    // 진행 중 산행
+    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_NONE, STATUS_ABLE, STATUS_CONFIRM));
+
+    // 회원수
+    $viewData['view']['cntMember'] = $this->member_model->cntMember($viewData['view']['idx']);
+    $viewData['view']['cntMemberToday'] = $this->member_model->cntMemberToday($viewData['view']['idx']);
+
+    // 방문자수
+    $viewData['view']['cntVisitor'] = $this->member_model->cntVisitor($viewData['view']['idx']);
+    $viewData['view']['cntVisitorToday'] = $this->member_model->cntVisitorToday($viewData['view']['idx']);
+
+    // 클럽 대표이미지
+    $files = $this->file_model->getFile('club', $viewData['view']['idx']);
+
+    if (empty($files)) {
+      $viewData['view']['photo'][0] = 'noimage.png';
+    } else {
+      foreach ($files as $key => $value) {
+        if (!empty($value['filename'])) {
+          $viewData['view']['photo'][$key] = $value['filename'];
+        } else {
+          $viewData['view']['photo'][$key] = 'noimage.png';
+        }
+      }
+    }
+
+    // 방문자 기록
+    setVisitor();
+
+    $this->load->view('header', $viewData);
+    $this->load->view($viewPage, $viewData);
+    $this->load->view('footer', $viewData);
   }
 }
 ?>

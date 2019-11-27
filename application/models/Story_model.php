@@ -26,10 +26,13 @@ class Story_model extends CI_Model
   // 스토리 보기
   public function viewStory($clubIdx, $storyIdx)
   {
-    $this->db->select('*')
-          ->from(DB_STORY)
-          ->where('idx', $storyIdx)
-          ->where('club_idx', $clubIdx);
+    $this->db->select('a.*, b.idx AS user_idx, b.nickname AS user_nickname, c.filename')
+          ->from(DB_STORY . ' a')
+          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
+          ->join(DB_FILES . ' c', 'c.page="story" AND a.idx=c.page_idx', 'left')
+          ->where('a.club_idx', $clubIdx)
+          ->where('a.idx', $storyIdx)
+          ->where('a.deleted_at', NULL);
     return $this->db->get()->row_array(1);
   }
 
