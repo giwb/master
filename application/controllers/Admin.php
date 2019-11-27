@@ -957,16 +957,40 @@ class Admin extends CI_Controller
    **/
   public function setup_schedule_past()
   {
+    $html = '';
+    $idx = html_escape($this->input->post('idx'));
     $sdate = html_escape($this->input->post('sdate'));
     $edate = html_escape($this->input->post('edate'));
-    $html = '';
 
     $result = array(
       'error' => 1,
       'message' => '해당하는 일자의 과거 산행 정보가 없습니다.'
     );
 
-    if (!empty($sdate) && !empty($edate)) {
+    if (!empty($idx)) {
+      $viewSchedule = $this->admin_model->viewSchedule($idx);
+
+      if (!empty($viewSchedule['idx'])) {
+        $sdate = $viewSchedule['sdate'];
+        $edate = $viewSchedule['edate'];
+        $listPastNotice = $this->admin_model->listNotice( date('md', strtotime($sdate) - (86400 * 5)), date('md', strtotime($edate) + (86400 * 5)) );
+
+        if (!empty($listPastNotice)) {
+          foreach ($listPastNotice as $value) {
+            $html .= '<a href="javascript:;" data-subject="' . $value['subject'] . '">' . $value['startdate'] . ' (' . calcWeek($value['startdate']) . ') ' . $value['subject'] . '</a><br>';
+          }
+
+          $result = array(
+            'error' => 0,
+            'idx' => $idx,
+            'sdate' => $sdate,
+            'edate' => $edate,
+            'subject' => $viewSchedule['subject'],
+            'message' => $html
+          );
+        }
+      }
+    } elseif (!empty($sdate) && !empty($edate)) {
       $listPastNotice = $this->admin_model->listNotice( date('md', strtotime($sdate) - (86400 * 5)), date('md', strtotime($edate) + (86400 * 5)) );
 
       if (!empty($listPastNotice)) {
@@ -985,24 +1009,52 @@ class Admin extends CI_Controller
   }
 
   /**
-   * 설정 - 산행예정 등록
+   * 설정 - 산행예정 갱신
    *
    * @return json
    * @author bjchoi
    **/
-  public function setup_schedule_insert()
+  public function setup_schedule_update()
   {
-    $insertData['sdate'] = html_escape($this->input->post('sdate'));
-    $insertData['edate'] = html_escape($this->input->post('edate'));
-    $insertData['subject'] = html_escape($this->input->post('subject'));
-    $insertData['created_at'] = time();
+    $now = time();
+    $postData['sdate'] = html_escape($this->input->post('sdate'));
+    $postData['edate'] = html_escape($this->input->post('edate'));
+    $postData['subject'] = html_escape($this->input->post('subject'));
+    $idx = html_escape($this->input->post('idx'));
 
-    $rtn = $this->admin_model->insertSchedule($insertData);
+    if (!empty($idx)) {
+      $postData['updated_at'] = $now;
+      $rtn = $this->admin_model->updateSchedule($postData, $idx);
+    } else {
+      $postData['created_at'] = $now;
+      $rtn = $this->admin_model->insertSchedule($postData);
+    }
 
     if (!empty($rtn)) {
       $result = array('error' => 0, 'message' => '');
     } else {
-      $result = array('error' => 1, 'message' => '등록에 실패했습니다. 다시 시도해주세요.');
+      $result = array('error' => 1, 'message' => '저장에 실패했습니다. 다시 시도해주세요.');
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 설정 - 산행예정 삭제
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function setup_schedule_delete()
+  {
+    $now = time();
+    $idx = html_escape($this->input->post('idx'));
+    $rtn = $this->admin_model->deleteSchedule($idx);
+
+    if (!empty($rtn)) {
+      $result = array('error' => 0, 'message' => '');
+    } else {
+      $result = array('error' => 1, 'message' => '삭제에 실패했습니다. 다시 시도해주세요.');
     }
 
     $this->output->set_output(json_encode($result));

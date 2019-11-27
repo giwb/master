@@ -19,7 +19,7 @@
       selectable: true,
       selectHelper: true,
       select: function(start, end, allDay) {
-        var title = $.openScheduleModal(start, end);
+        var title = $.insertScheduleModal(start, end);
         var eventData;
         if (title) {
           eventData = {
@@ -55,7 +55,7 @@
           title: '<?=$value['subject']?>',
           start: new Date('<?=date('Y', $sdate)?>-<?=date('m', $sdate)?>-<?=date('d', $sdate)?>T00:00:00'),
           end: new Date('<?=date('Y', $edate)?>-<?=date('m', $edate)?>-<?=date('d', $edate)?>T23:59:59'),
-          url: '',
+          url: 'javascript: $.updateScheduleModal(<?=$value['idx']?>)',
           className: 'scheduled'
         },
         <?php
@@ -73,11 +73,19 @@
     var sdate = $('input[name=sdate]').val();
     var edate = $('input[name=edate]').val();
     var subject = $('input[name=subject]').val();
+    var idx = $('input[name=idx]').val();
+    var data;
     $('.error-message').hide();
 
+    if (idx != '') {
+      data = 'sdate=' + sdate + '&edate=' + edate + '&subject=' + subject + '&idx=' + idx;
+    } else {
+      data = 'sdate=' + sdate + '&edate=' + edate + '&subject=' + subject;
+    }
+
     $.ajax({
-      url: '<?=base_url()?>admin/setup_schedule_insert',
-      data: 'sdate=' + sdate + '&edate=' + edate + '&subject=' + subject,
+      url: '<?=base_url()?>admin/setup_schedule_update',
+      data: data,
       dataType: 'json',
       type: 'post',
       success: function(result) {
@@ -87,14 +95,30 @@
           location.reload();
         }
       }
-    });    
+    });
+  }).on('click', '.btn-schedule-delete', function() {
+    $.ajax({
+      url: '<?=base_url()?>admin/setup_schedule_delete',
+      data: 'idx=' + $('input[name=idx]').val(),
+      dataType: 'json',
+      type: 'post',
+      success: function(result) {
+        if (result.error == 1) {
+          $('.error-message').text(result.message).slideDown();
+        } else {
+          location.reload();
+        }
+      }
+    });
   });
 
-  // 스케쥴 모달
-  $.openScheduleModal = function(start, end) {
+  // 산행예정 등록
+  $.insertScheduleModal = function(start, end) {
     var sdate = $.changeDate(start);
     var edate = $.changeDate(end);
     $('.error-message').hide();
+    $('#scheduleModal .btn-schedule-delete').hide();
+    $('#scheduleModal .btn-schedule').text('등록');
     $('#scheduleModal input[name=sdate]').val(sdate);
     $('#scheduleModal input[name=edate]').val(edate);
     $('#scheduleModal').modal('show');
@@ -105,6 +129,28 @@
       dataType: 'json',
       type: 'post',
       success: function(result) {
+        $('.past-schedule').html(result.message);
+      }
+    });
+  }
+
+  // 산행예정 수정
+  $.updateScheduleModal = function(idx) {
+    $('.error-message').hide();
+    $('#scheduleModal .btn-schedule-delete').show();
+    $('#scheduleModal .btn-schedule').text('수정');
+    $('#scheduleModal').modal('show');
+
+    $.ajax({
+      url: $('input[name=base_url]').val() + 'admin/setup_schedule_past',
+      data: 'idx=' + idx,
+      dataType: 'json',
+      type: 'post',
+      success: function(result) {
+        $('#scheduleModal input[name=sdate]').val(result.sdate);
+        $('#scheduleModal input[name=edate]').val(result.edate);
+        $('#scheduleModal input[name=subject]').val(result.subject);
+        $('#scheduleModal input[name=idx]').val(result.idx);
         $('.past-schedule').html(result.message);
       }
     });
@@ -158,7 +204,9 @@
       <div class="past-schedule border-top small pt-2 pb-2 pl-3 pr-3">
       </div>
       <div class="modal-footer">
+        <input type="hidden" name="idx" value="">
         <button type="button" class="btn btn-primary btn-schedule">등록</button>
+        <button type="button" class="btn btn-danger btn-schedule-delete">삭제</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
       </div>
     </div>
