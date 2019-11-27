@@ -937,6 +937,78 @@ class Admin extends CI_Controller
   }
 
   /**
+   * 설정 - 산행예정 만들기
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function setup_schedule()
+  {
+    $viewData['listSchedule'] = $this->admin_model->listSchedule();
+
+    $this->_viewPage('admin/setup_schedule', $viewData);
+  }
+
+  /**
+   * 설정 - 지난 산행 보기
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function setup_schedule_past()
+  {
+    $sdate = html_escape($this->input->post('sdate'));
+    $edate = html_escape($this->input->post('edate'));
+    $html = '';
+
+    $result = array(
+      'error' => 1,
+      'message' => '해당하는 일자의 과거 산행 정보가 없습니다.'
+    );
+
+    if (!empty($sdate) && !empty($edate)) {
+      $listPastNotice = $this->admin_model->listNotice( date('md', strtotime($sdate) - (86400 * 5)), date('md', strtotime($edate) + (86400 * 5)) );
+
+      if (!empty($listPastNotice)) {
+        foreach ($listPastNotice as $value) {
+          $html .= '<a href="javascript:;" data-subject="' . $value['subject'] . '">' . $value['startdate'] . ' (' . calcWeek($value['startdate']) . ') ' . $value['subject'] . '</a><br>';
+        }
+
+        $result = array(
+          'error' => 0,
+          'message' => $html
+        );
+      }
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 설정 - 산행예정 등록
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function setup_schedule_insert()
+  {
+    $insertData['sdate'] = html_escape($this->input->post('sdate'));
+    $insertData['edate'] = html_escape($this->input->post('edate'));
+    $insertData['subject'] = html_escape($this->input->post('subject'));
+    $insertData['created_at'] = time();
+
+    $rtn = $this->admin_model->insertSchedule($insertData);
+
+    if (!empty($rtn)) {
+      $result = array('error' => 0, 'message' => '');
+    } else {
+      $result = array('error' => 1, 'message' => '등록에 실패했습니다. 다시 시도해주세요.');
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 페이지 표시
    *
    * @param $viewPage

@@ -54,13 +54,21 @@ class Admin_model extends CI_Model
     return $this->db->get()->row_array(1);
   }
 
-  // 이번 달 산행 목록
-  public function listNotice()
+  // 산행 목록
+  public function listNotice($sdate=NULL, $edate=NULL)
   {
     $this->db->select('*')
           ->from(DB_NOTICE)
-/*          ->where("DATE_FORMAT(startdate, '%Y%m') = '" . $syear . $smonth . "'")*/
           ->order_by('startdate', 'asc');
+
+    if (!is_null($sdate)) {
+      $this->db->where("DATE_FORMAT(startdate, '%m%d') >= '" . $sdate . "'");
+    }
+
+    if (!is_null($edate)) {
+      $this->db->where("DATE_FORMAT(startdate, '%m%d') <= '" . $edate . "'");
+    }
+
     return $this->db->get()->result_array();
   }
 
@@ -319,13 +327,29 @@ class Admin_model extends CI_Model
     return $this->db->delete(DB_BUSTYPE);
   }
 
-  // 등록된 차량 데이터
+  // 설정 - 등록된 차량 데이터
   public function listBusdata()
   {
     $this->db->select('*')
           ->from(DB_BUSDATA)
           ->order_by('idx', 'asc');
     return $this->db->get()->result_array();
+  }
+
+  // 설정 - 산행예정 목록
+  public function listSchedule()
+  {
+    $this->db->select('')
+          ->from(DB_SCHEDULE)
+          ->order_by('sdate', 'asc');
+    return $this->db->get()->result_array();
+  }
+
+  // 설정 - 산행예정 등록하기
+  public function insertSchedule($data)
+  {
+    $this->db->insert(DB_SCHEDULE, $data);
+    return $this->db->insert_id();
   }
 }
 ?>
