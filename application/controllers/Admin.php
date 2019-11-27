@@ -945,7 +945,9 @@ class Admin extends CI_Controller
   public function setup_schedule()
   {
     $viewData['listSchedule'] = $this->admin_model->listSchedule();
-    $viewData['sdate'] = !empty($this->input->get('d')) ? html_escape($this->input->get('d')) : NULL;
+    //$viewData['sdate'] = !empty($this->input->get('d')) ? html_escape($this->input->get('d')) : NULL;
+    $sdate = $this->input->get('d');
+    if (!empty($sdate)) $viewData['sdate'] = html_escape($sdate); else $viewData['sdate'] = NULL;
 
     $this->_viewPage('admin/setup_schedule', $viewData);
   }
