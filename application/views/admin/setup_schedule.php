@@ -3,19 +3,19 @@
 <link href="<?=base_url()?>/public/css/fullcalendar.css" rel="stylesheet">
 <link href="<?=base_url()?>/public/css/fullcalendar.print.css" rel="stylesheet">
 <script src="<?=base_url()?>/public/js/fullcalendar.js" type="text/javascript"></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js'></script>
 <script>
   $(document).ready(function() {
-    var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
-
     $('#calendar').fullCalendar({
       header: {
         left: 'prev',
         center: 'title',
         right: 'next'
       },
+<?php if (!empty($sdate)): ?>
+      year: '<?=date('Y', strtotime($sdate))?>',
+      month: '<?=date('m', strtotime($sdate)) - 1?>',
+<?php endif; ?>
       selectable: true,
       selectHelper: true,
       select: function(start, end, allDay) {
@@ -92,11 +92,13 @@
         if (result.error == 1) {
           $('.error-message').text(result.message).slideDown();
         } else {
-          location.reload();
+          location.replace('<?=base_url()?>admin/setup_schedule?d=' + sdate);
         }
       }
     });
   }).on('click', '.btn-schedule-delete', function() {
+    var sdate = $('input[name=sdate]').val();
+
     $.ajax({
       url: '<?=base_url()?>admin/setup_schedule_delete',
       data: 'idx=' + $('input[name=idx]').val(),
@@ -106,7 +108,7 @@
         if (result.error == 1) {
           $('.error-message').text(result.message).slideDown();
         } else {
-          location.reload();
+          location.replace('<?=base_url()?>admin/setup_schedule?d=' + sdate);
         }
       }
     });
