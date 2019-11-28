@@ -101,9 +101,9 @@
               <button type="button" class="btn-share" data-idx="<?=$value['idx']?>"><i class="fa fa-share-alt" aria-hidden="true"></i> 공유하기 <span class="cnt-share"><?=$value['share_cnt']?></span></button>
               <div class="area-share">
                 <ul>
-                  <li><a href="https://facebook.com/sharer/sharer.php?u=<?=base_url()?><?=$view['idx']?>"><img src="<?=base_url()?>public/images/icon_facebook.png"><br>페이스북</a></li>
-                  <li><a href="https://twitter.com/intent/tweet?url=<?=base_url()?><?=$view['idx']?>"><img src="<?=base_url()?>public/images/icon_twitter.png"><br>트위터</a></li>
-                  <li><a href="<?=base_url()?>story/view/<?=$view['idx']?>?n=<?=$value['idx']?>"><img src="<?=base_url()?>public/images/icon_url.png"><br>URL</a></li>
+                  <li><a href="javascript:;" class="btn-share-facebook" data-url="https://facebook.com/sharer/sharer.php?u=<?=base_url()?>story/view/<?=$view['idx']?>?n=<?=$value['idx']?>"><img src="<?=base_url()?>public/images/icon_facebook.png"><br>페이스북</a></li>
+                  <li><a href="javascript:;" class="btn-share-twitter" data-url="https://twitter.com/intent/tweet?url=<?=base_url()?>story/view/<?=$view['idx']?>?n=<?=$value['idx']?>"><img src="<?=base_url()?>public/images/icon_twitter.png"><br>트위터</a></li>
+                  <li><a href="javascript:;" class="btn-share-url" data-trigger="click" data-placement="bottom" data-clipboard-text="<?=base_url()?>story/view/<?=$view['idx']?>?n=<?=$value['idx']?>"><img src="<?=base_url()?>public/images/icon_url.png"><br>URL</a></li>
                 </ul>
               </div>
             </div>

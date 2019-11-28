@@ -243,6 +243,44 @@ class Story extends CI_Controller
   }
 
   /**
+   * 공유
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function share($clubIdx)
+  {
+    $now = time();
+    $userIdx = $this->session->userData['idx'];
+    $clubIdx = html_escape($clubIdx);
+    $storyIdx = html_escape($this->input->post('storyIdx'));
+    $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
+
+    if (!empty($userIdx)) {
+      $cntStoryReaction = $this->story_model->cntStoryReaction($clubIdx, $storyIdx, TYPE_REACTION_SHARE);
+      $insertData = array(
+        'club_idx' => $clubIdx,
+        'story_idx' => $storyIdx,
+        'type_reaction' => TYPE_REACTION_SHARE,
+        'created_by' => $userIdx,
+        'created_at' => $now
+      );
+      $rtn = $this->story_model->insertStoryReaction($insertData);
+
+      if (!empty($rtn)) {
+        $updateData['share_cnt'] = $cntStoryReaction['cnt'] + 1;
+
+        // 스토리 공유 카운트 수정
+        $this->story_model->updateStory($updateData, $clubIdx, $storyIdx);
+
+        $result = array('type' => 1, 'count' => $updateData['like_cnt']);
+      }
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 스토리 삭제
    *
    * @return json
