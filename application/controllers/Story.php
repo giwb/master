@@ -119,23 +119,19 @@ class Story extends CI_Controller
     $userData = $this->session->userData;
     $message = '';
 
-    if (empty($userData['idx'])) {
-      $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
-    } else {
-      // 댓글 목록
-      $reply = $this->story_model->listStoryReply($clubIdx, $storyIdx);
+    // 댓글 목록
+    $reply = $this->story_model->listStoryReply($clubIdx, $storyIdx);
 
-      foreach ($reply as $value) {
-        if ($userData['idx'] == $value['created_by'] || $userData['admin'] == 1) {
-          $delete = '| <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '" data-action="delete_reply">삭제</a>';
-        } else {
-          $delete = '';
-        }
-        $message .= '<dl><dt><img class="img-profile" src="/public/photos/' . $value['created_by'] . '"> ' . $value['nickname'] . '</dt><dd>' . $value['content'] . ' <span class="date">(' . $value['created_at'] . ')</span> ' . $delete . '</dd></dl>';
+    foreach ($reply as $value) {
+      if ($userData['idx'] == $value['created_by'] || $userData['admin'] == 1) {
+        $delete = '| <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '" data-action="delete_reply">삭제</a>';
+      } else {
+        $delete = '';
       }
-
-      $result = array('error' => 0, 'message' => $message);
+      $message .= '<dl><dt><img class="img-profile" src="/public/photos/' . $value['created_by'] . '"> ' . $value['nickname'] . '</dt><dd>' . $value['content'] . ' <span class="date">(' . $value['created_at'] . ')</span> ' . $delete . '</dd></dl>';
     }
+
+    $result = array('error' => 0, 'message' => $message);
 
     $this->output->set_output(json_encode($result));
   }
@@ -150,19 +146,19 @@ class Story extends CI_Controller
   {
     $now = time();
     $result = array('error' => 0);
-    $userIdx = $this->session->userData['idx'];
+    $userData = $this->session->userData;
     $clubIdx = html_escape($clubIdx);
     $storyIdx = html_escape($this->input->post('storyIdx'));
     $content = html_escape($this->input->post('content'));
 
-    if (empty($userIdx)) {
+    if (empty($userData['idx'])) {
       $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
     } else {
       $insertValues = array(
         'club_idx' => $clubIdx,
         'story_idx' => $storyIdx,
         'content' => $content,
-        'created_by' => $userIdx,
+        'created_by' => $userData['idx'],
         'created_at' => $now
       );
 
@@ -179,10 +175,11 @@ class Story extends CI_Controller
         $updateData['reply_cnt'] = $cntStoryReply['cnt'];
         $this->story_model->updateStory($updateData, $clubIdx, $storyIdx);
 
+        $html = '<dl><dt><img class="img-profile" src="' . base_url() . '/public/photos/' . $userData['idx'] . '"> ' . $userData['nickname'] . '</dt><dd>' . $content . ' <span class="date">(' . date('Y/m/d H:i:s', $now) . ')</span></dd></dl>';
+
         $result = array(
           'error' => 0,
-          'content' => $content,
-          'created_at' => date('Y/m/d H:i:s', $now),
+          'message' => $html,
           'reply_cnt' => $updateData['reply_cnt']
         );
       }
