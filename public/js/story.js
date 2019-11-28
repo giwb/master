@@ -26,6 +26,21 @@ $(document).on('click', '.btn-reply', function() {
   } else {
     $dom.slideUp();
   }
+}).on('click', '.btn-share', function() {
+  // 공유하기
+  var $dom = $('.area-share');
+  var userIdx = $('input[name=userIdx]').val();
+
+  if (userIdx == '') {
+    $.openMsgModal('로그인을 해주세요.');
+    return false;
+  }
+
+  if ($dom.css('display') == 'none') {
+    $dom.show();
+  } else {
+    $dom.hide();
+  }
 }).on('click', '.btn-share-sns', function() {
   // 공유창 열기
   var url = $(this).data('url');
@@ -122,14 +137,6 @@ $(document).on('click', '.btn-reply', function() {
       }
     }
   });
-}).on('click', '.btn-share', function() {
-  // 공유하기
-  var $dom = $('.area-share');
-  if ($dom.css('display') == 'none') {
-    $dom.show();
-  } else {
-    $dom.hide();
-  }
 }).on('click', '.btn-post-delete-modal', function() {
   // 삭제하기 모달
   $('#messageModal .btn').hide();
