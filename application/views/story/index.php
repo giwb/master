@@ -1,5 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
+      <script type="text/javascript" src="<?=base_url()?>public/js/clipboard.min.js"></script>
       <script type="text/javascript" src="<?=base_url()?>public/js/story.js"></script>
       <script type="text/javascript">(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0"; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));</script>
 
@@ -27,9 +28,9 @@
               <button type="button" class="btn-share" data-idx="<?=$viewStory['idx']?>"><i class="fa fa-share-alt" aria-hidden="true"></i> 공유하기 <span class="cnt-share"><?=$viewStory['share_cnt']?></span></button>
               <div class="area-share">
                 <ul>
-                  <li><a href="https://facebook.com/sharer/sharer.php?u=<?=base_url()?><?=$view['idx']?>"><img src="<?=base_url()?>public/images/icon_facebook.png"><br>페이스북</a></li>
-                  <li><a href="https://twitter.com/intent/tweet?url=<?=base_url()?><?=$view['idx']?>"><img src="<?=base_url()?>public/images/icon_twitter.png"><br>트위터</a></li>
-                  <li><a href="<?=base_url()?>story/view/<?=$view['idx']?>?n=<?=$viewStory['idx']?>"><img src="<?=base_url()?>public/images/icon_url.png"><br>URL</a></li>
+                  <li><a href="javascript:;" class="btn-share-facebook" data-url="https://facebook.com/sharer/sharer.php?u=<?=base_url()?>story/view/<?=$view['idx']?>?n=<?=$viewStory['idx']?>"><img src="<?=base_url()?>public/images/icon_facebook.png"><br>페이스북</a></li>
+                  <li><a href="javascript:;" class="btn-share-twitter" data-url="https://twitter.com/intent/tweet?url=<?=base_url()?>story/view/<?=$view['idx']?>?n=<?=$viewStory['idx']?>"><img src="<?=base_url()?>public/images/icon_twitter.png"><br>트위터</a></li>
+                  <li><a href="javascript:;" class="btn-share-url" data-trigger="click" data-placement="bottom" data-clipboard-text="<?=base_url()?>story/view/<?=$view['idx']?>?n=<?=$viewStory['idx']?>"><img src="<?=base_url()?>public/images/icon_url.png"><br>URL</a></li>
                 </ul>
               </div>
             </div>

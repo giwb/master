@@ -1934,6 +1934,7 @@ h1.nav-logo small {
 #club .club-main article .story-reaction .area-share { position: absolute; top: -68px; right: 0px; display: none; }
 #club .club-main article .story-reaction .area-share ul { font-size: 12px; background-color: #fff; border: 1px solid #d9d9d9; padding: 10px 18px 5px 18px; display: flex; display: -webkit-flex; }
 #club .club-main article .story-reaction .area-share ul li { flex: 1; -webkit-flex: 1; margin: 0 10px; text-align: center; white-space: nowrap; }
+#club .club-main article .story-reaction .area-share input { font-size: 10px; }
 #club .club-main article .story-reply { font-size: 14px; margin: 10px 0; display: none; }
 #club .club-main article .story-reply dl { width: 100%; display: table; }
 #club .club-main article .story-reply dl dt { width: 24%; display: table-cell; vertical-align: top; }

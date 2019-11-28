@@ -1,3 +1,5 @@
+new ClipboardJS('.btn-share-url');
+
 $(document).on('click', '.btn-reply', function() {
   // 댓글 열기
   var storyIdx = $(this).data('idx');
@@ -24,6 +26,19 @@ $(document).on('click', '.btn-reply', function() {
   } else {
     $dom.slideUp();
   }
+}).on('click', '.btn-share-facebook', function() {
+  // 페이스북 공유
+  var url = $(this).data('url');
+  window.open(url, 'facebook', 'width=626, height=436');
+}).on('click', '.btn-share-twitter', function() {
+  // 트위터 공유
+  var url = $(this).data('url');
+  window.open(url, 'twitter', 'width=626, height=436');
+}).on('click', '.btn-share-url', function() {
+  // URL 복사 툴팁
+  var $dom = $(this);
+  $dom.tooltip('hide').attr('data-original-title', '복사했습니다!').tooltip('show');
+  setTimeout(function() { $dom.tooltip('hide'); }, 2000);
 }).on('click', '.btn-post-reply', function() {
   // 댓글 달기
   var $btn = $(this);
