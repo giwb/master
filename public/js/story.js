@@ -26,19 +26,50 @@ $(document).on('click', '.btn-reply', function() {
   } else {
     $dom.slideUp();
   }
-}).on('click', '.btn-share-facebook', function() {
-  // 페이스북 공유
+}).on('click', '.btn-share-sns', function() {
+  // 공유창 열기
   var url = $(this).data('url');
-  window.open(url, 'facebook', 'width=626, height=436');
-}).on('click', '.btn-share-twitter', function() {
-  // 트위터 공유
-  var url = $(this).data('url');
-  window.open(url, 'twitter', 'width=626, height=436');
+  var storyIdx = $(this).data('idx');
+  var shareType = $(this).data('type');
+  window.open(url, 'share-window', 'width=626, height=436');
+  $.ajax({
+    url: $('input[name=base_url]').val() + 'story/share/' + $('input[name=clubIdx]').val(),
+    data: 'storyIdx=' + $(this).data('idx') + '&shareType=' + shareType,
+    dataType: 'json',
+    type: 'post',
+    success: function(result) {
+      if (result.error == 1) {
+        if (result.message != '') $.openMsgModal(result.message);
+      } else {
+        var $dom = $('.btn-share[data-idx=' + storyIdx + ']');
+        $dom.find('.cnt-share').text(result.count);
+        if (result.type == 1) $dom.addClass('text-danger'); else $dom.removeClass('text-danger');
+      }
+    }
+  });
 }).on('click', '.btn-share-url', function() {
   // URL 복사 툴팁
   var $dom = $(this);
+  var storyIdx = $(this).data('idx');
+  var shareType = $(this).data('type');
   $dom.tooltip('hide').attr('data-original-title', '복사했습니다!').tooltip('show');
   setTimeout(function() { $dom.tooltip('hide'); }, 2000);
+  $.ajax({
+    url: $('input[name=base_url]').val() + 'story/share/' + $('input[name=clubIdx]').val(),
+    data: 'storyIdx=' + $(this).data('idx') + '&shareType=' + shareType,
+    dataType: 'json',
+    type: 'post',
+    success: function(result) {
+      if (result.error == 1) {
+        if (result.message != '') $.openMsgModal(result.message);
+      } else {
+        var $dom = $('.btn-share[data-idx=' + storyIdx + ']');
+        $dom.find('.cnt-share').text(result.count);
+        if (result.type == 1) $dom.addClass('text-danger'); else $dom.removeClass('text-danger');
+      }
+    }
+  });
+
 }).on('click', '.btn-post-reply', function() {
   // 댓글 달기
   var $btn = $(this);

@@ -118,10 +118,11 @@ defined('TYPE_REACTION_LIKE') OR define('TYPE_REACTION_LIKE', 1); // 좋아요
 defined('TYPE_REACTION_SHARE') OR define('TYPE_REACTION_SHARE', 2); // 공유하기
 
 // 스토리 공유 형태
-defined('TYPE_SHARE_FACEBOOK') OR define('TYPE_SHARE_FACEBOOK', 1); // 페이스북
-defined('TYPE_SHARE_INSTRAGRAM') OR define('TYPE_SHARE_INSTRAGRAM', 2); // 인스타그램
+defined('TYPE_SHARE_URL') OR define('TYPE_SHARE_URL', 1); // 페이스북
+defined('TYPE_SHARE_FACEBOOK') OR define('TYPE_SHARE_FACEBOOK', 2); // 페이스북
 defined('TYPE_SHARE_TWITTER') OR define('TYPE_SHARE_TWITTER', 3); // 트위터
-defined('TYPE_SHARE_BAND') OR define('TYPE_SHARE_BAND', 4); // 밴드
+defined('TYPE_SHARE_KAKAO') OR define('TYPE_SHARE_KAKAO', 4); // 카카오톡
+defined('TYPE_SHARE_DAUM') OR define('TYPE_SHARE_DAUM', 5); // 다음
 
 // 로그 키
 /*

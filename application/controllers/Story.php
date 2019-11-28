@@ -254,26 +254,34 @@ class Story extends CI_Controller
     $userIdx = $this->session->userData['idx'];
     $clubIdx = html_escape($clubIdx);
     $storyIdx = html_escape($this->input->post('storyIdx'));
+    $shareType = html_escape($this->input->post('shareType'));
     $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
 
     if (!empty($userIdx)) {
       $cntStoryReaction = $this->story_model->cntStoryReaction($clubIdx, $storyIdx, TYPE_REACTION_SHARE);
-      $insertData = array(
-        'club_idx' => $clubIdx,
-        'story_idx' => $storyIdx,
-        'type_reaction' => TYPE_REACTION_SHARE,
-        'created_by' => $userIdx,
-        'created_at' => $now
-      );
-      $rtn = $this->story_model->insertStoryReaction($insertData);
+      $viewStoryReaction = $this->story_model->viewStoryReaction($clubIdx, $storyIdx, $userIdx, $shareType);
 
-      if (!empty($rtn)) {
-        $updateData['share_cnt'] = $cntStoryReaction['cnt'] + 1;
+      if (!empty($viewStoryReaction)) {
+        $result = array('error' => 1, 'message' => '');
+      } else {
+        $insertData = array(
+          'club_idx' => $clubIdx,
+          'story_idx' => $storyIdx,
+          'type_reaction' => TYPE_REACTION_SHARE,
+          'type_share' => $shareType,
+          'created_by' => $userIdx,
+          'created_at' => $now
+        );
+        $rtn = $this->story_model->insertStoryReaction($insertData);
 
-        // 스토리 공유 카운트 수정
-        $this->story_model->updateStory($updateData, $clubIdx, $storyIdx);
+        if (!empty($rtn)) {
+          $updateData['share_cnt'] = $cntStoryReaction['cnt'] + 1;
 
-        $result = array('type' => 1, 'count' => $updateData['like_cnt']);
+          // 스토리 공유 카운트 수정
+          $this->story_model->updateStory($updateData, $clubIdx, $storyIdx);
+
+          $result = array('type' => 1, 'count' => $updateData['share_cnt']);
+        }
       }
     }
 

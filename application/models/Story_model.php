@@ -128,13 +128,19 @@ class Story_model extends CI_Model
   }
 
   // 스토리 리액션 보기
-  public function viewStoryReaction($clubIdx, $storyIdx, $userIdx)
+  public function viewStoryReaction($clubIdx, $storyIdx, $userIdx, $shareType=NULL)
   {
     $this->db->select('*')
           ->from(DB_STORY_REACTION)
           ->where('club_idx', $clubIdx)
           ->where('story_idx', $storyIdx)
-          ->where('created_by', $userIdx);
+          ->where('created_by', $userIdx)
+          ->order_by('created_at', 'desc');
+
+    if (!is_null($shareType)) {
+      $this->db->where('type_share', $shareType);
+    }
+
     return $this->db->get()->row_array(1);
   }
 
