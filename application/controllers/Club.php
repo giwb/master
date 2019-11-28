@@ -28,7 +28,7 @@ class Club extends MY_Controller
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
     // 등록된 산행 목록
-    $viewData['listNotice'] = $this->reserve_model->listNotice($clubIdx);
+    $viewData['listNoticeCalendar'] = $this->reserve_model->listNotice($clubIdx);
 
     // 클럽 스토리
     $viewData['listStory'] = $this->story_model->listStory($clubIdx, $userData['idx']);

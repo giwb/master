@@ -46,7 +46,7 @@
                   },
             events: [
               <?php
-                foreach ($listNotice as $value) {
+                foreach ($listNoticeCalendar as $value) {
                   $startDate = strtotime($value['startdate']);
                   $endDate = calcEndDate($value['startdate'], $value['schedule']);
                   $viewNoticeStatus = viewNoticeStatus($value['status']);
