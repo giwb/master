@@ -30,11 +30,15 @@
               <td><textarea name="plan" id="plan" rows="10" cols="100"><?=$view['plan']?></textarea></td>
             </tr>
             <tr>
-              <th>핵심안내</th>
+              <th>여행개요</th>
               <td><textarea name="point" id="point" rows="10" cols="100"><?=$view['point']?></textarea></td>
             </tr>
             <tr>
-              <th>타임테이블</th>
+              <th>산행지 소개</th>
+              <td><textarea name="intro" id="intro" rows="10" cols="100"><?=$view['intro']?></textarea></td>
+            </tr>
+            <tr>
+              <th>일정안내</th>
               <td><textarea name="timetable" id="timetable" rows="10" cols="100"><?=$view['timetable']?></textarea></td>
             </tr>
             <tr>
@@ -42,12 +46,8 @@
               <td><textarea name="information" id="information" rows="10" cols="100"><?=$view['information']?></textarea></td>
             </tr>
             <tr>
-              <th>산행코스안내</th>
+              <th>코스안내</th>
               <td><textarea name="course" id="course" rows="10" cols="100"><?=$view['course']?></textarea></td>
-            </tr>
-            <tr>
-              <th>산행지 소개</th>
-              <td><textarea name="intro" id="intro" rows="10" cols="100"><?=$view['intro']?></textarea></td>
             </tr>
             <tr>
               <th>산행지 사진</th>
