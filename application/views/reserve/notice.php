@@ -24,7 +24,7 @@
           <div class="sub-content"><?=reset_html_escape($notice['information'])?></div><p><br></p>
 
           <div class="sub-header">코스안내</div>
-          <div class="sub-content"><?=reset_html_escape($notice['course'])?></div><p><br></p>
+          <div class="sub-content"><?=reset_html_escape($notice['course'])?></div>
 
           <?php if (!empty($notice['map'])): ?><div class="sub-photo"><img src="<?=$notice['map']?>"></div><?php endif; ?>
         </div>
