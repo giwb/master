@@ -8,20 +8,20 @@
           </div>
 
           <div class="sub-header">기획의도</div>
-          <div class="sub-content"><?=reset_html_escape($notice['plan'])?></div><p><br></p>
+          <div class="sub-content"><?=reset_html_escape($notice['plan'])?></div><br>
 
           <div class="sub-header">여행개요</div>
-          <div class="sub-content"><?=reset_html_escape($notice['point'])?></div><p><br></p>
+          <div class="sub-content"><?=reset_html_escape($notice['point'])?></div><br>
 
           <div class="sub-header">산행지소개</div>
           <?php if (!empty($notice['photo'])): ?><div class="sub-photo"><img src="<?=$notice['photo']?>"></div><?php endif; ?>
-          <div class="sub-content"><?=reset_html_escape($notice['intro'])?></div><p><br></p>
+          <div class="sub-content"><?=reset_html_escape($notice['intro'])?></div><br>
 
           <div class="sub-header">일정안내</div>
-          <div class="sub-content"><?=reset_html_escape($notice['timetable'])?></div><p><br></p>
+          <div class="sub-content"><?=reset_html_escape($notice['timetable'])?></div><br>
 
           <div class="sub-header">산행안내</div>
-          <div class="sub-content"><?=reset_html_escape($notice['information'])?></div><p><br></p>
+          <div class="sub-content"><?=reset_html_escape($notice['information'])?></div><br>
 
           <div class="sub-header">코스안내</div>
           <div class="sub-content"><?=reset_html_escape($notice['course'])?></div>
