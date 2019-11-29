@@ -392,11 +392,11 @@ if (!function_exists('getAdminReserve')) {
 // 예약자 정보
 if (!function_exists('getReserve')) {
   function getReserve($reservation, $bus, $seat, $userData) {
-    $result = array('idx' => '', 'userid' => '', 'nickname' => '예약가능', 'class' => 'seat ');
+    $result = array('idx' => '', 'userid' => '', 'nickname' => '예약가능', 'class' => ' seat');
     foreach ($reservation as $key => $value) {
       if ($value['bus'] == $bus && $value['seat'] == $seat) {
         if ($userData['userid'] == $value['userid']) {
-          $value['class'] = 'seat ';
+          $value['class'] = ' seat';
         } else {
           $value['class'] = '';
         }
