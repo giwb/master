@@ -1,5 +1,54 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
+    <link rel="stylesheet" href="<?=base_url()?>public/css/jquery-ui.css">
+    <script src="<?=base_url()?>public/js/jquery-ui.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        var totalDistance = $.calcTotalDistance(); // 총 거리 계산
+        $.calcSchedule($('#startDatePicker').val(), $('#startTime').val(), $('#endDatePicker').val()) // 여행기간 계산
+        $.calcRoadCost(); // 통행료 계산
+        $.calcFuel(); // 연비 계산 (총주행 / 3.5)
+        $.calcBusCost(totalDistance); // 버스비용/산행분담 기본비용 계산
+        $.calcTotalFuel(); // 주유비 합계
+        $.calcTotalDriving(); // 운행비 합계
+        $.calcAdd(); // 추가비용 합계
+        $.calcTotalBus(); // 추가비용 합계
+        $.calcCost(); // 산행 분담금 계산
+
+        // 출발일시
+        $('#startDatePicker').datepicker({
+          dateFormat: 'yy-mm-dd',
+          prevText: '이전 달',
+          nextText: '다음 달',
+          monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+          monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+          dayNames: ['일','월','화','수','목','금','토'],
+          dayNamesShort: ['일','월','화','수','목','금','토'],
+          dayNamesMin: ['일','월','화','수','목','금','토'],
+          showMonthAfterYear: true,
+          changeMonth: true,
+          changeYear: true,
+          yearSuffix: '년'
+        });
+
+        // 도착일
+        $('#endDatePicker').datepicker({
+          dateFormat: 'yy-mm-dd',
+          prevText: '이전 달',
+          nextText: '다음 달',
+          monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+          monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+          dayNames: ['일','월','화','수','목','금','토'],
+          dayNamesShort: ['일','월','화','수','목','금','토'],
+          dayNamesMin: ['일','월','화','수','목','금','토'],
+          showMonthAfterYear: true,
+          changeMonth: true,
+          changeYear: true,
+          yearSuffix: '년'
+        });
+      });
+    </script>
+
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
       <!-- Main Content -->
@@ -16,6 +65,7 @@
       <input type="hidden" name="idx" value="<?=$view['idx']?>">
       <input type="hidden" name="peak" class="peak" value="<?=$view['peak']?>">
       <input type="hidden" name="winter" class="winter" value="<?=$view['winter']?>">
+      <input type="hidden" name="back_url" value="main_list_progress">
         <h2>■ 기본정보</h2>
         <table class="table">
           <colgroup>
@@ -261,56 +311,8 @@
         </table>
 
         <div class="text-center mb-5">
-          <button type="button" class="btn btn-primary btn-entry"><?=$btn?>합니다</button>
+          <button type="button" class="btn btn-primary btn-entry p-3 pr-5 pl-5"><?=$btn?></button> &nbsp;
+          <button type="button" class="btn btn-danger btn-notice-delete p-3 pr-5 pl-5" data-idx="<?=$view['idx']?>">삭제</button>
         </div>
       </form>
     </div>
-
-    <link rel="stylesheet" href="<?=base_url()?>public/css/jquery-ui.css">
-    <script src="<?=base_url()?>public/js/jquery-ui.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function(){
-        var totalDistance = $.calcTotalDistance(); // 총 거리 계산
-        $.calcSchedule($('#startDatePicker').val(), $('#startTime').val(), $('#endDatePicker').val()) // 여행기간 계산
-        $.calcRoadCost(); // 통행료 계산
-        $.calcFuel(); // 연비 계산 (총주행 / 3.5)
-        $.calcBusCost(totalDistance); // 버스비용/산행분담 기본비용 계산
-        $.calcTotalFuel(); // 주유비 합계
-        $.calcTotalDriving(); // 운행비 합계
-        $.calcAdd(); // 추가비용 합계
-        $.calcTotalBus(); // 추가비용 합계
-        $.calcCost(); // 산행 분담금 계산
-
-        // 출발일시
-        $('#startDatePicker').datepicker({
-          dateFormat: 'yy-mm-dd',
-          prevText: '이전 달',
-          nextText: '다음 달',
-          monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-          monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-          dayNames: ['일','월','화','수','목','금','토'],
-          dayNamesShort: ['일','월','화','수','목','금','토'],
-          dayNamesMin: ['일','월','화','수','목','금','토'],
-          showMonthAfterYear: true,
-          changeMonth: true,
-          changeYear: true,
-          yearSuffix: '년'
-        });
-
-        // 도착일
-        $('#endDatePicker').datepicker({
-          dateFormat: 'yy-mm-dd',
-          prevText: '이전 달',
-          nextText: '다음 달',
-          monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-          monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-          dayNames: ['일','월','화','수','목','금','토'],
-          dayNamesShort: ['일','월','화','수','목','금','토'],
-          dayNamesMin: ['일','월','화','수','목','금','토'],
-          showMonthAfterYear: true,
-          changeMonth: true,
-          changeYear: true,
-          yearSuffix: '년'
-        });
-      });
-    </script>

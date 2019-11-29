@@ -48,8 +48,8 @@
       events: [
         <?php
           foreach ($listSchedule as $value) {
-            $sdate = strtotime($value['sdate']);
-            $edate = strtotime($value['edate']);
+            $sdate = strtotime($value['startdate']);
+            $edate = strtotime($value['enddate']);
         ?>
         {
           title: '<?=$value['subject']?>',

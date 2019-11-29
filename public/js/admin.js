@@ -91,6 +91,14 @@
     $('#messageModal input[name=action]').val('setup_bustype_delete');
     $('#messageModal input[name=delete_idx]').val($(this).data('idx'));
     $('#messageModal').modal({backdrop: 'static', keyboard: false});
+  }).on('click', '.btn-notice-delete', function() {
+    // 산행 삭제 모달
+    $('#messageModal .modal-message').text('정말로 삭제하시겠습니까?');
+    $('#messageModal .btn-refresh, #messageModal .close').hide();
+    $('#messageModal .btn-delete').show();
+    $('#messageModal input[name=action]').val('main_notice_delete');
+    $('#messageModal input[name=delete_idx]').val($(this).data('idx'));
+    $('#messageModal').modal({backdrop: 'static', keyboard: false});
   }).on('click', '.btn-delete', function() {
     // 삭제
     var $btn = $(this);
@@ -280,6 +288,36 @@
         }
       });
     }
+  }).on('change', '.change-status', function() {
+    // 상태 변경
+    $.ajax({
+      url: $('input[name=base_url]').val() + 'admin/change_status',
+      data: 'idx=' + $('input[name=idx]').val() + '&status=' + $(this).val(),
+      dataType: 'json',
+      type: 'post',
+      success: function(result) {
+        if (result.error == 1) {
+          $.openMsgModal(result.message);
+        } else {
+          location.reload();
+        }
+      }
+    });
+  }).on('click', '.btn-change-visible', function() {
+    // 숨김/공개
+    $.ajax({
+      url: $('input[name=base_url]').val() + 'admin/change_visible',
+      data: 'idx=' + $(this).data('idx') + '&visible=' + $(this).data('visible'),
+      dataType: 'json',
+      type: 'post',
+      success: function(result) {
+        if (result.error == 1) {
+          $.openMsgModal(result.message);
+        } else {
+          location.reload();
+        }
+      }
+    });
   }).on('click', '.btn-list', function() {
     // 모달 돌아가기 버튼
     location.replace($('input[name=base_url]').val() + 'admin/' + $(this).data('action'));

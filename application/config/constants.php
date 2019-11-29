@@ -107,11 +107,15 @@ defined('DB_SCHEDULE')    OR define('DB_SCHEDULE', 'giwb_schedule');
 defined('DB_VISITOR')     OR define('DB_VISITOR', 'giwb_visitor');
 
 // 산행 상태
-defined('STATUS_NONE')    OR define('STATUS_NONE', 0);
-defined('STATUS_ABLE')    OR define('STATUS_ABLE', 1);
-defined('STATUS_CONFIRM') OR define('STATUS_CONFIRM', 2);
-defined('STATUS_CANCLE')  OR define('STATUS_CANCLE', 8);
-defined('STATUS_CLOSED')  OR define('STATUS_CLOSED', 9);
+defined('STATUS_PLAN')    OR define('STATUS_PLAN', 0); // 계획
+defined('STATUS_ABLE')    OR define('STATUS_ABLE', 1); // 예정
+defined('STATUS_CONFIRM') OR define('STATUS_CONFIRM', 2); // 확정
+defined('STATUS_CANCEL')  OR define('STATUS_CANCEL', 8); // 취소
+defined('STATUS_CLOSED')  OR define('STATUS_CLOSED', 9); // 종료
+
+// 산행 숨김
+defined('VISIBLE_NONE')   OR define('VISIBLE_NONE', 0); // 숨김
+defined('VISIBLE_ABLE')   OR define('VISIBLE_ABLE', 1); // 공개
 
 // 스토리 리액션 형태
 defined('TYPE_REACTION_LIKE') OR define('TYPE_REACTION_LIKE', 1); // 좋아요

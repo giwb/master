@@ -55,7 +55,7 @@ class Admin_model extends CI_Model
   }
 
   // 산행 목록
-  public function listNotice($sdate=NULL, $edate=NULL)
+  public function listNotice($sdate=NULL, $edate=NULL, $status=NULL)
   {
     $this->db->select('*')
           ->from(DB_NOTICE)
@@ -71,6 +71,10 @@ class Admin_model extends CI_Model
       } else {
         $this->db->where("DATE_FORMAT(startdate, '%m%d') <= '" . $edate . "'");
       }
+    }
+
+    if (!is_null($status)) {
+      $this->db->where('status', $status);
     }
 
     return $this->db->get()->result_array();
@@ -159,6 +163,13 @@ class Admin_model extends CI_Model
     $this->db->set($data);
     $this->db->where('idx', $idx);
     return $this->db->update(DB_NOTICE);
+  }
+
+  // 산행 정보 삭제
+  public function deleteEntry($idx)
+  {
+    $this->db->where('idx', $idx);
+    return $this->db->delete(DB_NOTICE);
   }
 
   // 전체 회원 목록
@@ -338,46 +349,6 @@ class Admin_model extends CI_Model
           ->from(DB_BUSDATA)
           ->order_by('idx', 'asc');
     return $this->db->get()->result_array();
-  }
-
-  // 설정 - 산행예정 목록
-  public function listSchedule()
-  {
-    $this->db->select('*')
-          ->from(DB_SCHEDULE)
-          ->order_by('sdate', 'asc');
-    return $this->db->get()->result_array();
-  }
-
-  // 설정 - 산행예정 보기
-  public function viewSchedule($idx)
-  {
-    $this->db->select('*')
-          ->from(DB_SCHEDULE)
-          ->where('idx', $idx);
-    return $this->db->get()->row_array(1);
-  }
-
-  // 설정 - 산행예정 등록
-  public function insertSchedule($data)
-  {
-    $this->db->insert(DB_SCHEDULE, $data);
-    return $this->db->insert_id();
-  }
-
-  // 설정 - 산행예정 수정
-  public function updateSchedule($data, $idx)
-  {
-    $this->db->set($data);
-    $this->db->where('idx', $idx);
-    return $this->db->update(DB_SCHEDULE);
-  }
-
-  // 설정 - 산행예정 삭제
-  public function deleteSchedule($idx)
-  {
-    $this->db->where('idx', $idx);
-    return $this->db->delete(DB_SCHEDULE);
   }
 }
 ?>

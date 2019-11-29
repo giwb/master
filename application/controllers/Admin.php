@@ -270,6 +270,50 @@ class Admin extends CI_Controller
   }
 
   /**
+   * 산행 상태 변경
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function change_status()
+  {
+    $idx = html_escape($this->input->post('idx'));
+    $updateData['status'] = html_escape($this->input->post('status'));
+
+    $rtn = $this->admin_model->updateEntry($updateData, $idx);
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+    } else {
+      $result = array('error' => 0, 'message' => '');
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 산행 숨김/공개
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function change_visible()
+  {
+    $idx = html_escape($this->input->post('idx'));
+    $updateData['visible'] = html_escape($this->input->post('visible'));
+
+    $rtn = $this->admin_model->updateEntry($updateData, $idx);
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+    } else {
+      $result = array('error' => 0, 'message' => '');
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 산행 등록
    *
    * @return view
@@ -432,6 +476,26 @@ class Admin extends CI_Controller
 
     if (!$rtn) {
       $result = array('error' => 1, 'message' => '에러가 발생했습니다.');
+    } else {
+      $result = array('error' => 0, 'message' => '');
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 산행 삭제
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function main_notice_delete()
+  {
+    $idx = html_escape($this->input->post('idx'));
+    $rtn = $this->admin_model->deleteEntry($idx);
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
     } else {
       $result = array('error' => 0, 'message' => '');
     }
@@ -944,8 +1008,7 @@ class Admin extends CI_Controller
    **/
   public function setup_schedule()
   {
-    $viewData['listSchedule'] = $this->admin_model->listSchedule();
-    //$viewData['sdate'] = !empty($this->input->get('d')) ? html_escape($this->input->get('d')) : NULL;
+    $viewData['listSchedule'] = $this->admin_model->listNotice(NULL, NULL, STATUS_PLAN);
     $sdate = $this->input->get('d');
     if (!empty($sdate)) $viewData['sdate'] = html_escape($sdate); else $viewData['sdate'] = NULL;
 
@@ -971,11 +1034,11 @@ class Admin extends CI_Controller
     );
 
     if (!empty($idx)) {
-      $viewSchedule = $this->admin_model->viewSchedule($idx);
+      $viewNotice = $this->admin_model->viewEntry($idx);
 
-      if (!empty($viewSchedule['idx'])) {
-        $sdate = $viewSchedule['sdate'];
-        $edate = $viewSchedule['edate'];
+      if (!empty($viewNotice['idx'])) {
+        $sdate = $viewNotice['startdate'];
+        $edate = $viewNotice['enddate'];
         $listPastNotice = $this->admin_model->listNotice( date('md', strtotime($sdate) - (86400 * 5)), date('md', strtotime($edate) + (86400 * 5)) );
 
         if (!empty($listPastNotice)) {
@@ -988,7 +1051,7 @@ class Admin extends CI_Controller
             'idx' => $idx,
             'sdate' => $sdate,
             'edate' => $edate,
-            'subject' => $viewSchedule['subject'],
+            'subject' => $viewNotice['subject'],
             'message' => $html
           );
         }
@@ -1020,23 +1083,24 @@ class Admin extends CI_Controller
   public function setup_schedule_update()
   {
     $now = time();
-    $postData['sdate'] = html_escape($this->input->post('sdate'));
-    $postData['edate'] = html_escape($this->input->post('edate'));
-    $postData['subject'] = html_escape($this->input->post('subject'));
+    $postData['startdate'] = html_escape($this->input->post('sdate'));
+    $postData['starttime'] = '06:00';
+    $postData['enddate'] = html_escape($this->input->post('edate'));
+    $postData['subject'] = $postData['mname'] = html_escape($this->input->post('subject'));
+    $postData['visible'] = VISIBLE_NONE;
     $idx = html_escape($this->input->post('idx'));
 
     if (!empty($idx)) {
-      $postData['updated_at'] = $now;
-      $rtn = $this->admin_model->updateSchedule($postData, $idx);
+      $rtn = $this->admin_model->updateEntry($postData, $idx);
     } else {
-      $postData['created_at'] = $now;
-      $rtn = $this->admin_model->insertSchedule($postData);
+      $postData['regdate'] = $now;
+      $rtn = $this->admin_model->insertEntry($postData);
     }
 
-    if (!empty($rtn)) {
-      $result = array('error' => 0, 'message' => '');
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_update'));
     } else {
-      $result = array('error' => 1, 'message' => '저장에 실패했습니다. 다시 시도해주세요.');
+      $result = array('error' => 0, 'message' => '');
     }
 
     $this->output->set_output(json_encode($result));
@@ -1050,14 +1114,13 @@ class Admin extends CI_Controller
    **/
   public function setup_schedule_delete()
   {
-    $now = time();
     $idx = html_escape($this->input->post('idx'));
-    $rtn = $this->admin_model->deleteSchedule($idx);
+    $rtn = $this->admin_model->deleteEntry($idx);
 
-    if (!empty($rtn)) {
-      $result = array('error' => 0, 'message' => '');
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_delete'));
     } else {
-      $result = array('error' => 1, 'message' => '삭제에 실패했습니다. 다시 시도해주세요.');
+      $result = array('error' => 0, 'message' => '');
     }
 
     $this->output->set_output(json_encode($result));

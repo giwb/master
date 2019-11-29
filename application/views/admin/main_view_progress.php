@@ -26,10 +26,15 @@
             <button type="button" class="btn btn-secondary">문자</button>
           </div>
           <div class="float-right">
-            <button type="button" class="btn btn-secondary">숨김</button>
-            <button type="button" class="btn btn-secondary">예정</button>
-            <button type="button" class="btn btn-secondary">취소</button>
-            <button type="button" class="btn btn-secondary">종료</button>
+            <select name="status" class="form-control change-status">
+              <option value="">산행 상태</option>
+              <option value="">------------</option>
+              <option<?=$view['status'] == STATUS_PLAN ? ' selected' : ''?> value="<?=STATUS_PLAN?>">계획</option>
+              <option<?=$view['status'] == STATUS_ABLE ? ' selected' : ''?> value="<?=STATUS_ABLE?>">예정</option>
+              <option<?=$view['status'] == STATUS_CONFIRM ? ' selected' : ''?> value="<?=STATUS_CONFIRM?>">확정</option>
+              <option<?=$view['status'] == STATUS_CANCEL ? ' selected' : ''?> value="<?=STATUS_CANCEL?>">취소</option>
+              <option<?=$view['status'] == STATUS_CLOSED ? ' selected' : ''?> value="<?=STATUS_CLOSED?>">종료</option>
+            </select>
           </div>
         </div>
 

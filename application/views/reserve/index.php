@@ -1,13 +1,18 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
       <div class="club-main">
+<?php if (empty($notice['idx'])): ?>
+        <div class="text-center mt-5">데이터가 없습니다.</div>
+<?php else: ?>
         <div class="sub-contents">
           <div class="sub-title">
             <div class="area-title"><h2><b>[<?=viewStatus($notice['status'])?>]</b> <?=$notice['subject']?></h2></div>
             <div class="area-btn"><a href="<?=base_url()?>reserve/notice/<?=$view['idx']?>?n=<?=$notice['idx']?>"><button type="button" class="btn btn-primary">산행공지</button></a></div>
           </div>
           산행일시 : <?=$notice['startdate']?> (<?=calcWeek($notice['startdate'])?>) <?=$notice['starttime']?><br>
-          산행분담금 : <?=number_format($notice['cost'])?>원 (<?=calcTerm($notice['startdate'], $notice['starttime'], $notice['enddate'], $notice['schedule'])?>, <?=calcDistance($notice['distance'])?><?=!empty($notice['costmemo']) ? ', ' . $notice['costmemo'] : ''?>)<br>
+          <?php if (!empty($notice['cost'])): ?>
+          산행분담금 : <?=number_format($notice['cost'])?>원 (<?=calcTerm($notice['startdate'], $notice['starttime'], $notice['enddate'], $notice['schedule'])?><?=!empty($notice['distance']) ? ', ' . calcDistance($notice['distance']) : ''?><?=!empty($notice['costmemo']) ? ', ' . $notice['costmemo'] : ''?>)<br>
+          <?php endif; ?>
           <?=!empty($notice['content']) ? "산행코스 : " . $notice['content'] : ""?>
 
           <div class="area-reservation">
@@ -79,4 +84,5 @@
               </form>
             </div>
           </div>
+<?php endif; ?>
         </div>

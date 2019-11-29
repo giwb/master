@@ -87,10 +87,11 @@ if (!function_exists('checkAdminLogin')) {
 if (!function_exists('viewStatus')) {
   function viewStatus($status=0) {
     switch ($status) {
-      case '2': $result = '출발확정'; break;
-      case '8': $result = '취소'; break;
-      case '9': $result = '종료'; break;
-      default : $result = '출발예정';
+      case STATUS_ABLE:     $result = '예정'; break;
+      case STATUS_CONFIRM:  $result = '확정'; break;
+      case STATUS_CANCEL:   $result = '취소'; break;
+      case STATUS_CLOSED:   $result = '종료'; break;
+      default:              $result = '계획'; break;
     }
     return $result;
   }
@@ -252,29 +253,6 @@ if (!function_exists('calcDistance')) {
       case "18": $result = "왕복 1000km 이상구간"; break;
       case "99": $result = "해외트래킹"; break;
       default  : $result = "";
-    }
-    return $result;
-  }
-}
-
-// 산행 상태 표시
-if (!function_exists('viewNoticeStatus')) {
-  function viewNoticeStatus($status) {
-    switch ($status) {
-      case '1': // 예정
-        $result = '[예정]';
-      break;
-      case '2': // 확정
-        $result = '[확정]';
-      break;
-      case '8': // 취소
-        $result = '[취소]';
-      break;
-      case '9': // 종료
-        $result = '[종료]';
-      break;
-      default: // 무박
-        $result = '';
     }
     return $result;
   }

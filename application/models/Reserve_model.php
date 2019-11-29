@@ -16,6 +16,7 @@ class Reserve_model extends CI_Model
     $this->db->select('*')
           ->from(DB_NOTICE)
           ->where('club_idx', $clubIdx)
+          ->where('visible', VISIBLE_ABLE)
           ->order_by('startdate', $order);
 
     if (!empty($searchData['sdate'])) {
@@ -30,7 +31,7 @@ class Reserve_model extends CI_Model
       $this->db->like('subject', $searchData['keyword']);
     }
 
-    if (!is_null($status)) {
+    if (!empty($status)) {
       $this->db->where_in('status', $status);
     }
 
@@ -43,6 +44,7 @@ class Reserve_model extends CI_Model
     $this->db->select('*')
           ->from(DB_NOTICE)
           ->where('club_idx', $clubIdx)
+          ->where('visible', VISIBLE_ABLE)
           ->where('idx', $noticeIdx);
     return $this->db->get()->row_array(1);
   }
@@ -63,7 +65,8 @@ class Reserve_model extends CI_Model
     $this->db->select('a.*, b.idx as resCode, b.subject, b.startdate, b.starttime, b.cost, b.bus AS notice_bus, b.bustype AS notice_bustype, b.status AS notice_status')
           ->from(DB_RESERVATION . ' a')
           ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
-          ->where('a.club_idx', $clubIdx);
+          ->where('a.club_idx', $clubIdx)
+          ->where('b.visible', VISIBLE_ABLE);
 
     if (!empty($userId)) {
       $this->db->where('a.userid', $userId)

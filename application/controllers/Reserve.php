@@ -265,7 +265,7 @@ class Reserve extends MY_Controller
 
           // 포인트 반환 로그 기록
           setHistory(4, $userReserve['resCode'], $userReserve['userid'], $userReserve['subject'] . ' 예약 취소', $nowDate, $userReserve['cost']);
-        } elseif ($userReserve['status'] == STATUS_NONE && $userReserve['point'] > 0) {
+        } elseif ($userReserve['status'] == STATUS_PLAN && $userReserve['point'] > 0) {
           // 예약정보에 포인트가 있을때 반환
           $this->member_model->updatePoint($clubIdx, $userReserve['userid'], ($userData['point'] + $userReserve['point']));
 
@@ -351,7 +351,7 @@ class Reserve extends MY_Controller
     $viewData['userLevel'] = $this->load->get_var('userLevel');
 
     // 진행 중 산행
-    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_NONE, STATUS_ABLE, STATUS_CONFIRM));
+    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_PLAN, STATUS_ABLE, STATUS_CONFIRM));
 
     // 회원수
     $viewData['view']['cntMember'] = $this->member_model->cntMember($viewData['view']['idx']);
