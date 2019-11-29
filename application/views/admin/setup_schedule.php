@@ -114,7 +114,7 @@
     });
   });
 
-  // 산행예정 등록
+  // 산행계획 등록
   $.insertScheduleModal = function(start, end) {
     var sdate = $.changeDate(start);
     var edate = $.changeDate(end);
@@ -136,7 +136,7 @@
     });
   }
 
-  // 산행예정 수정
+  // 산행계획 수정
   $.updateScheduleModal = function(idx) {
     $('.error-message').hide();
     $('#scheduleModal .btn-schedule-delete').show();
@@ -172,7 +172,7 @@
       <div id="content">
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-          <h1 class="h3 mb-0 text-gray-800">산행예정</h1>
+          <h1 class="h3 mb-0 text-gray-800">산행계획</h1>
         </div>
       </div>
 
@@ -183,7 +183,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="smallmodalLabel">산행예정 등록</h5>
+        <h5 class="modal-title" id="smallmodalLabel">산행계획 등록</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

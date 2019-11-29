@@ -128,7 +128,7 @@
             <a class="collapse-item" href="<?=base_url()?>admin/setup_calendar"> <i class="menu-icon fas fa-calendar"></i> 달력관리</a>
             <a class="collapse-item" href="<?=base_url()?>admin/setup_bustype"> <i class="menu-icon fas fa-bus"></i> 차종등록</a>
             <a class="collapse-item" href="<?=base_url()?>admin/setup_sms"> <i class="menu-icon fas fa-mobile-alt"></i> 문자양식보기</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/setup_schedule"> <i class="menu-icon fas fa-calendar-alt"></i> 산행예정 만들기</a>
+            <a class="collapse-item" href="<?=base_url()?>admin/setup_schedule"> <i class="menu-icon fas fa-calendar-alt"></i> 산행계획</a>
           </div>
         </div>
       </li>

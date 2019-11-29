@@ -317,7 +317,7 @@ if (!function_exists('arrBreakfast')) {
 if (!function_exists('getBusType')) {
   function getBusType($busType, $bus) {
     $result = array();
-    if (is_null($busType)) {
+    if (empty($busType)) {
       // 예전 방식
       $busType = explode(',', $bus);
       foreach ($busType as $value) {
