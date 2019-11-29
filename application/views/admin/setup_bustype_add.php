@@ -29,9 +29,9 @@
                 <td>
                   <select name="bus_seat" class="form-control">
                     <option value="">인원수를 선택해주세요.</option>
-<?php foreach ($listBusdata as $value): ?>
+                    <?php foreach ($listBusdata as $value): ?>
                     <option<?=$value['idx'] == $viewBustype['bus_seat'] ? ' selected': ''?> value="<?=$value['idx']?>"><?=$value['name']?></option>
-<?php endforeach; ?>
+                    <?php endforeach; ?>
                   </select>
                 </td>
               </tr>

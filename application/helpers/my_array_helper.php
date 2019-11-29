@@ -339,19 +339,58 @@ if (!function_exists('getBusType')) {
 
 // 버스 형태별 테이블 HTML 출력
 if (!function_exists('getBusTableMake')) {
-  function getBusTableMake($seatType, $direction, $seat) {
+  function getBusTableMake($seatType, $seat) {
     $result = '';
     if ($seat == 1) $result = '<tr>';
     switch ($seatType) {
-      case '40': // 40번 순방향
-      case '44': // 44번 순방향
+      case '40': // 40석 순방향
+      case '44': // 44석 순방향
         if ($seat != 1 && $seat%4 == 1) $result = '</tr><tr>';
-        if ($seat%4 == 3) $result = '<td colspan="2" class="table-blank"></td>';
+        elseif ($seat%4 == 3) $result = '<td colspan="2" class="table-blank"></td>';
         break;
-      case '41': // 41번 순방향
+      case '41': // 41석 순방향
         if ($seat != 1 && $seat%4 == 1 && $seat < 39) $result = '</tr><tr>';
-        if ($seat%4 == 3 && $seat < 39) $result = '<td colspan="2" class="table-blank"></td>';
+        elseif ($seat%4 == 3 && $seat < 39) $result = '<td colspan="2" class="table-blank"></td>';
         break;
+      case '45': // 45석 순방향
+        if ($seat != 1 && $seat%4 == 1 && $seat < 43) $result = '</tr><tr>';
+        elseif ($seat%4 == 3 && $seat < 43) $result = '<td colspan="2" class="table-blank"></td>';
+        break;
+      case '28': // 28석
+        if ($seat != 1 && $seat%4 == 1) $result = '</tr><tr>';
+        elseif ($seat%4 == 3) $result = '<td colspan="2" class="table-blank"></td>';
+        break;
+      case '25': // 25석
+        if ($seat != 1 && $seat%4 == 1 && $seat < 23) $result = '</tr><tr>';
+        elseif ($seat%4 == 3 && $seat < 23) $result = '<td colspan="2" class="table-blank"></td>';
+        break;
+      case '13': // 13석
+      case '10': // 10석
+        if ($seat == 1) $result = '<td colspan="4">운전석</td>';
+        elseif ($seat == 2) $result = '</tr><tr>';
+        elseif ($seat <= 5 && $seat%4 == 1 || $seat == 8 || $seat == 11) $result = '</tr><tr>';
+        break;
+    }
+    return $result;
+  }
+}
+
+// 순방향/역방향 좌석 번호 확인
+if (!function_exists('checkDirection')) {
+  function checkDirection($seat, $bus, $noticeBusType, $noticeBus) {
+    $result = $seat;
+    $busType = getBusType($noticeBus, $noticeBusType); // 버스 형태별 좌석 배치
+
+    foreach ($busType as $key => $value) {
+      $key++;
+      if ($key == $bus) {
+        if ($value['direction'] == 1) {
+          if ($seat%4 == 1) $result = $seat + 3;
+          elseif ($seat%4 == 2) $result = $seat + 1;
+          elseif ($seat%4 == 3) $result = $seat - 1;
+          elseif ($seat%4 == 0) $result = $seat - 3;
+        }
+      }
     }
     return $result;
   }

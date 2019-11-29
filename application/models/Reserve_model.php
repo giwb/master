@@ -61,7 +61,7 @@ class Reserve_model extends CI_Model
   // 마이페이지 사용자 예약 내역
   public function userReserve($clubIdx, $userId=NULL, $idx=NULL)
   {
-    $this->db->select('a.*, b.idx as resCode, b.subject, b.startdate, b.starttime, b.cost, b.status AS notice_status')
+    $this->db->select('a.*, b.idx as resCode, b.subject, b.startdate, b.starttime, b.cost, b.bus AS notice_bus, b.bustype AS notice_bustype, b.status AS notice_status')
           ->from(DB_RESERVATION . ' a')
           ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
           ->where('a.club_idx', $clubIdx);
