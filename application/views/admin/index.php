@@ -75,10 +75,9 @@
   foreach ($listNotice as $value) {
     $startDate = strtotime($value['startdate']);
     $endDate = calcEndDate($value['startdate'], $value['schedule']);
-    $viewNoticeStatus = viewNoticeStatus($value['status'])
 ?>
             {
-              title: '<?=$viewNoticeStatus?><?=$value['mname']?>',
+              title: '[<?=viewStatus($value['status'])?>] <?=$value['mname']?>',
               start: new Date('<?=date('Y', $startDate)?>/<?=date('m', $startDate)?>/<?=date('d', $startDate)?>/00:00:00'),
               end: new Date('<?=date('Y', $endDate)?>/<?=date('m', $endDate)?>/<?=date('d', $endDate)?>/23:59:59'),
               url: '<?=base_url()?>admin/main_view_progress/<?=$value['idx']?>',
