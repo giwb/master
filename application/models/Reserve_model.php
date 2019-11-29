@@ -16,7 +16,6 @@ class Reserve_model extends CI_Model
     $this->db->select('*')
           ->from(DB_NOTICE)
           ->where('club_idx', $clubIdx)
-          ->where('cost >', 0)
           ->order_by('startdate', $order);
 
     if (!empty($searchData['sdate'])) {
