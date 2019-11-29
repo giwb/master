@@ -47,7 +47,7 @@
     // 버스 형태 좌석 배치
     foreach (range(1, $value['seat']) as $seat):
       $tableMake = getBusTableMake($value['seat'], $seat); // 버스 좌석 테이블 만들기
-      $reserveInfo = getAdminReserve($reserve, $bus, $seat, $userData); // 예약자 정보
+      $reserveInfo = getReserve($reserve, $bus, $seat, $userData); // 예약자 정보
 
       if ($value['direction'] == 1) {
         // 역방향 (좌석 번호는 그대로 놔둔 상태에서 표시만 역방향으로 한다)
