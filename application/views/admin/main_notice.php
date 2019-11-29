@@ -30,7 +30,7 @@
               <td><textarea name="plan" id="plan" rows="10" cols="100"><?=$view['plan']?></textarea></td>
             </tr>
             <tr>
-              <th>여행개요</th>
+              <th>산행개요</th>
               <td><textarea name="point" id="point" rows="10" cols="100"><?=$view['point']?></textarea></td>
             </tr>
             <tr>

@@ -10,7 +10,7 @@
           <div class="sub-header">기획의도</div>
           <div class="sub-content"><?=reset_html_escape($notice['plan'])?></div><br>
 
-          <div class="sub-header">여행개요</div>
+          <div class="sub-header">산행개요</div>
           <div class="sub-content"><?=reset_html_escape($notice['point'])?></div><br>
 
           <div class="sub-header">산행지소개</div>
