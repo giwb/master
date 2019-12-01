@@ -191,40 +191,11 @@
         </form>
       </div>
 
-      <script src="/public/editor/js/service/HuskyEZCreator.js" type="text/javascript" charset="utf-8"></script>
-      <script language="javascript">
-        var oEditors1 = [];
-        nhn.husky.EZCreator.createInIFrame({
-          oAppRef: oEditors1,
-          elPlaceHolder: 'about',
-          sSkinURI: '/public/editor/SmartEditor2Skin.html',
-          fCreator: 'createSEditor2',
-          tParams: { fOnBeforeUnload : function(){}}
-        });
-        var oEditors2 = [];
-        nhn.husky.EZCreator.createInIFrame({
-          oAppRef: oEditors2,
-          elPlaceHolder: 'guide',
-          sSkinURI: '/public/editor/SmartEditor2Skin.html',
-          fCreator: 'createSEditor2',
-          tParams: { fOnBeforeUnload : function(){}}
-        });
-        var oEditors3 = [];
-        nhn.husky.EZCreator.createInIFrame({
-          oAppRef: oEditors3,
-          elPlaceHolder: 'howto',
-          sSkinURI: '/public/editor/SmartEditor2Skin.html',
-          fCreator: 'createSEditor2',
-          tParams: { fOnBeforeUnload : function(){}}
-        });
-        var oEditors4 = [];
-        nhn.husky.EZCreator.createInIFrame({
-          oAppRef: oEditors4,
-          elPlaceHolder: 'hundred',
-          sSkinURI: '/public/editor/SmartEditor2Skin.html',
-          fCreator: 'createSEditor2',
-          tParams: { fOnBeforeUnload : function(){}}
-        });
+      <script type="text/javascript">
+        CKEDITOR.replace('about');
+        CKEDITOR.replace('guide');
+        CKEDITOR.replace('howto');
+        CKEDITOR.replace('hundred');
 
         $(document).on('change', '.area-sido', function() {
           var $dom = $(this);

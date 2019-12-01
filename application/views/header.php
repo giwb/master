@@ -51,9 +51,7 @@
   <script src="/public/lib/lightbox/js/lightbox.min.js"></script>
   <script src="/public/lib/touchSwipe/jquery.touchSwipe.min.js"></script>
   <script src="/public/js/fullcalendar.js" type="text/javascript"></script>
-
-  <!-- SmartEditor -->
-  <script src="/public/editor/js/service/HuskyEZCreator.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/public/ckeditor/ckeditor.js" type="text/javascript" charset="utf-8"></script>
 
   <!-- Template Main Javascript File -->
   <script src="/public/js/main.js?<?=time()?>"></script>

@@ -74,46 +74,4 @@
       CKEDITOR.replace('timetable');
       CKEDITOR.replace('information');
       CKEDITOR.replace('course');
-      /*var oEditors1 = [];
-      nhn.husky.EZCreator.createInIFrame({
-        oAppRef: oEditors1,
-        elPlaceHolder: 'plan',
-        sSkinURI: '/public/editor/SmartEditor2Skin.html',
-        fCreator: 'createSEditor2'
-      });
-      var oEditors2 = [];
-      nhn.husky.EZCreator.createInIFrame({
-        oAppRef: oEditors2,
-        elPlaceHolder: 'point',
-        sSkinURI: '/public/editor/SmartEditor2Skin.html',
-        fCreator: 'createSEditor2'
-      });
-      var oEditors3 = [];
-      nhn.husky.EZCreator.createInIFrame({
-        oAppRef: oEditors3,
-        elPlaceHolder: 'timetable',
-        sSkinURI: '/public/editor/SmartEditor2Skin.html',
-        fCreator: 'createSEditor2'
-      });
-      var oEditors4 = [];
-      nhn.husky.EZCreator.createInIFrame({
-        oAppRef: oEditors4,
-        elPlaceHolder: 'information',
-        sSkinURI: '/public/editor/SmartEditor2Skin.html',
-        fCreator: 'createSEditor2'
-      });
-      var oEditors5 = [];
-      nhn.husky.EZCreator.createInIFrame({
-        oAppRef: oEditors5,
-        elPlaceHolder: 'course',
-        sSkinURI: '/public/editor/SmartEditor2Skin.html',
-        fCreator: 'createSEditor2'
-      });
-      var oEditors6 = [];
-      nhn.husky.EZCreator.createInIFrame({
-        oAppRef: oEditors6,
-        elPlaceHolder: 'intro',
-        sSkinURI: '/public/editor/SmartEditor2Skin.html',
-        fCreator: 'createSEditor2'
-      });*/
     </script>
