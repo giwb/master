@@ -62,13 +62,19 @@
         </table>
 
         <div class="text-center mb-5">
-          <button type="button" class="btn btn-primary btn-entry">확인합니다</button>
+          <button type="submit" class="btn btn-primary">확인합니다</button>
         </div>
       </form>
     </div>
 
     <script type="text/javascript">
-      var oEditors1 = [];
+      CKEDITOR.replace('plan');
+      CKEDITOR.replace('point');
+      CKEDITOR.replace('intro');
+      CKEDITOR.replace('timetable');
+      CKEDITOR.replace('information');
+      CKEDITOR.replace('course');
+      /*var oEditors1 = [];
       nhn.husky.EZCreator.createInIFrame({
         oAppRef: oEditors1,
         elPlaceHolder: 'plan',
@@ -109,5 +115,5 @@
         elPlaceHolder: 'intro',
         sSkinURI: '/public/editor/SmartEditor2Skin.html',
         fCreator: 'createSEditor2'
-      });
+      });*/
     </script>

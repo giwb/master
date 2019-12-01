@@ -191,76 +191,77 @@
         </form>
       </div>
 
-<script language="javascript">
-  var oEditors1 = [];
-  nhn.husky.EZCreator.createInIFrame({
-    oAppRef: oEditors1,
-    elPlaceHolder: 'about',
-    sSkinURI: '/public/editor/SmartEditor2Skin.html',
-    fCreator: 'createSEditor2',
-    tParams: { fOnBeforeUnload : function(){}}
-  });
-  var oEditors2 = [];
-  nhn.husky.EZCreator.createInIFrame({
-    oAppRef: oEditors2,
-    elPlaceHolder: 'guide',
-    sSkinURI: '/public/editor/SmartEditor2Skin.html',
-    fCreator: 'createSEditor2',
-    tParams: { fOnBeforeUnload : function(){}}
-  });
-  var oEditors3 = [];
-  nhn.husky.EZCreator.createInIFrame({
-    oAppRef: oEditors3,
-    elPlaceHolder: 'howto',
-    sSkinURI: '/public/editor/SmartEditor2Skin.html',
-    fCreator: 'createSEditor2',
-    tParams: { fOnBeforeUnload : function(){}}
-  });
-  var oEditors4 = [];
-  nhn.husky.EZCreator.createInIFrame({
-    oAppRef: oEditors4,
-    elPlaceHolder: 'hundred',
-    sSkinURI: '/public/editor/SmartEditor2Skin.html',
-    fCreator: 'createSEditor2',
-    tParams: { fOnBeforeUnload : function(){}}
-  });
+      <script src="/public/editor/js/service/HuskyEZCreator.js" type="text/javascript" charset="utf-8"></script>
+      <script language="javascript">
+        var oEditors1 = [];
+        nhn.husky.EZCreator.createInIFrame({
+          oAppRef: oEditors1,
+          elPlaceHolder: 'about',
+          sSkinURI: '/public/editor/SmartEditor2Skin.html',
+          fCreator: 'createSEditor2',
+          tParams: { fOnBeforeUnload : function(){}}
+        });
+        var oEditors2 = [];
+        nhn.husky.EZCreator.createInIFrame({
+          oAppRef: oEditors2,
+          elPlaceHolder: 'guide',
+          sSkinURI: '/public/editor/SmartEditor2Skin.html',
+          fCreator: 'createSEditor2',
+          tParams: { fOnBeforeUnload : function(){}}
+        });
+        var oEditors3 = [];
+        nhn.husky.EZCreator.createInIFrame({
+          oAppRef: oEditors3,
+          elPlaceHolder: 'howto',
+          sSkinURI: '/public/editor/SmartEditor2Skin.html',
+          fCreator: 'createSEditor2',
+          tParams: { fOnBeforeUnload : function(){}}
+        });
+        var oEditors4 = [];
+        nhn.husky.EZCreator.createInIFrame({
+          oAppRef: oEditors4,
+          elPlaceHolder: 'hundred',
+          sSkinURI: '/public/editor/SmartEditor2Skin.html',
+          fCreator: 'createSEditor2',
+          tParams: { fOnBeforeUnload : function(){}}
+        });
 
-  $(document).on('change', '.area-sido', function() {
-    var $dom = $(this);
-    var parent = $dom.val();
+        $(document).on('change', '.area-sido', function() {
+          var $dom = $(this);
+          var parent = $dom.val();
 
-    $.ajax({
-      url: $('input[name=base_url]').val() + 'club/list_gugun',
-      data: 'parent=' + parent,
-      dataType: 'json',
-      type: 'post',
-      success: function(result) {
-        $dom.next().empty().append( $('<option value="">시/군/구</option>') );
-        for (var i=0; i<result.length; i++) {
-          $dom.next().append( $('<option value="' + result[i].idx + '">' + result[i].name + '</option>') );
-        }
-      }
-    });
-  }).on('click', '.btn-add-area', function() {
-    var data = '<div class="mt-1"><select name="area_sido[]" class="area-sido">';
-    data += '<option value="">시/도</option>';
-    <?php foreach ($area_sido as $value): ?>
-    data += '<option<?=$value['idx'] == $view['area_sido'] ? " selected" : ""?> value="<?=$value['idx']?>""><?=$value['name']?></option>';
-    <?php endforeach; ?>
-    data += '</select> ';
-    data += '<select name="area_gugun[]" class="area-gugun">';
-    data += '<option value="">시/군/구</option>';
-    <?php foreach ($area_gugun as $value): ?>
-    data += '<option<?=$value['idx'] == $view['area_gugun'] ? " selected" : ""?> value="<?=$value['idx']?>""><?=$value['name']?></option>';
-    <?php endforeach; ?>
-    data += '</select></div>';
-    $('.added-area').append(data);
-  }).on('click', '.setup-header', function() {
-    var $dom = $('.setup-content[data-idx=' + $(this).data('idx') + ']')
-    if ($dom.css('display') == 'none') {
-      $dom.slideDown();
-    } else {
-      $dom.slideUp();
-    }
-  });
-</script>
+          $.ajax({
+            url: $('input[name=base_url]').val() + 'club/list_gugun',
+            data: 'parent=' + parent,
+            dataType: 'json',
+            type: 'post',
+            success: function(result) {
+              $dom.next().empty().append( $('<option value="">시/군/구</option>') );
+              for (var i=0; i<result.length; i++) {
+                $dom.next().append( $('<option value="' + result[i].idx + '">' + result[i].name + '</option>') );
+              }
+            }
+          });
+        }).on('click', '.btn-add-area', function() {
+          var data = '<div class="mt-1"><select name="area_sido[]" class="area-sido">';
+          data += '<option value="">시/도</option>';
+          <?php foreach ($area_sido as $value): ?>
+          data += '<option<?=$value['idx'] == $view['area_sido'] ? " selected" : ""?> value="<?=$value['idx']?>""><?=$value['name']?></option>';
+          <?php endforeach; ?>
+          data += '</select> ';
+          data += '<select name="area_gugun[]" class="area-gugun">';
+          data += '<option value="">시/군/구</option>';
+          <?php foreach ($area_gugun as $value): ?>
+          data += '<option<?=$value['idx'] == $view['area_gugun'] ? " selected" : ""?> value="<?=$value['idx']?>""><?=$value['name']?></option>';
+          <?php endforeach; ?>
+          data += '</select></div>';
+          $('.added-area').append(data);
+        }).on('click', '.setup-header', function() {
+          var $dom = $('.setup-content[data-idx=' + $(this).data('idx') + ']')
+          if ($dom.css('display') == 'none') {
+            $dom.slideDown();
+          } else {
+            $dom.slideUp();
+          }
+        });
+      </script>

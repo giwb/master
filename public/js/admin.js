@@ -125,7 +125,7 @@
     // 신규 산행 등록
     var $btn = $(this);
     var btnText = $btn.text();
-
+/*
     if ($('input[name=notice]').val() == 1) {
       // 공지사항
       oEditors1.getById['plan'].exec("UPDATE_CONTENTS_FIELD", []);
@@ -140,6 +140,8 @@
       if ($('.startdate').val() == '') { $.openMsgModal('출발일시는 꼭 선택해주세요.'); return false; }
       if ($('.enddate').val() == '') { $.openMsgModal('도착일자는 꼭 선택해주세요.'); return false; }
     }
+*/
+//    CKEDITOR.instances.contents.updateElement();
 
     var formData = new FormData($('#myForm')[0]);
 

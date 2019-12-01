@@ -446,41 +446,39 @@ class Admin extends CI_Controller
   public function main_notice_update()
   {
     $now = time();
+    $postData = array();
     $idx = html_escape($this->input->post('idx'));
-    if ($idx == '') exit;
-    $photo = NULL;
-    $map = NULL;
 
-    if (!empty($_FILES['photo']['tmp_name']) && $_FILES['photo']['type'] == 'image/jpeg') {
-      $photo = $now . mt_rand(10000, 99999) . ".jpg";
-      move_uploaded_file($_FILES['photo']['tmp_name'], PHOTO_PATH . $photo);
+    if (!empty($idx)) {
+      if (!empty($_FILES['photo']['tmp_name']) && $_FILES['photo']['type'] == 'image/jpeg') {
+        $postData['photo'] = $now . mt_rand(10000, 99999) . ".jpg";
+        move_uploaded_file($_FILES['photo']['tmp_name'], PHOTO_PATH . $postData['photo']);
+      }
+
+      if (!empty($_FILES['map']['tmp_name']) && $_FILES['map']['type'] == 'image/jpeg') {
+        $postData['map'] = $now . mt_rand(10000, 99999) . ".jpg";
+        move_uploaded_file($_FILES['map']['tmp_name'], PHOTO_PATH . $postData['map']);
+      }
+
+      $postData = array(
+        'plan'        => html_escape($this->input->post('plan')),         // 기획의도
+        'point'       => html_escape($this->input->post('point')),        // 핵심안내
+        'timetable'   => html_escape($this->input->post('timetable')),    // 타임테이블
+        'information' => html_escape($this->input->post('information')),  // 산행안내
+        'course'      => html_escape($this->input->post('course')),       // 산행코스안내
+        'intro'       => html_escape($this->input->post('intro')),        // 산행지 소개
+      );
+
+      $rtn = $this->admin_model->updateEntry($postData, $idx);
     }
-
-    if (!empty($_FILES['map']['tmp_name']) && $_FILES['map']['type'] == 'image/jpeg') {
-      $map = $now . mt_rand(10000, 99999) . ".jpg";
-      move_uploaded_file($_FILES['map']['tmp_name'], PHOTO_PATH . $map);
-    }
-
-    $postData = array(
-      'plan'        => html_escape($this->input->post('plan')),         // 기획의도
-      'point'       => html_escape($this->input->post('point')),        // 핵심안내
-      'timetable'   => html_escape($this->input->post('timetable')),    // 타임테이블
-      'information' => html_escape($this->input->post('information')),  // 산행안내
-      'course'      => html_escape($this->input->post('course')),       // 산행코스안내
-      'intro'       => html_escape($this->input->post('intro')),        // 산행지 소개
-      'photo'       => $photo,        // 산행지 사진
-      'map'         => $map,          // 산행 지도 사진
-    );
-
-    $rtn = $this->admin_model->updateEntry($postData, $idx);
-
+/*
     if (!$rtn) {
       $result = array('error' => 1, 'message' => '에러가 발생했습니다.');
     } else {
       $result = array('error' => 0, 'message' => '');
     }
-
-    $this->output->set_output(json_encode($result));
+*/
+    redirect('/admin/main_notice/' . $idx);
   }
 
   /**

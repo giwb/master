@@ -18,8 +18,9 @@
   <script src="/public/js/jquery-ui.custom.min.js" type="text/javascript"></script>
   <script src="/public/vendors/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
   <script src="/public/js/fullcalendar.js" type="text/javascript"></script>
-  <!-- SmartEditor -->
-  <script src="/public/editor/js/service/HuskyEZCreator.js" type="text/javascript" charset="utf-8"></script>
+  <!-- SmartEditor
+  <script src="/public/editor/js/service/HuskyEZCreator.js" type="text/javascript" charset="utf-8"></script> -->
+  <script src="/public/ckeditor/ckeditor.js" type="text/javascript" charset="utf-8"></script>
 </head>
 
 <body id="page-top">
