@@ -598,6 +598,15 @@
         }
       }
     });
+  }).on('change', '.btn-all-check', function() {
+    // 체크박스 제어
+    var target = $(this).data('id');
+
+    if ($(this).is(':checked') == true) {
+      $('.' + target).prop('checked', true)
+    } else {
+      $('.' + target).prop('checked', false)
+    }
   }).on('click', '.btn-refresh', function() {
     location.reload();
   });
