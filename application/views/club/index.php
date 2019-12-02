@@ -17,20 +17,6 @@
             },
             selectable: true,
             selectHelper: true,
-            select: function(start, end, allDay) {
-              var title = prompt('Event Title:');
-              var eventData;
-              if (title) {
-                eventData = {
-                  title: title,
-                  start: start,
-                  end: end,
-                  allDay: allDay
-                };
-                $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
-              }
-              $('#calendar').fullCalendar('unselect');
-            },
             editable: false,
             eventLimit: true, // allow "more" link when too many events
             columnFormat: {
@@ -88,7 +74,7 @@
           <article id="post-<?=$value['idx']?>">
             <div class="story-profile">
               <img class="img-profile" src="<?=base_url()?>public/photos/<?=$value['user_idx']?>"> <strong><?=$value['user_nickname']?></strong><br>
-              <?=calcDate($value['created_at'])?><?=!empty($userData['idx']) && ($userData['idx'] == $value['created_by'] || $userData['admin'] == 1) ? ' | <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . ' data-action="delete">삭제</a>' : ''?>
+              <?=calcDate($value['created_at'])?><?=!empty($userData['idx']) && ($userData['idx'] == $value['created_by'] || $userData['admin'] == 1) ? ' | <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '" data-action="delete">삭제</a>' : ''?>
             </div>
             <div class="story-content">
   <?php if (!empty($value['filename'])): ?><img src="<?=base_url()?>public/photos/<?=$value['filename']?>"><br><?php endif; ?>

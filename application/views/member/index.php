@@ -18,7 +18,7 @@
             <dl>
               <dt><input type="checkbox" id="cr<?=$key?>" name="checkReserve[]" class="check-reserve" value="<?=$value['idx']?>" data-cost="<?=$value['cost']?>" data-status="<?=$value['status']?>"><label for="cr<?=$key?>"></label></dt>
               <dd>
-                <?=viewNoticeStatus($value['notice_status'])?> <a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bus'], $value['notice_bustype'])?>번 좌석<br>
+                [<?=viewStatus($value['notice_status'])?>] <a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bus'], $value['notice_bustype'])?>번 좌석<br>
                 <small>
                   일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 
                   분담금 : <?=number_format($value['cost'])?>원 /
@@ -34,7 +34,7 @@
 <?php foreach ($userVisit as $value): ?>
             <dl>
               <dd>
-                <?=viewNoticeStatus($value['notice_status'])?> <?=$value['subject']?> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bus'], $value['notice_bustype'])?>번 좌석<br>
+                [<?=viewStatus($value['notice_status'])?>] <?=$value['subject']?> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bus'], $value['notice_bustype'])?>번 좌석<br>
                 <small>
                   일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 
                   분담금 : <?=number_format($value['cost'])?>원
@@ -202,7 +202,7 @@
           formData.append('paymentCost', $('input[name=paymentCost]').val());
 
           $.ajax({
-            url: $('input[name=base_url]').val() + 'reserve/payment/' + $('input[name=club_idx]').val(),
+            url: $('input[name=baseUrl]').val() + 'reserve/payment/' + $('input[name=clubIdx]').val(),
             data: formData,
             processData: false,
             contentType: false,
@@ -278,5 +278,29 @@
             $('#reservePaymentModal input[name=paymentCost]').val(reducedCost);
             $('#reservePaymentModal .paymentCost').html('<s>' + $.setNumberFormat(reserveCost) + '원</s> → ' + $.setNumberFormat(reducedCost) + '원' + message);
           }
+        }).on('click', '.btn-reserve-cancel', function() {
+          // 예약좌석 취소 처리
+          var $btn = $(this);
+          var formData = new FormData($('#reserveForm')[0]);
+
+          $.ajax({
+            url: $('input[name=baseUrl]').val() + 'reserve/cancel/' + $('input[name=clubIdx]').val(),
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            type: 'post',
+            beforeSend: function() {
+              $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+            },
+            success: function(result) {
+              if (result.error == 1) {
+                $btn.hide();
+                $('.modal-message').text(result.message);
+              } else {
+                location.reload();
+              }
+            }
+          });
         });
       </script>

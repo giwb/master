@@ -77,7 +77,7 @@ if (!function_exists('checkAdminLogin')) {
     $CI =& get_instance();
     $clubIdx = $CI->load->get_var('clubIdx');
     $userData = $CI->load->get_var('userData');
-    if (empty($userData['idx']) || (!empty($userData['admin']) && $clubIdx != $userData['club_idx'])) {
+    if (empty($userData['idx']) || empty($userData['admin']) || $clubIdx != $userData['club_idx']) {
       redirect(base_url() . 'login/' . $clubIdx . '?r=' . $_SERVER['REQUEST_URI']);
     }
   }
@@ -389,14 +389,18 @@ if (!function_exists('getAdminReserve')) {
   }
 }
 
-// 예약자 정보
+// 예약자 정보 (일반용)
 if (!function_exists('getReserve')) {
-  function getReserve($reservation, $bus, $seat, $userData) {
-    $result = array('idx' => '', 'userid' => '', 'nickname' => '예약가능', 'class' => ' seat');
+  function getReserve($reservation, $bus, $seat, $userData, $status) {
+    if ($status == STATUS_CLOSED) {
+      $result = array('idx' => '', 'userid' => '', 'nickname' => '', 'class' => '');
+    } else {
+      $result = array('idx' => '', 'userid' => '', 'nickname' => '예약가능', 'class' => 'seat');
+    }
     foreach ($reservation as $key => $value) {
       if ($value['bus'] == $bus && $value['seat'] == $seat) {
         if ($userData['userid'] == $value['userid']) {
-          $value['class'] = ' seat';
+          $value['class'] = 'seat';
         } else {
           $value['class'] = '';
         }

@@ -16,7 +16,7 @@
           <article id="post-<?=$viewStory['idx']?>">
             <div class="story-profile">
               <img class="img-profile" src="<?=base_url()?>public/photos/<?=$viewStory['user_idx']?>"> <strong><?=$viewStory['user_nickname']?></strong><br>
-              <?=calcDate($viewStory['created_at'])?><?=!empty($userData['idx']) && ($userData['idx'] == $viewStory['created_by'] || $userData['admin'] == 1) ? ' | <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $viewStory['idx'] . ' data-action="delete">삭제</a>' : ''?>
+              <?=calcDate($viewStory['created_at'])?><?=!empty($userData['idx']) && ($userData['idx'] == $viewStory['created_by'] || $userData['admin'] == 1) ? ' | <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $viewStory['idx'] . '" data-action="delete">삭제</a>' : ''?>
             </div>
             <div class="story-content">
               <?php if (!empty($viewStory['filename'])): ?><img src="<?=base_url()?>public/photos/<?=$viewStory['filename']?>"><br><?php endif; ?>

@@ -221,7 +221,7 @@
   $(document).on('change', '.file', function() {
     // 파일 업로드
     var $dom = $(this);
-    var baseUrl = $('input[name=base_url]').val();
+    var baseUrl = $('input[name=baseUrl]').val();
     var page = $('input[name=page]').val();
     var fileType = $dom.data('type');
     var formData = new FormData($('form')[0]);
@@ -290,9 +290,9 @@
     e.preventDefault();
     var $dom = $(this);
     var formData = new FormData($('.loginForm')[0]);
-    var baseUrl = $('input[name=base_url]').val();
-    var clubIdx = $('input[name=club_idx]').val();
-    var redirectUrl = $('input[name=redirect_url]').val();
+    var baseUrl = $('input[name=baseUrl]').val();
+    var clubIdx = $('input[name=clubIdx]').val();
+    var redirectUrl = $('input[name=redirectUrl]').val();
 
     $.ajax({
       url: baseUrl + 'login/' + clubIdx + '?r=' + redirectUrl,
@@ -319,7 +319,7 @@
   }).on('click', '.logout', function() {
     // 로그아웃
     $.ajax({
-      url: $('input[name=base_url]').val() + 'logout',
+      url: $('input[name=baseUrl]').val() + 'logout',
       dataType: 'json',
       success: function() {
         location.reload();
@@ -328,13 +328,13 @@
   }).on('blur', '.check-userid', function() {
     // 아이디 중복 체크
     var $dom = $(this);
-    var userid = $('input[name=userid]').val();
-    var clubIdx = $('input[name=club_idx]').val();
+    var userId = $('input[name=userid]').val();
+    var clubIdx = $('input[name=clubIdx]').val();
 
-    if (userid != '') {
+    if (userId != '') {
       $.ajax({
-        url: $('input[name=base_url]').val() + 'login/check_userid/' + clubIdx,
-        data: 'userid=' + userid,
+        url: $('input[name=baseUrl]').val() + 'login/check_userid/' + clubIdx,
+        data: 'userid=' + userId,
         dataType: 'json',
         type: 'post',
         success: function(result) {
@@ -349,11 +349,11 @@
     // 닉네임 중복 체크
     var $dom = $(this);
     var nickname = $('input[name=nickname]').val();
-    var clubIdx = $('input[name=club_idx]').val();
+    var clubIdx = $('input[name=clubIdx]').val();
 
     if (nickname != '') {
       $.ajax({
-        url: $('input[name=base_url]').val() + 'login/check_nickname/' + clubIdx,
+        url: $('input[name=baseUrl]').val() + 'login/check_nickname/' + clubIdx,
         data: 'nickname=' + nickname,
         dataType: 'json',
         type: 'post',
@@ -412,8 +412,8 @@
 
     var $btn = $(this);
     var formData = new FormData($('#entryForm')[0]);
-    var baseUrl = $('input[name=base_url]').val();
-    var clubIdx = $('input[name=club_idx]').val();
+    var baseUrl = $('input[name=baseUrl]').val();
+    var clubIdx = $('input[name=clubIdx]').val();
 
     $.ajax({
       url: baseUrl + 'login/insert/' + clubIdx,
@@ -456,6 +456,14 @@
     }
   }).on('click', '.area-bus-table .seat', function() {
     // 산행 예약/수정 버튼
+    var userIdx = $('input[name=userIdx]').val();
+
+    if (userIdx == '') {
+      $('input[name=redirectUrl]').val($(location).attr('href'));
+      $('#loginModal').modal('show');
+      return false;
+    }
+
     var resIdx = $(this).data('id');
     var bus = $(this).data('bus');
     var seat = $(this).data('seat');
@@ -575,29 +583,6 @@
     } else {
       $.openMsgModal('취소할 예약 내역을 선택해주세요.');
     }
-  }).on('click', '.btn-reserve-cancel', function() {
-    // 예약좌석 취소 처리
-    var $btn = $(this);
-    var formData = new FormData($('#reserveForm')[0]);
-    $.ajax({
-      url: $('input[name=base_url]').val() + 'reserve/cancel/' + $('input[name=club_idx]').val(),
-      data: formData,
-      processData: false,
-      contentType: false,
-      dataType: 'json',
-      type: 'post',
-      beforeSend: function() {
-        $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
-      },
-      success: function(result) {
-        if (result.error == 1) {
-          $btn.hide();
-          $('.modal-message').text(result.message);
-        } else {
-          location.reload();
-        }
-      }
-    });
   }).on('change', '.btn-all-check', function() {
     // 체크박스 제어
     var target = $(this).data('id');
@@ -615,11 +600,11 @@
   $.viewReserveInfo = function(resIdx, bus, seat) {
     var cnt = 0;
     var selected = '';
-    var clubIdx = $('input[name=club_idx]').val();
+    var clubIdx = $('input[name=clubIdx]').val();
 
     $.ajax({
-      url: $('input[name=base_url]').val() + 'reserve/information/' + clubIdx,
-      data: 'idx=' + $('input[name=notice_idx]').val() + '&resIdx=' + resIdx,
+      url: $('input[name=baseUrl]').val() + 'reserve/information/' + clubIdx,
+      data: 'idx=' + $('input[name=noticeIdx]').val() + '&resIdx=' + resIdx,
       dataType: 'json',
       type: 'post',
       success: function(reserveInfo) {

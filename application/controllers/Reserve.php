@@ -20,8 +20,6 @@ class Reserve extends MY_Controller
    **/
   public function index()
   {
-    checkUserLogin();
-
     $clubIdx = $this->load->get_var('clubIdx');
     $noticeIdx = html_escape($this->input->get('n'));
 
@@ -57,8 +55,6 @@ class Reserve extends MY_Controller
    **/
   public function notice()
   {
-    checkUserLogin();
-
     $clubIdx = $this->load->get_var('clubIdx');
     $noticeIdx = html_escape($this->input->get('n'));
 
@@ -135,8 +131,8 @@ class Reserve extends MY_Controller
     $now = time();
     $userData   = $this->load->get_var('userData');
     $postData   = $this->input->post();
-    $clubIdx    = html_escape($postData['club_idx']);
-    $noticeIdx  = html_escape($postData['notice_idx']);
+    $clubIdx    = html_escape($postData['clubIdx']);
+    $noticeIdx  = html_escape($postData['noticeIdx']);
     $bus        = $postData['bus'];
     $location   = $postData['location'];
     $memo       = $postData['memo'];
@@ -232,6 +228,7 @@ class Reserve extends MY_Controller
     $userData = $this->load->get_var('userData');
     $checkReserve = $this->input->post('checkReserve');
     $result = array('error' => 1, 'message' => '예약좌석 취소 중 문제가 발생했습니다. 다시 확인해주세요.');
+    $penalty = 0;
 
     foreach ($checkReserve as $idx) {
       $userReserve = $this->reserve_model->userReserve($clubIdx, NULL, $idx);

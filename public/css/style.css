@@ -1896,6 +1896,7 @@ h1.nav-logo small {
 #club .club-main { flex: 3; -webkit-flex: 3; margin: 0 20px; }
 #club .club-right { flex: 1; -webkit-flex: 1; }
 
+#club .club-left .club-left-layer { position: fixed; }
 #club .club-left .club-header img { max-width: 100%; vertical-align: middle; margin-bottom: 10px; }
 #club .club-left .club-header h3 { margin: 0px; vertical-align: middle; }
 #club .club-left ul.navi { font-size: 14px; border: 1px solid #d9d9d9; border-width: 1px 0; margin: 10px 0 15px 0; padding: 10px 0; }
@@ -1909,7 +1910,7 @@ h1.nav-logo small {
 #club .club-main .your-story { width: 100%!important; clear: both; margin: 20px 0 0 0; text-align: justify; overflow: hidden; }
 #club .club-main .your-story #club-story-content { width: 100%!important; height: 105px; padding: 10px; }
 #club .club-main .your-story .area-btn { height: 40px; margin: 10px 0; }
-#club .club-main .your-story .area-btn .btn-photo { font-size: 14px; border-radius: 10px; padding: 3px 15px; float: left; }
+#club .club-main .your-story .area-btn .btn-photo { font-size: 14px; border-radius: 10px; margin: 0 0 0 4px; padding: 3px 15px; float: left; }
 #club .club-main .your-story .area-btn .btn-photo:hover { border: 1px solid #d9d9d9; box-shadow: 1px 1px 3px #ddd; }
 #club .club-main .your-story .area-btn .btn-post { font-size: 14px; color: #fff; background-color: #FF6C00; padding: 3px 15px; float: right; }
 #club .club-main .your-story .area-btn .btn-post:hover { color: #000; background-color: #F6C23E; border: 1px solid #FF6C00; }

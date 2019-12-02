@@ -10,7 +10,7 @@ $(document).on('click', '.btn-reply', function() {
 
   if ($dom.css('display') == 'none') {
     $.ajax({
-      url: $('input[name=base_url]').val() + 'story/reply/' + $('input[name=clubIdx]').val(),
+      url: $('input[name=baseUrl]').val() + 'story/reply/' + $('input[name=clubIdx]').val(),
       data: 'storyIdx=' + storyIdx,
       dataType: 'json',
       type: 'post',
@@ -32,7 +32,7 @@ $(document).on('click', '.btn-reply', function() {
   var userIdx = $('input[name=userIdx]').val();
 
   if (userIdx == '') {
-    $.openMsgModal('로그인을 해주세요.');
+    $('#loginModal').modal('show'); // 로그인
     return false;
   }
 
@@ -48,7 +48,7 @@ $(document).on('click', '.btn-reply', function() {
   var shareType = $(this).data('type');
   window.open(url, 'share-window', 'width=626, height=436');
   $.ajax({
-    url: $('input[name=base_url]').val() + 'story/share/' + $('input[name=clubIdx]').val(),
+    url: $('input[name=baseUrl]').val() + 'story/share/' + $('input[name=clubIdx]').val(),
     data: 'storyIdx=' + $(this).data('idx') + '&shareType=' + shareType,
     dataType: 'json',
     type: 'post',
@@ -70,7 +70,7 @@ $(document).on('click', '.btn-reply', function() {
   $dom.tooltip('hide').attr('data-original-title', '복사했습니다!').tooltip('show');
   setTimeout(function() { $dom.tooltip('hide'); }, 2000);
   $.ajax({
-    url: $('input[name=base_url]').val() + 'story/share/' + $('input[name=clubIdx]').val(),
+    url: $('input[name=baseUrl]').val() + 'story/share/' + $('input[name=clubIdx]').val(),
     data: 'storyIdx=' + $(this).data('idx') + '&shareType=' + shareType,
     dataType: 'json',
     type: 'post',
@@ -119,12 +119,12 @@ $(document).on('click', '.btn-reply', function() {
   var userIdx = $('input[name=userIdx]').val();
 
   if (userIdx == '') {
-    $.openMsgModal('로그인을 해주세요.');
+    $('#loginModal').modal('show'); // 로그인
     return false;
   }
   
   $.ajax({
-    url: $('input[name=base_url]').val() + 'story/like/' + $('input[name=clubIdx]').val(),
+    url: $('input[name=baseUrl]').val() + 'story/like/' + $('input[name=clubIdx]').val(),
     data: 'storyIdx=' + $(this).data('idx'),
     dataType: 'json',
     type: 'post',
@@ -143,14 +143,14 @@ $(document).on('click', '.btn-reply', function() {
   $('#messageModal .btn-delete, #messageModal .btn-close').show();
   $('#messageModal .modal-message').text('정말로 삭제하시겠습니까?');
   $('#messageModal input[name=action]').val($(this).data('action'));
-  $('#messageModal input[name=delete_idx]').val($(this).data('idx'));
+  $('#messageModal input[name=deleteIdx]').val($(this).data('idx'));
   $('#messageModal').modal();
 }).on('click', '.btn-delete', function() {
   // 삭제하기
   var $btn = $(this);
   $.ajax({
-    url: $('input[name=base_url]').val() + 'story/' + $('#messageModal input[name=action]').val() + '/' + $('input[name=clubIdx]').val(),
-    data: 'idx=' + $('input[name=delete_idx]').val(),
+    url: $('input[name=baseUrl]').val() + 'story/' + $('#messageModal input[name=action]').val() + '/' + $('input[name=clubIdx]').val(),
+    data: 'idx=' + $('input[name=deleteIdx]').val(),
     dataType: 'json',
     type: 'post',
     beforeSend: function() {
@@ -177,7 +177,7 @@ $(document).on('click', '.btn-reply', function() {
   var userIdx = $('input[name=userIdx]').val();
 
   if (userIdx == '') {
-    $.openMsgModal('로그인을 해주세요.');
+    $('#loginModal').modal('show'); // 로그인
     return false;
   }
 
@@ -185,7 +185,7 @@ $(document).on('click', '.btn-reply', function() {
   if (typeof(photo) == 'undefined') { photo = ''; }
 
   $.ajax({
-    url: $('input[name=base_url]').val() + 'story/insert/' + $('input[name=clubIdx]').val(),
+    url: $('input[name=baseUrl]').val() + 'story/insert/' + $('input[name=clubIdx]').val(),
     data: 'page=' + $('input[name=page]').val() + '&photo=' + photo + '&content=' + content,
     dataType: 'json',
     type: 'post',
@@ -208,15 +208,26 @@ $(document).on('click', '.btn-reply', function() {
       }
     }
   });
+}).on('click', '#club-story-content', function() {
+  // 스토리 작성 텍스트 박스 클릭
+  if ($('input[name=userIdx]').val() == '') {
+    $('#loginModal').modal('show'); // 로그인
+    return false;
+  }
 }).on('click', '.btn-photo', function() {
   // 사진 선택
-  $(this).prev().click();
+  if ($('input[name=userIdx]').val() == '') {
+    $('#loginModal').modal('show'); // 로그인
+    return false;
+  } else {
+    $(this).prev().click();
+  }
 }).on('click', '.icon-photo-delete', function() {
   // 사진 삭제
   var page = $('input[name=page]').val();
 
   $.ajax({
-    url: $('input[name=base_url]').val() + 'story/delete_photo/' + $('input[name=clubIdx]').val(),
+    url: $('input[name=baseUrl]').val() + 'story/delete_photo/' + $('input[name=clubIdx]').val(),
     data: 'page=' + $('input[name=page]').val() + '&photo=' + $(this).data('filename'),
     dataType: 'json',
     type: 'post',

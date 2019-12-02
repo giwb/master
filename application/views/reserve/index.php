@@ -52,7 +52,7 @@
     // 버스 형태 좌석 배치
     foreach (range(1, $value['seat']) as $seat):
       $tableMake = getBusTableMake($value['seat'], $seat); // 버스 좌석 테이블 만들기
-      $reserveInfo = getReserve($reserve, $bus, $seat, $userData); // 예약자 정보
+      $reserveInfo = getReserve($reserve, $bus, $seat, $userData, $notice['status']); // 예약자 정보
 
       if ($value['direction'] == 1) {
         // 역방향 (좌석 번호는 그대로 놔둔 상태에서 표시만 역방향으로 한다)
@@ -66,7 +66,7 @@
 ?>
                 <?=$tableMake?>
                 <td><?=$seatNumber?></td>
-                <td class="seat<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>" data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$reserveInfo['nickname']?></td>
+                <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>" data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$reserveInfo['nickname']?></td>
 <?php
     endforeach;
 ?>
@@ -78,8 +78,9 @@
 ?>
               <form id="reserveForm" method="post" action="<?=base_url()?>reserve/insert">
                 <div id="addedInfo"></div>
-                <input type="hidden" name="club_idx" value="<?=$view['idx']?>">
-                <input type="hidden" name="notice_idx" value="<?=$notice['idx']?>">
+                <input type="hidden" name="clubIdx" value="<?=!empty($view['idx']) ? $view['idx'] : ''?>">
+                <input type="hidden" name="userIdx" value="<?=!empty($userData['idx']) ? $userData['idx'] : ''?>">
+                <input type="hidden" name="noticeIdx" value="<?=!empty($notice['idx']) ? $notice['idx'] : ''?>">
                 <button type="button" class="btn btn-primary btn-reserve-confirm">예약합니다</button>
               </form>
             </div>

@@ -13,7 +13,7 @@
               <dt>비밀번호</dt>
               <dd><input type="password" name="password" class="form-control input-login"></dd>
             </dl>
-            <div class="error-message"></div>
+            <div class="error-message text-danger text-center"></div>
             <hr>
             <div class="row mr-3 ml-3">
               <div class="col-sm-8">
