@@ -135,7 +135,7 @@ class Club extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function hundred()
+  public function auth_about()
   {
     $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
@@ -143,7 +143,7 @@ class Club extends MY_Controller
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
-    $this->_viewPage('club/hundred', $viewData);
+    $this->_viewPage('club/auth_about', $viewData);
   }
 
   /**
@@ -152,15 +152,34 @@ class Club extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function hundred_auth()
+  public function auth()
   {
     $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
+    $sDate = '2019-04-06';
+    $nDate = date('Y-m-d');
+    $rank = 0;
+    $buf = 0;
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
-    $this->_viewPage('club/hundred_auth', $viewData);
+    // 백산백소 인증 데이터 불러오기
+    $viewData['auth'] = $this->club_model->listAuth();
+
+    foreach ($viewData['auth'] as $key => $value) {
+      if ($buf != $value['cnt']) { $rank = $key; $rank++; }
+      $viewData['auth'][$key]['rank'] = $rank;
+      $viewData['auth'][$key]['title'] = '';
+
+      $authList = $this->club_model->listAuthNotice($value['nickname']);
+      foreach ($authList as $auth) {
+        $viewData['auth'][$key]['title'] .= "<a target='_blank' href='" . $auth['photo'] . "'>" . $auth['title'] . "</a> / ";
+      }
+      $buf = $value['cnt'];
+    }
+
+    $this->_viewPage('club/auth', $viewData);
   }
 
   /**
@@ -249,7 +268,7 @@ class Club extends MY_Controller
       'about'             => html_escape($input_data['about']),
       'guide'             => html_escape($input_data['guide']),
       'howto'             => html_escape($input_data['howto']),
-      'hundred'           => html_escape($input_data['hundred']),
+      'auth'              => html_escape($input_data['auth']),
       'updated_by'        => 1,
       'updated_at'        => $now
     );
@@ -291,7 +310,7 @@ class Club extends MY_Controller
         $this->image_lib->resize();
       }
     }
-
+/*
     if (empty($result)) {
       $result = array(
         'error' => 1,
@@ -305,6 +324,8 @@ class Club extends MY_Controller
     }
 
     $this->output->set_output(json_encode($result));
+*/
+    redirect('/club/setup/' . $clubIdx);
   }
 
   /**

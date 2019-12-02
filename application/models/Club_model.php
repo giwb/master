@@ -50,5 +50,27 @@ class Club_model extends CI_Model
     $this->db->where('idx', $clubIdx);
     return $this->db->update(DB_CLUBS);
   }
+
+  // 백산백소
+  public function listAuth()
+  {
+    $this->db->select('nickname, COUNT(idx) AS cnt')
+          ->from(DB_AUTH)
+          ->where('nickname !=', '캔총무')
+          ->group_by('nickname')
+          ->order_by('cnt', 'desc')
+          ->order_by('nickname', 'asc');
+    return $this->db->get()->result_array();
+  }
+  public function listAuthNotice($nickname)
+  {
+    $this->db->select('a.*')
+          ->from(DB_AUTH . ' a')
+          ->from(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
+          ->where('a.nickname', $nickname)
+          ->group_by('a.title')
+          ->order_by('b.startdate', 'asc');
+    return $this->db->get()->result_array();
+  }
 }
 ?>

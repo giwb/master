@@ -1897,7 +1897,7 @@ h1.nav-logo small {
 #club .club-right { flex: 1; -webkit-flex: 1; }
 
 #club .club-left .club-left-layer { position: fixed; }
-#club .club-left .club-header img { max-width: 100%; vertical-align: middle; margin-bottom: 10px; }
+#club .club-left .club-header img { max-width: 200px; vertical-align: middle; margin-bottom: 10px; }
 #club .club-left .club-header h3 { margin: 0px; vertical-align: middle; }
 #club .club-left ul.navi { font-size: 14px; border: 1px solid #d9d9d9; border-width: 1px 0; margin: 10px 0 15px 0; padding: 10px 0; }
 #club .club-left ul.navi li a { padding: 3px 0 3px 3px; display: block; }
@@ -2052,6 +2052,11 @@ h1.nav-logo small {
 #reservePaymentModal .paymentCost { font-size: 16px; }
 #reservePaymentModal .paymentCost s { font-size: 13px; color: #666; font-weight: normal; }
 #reservePaymentModal .using-point { width: 80px; display: inline-block; }
+
+/* 백산백소 */
+.auth { font-size: 12px; }
+.auth th { background-color: #eee; }
+.auth th, .auth td { border: 1px solid #ddd; padding: 10px; }
 
 /* Setup */
 #setupForm .setup-header { background-color: #d9d9d9; border: 1px solid #999; border-width: 1px 0; margin: 0 0 20px 0; padding: 7px 15px; cursor: pointer; }

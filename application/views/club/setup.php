@@ -74,7 +74,7 @@
               </dd>
             </dl>
             <div class="area-btn">
-              <button type="button" class="btn btn-primary btn-setup">수정합니다</button>
+              <button type="submit" class="btn btn-primary btn-setup">수정합니다</button>
             </div>
           </div>
 
@@ -157,35 +157,35 @@
               </dd>
             </dl>
             <div class="area-btn">
-              <button type="button" class="btn btn-primary btn-setup">수정합니다</button>
+              <button type="submit" class="btn btn-primary btn-setup">수정합니다</button>
             </div>
           </div>
           <div class="setup-header" data-idx="3"><strong>산악회 소개</strong></div>
           <div class="setup-content" data-idx="3">
             <textarea name="about" id="about" rows="10" cols="100"><?=!empty($view['about']) ? reset_html_escape($view['about']) : ''?></textarea>
             <div class="area-btn">
-              <button type="button" class="btn btn-primary btn-setup">수정합니다</button>
+              <button type="submit" class="btn btn-primary btn-setup">수정합니다</button>
             </div>
           </div>
           <div class="setup-header" data-idx="4"><strong>등산 안내인 소개</strong></div>
           <div class="setup-content" data-idx="4">
             <textarea name="guide" id="guide" rows="10" cols="100"><?=!empty($view['guide']) ? reset_html_escape($view['guide']) : ''?></textarea>
             <div class="area-btn">
-              <button type="button" class="btn btn-primary btn-setup">수정합니다</button>
+              <button type="submit" class="btn btn-primary btn-setup">수정합니다</button>
             </div>
           </div>
           <div class="setup-header" data-idx="5"><strong>이용안내</strong></div>
           <div class="setup-content" data-idx="5">
             <textarea name="howto" id="howto" rows="10" cols="100"><?=!empty($view['howto']) ? reset_html_escape($view['howto']) : ''?></textarea>
             <div class="area-btn">
-              <button type="button" class="btn btn-primary btn-setup">수정합니다</button>
+              <button type="submit" class="btn btn-primary btn-setup">수정합니다</button>
             </div>
           </div>
           <div class="setup-header" data-idx="6"><strong>백산백소 소개</strong></div>
           <div class="setup-content" data-idx="6">
-            <textarea name="hundred" id="hundred" rows="10" cols="100"><?=!empty($view['hundred']) ? reset_html_escape($view['hundred']) : ''?></textarea>
+            <textarea name="auth" id="auth" rows="10" cols="100"><?=!empty($view['auth']) ? reset_html_escape($view['auth']) : ''?></textarea>
             <div class="area-btn">
-              <button type="button" class="btn btn-primary btn-setup">수정합니다</button>
+              <button type="submit" class="btn btn-primary btn-setup">수정합니다</button>
             </div>
           </div>
         </form>
@@ -195,7 +195,7 @@
         CKEDITOR.replace('about');
         CKEDITOR.replace('guide');
         CKEDITOR.replace('howto');
-        CKEDITOR.replace('hundred');
+        CKEDITOR.replace('auth');
 
         $(document).on('change', '.area-sido', function() {
           var $dom = $(this);

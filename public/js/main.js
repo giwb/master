@@ -538,40 +538,6 @@
   }).on('click', '.btn-club-getoff-delete', function() {
     // 하차위치 삭제
     $(this).parent().remove();
-  }).on('click', '.btn-setup', function() {
-    // 설정 수정
-    oEditors1.getById['about'].exec("UPDATE_CONTENTS_FIELD", []);
-    oEditors2.getById['guide'].exec("UPDATE_CONTENTS_FIELD", []);
-    oEditors3.getById['howto'].exec("UPDATE_CONTENTS_FIELD", []);
-    oEditors4.getById['hundred'].exec("UPDATE_CONTENTS_FIELD", []);
-
-    var $btn = $(this);
-    var formData = new FormData($('#setupForm')[0]);
-
-    $.ajax({
-      url: $('#setupForm').attr('action'),
-      processData: false,
-      contentType: false,
-      data: formData,
-      dataType: 'json',
-      type: 'post',
-      beforeSend: function() {
-        $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
-      },
-      success: function(result) {
-        $btn.css('opacity', '1').prop('disabled', false).text('수정합니다');
-        $.openMsgModal(result.message);
-        if (result.error == 1) {
-          $('#messageModal .btn').hide();
-          $('#messageModal .btn-close').show();
-        } else {
-          $('#messageModal .btn').hide();
-          $('#messageModal .btn-refresh').show();
-        }
-        $('#messageModal .modal-message').text(result.message);
-        $('#messageModal').modal('show');
-      }
-    });
   }).on('click', '.btn-mypage-cancel', function() {
     // 예약좌석 취소 모달
     var resIdx = new Array();

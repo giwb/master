@@ -110,8 +110,8 @@
           <li><a href="<?=base_url()?>club/guide/<?=$view['idx']?>"> 등산 안내인 소개</a></li>
           <li><a href="<?=base_url()?>club/past/<?=$view['idx']?>"> 지난 산행보기</a></li>
           <li><a href="<?=base_url()?>club/howto/<?=$view['idx']?>"> 이용안내</a></li><br>
-          <li><a href="<?=base_url()?>club/hundred/<?=$view['idx']?>"> 백산백소 소개</a></li>
-          <li><a href="<?=base_url()?>club/hundred_auth/<?=$view['idx']?>"> 백산백소 인증현황</a></li><br>
+          <li><a href="<?=base_url()?>club/auth_about/<?=$view['idx']?>"> 백산백소 소개</a></li>
+          <li><a href="<?=base_url()?>club/auth/<?=$view['idx']?>"> 백산백소 인증현황</a></li><br>
           <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?><li><a href="<?=base_url()?>club/setup/<?=$view['idx']?>"> 설정</a></li><?php endif; ?>
           <li><a href="<?=base_url()?>/member/<?=$view['idx']?>">마이페이지</a></li>
           <li><a href="javascript:;" class="logout">로그아웃</a></li>
@@ -153,8 +153,8 @@
             <li><a href="<?=base_url()?>club/guide/<?=$view['idx']?>"><i class="fa fa-user-circle" aria-hidden="true"></i> 등산 안내인 소개</a></li>
             <li><a href="<?=base_url()?>club/past/<?=$view['idx']?>"><i class="fa fa-calendar" aria-hidden="true"></i> 지난 산행보기</a></li>
             <li><a href="<?=base_url()?>club/howto/<?=$view['idx']?>"><i class="fa fa-map-o" aria-hidden="true"></i> 이용안내</a></li><br>
-            <li><a href="<?=base_url()?>club/hundred/<?=$view['idx']?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 백산백소 소개</a></li>
-            <li><a href="<?=base_url()?>club/hundred_auth/<?=$view['idx']?>"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소 인증현황</a></li><br>
+            <li><a href="<?=base_url()?>club/auth_about/<?=$view['idx']?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 백산백소 소개</a></li>
+            <li><a href="<?=base_url()?>club/auth/<?=$view['idx']?>"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소 인증현황</a></li><br>
             <li><a href="<?=base_url()?>club/setup/<?=$view['idx']?>"><i class="fa fa-cog" aria-hidden="true"></i> 설정</a></li>
           </ul>
           <div class="desc">
