@@ -31,8 +31,9 @@ class Club extends MY_Controller
     $viewData['listNoticeCalendar'] = $this->reserve_model->listNotice($clubIdx);
 
     // 클럽 스토리
-    $viewData['listStory'] = $this->story_model->listStory($clubIdx, $userData['idx']);
+    //$viewData['listStory'] = $this->story_model->listStory($clubIdx, 5);
 
+/*
     // 클럽 스토리 좋아요 확인 (로그인시에만)
     if (!empty($userData['idx'])) {
       $listStoryReaction = $this->story_model->listStoryReaction($clubIdx, $userData['idx']);
@@ -45,7 +46,7 @@ class Club extends MY_Controller
         }
       }
     }
-
+*/
     $this->_viewPage('club/index', $viewData);
   }
 
@@ -55,7 +56,7 @@ class Club extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function latest()
+  public function past()
   {
     $now = time();
     $clubIdx = $this->load->get_var('clubIdx');
@@ -72,9 +73,9 @@ class Club extends MY_Controller
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
     // 지난 산행
-    $viewData['listLatestNotice'] = $this->reserve_model->listNotice($clubIdx, array(STATUS_CLOSED), 'desc', $viewData['searchData']);
+    $viewData['listPastNotice'] = $this->reserve_model->listNotice($clubIdx, array(STATUS_CLOSED), 'desc', $viewData['searchData']);
 
-    $this->_viewPage('club/latest', $viewData);
+    $this->_viewPage('club/past', $viewData);
   }
 
   /**

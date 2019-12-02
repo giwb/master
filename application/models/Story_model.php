@@ -11,7 +11,7 @@ class Story_model extends CI_Model
   }
 
   // 스토리 목록
-  public function listStory($clubIdx)
+  public function listStory($clubIdx, $paging=NULL)
   {
     $this->db->select('a.*, b.idx AS user_idx, b.nickname AS user_nickname, c.filename')
           ->from(DB_STORY . ' a')
@@ -20,6 +20,11 @@ class Story_model extends CI_Model
           ->where('a.club_idx', $clubIdx)
           ->where('a.deleted_at', NULL)
           ->order_by('a.created_at', 'desc');
+
+    if (!is_null($paging)) {
+      $this->db->limit($paging['perPage'], $paging['nowPage']);
+    }
+
     return $this->db->get()->result_array();
   }
 
@@ -33,7 +38,7 @@ class Story_model extends CI_Model
           ->where('a.club_idx', $clubIdx)
           ->where('a.idx', $storyIdx)
           ->where('a.deleted_at', NULL);
-    return $this->db->get()->row_array(1);
+    return $this->db->get()->result_array();
   }
 
   // 스토리 등록

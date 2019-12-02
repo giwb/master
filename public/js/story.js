@@ -84,13 +84,24 @@ $(document).on('click', '.btn-reply', function() {
       }
     }
   });
-
+}).on('click', '.club-story-reply', function() {
+  var userIdx = $('input[name=userIdx]').val();
+  if (userIdx == '') {
+    $('#loginModal').modal('show'); // 로그인
+    return false;
+  }
 }).on('click', '.btn-post-reply', function() {
   // 댓글 달기
   var $btn = $(this);
+  var userIdx = $('input[name=userIdx]').val();
   var storyIdx = $btn.data('idx');
   var $form = $('.story-reply-input[data-idx=' + storyIdx + ']');
   var formData = new FormData($form[0]);
+
+  if (userIdx == '') {
+    $('#loginModal').modal('show'); // 로그인
+    return false;
+  }
 
   $.ajax({
     url: $form.attr('action'),
@@ -239,3 +250,36 @@ $(document).on('click', '.btn-reply', function() {
     }
   });
 });
+
+$(window).on('load', function () {
+  $.loadStory();
+});
+
+$(window).scroll(function() {
+  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+    var paging = $('input[name=p]').val();
+    $('input[name=p]').val(Number(paging) + 1);
+    $.loadStory();
+  }
+});
+
+$.loadStory = function() {
+  var storyIdx = $('input[name=n]').val();
+  var paging = $('input[name=p]').val();
+  var data;
+
+  if (storyIdx != '') {
+    data = 'n=' + storyIdx;
+  } else {
+    data = 'p=' + paging;
+  }
+  $.ajax({
+    url: $('input[name=baseUrl]').val() + 'story/index/' + $('input[name=clubIdx]').val(),
+    data: data,
+    dataType: 'json',
+    type: 'post',
+    success: function(result) {
+      if (result != '') $('.story-article').append(result);
+    }
+  });
+}

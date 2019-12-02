@@ -13,6 +13,37 @@ class Story extends CI_Controller
   }
 
   /**
+   * 클럽 메인 페이지
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function index($clubIdx)
+  {
+    $clubIdx = html_escape($clubIdx);
+    $storyIdx = html_escape($this->input->post('n'));
+    $page = html_escape($this->input->post('p'));
+    $result = '';
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    if (!empty($storyIdx)) {
+      $viewData['listStory'] = $this->story_model->viewStory($clubIdx, $storyIdx);
+    } else {
+      $paging['perPage'] = 5;
+      $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
+      $viewData['listStory'] = $this->story_model->listStory($clubIdx, $paging);
+    }
+
+    if (!empty($viewData['listStory'])) {
+      $result = $this->load->view('story/index', $viewData, true);
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 스토리 개별 페이지
    *
    * @return view
@@ -21,11 +52,14 @@ class Story extends CI_Controller
   public function view($clubIdx)
   {
     $clubIdx = html_escape($clubIdx);
-    $userIdx = !empty($this->session->userData['idx']) ? html_escape($this->session->userData['idx']) : NULL;
-    $storyIdx = html_escape($this->input->get('n'));
+    $viewData['storyIdx'] = html_escape($this->input->get('n'));
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
+    /*
+    $clubIdx = html_escape($clubIdx);
+    $userIdx = !empty($this->session->userData['idx']) ? html_escape($this->session->userData['idx']) : NULL;
+    $storyIdx = html_escape($this->input->get('n'));
 
     // 스토리 보기
     $viewData['viewStory'] = $this->story_model->viewStory($clubIdx, $storyIdx);
@@ -37,8 +71,8 @@ class Story extends CI_Controller
         $viewData['viewStory']['like'] = $viewStoryReaction['created_by'];
       }
     }
-
-    $this->_viewPage('story/index', $viewData);
+*/
+    $this->_viewPage('story/view', $viewData);
   }
 
   /**
@@ -479,7 +513,7 @@ class Story extends CI_Controller
     $viewData['userLevel'] = memberLevel($viewData['userData']);
 
     // 진행 중 산행
-    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_NONE, STATUS_ABLE, STATUS_CONFIRM));
+    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_PLAN, STATUS_ABLE, STATUS_CONFIRM));
 
     // 회원수
     $viewData['view']['cntMember'] = $this->member_model->cntMember($viewData['view']['idx']);
