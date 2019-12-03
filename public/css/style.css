@@ -2115,7 +2115,7 @@ h1.nav-logo small {
   #reservePaymentModal dl dt { width: 30%; }
   #reservePaymentModal dl dd { width: 70%; }
 
-  #club .sub-contents .area-bus-table table td { font-size: 11px; padding: 10px 0px; }
+  #club .sub-contents .area-bus-table table td { font-size: 11px; padding: 10px 2px; }
   #club .sub-contents .area-bus-table input.seat { font-size: 10px; padding: 0px; }
   #club .sub-contents #addedInfo .reserve select, #addedInfo .reserve input { font-size: 12px; }
 
