@@ -56,18 +56,6 @@
   <!-- Template Main Javascript File -->
   <script src="/public/js/main.js?<?=time()?>"></script>
 
-<script src="//work6.kr/plugin/plugin_link/37"></script>
-<script>
-$(function(){
-  $(document).bookmark({
-    url : "http://new.giwb.kr",
-    icon : "http://new.giwb.kr/public/images/favicon.png",
-    icon_name : "경인웰빙",
-    key : "newgiwb"
-  });
-});
-</script>
-
 </head>
 <body>
 
@@ -124,7 +112,6 @@ $(function(){
           <li><a href="<?=base_url()?>club/howto/<?=$view['idx']?>"> 이용안내</a></li><br>
           <li><a href="<?=base_url()?>club/auth_about/<?=$view['idx']?>"> 백산백소 소개</a></li>
           <li><a href="<?=base_url()?>club/auth/<?=$view['idx']?>"> 백산백소 인증현황</a></li>
-          <li><a href="javascript:;" class="btn-bookmark"> 홈 화면에 추가</a></li>
           <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?><li><br><a href="<?=base_url()?>club/setup/<?=$view['idx']?>"> 설정</a></li><?php endif; ?>
           <li><a href="<?=base_url()?>/member/<?=$view['idx']?>">마이페이지</a></li>
           <li><a href="javascript:;" class="logout">로그아웃</a></li>
