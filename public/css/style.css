@@ -1963,7 +1963,7 @@ h1.nav-logo small {
 #club .list-schedule a strong { font-size: 14px; color: #FF6C00; margin: 0px; padding: 0px; }
 #club .club-main .list-schedule a { margin: 5px 0; }
 
-#club .sub-contents { width: 100%!important; clear: both; margin: 0px; }
+#club .sub-contents { width: 100%!important; clear: both; margin: 0px; font-size: 14px; }
 #club .sub-contents .sub-title { width: 100%; border-bottom: 1px solid #d9d9d9; margin: 0 0 10px 0; padding: 0 0 10px 0; display: table; }
 #club .sub-contents .sub-title h2 { font-size: 24px; font-family: "Malgun Gothic"; font-weight: bold; margin: 0px; padding: 0px; }
 #club .sub-contents .sub-title .area-title { display: table-cell; vertical-align: middle; }
