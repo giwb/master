@@ -426,22 +426,26 @@ if (!function_exists('getReserve')) {
     }
     if ($result['idx'] == '') {
       // 붙어있는 좌석은 같은 성별로만
-      if ($userData['gender'] == '1') $message = "<span class='text-danger'>남성우선</span>";
-      else $message = "<span class='text-danger'>여성우선</span>";
+      if ($userData['gender'] == '1') $message = "남성우선";
+      elseif ($userData['gender'] == '2') $message = "여성우선";
 
       if ($seat %2 == 1) {
         // 현재 좌석은 홀수
         $nextSeat = $seat + 1;
         if (!empty($checkGender[$bus][$nextSeat]) && $userData['gender'] != $checkGender[$bus][$nextSeat]) {
           $result['class'] = '';
-          $result['nickname'] = $message;
+          $result['nickname'] = "<span class='text-danger'>";
+          $result['nickname'] .= !empty($message) ? $message : $checkGender[$bus][$nextSeat] == 'M' ? '남성우선' : '여성우선';
+          $result['nickname'] .= "</span>";
         }
       } elseif ($seat %2 == 0) {
         // 현재 좌석은 짝수
         $prevSeat = $seat - 1;
         if (!empty($checkGender[$bus][$prevSeat]) && $userData['gender'] != $checkGender[$bus][$prevSeat]) {
           $result['class'] = '';
-          $result['nickname'] = $message;
+          $result['nickname'] = "<span class='text-danger'>";
+          $result['nickname'] .= !empty($message) ? $message : $checkGender[$bus][$prevSeat] == 'M' ? '남성우선' : '여성우선';
+          $result['nickname'] .= "</span>";
         }
       }
     }
