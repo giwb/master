@@ -559,16 +559,11 @@
       $('.' + target).prop('checked', false)
     }
   }).on('click', '.btn-bookmark', function() {
-    // 접속 핸드폰 정보
-    var userAgent = navigator.userAgent.toLowerCase();
-    // 모바일 홈페이지 바로가기 링크 생성
-    if (userAgent.match('iphone') || userAgent.match('ipod')) {
-      document.write('<link rel="apple-touch-icon" href="/public/image/apple-touch-icon.png" />')
-    } else if(userAgent.match('ipad')) {
-      document.write('<link rel="apple-touch-icon" sizes="72*72" href="/public/images/apple-touch-icon-ipad.png" />')
-    } else {
-      document.write('<link rel="shortcut icon" href="/public/images/apple-touch-icon.png" />')
-    }
+    var domain = "http://" + document.domain;
+    var iconUrl = "/public/images/favicon.png";
+    var title = $("title").text();
+    var url = "http://giwb.kr";
+    util_addShoutCut(url, iconUrl, title);
   }).on('click', '.btn-refresh', function() {
     location.reload();
   });
@@ -613,3 +608,29 @@
   }
 
 })(jQuery);
+
+/**
+ * 접속한 브라우저가 모바일인지 체크
+ * @returns
+ */
+function util_isMobile(){
+  var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ? true : false;
+  return isMobile;
+}
+/**
+* 바로가기 추가
+*/
+function util_addShoutCut(url, iconUrl, title){
+  if(!util_isMobile()){
+    util_dispMsg("모바일에서만 홈 화면에 바로가기를 추가할 수 있습니다.", 'F');
+    return;
+  }
+  var userAgent = navigator.userAgent.toLowerCase();
+  if(userAgent.match(/android/)){
+    var appUrl = "naversearchapp://addshortcut?url=" + encodeURIComponent(url) + "&icon=" + encodeURIComponent(iconUrl) + "&title=" + encodeURIComponent(title) + "&serviceCode=housechecklist&version=7";
+    window.open(appUrl);
+  }else{
+    util_dispMsg("아이폰, 아이패드 계열은 직접 홈 버튼 추가를 사용하셔야 합니다.", 'F');
+    return;
+  }
+}
