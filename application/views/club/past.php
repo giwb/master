@@ -11,6 +11,14 @@
         <div class="col-sm-2"><input type="text" name="keyword" class="form-control form-control-sm" value="<?=!empty($searchData['keyword']) ? $searchData['keyword'] : ''?>"></div>
         <div class="col-sm-1"><button class="btn btn-sm btn-primary">검색</button></div>
       </form>
+      <div class="text-center border-bottom pb-3">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-sm-1">◀</div>
+          <div class="col-sm-3"><select class="form-control"><option>2019년</option></select></div>
+          <div class="col-sm-2"><select class="form-control"><option>12월</option></select></div>
+          <div class="col-sm-1">▶</div>
+        </div>
+      </div>
       <div class="list-schedule">
 <?php foreach ($listPastNotice as $value): ?>
         <a href="<?=base_url()?>reserve/<?=$value['club_idx']?>?n=<?=$value['idx']?>"><strong><?=$value['subject']?></strong><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost'])?>원 / <?=cntRes($value['idx'])?>명</a>
