@@ -622,7 +622,7 @@ function util_isMobile(){
 */
 function util_addShoutCut(url, iconUrl, title){
   if(!util_isMobile()){
-    util_dispMsg("모바일에서만 홈 화면에 바로가기를 추가할 수 있습니다.", 'F');
+    alert("모바일에서만 홈 화면에 바로가기를 추가할 수 있습니다.", 'F');
     return;
   }
   var userAgent = navigator.userAgent.toLowerCase();
@@ -630,7 +630,7 @@ function util_addShoutCut(url, iconUrl, title){
     var appUrl = "naversearchapp://addshortcut?url=" + encodeURIComponent(url) + "&icon=" + encodeURIComponent(iconUrl) + "&title=" + encodeURIComponent(title) + "&serviceCode=housechecklist&version=7";
     window.open(appUrl);
   }else{
-    util_dispMsg("아이폰, 아이패드 계열은 직접 홈 버튼 추가를 사용하셔야 합니다.", 'F');
+    alert("아이폰, 아이패드 계열은 직접 홈 버튼 추가를 사용하셔야 합니다.", 'F');
     return;
   }
 }
