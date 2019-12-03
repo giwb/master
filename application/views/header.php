@@ -53,19 +53,6 @@
   <script src="/public/js/fullcalendar.js" type="text/javascript"></script>
   <script src="/public/ckeditor/ckeditor.js" type="text/javascript" charset="utf-8"></script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="//work6.kr/plugin/plugin_link/37"></script>
-<script>
-$(function(){
-  $(document).bookmark({
-    url : "http://new.giwb.kr",
-    icon : "http://new.giwb.kr/public/images/favicon.png",
-    icon_name : "경인웰빙",
-    key : "newgiwb"
-  });
-});
-</script>
-
   <!-- Template Main Javascript File -->
   <script src="/public/js/main.js?<?=time()?>"></script>
 
@@ -179,3 +166,15 @@ $(function(){
           </div>
         </div>
       </div>
+
+<script src="//work6.kr/plugin/plugin_link/37"></script>
+<script>
+$(function(){
+  $(document).bookmark({
+    url : "http://new.giwb.kr",
+    icon : "http://new.giwb.kr/public/images/favicon.png",
+    icon_name : "경인웰빙",
+    key : "newgiwb"
+  });
+});
+</script>
