@@ -567,7 +567,7 @@
     } else if(userAgent.match('ipad')) {
       document.write('<link rel="apple-touch-icon" sizes="72*72" href="/public/images/apple-touch-icon-ipad.png" />')
     } else {
-      document.write('<link rel="shortcut icon" href="/public/images/favicon.ico" />')
+      document.write('<link rel="shortcut icon" href="/public/images/apple-touch-icon.png" />')
     }
   }).on('click', '.btn-refresh', function() {
     location.reload();

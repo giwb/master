@@ -112,7 +112,7 @@
           <li><a href="<?=base_url()?>club/howto/<?=$view['idx']?>"> 이용안내</a></li><br>
           <li><a href="<?=base_url()?>club/auth_about/<?=$view['idx']?>"> 백산백소 소개</a></li>
           <li><a href="<?=base_url()?>club/auth/<?=$view['idx']?>"> 백산백소 인증현황</a></li>
-          <li><a href="javascript:;" class="btn-bookmark"> 스마트폰 바로가기</a></li>
+          <li><a href="javascript:;" class="btn-bookmark"> 홈 화면에 추가</a></li>
           <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?><li><br><a href="<?=base_url()?>club/setup/<?=$view['idx']?>"> 설정</a></li><?php endif; ?>
           <li><a href="<?=base_url()?>/member/<?=$view['idx']?>">마이페이지</a></li>
           <li><a href="javascript:;" class="logout">로그아웃</a></li>
