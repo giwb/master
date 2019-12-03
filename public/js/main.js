@@ -558,8 +558,6 @@
     } else {
       $('.' + target).prop('checked', false)
     }
-  }).on('click', '.btn-bookmark', function() {
-
   }).on('click', '.btn-refresh', function() {
     location.reload();
   });
@@ -604,4 +602,3 @@
   }
 
 })(jQuery);
-
