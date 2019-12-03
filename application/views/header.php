@@ -56,6 +56,18 @@
   <!-- Template Main Javascript File -->
   <script src="/public/js/main.js?<?=time()?>"></script>
 
+<script src="//work6.kr/plugin/plugin_link/37"></script>
+<script>
+$(function(){
+  $(document).bookmark({
+    url : "http://new.giwb.kr",
+    icon : "http://new.giwb.kr/public/images/favicon.png",
+    icon_name : "경인웰빙",
+    key : "newgiwb"
+  });
+});
+</script>
+
 </head>
 <body>
 
@@ -166,15 +178,3 @@
           </div>
         </div>
       </div>
-
-<script src="//work6.kr/plugin/plugin_link/37"></script>
-<script>
-$(function(){
-  $(document).bookmark({
-    url : "http://new.giwb.kr",
-    icon : "http://new.giwb.kr/public/images/favicon.png",
-    icon_name : "경인웰빙",
-    key : "newgiwb"
-  });
-});
-</script>
