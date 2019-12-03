@@ -18,7 +18,7 @@
             <dl>
               <dt><input type="checkbox" id="cr<?=$key?>" name="checkReserve[]" class="check-reserve" value="<?=$value['idx']?>" data-cost="<?=$value['cost']?>" data-status="<?=$value['status']?>"><label for="cr<?=$key?>"></label></dt>
               <dd>
-                [<?=viewStatus($value['notice_status'])?>] <a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bus'], $value['notice_bustype'])?>번 좌석<br>
+                [<?=viewStatus($value['notice_status'])?>] <a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
                 <small>
                   일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 
                   분담금 : <?=number_format($value['cost'])?>원 /
@@ -34,7 +34,7 @@
 <?php foreach ($userVisit as $value): ?>
             <dl>
               <dd>
-                [<?=viewStatus($value['notice_status'])?>] <?=$value['subject']?> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bus'], $value['notice_bustype'])?>번 좌석<br>
+                [<?=viewStatus($value['notice_status'])?>] <?=$value['subject']?> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
                 <small>
                   일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 
                   분담금 : <?=number_format($value['cost'])?>원

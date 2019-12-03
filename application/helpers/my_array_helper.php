@@ -321,16 +321,16 @@ if (!function_exists('getBusTableMake')) {
     $result = '';
     if ($seat == 1) $result = '<tr>';
     switch ($seatType) {
-      case '40': // 40석 순방향
-      case '44': // 44석 순방향
+      case '40': // 40석
+      case '44': // 44석
         if ($seat != 1 && $seat%4 == 1) $result = '</tr><tr>';
         elseif ($seat%4 == 3) $result = '<td colspan="2" class="table-blank"></td>';
         break;
-      case '41': // 41석 순방향
+      case '41': // 41석
         if ($seat != 1 && $seat%4 == 1 && $seat < 39) $result = '</tr><tr>';
         elseif ($seat%4 == 3 && $seat < 39) $result = '<td colspan="2" class="table-blank"></td>';
         break;
-      case '45': // 45석 순방향
+      case '45': // 45석
         if ($seat != 1 && $seat%4 == 1 && $seat < 43) $result = '</tr><tr>';
         elseif ($seat%4 == 3 && $seat < 43) $result = '<td colspan="2" class="table-blank"></td>';
         break;
@@ -357,17 +357,32 @@ if (!function_exists('getBusTableMake')) {
 if (!function_exists('checkDirection')) {
   function checkDirection($seat, $bus, $noticeBusType, $noticeBus) {
     $result = $seat;
-    $busType = getBusType($noticeBus, $noticeBusType); // 버스 형태별 좌석 배치
+    $key = $bus - 1;
+    $busType = getBusType($noticeBusType, $noticeBus); // 버스 형태별 좌석 배치
 
-    foreach ($busType as $key => $value) {
-      $key++;
-      if ($key == $bus) {
-        if ($value['direction'] == 1) {
-          if ($seat%4 == 1) $result = $seat + 3;
-          elseif ($seat%4 == 2) $result = $seat + 1;
-          elseif ($seat%4 == 3) $result = $seat - 1;
-          elseif ($seat%4 == 0) $result = $seat - 3;
-        }
+    if (!empty($busType[$key]['direction']) && $busType[$key]['direction'] == 1) {
+      // 역방향 (좌석 번호는 그대로 놔둔 상태에서 표시만 역방향으로 한다)
+      if ($seat%4 == 1) $result = $seat + 3;
+      elseif ($seat%4 == 2) $result = $seat + 1;
+      elseif ($seat%4 == 3) $result = $seat - 1;
+      elseif ($seat%4 == 0) $result = $seat - 3;
+
+      // 맨 뒤의 좌석이 5석인 경우
+      switch ($busType[$key]['seat']) {
+        case '41':
+          if ($seat == '37') $result = '41';
+          elseif ($seat == '38') $result = '40';
+          elseif ($seat == '39') $result = '39';
+          elseif ($seat == '40') $result = '38';
+          elseif ($seat == '41') $result = '37';
+          break;
+        case '45':
+          if ($seat == '41') $result = '45';
+          elseif ($seat == '42') $result = '44';
+          elseif ($seat == '43') $result = '43';
+          elseif ($seat == '44') $result = '42';
+          elseif ($seat == '45') $result = '41';
+          break;
       }
     }
     return $result;
@@ -404,7 +419,7 @@ if (!function_exists('getReserve')) {
         } else {
           $value['class'] = '';
         }
-        $value['class'] .= 'reserved';
+        $value['class'] .= ' reserved';
         $result = $value;
       }
       $checkGender[$value['bus']][$value['seat']] = $value['gender'];

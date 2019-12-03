@@ -53,16 +53,7 @@
                       foreach (range(1, $value['seat']) as $seat):
                         $tableMake = getBusTableMake($value['seat'], $seat); // 버스 좌석 테이블 만들기
                         $reserveInfo = getReserve($reserve, $bus, $seat, $userData, $notice['status']); // 예약자 정보
-
-                        if ($value['direction'] == 1) {
-                          // 역방향 (좌석 번호는 그대로 놔둔 상태에서 표시만 역방향으로 한다)
-                          if ($seat%4 == 1) $seatNumber = $seat + 3;
-                          elseif ($seat%4 == 2) $seatNumber = $seat + 1;
-                          elseif ($seat%4 == 3) $seatNumber = $seat - 1;
-                          elseif ($seat%4 == 0) $seatNumber = $seat - 3;
-                        } else {
-                          $seatNumber = $seat;
-                        }
+                        $seatNumber = checkDirection($seat, $bus, $notice['bustype'], $notice['bus']);
                   ?>
                   <?=$tableMake?>
                     <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>" data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$seatNumber?></td>
