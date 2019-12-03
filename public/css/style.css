@@ -1967,7 +1967,7 @@ h1.nav-logo small {
 #club .sub-contents .sub-title { width: 100%; border-bottom: 1px solid #d9d9d9; margin: 0 0 10px 0; padding: 0 0 10px 0; display: table; }
 #club .sub-contents .sub-title h2 { font-size: 24px; font-family: "Malgun Gothic"; font-weight: bold; margin: 0px; padding: 0px; }
 #club .sub-contents .sub-title .area-title { display: table-cell; vertical-align: middle; }
-#club .sub-contents .sub-title .area-btn { display: table-cell; white-space: nowrap; vertical-align: middle; text-align: right; }
+#club .sub-contents .sub-title .area-btn { padding-left: 5px; display: table-cell; white-space: nowrap; vertical-align: middle; text-align: right; }
 #club .sub-contents .area-reservation { width: 100%; }
 #club .sub-contents .area-reservation .area-btn { height: 30px; margin: 20px 0 10px 0; }
 #club .sub-contents .area-bus-table { padding-top: 20px; }
@@ -2077,7 +2077,7 @@ h1.nav-logo small {
   #club .club-left, #club .club-right { display: none; }
   #club .club-main { width: 100%; flex: auto; -webkit-flex: auto; display: block; margin: 0px; }
   #club .sub-contents h2 { font-size: 18px; padding: 10px 0 20px; }
-  #club .sub-contents .sub-title h2 { font-size: 20px; }
+  #club .sub-contents .sub-title h2 { font-size: 18px; }
 
   .header-nickname { margin-left: 15px; color: #fff; }
   table.fc-header { border: 0px; }
