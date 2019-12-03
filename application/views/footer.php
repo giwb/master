@@ -40,8 +40,8 @@
         </div>
         <div class="modal-footer">
           <div class="modal-footer-left">
-            <a href="<?=base_url()?>member/entry/<?=$view['idx']?>"><button type="button" class="btn btn-primary">회원가입</button></a>
-            <a href="<?=base_url()?>member/forgot/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">아이디/비밀번호 찾기</button></a>
+            <a href="<?=base_url()?>login/entry/<?=$view['idx']?>"><button type="button" class="btn btn-primary">회원가입</button></a>
+            <a href="<?=base_url()?>login/forgot/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">아이디/비밀번호 찾기</button></a>
           </div>
           <div class="modal-footer-right">
             <button type="button" class="btn btn-primary btn-login">로그인</button>
