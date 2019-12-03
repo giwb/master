@@ -559,12 +559,7 @@
       $('.' + target).prop('checked', false)
     }
   }).on('click', '.btn-bookmark', function() {
-    $.bookmark({
-      url : "http://giwb.kr",
-      icon : "http://giwb.kr/public/images/favicon.png",
-      icon_name : "경인웰빙",
-      key : "giwb"
-    });
+
   }).on('click', '.btn-refresh', function() {
     location.reload();
   });
@@ -607,5 +602,12 @@
   $.setNumberFormat = function(n) {
     return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   }
+
+  $(document).bookmark({
+    url : "http://giwb.kr",
+    icon : "http://giwb.kr/public/images/favicon.png",
+    icon_name : "경인웰빙",
+    key : "giwb"
+  });
 
 })(jQuery);
