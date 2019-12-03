@@ -414,7 +414,7 @@ if (!function_exists('getReserve')) {
     }
     foreach ($reservation as $key => $value) {
       if ($value['bus'] == $bus && $value['seat'] == $seat) {
-        if ($userData['userid'] == $value['userid']) {
+        if (!empty($value['userid']) && $userData['userid'] == $value['userid']) {
           $value['class'] = 'seat';
         } else {
           $value['class'] = '';
