@@ -558,6 +558,17 @@
     } else {
       $('.' + target).prop('checked', false)
     }
+  }).on('click', '.btn-bookmark', function() {
+    // 접속 핸드폰 정보
+    var userAgent = navigator.userAgent.toLowerCase();
+    // 모바일 홈페이지 바로가기 링크 생성
+    if (userAgent.match('iphone') || userAgent.match('ipod')) {
+      document.write('<link rel="apple-touch-icon" href="/public/image/apple-touch-icon.png" />')
+    } else if(userAgent.match('ipad')) {
+      document.write('<link rel="apple-touch-icon" sizes="72*72" href="/public/images/apple-touch-icon-ipad.png" />')
+    } else {
+      document.write('<link rel="shortcut icon" href="/public/images/favicon.ico" />')
+    }
   }).on('click', '.btn-refresh', function() {
     location.reload();
   });
