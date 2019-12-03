@@ -471,14 +471,14 @@
     // 좌석 배경색 토글
     if ($(this).hasClass('active')) {
       // 삭제
-      $(this).removeClass('active');
+      $('.seat[data-bus=' + bus + '][data-seat=' + seat + ']').removeClass('active');
       $('#addedInfo .reserve[data-seat=' + seat + ']').remove();
 
       // 예약 내용이 없으면 예약 확정 버튼 삭제
       if ($('#addedInfo .reserve').length == 0) $('.btn-reserve-confirm').hide();
     } else {
       // 예약 활성화
-      $(this).addClass('active');
+      $('.seat[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
       $.viewReserveInfo(resIdx, bus, seat); // 예약 정보
     }
   }).on('click', '.btn-reserve-confirm', function() {

@@ -3,26 +3,42 @@
     <div class="club-main">
       <div class="sub-header">지난 산행보기</div>
       <form method="get" action="<?=base_url()?>club/past/<?=$view['idx']?>" class="row border no-gutters align-items-center text-center pt-2 pb-2 pr-2 mt-3 mb-3">
-        <div class="col-sm-2">기간 검색</div>
-        <div class="col-sm-2"><input type="text" id="startDatePicker" name="sdate" class="form-control form-control-sm" value="<?=!empty($searchData['sdate']) ? $searchData['sdate'] : ''?>"></div>
-        <div class="col-sm-1">～</div>
-        <div class="col-sm-2"><input type="text" id="endDatePicker" name="edate" class="form-control form-control-sm" value="<?=!empty($searchData['edate']) ? $searchData['edate'] : ''?>"></div>
-        <div class="col-sm-2">키워드 검색</div>
-        <div class="col-sm-2"><input type="text" name="keyword" class="form-control form-control-sm" value="<?=!empty($searchData['keyword']) ? $searchData['keyword'] : ''?>"></div>
-        <div class="col-sm-1"><button class="btn btn-sm btn-primary">검색</button></div>
+        <ul class="box-past-search">
+          <li>기간검색</li>
+          <li><input type="text" id="startDatePicker" name="sdate" class="form-control form-control-sm" value="<?=!empty($searchData['sdate']) ? $searchData['sdate'] : ''?>"></li>
+          <li>～</li>
+          <li><input type="text" id="endDatePicker" name="edate" class="form-control form-control-sm" value="<?=!empty($searchData['edate']) ? $searchData['edate'] : ''?>"></li>
+          <li>키워드검색</li>
+          <li><input type="text" name="keyword" class="form-control form-control-sm" value="<?=!empty($searchData['keyword']) ? $searchData['keyword'] : ''?>"></li>
+          <li><button class="btn btn-sm btn-primary">검색</button></li>
+        </ul>
       </form>
-      <div class="text-center border-bottom pb-3">
-        <div class="row justify-content-center align-items-center">
-          <div class="col-sm-1">◀</div>
-          <div class="col-sm-3"><select class="form-control"><option>2019년</option></select></div>
-          <div class="col-sm-2"><select class="form-control"><option>12월</option></select></div>
-          <div class="col-sm-1">▶</div>
-        </div>
-      </div>
+      <ul class="box-past-title">
+        <li><a href="<?=base_url()?>club/past/<?=$view['idx']?>?<?=$searchData['prev']?>">◀</a></li>
+        <li>
+          <select name="syear" class="form-control">
+            <?php foreach (range($searchData['syear'], 2010) as $value): ?>
+              <option<?=!empty($searchData['syear']) && $searchData['syear'] == $value ? ' selected' : ''?> value=''><?=$value?>년</option>
+            <?php endforeach; ?>
+          </select>
+        </li>
+        <li>
+          <select name="smonth" class="form-control">
+            <?php foreach (range(1, 12) as $value): ?>
+            <option<?=!empty($searchData['smonth']) && $searchData['smonth'] == $value ? ' selected' : ''?> value=''><?=$value?>월</option>
+            <?php endforeach; ?>
+          </select>
+        </li>
+        <li><a href="<?=base_url()?>club/past/<?=$view['idx']?>?<?=$searchData['next']?>">▶</a></li>
+      </ul>
       <div class="list-schedule">
-<?php foreach ($listPastNotice as $value): ?>
+        <?php if (empty($listPastNotice)): ?>
+          <div class="text-center m-5">검색된 정보가 없습니다.</div>
+        <?php else : ?>
+        <?php foreach ($listPastNotice as $value): ?>
         <a href="<?=base_url()?>reserve/<?=$value['club_idx']?>?n=<?=$value['idx']?>"><strong><?=$value['subject']?></strong><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost'])?>원 / <?=cntRes($value['idx'])?>명</a>
-<?php endforeach; ?>
+        <?php endforeach; ?>
+        <?php endif; ?>
       </div>
     </div>
 

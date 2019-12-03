@@ -1951,6 +1951,23 @@ h1.nav-logo small {
 #club .club-main .sub-photo { text-align: center; }
 #club .club-main .sub-photo img { max-width: 600px; margin: 20px auto; }
 
+#club .club-main .box-past-title, #club .club-main .box-past-search { width: 100%; display: table; text-align: center; }
+#club .club-main .box-past-title li, #club .club-main .box-past-search li { display: table-cell; vertical-align: middle; }
+
+#club .club-main .box-past-search li:nth-child(1) { width: 15%; }
+#club .club-main .box-past-search li:nth-child(2) { width: 16%; }
+#club .club-main .box-past-search li:nth-child(3) { width: 5%; }
+#club .club-main .box-past-search li:nth-child(4) { width: 16%; }
+#club .club-main .box-past-search li:nth-child(5) { width: 18%; }
+#club .club-main .box-past-search li:nth-child(6) { width: 20%; }
+#club .club-main .box-past-search li:nth-child(7) { width: 10%; }
+
+#club .club-main .box-past-title { width: 280px; margin: 0 auto 20px; }
+#club .club-main .box-past-title li:nth-child(1) { width: 10%; }
+#club .club-main .box-past-title li:nth-child(2) { width: 33%; padding-right: 10px; }
+#club .club-main .box-past-title li:nth-child(3) { width: 23%; }
+#club .club-main .box-past-title li:nth-child(4) { width: 10%; }
+
 #club .club-right img { width: 100%; }
 #club .club-right h3 { font-size: 14px; background-color: #eee; margin: 0px; padding: 5px 10px; }
 #club .club-right ul.club-gallery li { overflow: hidden; }
@@ -1958,10 +1975,12 @@ h1.nav-logo small {
 #club .club-right ul.club-gallery li img:hover { transform: scale(1.2); }
 
 #club .list-schedule { margin: 0 0 20px 0; padding: 0px; }
-#club .list-schedule a { font-size: 11px; color: #000; display: block; margin: 10px 0; padding: 3px 5px; }
+#club .list-schedule a { font-size: 11px; color: #000; display: block; border-bottom: 1px solid #eee; margin: 0px; padding: 10px 5px; }
 #club .list-schedule a:hover { background-color: #e9e9e9; cursor: pointer; }
 #club .list-schedule a strong { font-size: 14px; color: #FF6C00; margin: 0px; padding: 0px; }
-#club .club-main .list-schedule a { border-bottom: 1px solid #eee; margin: 0px; padding: 10px; }
+#club .club-main .list-schedule { border: 1px solid #d9d9d9; border-width: 1px 0; }
+#club .club-main .list-schedule a { padding: 10px; }
+#club .club-main .area-schedule { display: none; }
 
 #club .sub-contents { width: 100%!important; clear: both; margin: 0px; font-size: 14px; }
 #club .sub-contents .sub-title { width: 100%; border-bottom: 1px solid #d9d9d9; margin: 0 0 10px 0; padding: 0 0 10px 0; display: table; }
@@ -1981,6 +2000,7 @@ h1.nav-logo small {
 #club .sub-contents .area-bus-table .reserved { background-color: #FBEFD8; }
 #club .sub-contents .area-bus-table .active { background-color: #FFCC00; }
 #club .sub-contents .area-bus-table input.seat { width: 20px; }
+#club .sub-contents .area-bus-table td.seat { color: #999; }
 #club .sub-contents #reserveForm { text-align: center; margin: 10px 0; }
 #club .sub-contents #reserveForm .btn-reserve-confirm { display: none; }
 #club .sub-contents #addedInfo .reserve { font-size: 12px; background-color: #fff; border: 1px solid #999; margin: 10px 0; padding: 0.5rem 0.3rem; }
@@ -2121,4 +2141,18 @@ h1.nav-logo small {
   #club .sub-contents #addedInfo .reserve select, #addedInfo .reserve input { font-size: 12px; }
 
   #club .club-main .sub-photo img { max-width: 100%; }
+
+  #club .club-main .area-schedule { display: block; padding-top: 20px; }
+  #club .club-main .area-schedule h3 { font-size: 14px; background-color: #eee; margin: 0px; padding: 5px 10px; }
+
+  #club .club-main .box-past-search { display: block; text-align: left; }
+  #club .club-main .box-past-search li { font-size: 12px; display: inline-block; line-height: 2.2rem; }
+  #club .club-main .box-past-search li input { font-size: 12px; }
+  #club .club-main .box-past-search li:nth-child(1) { width: 26%; padding-left: 7px; }
+  #club .club-main .box-past-search li:nth-child(2) { width: 31%; }
+  #club .club-main .box-past-search li:nth-child(3) { width: 4%; }
+  #club .club-main .box-past-search li:nth-child(4) { width: 31%; }
+  #club .club-main .box-past-search li:nth-child(5) { width: 26%; padding-left: 7px; }
+  #club .club-main .box-past-search li:nth-child(6) { width: 49%; }
+  #club .club-main .box-past-search li:nth-child(7) { width: 20%; }
 }

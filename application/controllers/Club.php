@@ -65,9 +65,13 @@ class Club extends MY_Controller
     $edate = html_escape($this->input->get('edate'));
     $keyword = html_escape($this->input->get('keyword'));
 
-    $viewData['searchData']['sdate'] = !empty($sdate) ? $sdate : date('Y-m-01', $now);
-    $viewData['searchData']['edate'] = !empty($edate) ? $edate : date('Y-m-30', $now);
     $viewData['searchData']['keyword'] = !empty($keyword) ? $keyword : NULL;
+    $viewData['searchData']['sdate'] = !empty($sdate) ? $sdate : date('Y-m-01', $now);
+    $viewData['searchData']['edate'] = !empty($edate) ? $edate : date('Y-m-31', $now);
+    $viewData['searchData']['syear'] = !empty($sdate) ? date('Y', strtotime($sdate)) : date('Y');
+    $viewData['searchData']['smonth'] = !empty($sdate) ? date('m', strtotime($sdate)) : date('m');
+    $viewData['searchData']['prev'] = 'sdate=' . date('Y-m-01', strtotime('-1 months', strtotime($viewData['searchData']['sdate']))) . '&edate=' . date('Y-m-31', strtotime('-1 months', strtotime($viewData['searchData']['sdate'])));
+    $viewData['searchData']['next'] = 'sdate=' . date('Y-m-01', strtotime('+1 months', strtotime($viewData['searchData']['sdate']))) . '&edate=' . date('Y-m-31', strtotime('+1 months', strtotime($viewData['searchData']['sdate'])));
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
