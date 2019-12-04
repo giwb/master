@@ -492,13 +492,11 @@
       if (parseInt(sTime) <= '2200') {
         // 22시 이전 출발은 1박 확정
         result = resultDay + '박 ' + addDay + '일';
-
         $.calcAddSchedule(resultDay, 0); // 일정추가
       } else {
         // 22시 이후 출발은 1일 무박
         resultDay = parseInt(resultDay) - 1;
         result = '1무 ' + resultDay + '박 ' + addDay + '일';
-
         $.calcAddSchedule(resultDay, 1); // 일정추가 (무박)
       }
     } else {
@@ -621,9 +619,11 @@
   $.calcAddSchedule = function(day, nosleep) {
     // 일정추가 (무박은 15만원, 1박은 25만원)
     if (nosleep == 1) {
-      $('.cost-add-schedule').val( 150000 + (Number(day) * 250000) );
+      $('.cost-add-schedule').val(150000 + (Number(day) * 250000));
+      $('.cost-default').val(Number($('.cost-default').val()) + 5000 + (Number(day) * 15000)); // 무박은 5000원, 1박당 15000원 추가
     } else {
-      $('.cost-add-schedule').val( Number(day) * 250000 );
+      $('.cost-add-schedule').val(Number(day) * 250000);
+      $('.cost-default').val(Number($('.cost-default').val()) + (Number(day) * 15000)); // 1박당 15000원 추가
     }
     $.calcAdd();
   }
