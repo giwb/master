@@ -518,28 +518,28 @@
 
     if ( (sDate >= sPeak1 && eDate <= ePeak1) || (sDate >= sPeak2 && eDate <= ePeak2) || (sDate >= sPeak3 && eDate <= ePeak3) ) {
       $('.cost-peak').val(40000); // 성수기 버스비용 추가
-      $('.cost-added').val( Number($('.cost-added').val() + 2000 ); // 성수기 분담금 추가
+      $('.cost-added').val(Number($('.cost-added').val() + 2000); // 성수기 분담금 추가
       $('.peak').val('1');
       $('.winter').val('');
       result = result + ' (성수기)';
     //} else if ( (sDate >= sPeak4 && eDate <= ePeak4) || (sDate >= sPeak5 && eDate <= ePeak5) ) {
     } else if ( (sDate >= sPeak5 && eDate <= ePeak5) ) {
       $('.cost-peak').val(''); // 동계예비비 버스비용 추가는 없음
-      $('.cost-added').val( Number($('.cost-added').val() + 2000 ); // 동계예비비 분담금 추가
+      $('.cost-added').val(Number($('.cost-added').val() + 2000); // 동계예비비 분담금 추가
       $('.peak').val('');
       $('.winter').val('1');
       result = result + ' (동계예비비)';
     } else {
       $('.cost-peak').val('');
       if ( $('.peak').val() == '1' || $('.winter').val() == '1' ) {
-        $('.cost-added').val( Number($('.cost-added').val() - 2000 ); // 추가비용 삭제
+        $('.cost-added').val(Number($('.cost-added').val() - 2000); // 추가비용 삭제
       }
       $('.peak').val('');
       $('.winter').val('');
     }
 
     // 최종 분담금 계산
-    $('.cost-total').val( Number($('.cost-default').val()) + Number($('.cost-added').val()) );
+    $('.cost-total').val(Number($('.cost-default').val()) + Number($('.cost-added').val()));
     $('#calcSchedule').val(result);
   }
 
@@ -644,7 +644,7 @@
 
   // 최종 분담금 계산
   $.calcCost = function() {
-    $('.cost-total').val( Number($('.cost-default').val()) + Number($('.cost-added').val()) );
+    $('.cost-total').val(Number($('.cost-default').val()) + Number($('.cost-added').val()));
   }
 
   // 예약 정보
