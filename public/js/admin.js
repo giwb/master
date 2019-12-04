@@ -500,6 +500,9 @@
 
         $.calcAddSchedule(resultDay, 1); // 일정추가 (무박)
       }
+    } else {
+      // 당일은 15만원
+      $('.cost-add-schedule').val(0);
     }
 
     // 성수기 계산 (04/01 ~ 06/10, 07/21 ~ 08/20, 09/21 ~ 11/10)
