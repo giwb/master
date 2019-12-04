@@ -620,8 +620,6 @@
   // 일정추가
   $.calcAddSchedule = function(day, nosleep) {
     // 일정추가 (무박은 15만원, 1박은 25만원)
-    console.log(day);
-    console.log(nosleep);
     if (nosleep == 1) {
       $('.cost-add-schedule').val( 150000 + (Number(day) * 250000) );
     } else {
