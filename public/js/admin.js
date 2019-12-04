@@ -601,7 +601,7 @@
   $.calcTotalFuel = function() {
     var gas = $('.cost-gas').val();
     var fuel = $('.driving-fuel').val();
-    $('.total-driving-fuel').val( Number(gas) + Number(fuel) );
+    $('.total-driving-fuel').val( Number(gas) * Number(fuel) );
   }
 
   // 운행비 합계
