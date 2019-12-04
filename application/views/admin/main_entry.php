@@ -46,6 +46,12 @@
           changeYear: true,
           yearSuffix: '년'
         });
+
+        $('.road-cost').each(function(n) {
+          if (n == 0 && $(this).val() == '') {
+            $(this).val('0');
+          }
+        });
       });
     </script>
 
