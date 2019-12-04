@@ -151,11 +151,12 @@ class Story extends CI_Controller
   {
     $clubIdx = html_escape($clubIdx);
     $storyIdx = html_escape($this->input->post('storyIdx'));
+    $replyType = html_escape($this->input->post('replyType'));
     $userData = $this->session->userData;
     $message = '';
 
     // 댓글 목록
-    $reply = $this->story_model->listStoryReply($clubIdx, $storyIdx);
+    $reply = $this->story_model->listStoryReply($clubIdx, $storyIdx, $replyType);
 
     foreach ($reply as $value) {
       if ($userData['idx'] == $value['created_by'] || $userData['admin'] == 1) {
@@ -184,6 +185,7 @@ class Story extends CI_Controller
     $userData = $this->session->userData;
     $clubIdx = html_escape($clubIdx);
     $storyIdx = html_escape($this->input->post('storyIdx'));
+    $replyType = html_escape($this->input->post('replyType'));
     $content = html_escape($this->input->post('content'));
 
     if (empty($userData['idx'])) {
@@ -192,6 +194,7 @@ class Story extends CI_Controller
       $insertValues = array(
         'club_idx' => $clubIdx,
         'story_idx' => $storyIdx,
+        'reply_type' => $replyType,
         'content' => $content,
         'created_by' => $userData['idx'],
         'created_at' => $now
@@ -206,9 +209,8 @@ class Story extends CI_Controller
         );
       } else {
         // 스토리 댓글 개수 올리기
-        $cntStoryReply = $this->story_model->cntStoryReply($clubIdx, $storyIdx);
+        $cntStoryReply = $this->story_model->cntStoryReply($clubIdx, $storyIdx, $replyType);
         $updateData['reply_cnt'] = $cntStoryReply['cnt'];
-        $this->story_model->updateStory($updateData, $clubIdx, $storyIdx);
 
         $html = '<dl><dt><img class="img-profile" src="' . base_url() . '/public/photos/' . $userData['idx'] . '"> ' . $userData['nickname'] . '</dt><dd>' . $content . ' <span class="date">(' . date('Y/m/d H:i:s', $now) . ')</span></dd></dl>';
 
@@ -235,17 +237,18 @@ class Story extends CI_Controller
     $userIdx = $this->session->userData['idx'];
     $clubIdx = html_escape($clubIdx);
     $storyIdx = html_escape($this->input->post('storyIdx'));
+    $reactionType = html_escape($this->input->post('reactionType'));
 
     if (empty($userIdx)) {
       $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
     } else {
-      $cntStoryReaction = $this->story_model->cntStoryReaction($clubIdx, $storyIdx, TYPE_REACTION_LIKE);
-      $viewStoryReaction = $this->story_model->viewStoryReaction($clubIdx, $storyIdx, $userIdx);
+      $cntStoryReaction = $this->story_model->cntStoryReaction($clubIdx, $storyIdx, $reactionType, REACTION_KIND_LIKE);
+      $viewStoryReaction = $this->story_model->viewStoryReaction($clubIdx, $storyIdx, $userIdx, $reactionType);
       $result = array();
 
-      if (!empty($viewStoryReaction['type_reaction']) && $viewStoryReaction['type_reaction'] == TYPE_REACTION_LIKE) {
+      if (!empty($viewStoryReaction['reaction_kind']) && $viewStoryReaction['reaction_kind'] == REACTION_KIND_LIKE) {
         // 데이터가 있으면 삭제
-        $rtn = $this->story_model->deleteStoryReaction($clubIdx, $storyIdx, $userIdx);
+        $rtn = $this->story_model->deleteStoryReaction($clubIdx, $storyIdx, $reactionType, $userIdx);
 
         if (!empty($rtn)) {
           $updateData['like_cnt'] = $cntStoryReaction['cnt'] - 1;
@@ -256,7 +259,8 @@ class Story extends CI_Controller
         $insertData = array(
           'club_idx' => $clubIdx,
           'story_idx' => $storyIdx,
-          'type_reaction' => TYPE_REACTION_LIKE,
+          'reaction_type' => $reactionType,
+          'reaction_kind' => REACTION_KIND_LIKE,
           'created_by' => $userIdx,
           'created_at' => $now
         );
@@ -266,11 +270,6 @@ class Story extends CI_Controller
           $updateData['like_cnt'] = $cntStoryReaction['cnt'] + 1;
           $result = array('type' => 1, 'count' => $updateData['like_cnt']);
         }
-      }
-
-      if (!empty($rtn)) {
-        // 스토리 좋아요 카운트 수정
-        $this->story_model->updateStory($updateData, $clubIdx, $storyIdx);
       }
     }
 
@@ -289,33 +288,30 @@ class Story extends CI_Controller
     $userIdx = $this->session->userData['idx'];
     $clubIdx = html_escape($clubIdx);
     $storyIdx = html_escape($this->input->post('storyIdx'));
+    $reactionType = html_escape($this->input->post('reactionType'));
     $shareType = html_escape($this->input->post('shareType'));
     $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
 
     if (!empty($userIdx)) {
-      $cntStoryReaction = $this->story_model->cntStoryReaction($clubIdx, $storyIdx, TYPE_REACTION_SHARE);
-      $viewStoryReaction = $this->story_model->viewStoryReaction($clubIdx, $storyIdx, $userIdx, $shareType);
+      $viewStoryReaction = $this->story_model->viewStoryReaction($clubIdx, $storyIdx, $reactionType, $userIdx, $shareType);
 
       if (!empty($viewStoryReaction)) {
-        $result = array('error' => 1, 'message' => '');
+        $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
       } else {
         $insertData = array(
           'club_idx' => $clubIdx,
           'story_idx' => $storyIdx,
-          'type_reaction' => TYPE_REACTION_SHARE,
-          'type_share' => $shareType,
+          'reaction_type' => $reactionType,
+          'reaction_kind' => REACTION_KIND_SHARE,
+          'share_type' => $shareType,
           'created_by' => $userIdx,
           'created_at' => $now
         );
         $rtn = $this->story_model->insertStoryReaction($insertData);
 
         if (!empty($rtn)) {
-          $updateData['share_cnt'] = $cntStoryReaction['cnt'] + 1;
-
-          // 스토리 공유 카운트 수정
-          $this->story_model->updateStory($updateData, $clubIdx, $storyIdx);
-
-          $result = array('type' => 1, 'count' => $updateData['share_cnt']);
+          $cntStoryReaction = $this->story_model->cntStoryReaction($clubIdx, $storyIdx, $reactionType, REACTION_KIND_SHARE);
+          $result = array('type' => 1, 'count' => $cntStoryReaction['cnt']);
         }
       }
     }
@@ -401,10 +397,10 @@ class Story extends CI_Controller
           'deleted_at' => $now
         );
 
-        $rtn = $this->story_model->updateStoryReply($updateData, $clubIdx, $viewStoryReply['story_idx'], $storyReplyIdx);
+        $rtn = $this->story_model->updateStoryReply($updateData, $clubIdx, $viewStoryReply['story_idx'], $viewStoryReply['reply_type'], $storyReplyIdx);
 
         if (!empty($rtn)) {
-          $cntStoryReply = $this->story_model->cntStoryReply($clubIdx, $viewStoryReply['story_idx']);
+          $cntStoryReply = $this->story_model->cntStoryReply($clubIdx, $viewStoryReply['reply_type'], $viewStoryReply['story_idx']);
           $updateData = array(
             'reply_cnt' => $cntStoryReply['cnt']
           );

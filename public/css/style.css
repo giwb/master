@@ -1923,28 +1923,29 @@ h1.nav-logo small {
 #club .club-main .your-story .area-photo .icon-photo-delete:after { transform: rotate(-45deg); }
 
 #club .club-main article { width: 100%; clear: both; display: block; margin: 0px; padding: 10px 0; }
-#club .club-main article .story-profile { font-size: 12px; }
-#club .club-main article .story-profile strong { font-size: 14px; font-weight: bold; color: #000; }
-#club .club-main article .story-profile img { margin: 0 10px 0 0; float: left; }
-#club .club-main article .story-content { width: 100%; padding: 20px 0; }
-#club .club-main article .story-content img { width: 100%; margin-bottom: 10px; }
-#club .club-main article .story-reaction { position: relative; border: 1px solid #999; border-width: 1px 0; display: flex; }
-#club .club-main article .story-reaction button { font-size: 14px; background-color: #fff; border: 0px; padding: 5px 0; flex: 1; cursor: pointer; }
-#club .club-main article .story-reaction button:hover { color: #fff; background-color: #FF6C00; }
-#club .club-main article .story-reaction button i { margin-right: 4px; }
-#club .club-main article .story-reaction .area-share { position: absolute; top: -68px; right: 0px; display: none; }
-#club .club-main article .story-reaction .area-share ul { font-size: 12px; background-color: #fff; border: 1px solid #d9d9d9; padding: 10px 19px 5px 19px; display: table; }
-#club .club-main article .story-reaction .area-share ul li { width: 58px; display: table-cell; text-align: center; white-space: nowrap; }
-#club .club-main article .story-reaction .area-share input { font-size: 10px; }
-#club .club-main article .story-reply { font-size: 14px; margin: 10px 0; display: none; }
-#club .club-main article .story-reply dl { width: 100%; display: table; }
-#club .club-main article .story-reply dl dt { width: 24%; display: table-cell; vertical-align: top; }
-#club .club-main article .story-reply dl dd { width: 76%; display: table-cell; vertical-align: middle; }
-#club .club-main article .story-reply dl dd .date { font-size: 12px; }
-#club .club-main article .story-reply .story-reply-input { width: 100%; display: table; }
-#club .club-main article .story-reply .story-reply-input textarea { width: 80%; height: 50px; display: table-cell; vertical-align: middle; }
-#club .club-main article .story-reply .story-reply-input button { width: 19%; height: 50px; display: table-cell; vertical-align: middle; float: right; }
-#club .club-main article .story-reply .btn-post-delete-modal { font-size: 12px; }
+#club .club-main .story-profile { font-size: 12px; }
+#club .club-main .story-profile strong { font-size: 14px; font-weight: bold; color: #000; }
+#club .club-main .story-profile img { margin: 0 10px 0 0; float: left; }
+#club .club-main .story-content { width: 100%; padding: 20px 0; }
+#club .club-main .story-content img { width: 100%; margin-bottom: 10px; }
+#club .club-main .story-reaction { position: relative; border: 1px solid #999; border-width: 1px 0; display: flex; }
+#club .club-main .story-reaction button { font-size: 14px; background-color: #fff; border: 0px; padding: 5px 0; flex: 1; cursor: pointer; }
+#club .club-main .story-reaction button:hover { color: #fff; background-color: #FF6C00; }
+#club .club-main .story-reaction button i { margin-right: 4px; }
+#club .club-main .story-reaction .area-share { position: absolute; top: -68px; right: 0px; display: none; }
+#club .club-main .story-reaction .area-share ul { font-size: 12px; background-color: #fff; border: 1px solid #d9d9d9; padding: 10px 19px 5px 19px; display: table; }
+#club .club-main .story-reaction .area-share ul li { width: 58px; display: table-cell; text-align: center; white-space: nowrap; }
+#club .club-main .story-reaction .area-share input { font-size: 10px; }
+#club .club-main .story-reply { font-size: 14px; margin: 10px 0; display: none; }
+#club .club-main .story-reply.reply-type-2 { display: block; }
+#club .club-main .story-reply dl { width: 100%; display: table; }
+#club .club-main .story-reply dl dt { width: 24%; display: table-cell; vertical-align: top; }
+#club .club-main .story-reply dl dd { width: 76%; display: table-cell; vertical-align: middle; }
+#club .club-main .story-reply dl dd .date { font-size: 12px; }
+#club .club-main .story-reply .story-reply-input { width: 100%; display: table; }
+#club .club-main .story-reply .story-reply-input textarea { width: 80%; height: 50px; display: table-cell; vertical-align: middle; }
+#club .club-main .story-reply .story-reply-input button { width: 19%; height: 50px; display: table-cell; vertical-align: middle; float: right; }
+#club .club-main .story-reply .btn-post-delete-modal { font-size: 12px; }
 
 #club .club-main .sub-header { width: 100%; font-weight: bold; background-color: #d9d9d9; border: 1px solid #999; border-width: 1px 0; margin: 0 0 20px 0; padding: 7px 15px; cursor: pointer; }
 #club .club-main .sub-content { width: 642px; font-size: 14px; text-align: justify; overflow: hidden; }

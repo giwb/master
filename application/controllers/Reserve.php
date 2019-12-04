@@ -64,6 +64,16 @@ class Reserve extends MY_Controller
     // 공지 정보
     $viewData['notice'] = $this->reserve_model->viewNotice($clubIdx, $noticeIdx);
 
+    $cntReply = $this->story_model->cntStoryReply($clubIdx, $noticeIdx, REPLY_TYPE_NOTICE);
+    $cntLike = $this->story_model->cntStoryReaction($clubIdx, $noticeIdx, REPLY_TYPE_NOTICE, REACTION_KIND_LIKE);
+    $cntShare = $this->story_model->cntStoryReaction($clubIdx, $noticeIdx, REPLY_TYPE_NOTICE, REACTION_KIND_SHARE);
+    $viewData['notice']['reply_cnt'] = $cntReply['cnt'];
+    $viewData['notice']['like_cnt'] = $cntLike['cnt'];
+    $viewData['notice']['share_cnt'] = $cntShare['cnt'];
+
+    // 공지 댓글
+    $viewData['listReply'] = $this->story_model->listStoryReply($clubIdx, $noticeIdx, REPLY_TYPE_NOTICE);
+
     if (!empty($viewData['notice']['photo']) && file_exists(PHOTO_PATH . $viewData['notice']['photo'])) {
       $viewData['notice']['photo'] = base_url() . '/' . PHOTO_URL . $viewData['notice']['photo'];
     }

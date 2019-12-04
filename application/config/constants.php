@@ -119,15 +119,15 @@ defined('VISIBLE_NONE')   OR define('VISIBLE_NONE', 0); // 숨김
 defined('VISIBLE_ABLE')   OR define('VISIBLE_ABLE', 1); // 공개
 
 // 스토리 리액션 형태
-defined('TYPE_REACTION_LIKE') OR define('TYPE_REACTION_LIKE', 1); // 좋아요
-defined('TYPE_REACTION_SHARE') OR define('TYPE_REACTION_SHARE', 2); // 공유하기
+defined('REACTION_KIND_LIKE') OR define('REACTION_KIND_LIKE', 1); // 좋아요
+defined('REACTION_KIND_SHARE') OR define('REACTION_KIND_SHARE', 2); // 공유하기
 
 // 스토리 공유 형태
-defined('TYPE_SHARE_URL') OR define('TYPE_SHARE_URL', 1); // 페이스북
-defined('TYPE_SHARE_FACEBOOK') OR define('TYPE_SHARE_FACEBOOK', 2); // 페이스북
-defined('TYPE_SHARE_TWITTER') OR define('TYPE_SHARE_TWITTER', 3); // 트위터
-defined('TYPE_SHARE_KAKAO') OR define('TYPE_SHARE_KAKAO', 4); // 카카오톡
-defined('TYPE_SHARE_DAUM') OR define('TYPE_SHARE_DAUM', 5); // 다음
+defined('SHARE_TYPE_URL') OR define('SHARE_TYPE_URL', 1); // 페이스북
+defined('SHARE_TYPE_FACEBOOK') OR define('SHARE_TYPE_FACEBOOK', 2); // 페이스북
+defined('SHARE_TYPE_TWITTER') OR define('SHARE_TYPE_TWITTER', 3); // 트위터
+defined('SHARE_TYPE_KAKAO') OR define('SHARE_TYPE_KAKAO', 4); // 카카오톡
+defined('SHARE_TYPE_DAUM') OR define('SHARE_TYPE_DAUM', 5); // 다음
 
 // 로그 키
 /*
@@ -160,3 +160,11 @@ defined('URL_FRONT')          OR define('URL_FRONT', 'public/uploads/front/');
 defined('LEVEL_NORMAL')       OR define('LEVEL_NORMAL', 0);
 defined('LEVEL_LIFETIME')     OR define('LEVEL_LIFETIME', 1);
 defined('LEVEL_FREE')         OR define('LEVEL_FREE', 2);
+
+// 댓글 형태
+defined('REPLY_TYPE_STORY')   OR define('REPLY_TYPE_STORY', 1);
+defined('REPLY_TYPE_NOTICE')  OR define('REPLY_TYPE_NOTICE', 2);
+
+// 공유 형태
+defined('REACTION_TYPE_STORY')   OR define('REACTION_TYPE_STORY', 1);
+defined('REACTION_TYPE_NOTICE')  OR define('REACTION_TYPE_NOTICE', 2);
