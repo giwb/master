@@ -232,6 +232,7 @@ if (!function_exists('calcSchedule')) {
 // 거리, 산행분담금
 if (!function_exists('calcDistance')) {
   function calcDistance($distance) {
+    /*
     switch ($distance) {
       case  "1": $result = "왕복 200km 미만구간"; break;
       case  "2": $result = "왕복 250km 미만구간"; break;
@@ -254,6 +255,29 @@ if (!function_exists('calcDistance')) {
       case "99": $result = "해외트래킹"; break;
       default  : $result = "";
     }
+    */
+
+    if ($distance < 200) $result = "왕복 200km 미만구간";
+    elseif ($distance >= 200 && $distance < 250) $result = "왕복 250km 미만구간";
+    elseif ($distance >= 250 && $distance < 300) $result = "왕복 300km 미만구간";
+    elseif ($distance >= 300 && $distance < 350) $result = "왕복 350km 미만구간";
+    elseif ($distance >= 350 && $distance < 400) $result = "왕복 400km 미만구간";
+    elseif ($distance >= 400 && $distance < 450) $result = "왕복 450km 미만구간";
+    elseif ($distance >= 450 && $distance < 500) $result = "왕복 500km 미만구간";
+    elseif ($distance >= 500 && $distance < 550) $result = "왕복 550km 미만구간";
+    elseif ($distance >= 550 && $distance < 600) $result = "왕복 600km 미만구간";
+    elseif ($distance >= 600 && $distance < 650) $result = "왕복 650km 미만구간";
+    elseif ($distance >= 650 && $distance < 700) $result = "왕복 700km 미만구간";
+    elseif ($distance >= 700 && $distance < 750) $result = "왕복 750km 미만구간";
+    elseif ($distance >= 750 && $distance < 800) $result = "왕복 800km 미만구간";
+    elseif ($distance >= 800 && $distance < 850) $result = "왕복 850km 미만구간";
+    elseif ($distance >= 850 && $distance < 900) $result = "왕복 900km 미만구간";
+    elseif ($distance >= 900 && $distance < 950) $result = "왕복 950km 미만구간";
+    elseif ($distance >= 950 && $distance < 1000) $result = "왕복 1000km 미만구간";
+    elseif ($distance >= 1000 && $distance < 9000) $result = "왕복 1000km 이상구간";
+    elseif ($distance >= 9000) $result = "해외트래킹";
+    else $result = "";
+
     return $result;
   }
 }
