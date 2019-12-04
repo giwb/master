@@ -247,7 +247,7 @@ class Story extends CI_Controller
       $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
     } else {
       $cntStoryReaction = $this->story_model->cntStoryReaction($clubIdx, $storyIdx, $reactionType, REACTION_KIND_LIKE);
-      $viewStoryReaction = $this->story_model->viewStoryReaction($clubIdx, $storyIdx, $userIdx, $reactionType);
+      $viewStoryReaction = $this->story_model->viewStoryReaction($clubIdx, $storyIdx, $reactionType, $userIdx);
       $result = array();
 
       if (!empty($viewStoryReaction['reaction_kind']) && $viewStoryReaction['reaction_kind'] == REACTION_KIND_LIKE) {

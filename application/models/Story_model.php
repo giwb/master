@@ -140,7 +140,7 @@ class Story_model extends CI_Model
   // 스토리 리액션 보기
   public function viewStoryReaction($clubIdx, $storyIdx, $reactionType, $userIdx, $shareType=NULL)
   {
-    $this->db->select('*')
+    $this->db->select('reaction_kind')
           ->from(DB_STORY_REACTION)
           ->where('club_idx', $clubIdx)
           ->where('story_idx', $storyIdx)
