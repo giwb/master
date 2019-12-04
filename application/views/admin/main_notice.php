@@ -49,6 +49,7 @@
               <th>코스안내</th>
               <td><textarea name="course" id="course" rows="10" cols="100"><?=$view['course']?></textarea></td>
             </tr>
+<!--
             <tr>
               <th>산행지 사진</th>
               <td><input type="file" name="photo"></td>
@@ -57,6 +58,7 @@
               <th>산행 지도 사진</th>
               <td><input type="file" name="map"></td>
             </tr>
+-->
             <tr><td colspan="2"></td></tr>
           </tbody>
         </table>

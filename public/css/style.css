@@ -1947,7 +1947,7 @@ h1.nav-logo small {
 #club .club-main article .story-reply .btn-post-delete-modal { font-size: 12px; }
 
 #club .club-main .sub-header { width: 100%; font-weight: bold; background-color: #d9d9d9; border: 1px solid #999; border-width: 1px 0; margin: 0 0 20px 0; padding: 7px 15px; cursor: pointer; }
-#club .club-main .sub-content { width: 100%; font-size: 14px; text-align: justify; }
+#club .club-main .sub-content { width: 642px; font-size: 14px; text-align: justify; overflow: hidden; }
 #club .club-main .sub-photo { text-align: center; }
 #club .club-main .sub-photo img { max-width: 600px; margin: 20px auto; }
 
@@ -2140,6 +2140,7 @@ h1.nav-logo small {
   #club .sub-contents .area-bus-table input.seat { font-size: 10px; padding: 0px; }
   #club .sub-contents #addedInfo .reserve select, #addedInfo .reserve input { font-size: 12px; }
 
+  #club .club-main .sub-content { width: 100%; }
   #club .club-main .sub-photo img { max-width: 100%; }
 
   #club .club-main .area-schedule { display: block; padding-top: 20px; }

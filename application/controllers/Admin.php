@@ -450,6 +450,7 @@ class Admin extends CI_Controller
     $idx = html_escape($this->input->post('idx'));
 
     if (!empty($idx)) {
+/*
       if (!empty($_FILES['photo']['tmp_name']) && $_FILES['photo']['type'] == 'image/jpeg') {
         $postData['photo'] = $now . mt_rand(10000, 99999) . ".jpg";
         move_uploaded_file($_FILES['photo']['tmp_name'], PHOTO_PATH . $postData['photo']);
@@ -459,7 +460,7 @@ class Admin extends CI_Controller
         $postData['map'] = $now . mt_rand(10000, 99999) . ".jpg";
         move_uploaded_file($_FILES['map']['tmp_name'], PHOTO_PATH . $postData['map']);
       }
-
+*/
       $postData = array(
         'plan'        => html_escape($this->input->post('plan')),         // 기획의도
         'point'       => html_escape($this->input->post('point')),        // 핵심안내

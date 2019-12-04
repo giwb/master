@@ -20,3 +20,7 @@ defined('UPLOAD_URL')         OR define('UPLOAD_URL', 'public/uploads/');
 // 사진 디렉토리
 defined('PHOTO_PATH')         OR define('PHOTO_PATH', '/home/sayhome/www/giwb.new/public/photos/');
 defined('PHOTO_URL')          OR define('PHOTO_URL', 'public/photos/');
+
+// 에디터 업로드 디렉토리
+defined('EDITOR_PATH')        OR define('EDITOR_PATH', '/home/sayhome/www/giwb.new/public/uploads/editor/');
+defined('EDITOR_URL')         OR define('EDITOR_URL', 'public/uploads/editor/');
