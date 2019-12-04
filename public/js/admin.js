@@ -549,7 +549,7 @@
     $('.road-distance').each(function() {
       totalDistance += Number($(this).val());
     });
-    $('.total-distance').val(totalDistance);
+    $('.total-distance').val(totalDistance.toFixed(2));
     $.calcTotalFuel(); // 주유비 합계
 
     return totalDistance;
@@ -567,7 +567,7 @@
 
   // 연비 계산
   $.calcFuel = function() {
-    $('.driving-fuel').val( (Number( $('.total-distance').val() ) / 3.5).toFixed(2) );
+    $('.driving-fuel').val( (Number($('.total-distance').val() ) / 3.5).toFixed(2));
     $.calcTotalFuel(); // 주유비 합계
   }
 
