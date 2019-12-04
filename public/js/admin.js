@@ -643,7 +643,7 @@
     var fuel = $('.total-driving-fuel').val();
     var cost = $('.total-driving-cost').val();
     var add = $('.total-driving-add').val();
-    $('.total-bus-cost').val( Number(def) + Number(fuel) + Number(cost) + Number(add) );
+    $('.total-bus-cost').val( (Number(def) + Number(fuel) + Number(cost) + Number(add)).toFixed(2) );
   }
 
   // 최종 분담금 계산
