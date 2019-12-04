@@ -276,7 +276,7 @@ class Story extends CI_Controller
         }
       }
 
-      if (!empty($updateData['like_cnt']) && $reactionType == REACTION_TYPE_STORY) {
+      if (!empty($rtn) && $reactionType == REACTION_TYPE_STORY) {
         $this->story_model->updateStory($updateData, $clubIdx, $storyIdx);
       }
     }
