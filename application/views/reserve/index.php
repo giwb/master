@@ -10,7 +10,7 @@
             <div class="area-btn"><a href="<?=base_url()?>reserve/notice/<?=$view['idx']?>?n=<?=$notice['idx']?>"><button type="button" class="btn btn-primary">산행공지</button></a></div>
           </div>
           <strong>・산행일시</strong> : <?=$notice['startdate']?> (<?=calcWeek($notice['startdate'])?>) <?=$notice['starttime']?><br>
-          <?php if (!empty($notice['cost_total'] == 0 ? $notice['cost'] : $notice['cost_total'])): ?>
+          <?php $notice['cost'] = !empty($notice['cost_total'] == 0 ? $notice['cost'] : $notice['cost_total']); if ($notice['cost']): ?>
           <strong>・산행분담금</strong> : <?=number_format($notice['cost_total'] == 0 ? $notice['cost'] : $notice['cost_total'])?>원 (<?=calcTerm($notice['startdate'], $notice['starttime'], $notice['enddate'], $notice['schedule'])?><?=!empty($notice['distance']) ? ', ' . calcDistance($notice['distance']) : ''?><?=!empty($notice['costmemo']) ? ', ' . $notice['costmemo'] : ''?>)<br>
           <?php endif; ?>
           <?=!empty($notice['content']) ? "<strong>・산행코스</strong> : " . $notice['content'] : ""?>
