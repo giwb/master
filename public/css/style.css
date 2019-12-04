@@ -2162,4 +2162,6 @@ h1.nav-logo small {
   #club .club-main .box-past-search li:nth-child(5) { width: 26%; padding-left: 7px; }
   #club .club-main .box-past-search li:nth-child(6) { width: 49%; }
   #club .club-main .box-past-search li:nth-child(7) { width: 20%; }
+
+  #club .club-main .story-reply .btn-post-reply { font-size: 12px; }
 }
