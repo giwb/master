@@ -470,6 +470,8 @@
   }).on('change', '.driving-add', function() {
     $.calcAdd(); // 추가비용 합계
     $.calcTotalBus(); // 운행견적총액
+  }).on('change', '.cost-added', function() {
+    $('.cost-total').val(Number($('.cost-total').val()) + Number($('.cost-added').val()));
   });
 
   // 여행일자 계산 함수
