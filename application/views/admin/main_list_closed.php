@@ -17,7 +17,7 @@
             <tr>
               <td>
                 <b>[<?=viewStatus($value['status'])?>]</b> <a href="#"><?=$value['subject']?></a><br>
-                산행일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 산행분담금 : <?=number_format($value['cost'])?>원
+                산행일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 산행분담금 : <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원
               </td>
               <td align="right">
                 0원<br><?=cntRes($value['idx'])?>명
