@@ -18,14 +18,14 @@
         <li>
           <select name="syear" class="form-control">
             <?php foreach (range($searchData['syear'], 2010) as $value): ?>
-              <option<?=!empty($searchData['syear']) && $searchData['syear'] == $value ? ' selected' : ''?> value=''><?=$value?>년</option>
+              <option<?=!empty($searchData['syear']) && $searchData['syear'] == $value ? ' selected' : ''?> value='<?=$value?>'><?=$value?>년</option>
             <?php endforeach; ?>
           </select>
         </li>
         <li>
-          <select name="smonth" class="form-control">
+          <select name="smonth" class="form-control btn-search-month">
             <?php foreach (range(1, 12) as $value): ?>
-            <option<?=!empty($searchData['smonth']) && $searchData['smonth'] == $value ? ' selected' : ''?> value=''><?=$value?>월</option>
+            <option<?=!empty($searchData['smonth']) && $searchData['smonth'] == $value ? ' selected' : ''?> value='<?=$value?>'><?=$value?>월</option>
             <?php endforeach; ?>
           </select>
         </li>
@@ -73,6 +73,14 @@
           changeMonth: true,
           changeYear: true,
           yearSuffix: '년'
+        });
+        $('.btn-search-month').change(function() {
+          var syear = $('select[name=syear]').val();
+          var smonth = $('select[name=smonth]').val();
+          var baseUrl = $('input[name=baseUrl]').val();
+          var clubIdx = $('input[name=clubIdx]').val();
+          var lastDay = ( new Date( syear, smonth, 0) ).getDate();
+          location.href = (baseUrl + 'club/past/' + clubIdx + '?sdate=' + syear + '-' + smonth + '-01' + '&edate=' + syear + '-' + smonth + '-' + lastDay);
         });
       });
     </script>
