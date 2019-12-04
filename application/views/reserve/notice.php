@@ -14,7 +14,6 @@
           <div class="sub-content"><?=reset_html_escape($notice['point'])?></div><br>
 
           <div class="sub-header">산행지소개</div>
-          <?php if (!empty($notice['photo'])): ?><div class="sub-photo"><img src="<?=$notice['photo']?>"></div><?php endif; ?>
           <div class="sub-content"><?=reset_html_escape($notice['intro'])?></div><br>
 
           <div class="sub-header">일정안내</div>
@@ -26,6 +25,14 @@
           <div class="sub-header">코스안내</div>
           <div class="sub-content"><?=reset_html_escape($notice['course'])?></div>
 
-          <?php if (!empty($notice['map'])): ?><div class="sub-photo"><img src="<?=$notice['map']?>"></div><?php endif; ?>
+          <div class="area-reply" data-idx="<?=$notice['idx']?>">
+            <form method="post" action="<?=base_url()?>story/insert_reply/<?=$view['idx']?>" class="story-reply-input" data-idx="<?=$value['idx']?>">
+              <input type="hidden" name="storyIdx" value="<?=$value['idx']?>">
+              <textarea name="content" class="club-story-reply"></textarea>
+              <button type="button" class="btn btn-primary btn-post-reply" data-idx="<?=$value['idx']?>">댓글달기</button>
+            </form>
+            <div class="story-reply-content">
+            </div>
+          </div>
         </div>
       </div>

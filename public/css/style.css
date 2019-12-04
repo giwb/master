@@ -2010,6 +2010,8 @@ h1.nav-logo small {
 #club .sub-contents #addedInfo .reserve select { padding: 3px 2px; }
 #club .sub-contents #addedInfo .reserve .btn { font-size: 12px; margin: 0 0 3px 3px; padding: 2px 5px; }
 
+#club .club-main .area-reply { border-top: 1px solid #999; }
+
 #calendar .fc-event { padding: 5px 5px 4px 5px; }
 #calendar .fc-event.notice-status1 { color: #000; background-color: #FEECBF!important; }
 #calendar .fc-event.notice-status2 { color: #000; background-color: #F6C23E!important; }

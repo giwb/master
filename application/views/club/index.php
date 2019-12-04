@@ -59,7 +59,7 @@
         <div id="calendar"></div>
         <div class="your-story">
           <form id="your-story-form" method="post" action="<?=base_url()?>club/upload">
-            <textarea id="club-story-content" placeholder="당신의 이야기를 들려주세요!"></textarea>
+            <textarea id="club-story-content" placeholder="회원들에게 안부를 남겨주세요~"></textarea>
             <div class="area-photo"></div>
             <div class="area-btn">
               <input type="file" class="file">

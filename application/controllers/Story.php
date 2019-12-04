@@ -23,6 +23,7 @@ class Story extends CI_Controller
     $clubIdx = html_escape($clubIdx);
     $storyIdx = html_escape($this->input->post('n'));
     $page = html_escape($this->input->post('p'));
+    $viewData['userData'] = $this->session->userData;
     $result = '';
 
     // 클럽 정보
