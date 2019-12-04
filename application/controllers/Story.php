@@ -13,7 +13,7 @@ class Story extends CI_Controller
   }
 
   /**
-   * 클럽 메인 페이지
+   * 스토리 메인 페이지
    *
    * @return json
    * @author bjchoi
@@ -210,14 +210,18 @@ class Story extends CI_Controller
       } else {
         // 스토리 댓글 개수 올리기
         $cntStoryReply = $this->story_model->cntStoryReply($clubIdx, $storyIdx, $replyType);
-        $updateData['reply_cnt'] = $cntStoryReply['cnt'];
+
+        if ($replyType == REPLY_TYPE_STORY) {
+          $updateData['reply_cnt'] = $cntStoryReply['cnt'];
+          $this->story_model->updateStory($updateData, $clubIdx, $storyIdx);
+        }
 
         $html = '<dl><dt><img class="img-profile" src="' . base_url() . '/public/photos/' . $userData['idx'] . '"> ' . $userData['nickname'] . '</dt><dd>' . $content . ' <span class="date">(' . date('Y/m/d H:i:s', $now) . ')</span></dd></dl>';
 
         $result = array(
           'error' => 0,
           'message' => $html,
-          'reply_cnt' => $updateData['reply_cnt']
+          'reply_cnt' => $cntStoryReply['cnt']
         );
       }
     }
@@ -268,6 +272,9 @@ class Story extends CI_Controller
 
         if (!empty($rtn)) {
           $updateData['like_cnt'] = $cntStoryReaction['cnt'] + 1;
+          if ($reactionType == REACTION_TYPE_STORY) {
+            $this->story_model->updateStory($updateData, $clubIdx, $storyIdx);
+          }
           $result = array('type' => 1, 'count' => $updateData['like_cnt']);
         }
       }
@@ -311,6 +318,12 @@ class Story extends CI_Controller
 
         if (!empty($rtn)) {
           $cntStoryReaction = $this->story_model->cntStoryReaction($clubIdx, $storyIdx, $reactionType, REACTION_KIND_SHARE);
+
+          if ($reactionType == REACTION_TYPE_STORY) {
+            $updateData['share_cnt'] = $cntStoryReaction['cnt'];
+            $this->story_model->updateStory($updateData, $clubIdx, $storyIdx);
+          }
+
           $result = array('type' => 1, 'count' => $cntStoryReaction['cnt']);
         }
       }
