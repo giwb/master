@@ -25,13 +25,13 @@
           <div class="sub-header">코스안내</div>
           <div class="sub-content"><?=reset_html_escape($notice['course'])?></div>
 
-          <div class="area-reply" data-idx="<?=$notice['idx']?>">
-            <form method="post" action="<?=base_url()?>story/insert_reply/<?=$view['idx']?>" class="story-reply-input" data-idx="<?=$value['idx']?>">
-              <input type="hidden" name="storyIdx" value="<?=$value['idx']?>">
-              <textarea name="content" class="club-story-reply"></textarea>
-              <button type="button" class="btn btn-primary btn-post-reply" data-idx="<?=$value['idx']?>">댓글달기</button>
+          <div class="area-reply">
+            <form method="post" action="<?=base_url()?>club/insert_reply/<?=$view['idx']?>" class="reply-input">
+              <input type="hidden" name="noticeIdx" value="<?=$notice['idx']?>">
+              <textarea name="content"></textarea>
+              <button type="button" class="btn btn-primary btn-reply">댓글달기</button>
             </form>
-            <div class="story-reply-content">
+            <div class="reply-content">
             </div>
           </div>
         </div>

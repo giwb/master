@@ -344,7 +344,7 @@ class Story extends CI_Controller
       $viewStory = $this->story_model->viewStory($clubIdx, $storyIdx);
       $viewMember = $this->member_model->viewMember($clubIdx, $userIdx);
 
-      if (!empty($viewStory['created_by']) && ($viewStory['created_by'] == $userIdx || $viewMember['admin'] == 1)) {
+      if (!empty($viewStory[0]['user_idx']) && ($viewStory[0]['user_idx'] == $userIdx || $viewMember['admin'] == 1)) {
         // DB는 삭제 플래그만 세워줌
         $updateData = array(
           'deleted_by' => $userIdx,
