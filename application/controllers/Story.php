@@ -304,7 +304,7 @@ class Story extends CI_Controller
       $viewStoryReaction = $this->story_model->viewStoryReaction($clubIdx, $storyIdx, $reactionType, $userIdx, $shareType);
 
       if (!empty($viewStoryReaction)) {
-        $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+        $result = array('error' => 1, 'message' => '');
       } else {
         $insertData = array(
           'club_idx' => $clubIdx,
