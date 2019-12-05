@@ -12,7 +12,8 @@
   </section>
 
   <input type="hidden" name="baseUrl" value="<?=base_url()?>">
-  <input type="hidden" name="clubIdx" value="<?=$view['idx']?>">
+  <input type="hidden" name="clubIdx" value="<?=!empty($view['idx']) ? $view['idx'] : ''?>">
+  <input type="hidden" name="userIdx" value="<?=!empty($userData['idx']) ? $userData['idx'] : ''?>">
   <input type="hidden" name="redirectUrl" value="">
 
   <!-- Login Modal -->
