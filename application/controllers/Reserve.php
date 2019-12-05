@@ -94,6 +94,7 @@ class Reserve extends MY_Controller
   public function information()
   {
     $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
     $noticeIdx = html_escape($this->input->post('idx'));
     $resIdx = html_escape($this->input->post('resIdx'));
     $nowBus = html_escape($this->input->post('bus'));
@@ -127,6 +128,7 @@ class Reserve extends MY_Controller
     $result['location'] = arrLocation(); // 승차위치
     $result['breakfast'] = arrBreakfast(); // 아침식사
     $result['nowSeat'] = checkDirection($nowSeat, $nowBus, $notice['bustype'], $notice['bus']);
+    $result['userLocation'] = $userData['location'];
 
     $this->output->set_output(json_encode($result));
   }

@@ -78,7 +78,7 @@
               <dd>
                 <select name="location" class="form-control">
                   <?php foreach (arrLocation() as $key => $value): ?>
-                  <option<?=$viewMember['location'] == $key ? ' selected' : ''?> value=''><?=$value?></option>
+                  <option<?=$viewMember['location'] == $key ? ' selected' : ''?> value='<?=$key?>'><?=$value?></option>
                   <?php endforeach; ?>
                 </select>
               </dd>

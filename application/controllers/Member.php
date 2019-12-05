@@ -100,6 +100,7 @@ class Member extends MY_Controller
         'nickname'      => html_escape($inputData['nickname']),
         'realname'      => html_escape($inputData['realname']),
         'gender'        => html_escape($inputData['gender']),
+        'location'      => html_escape($inputData['location']),
         'birthday'      => html_escape($inputData['birthday_year']) . '/' . html_escape($inputData['birthday_month']) . '/' . html_escape($inputData['birthday_day']),
         'birthday_type' => html_escape($inputData['birthday_type']),
         'phone'         => html_escape($inputData['phone1']) . '-' . html_escape($inputData['phone2']) . '-' . html_escape($inputData['phone3']),
