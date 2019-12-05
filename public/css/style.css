@@ -2029,9 +2029,9 @@ h1.nav-logo small {
 
 /* Login Modal */
 #loginModal .modal-body { padding-top: 20px; }
-#loginModal dl { width: 80%; margin: 0px; padding: 0px; }
-#loginModal dl dt { width: 49%; margin: 0px; padding: 5px 10px 5px 0; text-align: right; display: inline-block; }
-#loginModal dl dd { width: 49%; margin: 0px; padding: 5px 0; display: inline-block; }
+#loginModal dl { width: 80%; margin: 0px; padding: 0px; display: table; }
+#loginModal dl dt { width: 50%; margin: 0px; padding: 5px 10px 5px 0; text-align: right; display: table-cell; }
+#loginModal dl dd { width: 50%; margin: 0px; padding: 5px 0; display: table-cell; }
 #loginModal dl dd input { font-size: 14px; width: 90%; border: 1px solid #999; padding: 2px 5px; }
 #loginModal .error-message { font-size: 12px; color: #E0552a; padding: 10px 0; display: none; }
 #loginModal .modal-footer { justify-content: space-between; }
