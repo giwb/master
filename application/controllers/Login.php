@@ -25,7 +25,7 @@ class Login extends CI_Controller
     } else {
       $clubIdx = html_escape($clubIdx);
     }
-    $viewData['view'] = $this->club_model->viewclub($clubIdx);
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
     $viewData['redirect_url'] = $this->input->get('r');
 
     $userid = html_escape($this->input->post('userid'));
@@ -36,7 +36,7 @@ class Login extends CI_Controller
       $this->_viewPage('login', $viewData);
     } else {
       // 아이디와 패스워드를 입력하면 로그인 처리를 실행한다.
-      $userData = $this->member_model->checkLogin($userid, md5($password), $clubIdx);
+      $userData = $this->member_model->checkLogin($clubIdx, $userid, md5($password));
 
       if (empty($userData['idx'])) {
         // 정보가 없으면 로그인 실패
@@ -81,7 +81,7 @@ class Login extends CI_Controller
   {
     $clubIdx = html_escape($this->input->post('club_idx'));
     $userid = html_escape($this->input->post('userid'));
-    $check = $this->member_model->checkUserid($userid, $clubIdx);
+    $check = $this->member_model->checkUserid($clubIdx, $userid);
 
     if (empty($check['idx'])) {
       $result = array(
@@ -104,11 +104,12 @@ class Login extends CI_Controller
    * @return json
    * @author bjchoi
    **/
-  public function check_nickname()
+  public function check_nickname($clubIdx)
   {
-    $clubIdx = html_escape($this->input->post('club_idx'));
+    $clubIdx = html_escape($clubIdx);
     $userid = html_escape($this->input->post('userid'));
-    $check = $this->member_model->checkNickname($userid, $clubIdx);
+    $nickname = html_escape($this->input->post('nickname'));
+    $check = $this->member_model->checkNickname($clubIdx, $userid, $nickname);
 
     if (empty($check)) {
       $result = array(

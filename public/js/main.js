@@ -346,34 +346,18 @@
       $('img', $dom).remove();
     }
   }).on('blur', '.check-nickname', function() {
-    // 닉네임 중복 체크
-    var $dom = $(this);
-    var nickname = $('input[name=nickname]').val();
-    var clubIdx = $('input[name=clubIdx]').val();
-
-    if (nickname != '') {
-      $.ajax({
-        url: $('input[name=baseUrl]').val() + 'login/check_nickname/' + clubIdx,
-        data: 'nickname=' + nickname,
-        dataType: 'json',
-        type: 'post',
-        success: function(result) {
-          $('img', $dom).remove();
-          $dom.append(result.message);
-        }
-      });
-    } else {
-      $('img', $dom).remove();
-    }
+    $.checkNickname();
   }).on('blur', '.check-password', function() {
     // 비밀번호 확인
     var $dom = $('.check-password-message');
     $('img', $dom).remove();
 
-    if ($('input[name=password]').val() == $('input[name=password_check]').val()) {
-      $dom.append('<img class="check-password-complete" src="/public/images/icon_check.png">')
-    } else {
-      $dom.append('<img src="/public/images/icon_cross.png">')
+    if ($('input[name=password]').val() != '') {
+      if ($('input[name=password]').val() == $('input[name=password_check]').val()) {
+        $dom.append('<img class="check-password-complete" src="/public/images/icon_check.png">')
+      } else {
+        $dom.append('<img src="/public/images/icon_cross.png">')
+      }
     }
   }).on('click', '.btn-entry', function() {
     // 회원가입
@@ -435,6 +419,73 @@
           $('#messageModal .modal-message').text('회원가입이 성공적으로 완료되었습니다.');
           $('#messageModal').modal({backdrop: 'static', keyboard: false});
         }
+      }
+    });
+  }).on('click', '.btn-member-update', function() {
+    // 개인정보수정
+    if ($('.check-nickname img').hasClass('check-nickname-complete') == false) {
+      $.openMsgModal('닉네임을 확인해주세요.');
+      return false;
+    }
+    if ($('input[name=password]').val() != '' && $('.check-password img').hasClass('check-password-complete') == false) {
+      $.openMsgModal('비밀번호를 확인해주세요.');
+      return false;
+    }
+    if ($('input[name=realname]').val() == '') {
+      $.openMsgModal('실명은 꼭 입력해주세요.');
+      return false;
+    }
+    if ($('input:radio[name=gender]').is(':checked') == false) {
+      $.openMsgModal('성별은 꼭 선택해주세요.');
+      return false;
+    }
+    if ($('select[name=birthday_year]').val() == '' || $('select[name=birthday_month]').val() == '' || $('select[name=birthday_day]').val() == '') {
+      $.openMsgModal('생년월일은 꼭 선택해주세요.');
+      return false;
+    }
+    if ($('input:radio[name=birthday_type]').is(':checked') == false) {
+      $.openMsgModal('양력/음력은 꼭 선택해주세요.');
+      return false;
+    }
+    if ($('input[name=phone1]').val() == '' || $('input[name=phone2]').val() == '' || $('input[name=phone3]').val() == '') {
+      $.openMsgModal('전화번호는 꼭 입력해주세요.');
+      return false;
+    }
+
+    var $btn = $(this);
+    var $dom = $('#entryForm');
+    var formData = new FormData($dom[0]);
+
+    $.ajax({
+      url: $dom.attr('action'),
+      data: formData,
+      processData: false,
+      contentType: false,
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+      },
+      success: function(result) {
+        $btn.css('opacity', '1').prop('disabled', false).text('수정합니다');
+        $.openMsgModal(result.message)
+      }
+    });
+  }).on('click', '.btn-quit', function() {
+    // 회원 탈퇴
+    var baseUrl = $('input[name=baseUrl]').val();
+    var clubIdx = $('input[name=clubIdx]').val();
+    var userIdx = $('input[name=userIdx]').val();
+
+    $.ajax({
+      url: $('input[name=baseUrl]').val() + 'member/quit/' + clubIdx,
+      data: 'userIdx=' + userIdx,
+      dataType: 'json',
+      type: 'post',
+      success: function(result) {
+        $('#quitModal .btn').hide();
+        $('#quitModal .btn-top').removeClass('d-none').show();
+        $('#quitModal .modal-message').html('회원 탈퇴가 완료되었습니다.<br>이용해 주셔서 감사합니다.')
       }
     });
   }).on('click', '.btn-upload', function() {
@@ -599,6 +650,28 @@
   // 숫자 자릿수 콤마 찍기
   $.setNumberFormat = function(n) {
     return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  }
+
+  // 닉네임 확인
+  $.checkNickname = function() {
+    var clubIdx = $('input[name=clubIdx]').val();
+    var userid = $('input[name=userid]').val();
+    var nickname = $('input[name=nickname]').val();
+
+    if (nickname != '') {
+      $.ajax({
+        url: $('input[name=baseUrl]').val() + 'login/check_nickname/' + clubIdx,
+        data: 'userid=' + userid + '&nickname=' + nickname,
+        dataType: 'json',
+        type: 'post',
+        success: function(result) {
+          $('.check-nickname img').remove();
+          $('.check-nickname').append(result.message);
+        }
+      });
+    } else {
+      $('img', $dom).remove();
+    }
   }
 })(jQuery);
 

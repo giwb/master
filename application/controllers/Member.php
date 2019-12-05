@@ -42,6 +42,121 @@ class Member extends MY_Controller
   }
 
   /**
+   * 개인정보수정
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function modify()
+  {
+    checkUserLogin();
+
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+    $viewData['view'] = $this->club_model->viewclub($clubIdx);
+
+    // 회원정보
+    $viewData['viewMember'] = $this->member_model->viewMember($clubIdx, $userData['idx']);
+
+    // 생년월일 나누기
+    $buf = explode('/', $viewData['viewMember']['birthday']);
+    $viewData['viewMember']['birthday_year'] = $buf[0];
+    $viewData['viewMember']['birthday_month'] = $buf[1];
+    $viewData['viewMember']['birthday_day'] = $buf[2];
+
+    // 전화번호 나누기
+    $buf = explode('-', $viewData['viewMember']['phone']);
+    $viewData['viewMember']['phone1'] = $buf[0];
+    $viewData['viewMember']['phone2'] = $buf[1];
+    $viewData['viewMember']['phone3'] = $buf[2];
+
+    // 아이콘
+    if (file_exists(PHOTO_PATH . $viewData['viewMember']['idx'])) {
+      $viewData['viewMember']['photo'] = base_url() . PHOTO_URL . $viewData['viewMember']['idx'];
+    } else {
+      $viewData['viewMember']['photo'] = base_url() . 'public/images/noimage.png';
+    }
+
+    $this->_viewPage('member/modify', $viewData);
+  }
+
+  /**
+   * 개인정보수정 처리
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function update()
+  {
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+    $inputData = $this->input->post();
+
+    if (empty($userData['idx'])) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
+    } else {
+      $updateValues = array(
+        'club_idx'      => html_escape($clubIdx),
+        'nickname'      => html_escape($inputData['nickname']),
+        'realname'      => html_escape($inputData['realname']),
+        'gender'        => html_escape($inputData['gender']),
+        'birthday'      => html_escape($inputData['birthday_year']) . '/' . html_escape($inputData['birthday_month']) . '/' . html_escape($inputData['birthday_day']),
+        'birthday_type' => html_escape($inputData['birthday_type']),
+        'phone'         => html_escape($inputData['phone1']) . '-' . html_escape($inputData['phone2']) . '-' . html_escape($inputData['phone3']),
+      );
+
+      // 비밀번호는 입력했을때만 저장
+      if (!empty($inputData['password'])) {
+        $updateValues['password'] = md5(html_escape($inputData['password']));
+      }
+
+      $rtn = $this->member_model->updateMember($updateValues, $clubIdx, $userData['idx']);
+
+      if (!empty($rtn)) {
+        // 사진 등록
+        if (!empty($inputData['filename']) && file_exists(UPLOAD_PATH . $inputData['filename'])) {
+          rename(UPLOAD_PATH . html_escape($inputData['filename']), PHOTO_PATH . $userData['idx']);
+        }
+
+        $result = array('error' => 0, 'message' => $this->lang->line('update_complete'));
+      } else {
+        $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+      }
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 탈퇴하기
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function quit()
+  {
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+    $userIdx = $this->input->post('userIdx');
+
+    if ($userData['idx'] != $userIdx) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+    } else {
+      $updateValues['quitdate'] = time();
+      $rtn = $this->member_model->updateMember($updateValues, $clubIdx, $userIdx);
+
+      if (!empty($rtn)) {
+        // 세션 삭제
+        $this->session->unset_userdata('userData');
+
+        $result = array('error' => 0, 'message' => '');
+      }
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 파일 업로드
    *
    * @return json

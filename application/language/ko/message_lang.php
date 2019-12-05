@@ -10,4 +10,5 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$lang['confirm_delete'] = '정말로 삭제하시겠습니까?';
+$lang['update_complete'] = '수정이 완료되었습니다.';
+$lang['delete_confirm'] = '정말로 삭제하시겠습니까?';

@@ -11,18 +11,19 @@ class Member_model extends CI_Model
   }
 
   // 로그인 확인
-  public function checkLogin($userid, $password, $clubIdx)
+  public function checkLogin($clubIdx, $userid, $password)
   {
     $this->db->select('idx, club_idx, userid, nickname, realname, gender, birthday, birthday_type, phone, penalty, level, admin')
           ->from(DB_MEMBER)
           ->where('userid', $userid)
           ->where('password', $password)
-          ->where('club_idx', $clubIdx);
+          ->where('club_idx', $clubIdx)
+          ->where('quitdate', NULL);
     return $this->db->get()->row_array(1);
   }
 
   // 아이디 중복 확인
-  public function checkUserid($userid, $clubIdx)
+  public function checkUserid($clubIdx, $userid)
   {
     $this->db->select('*')
           ->from(DB_MEMBER)
@@ -32,10 +33,11 @@ class Member_model extends CI_Model
   }
 
   // 닉네임 중복 확인
-  public function checkNickname($nickname, $clubIdx)
+  public function checkNickname($clubIdx, $userid, $nickname)
   {
     $this->db->select('idx')
           ->from(DB_MEMBER)
+          ->where('userid !=', $userid)
           ->where('nickname', $nickname)
           ->where('club_idx', $clubIdx);
     return $this->db->get()->row_array(1);
@@ -63,7 +65,8 @@ class Member_model extends CI_Model
     $this->db->select('*')
           ->from(DB_MEMBER)
           ->where('club_idx', $clubIdx)
-          ->where('idx', $userIdx);
+          ->where('idx', $userIdx)
+          ->where('quitdate', NULL);
     return $this->db->get()->row_array(1);
   }
 
@@ -72,6 +75,15 @@ class Member_model extends CI_Model
   {
     $this->db->insert(DB_MEMBER, $data);
     return $this->db->insert_id();
+  }
+
+  // 개인정보 수정
+  public function updateMember($data, $clubIdx, $userIdx)
+  {
+    $this->db->set($data);
+    $this->db->where('club_idx', $clubIdx);
+    $this->db->where('idx', $userIdx);
+    return $this->db->update(DB_MEMBER);
   }
 
   // 로그 기록
@@ -130,7 +142,8 @@ class Member_model extends CI_Model
   {
     $this->db->select('COUNT(idx) AS cnt')
           ->from(DB_MEMBER)
-          ->where('club_idx', $clubIdx);
+          ->where('club_idx', $clubIdx)
+          ->where('quitdate', NULL);
     return $this->db->get()->row_array(1);
   }
 
@@ -140,7 +153,8 @@ class Member_model extends CI_Model
     $this->db->select('COUNT(idx) AS cnt')
           ->from(DB_MEMBER)
           ->where('club_idx', $clubIdx)
-          ->where('FROM_UNIXTIME(regdate, "%Y%m%d") =', date('Ymd', time()));
+          ->where('FROM_UNIXTIME(regdate, "%Y%m%d") =', date('Ymd', time()))
+          ->where('quitdate', NULL);
     return $this->db->get()->row_array(1);
   }
 
