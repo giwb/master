@@ -10,7 +10,7 @@
   <meta property="og:title" content="경인웰빙" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="http://giwb.kr/" />
-  <meta property="og:image" content="<?=base_url()?>public/images/logo.jpg" />
+  <meta property="og:image" content="<?=base_url()?>public/images/logo.png" />
 
   <link href="<?=base_url()?>public/images/favicon.png" rel="icon">
   <link href="<?=base_url()?>public/images/apple-touch-icon.png" rel="apple-touch-icon">
