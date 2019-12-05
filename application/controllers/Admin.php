@@ -50,7 +50,7 @@ class Admin extends CI_Controller
 
     if (!empty($resIdx)) {
       $result['reserve'] = $this->admin_model->viewReserve($resIdx);
-      if (empty($result['reserve']['memo'])) $result['reserve']['memo'] = '';
+      if (empty($result['reserve']['depositname'])) $result['reserve']['depositname'] = '';
     } else {
       $result['reserve']['nickname'] = '';
       $result['reserve']['gender'] = 'M';
