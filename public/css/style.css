@@ -2000,7 +2000,7 @@ h1.nav-logo small {
 #club .sub-contents .area-bus-table td.seat { color: #999; }
 #club .sub-contents .area-bus-table .male { color: #505050; background-color: #E5FAFF; }
 #club .sub-contents .area-bus-table .female { color: #505050; background-color: #FFEAFA; }
-#club .sub-contents .area-bus-table .reserved { color: #505050; background-color: #FBEFD8; }
+#club .sub-contents .area-bus-table .reserved { color: #505050!important; background-color: #FBEFD8; }
 #club .sub-contents .area-bus-table .active { color: #505050; background-color: #FFCC00; }
 #club .sub-contents #reserveForm { text-align: center; margin: 10px 0; }
 #club .sub-contents #reserveForm .btn-reserve-confirm { display: none; }
