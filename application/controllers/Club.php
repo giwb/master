@@ -30,6 +30,12 @@ class Club extends MY_Controller
     // 등록된 산행 목록
     $viewData['listNoticeCalendar'] = $this->reserve_model->listNotice($clubIdx);
 
+    // 최초 스토리 로딩
+    $paging['perPage'] = 5;
+    $paging['nowPage'] = (1 * $paging['perPage']) - $paging['perPage'];
+    $viewData['listStory'] = $this->story_model->listStory($clubIdx, $paging);
+    $viewData['listStory'] = $this->load->view('story/index', $viewData, true);
+
     // 클럽 스토리
     //$viewData['listStory'] = $this->story_model->listStory($clubIdx, 5);
 

@@ -1874,6 +1874,8 @@ h1.nav-logo small {
 .added-files { margin: 10px 0; }
 .added-files img { width: 150px; padding: 0 10px 10px 0; vertical-align: top; }
 
+.ajax-loader { margin-bottom: 10px; }
+
 .club-list { width: 100%; display: table; }
 .club-list .map { width: 20%; display: table-cell; vertical-align: top; }
 .club-list .list { width: 80%; display: table-cell; vertical-align: top; }
@@ -1926,6 +1928,7 @@ h1.nav-logo small {
 #club .club-main .story-profile { font-size: 12px; }
 #club .club-main .story-profile strong { font-size: 14px; font-weight: bold; color: #000; }
 #club .club-main .story-profile img { margin: 0 10px 0 0; float: left; }
+#club .club-main .story-profile a.story-date { color: #555; }
 #club .club-main .story-content { width: 100%; padding: 20px 0; }
 #club .club-main .story-content img { width: 100%; margin-bottom: 10px; }
 #club .club-main .story-reaction { position: relative; border: 1px solid #999; border-width: 1px 0; display: flex; }
@@ -1937,7 +1940,8 @@ h1.nav-logo small {
 #club .club-main .story-reaction .area-share ul li { width: 58px; display: table-cell; text-align: center; white-space: nowrap; }
 #club .club-main .story-reaction .area-share input { font-size: 10px; }
 #club .club-main .story-reply { font-size: 14px; margin: 10px 0; display: none; }
-#club .club-main .story-reply.reply-type-2 { display: block; }
+#club .club-main .story-article .story-reply, #club .club-main .story-reply.reply-type-2 { display: block; }
+#club .club-main .story-article { margin-top: -10px; }
 #club .club-main .story-reply dl { width: 100%; display: table; }
 #club .club-main .story-reply dl dt { width: 24%; display: table-cell; vertical-align: top; }
 #club .club-main .story-reply dl dd { width: 76%; display: table-cell; vertical-align: middle; }

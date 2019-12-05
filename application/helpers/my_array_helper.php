@@ -450,22 +450,25 @@ if (!function_exists('getReserve')) {
     }
     if ($result['idx'] == '') {
       // 붙어있는 좌석은 같은 성별로만
-      if ($userData['gender'] == '1') $message = '<span class="text-primary">남성우선</span>';
-      elseif ($userData['gender'] == '2') $message = '<span class="text-danger">여성우선</span>';
+      if ($userData['gender'] == 'F') $message = '<span class="text-primary">남성우선</span>';
+      elseif ($userData['gender'] == 'M') $message = '<span class="text-danger">여성우선</span>';
+      else $message = '예약가능';
 
       if ($seat %2 == 1) {
         // 현재 좌석은 홀수
         $nextSeat = $seat + 1;
         if (!empty($checkGender[$bus][$nextSeat]) && $userData['gender'] != $checkGender[$bus][$nextSeat]) {
-          $result['class'] = '';
-          $result['nickname'] = !empty($message) ? $message : $checkGender[$bus][$nextSeat] == 'M' ? '<span class="text-primary">남성우선</span>' : '<span class="text-danger">여성우선</span>';
+          if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
+          $result['nickname'] = $message;
+          //$result['nickname'] = !empty($message) ? $message : $checkGender[$bus][$nextSeat] == 'M' ? '<span class="text-primary">남성우선</span>' : '<span class="text-danger">여성우선</span>';
         }
       } elseif ($seat %2 == 0) {
         // 현재 좌석은 짝수
         $prevSeat = $seat - 1;
         if (!empty($checkGender[$bus][$prevSeat]) && $userData['gender'] != $checkGender[$bus][$prevSeat]) {
-          $result['class'] = '';
-          $result['nickname'] = !empty($message) ? $message : $checkGender[$bus][$prevSeat] == 'M' ? '<span class="text-primary">남성우선</span>' : '<span class="text-danger">여성우선</span>';
+          if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
+          $result['nickname'] = $message;
+          //$result['nickname'] = !empty($message) ? $message : $checkGender[$bus][$prevSeat] == 'M' ? '<span class="text-primary">남성우선</span>' : '<span class="text-danger">여성우선</span>';
         }
       }
     }

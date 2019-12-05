@@ -134,7 +134,7 @@ class Reserve extends MY_Controller
   }
 
   /**
-   * 예약 처리
+   * 예약/수정 처리
    *
    * @return json
    * @author bjchoi
@@ -176,29 +176,28 @@ class Reserve extends MY_Controller
         'regdate'   => $now,
       );
 
-      // 이미 예약이 되어 있는지 체크
-      $checkReserve = $this->reserve_model->checkReserve($clubIdx, $noticeIdx, $bus[$key], $seat);
-
-      if (empty($resIdxNow) && empty($checkReserve['idx'])) {
+      if (empty($resIdxNow)) {
         $result = $this->reserve_model->insertReserve($processData);
-      } elseif (!empty($resIdxNow) && $checkReserve['userid'] == $userData['userid']) {
-        $result = $this->reserve_model->updateReserve($processData, $resIdxNow);
+
+        // 로그 기록
+        setHistory(2, $noticeIdx, $userData['userid'], $viewNotice['subject'], $now);
+      } else {
+        // 예약된 정보 불러오기
+        $viewReserve = $this->reserve_model->viewReserve($clubIdx, $resIdxNow);
+
+        // 선택한 좌석 예약 여부 확인
+        $checkReserve = $this->reserve_model->checkReserve($clubIdx, $noticeIdx, html_escape($bus[$key]), html_escape($seat));
+
+        if ($viewReserve['userid'] == $userData['userid'] && empty($checkReserve['idx'])) {
+          $result = $this->reserve_model->updateReserve($processData, $resIdxNow);
+        }
       }
     }
 
     if (empty($result)) {
-      $result = array(
-        'error' => 1,
-        'message' => '이미 예약된 좌석이 포함되어 있습니다. 다시 예약해주세요.'
-      );
+      $result = array('error' => 1, 'message' => $this->lang->line('error_seat_duplicate'));
     } else {
-      // 로그 기록
-      setHistory(2, $noticeIdx, $userData['userid'], $viewNotice['subject'], $now);
-
-      $result = array(
-        'error' => 0,
-        'message' => base_url() . 'reserve/check/' . $clubIdx . '?n=' . $noticeIdx . '&c=' . $result
-      );
+      $result = array('error' => 0, 'message' => base_url() . 'reserve/check/' . $clubIdx . '?n=' . $noticeIdx . '&c=' . $result);
     }
 
     $this->output->set_output(json_encode($result));

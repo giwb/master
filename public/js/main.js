@@ -518,18 +518,35 @@
     var resIdx = $(this).data('id');
     var bus = $(this).data('bus');
     var seat = $(this).data('seat');
+    var chk = false;
 
-    // 좌석 배경색 토글
+    // 좌석 토글
     if ($(this).hasClass('active')) {
-      // 삭제
+      // 비활성화
       $('.seat[data-bus=' + bus + '][data-seat=' + seat + ']').removeClass('active');
       $('#addedInfo .reserve[data-seat=' + seat + ']').remove();
 
       // 예약 내용이 없으면 예약 확정 버튼 삭제
       if ($('#addedInfo .reserve').length == 0) $('.btn-reserve-confirm').hide();
     } else {
-      // 예약 활성화
+      // 활성화
+      $('.resIdx').each(function(n) {
+        if ($(this).val() != '') chk = true;
+      });
+      if ($(this).hasClass('reserved')) {
+        if (typeof $('.resIdx').css('display') != 'undefined' && chk == false) {
+          $.openMsgModal('예약중에는 수정을 할 수 없습니다.');
+          return false;
+        }
+        $('.btn-reserve-confirm').text('수정합니다');
+      } else {
+        if (chk == true) {
+          $.openMsgModal('수정중에는 예약을 할 수 없습니다.');
+          return false;
+        }
+      }
       $('.seat[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
+      $('html, body').animate( { scrollTop : $('#footer').offset().top }, 2000 ); // 하단으로 스크롤
       $.viewReserveInfo(resIdx, bus, seat); // 예약 정보
     }
   }).on('click', '.btn-reserve-confirm', function() {
@@ -615,8 +632,6 @@
 
   // 예약 정보
   $.viewReserveInfo = function(resIdx, bus, seat) {
-    var cnt = 0;
-    var selected = '';
     var clubIdx = $('input[name=clubIdx]').val();
 
     $.ajax({
@@ -624,13 +639,26 @@
       data: 'idx=' + $('input[name=noticeIdx]').val() + '&bus=' + bus + '&seat=' + seat + '&resIdx=' + resIdx,
       dataType: 'json',
       type: 'post',
+      beforeSend: function() {
+        $('#addedInfo').append('<img src="/public/images/ajax-loader.gif" class="ajax-loader">');
+      },
       success: function(reserveInfo) {
-        var header = '<div class="reserve" data-seat="' + seat + '"><input type="hidden" name="resIdx[]" value="' + resIdx + '">';
-        var busType = bus + '호차<input type="hidden" name="bus[]" value="' + bus + '"> ';
-        var selectSeat = reserveInfo.nowSeat + '번<input type="hidden" name="seat[]" value="' + seat + '"> ';
-        var location = '<select name="location[]" class="location">'; $.each(reserveInfo.location, function(i, v) { if (v == '') v = '승차위치'; cnt = i + 1; if (reserveInfo.reserve.loc == i || reserveInfo.userLocation == i) selected = ' selected'; else selected = ''; location += '<option' + selected + ' value="' + i + '">' + v + '</option>'; }); location += '</select> ';
+        var header = '<div class="reserve" data-seat="' + seat + '"><input type="hidden" name="resIdx[]" value="' + resIdx + '" class="resIdx">';
+        var location = '<select name="location[]" class="location">'; $.each(reserveInfo.location, function(i, v) { if (v == '') v = '승차위치'; location += '<option'; if ((reserveInfo.reserve.loc == '' && reserveInfo.userLocation == i) || (reserveInfo.reserve.loc != '' && reserveInfo.reserve.loc == i)) location += ' selected'; location += ' value="' + i + '">' + v + '</option>'; }); location += '</select> ';
         var memo = '<input type="text" name="memo[]" size="20" placeholder="요청사항" value="' + reserveInfo.reserve.memo + '">';
         var footer = '</div>';
+
+        if (resIdx != '') {
+          // 수정
+          var busType = '<select name="bus[]">'; $.each(reserveInfo.busType, function(i, v) { busType += '<option'; if ((i+1) == bus) busType += ' selected'; busType += ' value="' + (i+1) + '">' + (i+1) + '호차</option>'; }); busType += '</select> ';
+          var selectSeat = '<select name="seat[]">'; $.each(reserveInfo.seat, function(i, v) { selectSeat += '<option'; if ((i+1) == seat) selectSeat += ' selected'; selectSeat += ' value="' + (i+1) + '">' + (i+1) + '번</option>'; }); selectSeat += '</select> ';
+        } else {
+          // 등록
+          var busType = bus + '호차<input type="hidden" name="bus[]" value="' + bus + '"> ';
+          var selectSeat = reserveInfo.nowSeat + '번<input type="hidden" name="seat[]" value="' + seat + '"> ';
+        }
+
+        $('.ajax-loader').remove();
         $('#addedInfo').append(header + busType + selectSeat + location + memo + footer);
 
         // 예약 확정 버튼
@@ -783,6 +811,10 @@ $(document).on('click', '.btn-reply', function() {
     return false;
   }
 
+  if ($('.club-story-reply').val() == '') {
+    return false;
+  }
+
   $.ajax({
     url: $form.attr('action'),
     data: formData,
@@ -931,15 +963,13 @@ $(document).on('click', '.btn-reply', function() {
   });
 });
 
-$(window).on('load', function () {
-  $.loadStory();
-});
-
 $(window).scroll(function() {
   if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
     var paging = $('input[name=p]').val();
-    $('input[name=p]').val(Number(paging) + 1);
-    $.loadStory();
+    if (typeof paging != 'undefined') {
+      $('input[name=p]').val(Number(paging) + 1);
+      $.loadStory();
+    }
   }
 });
 

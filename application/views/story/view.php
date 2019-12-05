@@ -8,8 +8,7 @@
       <div class="club-main">
         <div class="your-story">
           <div class="story-article">
+            <?=$viewStory?>
           </div>
-          <input type="hidden" name="p" value="1">
-          <input type="hidden" name="n" value="<?=!empty($storyIdx) ? $storyIdx : ''?>">
         </div>
       </div>

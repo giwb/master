@@ -70,6 +70,7 @@
               <input type="hidden" name="page" value="story">
             </div>
           </form>
+          <?=$listStory?>
           <div class="story-article">
           </div>
           <input type="hidden" name="p" value="1">
