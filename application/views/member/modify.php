@@ -66,9 +66,9 @@
               <dd>
                 <div class="container">
                   <div class="row">
-                    <input type="text" name="phone1" maxlength="3" class="form-control col-sm-2 mr-2" value="<?=$viewMember['phone1']?>">
-                    <input type="text" name="phone2" maxlength="4" class="form-control col-sm-3 mr-2" value="<?=$viewMember['phone2']?>">
-                    <input type="text" name="phone3" maxlength="4" class="form-control col-sm-3 mr-2" value="<?=$viewMember['phone3']?>">
+                    <div class="col-sm-2 mr-2 p-0"><input type="text" name="phone1" maxlength="3" class="form-control" value="<?=$viewMember['phone1']?>"></div>
+                    <div class="col-sm-3 mr-2 p-0"><input type="text" name="phone2" maxlength="4" class="form-control" value="<?=$viewMember['phone2']?>"></div>
+                    <div class="col-sm-3 p-0"><input type="text" name="phone3" maxlength="4" class="form-control" value="<?=$viewMember['phone3']?>"></div>
                   </div>
                 </div>
               </dd>
