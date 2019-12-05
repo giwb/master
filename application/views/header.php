@@ -7,13 +7,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
   <meta name="robots" content="noindex">
+
   <meta property="og:title" content="경인웰빙" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="http://giwb.kr/" />
   <meta property="og:image" content="<?=base_url()?>public/images/logo.png" />
 
-  <link href="<?=base_url()?>public/images/favicon.png" rel="icon">
-  <link href="<?=base_url()?>public/images/apple-touch-icon.png" rel="apple-touch-icon">
+  <link rel="icon" type="image/png" href="<?=base_url()?>public/images/favicon.png">
+  <link rel="shortcut icon" type="image/png" href="<?=base_url()?>public/images/favicon.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="<?=base_url()?>public/images/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="<?=base_url()?>public/images/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="<?=base_url()?>public/images/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="<?=base_url()?>public/images/apple-touch-icon-180x180.png">
+  <link rel="apple-touch-icon" sizes="256x256" href="<?=base_url()?>public/images/apple-touch-icon-256x256.png">
+
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
   <link href="<?=base_url()?>public/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="<?=base_url()?>public/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
