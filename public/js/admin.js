@@ -67,6 +67,17 @@
         }, 3000);
       }
     });
+  }).on('click', '.logout', function() {
+    // 로그아웃
+    var base_url = $('input[name=base_url]').val();
+
+    $.ajax({
+      url: base_url + 'logout',
+      dataType: 'json',
+      success: function() {
+        location.href = (base_url);
+      }
+    });
   }).on('click', '.btn-member-delete-modal', function() {
     // 회원 삭제 모달
     $('#messageModal .modal-message').text('정말로 이 회원을 삭제하시겠습니까?');

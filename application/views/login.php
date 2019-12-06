@@ -21,7 +21,7 @@
                 <a href="<?=base_url()?>login/forgot/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">아이디/비밀번호 찾기</button></a>
               </div>
               <div class="col-sm-4 text-right">
-                <input type="hidden" name="redirect_url" value="<?=$redirect_url?>">
+                <input type="hidden" name="redirectUrl" value="<?=$redirect_url?>">
                 <button type="button" class="btn btn-primary btn-login">로그인</button>
               </div>
             </div>

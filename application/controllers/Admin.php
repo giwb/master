@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 // 관리 페이지 클래스
-class Admin extends CI_Controller
+class Admin extends Admin_Controller
 {
   function __construct()
   {

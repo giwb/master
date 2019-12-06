@@ -26,7 +26,7 @@ class Login extends CI_Controller
       $clubIdx = html_escape($clubIdx);
     }
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
-    $viewData['redirect_url'] = $this->input->get('r');
+    $viewData['redirect_url'] = html_escape($this->input->get('r'));
 
     $userid = html_escape($this->input->post('userid'));
     $password = html_escape($this->input->post('password'));
