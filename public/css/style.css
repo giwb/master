@@ -334,7 +334,7 @@ textarea.input {
 h1.nav-logo {
   font-size: 34px;
   font-weight: bold;
-  font-family: "Malgun Gothic";
+  font-family: "Noto Sans KR", "Malgun Gothic";
   margin: 12px 0 0 0;
   padding: 0px;
   float: left;
@@ -1939,6 +1939,7 @@ h1.nav-logo small {
 #club .club-main .story-reaction .area-share ul { font-size: 12px; background-color: #fff; border: 1px solid #d9d9d9; padding: 10px 19px 5px 19px; display: table; }
 #club .club-main .story-reaction .area-share ul li { width: 58px; display: table-cell; text-align: center; white-space: nowrap; }
 #club .club-main .story-reaction .area-share input { font-size: 10px; }
+#club .club-main .sub-contents .story-reaction { margin-top: 20px; }
 #club .club-main .story-reply { font-size: 14px; margin: 10px 0; display: none; }
 #club .club-main .story-article .story-reply, #club .club-main .story-reply.reply-type-2 { display: block; }
 #club .club-main .story-article { margin-top: -10px; }
