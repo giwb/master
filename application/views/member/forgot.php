@@ -103,10 +103,10 @@
               <dt>전화번호</dt>
               <dd>
                 <div class="container">
-                  <div class="row">
-                    <input type="text" name="phone1" maxlength="3" class="form-control col-sm-2 mr-2">
-                    <input type="text" name="phone2" maxlength="4" class="form-control col-sm-3 mr-2">
-                    <input type="text" name="phone3" maxlength="4" class="form-control col-sm-3 mr-2">
+                  <div class="row w-100">
+                    <div class="col-sm-2 mr-2 p-0"><input type="text" name="phone1" maxlength="3" class="form-control"></div>
+                    <div class="col-sm-3 mr-2 p-0"><input type="text" name="phone2" maxlength="4" class="form-control"></div>
+                    <div class="col-sm-3 p-0"><input type="text" name="phone3" maxlength="4" class="form-control"></div>
                   </div>
                 </div>
               </dd>
