@@ -2046,8 +2046,8 @@ h1.nav-logo small {
 #loginModal .modal-footer div button { font-size: 14px!important; }
 
 /* Member Entry Page */
-.memberForm { width: 100%; margin: 0 auto 50px; }
-.memberForm h2 { text-align: center; border-bottom: 1px solid #999; margin: 0 0 20px; padding: 0 0 20px; }
+.memberForm { width: 100%; margin: 0 auto 50px; font-size: 14px; }
+.memberForm h2 { font-size: 22px; text-align: center; border-bottom: 1px solid #999; margin: 0 0 20px; padding: 0 0 20px; }
 .memberForm h3 { font-size: 16px; border-bottom: 1px solid #999; margin: 30px 0 0 0; padding: 0 0 10px 0; }
 .memberForm dl { width: 90%; display: table; margin: 10px auto; }
 .memberForm dl dt { width: 20%; display: table-cell; margin: 5px 0; vertical-align: middle; }

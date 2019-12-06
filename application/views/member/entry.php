@@ -37,20 +37,20 @@
               <dt>생년월일</dt>
               <dd>
                 <div class="container mb-2">
-                  <div class="row">
-                    <select name="birthday_year" class="form-control col-sm-5 mr-2">
+                  <div class="row w-100">
+                    <select name="birthday_year" class="form-control col-sm-5 mr-2 pl-1">
                       <option value=''>--</option>
                     <?php foreach (range(date('Y'), 1900) as $value): ?>
                       <option value='<?=$value?>'><?=$value?>년</option>
                     <?php endforeach; ?>
                     </select>
-                    <select name="birthday_month" class="form-control col-sm-3 mr-2">
+                    <select name="birthday_month" class="form-control col-sm-3 mr-2 pl-1">
                       <option value=''>--</option>
                     <?php foreach (range(1, 12) as $value): ?>
                       <option value='<?=$value?>'><?=$value?>월</option>
                     <?php endforeach; ?>
                     </select>
-                    <select name="birthday_day" class="form-control col-sm-3 mr-2">
+                    <select name="birthday_day" class="form-control col-sm-3 mr-2 pl-1">
                       <option value=''>--</option>
                     <?php foreach (range(1, 31) as $value): ?>
                       <option value='<?=$value?>'><?=$value?>일</option>
@@ -66,10 +66,10 @@
               <dt>전화번호</dt>
               <dd>
                 <div class="container">
-                  <div class="row">
-                    <input type="text" name="phone1" maxlength="3" class="form-control col-sm-2 mr-2">
-                    <input type="text" name="phone2" maxlength="4" class="form-control col-sm-3 mr-2">
-                    <input type="text" name="phone3" maxlength="4" class="form-control col-sm-3 mr-2">
+                  <div class="row w-100">
+                    <div class="col-sm-2 mr-2 p-0"><input type="text" name="phone1" maxlength="3" class="form-control"></div>
+                    <div class="col-sm-3 mr-2 p-0"><input type="text" name="phone2" maxlength="4" class="form-control"></div>
+                    <div class="col-sm-3 p-0"><input type="text" name="phone3" maxlength="4" class="form-control"></div>
                   </div>
                 </div>
               </dd>

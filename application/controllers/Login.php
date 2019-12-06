@@ -202,6 +202,75 @@ class Login extends CI_Controller
   }
 
   /**
+   * 아이디 찾기
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function search_id()
+  {
+    $clubIdx        = html_escape($this->input->post('clubIdx'));
+    $realname       = html_escape($this->input->post('realname'));
+    $gender         = html_escape($this->input->post('gender'));
+    $birthday_year  = html_escape($this->input->post('birthday_year'));
+    $birthday_month = html_escape($this->input->post('birthday_month'));
+    $birthday_day   = html_escape($this->input->post('birthday_day'));
+    $phone1         = html_escape($this->input->post('phone1'));
+    $phone2         = html_escape($this->input->post('phone2'));
+    $phone3         = html_escape($this->input->post('phone3'));
+
+    $userData = $this->member_model->searchId($clubIdx, $realname, $gender, $birthday_year . '/' . $birthday_month . '/' . $birthday_day, $phone1 . '-' . $phone2 . '-' . $phone3);
+
+    if (empty($userData['userid'])) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_search_id'));
+    } elseif (!empty($userData['quit'])) {
+      $result = array('error' => 1, 'message' => $this->lang->line('msg_quit_member'));
+    } else {
+      $result = array('error' => 0, 'message' => '회원님의 아이디는 ' . $userData['userid'] . ' 입니다.');
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 비밀번호 변경
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function change_pw()
+  {
+    $clubIdx        = html_escape($this->input->post('clubIdx'));
+    $userid         = html_escape($this->input->post('userid'));
+    $realname       = html_escape($this->input->post('realname'));
+    $gender         = html_escape($this->input->post('gender'));
+    $birthday_year  = html_escape($this->input->post('birthday_year'));
+    $birthday_month = html_escape($this->input->post('birthday_month'));
+    $birthday_day   = html_escape($this->input->post('birthday_day'));
+    $phone1         = html_escape($this->input->post('phone1'));
+    $phone2         = html_escape($this->input->post('phone2'));
+    $phone3         = html_escape($this->input->post('phone3'));
+    $updateValues['password'] = html_escape($this->input->post('password'));
+
+    // 에러 메세지
+    $result = array('error' => 1, 'message' => $this->lang->line('error_search_id'));
+
+    // 해당 회원이 있는지 검색
+    $userData = $this->member_model->searchId($clubIdx, $realname, $gender, $birthday_year . '/' . $birthday_month . '/' . $birthday_day, $phone1 . '-' . $phone2 . '-' . $phone3, $userid);
+
+    if (!empty($userData['idx']) && !empty($updateValues['password'])) {
+      // 비밀번호 변경
+      $rtn = $this->member_model->updateMember($updateValues, $clubIdx, $userData['idx']);
+
+      if (!empty($rtn)) {
+        $result = array('error' => 0, 'message' => $this->lang->line('msg_change_password'));
+      }
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 페이지 표시
    *
    * @param $viewPage
