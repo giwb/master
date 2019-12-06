@@ -98,11 +98,11 @@ if (!function_exists('checkAdminLogin')) {
 if (!function_exists('viewStatus')) {
   function viewStatus($status=0) {
     switch ($status) {
-      case STATUS_ABLE:     $result = '예정'; break;
-      case STATUS_CONFIRM:  $result = '확정'; break;
-      case STATUS_CANCEL:   $result = '취소'; break;
-      case STATUS_CLOSED:   $result = '종료'; break;
-      default:              $result = '계획'; break;
+      case STATUS_ABLE:     $result = '<span class="status-wait">[예정]</span>'; break;
+      case STATUS_CONFIRM:  $result = '<span class="status-confirm">[확정]</span>'; break;
+      case STATUS_CANCEL:   $result = '[취소]'; break;
+      case STATUS_CLOSED:   $result = '[종료]'; break;
+      default:              $result = '[계획]'; break;
     }
     return $result;
   }
