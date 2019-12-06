@@ -31,7 +31,7 @@ class Club extends MY_Controller
     $viewData['listNoticeCalendar'] = $this->reserve_model->listNotice($clubIdx);
 
     // 캘린더 설정
-    $listCalendar = $this->club_model->listCalendar();
+    $listCalendar = $this->admin_model->listCalendar();
 
     foreach ($listCalendar as $key => $value) {
       if ($value['holiday'] == 1) {
