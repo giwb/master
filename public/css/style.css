@@ -1893,10 +1893,10 @@ h1.nav-logo small {
 #club { width: 100%; margin: 0 0 30px 0; padding-top: 90px; }
 #club a:link, #club a:active, #club a:visited { color: #FF6C00; }
 #club a:hover { color: #0AB031; }
-#club .container { display: flex; display: -webkit-flex; }
-#club .club-left { flex: 1; -webkit-flex: 1; }
-#club .club-main { flex: 3; -webkit-flex: 3; margin: 0 20px; }
-#club .club-right { flex: 1; -webkit-flex: 1; }
+#club .container { max-width: 1200px!important; display: table; }
+#club .club-left { width: 230px; display: table-cell; }
+#club .club-main { width: 740px; display: table-cell; padding: 0 18px; }
+#club .club-right { width: 230px; display: table-cell; }
 
 #club .club-left .club-left-layer { position: fixed; }
 #club .club-left .club-header img { max-width: 200px; vertical-align: middle; margin-bottom: 10px; }
