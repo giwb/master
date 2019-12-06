@@ -62,6 +62,8 @@ class Club_model extends CI_Model
           ->order_by('nickname', 'asc');
     return $this->db->get()->result_array();
   }
+
+  // 백산백소 닉네임별 정보
   public function listAuthNotice($nickname)
   {
     $this->db->select('a.*')

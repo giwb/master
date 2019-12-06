@@ -350,5 +350,12 @@ class Admin_model extends CI_Model
           ->order_by('idx', 'asc');
     return $this->db->get()->result_array();
   }
+
+  // 캘린더 설정
+  public function listCalendar()
+  {
+    $this->db->select('*')->from(DB_CALENDAR);
+    return $this->db->get()->result_array();
+  }
 }
 ?>

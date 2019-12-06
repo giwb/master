@@ -2,49 +2,42 @@
 
       <script type="text/javascript">
         $(document).ready(function() {
-          var date = new Date();
-          var d = date.getDate();
-          var m = date.getMonth();
-          var y = date.getFullYear();
-
-          /* initialize the calendar
-          -----------------------------------------------------------------*/
           $('#calendar').fullCalendar({
             header: {
               left: 'prev',
               center: 'title',
               right: 'next'
             },
-            selectable: true,
-            selectHelper: true,
-            editable: false,
-            eventLimit: true, // allow "more" link when too many events
-            columnFormat: {
-                      month: 'ddd',
-                      week: 'ddd d',
-                      day: 'dddd M/d',
-                      agendaDay: 'dddd d'
-                  },
-                  titleFormat: {
-                      month: 'yyyy년 MMMM',
-                      week: "yyyy년 MMMM",
-                      day: 'yyyy년 MMMM'
-                  },
+            titleFormat: {
+              month: 'yyyy년 MMMM',
+              week: "yyyy년 MMMM",
+              day: 'yyyy년 MMMM'
+            },
             events: [
               <?php
-                foreach ($listNoticeCalendar as $value) {
+                foreach ($listNoticeCalendar as $value):
                   $startDate = strtotime($value['startdate']);
                   $endDate = calcEndDate($value['startdate'], $value['schedule']);
+                  if ($value['status'] == 'schedule'):
               ?>
               {
-                title: '[<?=viewStatus($value['status'])?>]<?=$value['mname']?>',
+                title: '<?=$value['mname']?>',
                 start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>T00:00:00'),
+                end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>T23:59:59'),
+                url: 'javascript:;',
+                className: '<?=$value['class']?>'
+              },
+              <?php else: ?>
+              {
+                title: '[<?=viewStatus($value['status'])?>]<?=$value['mname']?>',
+                start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>T00:00:01'),
                 end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>T23:59:59'),
                 url: '<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$value['idx']?>',
                 className: 'notice-status<?=$value['status']?>'
               },
               <?php
-                }
+                  endif;
+                endforeach;
               ?>
             ]
           });

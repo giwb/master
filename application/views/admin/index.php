@@ -2,90 +2,43 @@
 
     <script>
       $(document).ready(function() {
-        var date = new Date();
-        var d = date.getDate();
-        var m = date.getMonth();
-        var y = date.getFullYear();
-
-        /* initialize the calendar
-        -----------------------------------------------------------------*/
-        var calendar =  $('#calendar').fullCalendar({
+        $('#calendar').fullCalendar({
           header: {
             left: 'prev',
             center: 'title',
             right: 'next'
           },
-          editable: false,
-          selectable: false,
-          defaultView: 'month',
-          axisFormat: 'h:mm',
-          columnFormat: {
-                    month: 'ddd',
-                    week: 'ddd d',
-                    day: 'dddd M/d',
-                    agendaDay: 'dddd d'
-                },
-                titleFormat: {
-                    month: 'yyyy년 MMMM',
-                    week: "yyyy년 MMMM",
-                    day: 'yyyy년 MMMM'
-                },
-          allDaySlot: false,
-          selectHelper: true,
-          select: function(start, end, allDay) {
-            var title = prompt('Event Title:');
-            if (title) {
-              calendar.fullCalendar('renderEvent',
-                {
-                  title: title,
-                  start: start,
-                  end: end,
-                  allDay: allDay
-                },
-                true // make the event "stick"
-              );
-            }
-            calendar.fullCalendar('unselect');
-          },
-          droppable: false, // this allows things to be dropped onto the calendar !!!
-          drop: function(date, allDay) { // this function is called when something is dropped
-
-            // retrieve the dropped element's stored Event Object
-            var originalEventObject = $(this).data('eventObject');
-
-            // we need to copy it, so that multiple events don't have a reference to the same object
-            var copiedEventObject = $.extend({}, originalEventObject);
-
-            // assign it the date that was reported
-            copiedEventObject.start = date;
-            copiedEventObject.allDay = allDay;
-
-            // render the event on the calendar
-            // the last `true` argument determines if the event "sticks" (https://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-            $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-
-            // is the "remove after drop" checkbox checked?
-            if ($('#drop-remove').is(':checked')) {
-              // if so, remove the element from the "Draggable Events" list
-              $(this).remove();
-            }
+          titleFormat: {
+            month: 'yyyy년 MMMM',
+            week: "yyyy년 MMMM",
+            day: 'yyyy년 MMMM'
           },
           events: [
-<?php
-  foreach ($listNotice as $value) {
-    $startDate = strtotime($value['startdate']);
-    $endDate = calcEndDate($value['startdate'], $value['schedule']);
-?>
+            <?php
+              foreach ($listNotice as $value):
+                $startDate = strtotime($value['startdate']);
+                $endDate = calcEndDate($value['startdate'], $value['schedule']);
+                if ($value['status'] == 'schedule'):
+            ?>
+            {
+              title: '<?=$value['mname']?>',
+              start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>T00:00:00'),
+              end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>T23:59:59'),
+              url: 'javascript:;',
+              className: '<?=$value['class']?>'
+            },
+            <?php else: ?>
             {
               title: '[<?=viewStatus($value['status'])?>] <?=$value['mname']?>',
-              start: new Date('<?=date('Y', $startDate)?>/<?=date('m', $startDate)?>/<?=date('d', $startDate)?>/00:00:00'),
+              start: new Date('<?=date('Y', $startDate)?>/<?=date('m', $startDate)?>/<?=date('d', $startDate)?>/00:00:01'),
               end: new Date('<?=date('Y', $endDate)?>/<?=date('m', $endDate)?>/<?=date('d', $endDate)?>/23:59:59'),
               url: '<?=base_url()?>admin/main_view_progress/<?=$value['idx']?>',
               className: 'notice-status<?=$value['status']?>'
             },
-<?php
-  }
-?>
+            <?php
+                endif;
+              endforeach;
+            ?>
           ],
         });
       });

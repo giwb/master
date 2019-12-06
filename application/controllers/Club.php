@@ -9,7 +9,7 @@ class Club extends MY_Controller
     parent::__construct();
     $this->load->helper(array('cookie', 'security', 'url', 'my_array_helper'));
     $this->load->library(array('image_lib', 'session'));
-    $this->load->model(array('area_model', 'club_model', 'file_model', 'notice_model', 'member_model', 'reserve_model', 'story_model'));
+    $this->load->model(array('admin_mode', 'area_model', 'club_model', 'file_model', 'notice_model', 'member_model', 'reserve_model', 'story_model'));
   }
 
   /**
@@ -29,6 +29,26 @@ class Club extends MY_Controller
 
     // 등록된 산행 목록
     $viewData['listNoticeCalendar'] = $this->reserve_model->listNotice($clubIdx);
+
+    // 캘린더 설정
+    $listCalendar = $this->club_model->listCalendar();
+
+    foreach ($listCalendar as $key => $value) {
+      if ($value['holiday'] == 1) {
+        $class = 'holiday';
+      } else {
+        $class = 'dayname';
+      }
+      $viewData['listNoticeCalendar'][] = array(
+        'idx' => 0,
+        'startdate' => $value['nowdate'],
+        'enddate' => $value['nowdate'],
+        'schedule' => 0,
+        'status' => 'schedule',
+        'mname' => $value['dayname'],
+        'class' => $class,
+      );
+    }
 
     // 최초 스토리 로딩
     $paging['perPage'] = 5;

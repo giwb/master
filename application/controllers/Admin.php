@@ -22,6 +22,26 @@ class Admin extends CI_Controller
     // 등록된 산행 목록
     $viewData['listNotice'] = $this->admin_model->listNotice();
 
+    // 캘린더 설정
+    $listCalendar = $this->admin_model->listCalendar();
+
+    foreach ($listCalendar as $key => $value) {
+      if ($value['holiday'] == 1) {
+        $class = 'holiday';
+      } else {
+        $class = 'dayname';
+      }
+      $viewData['listNotice'][] = array(
+        'idx' => 0,
+        'startdate' => $value['nowdate'],
+        'enddate' => $value['nowdate'],
+        'schedule' => 0,
+        'status' => 'schedule',
+        'mname' => $value['dayname'],
+        'class' => $class,
+      );
+    }
+
     // 현재 회원수
     $viewData['cntTotalMember'] = $this->admin_model->cntTotalMember();
     // 다녀온 산행횟수

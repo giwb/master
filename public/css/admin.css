@@ -12102,6 +12102,8 @@ body.sidebar-toggled footer.sticky-footer {
 .fc-event.notice-status8 { background-color: #EFEFEF!important; }
 .fc-event.notice-status8 .fc-event-title { color: #999; text-decoration: line-through; }
 .fc-event.notice-status9 { background-color: #EFEFEF!important; }
+.fc-event.holiday { color: #fff!important; background-color: #dc3545!important; }
+.fc-event.dayname { color: #fff!important; background-color: #999!important; }
 
 .sub-contents { margin-bottom: 100px; }
 .sub-contents h2 { font-size: 20px; font-family: "Malgun Gothic"; font-weight: bold; }
