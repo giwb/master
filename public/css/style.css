@@ -2010,7 +2010,7 @@ h1.nav-logo small {
 #club .sub-contents #reserveForm { text-align: center; margin: 10px 0; }
 #club .sub-contents #reserveForm .btn-reserve-confirm { display: none; }
 #club .sub-contents #addedInfo .reserve { font-size: 12px; background-color: #fff; border: 1px solid #999; margin: 10px 0; padding: 0.5rem 0.3rem; }
-#club .sub-contents #addedInfo .reserve input, #club .sub-contents #addedInfo .reserve select { font-size: 12px; }
+#club .sub-contents #addedInfo .reserve input, #club .sub-contents #addedInfo .reserve select { font-size: 12px; background-color: #fff; }
 #club .sub-contents #addedInfo .reserve input { padding: 2px 4px; }
 #club .sub-contents #addedInfo .reserve input[type=checkbox] { margin: 3px 2px 0 4px; vertical-align: top; }
 #club .sub-contents #addedInfo .reserve select { padding: 3px 2px; }
@@ -2151,7 +2151,7 @@ h1.nav-logo small {
 
   #club .sub-contents .area-bus-table table td { font-size: 11px; padding: 10px 2px; }
   #club .sub-contents .area-bus-table input.seat { font-size: 10px; padding: 0px; }
-  #club .sub-contents #addedInfo .reserve select, #addedInfo .reserve input { font-size: 12px; }
+  #addedInfo .reserve input, #club .sub-contents #addedInfo .reserve select { font-size: 12px; }
 
   #club .club-main .sub-content { width: 100%; }
   #club .club-main .sub-photo img { max-width: 100%; }

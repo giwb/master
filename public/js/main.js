@@ -546,7 +546,7 @@
         }
       }
       $('.seat[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
-      $('html, body').animate( { scrollTop : $('#reserveForm').offset().top }, 2000 ); // 하단으로 스크롤
+      $('html, body').animate( { scrollTop : $('#reserveForm').offset().top - 200 }, 2000 ); // 하단으로 스크롤
       $.viewReserveInfo(resIdx, bus, seat); // 예약 정보
     }
   }).on('click', '.btn-reserve-confirm', function() {
