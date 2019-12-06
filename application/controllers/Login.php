@@ -25,6 +25,9 @@ class Login extends CI_Controller
     } else {
       $clubIdx = html_escape($clubIdx);
     }
+
+    checkUserLoginRedirect($clubIdx); // 로그인 상태의 회원은 메인 페이지로
+
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
     $viewData['redirect_url'] = html_escape($this->input->get('r'));
 
@@ -156,6 +159,8 @@ class Login extends CI_Controller
       $clubIdx = html_escape($clubIdx);
     }
 
+    checkUserLoginRedirect($clubIdx); // 로그인 상태의 회원은 메인 페이지로
+
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
     $this->_viewPage('member/entry', $viewData);
   }
@@ -213,6 +218,14 @@ class Login extends CI_Controller
    **/
   public function forgot($clubIdx)
   {
+    if (is_null($clubIdx)) {
+      $clubIdx = 1; // 최초는 경인웰빙
+    } else {
+      $clubIdx = html_escape($clubIdx);
+    }
+
+    checkUserLoginRedirect($clubIdx); // 로그인 상태의 회원은 메인 페이지로
+
     $viewData['view'] = $this->club_model->viewclub($clubIdx);
     $this->_viewPage('member/forgot', $viewData);
   }

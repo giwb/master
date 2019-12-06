@@ -8,7 +8,7 @@ class Club extends MY_Controller
   {
     parent::__construct();
     $this->load->helper(array('cookie', 'security', 'url', 'my_array_helper'));
-    $this->load->library(array('image_lib', 'session'));
+    $this->load->library('image_lib');
     $this->load->model(array('admin_model', 'area_model', 'club_model', 'file_model', 'notice_model', 'member_model', 'reserve_model', 'story_model'));
   }
 

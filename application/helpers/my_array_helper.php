@@ -71,6 +71,17 @@ if (!function_exists('checkUserLogin')) {
   }
 }
 
+// 로그인이 필요없는 페이지에 로그인 했을 경우 메인 페이지로 되돌리기
+if (!function_exists('checkUserLoginRedirect')) {
+  function checkUserLoginRedirect($clubIdx) {
+    $CI =& get_instance();
+    $idx = $CI->session->userData['idx'];
+    if (!empty($clubIdx) && !empty($idx)) {
+      redirect(base_url() . $clubIdx);
+    }
+  }
+}
+
 // 관리자 로그인 확인
 if (!function_exists('checkAdminLogin')) {
   function checkAdminLogin() {
