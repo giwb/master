@@ -8,7 +8,7 @@ class Login extends CI_Controller
   {
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
-    $this->load->library('session');
+    $this->load->library(array('image_lib', 'session'));
     $this->load->model(array('club_model', 'file_model', 'member_model', 'reserve_model'));
   }
 
@@ -47,6 +47,22 @@ class Login extends CI_Controller
       } else {
         // 로그인 성공
         $this->session->set_userdata('userData', $userData);
+
+        // 아이콘 사이즈 변경 (가로 사이즈가 200보다 클 경우)
+        $filename = PHOTO_PATH . $userData['idx'];
+        if (file_exists($filename)) {
+          $size = getImageSize($filename);
+          if ($size[0] > 200) {
+            $this->image_lib->clear();
+            $config['image_library'] = 'gd2';
+            $config['source_image'] = $filename;
+            $config['maintain_ratio'] = FALSE;
+            $config['width'] = 200;
+            $config['height'] = 200;
+            $this->image_lib->initialize($config);
+            $this->image_lib->resize();
+          }
+        }
 
         $result = array(
           'error' => 0,
@@ -250,7 +266,7 @@ class Login extends CI_Controller
     $phone1         = html_escape($this->input->post('phone1'));
     $phone2         = html_escape($this->input->post('phone2'));
     $phone3         = html_escape($this->input->post('phone3'));
-    $updateValues['password'] = html_escape($this->input->post('password'));
+    $updateValues['password'] = md5(html_escape($this->input->post('password')));
 
     // 에러 메세지
     $result = array('error' => 1, 'message' => $this->lang->line('error_search_id'));
