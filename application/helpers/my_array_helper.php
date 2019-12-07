@@ -454,7 +454,11 @@ if (!function_exists('getReserve')) {
         } else {
           $value['class'] = '';
         }
-        $value['class'] .= ' reserved';
+        if ($value['status'] == 1) {
+          $value['class'] .= '';
+        } else {
+          $value['class'] .= ' reserved';
+        }
         $result = $value;
       }
       $checkGender[$value['bus']][$value['seat']] = $value['gender'];
