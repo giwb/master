@@ -182,7 +182,7 @@ class Login extends CI_Controller
       'realname'      => html_escape($inputData['realname']),
       'gender'        => html_escape($inputData['gender']),
       'birthday'      => html_escape($inputData['birthday_year']) . '/' . html_escape($inputData['birthday_month']) . '/' . html_escape($inputData['birthday_day']),
-      /*'birthday_type' => html_escape($inputData['birthday_type']),*/
+      'birthday_type' => html_escape($inputData['birthday_type']),
       'phone'         => html_escape($inputData['phone1']) . '-' . html_escape($inputData['phone2']) . '-' . html_escape($inputData['phone3']),
       'regdate'       => time()
     );

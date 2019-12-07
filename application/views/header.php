@@ -73,7 +73,11 @@
 <?php else: ?>
             <!--<li><button class="search-btn"><i class="fa fa-search"></i></button></li>-->
             <li>
-              <img class="img-profile" src="<?=base_url()?>public/photos/<?=$userData['idx']?>">
+            <?php if (file_exists(PHOTO_PATH . $userData['idx'])): ?>
+            <img class="img-profile" src="<?=base_url()?>public/photos/<?=$userData['idx']?>">
+            <?php else: ?>
+            <img class="img-profile" src="<?=base_url()?>public/images/user.png">
+            <?php endif; ?>
               <div class="profile-box">
                 <strong><?=$userData['nickname']?></strong> (<?=$userLevel['levelName']?>)<hr>
                 <a href="<?=base_url()?>member/<?=$view['idx']?>">마이페이지</a><br>
@@ -94,8 +98,14 @@
       </div>
       <div id="nav-aside">
         <ul class="nav-aside-menu">
-<?php if ($userData['idx'] != ''): ?>
-          <li><img class="img-profile" src="<?=base_url()?>public/photos/<?=$userData['idx']?>"><span class="header-nickname"><?=$userData['nickname']?> (<?=$userLevel['levelName']?>)</span></li>
+<?php if (!empty($userData['idx'])): ?>
+          <li>
+            <?php if (file_exists(PHOTO_PATH . $userData['idx'])): ?>
+            <img class="img-profile" src="<?=base_url()?>public/photos/<?=$userData['idx']?>">
+            <?php else: ?>
+            <img class="img-profile" src="<?=base_url()?>public/images/user.png">
+            <?php endif; ?>
+            <span class="header-nickname"><?=$userData['nickname']?> (<?=$userLevel['levelName']?>)</span></li>
 <?php else: ?>
           <li><p>&nbsp;</p></li>
 <?php endif; ?>

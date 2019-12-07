@@ -204,7 +204,7 @@ class Admin_model extends CI_Model
   {
     $this->db->select('*')
           ->from(DB_MEMBER)
-          ->order_by('regdate', 'desc');
+          ->order_by('idx', 'desc');
     return $this->db->get()->result_array();
   }
 
