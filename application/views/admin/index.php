@@ -1,48 +1,48 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-    <script>
-      $(document).ready(function() {
-        $('#calendar').fullCalendar({
-          header: {
-            left: 'prev',
-            center: 'title',
-            right: 'next'
-          },
-          titleFormat: {
-            month: 'yyyy년 MMMM',
-            week: "yyyy년 MMMM",
-            day: 'yyyy년 MMMM'
-          },
-          events: [
-            <?php
-              foreach ($listNotice as $value):
-                $startDate = strtotime($value['startdate']);
-                $endDate = calcEndDate($value['startdate'], $value['schedule']);
-                if ($value['status'] == 'schedule'):
-            ?>
-            {
-              title: '<?=$value['mname']?>',
-              start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>T00:00:00'),
-              end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>T23:59:59'),
-              url: 'javascript:;',
-              className: '<?=$value['class']?>'
-            },
-            <?php else: ?>
-            {
-              title: '[<?=viewStatus($value['status'])?>] <?=$value['mname']?>',
-              start: new Date('<?=date('Y', $startDate)?>/<?=date('m', $startDate)?>/<?=date('d', $startDate)?>/00:00:01'),
-              end: new Date('<?=date('Y', $endDate)?>/<?=date('m', $endDate)?>/<?=date('d', $endDate)?>/23:59:59'),
-              url: '<?=base_url()?>admin/main_view_progress/<?=$value['idx']?>',
-              className: 'notice-status<?=$value['status']?>'
-            },
-            <?php
-                endif;
-              endforeach;
-            ?>
-          ],
-        });
-      });
-    </script>
+          <script>
+            $(document).ready(function() {
+              $('#calendar').fullCalendar({
+                header: {
+                  left: 'prev',
+                  center: 'title',
+                  right: 'next'
+                },
+                titleFormat: {
+                  month: 'yyyy년 MMMM',
+                  week: "yyyy년 MMMM",
+                  day: 'yyyy년 MMMM'
+                },
+                events: [
+                  <?php
+                    foreach ($listNotice as $value):
+                      $startDate = strtotime($value['startdate']);
+                      $endDate = calcEndDate($value['startdate'], $value['schedule']);
+                      if ($value['status'] == 'schedule'):
+                  ?>
+                  {
+                    title: '<?=$value['mname']?>',
+                    start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>T00:00:00'),
+                    end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>T23:59:59'),
+                    url: 'javascript:;',
+                    className: '<?=$value['class']?>'
+                  },
+                  <?php else: ?>
+                  {
+                    title: '<?=$value['starttime']?>\n<?=$value['mname']?>',
+                    start: new Date('<?=date('Y', $startDate)?>/<?=date('m', $startDate)?>/<?=date('d', $startDate)?>/00:00:01'),
+                    end: new Date('<?=date('Y', $endDate)?>/<?=date('m', $endDate)?>/<?=date('d', $endDate)?>/23:59:59'),
+                    url: '<?=base_url()?>admin/main_view_progress/<?=$value['idx']?>',
+                    className: 'notice-status<?=$value['status']?>'
+                  },
+                  <?php
+                      endif;
+                    endforeach;
+                  ?>
+                ],
+              });
+            });
+          </script>
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">

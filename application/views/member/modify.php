@@ -77,8 +77,8 @@
               <dt>주 승차위치</dt>
               <dd>
                 <select name="location" class="form-control">
-                  <?php foreach (arrLocation() as $key => $value): ?>
-                  <option<?=$viewMember['location'] == $key ? ' selected' : ''?> value='<?=$key?>'><?=$value?></option>
+                  <?php foreach (arrLocation() as $value): ?>
+                  <option<?=$viewMember['location'] == $value['no'] ? ' selected' : ''?> value='<?=$value['no']?>'><?=$value['title']?></option>
                   <?php endforeach; ?>
                 </select>
               </dd>

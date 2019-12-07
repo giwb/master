@@ -245,10 +245,147 @@ class Admin extends Admin_Controller
     $viewData['busType'] = getBusType($viewData['view']['bustype'], $viewData['view']['bus']);
 
     // 예약 정보
-    $viewData['reservation'] = $this->admin_model->viewProgress($idx);
+    $viewData['reserve'] = $this->admin_model->viewProgress($idx);
 
     $this->_viewPage('admin/main_view_progress', $viewData);
   }
+
+  /**
+   * 진행중 산행 : 승차관리
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function main_view_boarding($idx)
+  {
+    $idx = html_escape($idx);
+    $viewData['view'] = $this->admin_model->viewEntry($idx);
+
+    // 버스 형태별 좌석 배치
+    $viewData['busType'] = getBusType($viewData['view']['bustype'], $viewData['view']['bus']);
+
+    // 예약 정보
+    $viewData['reserve'] = $this->admin_model->viewProgress($idx);
+
+    // 시간별 승차위치
+    $listLocation = arrLocation($viewData['view']['starttime']);
+
+    foreach ($viewData['busType'] as $key1 => $bus) {
+      $busNumber = $key1 + 1;
+      foreach ($listLocation as $key2 => $value) {
+        $viewData['busType'][$key1]['listLocation'][] = $value;
+        $resData = $this->admin_model->listReserveLocation($idx, $busNumber, $value['no']);
+        foreach ($resData as $people) {
+          $viewData['busType'][$key1]['listLocation'][$key2]['nickname'][] = $people['nickname'];
+        }
+      }
+
+      // 포인트 결제
+      $viewData['busType'][$key1]['maxPoint'] = 0;
+      $viewData['busType'][$key1]['listPoint'] = array();
+      foreach ($viewData['reserve'] as $value) {
+        if ($value['bus'] == $busNumber && $value['point'] > 0) {
+          $viewData['busType'][$key1]['maxPoint']++;
+          $viewData['busType'][$key1]['listPoint'][] = array(
+            'seat' => $value['seat'],
+            'nickname' => $value['nickname'],
+            'point' => $value['point']
+          );
+        }
+      }
+      sort($viewData['busType'][$key1]['listPoint']);
+
+      // 요청사항
+      $viewData['busType'][$key1]['maxMemo'] = 0;
+      $viewData['busType'][$key1]['listMemo'] = array();
+      foreach ($viewData['reserve'] as $value) {
+        if ($value['bus'] == $busNumber && !empty($value['memo'])) {
+          $viewData['busType'][$key1]['maxMemo']++;
+          $viewData['busType'][$key1]['listMemo'][] = array(
+            'seat' => $value['seat'],
+            'nickname' => $value['nickname'],
+            'memo' => $value['memo']
+          );
+        }
+      }
+      sort($viewData['busType'][$key1]['listMemo']);
+    }
+
+    $this->_viewPage('admin/main_view_boarding', $viewData);
+  }
+
+  /**
+   * 진행중 산행 : 정산관리
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function main_view_adjust($idx)
+  {
+    $idx = html_escape($idx);
+    $viewData['view'] = $this->admin_model->viewEntry($idx);
+
+    $this->_viewPage('admin/main_view_adjust', $viewData);
+  }
+
+  /**
+   * 진행중 산행 : 문자양식
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function main_view_sms($idx)
+  {
+    $idx = html_escape($idx);
+    $viewData['view'] = $this->admin_model->viewEntry($idx);
+
+    // 총 버스 갯수
+    if (!empty($viewData['view']['bustype'])) {
+      $viewData['view']['busTotal'] = count(unserialize($viewData['view']['bustype']));
+    } else {
+      $viewData['view']['busTotal'] = 0;
+    }
+
+    // 문자양식 만들기
+    $list = $this->admin_model->listSMS($idx);
+
+    foreach ($list as $key => $value) {
+      $location = arrLocation($value['startdate']);
+      $viewData['list'][$key]['date'] = date('m/d', strtotime($value['startdate']));
+      $viewData['list'][$key]['week'] = calcWeek($value['startdate']);
+      $viewData['list'][$key]['dist'] = calcSchedule($value['schedule']);
+      $viewData['list'][$key]['subject'] = $value['subject'];
+      $viewData['list'][$key]['nickname'] = $value['nickname'];
+      $viewData['list'][$key]['bus'] = $value['nowbus'];
+      $viewData['list'][$key]['seat'] = $value['seat'];
+      $viewData['list'][$key]['time'] = $location[$value['loc']]['time'];
+      $viewData['list'][$key]['title'] = $location[$value['loc']]['title'];
+    }
+
+    $this->_viewPage('admin/main_view_sms', $viewData);
+  }
+
+  /**
+   * 진행중 산행 : 좌석변경
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  /*
+  public function main_view_seat($idx)
+  {
+    $idx = html_escape($idx);
+    $viewData['view'] = $this->admin_model->viewEntry($idx);
+
+    // 버스 형태별 좌석 배치
+    $viewData['busType'] = getBusType($viewData['view']['bustype'], $viewData['view']['bus']);
+
+    // 예약 정보
+    $viewData['reserve'] = $this->admin_model->viewProgress($idx);
+
+    $this->_viewPage('admin/main_view_seat', $viewData);
+  }
+  */
 
   /**
    * 다녀온 산행 목록
@@ -285,7 +422,7 @@ class Admin extends Admin_Controller
     // PHP Ver 5.x
     $syear = $this->input->get('syear') ? $this->input->get('syear') : date('Y');
     $smonth = $this->input->get('smonth') ? $this->input->get('syear') : date('m');
-    $viewData['list'] = $this->admin_model->listClosed($syear, $smonth, STATUS_CANCLE);
+    $viewData['list'] = $this->admin_model->listClosed($syear, $smonth, STATUS_CANCEL);
 
     $this->_viewPage('admin/main_list_canceled', $viewData);
   }
@@ -521,26 +658,6 @@ class Admin extends Admin_Controller
     }
 
     $this->output->set_output(json_encode($result));
-  }
-
-  /**
-   * 좌석 변경
-   *
-   * @return json
-   * @author bjchoi
-   **/
-  public function main_change_seat($idx)
-  {
-    $idx = html_escape($idx);
-    $viewData['view'] = $this->admin_model->viewEntry($idx);
-
-    // 버스 형태별 좌석 배치
-    $viewData['busType'] = getBusType($viewData['view']['bustype'], $viewData['view']['bus']);
-
-    // 예약 정보
-    $viewData['reservation'] = $this->admin_model->viewProgress($idx);
-
-    $this->_viewPage('admin/main_change_seat', $viewData);
   }
 
   /** ---------------------------------------------------------------------------------------

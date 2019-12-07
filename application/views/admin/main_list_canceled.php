@@ -16,7 +16,7 @@
 ?>
             <tr>
               <td>
-                <b>[<?=viewStatus($value['status'])?>]</b> <a href="#"><?=$value['subject']?></a><br>
+                <b><?=viewStatus($value['status'])?></b> <a href="#"><?=$value['subject']?></a><br>
                 <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / 예약인원 <?=cntRes($value['idx'])?>명
               </td>
               <td align="right">

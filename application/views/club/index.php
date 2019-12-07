@@ -29,7 +29,6 @@
               },
               <?php else: ?>
               {
-                /*title: '[<?=viewStatus($value['status'])?>]<?=$value['mname']?>',*/
                 title: '<?=$value['starttime']?>\n<?=$value['mname']?>',
                 start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>T00:00:01'),
                 end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>T23:59:59'),

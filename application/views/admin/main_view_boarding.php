@@ -3,7 +3,7 @@
     <div id="content-wrapper" class="d-flex flex-column">
       <div id="content">
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-          <h1 class="h3 mb-0 text-gray-800">진행중 산행 예약 관리</h1>
+          <h1 class="h3 mb-0 text-gray-800">진행중 산행 승차 관리</h1>
         </div>
       </div>
     </div>
@@ -17,8 +17,8 @@
       <div class="area-reservation">
         <div class="area-btn">
           <div class="float-left">
-            <a href="<?=base_url()?>admin/main_view_progress/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">예약관리</button></a>
-            <a href="<?=base_url()?>admin/main_view_boarding/<?=$view['idx']?>"><button type="button" class="btn btn-primary">승차관리</button></a>
+            <a href="<?=base_url()?>admin/main_view_progress/<?=$view['idx']?>"><button type="button" class="btn btn-primary">예약관리</button></a>
+            <a href="<?=base_url()?>admin/main_view_boarding/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">승차관리</button></a>
             <a href="<?=base_url()?>admin/main_view_sms/<?=$view['idx']?>"><button type="button" class="btn btn-primary">문자양식</button></a>
             <a href="<?=base_url()?>admin/main_view_adjust/<?=$view['idx']?>"><button type="button" class="btn btn-primary">정산관리</button></a>
           </div>
@@ -35,10 +35,7 @@
           </div>
         </div>
 
-        <?php
-          // 이번 산행에 등록된 버스 루프
-          foreach ($busType as $key => $value): $bus = $key + 1;
-        ?>
+        <?php foreach ($busType as $key => $value): $bus = $key + 1; // 이번 산행에 등록된 버스 루프 ?>
         <div class="area-bus-table">
           <table>
             <colgroup>
@@ -67,25 +64,58 @@
               <?php endif; ?>
               <?php
                   // 버스 형태 좌석 배치
+                  $maxRes = 0;
                   foreach (range(1, $value['seat']) as $seat):
                     $tableMake = getBusTableMake($value['seat'], $seat); // 버스 좌석 테이블 만들기
-                    $reserveInfo = getReserveAdmin($reserve, $bus, $seat, $userData, $view['status']); // 예약자 정보
+                    $reserveInfo = getReserveAdmin($reserve, $bus, $seat, $userData, $view['status'], 1); // 예약자 정보
                     $seatNumber = checkDirection($seat, $bus, $view['bustype'], $view['bus']);
+                    if (!empty($reserveInfo['idx'])) $maxRes++;
               ?>
                 <?=$tableMake?>
                 <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>" data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$seatNumber?></td>
-                <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>" data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$reserveInfo['nickname']?></td>
+                <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>" data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$reserveInfo['nickname'] != '예약가능' ? $reserveInfo['nickname'] : ''?></td>
               <?php endforeach; ?>
             </tbody>
           </table>
         </div>
+        <div class="area-boarding">
+          <div class="mb-2">■ <strong>승차위치</strong> (<?=number_format($maxRes)?>명)</div>
+          <?php
+            foreach ($value['listLocation'] as $cnt => $location):
+              if ($cnt == 0): $lastData = $location;
+              else:
+          ?>
+          <dl>
+            <dt><?=$location['time']?> <?=$location['stitle']?> (<?=!empty($location['nickname']) ? count($location['nickname']) : 0?>명)</dt>
+            <dd><?php if (!empty($location['nickname'])): foreach ($location['nickname'] as $n => $nickname): if ($n != 0): ?> / <?php endif; ?><?=$nickname?><?php endforeach; endif; ?></dd>
+          </dl>
+          <?php
+              endif;
+            endforeach;
+          ?>
+          <dl>
+            <dt>미지정 (<?=!empty($lastData['nickname']) ? count($lastData['nickname']) : 0?>명)</dt>
+            <dd><?php if (!empty($lastData['nickname'])): foreach ($lastData['nickname'] as $n => $nickname): if ($n != 0): ?> / <?php endif; ?><?=$nickname?><?php endforeach; endif; ?></dd>
+          </dl>
+        </div>
+        <div class="area-boarding">
+          <div class="mb-2">■ <strong>포인트 결제</strong> (<?=number_format($value['maxPoint'])?>명)</div>
+          <?php foreach ($value['listPoint'] as $point): ?>
+          <dl>
+            <dt><?=checkDirection($point['seat'], $bus, $view['bustype'], $view['bus'])?>. <?=$point['nickname']?></dt>
+            <dd><?=$point['point']?></dd>
+          </dl>
+          <?php endforeach; ?>
+        </div>
+        <div class="area-boarding">
+          <div class="mb-2">■ <strong>요청사항</strong> (<?=number_format($value['maxMemo'])?>명)</div>
+          <?php foreach ($value['listMemo'] as $memo): ?>
+          <dl>
+            <dt><?=checkDirection($memo['seat'], $bus, $view['bustype'], $view['bus'])?>. <?=$memo['nickname']?></dt>
+            <dd><?=$memo['memo']?></dd>
+          </dl>
+          <?php endforeach; ?>
+        </div>
         <?php endforeach; ?>
-
-        <form id="reserveForm" method="post" action="<?=base_url()?>admin/reserve_complete">
-          <div id="addedInfo"></div>
-          <input type="hidden" name="idx" value="<?=$view['idx']?>">
-          <button type="button" class="btn btn-primary btn-reserve-confirm">예약을 확정합니다</button>
-        </form>
-
       </div>
     </div>

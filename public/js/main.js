@@ -678,7 +678,7 @@
       },
       success: function(reserveInfo) {
         var header = '<div class="reserve" data-seat="' + seat + '"><input type="hidden" name="resIdx[]" value="' + resIdx + '" class="resIdx">';
-        var location = '<select name="location[]" class="location">'; $.each(reserveInfo.location, function(i, v) { if (v == '') v = '승차위치'; location += '<option'; if ((reserveInfo.reserve.loc == '' && reserveInfo.userLocation == i) || (reserveInfo.reserve.loc != '' && reserveInfo.reserve.loc == i)) location += ' selected'; location += ' value="' + i + '">' + v + '</option>'; }); location += '</select> ';
+        var location = '<select name="location[]" class="location">'; $.each(reserveInfo.location, function(i, v) { if (v == '') v.stitle = '승차위치'; location += '<option'; if ((reserveInfo.reserve.loc == '' && reserveInfo.userLocation == v.no) || (reserveInfo.reserve.loc != '' && reserveInfo.reserve.loc == v.no)) location += ' selected'; location += ' value="' + v.no + '">' + v.stitle + '</option>'; }); location += '</select> ';
         var memo = '<input type="text" name="memo[]" size="20" placeholder="요청사항" value="' + reserveInfo.reserve.memo + '">';
         var footer = '</div>';
 

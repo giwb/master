@@ -11347,6 +11347,8 @@ a:focus {
     font-size: 2rem;
   }
   .sidebar .sidebar-brand .sidebar-brand-text {
+    font-size: 1.3rem;
+    color: #fff;
     display: inline;
   }
   .sidebar .sidebar-heading {
@@ -12109,6 +12111,11 @@ body.sidebar-toggled footer.sticky-footer {
 .sub-contents h2 { font-size: 20px; font-family: "Malgun Gothic"; font-weight: bold; }
 .area-reservation { width: 680px; }
 .area-reservation .area-btn { height: 30px; margin: 20px 0 10px 0; }
+.area-boarding { width: 680px; margin: 20px 0; color: #333; }
+.area-boarding dl { width: 100%; font-size: 14px; border: 1px solid #999; border-width: 1px 1px 0 1px; margin: 0px; padding: 0px; display: table; }
+.area-boarding dl:last-child { border-bottom-width: 1px; }
+.area-boarding dl dt { width: 20%; background-color: #ddd; padding: 10px 0 10px 10px; display: table-cell; vertical-align: middle; }
+.area-boarding dl dd { width: 80%; background-color: #fff; padding: 10px; display: table-cell; vertical-align: middle; }
 
 .area-bus-table { padding-top: 20px; }
 .area-bus-table table { width: 100%; font-size: 14px; margin: 0px; }
@@ -12116,9 +12123,9 @@ body.sidebar-toggled footer.sticky-footer {
 .area-bus-table table th, .area-bus-table table td { padding: 0.5rem; vertical-align: middle; border: 1px solid #999; cursor: pointer; }
 .area-bus-table table td.table-blank { border: 0px; }
 .area-bus-table table tr:last-child td.table-blank { border-bottom: 1px solid #999; }
-.area-bus-table .male { background-color: #E5FAFF; }
-.area-bus-table .female { background-color: #FFEAFA; }
-.area-bus-table .active { background-color: #FFCC00; }
+.area-bus-table .male { color: #000; background-color: #E5FAFF; }
+.area-bus-table .female { color: #000; background-color: #FFEAFA; }
+.area-bus-table .active { color: #000; background-color: #FFCC00; }
 .area-bus-table input.seat { width: 20px; }
 
 #addedInfo .reserve { font-size: 12px; background-color: #fff; border: 1px solid #999; margin: 10px 0; padding: 0.5rem 0 0.3rem 0.5rem; }

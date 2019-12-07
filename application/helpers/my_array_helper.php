@@ -295,19 +295,23 @@ if (!function_exists('calcDistance')) {
 
 // 승차위치
 if (!function_exists('arrLocation')) {
-  function arrLocation() {
-    return array(
-      '',
-      '계산역 4번출구',
-      '작전역 5번출구',
-      '갈산역 4번출구',
-      '부평구청역 4번출구',
-      '삼산체육관 맞은편',
-      '부천터미널 소풍',
-      '복사골 문화센터',
-      '송내남부 맥도날드',
-      '원종동'
+  function arrLocation($starttime=NULL) {
+    if (!is_null($starttime)) {
+      $starttime = strtotime($starttime);
+    }
+    $result = array(
+      array('no' => '0', 'time' => '', 'title' => '', 'stitle' => ''),
+      array('no' => '1', 'time' => !is_null($starttime) ? date('H:i', $starttime) : '', 'title' => '계산역 4번출구', 'stitle' => '계산'),
+      array('no' => '2', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 4)) : '', 'title' => '작전역 5번출구', 'stitle' => '작전'),
+      array('no' => '3', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 8)) : '', 'title' => '갈산역 4번출구', 'stitle' => '갈산'),
+      array('no' => '4', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 12)) : '', 'title' => '부평구청역 4번출구', 'stitle' => '부평'),
+      array('no' => '5', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 15)) : '', 'title' => '삼산체육관 맞은편', 'stitle' => '삼산'),
+      array('no' => '6', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 20)) : '', 'title' => '부천터미널 소풍', 'stitle' => '소풍'),
+      array('no' => '7', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 25)) : '', 'title' => '복사골 문화센터', 'stitle' => '복사'),
+      array('no' => '8', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 30)) : '', 'title' => '송내남부 맥도날드', 'stitle' => '송내'),
+      array('no' => '9', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * -20)) : '', 'title' => '원종동', 'stitle' => '원종'),
     );
+    return $result;
   }
 }
 
@@ -425,29 +429,41 @@ if (!function_exists('checkDirection')) {
 }
 
 // 예약자 정보 (관리용)
-if (!function_exists('getAdminReserve')) {
-  function getAdminReserve($reservation, $bus, $seat) {
-    $result = array('idx' => '', 'nickname' => '예약가능', 'class' => '');
-    foreach ($reservation as $value) {
-      if ($value['bus'] == $bus && $value['seat'] == $seat) {
-        if ($value['gender'] == 'M') $value['class'] = ' male';
-        elseif ($value['gender'] == 'F') $value['class'] = ' female';
-        $result = $value;
-      }
+if (!function_exists('getReserveAdmin')) {
+  function getReserveAdmin($reserve, $bus, $seat, $userData, $status, $boarding=0) {
+    if ($boarding == 1) {
+      $result = array('idx' => '', 'userid' => '', 'nickname' => '', 'class' => '');
+    } else {
+      $result = array('idx' => '', 'userid' => '', 'nickname' => '예약가능', 'class' => 'seat');
     }
+
+    foreach ($reserve as $key => $value) {
+      if ($value['bus'] == $bus && $value['seat'] == $seat) {
+        $result['idx'] = $value['idx'];
+        $result['userid'] = $value['userid'];
+        $result['nickname'] = $value['nickname'];
+        if ($value['gender'] == 'M') {
+          $result['class'] .= ' male';
+        } else {
+          $result['class'] = ' female';
+        }
+      }
+      $checkGender[$value['bus']][$value['seat']] = $value['gender'];
+    }
+
     return $result;
   }
 }
 
 // 예약자 정보 (일반용)
 if (!function_exists('getReserve')) {
-  function getReserve($reservation, $bus, $seat, $userData, $status) {
+  function getReserve($reserve, $bus, $seat, $userData, $status) {
     if ($status == STATUS_CLOSED) {
       $result = array('idx' => '', 'userid' => '', 'nickname' => '', 'class' => '');
     } else {
       $result = array('idx' => '', 'userid' => '', 'nickname' => '예약가능', 'class' => 'seat');
     }
-    foreach ($reservation as $key => $value) {
+    foreach ($reserve as $key => $value) {
       if ($value['bus'] == $bus && $value['seat'] == $seat) {
         if (!empty($value['userid']) && $userData['userid'] == $value['userid']) {
           $value['class'] = 'seat';
@@ -497,9 +513,9 @@ if (!function_exists('getReserve')) {
 
 // 예약자 정보 확인
 if (!function_exists('getCheck')) {
-  function getCheck($reservation, $bus, $seat) {
+  function getCheck($reserve, $bus, $seat) {
     $result = array('idx' => '', 'nickname' => '', 'class' => '');
-    foreach ($reservation as $value) {
+    foreach ($reserve as $value) {
       if ($value['bus'] == $bus && $value['seat'] == $seat) {
         if ($value['gender'] == 'M') $value['class'] = ' male';
         elseif ($value['gender'] == 'F') $value['class'] = ' female';

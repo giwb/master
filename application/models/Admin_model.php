@@ -130,6 +130,20 @@ class Admin_model extends CI_Model
     return $this->db->delete(DB_RESERVATION);
   }
 
+  // 시간대별 탑승자 보기
+  public function listReserveLocation($rescode, $bus, $location)
+  {
+    $this->db->select('*')
+          ->from(DB_RESERVATION)
+          ->where('rescode', $rescode)
+          ->where('bus', $bus)
+          ->where('loc', $location)
+          ->where('manager !=', 1)
+          ->where('priority !=', 1)
+          ->order_by('seat', 'asc');
+    return $this->db->get()->result_array();
+  }
+
   // 다녀온 산행 목록, 취소된 산행 목록
   public function listClosed($syear, $smonth, $status)
   {
@@ -170,6 +184,19 @@ class Admin_model extends CI_Model
   {
     $this->db->where('idx', $idx);
     return $this->db->delete(DB_NOTICE);
+  }
+
+  // 문자양식
+  public function listSMS($rescode)
+  {
+    $this->db->select('a.idx, a.nickname, a.bus AS nowbus, a.seat, a.loc, b.subject, b.bus, b.startdate, b.starttime, b.schedule, b.distance')
+          ->from(DB_RESERVATION . ' a')
+          ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
+          ->where('a.rescode', $rescode)
+          ->where('a.manager !=', 1)
+          ->order_by('a.bus', 'ASC')
+          ->order_by('a.seat', 'ASC');
+    return $this->db->get()->result_array();
   }
 
   // 전체 회원 목록

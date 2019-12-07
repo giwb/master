@@ -350,14 +350,14 @@
     // 좌석 배경색 토글
     if ($(this).hasClass('active')) {
       // 삭제
-      $(this).removeClass('active');
+      $('.seat[data-bus=' + bus + '][data-seat=' + seat + ']').removeClass('active');
       $('#addedInfo .reserve[data-seat=' + seat + ']').remove();
 
       // 예약 내용이 없으면 예약 확정 버튼 삭제
       if ($('#addedInfo .reserve').length == 0) $('.btn-reserve-confirm').hide();
     } else {
       // 예약 활성화
-      $(this).addClass('active');
+      $('.seat[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
       $.viewReserveInfo(resIdx, bus, seat); // 예약 정보
     }
   }).on('click', '.btn-reserve-confirm', function() {
@@ -677,7 +677,7 @@
         var gender = '<select name="gender[]"><option'; if (reserveInfo.reserve.gender == 'M') gender += ' selected'; gender += ' value="M">남</option><option '; if (reserveInfo.reserve.gender == 'F') gender += ' selected'; gender +=' value="F">여</option></select> ';
         var busType = '<select name="bus[]">'; $.each(reserveInfo.busType, function(i, v) { if (v.idx == '') v.idx = '버스'; cnt = i + 1; if (cnt == bus) selected = ' selected'; else selected = ''; busType += '<option' + selected + ' value="' + cnt + '">' + cnt + '호차</option>'; }); busType += '</select> ';
         var selectSeat = '<select name="seat[]">'; $.each(reserveInfo.seat, function(i, v) { if (v == seat) selected = ' selected'; else selected = ''; selectSeat += '<option' + selected + ' value="' + v + '">' + v + '번</option>'; }); selectSeat += '</select> ';
-        var location = '<select name="location[]">'; $.each(reserveInfo.location, function(i, v) { if (v == '') v = '승차위치'; cnt = i + 1; if (reserveInfo.reserve.loc == i) selected = ' selected'; else selected = ''; location += '<option' + selected + ' value="' + i + '">' + v + '</option>'; }); location += '</select> ';
+        var location = '<select name="location[]">'; $.each(reserveInfo.location, function(i, v) { if (v == '') v.stitle = '승차위치'; cnt = i + 1; if (reserveInfo.reserve.loc == v.no) selected = ' selected'; else selected = ''; location += '<option' + selected + ' value="' + v.no + '">' + v.stitle + '</option>'; }); location += '</select> ';
         //var breakfast = '<select name="breakfast[]">'; $.each(reserveInfo.breakfast, function(i, v) { if (v == '') v = '아침식사'; cnt = i + 1; if (reserveInfo.reserve.bref == i) selected = ' selected'; else selected = ''; breakfast += '<option' + selected + ' value="' + cnt + '">' + v + '</option>'; }); breakfast += '</select> ';
         var depositname = '<input type="text" name="depositname[]" size="20" placeholder="입금자명" value="' + reserveInfo.reserve.depositname + '">';
         var memo = '<div class="mt-1"><input type="text" name="memo[]" size="30" placeholder="메모" value="' + reserveInfo.reserve.memo + '"> ';

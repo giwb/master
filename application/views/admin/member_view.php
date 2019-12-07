@@ -67,12 +67,12 @@
                 <th>주 승차위치</th>
                 <td>
                   <select name="location">
-<?php foreach (arrLocation() as $key => $value): ?>
-                    <option<?=$view['location'] == $key ? ' selected' : ''?> value="<?=$key?>"><?=$value?></option>
+<?php foreach (arrLocation() as $value): ?>
+                    <option<?=$view['location'] == $value['no'] ? ' selected' : ''?> value="<?=$value['no']?>"><?=$value['title']?></option>
 <?php endforeach; ?>
                   </select>
                 </td>
-              </tr>
+              </tr><!--
               <tr>
                 <th>주 메뉴선택</th>
                 <td>
@@ -82,12 +82,13 @@
 <?php endforeach; ?>
                   </select>
                 </td>
-              </tr>
+              </tr>-->
               <tr>
-                <th>주 메뉴선택</th>
+                <th>회원 형태</th>
                 <td>
                   <label class="mr-2"><input<?=$view['level'] == LEVEL_LIFETIME ? ' checked' : ''?> type="checkbox" name="level" value="<?=LEVEL_LIFETIME?>"> 평생회원 체크</label>
                   <label class="ml-2"><input<?=$view['level'] == LEVEL_FREE ? ' checked' : ''?> type="checkbox" name="level" value="<?=LEVEL_FREE?>"> 무료회원 체크</label>
+                  <label class="ml-2"><input<?=$view['admin'] == 1 ? ' checked' : ''?> type="checkbox" name="admin" value="1"> 관리자 체크</label>
                 </td>
               </tr>
               <tr>
