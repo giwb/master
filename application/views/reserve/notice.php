@@ -3,7 +3,7 @@
       <div class="club-main">
         <div class="sub-contents">
           <div class="sub-title">
-            <div class="area-title"><h2><b>[<?=viewStatus($notice['status'])?>]</b> <?=$notice['subject']?></h2></div>
+            <div class="area-title"><h2><b><?=viewStatus($notice['status'])?></b> <?=$notice['subject']?></h2></div>
             <div class="area-btn"><a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$notice['idx']?>"><button type="button" class="btn btn-primary">좌석보기</button></a></div>
           </div>
 
@@ -52,3 +52,11 @@
           </div>
         </div>
       </div>
+
+      <script type="text/javascript">
+        $(document).ready(function() {
+          $('.sub-content img').click(function() {
+            window.open($('input[name=baseUrl').val() + $(this).attr('src'));
+          });
+        });
+      </script>
