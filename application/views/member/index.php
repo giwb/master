@@ -10,7 +10,7 @@
             ■ 예약 내역
             <div class="area-btn">
               <button type="button" class="btn btn-primary btn-mypage-payment">결제정보입력</button>
-              <button type="button" class="btn btn-secondary btn-mypage-cancel">예약좌석취소</button>
+              <button type="button" class="btn btn-secondary btn-reserve-cancel">예약좌석취소</button>
             </div>
           </h3>
           <form id="reserveForm" method="post">
@@ -18,7 +18,7 @@
             <dl>
               <dt><input type="checkbox" id="cr<?=$key?>" name="checkReserve[]" class="check-reserve" value="<?=$value['idx']?>" data-cost="<?=$value['cost_total'] == 0 ? $value['cost'] : $value['cost_total']?>" data-status="<?=$value['status']?>"><label for="cr<?=$key?>"></label></dt>
               <dd>
-                [<?=viewStatus($value['notice_status'])?>] <a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
+                <?=viewStatus($value['notice_status'])?> <a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
                 <small>
                   일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 
                   분담금 : <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 /
@@ -34,7 +34,7 @@
 <?php foreach ($userVisit as $value): ?>
             <dl>
               <dd>
-                [<?=viewStatus($value['notice_status'])?>] <?=$value['subject']?> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
+                <?=viewStatus($value['notice_status'])?> <?=$value['subject']?> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
                 <small>
                   일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 
                   분담금 : <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원
@@ -127,27 +127,6 @@
             <div class="error-message"></div>
             <div class="modal-footer">
               <button type="button" class="btn btn-primary btn-reserve-payment">입력완료</button>
-              <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 예약좌석 취소 -->
-      <div class="modal fade" id="reserveCancelModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="smallmodalLabel">예약좌석 취소</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body text-center">
-              <p class="modal-message">정말로 취소하시겠습니까?</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary btn-reserve-cancel">승인</button>
               <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
             </div>
           </div>
@@ -278,29 +257,5 @@
             $('#reservePaymentModal input[name=paymentCost]').val(reducedCost);
             $('#reservePaymentModal .paymentCost').html('<s>' + $.setNumberFormat(reserveCost) + '원</s> → ' + $.setNumberFormat(reducedCost) + '원' + message);
           }
-        }).on('click', '.btn-reserve-cancel', function() {
-          // 예약좌석 취소 처리
-          var $btn = $(this);
-          var formData = new FormData($('#reserveForm')[0]);
-
-          $.ajax({
-            url: $('input[name=baseUrl]').val() + 'reserve/cancel/' + $('input[name=clubIdx]').val(),
-            data: formData,
-            processData: false,
-            contentType: false,
-            dataType: 'json',
-            type: 'post',
-            beforeSend: function() {
-              $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
-            },
-            success: function(result) {
-              if (result.error == 1) {
-                $btn.hide();
-                $('.modal-message').text(result.message);
-              } else {
-                location.reload();
-              }
-            }
-          });
         });
       </script>

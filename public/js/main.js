@@ -510,6 +510,7 @@
     var userIdx = $('input[name=userIdx]').val();
 
     if (userIdx == '') {
+      // 로그인
       $('input[name=redirectUrl]').val($(location).attr('href'));
       $('#loginModal').modal('show');
       return false;
@@ -526,8 +527,11 @@
       $('.seat[data-bus=' + bus + '][data-seat=' + seat + ']').removeClass('active');
       $('#addedInfo .reserve[data-seat=' + seat + ']').remove();
 
-      // 예약 내용이 없으면 예약 확정 버튼 삭제
-      if ($('#addedInfo .reserve').length == 0) $('.btn-reserve-confirm').hide();
+      // 예약 내용이 없으면 버튼 삭제
+      if ($('#addedInfo .reserve').length == 0) {
+        $('.btn-reserve-confirm').text('예약합니다').hide();
+        $('.btn-reserve-cancel').addClass('d-none'); // 취소버튼 숨기기
+      }
     } else {
       // 활성화
       $('.resIdx').each(function(n) {
@@ -590,6 +594,47 @@
         }
       });
     }
+  }).on('click', '.btn-reserve-cancel', function() {
+    // 예약 취소 모달
+    var $dom;
+    var resIdx = new Array();
+
+    if (typeof $('input[name=noticeIdx]').val() != 'undefined') {
+      $dom = $('.resIDx'); // 예약페이지
+    } else {
+      $dom = $('.check-reserve:checked'); // 마이페이지
+    }
+
+    $dom.each(function() {
+      resIdx.push( $(this).val() );
+    });
+
+    if (resIdx.length > 0) {
+      $('#reserveCancelModal input[name=resIdx]').val(resIdx);
+      $('#reserveCancelModal').modal({backdrop: 'static', keyboard: false});
+    } else {
+      $.openMsgModal('취소할 예약 내역을 선택해주세요.');
+    }
+  }).on('click', '.btn-reserve-cancel-confirm', function() {
+    // 예약좌석 취소 처리
+    var $btn = $(this);
+    $.ajax({
+      url: $('input[name=baseUrl]').val() + 'reserve/cancel/' + $('input[name=clubIdx]').val(),
+      data: 'resIdx=' + $('input[name=resIdx]').val(),
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+      },
+      success: function(result) {
+        if (result.error == 1) {
+          $btn.css('opacity', '1').prop('disabled', false).text('승인');
+          $('.modal-message').text(result.message);
+        } else {
+          location.reload();
+        }
+      }
+    });
   }).on('click', '.btn-club-geton', function() {
     // 승차위치 추가
     var $dom = $('.club-geton-text');
@@ -606,17 +651,6 @@
   }).on('click', '.btn-club-getoff-delete', function() {
     // 하차위치 삭제
     $(this).parent().remove();
-  }).on('click', '.btn-mypage-cancel', function() {
-    // 예약좌석 취소 모달
-    var resIdx = new Array();
-    $('.check-reserve:checked').each(function() {
-      resIdx.push( $(this).val() );
-    });
-    if (resIdx.length > 0) {
-      $('#reserveCancelModal').modal({backdrop: 'static', keyboard: false});
-    } else {
-      $.openMsgModal('취소할 예약 내역을 선택해주세요.');
-    }
   }).on('change', '.btn-all-check', function() {
     // 체크박스 제어
     var target = $(this).data('id');
@@ -652,6 +686,7 @@
           // 수정
           var busType = '<select name="bus[]">'; $.each(reserveInfo.busType, function(i, v) { busType += '<option'; if ((i+1) == bus) busType += ' selected'; busType += ' value="' + (i+1) + '">' + (i+1) + '호차</option>'; }); busType += '</select> ';
           var selectSeat = '<select name="seat[]">'; $.each(reserveInfo.seat, function(i, v) { selectSeat += '<option'; if ((i+1) == seat) selectSeat += ' selected'; selectSeat += ' value="' + (i+1) + '">' + (i+1) + '번</option>'; }); selectSeat += '</select> ';
+          $('.btn-reserve-cancel').removeClass('d-none').show();
         } else {
           // 등록
           var busType = bus + '호차<input type="hidden" name="bus[]" value="' + bus + '"> ';

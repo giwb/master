@@ -240,11 +240,11 @@ class Reserve extends MY_Controller
     $nowDate = time();
     $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
-    $checkReserve = $this->input->post('checkReserve');
+    $resIdx = explode(',', html_escape($this->input->post('resIdx')));
     $result = array('error' => 1, 'message' => '예약좌석 취소 중 문제가 발생했습니다. 다시 확인해주세요.');
     $penalty = 0;
 
-    foreach ($checkReserve as $idx) {
+    foreach ($resIdx as $idx) {
       $userReserve = $this->reserve_model->userReserve($clubIdx, NULL, $idx);
 
       // 예약 삭제 처리
