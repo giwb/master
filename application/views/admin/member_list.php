@@ -32,12 +32,17 @@
             <div class="col-sm-3 text-left"><button type="button" class="btn btn-primary btn-member-search">검색</button></div>
           </form>
         </div>
-<?php foreach ($listMembers as $value): ?>
+<?php
+  foreach ($listMembers as $value):
+    $level = memberLevel($value['rescount'], $value['penalty'], $value['level'], $value['admin']);
+?>
         <dl>
-          <dt>[<?=$value['idx']?>] <a href="<?=base_url()?>admin/member_view/<?=$value['idx']?>"><?=$value['realname']?> / <?=$value['nickname']?> / <?=$value['userid']?> / <?=memberLevel($value['rescount'], $value['penalty'], $value['level'], $value['admin'])['levelName']?></a></dt>
+          <dt>[<?=$value['idx']?>] <a href="<?=base_url()?>admin/member_view/<?=$value['idx']?>"><?=$value['realname']?> / <?=$value['nickname']?> / <?=$value['userid']?> / <?=$level['levelName']?></a></dt>
           <dd><?=$value['phone']?>, <?=$value['birthday']?> <?=$value['birthday_type'] == '1' ? '(양력)' : '(음력)' ?>, <?=arrLocation(NULL, $value['location'])?><br>등록일 : <?=date('Y-m-d, H:i:s', $value['regdate'])?>, <?=!empty($value['lastdate']) ? '최종접속일 : ' . date('Y-m-d, H:i:s', $value['lastdate']) . ', ' : ''?>접속횟수 : <?=$value['connect']?></dd>
         </dl>
-<?php endforeach; ?>
+<?php
+  endforeach;
+?>
         <div class="area-list-member">
         </div>
         <button class="btn btn-page-next">다음 페이지 보기 ▼</button>
