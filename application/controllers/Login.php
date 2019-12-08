@@ -51,7 +51,7 @@ class Login extends CI_Controller
         // 로그인에 성공하면 회원정보 업데이트
         $updateValues['connect'] = $userData['connect'] + 1;
         $updateValues['lastdate'] = time();
-        $this->member->model->updateMember($updateValues, $clubIdx, $userData['idx']);
+        $this->member_model->updateMember($updateValues, $clubIdx, $userData['idx']);
 
         // 세션 저장
         $this->session->set_userdata('userData', $userData);
