@@ -49,8 +49,11 @@ class Login extends CI_Controller
         );
       } else {
         // 로그인에 성공하면 회원정보 업데이트
+        $rescount = $this->admin_model->cntMemberReservation($userData['userid']);
+        $updateValues['rescount'] = $rescount['cnt']; // 예약 횟수 갱신 (회원 레벨 체크를 위해)
         $updateValues['connect'] = $userData['connect'] + 1;
         $updateValues['lastdate'] = time();
+
         $this->member_model->updateMember($updateValues, $clubIdx, $userData['idx']);
 
         // 세션 저장

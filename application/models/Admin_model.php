@@ -64,6 +64,18 @@ class Admin_model extends CI_Model
     return $this->db->get()->row_array(1);
   }
 
+  // 회원 예약횟수
+  public function cntMemberReservation($userid)
+  {
+    $this->db->select('COUNT(a.userid) as cnt')
+          ->from(DB_RESERVATION . ' a')
+          ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
+          ->where('a.userid', $userid)
+          ->where('a.status', 1)
+          ->where('b.status', STATUS_CLOSED);
+    return $this->db->get()->row_array(1);
+  }
+
   // 산행 목록
   public function listNotice($sdate=NULL, $edate=NULL, $status=NULL)
   {
@@ -217,6 +229,12 @@ class Admin_model extends CI_Model
           ->where('quitdate', NULL)
           ->order_by('idx', 'desc');
 
+    if (!empty($search['resMin'])) {
+      $this->db->where('(rescount - penalty) >=', $search['resMin']);
+    }
+    if (!empty($search['resMax'])) {
+      $this->db->where('(rescount - penalty) <=', $search['resMax']);
+    }
     if (!empty($search['realname'])) {
       $this->db->like('realname', $search['realname']);
     }
@@ -234,15 +252,6 @@ class Admin_model extends CI_Model
     }
 
     return $this->db->get()->result_array();
-  }
-  // 임시
-  public function cntMemberReservation($userid)
-  {
-    $this->db->select('COUNT(*) as cnt')
-          ->from(DB_RESERVATION)
-          ->where('userid', $userid)
-          ->where('status', 1);
-    return $this->db->get()->row_array(1);
   }
 
   // 회원 정보
