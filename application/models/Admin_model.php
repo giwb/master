@@ -77,57 +77,46 @@ class Admin_model extends CI_Model
   }
 
   // 산행 목록
-  public function listNotice($sdate=NULL, $edate=NULL, $status=NULL)
+  public function listNotice($search=NULL)
   {
     $this->db->select('*')
           ->from(DB_NOTICE)
           ->order_by('startdate', 'asc');
 
-    if (!is_null($sdate)) {
-      $this->db->where("DATE_FORMAT(startdate, '%m%d') >= '" . $sdate . "'");
+    if (!empty($search['sdate'])) {
+      $this->db->where("DATE_FORMAT(startdate, '%Y-%m-%d') >= '" . $search['sdate'] . "'");
     }
-
-    if (!is_null($edate)) {
-      if ($edate < $sdate) {
-        $this->db->or_where("DATE_FORMAT(startdate, '%m%d') <= '" . $edate . "'");
+    if (!empty($search['edate'])) {
+      if ($search['edate'] < $search['sdate']) {
+        $this->db->or_where("DATE_FORMAT(startdate, '%Y-%m-%d') <= '" . $search['edate'] . "'");
       } else {
-        $this->db->where("DATE_FORMAT(startdate, '%m%d') <= '" . $edate . "'");
+        $this->db->where("DATE_FORMAT(startdate, '%Y-%m-%d') <= '" . $search['edate'] . "'");
       }
     }
-
-    if (!is_null($status)) {
-      $this->db->where('status', $status);
+    if (!empty($search['subject'])) {
+      $this->db->like('subject', $search['subject']);
+    }
+    if (!empty($search['status'])) {
+      $this->db->where_in('status', $search['status']);
     }
 
-    return $this->db->get()->result_array();
-  }
-
-  // 진행중 산행 목록
-  public function listProgress()
-  {
-    $this->db->select('*')
-          ->from(DB_NOTICE)
-          ->where('status <=', 7)
-          ->order_by('startdate', 'asc');
-    return $this->db->get()->result_array();
-  }
-
-  // 진행중 산행 예약 보기
-  public function viewProgress($rescode)
-  {
-    $this->db->select('*')
-          ->from(DB_RESERVATION)
-          ->where('rescode', $rescode);
     return $this->db->get()->result_array();
   }
 
   // 예약 정보 보기
-  public function viewReserve($idx)
+  public function viewReserve($search)
   {
     $this->db->select('*')
-          ->from(DB_RESERVATION)
-          ->where('idx', $idx);
-    return $this->db->get()->row_array(1);
+          ->from(DB_RESERVATION);
+
+    if (!empty($search['idx'])) {
+      $this->db->where('idx', $search['idx']);
+      return $this->db->get()->row_array(1);
+    }
+    if (!empty($search['rescode'])) {
+      $this->db->where('rescode', $search['rescode']);
+      return $this->db->get()->result_array();
+    }
   }
 
   // 예약 정보 등록
@@ -163,17 +152,6 @@ class Admin_model extends CI_Model
           ->where('manager !=', 1)
           ->where('priority !=', 1)
           ->order_by('seat', 'asc');
-    return $this->db->get()->result_array();
-  }
-
-  // 다녀온 산행 목록, 취소된 산행 목록
-  public function listClosed($syear, $smonth, $status)
-  {
-    $this->db->select('*')
-          ->from(DB_NOTICE)
-          ->where('status', $status)
-          ->where("DATE_FORMAT(startdate, '%Y%m') <= '" . $syear . $smonth . "'")
-          ->order_by('startdate', 'desc');
     return $this->db->get()->result_array();
   }
 

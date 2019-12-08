@@ -316,6 +316,12 @@
         }
       }
     });
+  }).on('change', '.btn-search-month', function() {
+    // 검색
+    var syear = $('select[name=syear]').val();
+    var smonth = $('select[name=smonth]').val();
+    var lastDay = ( new Date( syear, smonth, 0) ).getDate();
+    location.href = ($('#formSearch').attr('action') + '?sdate=' + syear + '-' + smonth + '-01' + '&edate=' + syear + '-' + smonth + '-' + lastDay);
   }).on('click', '.btn-change-visible', function() {
     // 숨김/공개
     $.ajax({

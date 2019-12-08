@@ -166,51 +166,48 @@
   }
 </script>
 
-    <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-      <!-- Main Content -->
       <div id="content">
-        <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
           <h1 class="h3 mb-0 text-gray-800">산행계획</h1>
         </div>
       </div>
 
-      <div id="calendar" class="setup-schedule"></div>
+      <div id="calendar" class="setup-schedule mb-5"></div>
 
-<!-- Schedule Modal -->
-<div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="smallmodalLabel">산행계획 등록</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row align-items-center mb-2">
-          <div class="col-sm-2">시작일</div>
-          <div class="col-sm-10"><input type="text" name="sdate" class="form-control form-control-sm"></div>
+      <!-- Schedule Modal -->
+      <div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="smallmodalLabel">산행계획 등록</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row align-items-center mb-2">
+                <div class="col-sm-2">시작일</div>
+                <div class="col-sm-10"><input type="text" name="sdate" class="form-control form-control-sm"></div>
+              </div>
+              <div class="row align-items-center mb-2">
+                <div class="col-sm-2">종료일</div>
+                <div class="col-sm-10"><input type="text" name="edate" class="form-control form-control-sm"></div>
+              </div>
+              <div class="row align-items-center">
+                <div class="col-sm-2">산행명</div>
+                <div class="col-sm-10"><input type="text" name="subject" class="form-control form-control-sm"></div>
+              </div>
+              <div class="text-center error-message"></div>
+            </div>
+            <div class="past-schedule border-top small pt-2 pb-2 pl-3 pr-3">
+            </div>
+            <div class="modal-footer">
+              <input type="hidden" name="idx" value="">
+              <button type="button" class="btn btn-primary btn-schedule">등록</button>
+              <button type="button" class="btn btn-danger btn-schedule-delete">삭제</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+            </div>
+          </div>
         </div>
-        <div class="row align-items-center mb-2">
-          <div class="col-sm-2">종료일</div>
-          <div class="col-sm-10"><input type="text" name="edate" class="form-control form-control-sm"></div>
-        </div>
-        <div class="row align-items-center">
-          <div class="col-sm-2">산행명</div>
-          <div class="col-sm-10"><input type="text" name="subject" class="form-control form-control-sm"></div>
-        </div>
-        <div class="text-center error-message"></div>
       </div>
-      <div class="past-schedule border-top small pt-2 pb-2 pl-3 pr-3">
-      </div>
-      <div class="modal-footer">
-        <input type="hidden" name="idx" value="">
-        <button type="button" class="btn btn-primary btn-schedule">등록</button>
-        <button type="button" class="btn btn-danger btn-schedule-delete">삭제</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-      </div>
-    </div>
-  </div>
-</div>

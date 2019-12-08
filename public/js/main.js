@@ -553,6 +553,12 @@
       $('html, body').animate( { scrollTop : $('#reserveForm').offset().top - 100 }, 1000 ); // 하단으로 스크롤
       $.viewReserveInfo(resIdx, bus, seat); // 예약 정보
     }
+  }).on('change', '.btn-search-month', function() {
+    // 검색
+    var syear = $('select[name=syear]').val();
+    var smonth = $('select[name=smonth]').val();
+    var lastDay = ( new Date( syear, smonth, 0) ).getDate();
+    location.href = ($('#formSearch').attr('action') + '?sdate=' + syear + '-' + smonth + '-01' + '&edate=' + syear + '-' + smonth + '-' + lastDay);
   }).on('click', '.btn-reserve-confirm', function() {
     // 좌석 예약
     var $btn = $(this);
@@ -828,6 +834,7 @@ $(document).on('click', '.btn-reply', function() {
     }
   });
 }).on('click', '.club-story-reply', function() {
+  // 스토리 댓글 로그인 체크
   var userIdx = $('input[name=userIdx]').val();
   if (userIdx == '') {
     $('#loginModal').modal('show'); // 로그인

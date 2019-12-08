@@ -69,11 +69,11 @@ class Admin extends Admin_Controller
   public function reserve_information()
   {
     $idx = html_escape($this->input->post('idx'));
-    $resIdx = html_escape($this->input->post('resIdx'));
+    $viewData['rescode'] = html_escape($this->input->post('resIdx'));
     $viewData['view'] = $this->admin_model->viewEntry($idx);
 
     if (!empty($resIdx)) {
-      $result['reserve'] = $this->admin_model->viewReserve($resIdx);
+      $result['reserve'] = $this->admin_model->viewReserve($viewData);
       if (empty($result['reserve']['depositname'])) $result['reserve']['depositname'] = '';
     } else {
       $result['reserve']['nickname'] = '';
@@ -229,7 +229,8 @@ class Admin extends Admin_Controller
    **/
   public function main_list_progress()
   {
-    $viewData['list'] = $this->admin_model->listProgress();
+    $search['status'] = array(STATUS_PLAN, STATUS_ABLE, STATUS_CONFIRM);
+    $viewData['list'] = $this->admin_model->listNotice($search);
 
     $this->_viewPage('admin/main_list_progress', $viewData);
   }
@@ -242,14 +243,14 @@ class Admin extends Admin_Controller
    **/
   public function main_view_progress($idx)
   {
-    $idx = html_escape($idx);
-    $viewData['view'] = $this->admin_model->viewEntry($idx);
+    $viewData['rescode'] = html_escape($idx);
+    $viewData['view'] = $this->admin_model->viewEntry($viewData['rescode']);
 
     // 버스 형태별 좌석 배치
     $viewData['busType'] = getBusType($viewData['view']['bustype'], $viewData['view']['bus']);
 
     // 예약 정보
-    $viewData['reserve'] = $this->admin_model->viewProgress($idx);
+    $viewData['reserve'] = $this->admin_model->viewReserve($viewData);
 
     $this->_viewPage('admin/main_view_progress', $viewData);
   }
@@ -262,14 +263,14 @@ class Admin extends Admin_Controller
    **/
   public function main_view_boarding($idx)
   {
-    $idx = html_escape($idx);
-    $viewData['view'] = $this->admin_model->viewEntry($idx);
+    $viewData['rescode'] = html_escape($idx);
+    $viewData['view'] = $this->admin_model->viewEntry($viewData['rescode']);
 
     // 버스 형태별 좌석 배치
     $viewData['busType'] = getBusType($viewData['view']['bustype'], $viewData['view']['bus']);
 
     // 예약 정보
-    $viewData['reserve'] = $this->admin_model->viewProgress($idx);
+    $viewData['reserve'] = $this->admin_model->viewReserve($viewData);
 
     // 시간별 승차위치
     $listLocation = arrLocation($viewData['view']['starttime']);
@@ -278,7 +279,7 @@ class Admin extends Admin_Controller
       $busNumber = $key1 + 1;
       foreach ($listLocation as $key2 => $value) {
         $viewData['busType'][$key1]['listLocation'][] = $value;
-        $resData = $this->admin_model->listReserveLocation($idx, $busNumber, $value['no']);
+        $resData = $this->admin_model->listReserveLocation($viewData['rescode'], $busNumber, $value['no']);
         foreach ($resData as $people) {
           $viewData['busType'][$key1]['listLocation'][$key2]['nickname'][] = $people['nickname'];
         }
@@ -399,14 +400,16 @@ class Admin extends Admin_Controller
    **/
   public function main_list_closed()
   {
-    // PHP Ver 7.x
-    //$syear = !empty($this->input->get('syear')) ? $this->input->get('syear') : date('Y');
-    //$smonth = !empty($this->input->get('smonth')) ? $this->input->get('syear') : date('m');
+    $viewData['search']['subject'] = $this->input->get('subject') ? html_escape($this->input->get('subject')) : '';
+    $viewData['search']['sdate'] = $this->input->get('sdate') ? html_escape($this->input->get('sdate')) : date('Y-m-01');
+    $viewData['search']['edate'] = $this->input->get('edate') ? html_escape($this->input->get('edate')) : date('Y-m-t');
+    $viewData['search']['syear'] = !empty($viewData['search']['sdate']) ? date('Y', strtotime($viewData['search']['sdate'])) : date('Y');
+    $viewData['search']['smonth'] = !empty($viewData['search']['sdate']) ? date('m', strtotime($viewData['search']['sdate'])) : date('m');
+    $viewData['search']['prev'] = 'sdate=' . date('Y-m-01', strtotime('-1 months', strtotime($viewData['search']['sdate']))) . '&edate=' . date('Y-m-t', strtotime('-1 months', strtotime($viewData['search']['sdate'])));
+    $viewData['search']['next'] = 'sdate=' . date('Y-m-01', strtotime('+1 months', strtotime($viewData['search']['sdate']))) . '&edate=' . date('Y-m-t', strtotime('+1 months', strtotime($viewData['search']['sdate'])));
+    $viewData['search']['status'] = array(STATUS_CLOSED);
 
-    // PHP Ver 5.x
-    $syear = $this->input->get('syear') ? $this->input->get('syear') : date('Y');
-    $smonth = $this->input->get('smonth') ? $this->input->get('syear') : date('m');
-    $viewData['list'] = $this->admin_model->listClosed($syear, $smonth, STATUS_CLOSED);
+    $viewData['listClosed'] = $this->admin_model->listNotice($viewData['search']);
 
     $this->_viewPage('admin/main_list_closed', $viewData);
   }
@@ -419,14 +422,16 @@ class Admin extends Admin_Controller
    **/
   public function main_list_canceled()
   {
-    // PHP Ver 7.x
-    //$syear = !empty($this->input->get('syear')) ? $this->input->get('syear') : date('Y');
-    //$smonth = !empty($this->input->get('smonth')) ? $this->input->get('syear') : date('m');
+    $viewData['search']['subject'] = $this->input->get('subject') ? html_escape($this->input->get('subject')) : '';
+    $viewData['search']['sdate'] = $this->input->get('sdate') ? html_escape($this->input->get('sdate')) : date('Y-m-01');
+    $viewData['search']['edate'] = $this->input->get('edate') ? html_escape($this->input->get('edate')) : date('Y-m-t');
+    $viewData['search']['syear'] = !empty($viewData['search']['sdate']) ? date('Y', strtotime($viewData['search']['sdate'])) : date('Y');
+    $viewData['search']['smonth'] = !empty($viewData['search']['sdate']) ? date('m', strtotime($viewData['search']['sdate'])) : date('m');
+    $viewData['search']['prev'] = 'sdate=' . date('Y-m-01', strtotime('-1 months', strtotime($viewData['search']['sdate']))) . '&edate=' . date('Y-m-t', strtotime('-1 months', strtotime($viewData['search']['sdate'])));
+    $viewData['search']['next'] = 'sdate=' . date('Y-m-01', strtotime('+1 months', strtotime($viewData['search']['sdate']))) . '&edate=' . date('Y-m-t', strtotime('+1 months', strtotime($viewData['search']['sdate'])));
+    $viewData['search']['status'] = array(STATUS_CANCEL);
 
-    // PHP Ver 5.x
-    $syear = $this->input->get('syear') ? $this->input->get('syear') : date('Y');
-    $smonth = $this->input->get('smonth') ? $this->input->get('syear') : date('m');
-    $viewData['list'] = $this->admin_model->listClosed($syear, $smonth, STATUS_CANCEL);
+    $viewData['listCancel'] = $this->admin_model->listNotice($viewData['search']);
 
     $this->_viewPage('admin/main_list_canceled', $viewData);
   }
@@ -1073,15 +1078,17 @@ class Admin extends Admin_Controller
   }
 
   /**
-   * 설정 - 달력관리
+   * 설정 - 문자양식보기
    *
    * @return view
    * @author bjchoi
    **/
-  public function setup_calendar()
+  public function setup_sms()
   {
-    $viewData = array();
-    $this->_viewPage('admin/setup_calendar', $viewData);
+    $search['status'] = array(STATUS_PLAN, STATUS_ABLE, STATUS_CONFIRM);
+    $viewData['list'] = $this->admin_model->listNotice($search);
+
+    $this->_viewPage('admin/setup_sms', $viewData);
   }
 
   /**
@@ -1191,15 +1198,22 @@ class Admin extends Admin_Controller
   }
 
   /**
-   * 설정 - 문자양식보기
+   * 설정 - 달력관리
    *
    * @return view
    * @author bjchoi
    **/
-  public function setup_sms()
+  public function setup_calendar()
   {
-    $viewData = array();
-    $this->_viewPage('admin/setup_sms', $viewData);
+    $viewData['search']['syear'] = NULL;
+    $viewData['search']['smonth'] = NULL;
+    $viewData['search']['status'] = array(STATUS_PLAN);
+
+    $viewData['listSchedule'] = $this->admin_model->listNotice($viewData['search']);
+    $sdate = $this->input->get('d');
+    if (!empty($sdate)) $viewData['sdate'] = html_escape($sdate); else $viewData['sdate'] = NULL;
+
+    $this->_viewPage('admin/setup_calendar', $viewData);
   }
 
   /**
@@ -1210,7 +1224,11 @@ class Admin extends Admin_Controller
    **/
   public function setup_schedule()
   {
-    $viewData['listSchedule'] = $this->admin_model->listNotice(NULL, NULL, STATUS_PLAN);
+    $viewData['search']['syear'] = NULL;
+    $viewData['search']['smonth'] = NULL;
+    $viewData['search']['status'] = array(STATUS_PLAN);
+
+    $viewData['listSchedule'] = $this->admin_model->listNotice($viewData['search']);
     $sdate = $this->input->get('d');
     if (!empty($sdate)) $viewData['sdate'] = html_escape($sdate); else $viewData['sdate'] = NULL;
 
@@ -1229,6 +1247,7 @@ class Admin extends Admin_Controller
     $idx = html_escape($this->input->post('idx'));
     $sdate = html_escape($this->input->post('sdate'));
     $edate = html_escape($this->input->post('edate'));
+    $search['status'] = array(STATUS_CLOSED);
 
     $result = array(
       'error' => 1,
@@ -1241,7 +1260,11 @@ class Admin extends Admin_Controller
       if (!empty($viewNotice['idx'])) {
         $sdate = $viewNotice['startdate'];
         $edate = $viewNotice['enddate'];
-        $listPastNotice = $this->admin_model->listNotice( date('md', strtotime($sdate) - (86400 * 5)), date('md', strtotime($edate) + (86400 * 5)) );
+
+        $search['syear'] = date('md', strtotime($sdate) - (86400 * 5));
+        $search['smonth'] = date('md', strtotime($edate) + (86400 * 5));
+
+        $listPastNotice = $this->admin_model->listNotice($search);
 
         if (!empty($listPastNotice)) {
           foreach ($listPastNotice as $value) {
@@ -1259,7 +1282,10 @@ class Admin extends Admin_Controller
         }
       }
     } elseif (!empty($sdate) && !empty($edate)) {
-      $listPastNotice = $this->admin_model->listNotice( date('md', strtotime($sdate) - (86400 * 5)), date('md', strtotime($edate) + (86400 * 5)) );
+      $search['syear'] = date('md', strtotime($sdate) - (86400 * 5));
+      $search['smonth'] = date('md', strtotime($edate) + (86400 * 5));
+
+      $listPastNotice = $this->admin_model->listNotice($search);
 
       if (!empty($listPastNotice)) {
         foreach ($listPastNotice as $value) {
