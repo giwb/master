@@ -85,7 +85,7 @@ class Reserve_model extends CI_Model
   // 마이페이지 사용자 산행 내역
   public function userVisit($clubIdx, $userId)
   {
-    $this->db->select('a.*, b.idx as resCode, b.subject, b.startdate, b.starttime, b.cost, b.cost_total, b.status AS notice_status')
+    $this->db->select('a.*, b.idx as resCode, b.subject, b.startdate, b.starttime, b.cost, b.cost_total, b.bus AS notice_bus, b.bustype AS notice_bustype, b.status AS notice_status')
           ->from(DB_RESERVATION . ' a')
           ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
           ->where('a.club_idx', $clubIdx)
@@ -94,6 +94,20 @@ class Reserve_model extends CI_Model
           ->where('b.status', STATUS_CLOSED)
           ->order_by('b.idx', 'desc')
           ->limit(5);
+    return $this->db->get()->result_array();
+  }
+
+  // 마이페이지 사용자 산행 횟수
+  public function userVisitCount($clubIdx, $userId)
+  {
+    $this->db->select('b.idx')
+          ->from(DB_RESERVATION . ' a')
+          ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
+          ->where('a.club_idx', $clubIdx)
+          ->where('a.userid', $userId)
+          ->where('a.status', STATUS_ABLE)
+          ->where('b.status', STATUS_CLOSED)
+          ->group_by('b.idx');
     return $this->db->get()->result_array();
   }
 

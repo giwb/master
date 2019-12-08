@@ -24,7 +24,7 @@ class MY_Controller extends CI_Controller
     // 회원 로그인 설정
     if (!empty($this->session->userData['idx'])) {
       $loginData['userData'] = $this->member_model->viewMember($loginData['clubIdx'], html_escape($this->session->userData['idx']));
-      $loginData['userLevel'] = memberLevel($loginData['userData']['rescount'], $loginData['penalty'], $loginData['level'], $loginData['admin']);
+      $loginData['userLevel'] = memberLevel($loginData['userData']['rescount'], $loginData['userData']['penalty'], $loginData['userData']['level'], $loginData['userData']['admin']);
     }
 
     $this->load->vars($loginData);

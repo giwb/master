@@ -729,18 +729,6 @@ if (!function_exists('setHistory')) {
 if (!function_exists('memberLevel')) {
   function memberLevel($rescount, $penalty, $level, $admin) {
     // 예약횟수 체크
-    /*
-    $CI =& get_instance();
-    $CI->load->model('member_model');
-    $reserveGroup = $CI->member_model->cntReserve($userData, 1, 1);
-    $result = $CI->member_model->cntReserve($userData, 1);
-
-    // 페널티 횟수 차감 = 레벨
-    $result['level'] = $result['cntReserve'] - $userData['penalty'];
-
-    // 산행 횟수 (예약 그룹)
-    $result['cntNotice'] = number_format($reserveGroup['cntReserve']);
-    */
     $result['level'] = $rescount - $penalty;
 
     // 관리자 이외
@@ -766,14 +754,14 @@ if (!function_exists('memberLevel')) {
         $result['levelName'] = '한그루 회원';
         $result['point'] = 1000;
       }
-    } else if ($level == '1') {
-      $result['levelType'] = 8;
-      $result['levelName'] = '평생회원';
-      $result['point'] = 1000;
     } else if ($admin == '1') {
       $result['levelType'] = 9;
       $result['levelName'] = '관리자';
       $result['point'] = 0;
+    } else if ($level == '1') {
+      $result['levelType'] = 8;
+      $result['levelName'] = '평생회원';
+      $result['point'] = 1000;
     } else {
       $result['levelType'] = 0;
       $result['levelName'] = '비회원';

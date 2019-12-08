@@ -4,7 +4,7 @@
         <div class="mypage">
           <h2>마이페이지</h2>
           <b><?=$userData['nickname']?></b>님은 현재 <?=$userLevel['levelName']?> 이십니다.<br>
-          현재 산행 횟수 <?=$userLevel['cntNotice']?>회, 예약 횟수 <?=$userLevel['cntReserve']?>회, 취소 페널티 <?=$userData['penalty']?>점, 현재 레벨은 <?=$userLevel['level']?>점 입니다.
+          현재 산행 횟수 <?=number_format(count($userVisitCount))?>회, 예약 횟수 <?=number_format($userData['rescount'])?>회, 취소 페널티 <?=number_format($userData['penalty'])?>점, 현재 레벨은 <?=number_format($userData['rescount'] - $userData['penalty'])?>점 입니다.
 
           <h3>
             ■ 예약 내역
