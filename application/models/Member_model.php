@@ -13,7 +13,7 @@ class Member_model extends CI_Model
   // 로그인 확인
   public function checkLogin($clubIdx, $userid, $password)
   {
-    $this->db->select('idx, club_idx, userid, nickname, realname, gender, birthday, birthday_type, phone, penalty, level, admin')
+    $this->db->select('idx, club_idx, userid, nickname, realname, gender, birthday, birthday_type, phone, penalty, level, admin, connect')
           ->from(DB_MEMBER)
           ->where('userid', $userid)
           ->where('password', $password)
@@ -25,7 +25,7 @@ class Member_model extends CI_Model
   // 아이디 찾기
   public function searchId($clubIdx, $realname, $gender, $birthday, $phone, $userid=NULL)
   {
-    $this->db->select('idx, userid, connect, quitdate')
+    $this->db->select('idx, userid, quitdate')
           ->from(DB_MEMBER)
           ->where('club_idx', $clubIdx)
           ->where('realname', $realname)
