@@ -171,7 +171,7 @@ class Member_model extends CI_Model
     $this->db->select('COUNT(idx) AS cnt')
           ->from(DB_MEMBER)
           ->where('club_idx', $clubIdx)
-          ->where('FROM_UNIXTIME(regdate, "%Y%m%d") =', date('Ymd', time()))
+          ->where('FROM_UNIXTIME(regdate, "%Y%m%d") =', date('Ymd'))
           ->where('quitdate', NULL);
     return $this->db->get()->row_array(1);
   }
@@ -191,7 +191,7 @@ class Member_model extends CI_Model
     $this->db->select('COUNT(idx) AS cnt')
           ->from(DB_VISITOR)
           ->where('club_idx', $clubIdx)
-          ->where('FROM_UNIXTIME(created_at, "%Y%m%d") =', date('Ymd', time()));
+          ->where('FROM_UNIXTIME(created_at, "%Y%m%d") =', date('Ymd'));
     return $this->db->get()->row_array(1);
   }
 

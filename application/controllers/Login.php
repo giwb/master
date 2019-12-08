@@ -48,7 +48,12 @@ class Login extends CI_Controller
           'message' => '로그인에 실패했습니다. 다시 로그인 해주세요.'
         );
       } else {
-        // 로그인 성공
+        // 로그인에 성공하면 회원정보 업데이트
+        $updateValues['connect'] = $userData['connect'] + 1;
+        $updateValues['lastdate'] = time();
+        $this->member->model->updateMember($updateValues, $clubIdx, $userData['idx']);
+
+        // 세션 저장
         $this->session->set_userdata('userData', $userData);
 
         // 아이콘 사이즈 변경 (가로 사이즈가 200보다 클 경우)

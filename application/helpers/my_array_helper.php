@@ -295,7 +295,7 @@ if (!function_exists('calcDistance')) {
 
 // 승차위치
 if (!function_exists('arrLocation')) {
-  function arrLocation($starttime=NULL) {
+  function arrLocation($starttime=NULL, $location=NULL) {
     if (!is_null($starttime)) {
       $starttime = strtotime($starttime);
     }
@@ -311,6 +311,9 @@ if (!function_exists('arrLocation')) {
       array('no' => '8', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 30)) : '', 'title' => '송내남부 맥도날드', 'stitle' => '송내'),
       array('no' => '9', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * -20)) : '', 'title' => '원종동', 'stitle' => '원종'),
     );
+    if (!is_null($location)) {
+      $result = $result[$location]['title'];
+    }
     return $result;
   }
 }

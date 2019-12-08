@@ -72,16 +72,15 @@
 
       <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMember" aria-expanded="true" aria-controls="collapseMember">
+        <a class="nav-link collapsed" href="<?=base_url()?>admin/member_list">
           <i class="fas fa-fw fa-users"></i>
           <span>회원관리</span>
-        </a>
+        </a><!--
         <div id="collapseMember" class="collapse<?=strstr($uri, 'member') ? " show" : ""?>" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="<?=base_url()?>admin/member_list"> <i class="menu-icon fas fa-user"></i> 전체 회원 목록</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/member_entry"> <i class="menu-icon fas fa-address-card"></i> 회원 등록</a>
           </div>
-        </div>
+        </div>-->
       </li>
 
       <!-- Nav Item - Pages Collapse Menu -->

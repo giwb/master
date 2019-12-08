@@ -38,6 +38,16 @@ class Admin_model extends CI_Model
     return $this->db->get()->row_array(1);
   }
 
+  // 오늘 방문자수
+  public function cntTodayVisitor($clubIdx)
+  {
+    $this->db->select('COUNT(idx) AS CNT')
+          ->from(DB_VISITOR)
+          ->where('club_idx', $clubIdx)
+          ->where('FROM_UNIXTIME(created_at, "%Y%m%d") =', date('Ymd'));
+    return $this->db->get()->row_array(1);
+  }
+
   // 산행 예약자 카운트
   public function cntReservation($resCode, $bus=NULL)
   {
@@ -204,6 +214,7 @@ class Admin_model extends CI_Model
   {
     $this->db->select('*')
           ->from(DB_MEMBER)
+          ->where('quitdate', NULL)
           ->order_by('idx', 'desc');
     return $this->db->get()->result_array();
   }
@@ -213,8 +224,17 @@ class Admin_model extends CI_Model
   {
     $this->db->select('*')
           ->from(DB_MEMBER)
+          ->where('quitdate', NULL)
           ->where('idx', $idx);
     return $this->db->get()->row_array(1);
+  }
+
+  // 회원 정보 수정
+  public function updateMember($data, $idx)
+  {
+    $this->db->set($data);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_MEMBER);
   }
 
   // 산행횟수

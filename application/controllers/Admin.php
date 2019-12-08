@@ -19,6 +19,8 @@ class Admin extends Admin_Controller
    **/
   public function index()
   {
+    $clubIdx = 1; // 최초는 경인웰빙
+
     // 등록된 산행 목록
     $viewData['listNotice'] = $this->admin_model->listNotice();
 
@@ -48,6 +50,8 @@ class Admin extends Admin_Controller
     $viewData['cntTotalTour'] = $this->admin_model->cntTotalTour();
     // 다녀온 산행 인원수
     $viewData['cntTotalCustomer'] = $this->admin_model->cntTotalCustomer();
+    // 오늘 방문자수
+    $viewData['cntTodayVisitor'] = $this->admin_model->cntTodayVisitor($clubIdx);
 
     $this->_viewPage('admin/index', $viewData);
   }
@@ -734,9 +738,18 @@ class Admin extends Admin_Controller
    **/
   public function member_delete()
   {
-    $idx = html_escape($this->input->post());
+    $idx = html_escape($this->input->post('idx'));
+    $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
 
-    $result = 0;
+    if (!empty($idx)) {
+      $updateValues['quitdate'] = time();
+      $rtn = $this->admin_model->updateMember($updateValues, $idx);
+
+      if (!empty($rtn)) {
+        $result = array('error' => 0, 'message' => '');
+      }
+    }
+
     $this->output->set_output(json_encode($result));
   }
 

@@ -119,7 +119,7 @@ class Member extends MY_Controller
           rename(UPLOAD_PATH . html_escape($inputData['filename']), PHOTO_PATH . $userData['idx']);
         }
 
-        $result = array('error' => 0, 'message' => $this->lang->line('update_complete'));
+        $result = array('error' => 0, 'message' => $this->lang->line('msg_update_complete'));
       } else {
         $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
       }
