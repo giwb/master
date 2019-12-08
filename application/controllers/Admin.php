@@ -677,15 +677,6 @@ class Admin extends Admin_Controller
    **/
   public function member_list()
   {
-$list = $this->admin_model->listMembers();
-    foreach ($list as $value) {
-      $res = $this->admin_model->cntMemberReservation($value['userid']);
-
-      $updatesValues['rescount'] = $res['cnt'];
-      $this->admin_model->updateMember($updatesValues, $value['idx']);
-    }
-    exit;
-    
     $viewData['search']['realname'] = html_escape($this->input->post('realname'));
     $viewData['search']['nickname'] = html_escape($this->input->post('nickname'));
     $viewData['search']['levelType'] = html_escape($this->input->post('levelType'));

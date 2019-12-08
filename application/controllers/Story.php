@@ -524,7 +524,7 @@ class Story extends CI_Controller
 
     // 회원 정보
     $viewData['userData'] = $this->session->userData;
-    $viewData['userLevel'] = memberLevel($viewData['userData']);
+    $viewData['userLevel'] = memberLevel($viewData['userData']['rescount'], $viewData['userData']['penalty'], $viewData['userData']['level'], $viewData['userData']['admin']);
 
     // 진행 중 산행
     $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_PLAN, STATUS_ABLE, STATUS_CONFIRM));

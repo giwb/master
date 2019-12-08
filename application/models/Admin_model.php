@@ -229,17 +229,19 @@ class Admin_model extends CI_Model
           ->where('quitdate', NULL)
           ->order_by('idx', 'desc');
 
-    if (!empty($search['resMin'])) {
-      $this->db->where('(rescount - penalty) >=', $search['resMin']);
-    }
-    if (!empty($search['resMax'])) {
-      $this->db->where('(rescount - penalty) <=', $search['resMax']);
-    }
     if (!empty($search['realname'])) {
       $this->db->like('realname', $search['realname']);
     }
     if (!empty($search['nickname'])) {
       $this->db->like('nickname', $search['nickname']);
+    }
+    if (!empty($search['resMin'])) {
+      $this->db->where('(rescount - penalty) >=', $search['resMin']);
+      $this->db->where('admin', 0);
+      $this->db->where('level', 0);
+    }
+    if (!empty($search['resMax'])) {
+      $this->db->where('(rescount - penalty) <=', $search['resMax']);
     }
     if (!empty($search['level'])) {
       $this->db->where('level', $search['level']);

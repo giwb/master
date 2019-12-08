@@ -727,8 +727,9 @@ if (!function_exists('setHistory')) {
 
 // 회원 레벨 계산
 if (!function_exists('memberLevel')) {
-  function memberLevel($userData) {
+  function memberLevel($rescount, $penalty, $level, $admin) {
     // 예약횟수 체크
+    /*
     $CI =& get_instance();
     $CI->load->model('member_model');
     $reserveGroup = $CI->member_model->cntReserve($userData, 1, 1);
@@ -739,9 +740,11 @@ if (!function_exists('memberLevel')) {
 
     // 산행 횟수 (예약 그룹)
     $result['cntNotice'] = number_format($reserveGroup['cntReserve']);
+    */
+    $result['level'] = $rescount - $penalty;
 
     // 관리자 이외
-    if ($userData['admin'] != 1 && $userData['level'] != 1) {
+    if ($admin != 1 && $level != 1) {
       if ($result['level'] >= 10 && $result['level'] <= 29) {
         $result['levelType'] = 2;
         $result['levelName'] = '두그루 회원';
@@ -763,11 +766,11 @@ if (!function_exists('memberLevel')) {
         $result['levelName'] = '한그루 회원';
         $result['point'] = 1000;
       }
-    } else if ($userData['level'] == '1') {
+    } else if ($level == '1') {
       $result['levelType'] = 8;
       $result['levelName'] = '평생회원';
       $result['point'] = 1000;
-    } else if ($userData['admin'] == '1') {
+    } else if ($admin == '1') {
       $result['levelType'] = 9;
       $result['levelName'] = '관리자';
       $result['point'] = 0;
