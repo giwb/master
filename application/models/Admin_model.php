@@ -210,13 +210,39 @@ class Admin_model extends CI_Model
   }
 
   // 전체 회원 목록
-  public function listMembers()
+  public function listMembers($paging=NULL, $search=NULL)
   {
     $this->db->select('*')
           ->from(DB_MEMBER)
           ->where('quitdate', NULL)
           ->order_by('idx', 'desc');
+
+    if (!empty($search['realname'])) {
+      $this->db->like('realname', $search['realname']);
+    }
+    if (!empty($search['nickname'])) {
+      $this->db->like('nickname', $search['nickname']);
+    }
+    if (!empty($search['level'])) {
+      $this->db->where('level', $search['level']);
+    }
+    if (!empty($search['admin'])) {
+      $this->db->where('admin', $search['admin']);
+    }
+    if (!is_null($paging)) {
+      $this->db->limit($paging['perPage'], $paging['nowPage']);
+    }
+
     return $this->db->get()->result_array();
+  }
+  // 임시
+  public function cntMemberReservation($userid)
+  {
+    $this->db->select('COUNT(*) as cnt')
+          ->from(DB_RESERVATION)
+          ->where('userid', $userid)
+          ->where('status', 1);
+    return $this->db->get()->row_array(1);
   }
 
   // 회원 정보

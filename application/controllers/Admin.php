@@ -672,13 +672,73 @@ class Admin extends Admin_Controller
    * 전체 회원 목록
    *
    * @return view
+   * @return json
    * @author bjchoi
    **/
   public function member_list()
   {
-    $viewData['list'] = $this->admin_model->listMembers();
+    $list = $this->admin_model->listMembers();
+    foreach ($list as $value) {
+      $res = $this->admin_model->cntMemberReservation($value['userid']);
 
-    $this->_viewPage('admin/member_list', $viewData);
+      $updatesValues['rescount'] = $res['cnt'];
+      $this->admin_model->updateMember($updatesValues, $value['idx']);
+    }
+    exit;
+    $viewData['search']['realname'] = html_escape($this->input->post('realname'));
+    $viewData['search']['nickname'] = html_escape($this->input->post('nickname'));
+    $viewData['search']['levelType'] = html_escape($this->input->post('levelType'));
+
+    if (!empty($viewData['search']['levelType'])) {
+      switch($viewData['search']['levelType']) {
+        case '1': // 한그루 회원
+          $viewData['search']['resMin'] = 0;
+          $viewData['search']['resMax'] = 9;
+          break;
+        case '2': // 두그루 회원
+          $viewData['search']['resMin'] = 10;
+          $viewData['search']['resMax'] = 29;
+          break;
+        case '3': // 세그루 회원
+          $viewData['search']['resMin'] = 30;
+          $viewData['search']['resMax'] = 49;
+          break;
+        case '4': // 네그루 회원
+          $viewData['search']['resMin'] = 50;
+          $viewData['search']['resMax'] = 99;
+          break;
+        case '5': // 다섯그루 회원
+          $viewData['search']['resMin'] = 100;
+          break;
+        case '6': // 평생회원
+          $viewData['search']['level'] = 1;
+          break;
+        case '7': // 무료회원
+          $viewData['search']['level'] = 2;
+          break;
+        case '8': // 관리자
+          $viewData['search']['admin'] = 1;
+          break;
+      }
+    } else {
+      $viewData['search']['level'] = 0;
+    }
+
+    $page = html_escape($this->input->post('p'));
+    if (empty($page)) $page = 1; else $page++;
+    $paging['perPage'] = 20;
+    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
+    $viewData['listMembers'] = $this->admin_model->listMembers($paging, $viewData['search']);
+
+    if ($page >= 2) {
+      // 2페이지 이상일 경우에는 Json으로 전송
+      $result['page'] = $page;
+      $result['html'] = $this->load->view('admin/member_list_append', $viewData, true);
+      $this->output->set_output(json_encode($result));
+    } else {
+      // 1페이지에는 View 페이지로 전송
+      $this->_viewPage('admin/member_list', $viewData);
+    }
   }
 
   /**

@@ -12138,6 +12138,7 @@ body.sidebar-toggled footer.sticky-footer {
 
 .setup-schedule { width: 700px; }
 .setup-schedule .scheduled { background-color: #FFB680!important; }
+.btn-page-next { width: 100%; border: 1px solid #aaa; background-color: #fff; margin: 10px 0 30px 0; padding: 10px; }
 
 @media (max-width: 768px) {
   .h3 { text-align: center; }
@@ -12148,6 +12149,7 @@ body.sidebar-toggled footer.sticky-footer {
   .area-bus-table table th, .area-bus-table table td { padding: 5px 1px; }
   .area-bus-table input.seat { font-size: 10px; padding: 0px; }
   .btn { font-size: 0.7rem; padding: 0.275rem 0.15rem; }
+  .btn-member-search { width: 100%; font-size: 14px; margin: 0.8rem 0 0 0; padding: 0.5rem 1rem; }
   #addedInfo .reserve select, #addedInfo .reserve input { font-size: 12px; }
 
   .setup-schedule { width: 100%; }
