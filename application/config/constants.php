@@ -115,6 +115,11 @@ defined('STATUS_CONFIRM') OR define('STATUS_CONFIRM', 2); // 확정
 defined('STATUS_CANCEL')  OR define('STATUS_CANCEL', 8); // 취소
 defined('STATUS_CLOSED')  OR define('STATUS_CLOSED', 9); // 종료
 
+// 예약 상태
+defined('RESERVE_ON')     OR define('RESERVE_ON', 0); // 예약상태
+defined('RESERVE_PAY')    OR define('RESERVE_PAY', 1); // 입금상태
+defined('RESERVE_WAIT')   OR define('RESERVE_WAIT', 9); // 대기상태
+
 // 산행 숨김
 defined('VISIBLE_NONE')   OR define('VISIBLE_NONE', 0); // 숨김
 defined('VISIBLE_ABLE')   OR define('VISIBLE_ABLE', 1); // 공개

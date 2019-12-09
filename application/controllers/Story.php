@@ -255,7 +255,7 @@ class Story extends CI_Controller
 
       if (!empty($viewStoryReaction['reaction_kind']) && $viewStoryReaction['reaction_kind'] == REACTION_KIND_LIKE) {
         // 데이터가 있으면 삭제
-        $rtn = $this->story_model->deleteStoryReaction($clubIdx, $storyIdx, $reactionType, $userIdx);
+        $rtn = $this->story_model->deleteStoryReaction($clubIdx, $storyIdx, $userIdx, $reactionType);
 
         if (!empty($rtn)) {
           $updateData['like_cnt'] = $cntStoryReaction['cnt'] - 1;
@@ -369,6 +369,9 @@ class Story extends CI_Controller
         if (!empty($rtn)) {
           // 댓글 삭제 플래그 세우기
           $this->story_model->updateStoryReply($updateData, $clubIdx, $storyIdx);
+
+          // 리액션 삭제
+          $this->story_model->deleteStoryReaction($clubIdx, $storyIdx, $userIdx);
 
           // 화상 데이터는 삭제
           $files = $this->file_model->getFile('story', $storyIdx);

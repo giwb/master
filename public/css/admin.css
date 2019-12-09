@@ -12133,6 +12133,7 @@ body.sidebar-toggled footer.sticky-footer {
 .area-bus-table table tr:last-child td.table-blank { border-bottom: 1px solid #999; }
 .area-bus-table .male { color: #000; background-color: #E5FAFF; }
 .area-bus-table .female { color: #000; background-color: #FFEAFA; }
+.area-bus-table .wait { color: #333; background-color: #ddd; }
 .area-bus-table .active { color: #000; background-color: #FFCC00; }
 .area-bus-table input.seat { width: 20px; }
 

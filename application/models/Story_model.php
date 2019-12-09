@@ -163,12 +163,16 @@ class Story_model extends CI_Model
   }
 
   // 스토리 리액션 삭제
-  public function deleteStoryReaction($clubIdx, $storyIdx, $reactionType, $userIdx)
+  public function deleteStoryReaction($clubIdx, $storyIdx, $userIdx, $reactionType=NULL)
   {
     $this->db->where('club_idx', $clubIdx);
     $this->db->where('story_idx', $storyIdx);
-    $this->db->where('reaction_type', $reactionType);
     $this->db->where('created_by', $userIdx);
+
+    if (!empty($reactionType)) {
+      $this->db->where('reaction_type', $reactionType);
+    }
+
     return $this->db->delete(DB_STORY_REACTION);
   }
 }

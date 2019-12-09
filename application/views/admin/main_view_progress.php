@@ -88,35 +88,63 @@
         </form>
       </div>
 
-      <?php if (!empty($wait)): ?>
       <div class="area-wait">
-      ■ <strong>대기자 목록</strong><br>
+      ■ <strong>대기자</strong><br>
         <table class="mt-2">
-          <tr>
-            <th>번호</th>
-            <th>등록일시</th>
-            <th>닉네임</th>
-            <th>실명</th>
-            <th>성별</th>
-            <th>생년월일</th>
-            <th>연락처</th>
-            <th>삭제</th>
-          </tr>
-        <?php foreach ($wait as $key => $value): ?>
-          <tr>
-            <td><?=$key + 1?></td>
-            <td><?=date('Y-m-d H:i:s', $value['created_at'])?></td>
-            <td><?=$value['nickname']?></td>
-            <td><?=$value['realname']?></td>
-            <td><?=getGender($value['gender'])?></td>
-            <td><?=$value['birthday']?></td>
-            <td><?=$value['phone']?></td>
-            <td><button type="button" class="btn btn-sm btn-primary btn-wait-delete-modal" data-idx="<?=$value['idx']?>">삭제</button></td>
-          </tr>
-        <?php endforeach; ?>
+          <colgroup>
+            <col width="7%">
+            <col width="12%">
+            <col width="15%">
+            <col width="11%">
+            <col width="10%">
+            <col width="37%">
+            <col width="8%">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>번호</th>
+              <th>등록일시</th>
+              <th>닉네임</th>
+              <th>탑승위치</th>
+              <th>성별</th>
+              <th>메모</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="2" class="text-center area-userid"></td>
+              <td><input type="hidden" name="created_by"><input type="text" name="nickname" class="form-control form-control-sm search-userid"></td>
+              <td>
+                <select name="location" class="form-control form-control-sm pl-0 pr-0">
+                  <?php foreach ($arrLocation as $value): ?>
+                  <option value='<?=$value['no']?>'><?=$value['stitle']?></option>
+                  <?php endforeach; ?>
+                </select>
+              </td>
+              <td>
+                <select name="gender" class="form-control form-control-sm pl-0 pr-0">
+                  <option value='M'>남성</option>
+                  <option value='F'>여성</option>
+                </select>
+              </td>
+              <td><input type="text" name="memo" class="form-control form-control-sm"></td>
+              <td><button type="button" class="btn btn-sm btn-primary btn-wait-insert">등록</button></td>
+            </tr>
+            <?php foreach ($wait as $key => $value): ?>
+            <tr>
+              <td><?=$key + 1?></td>
+              <td class="small"><?=substr(date('Y-m-d H:i:s', $value['created_at']), 5, 11)?></td>
+              <td><?=$value['nickname']?></td>
+              <td><?=arrLocation(NULL, $value['location'], 1)?></td>
+              <td><?=getGender($value['gender'])?></td>
+              <td class="text-left"><?=$value['memo']?></td>
+              <td><button type="button" class="btn btn-sm btn-primary btn-wait-delete-modal" data-idx="<?=$value['idx']?>">삭제</button></td>
+            </tr>
+            <?php endforeach; ?>
+          </tbody>
         </table>
       </div>
-      <?php endif ?>
     </div>
 
     <!-- Wait Delete Modal -->
@@ -133,8 +161,7 @@
             <p class="modal-message">정말로 삭제하시겠습니까?</p>
           </div>
           <div class="modal-footer">
-            <input type="hidden" name="noticeIdx" value="<?=$view['idx']?>">
-            <input type="hidden" name="userIdx">
+            <input type="hidden" name="waitIdx">
             <button type="button" class="btn btn-primary btn-wait-delete">삭제합니다</button>
             <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
           </div>

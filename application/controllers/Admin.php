@@ -8,6 +8,7 @@ class Admin extends Admin_Controller
   {
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
+    $this->load->library('session');
     $this->load->model(array('admin_model'));
   }
 
@@ -194,7 +195,7 @@ class Admin extends Admin_Controller
         'vip' => 0,
         'manager' => 0,
         'penalty' => 0,
-        'status' => 0
+        'status' => RESERVE_WAIT
       );
       // 만석일 경우에는 대기자 우선석으로 변경
       $rtn = $this->admin_model->updateReserve($updateValues, $inputData['idx']);
@@ -217,7 +218,7 @@ class Admin extends Admin_Controller
   {
     // 입금 확인 완료
     $idx = html_escape($this->input->post('idx'));
-    $updateData['status'] = 1;
+    $updateData['status'] = RESERVE_PAY;
 
     $this->admin_model->updateReserve($updateData, $idx);
 
@@ -295,6 +296,9 @@ class Admin extends Admin_Controller
 
     // 대기자 정보
     $viewData['wait'] = $this->admin_model->listWait($viewData['rescode']);
+
+    // 승차위치
+    $viewData['arrLocation'] = arrLocation();
 
     $this->_viewPage('admin/main_view_progress', $viewData);
   }
@@ -714,6 +718,44 @@ class Admin extends Admin_Controller
   }
 
   /**
+   * 대기자 등록
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function main_wait_insert()
+  {
+    $now = time();
+    $clubIdx = 1;
+    $postData = $this->input->post();
+    $userIdx = html_escape($postData['created_by']);
+
+    if (empty($userIdx)) {
+      $userIdx = $this->session->userData['idx'];
+    }
+
+    $processData  = array(
+      'club_idx'    => $clubIdx,
+      'notice_idx'  => html_escape($postData['idx']),
+      'nickname'    => html_escape($postData['nickname']),
+      'location'    => html_escape($postData['location']),
+      'gender'      => html_escape($postData['gender']),
+      'memo'        => html_escape($postData['memo']),
+      'created_by'  => $userIdx,
+      'created_at'  => $now,
+    );
+    $rtn = $this->admin_model->insertWait($processData);
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+    } else {
+      $result = array('error' => 0, 'message' => '');
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 대기자 삭제
    *
    * @return view
@@ -721,9 +763,8 @@ class Admin extends Admin_Controller
    **/
   public function main_wait_delete()
   {
-    $noticeIdx = html_escape($this->input->post('noticeIdx'));
-    $userIdx = html_escape($this->input->post('userIdx'));
-    $rtn = $this->admin_model->deleteWait($noticeIdx, $userIdx);
+    $idx = html_escape($this->input->post('idx'));
+    $rtn = $this->admin_model->deleteWait($idx);
 
     if (empty($rtn)) {
       $result = array('error' => 1, 'message' => $this->lang->line('error_delete'));
@@ -1415,6 +1456,26 @@ class Admin extends Admin_Controller
       $result = array('error' => 1, 'message' => $this->lang->line('error_delete'));
     } else {
       $result = array('error' => 0, 'message' => '');
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 닉네임으로 아이디 찾기
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function search_by_nickname()
+  {
+    $nickname = html_escape($this->input->post('nickname'));
+    $rtn = $this->admin_model->viewMember(NULL, $nickname);
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => '');
+    } else {
+      $result = array('error' => 0, 'message' => '', 'idx' => $rtn['idx'], 'userid' => $rtn['userid']);
     }
 
     $this->output->set_output(json_encode($result));

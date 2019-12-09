@@ -2009,15 +2009,16 @@ h1.nav-logo small {
 #club .sub-contents .area-bus-table .male { color: #505050; background-color: #E5FAFF; }
 #club .sub-contents .area-bus-table .female { color: #505050; background-color: #FFEAFA; }
 #club .sub-contents .area-bus-table .reserved { color: #505050!important; background-color: #FBEFD8; }
+#club .sub-contents .area-bus-table .wait { color: #505050; background-color: #ddd; }
 #club .sub-contents .area-bus-table .active { color: #505050; background-color: #FFCC00; }
 #club .sub-contents #reserveForm { text-align: center; margin: 10px 0; }
 #club .sub-contents #reserveForm .btn-reserve-confirm { display: none; }
-#club .sub-contents #addedInfo .reserve { font-size: 12px; background-color: #fff; border: 1px solid #999; margin: 10px 0; padding: 0.5rem 0.3rem; }
-#club .sub-contents #addedInfo .reserve input, #club .sub-contents #addedInfo .reserve select { font-size: 12px; background-color: #fff; }
-#club .sub-contents #addedInfo .reserve input { padding: 2px 4px; }
-#club .sub-contents #addedInfo .reserve input[type=checkbox] { margin: 3px 2px 0 4px; vertical-align: top; }
-#club .sub-contents #addedInfo .reserve select { padding: 3px 2px; }
-#club .sub-contents #addedInfo .reserve .btn { font-size: 12px; margin: 0 0 3px 3px; padding: 2px 5px; }
+#club .sub-contents .reserve { font-size: 12px; background-color: #fff; border: 1px solid #999; margin: 10px 0; padding: 0.5rem 0.3rem; }
+#club .sub-contents .reserve input, #club .sub-contents .reserve select { font-size: 12px; background-color: #fff; }
+#club .sub-contents .reserve input { padding: 2px 4px; }
+#club .sub-contents .reserve input[type=checkbox] { margin: 3px 2px 0 4px; vertical-align: top; }
+#club .sub-contents .reserve select { padding: 3px 2px; }
+#club .sub-contents .reserve .btn { font-size: 12px; margin: 0 0 3px 3px; padding: 2px 5px; }
 
 #club .club-main .area-reply { border-top: 1px solid #999; padding: 20px 0; }
 #club .club-main .area-reply .reply-input { width: 100%; display: table; }

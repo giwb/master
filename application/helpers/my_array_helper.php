@@ -295,7 +295,7 @@ if (!function_exists('calcDistance')) {
 
 // 승차위치
 if (!function_exists('arrLocation')) {
-  function arrLocation($starttime=NULL, $location=NULL) {
+  function arrLocation($starttime=NULL, $location=NULL, $stitle=NULL) {
     if (!is_null($starttime)) {
       $starttime = strtotime($starttime);
     }
@@ -312,7 +312,11 @@ if (!function_exists('arrLocation')) {
       array('no' => '9', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * -20)) : '', 'title' => '원종동', 'stitle' => '원종'),
     );
     if (!is_null($location)) {
-      $result = $result[$location]['title'];
+      if (!is_null($stitle)) {
+        $result = $result[$location]['stitle'];
+      } else {
+        $result = $result[$location]['title'];
+      }
     }
     return $result;
   }
@@ -445,8 +449,10 @@ if (!function_exists('getReserveAdmin')) {
         $result['idx'] = $value['idx'];
         $result['userid'] = $value['userid'];
         $result['nickname'] = $value['nickname'];
-        if ($value['status'] == 1) {
+        if ($value['status'] == RESERVE_PAY) {
           $result['class'] .= '';
+        } elseif ($value['status'] == RESERVE_WAIT) {
+          $result['class'] .= ' wait';
         } else {
           if ($value['gender'] == 'M') {
             $result['class'] .= ' male';
@@ -477,8 +483,10 @@ if (!function_exists('getReserve')) {
         } else {
           $value['class'] = '';
         }
-        if ($value['status'] == 1) {
+        if ($value['status'] == RESERVE_PAY) {
           $value['class'] .= '';
+        } elseif ($value['status'] == RESERVE_WAIT) {
+          $value['class'] .= ' wait';
         } else {
           $value['class'] .= ' reserved';
         }

@@ -44,7 +44,8 @@ class Reserve extends MY_Controller
       $viewData['reserve'] = array();
     }
 
-    // 대기자 확인
+    // 탑승 위치
+    $viewData['arrLocation'] = arrLocation();
 
     $this->_viewPage('reserve/index', $viewData);
   }
@@ -228,24 +229,31 @@ class Reserve extends MY_Controller
     $check = $this->reserve_model->viewReserveWait($clubIdx, $noticeIdx, $userData['idx']);
 
     if (!empty($check['created_at'])) {
+      // 이미 대기중이면 삭제
       $rtn = $this->reserve_model->deleteReserveWait($clubIdx, $noticeIdx, $userData['idx']);
 
       if (!empty($rtn)) {
         $cntReserveWait = $this->reserve_model->cntReserveWait($clubIdx, $noticeIdx);
-        $result = array('error' => 0, 'message' => 0, 'cnt' => $cntReserveWait['cnt']);
+        $result = array('error' => 0, 'message' => $this->lang->line('msg_wait_delete'));
       }
     } else {
-      $processData  = array(
-        'club_idx'    => $clubIdx,
-        'notice_idx'  => $noticeIdx,
-        'created_by'  => $userData['idx'],
-        'created_at'  => $now,
-      );
-      $rtn = $this->reserve_model->insertReserveWait($processData);
+      // 대기중이지 않았을때는 등록
+      foreach ($postData['location'] as $key => $value) {
+        $processData  = array(
+          'club_idx'    => $clubIdx,
+          'notice_idx'  => $noticeIdx,
+          'nickname'    => html_escape($userData['nickname']),
+          'location'    => html_escape($value),
+          'gender'      => html_escape($postData['gender'][$key]),
+          'memo'        => html_escape($postData['memo'][$key]),
+          'created_by'  => $userData['idx'],
+          'created_at'  => $now,
+        );
+        $rtn = $this->reserve_model->insertReserveWait($processData);
+      }
 
       if (!empty($rtn)) {
-        $cntReserveWait = $this->reserve_model->cntReserveWait($clubIdx, $noticeIdx);
-        $result = array('error' => 0, 'message' => 1, 'cnt' => $cntReserveWait['cnt']);
+        $result = array('error' => 0, 'message' => $this->lang->line('msg_wait_insert'));
       }
     }
 
@@ -326,7 +334,7 @@ class Reserve extends MY_Controller
           'vip' => 0,
           'manager' => 0,
           'penalty' => 0,
-          'status' => 0
+          'status' => RESERVE_WAIT
         );
         // 만석일 경우에는 대기자 우선석으로 변경
         $rtn = $this->reserve_model->updateReserve($updateValues, $idx);
@@ -402,9 +410,9 @@ class Reserve extends MY_Controller
     $processData['depositname'] = html_escape($this->input->post('depositName'));
 
     if ($paymentCost > 0) {
-      $processData['status'] = 0;
+      $processData['status'] = RESERVE_ON;
     } else {
-      $processData['status'] = 1;
+      $processData['status'] = RESERVE_PAY;
     }
 
     foreach ($checkReserve as $key => $value) {

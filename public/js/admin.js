@@ -110,29 +110,6 @@
     $('#messageModal input[name=action]').val('main_notice_delete');
     $('#messageModal input[name=delete_idx]').val($(this).data('idx'));
     $('#messageModal').modal({backdrop: 'static', keyboard: false});
-  }).on('click', '.btn-wait-delete-modal', function() {
-    // 산행 삭제 모달
-    $('#waitModal input[name=userIdx]').val($(this).data('idx'));
-    $('#waitModal').modal({backdrop: 'static', keyboard: false});
-  }).on('click', '.btn-wait-delete', function() {
-    // 삭제
-    var $btn = $(this);
-    $.ajax({
-      url: $('input[name=base_url]').val() + 'admin/main_wait_delete',
-      data: 'noticeIdx=' + $('input[name=noticeIdx]').val() + '&userIdx=' + $('input[name=userIdx]').val(),
-      dataType: 'json',
-      type: 'post',
-      beforeSend: function() {
-        $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
-      },
-      success: function(result) {
-        if (result.error == 1) {
-          $.openMsgModal(result.message);
-        } else {
-          location.reload();
-        }
-      }
-    });
   }).on('click', '.btn-delete', function() {
     // 삭제
     var $btn = $(this);
@@ -357,6 +334,66 @@
           $.openMsgModal(result.message);
         } else {
           location.reload();
+        }
+      }
+    });
+  }).on('click', '.btn-wait-delete-modal', function() {
+    // 대기자 삭제 모달
+    $('#waitModal input[name=waitIdx]').val($(this).data('idx'));
+    $('#waitModal').modal({backdrop: 'static', keyboard: false});
+  }).on('click', '.btn-wait-delete', function() {
+    // 대기자 삭제
+    var $btn = $(this);
+    $.ajax({
+      url: $('input[name=base_url]').val() + 'admin/main_wait_delete',
+      data: 'idx=' + $('input[name=waitIdx]').val(),
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+      },
+      success: function(result) {
+        if (result.error == 1) {
+          $.openMsgModal(result.message);
+        } else {
+          location.reload();
+        }
+      }
+    });
+  }).on('blur', '.search-userid', function() {
+    // 대기자 아이디 검색
+    $.ajax({
+      url: $('input[name=base_url]').val() + 'admin/search_by_nickname',
+      data: 'nickname=' + $(this).val(),
+      dataType: 'json',
+      type: 'post',
+      success: function(result) {
+        if (result.error != 1) {
+          $('.area-userid').text(result.userid);
+          $('input[name=created_by]').val(result.idx);
+        }
+      }
+    });
+  }).on('click', '.btn-wait-insert', function() {
+    var $btn = $(this);
+    var nickname = $('input[name=nickname]').val();
+    var location = $('select[name=location]').val();
+    var data = 'idx=' + $('input[name=idx]').val() + '&created_by=' + $('input[name=created_by]').val() + '&nickname=' + nickname + '&location=' + location + '&gender=' + $('select[name=gender]').val() + '&memo=' + $('input[name=memo]').val();
+    if (nickname == '' || location == 0) return false;
+
+    $.ajax({
+      url: $('input[name=base_url]').val() + 'admin/main_wait_insert',
+      data: data,
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true);
+      },
+      success: function(result) {
+        if (result.error == 1) {
+          $.openMsgModal(result.message);
+        } else {
+          window.location.reload(true);
         }
       }
     });
@@ -706,7 +743,7 @@
         var gender = '<select name="gender[]"><option'; if (reserveInfo.reserve.gender == 'M') gender += ' selected'; gender += ' value="M">남</option><option '; if (reserveInfo.reserve.gender == 'F') gender += ' selected'; gender +=' value="F">여</option></select> ';
         var busType = '<select name="bus[]">'; $.each(reserveInfo.busType, function(i, v) { if (v.idx == '') v.idx = '버스'; cnt = i + 1; if (cnt == bus) selected = ' selected'; else selected = ''; busType += '<option' + selected + ' value="' + cnt + '">' + cnt + '호차</option>'; }); busType += '</select> ';
         var selectSeat = '<select name="seat[]">'; $.each(reserveInfo.seat, function(i, v) { if (v == seat) selected = ' selected'; else selected = ''; selectSeat += '<option' + selected + ' value="' + v + '">' + v + '번</option>'; }); selectSeat += '</select> ';
-        var location = '<select name="location[]">'; $.each(reserveInfo.location, function(i, v) { if (v == '') v.stitle = '승차위치'; cnt = i + 1; if (reserveInfo.reserve.loc == v.no) selected = ' selected'; else selected = ''; location += '<option' + selected + ' value="' + v.no + '">' + v.stitle + '</option>'; }); location += '</select> ';
+        var location = '<select name="location[]">'; $.each(reserveInfo.location, function(i, v) { if (v.stitle == '') v.stitle = '승차위치'; cnt = i + 1; if (reserveInfo.reserve.loc == v.no) selected = ' selected'; else selected = ''; location += '<option' + selected + ' value="' + v.no + '">' + v.stitle + '</option>'; }); location += '</select> ';
         //var breakfast = '<select name="breakfast[]">'; $.each(reserveInfo.breakfast, function(i, v) { if (v == '') v = '아침식사'; cnt = i + 1; if (reserveInfo.reserve.bref == i) selected = ' selected'; else selected = ''; breakfast += '<option' + selected + ' value="' + cnt + '">' + v + '</option>'; }); breakfast += '</select> ';
         var depositname = '<input type="text" name="depositname[]" size="20" placeholder="입금자명" value="' + reserveInfo.reserve.depositname + '">';
         var memo = '<div class="mt-1"><input type="text" name="memo[]" size="30" placeholder="메모" value="' + reserveInfo.reserve.memo + '"> ';

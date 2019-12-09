@@ -189,7 +189,7 @@ class Admin_model extends CI_Model
   // 대기자 목록
   public function listWait($rescode)
   {
-    $this->db->select('a.created_at, b.idx, b.userid, b.nickname, b.realname, b.gender, b.birthday, b.phone')
+    $this->db->select('a.idx, a.location, a.gender, a.memo, a.created_at, b.userid, b.nickname, b.phone')
           ->from(DB_WAIT . ' a')
           ->join(DB_MEMBER . ' b', 'a.created_by=b.idx')
           ->where('a.notice_idx', $rescode)
@@ -197,11 +197,17 @@ class Admin_model extends CI_Model
     return $this->db->get()->result_array();
   }
 
-  // 대기자 삭제
-  public function deleteWait($noticeIdx, $userIdx)
+  // 대기자 등록
+  public function insertWait($data)
   {
-    $this->db->where('notice_idx', $noticeIdx);
-    $this->db->where('created_by', $userIdx);
+    $this->db->insert(DB_WAIT, $data);
+    return $this->db->insert_id();
+  }
+
+  // 대기자 삭제
+  public function deleteWait($idx)
+  {
+    $this->db->where('idx', $idx);
     return $this->db->delete(DB_WAIT);
   }
 
@@ -254,12 +260,18 @@ class Admin_model extends CI_Model
   }
 
   // 회원 정보
-  public function viewMember($idx)
+  public function viewMember($idx, $nickname=NULL)
   {
     $this->db->select('*')
           ->from(DB_MEMBER)
-          ->where('quitdate', NULL)
-          ->where('idx', $idx);
+          ->where('quitdate', NULL);
+
+    if (is_null($nickname)) {
+      $this->db->where('idx', $idx);
+    } else {
+      $this->db->like('nickname', $nickname);
+    }
+
     return $this->db->get()->row_array(1);
   }
 

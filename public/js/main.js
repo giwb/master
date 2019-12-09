@@ -521,6 +521,9 @@
     var seat = $(this).data('seat');
     var chk = false;
 
+    // 예약/수정 중에는 대기자 예약을 숨긴다
+    $('.area-wait').hide();
+
     // 좌석 토글
     if ($(this).hasClass('active')) {
       // 비활성화
@@ -559,17 +562,25 @@
     var smonth = $('select[name=smonth]').val();
     var lastDay = ( new Date( syear, smonth, 0) ).getDate();
     location.href = ($('#formSearch').attr('action') + '?sdate=' + syear + '-' + smonth + '-01' + '&edate=' + syear + '-' + smonth + '-' + lastDay);
-  }).on('click', '.btn-reserve-wait', function() {
-    // 대기자 등록
-    var $btn = $(this);
+  }).on('click', '.btn-reserve-wait-add', function() {
+    // 대기자 등록 (추가 버튼)
     var userIdx = $('input[name=userIdx]').val();
-    var formData = new FormData($('#waitForm')[0]);
-
     if (userIdx == '') {
       $('#loginModal').modal('show'); // 로그인
       return false;
     }
-
+    $(this).removeClass('btn-primary').addClass('btn-secondary').text('탑승객 추가');
+    $('.btn-reserve-wait').removeClass('d-none');
+    var header = '<div class="reserve">';
+    var location = '<select name="location[]" class="location">'; $.each(arrLocation, function(i, v) { if (v == '') v = '승차위치'; location += '<option'; if ($('input[name=userLocation]').val() == i) location += ' selected'; location += ' value="' + i + '">' + v + '</option>'; }); location += '</select> ';
+    var gender = '<select name="gender[]" class="location"><option'; if ($('input[name=userGender]').val() == 'M') gender += ' selected'; gender += ' value="M">남성</option><option'; if ($('input[name=userGender]').val() == 'F') gender += ' selected'; gender += ' value="F">여성</option></select> ';
+    var memo = '<input type="text" name="memo[]" size="20" placeholder="요청사항" value="">';
+    var footer = '</div>';
+    $('#addedWait').append(header + location + gender + memo + footer);
+  }).on('click', '.btn-reserve-wait', function() {
+    // 대기자 등록
+    var $btn = $(this);
+    var formData = new FormData($('#waitForm')[0]);
     $.ajax({
       url: $('#waitForm').attr('action'),
       data: formData,
@@ -578,22 +589,14 @@
       dataType: 'json',
       type: 'post',
       beforeSend: function() {
+        $('btn-reserve-wait-add').hide();
         $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
       },
       success: function(result) {
-        $btn.css('opacity', '1').prop('disabled', false);
-        if (result.error == 1) {
-          $.openMsgModal(result.message);
-        } else {
-          $('.cnt-wait').text(result.cnt);
-          if (result.message == 1) {
-            // 대기자 등록 완료
-            $btn.removeClass('btn-primary').addClass('btn-secondary').text('대기자 등록 완료');
-          } else {
-            // 대기자 등록 취소
-            $btn.removeClass('btn-secondary').addClass('btn-primary').text('대기자 등록');
-          }
-        }
+        $('#messageModal .btn').hide();
+        $('#messageModal .btn-refresh').show();
+        $('#messageModal .modal-message').text(result.message);
+        $('#messageModal').modal({backdrop: 'static', keyboard: false});
       }
     });
   }).on('click', '.btn-reserve-confirm', function() {
@@ -709,10 +712,8 @@
 
   // 예약 정보
   $.viewReserveInfo = function(resIdx, bus, seat) {
-    var clubIdx = $('input[name=clubIdx]').val();
-
     $.ajax({
-      url: $('input[name=baseUrl]').val() + 'reserve/information/' + clubIdx,
+      url: $('input[name=baseUrl]').val() + 'reserve/information/' + $('input[name=clubIdx]').val(),
       data: 'idx=' + $('input[name=noticeIdx]').val() + '&bus=' + bus + '&seat=' + seat + '&resIdx=' + resIdx,
       dataType: 'json',
       type: 'post',
@@ -721,7 +722,7 @@
       },
       success: function(reserveInfo) {
         var header = '<div class="reserve" data-seat="' + seat + '"><input type="hidden" name="resIdx[]" value="' + resIdx + '" class="resIdx">';
-        var location = '<select name="location[]" class="location">'; $.each(reserveInfo.location, function(i, v) { if (v == '') v.stitle = '승차위치'; location += '<option'; if ((reserveInfo.reserve.loc == '' && reserveInfo.userLocation == v.no) || (reserveInfo.reserve.loc != '' && reserveInfo.reserve.loc == v.no)) location += ' selected'; location += ' value="' + v.no + '">' + v.stitle + '</option>'; }); location += '</select> ';
+        var location = '<select name="location[]" class="location">'; $.each(reserveInfo.location, function(i, v) { if (v.stitle == '') v.stitle = '승차위치'; location += '<option'; if ((reserveInfo.reserve.loc == '' && reserveInfo.userLocation == v.no) || (reserveInfo.reserve.loc != '' && reserveInfo.reserve.loc == v.no)) location += ' selected'; location += ' value="' + v.no + '">' + v.stitle + '</option>'; }); location += '</select> ';
         var memo = '<input type="text" name="memo[]" size="20" placeholder="요청사항" value="' + reserveInfo.reserve.memo + '">';
         var footer = '</div>';
 
