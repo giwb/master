@@ -3,15 +3,17 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <title>경인웰빙</title>
+  <title>경인웰빙산악회</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
   <meta name="robots" content="noindex">
 
   <meta property="og:title" content="경인웰빙" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="http://giwb.kr/" />
+  <meta property="og:url" content="https://giwb.kr/" />
   <meta property="og:image" content="<?=base_url()?>public/images/logo.png" />
+  <meta property="og:description" content="매주 토, 일. 차내 음주가무 없으며, 초보자도 함께할 수 있는 여유있는 산행.">
+  <meta name="description" content="매주 토, 일. 차내 음주가무 없으며, 초보자도 함께할 수 있는 여유있는 산행.">
 
   <link rel="icon" type="image/png" href="<?=base_url()?>public/images/favicon.png">
   <link rel="shortcut icon" type="image/png" href="<?=base_url()?>public/images/favicon.png">
