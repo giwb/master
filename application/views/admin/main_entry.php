@@ -316,7 +316,7 @@
           </tbody>
         </table>
 
-        <div class="text-center mb-5">
+        <div class="area-button">
           <button type="button" class="btn btn-primary btn-entry p-3 pr-5 pl-5"><?=$btn?></button> &nbsp;
           <button type="button" class="btn btn-danger btn-notice-delete p-3 pr-5 pl-5" data-idx="<?=$view['idx']?>">삭제</button>
         </div>
