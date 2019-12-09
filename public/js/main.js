@@ -728,14 +728,19 @@
 
         if (resIdx != '') {
           // 수정
-          var busType = '<select name="bus[]">'; $.each(reserveInfo.busType, function(i, v) { busType += '<option'; if ((i+1) == bus) busType += ' selected'; busType += ' value="' + (i+1) + '">' + (i+1) + '호차</option>'; }); busType += '</select> ';
+          var busType = '';
+          if (reserveInfo.busType.length > 1) {
+            busType += '<select name="bus[]">'; $.each(reserveInfo.busType, function(i, v) { busType += '<option'; if ((i+1) == bus) busType += ' selected'; busType += ' value="' + (i+1) + '">' + (i+1) + '호차</option>'; }); busType += '</select> ';
+          } else {
+            busType += '<input type="hidden" name="bus[]" value="' + bus + '">';
+          }
           var selectSeat = '<select name="seat[]">'; $.each(reserveInfo.seat, function(i, v) { selectSeat += '<option'; if ((i+1) == seat) selectSeat += ' selected'; selectSeat += ' value="' + (i+1) + '">' + (i+1) + '번</option>'; }); selectSeat += '</select> ';
           $('.btn-reserve-cancel').removeClass('d-none').show();
         } else {
           // 등록
           var busNumber = '';
           if (reserveInfo.busType.length > 1) {
-            var busNumber = bus + '호차';
+            busNumber = bus + '호차';
           }
           var busType = busNumber + '<input type="hidden" name="bus[]" value="' + bus + '"> ';
           var selectSeat = reserveInfo.nowSeat + '번<input type="hidden" name="seat[]" value="' + seat + '"> ';

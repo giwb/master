@@ -167,14 +167,16 @@ class Reserve extends MY_Controller
 
     foreach ($postData['seat'] as $key => $seat) {
       if (!empty($resIdx[$key])) $resIdxNow = html_escape($resIdx[$key]); else $resIdxNow = 0;
+      $bus = html_escape($bus[$key]);
+      $seat = html_escape($seat);
       $processData  = array(
         'club_idx'  => $clubIdx,
         'rescode'   => $noticeIdx,
         'userid'    => $userData['userid'],
         'nickname'  => $userData['nickname'],
         'gender'    => $userData['gender'],
-        'bus'       => html_escape($bus[$key]),
-        'seat'      => html_escape($seat),
+        'bus'       => $bus,
+        'seat'      => $seat,
         'loc'       => html_escape($location[$key]),
         'memo'      => html_escape($memo[$key]),
         'penalty'   => $penalty,
@@ -187,13 +189,11 @@ class Reserve extends MY_Controller
         // 로그 기록
         setHistory(2, $noticeIdx, $userData['userid'], $viewNotice['subject'], $now);
       } else {
-        // 예약된 정보 불러오기
-        $viewReserve = $this->reserve_model->viewReserve($clubIdx, $resIdxNow);
-
         // 선택한 좌석 예약 여부 확인
-        $checkReserve = $this->reserve_model->checkReserve($clubIdx, $noticeIdx, html_escape($bus[$key]), html_escape($seat));
+        $checkReserve = $this->reserve_model->checkReserve($clubIdx, $noticeIdx, $bus, $seat);
 
-        if ($viewReserve['userid'] == $userData['userid'] && empty($checkReserve['idx'])) {
+        // 자신이 예약한 좌석만 수정 가능
+        if ($checkReserve['userid'] == $userData['userid'] || empty($checkReserve['idx'])) {
           $result = $this->reserve_model->updateReserve($processData, $resIdxNow);
         }
       }
@@ -290,7 +290,7 @@ class Reserve extends MY_Controller
     // 등록된 산행 목록
     $viewData['listNotice'] = $this->reserve_model->listNotice($clubIdx);
 
-    $this->_viewPage('club/check', $viewData);
+    $this->_viewPage('reserve/check', $viewData);
   }
 
   /**
