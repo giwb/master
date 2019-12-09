@@ -69,10 +69,10 @@ class Admin extends Admin_Controller
   public function reserve_information()
   {
     $idx = html_escape($this->input->post('idx'));
-    $viewData['rescode'] = html_escape($this->input->post('resIdx'));
+    $viewData['idx'] = html_escape($this->input->post('resIdx'));
     $viewData['view'] = $this->admin_model->viewEntry($idx);
 
-    if (!empty($resIdx)) {
+    if (!empty($viewData['idx'])) {
       $result['reserve'] = $this->admin_model->viewReserve($viewData);
       if (empty($result['reserve']['depositname'])) $result['reserve']['depositname'] = '';
     } else {

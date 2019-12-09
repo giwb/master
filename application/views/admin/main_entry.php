@@ -129,7 +129,7 @@
               <th>산행 코스</th>
               <td class="form-row">
                 <div class="col-md-4">
-                  <input type="text" name="content" class="form-control" value="<?=$view['content']?>">
+                  <textarea name="content" rows="5" class="form-control w-100"><?=$view['content']?></textarea>
                 </div>
               </td>
             </tr>

@@ -13,7 +13,7 @@
           <?php $notice['cost'] = $notice['cost_total'] == 0 ? $notice['cost'] : $notice['cost_total']; if (!empty($notice['cost'])): ?>
           <strong>・산행분담금</strong> : <?=number_format($notice['cost_total'] == 0 ? $notice['cost'] : $notice['cost_total'])?>원 (<?=calcTerm($notice['startdate'], $notice['starttime'], $notice['enddate'], $notice['schedule'])?><?=!empty($notice['distance']) ? ', ' . calcDistance($notice['distance']) : ''?><?=!empty($notice['costmemo']) ? ', ' . $notice['costmemo'] : ''?>)<br>
           <?php endif; ?>
-          <?=!empty($notice['content']) ? "<strong>・산행코스</strong> : " . $notice['content'] : ""?>
+          <?=!empty($notice['content']) ? "<strong>・산행코스</strong> : " . nl2br($notice['content']) : ""?>
 
           <div class="area-reservation">
             <?php
