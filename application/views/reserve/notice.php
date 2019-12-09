@@ -40,7 +40,7 @@
           <div class="story-reply reply-type-<?=REPLY_TYPE_NOTICE?>" data-idx="<?=$notice['idx']?>">
             <div class="story-reply-content">
 <?php foreach ($listReply as $value): ?>
-              <dl><dt><img class="img-profile" src="/public/photos/<?=$value['created_by']?>"> <?=$value['nickname']?></dt><dd><?=$value['content']?> <span class="date">(<?=$value['created_at']?>)</span><?=$userData['idx'] == $value['created_by'] || $userData['admin'] == 1 ? ' | <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '" data-action="delete_reply">삭제</a>' : ''?></dd></dl>
+              <dl><dt><img class="img-profile" src="/public/photos/<?=$value['created_by']?>"> <?=$value['nickname']?></dt><dd><?=$value['content']?> <span class="date">(<?=calcStoryTime($value['created_at'])?>)</span><?=$userData['idx'] == $value['created_by'] || $userData['admin'] == 1 ? ' | <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '" data-action="delete_reply">삭제</a>' : ''?></dd></dl>
 <?php endforeach; ?>
             </div>
             <form method="post" action="<?=base_url()?>story/insert_reply/<?=$view['idx']?>" class="story-reply-input" data-idx="<?=$notice['idx']?>">
