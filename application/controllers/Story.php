@@ -219,7 +219,7 @@ class Story extends CI_Controller
           $this->story_model->updateStory($updateData, $clubIdx, $storyIdx);
         }
 
-        $html = '<dl><dt><img class="img-profile" src="' . base_url() . '/public/photos/' . $userData['idx'] . '"> ' . $userData['nickname'] . '</dt><dd>' . $content . '<span class="reply-date">(' . calcStoryTime($now) . ')</span> | <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $rtn . '" data-action="delete_reply">삭제</a></dd></dl>';
+        $html = '<dl><dt><img class="img-profile" src="' . base_url() . '/public/photos/' . $userData['idx'] . '"> ' . $userData['nickname'] . '</dt><dd>' . $content . '<span class="reply-date">(' . calcStoryTime(date('Y-m-d H:i:s', $now)) . ')</span> | <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $rtn . '" data-action="delete_reply">삭제</a></dd></dl>';
 
         $result = array(
           'error' => 0,
