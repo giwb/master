@@ -2,7 +2,7 @@
 if (strstr($_SERVER['HTTP_HOST'], 'giwb.localhost') == true) {
   define('EDITOR_PATH', '/mamp/htdocs/giwb/public/uploads/editor/');
 } else {
-  define('EDITOR_PATH', '/home/sayhome/www/giwb.new/public/uploads/editor/');
+  define('EDITOR_PATH', '/home/sayhome/www/giwb/public/uploads/editor/');
 }
 define('EDITOR_URL', '/public/uploads/editor/');
 
