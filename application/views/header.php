@@ -155,11 +155,11 @@
           <div class="club-header">
             <?php if (!empty($view['photo'][0])): ?>
             <!-- 대표 사진 -->
-            <img src="<?=base_url()?><?=PHOTO_URL?><?=$view['photo'][0]?>">
+            <a href="<?=base_url()?>"><img src="<?=base_url()?><?=PHOTO_URL?><?=$view['photo'][0]?>"></a>
             <?php endif; ?>
             <h3><?=$view['title']?></h3>
           </div>
-          <?=$view['homepage'] != '' ? '<a target="_blank" href="' . $view['homepage'] . '" class="url">' . $view['homepage'] . '</a>' : ''?>
+          <?=$view['homepage'] != '' ? '<a href="' . $view['homepage'] . '" class="url">' . $view['homepage'] . '</a>' : ''?>
           <ul class="navi">
             <li><a href="<?=base_url()?>club/about/<?=$view['idx']?>"><i class="fa fa-picture-o" aria-hidden="true"></i> 산악회 소개</a></li>
             <li><a href="<?=base_url()?>club/guide/<?=$view['idx']?>"><i class="fa fa-user-circle" aria-hidden="true"></i> 등산 안내인 소개</a></li>
