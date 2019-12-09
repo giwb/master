@@ -186,6 +186,17 @@ class Admin_model extends CI_Model
     return $this->db->delete(DB_NOTICE);
   }
 
+  // 대기자 목록
+  public function listWait($rescode)
+  {
+    $this->db->select('a.created_at, b.idx, b.userid, b.nickname, b.realname, b.gender, b.birthday, b.phone')
+          ->from(DB_WAIT . ' a')
+          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx')
+          ->where('a.notice_idx', $rescode)
+          ->order_by('a.created_at', 'asc');
+    return $this->db->get()->result_array();
+  }
+
   // 문자양식
   public function listSMS($rescode)
   {

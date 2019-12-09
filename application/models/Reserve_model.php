@@ -59,6 +59,21 @@ class Reserve_model extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  // 산행 예약자 카운트
+  public function cntReserve($clubIdx, $noticeIdx, $bus=NULL)
+  {
+    $this->db->select('COUNT(*) AS cnt')
+          ->from(DB_RESERVATION)
+          ->where('club_idx', $clubIdx)
+          ->where('rescode', $noticeIdx);
+
+    if (!empty($bus)) {
+      $this->db->where('bus', $bus);
+    }
+
+    return $this->db->get()->row_array(1);
+  }
+
   // 마이페이지 사용자 예약 내역
   public function userReserve($clubIdx, $userId=NULL, $idx=NULL)
   {
@@ -137,7 +152,7 @@ class Reserve_model extends CI_Model
   }
 
   // 예약 취소
-  public function cancelReserve($idx)
+  public function deleteReserve($idx)
   {
     $this->db->where('idx', $idx);
     return $this->db->delete(DB_RESERVATION);

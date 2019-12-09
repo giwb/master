@@ -75,6 +75,7 @@ class Admin extends Admin_Controller
     if (!empty($viewData['idx'])) {
       $result['reserve'] = $this->admin_model->viewReserve($viewData);
       if (empty($result['reserve']['depositname'])) $result['reserve']['depositname'] = '';
+      if (empty($result['reserve']['memo'])) $result['reserve']['memo'] = '';
     } else {
       $result['reserve']['nickname'] = '';
       $result['reserve']['gender'] = 'M';
@@ -159,8 +160,48 @@ class Admin extends Admin_Controller
    **/
   public function reserve_cancel()
   {
-    // 예약 정보 삭제
-    $this->admin_model->deleteReserve(html_escape($this->input->post('idx')));
+    $inputData['idx'] = html_escape($this->input->post('idx'));
+
+    // 유저 예약 정보
+    $viewReserve = $this->admin_model->viewReserve($inputData);
+
+    // 산행 정보
+    $viewEntry = $this->admin_model->viewEntry($viewReserve['rescode']);
+
+    // 해당 산행과 버스의 예약자 수
+    $cntReservation = $this->admin_model->cntReservation($viewReserve['rescode'], $viewReserve['bus']);
+
+    $busType = getBusType($viewEntry['bustype'], $viewEntry['bus']);
+    $maxSeat = array();
+    foreach ($busType as $key => $value) {
+      $cnt = $key + 1;
+      $maxSeat[$cnt] = $value['seat'];
+    }
+
+    // 예약자가 초과됐을 경우
+    if ($cntReservation['CNT'] >= $maxSeat[$viewReserve['bus']]) {
+      // 예약 삭제 처리
+      $updateValues = array(
+        'userid' => NULL,
+        'nickname' => '대기자 우선',
+        'gender' => '',
+        'loc' => NULL,
+        'bref' => NULL,
+        'memo' => NULL,
+        'depositname' => NULL,
+        'point' => 0,
+        'priority' => 0,
+        'vip' => 0,
+        'manager' => 0,
+        'penalty' => 0,
+        'status' => 0
+      );
+      // 만석일 경우에는 대기자 우선석으로 변경
+      $rtn = $this->admin_model->updateReserve($updateValues, $inputData['idx']);
+    } else {
+      // 좌석이 남아있을 경우에는 그냥 삭제
+      $this->admin_model->deleteReserve($inputData['idx']);
+    }
 
     $result['reload'] = true;
     $this->output->set_output(json_encode($result));
@@ -251,6 +292,9 @@ class Admin extends Admin_Controller
 
     // 예약 정보
     $viewData['reserve'] = $this->admin_model->viewReserve($viewData);
+
+    // 대기자 정보
+    $viewData['wait'] = $this->admin_model->listWait($viewData['rescode']);
 
     $this->_viewPage('admin/main_view_progress', $viewData);
   }

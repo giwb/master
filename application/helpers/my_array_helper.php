@@ -447,7 +447,7 @@ if (!function_exists('getReserveAdmin')) {
         $result['nickname'] = $value['nickname'];
         if ($value['gender'] == 'M') {
           $result['class'] .= ' male';
-        } else {
+        } elseif ($value['gender'] == 'F') {
           $result['class'] .= ' female';
         }
       }
@@ -810,6 +810,18 @@ if (!function_exists('cntWait')) {
   function cntWait($clubIdx, $noticeIdx) {
     $result = $GLOBALS['CI']->reserve_model->cntReserveWait($clubIdx, $noticeIdx);
     return $result['cnt'];
+  }
+}
+
+// 성별
+if (!function_exists('getGender')) {
+  function getGender($gender) {
+    if ($gender == 'M') {
+      $result = '남성';
+    } elseif ($gender == 'F') {
+      $result = '여성';
+    }
+    return $result;
   }
 }
 ?>

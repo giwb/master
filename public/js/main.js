@@ -562,10 +562,10 @@
   }).on('click', '.btn-reserve-wait', function() {
     // 대기자 등록
     var $btn = $(this);
-    var formData = new FormData($('#reserveForm')[0]);
+    var formData = new FormData($('#waitForm')[0]);
 
     $.ajax({
-      url: $('#reserveForm').attr('action'),
+      url: $('#waitForm').attr('action'),
       data: formData,
       processData: false,
       contentType: false,

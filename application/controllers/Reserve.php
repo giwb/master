@@ -106,6 +106,8 @@ class Reserve extends MY_Controller
 
     if (!empty($resIdx)) {
       $result['reserve'] = $this->reserve_model->viewReserve($clubIdx, $resIdx);
+      if (is_null($result['reserve']['depositname'])) $result['reserve']['depositname'] = '';
+      if (is_null($result['reserve']['memo'])) $result['reserve']['memo'] = '';
     } else {
       $result['reserve']['nickname'] = '';
       $result['reserve']['gender'] = 'M';
@@ -292,10 +294,46 @@ class Reserve extends MY_Controller
     $penalty = 0;
 
     foreach ($resIdx as $idx) {
+      // 유저 예약 정보
       $userReserve = $this->reserve_model->userReserve($clubIdx, NULL, $idx);
 
-      // 예약 삭제 처리
-      $rtn = $this->reserve_model->cancelReserve($idx);
+      // 산행 정보
+      $viewNotice = $this->reserve_model->viewNotice($clubIdx, $userReserve['rescode']);
+
+      // 해당 산행과 버스의 예약자 수
+      $cntReserve = $this->reserve_model->cntReserve($clubIdx, $userReserve['rescode'], $userReserve['bus']);
+
+      $busType = getBusType($viewNotice['bustype'], $viewNotice['bus']);
+      $maxSeat = array();
+      foreach ($busType as $key => $value) {
+        $cnt = $key + 1;
+        $maxSeat[$cnt] = $value['seat'];
+      }
+
+      // 예약자가 초과됐을 경우
+      if ($cntReserve['cnt'] >= $maxSeat[$userReserve['bus']]) {
+        // 예약 삭제 처리
+        $updateValues = array(
+          'userid' => NULL,
+          'nickname' => '대기자 우선',
+          'gender' => '',
+          'loc' => NULL,
+          'bref' => NULL,
+          'memo' => NULL,
+          'depositname' => NULL,
+          'point' => 0,
+          'priority' => 0,
+          'vip' => 0,
+          'manager' => 0,
+          'penalty' => 0,
+          'status' => 0
+        );
+        // 만석일 경우에는 대기자 우선석으로 변경
+        $rtn = $this->reserve_model->updateReserve($updateValues, $idx);
+      } else {
+        // 좌석이 남아있을 경우에는 그냥 삭제
+        $rtn = $this->reserve_model->deleteReserve($idx);
+      }
 
       if (!empty($rtn)) {
         $startTime = explode(':', $userReserve['starttime']);

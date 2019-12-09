@@ -86,6 +86,33 @@
           <input type="hidden" name="idx" value="<?=$view['idx']?>">
           <button type="button" class="btn btn-primary btn-reserve-confirm">예약을 확정합니다</button>
         </form>
+      </div>
 
+      <div class="area-wait">
+      ■ <strong>대기자 목록</strong><br>
+        <table>
+          <tr>
+            <th>번호</th>
+            <th>등록일시</th>
+            <th>닉네임</th>
+            <th>실명</th>
+            <th>성별</th>
+            <th>생년월일</th>
+            <th>연락처</th>
+            <th>&nbsp;</th>
+          </tr>
+        <?php foreach ($wait as $key => $value): ?>
+          <tr>
+            <td><?=$key + 1?></td>
+            <td><?=date('Y-m-d H:i:s', $value['created_at'])?></td>
+            <td><?=$value['nickname']?></td>
+            <td><?=$value['realname']?></td>
+            <td><?=getGender($value['gender'])?></td>
+            <td><?=$value['birthday']?></td>
+            <td><?=$value['phone']?></td>
+            <td><button class="btn btn-sm btn-primary">삭제</button></td>
+          </tr>
+        <?php endforeach; ?>
+        </table>
       </div>
     </div>
