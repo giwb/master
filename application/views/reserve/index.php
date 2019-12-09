@@ -64,6 +64,7 @@
               </table>
             </div>
             <?php endforeach; ?>
+            <?php if ($notice['status'] != STATUS_CLOSED): ?>
             <?php if ($maxRes == $value['seat']): $cntWait = cntWait($view['idx'], $notice['idx']); ?>
             <div class="area-wait text-center mt-3 mb-4">
               현재 <span class="cnt-wait"><?=$cntWait?></span>명 대기중입니다.<br>
@@ -91,6 +92,7 @@
               <button type="button" class="btn btn-primary btn-reserve-confirm">예약합니다</button>
               <button type="button" class="btn btn-primary btn-reserve-cancel d-none">취소합니다</button>
             </form>
+            <?php endif; ?>
           </div>
         </div>
         <?php endif; ?>
