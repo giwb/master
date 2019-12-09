@@ -596,7 +596,28 @@ class Admin extends Admin_Controller
       $viewData['view']['costmemo'] = '';
     }
 
+    // 버스 형태
     $viewData['listBustype'] = $this->admin_model->listBustype();
+
+    if (empty($viewData['view']['driving_fuel'][2])) {
+      // 전국 유가 정보 (오피넷 Key : F657191209)
+      $url = 'http://www.opinet.co.kr/api/avgSidoPrice.do?out=xml&code=F657191209';
+      $ch = cURL_init();
+
+      cURL_setopt($ch, CURLOPT_URL, $url);
+      cURL_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+      $response = cURL_exec($ch);
+      cURL_close($ch); 
+
+      $object = simplexml_load_string($response);
+      foreach ($object as $value) {
+        // 인천, 경유 정보 추출
+        if ($value->SIDOCD == '15' && $value->PRODCD == 'D047') {
+          $viewData['costGas'] = $value->PRICE;
+        }
+      }
+    }
 
     $this->_viewPage('admin/main_entry', $viewData);
   }

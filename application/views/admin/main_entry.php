@@ -254,7 +254,7 @@
             </tr>
             <tr>
               <td>시세</td>
-              <td><input class="form-control cost-gas" type="text" size="3" name="driving_fuel[]" value="<?=!empty($view['driving_fuel'][2]) ? $view['driving_fuel'][2] : '1374'?>">원/L</td>
+              <td><input class="form-control cost-gas" type="text" size="3" name="driving_fuel[]" value="<?=!empty($view['driving_fuel'][2]) ? $view['driving_fuel'][2] : $costGas?>">원/L</td>
               <td>식대</td>
               <td><input class="form-control driving-cost" type="text" size="4" name="driving_cost[]" value="<?=!empty($view['driving_cost'][2]) ? $view['driving_cost'][2] : '10000'?>">원</td>
               <td>승객수당</td>
