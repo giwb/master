@@ -64,22 +64,10 @@
               </table>
             </div>
             <?php endforeach; ?>
-            <?php if ($maxRes == $value['seat']): $cntWait = cntWait($view['idx'], $notice['idx']); ?>
-            <div class="text-center mt-3">
-              현재 <span class="cnt-wait"><?=$cntWait?></span>명 대기중입니다.<br>
-            </div>
-            <form id="reserveForm" method="post" action="<?=base_url()?>reserve/wait_insert" class="mt-3">
-              <?php $checkWait = checkWait($view['idx'], $notice['idx'], $userData['idx']); if (empty($checkWait)): ?>
-              <button type="button" class="btn btn-primary btn-reserve-wait">대기자 등록</button>
-              <?php else: ?>
-              <button type="button" class="btn btn-secondary btn-reserve-wait">대기자 취소</button>
-              <?php endif; ?>
-            <?php else: ?>
             <form id="reserveForm" method="post" action="<?=base_url()?>reserve/insert">
               <div id="addedInfo"></div>
               <button type="button" class="btn btn-primary btn-reserve-confirm">예약합니다</button>
               <button type="button" class="btn btn-primary btn-reserve-cancel d-none">취소합니다</button>
-            <?php endif; ?>
               <input type="hidden" name="clubIdx" value="<?=!empty($view['idx']) ? $view['idx'] : ''?>">
               <input type="hidden" name="userIdx" value="<?=!empty($userData['idx']) ? $userData['idx'] : ''?>">
               <input type="hidden" name="noticeIdx" value="<?=!empty($notice['idx']) ? $notice['idx'] : ''?>">
