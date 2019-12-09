@@ -202,6 +202,15 @@ class Reserve extends MY_Controller
     if (empty($result)) {
       $result = array('error' => 1, 'message' => $this->lang->line('error_seat_duplicate'));
     } else {
+      if ($viewNotice['status'] == STATUS_ABLE) {
+        $cntReserve = $this->reserve_model->cntReserve($clubIdx, $noticeIdx);
+        if ($cntReserve['cnt'] >= 15) {
+          // 예약자가 15명 이상일 경우 확정으로 변경
+          $processData = array('status' => STATUS_CONFIRM);
+          $this->reserve_model->updateNotice($processData, $clubIdx, $noticeIdx);
+        }
+      }
+
       $result = array('error' => 0, 'message' => base_url() . 'reserve/check/' . $clubIdx . '?n=' . $noticeIdx . '&c=' . $result);
     }
 
@@ -344,6 +353,15 @@ class Reserve extends MY_Controller
       }
 
       if (!empty($rtn)) {
+        if ($viewNotice['status'] == STATUS_CONFIRM) {
+          $cntReserve = $this->reserve_model->cntReserve($clubIdx, $userReserve['rescode']);
+          if ($cntReserve['cnt'] < 15) {
+            // 예약자가 15명 이하일 경우 예정으로 변경
+            $updateValues = array('status' => STATUS_ABLE);
+            $this->reserve_model->updateNotice($updateValues, $clubIdx, $userReserve['rescode']);
+          }
+        }
+
         $startTime = explode(':', $userReserve['starttime']);
         $startDate = explode('-', $userReserve['startdate']);
         $limitDate = mktime($startTime[0], $startTime[1], 0, $startDate[1], $startDate[2], $startDate[0]);

@@ -126,6 +126,15 @@ class Reserve_model extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  // 산행 정보 수정
+  public function updateNotice($data, $clubIdx, $noticeIdx)
+  {
+    $this->db->set($data);
+    $this->db->where('club_idx', $clubIdx);
+    $this->db->where('idx', $noticeIdx);
+    return $this->db->update(DB_NOTICE);
+  }
+
   // 예약 정보 보기
   public function viewReserve($clubIdx, $idx)
   {

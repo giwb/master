@@ -53,9 +53,7 @@ class Admin_model extends CI_Model
   {
     $this->db->select('COUNT(idx) AS CNT')
           ->from(DB_RESERVATION)
-          ->where('rescode', $resCode)
-          ->where('manager !=', 1)
-          ->where('priority', 0);
+          ->where('rescode', $resCode);
 
     if (!is_null($bus)) {
       $this->db->where('bus', $bus);

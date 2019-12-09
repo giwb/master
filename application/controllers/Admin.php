@@ -125,6 +125,9 @@ class Admin extends Admin_Controller
     $arrManager = $this->input->post('manager');
     $arrPriority = $this->input->post('priority');
 
+    // 산행 정보
+    $viewEntry = $this->admin_model->viewEntry($idx);
+
     foreach ($arrSeat as $key => $seat) {
       $postData = array(
         'rescode' => $idx,
@@ -147,6 +150,15 @@ class Admin extends Admin_Controller
         $result = $this->admin_model->insertReserve($postData);
       } else {
         $result = $this->admin_model->updateReserve($postData, $resIdx);
+      }
+    }
+
+    if (!empty($result) && $viewEntry['status'] == STATUS_ABLE) {
+      $cntReservation = $this->admin_model->cntReservation($idx);
+      if ($cntReservation['CNT'] >= 15) {
+        // 예약자가 15명 이상일 경우 확정으로 변경
+        $updateValues = array('status' => STATUS_CONFIRM);
+        $this->admin_model->updateEntry($updateValues, $idx);
       }
     }
 
@@ -202,6 +214,15 @@ class Admin extends Admin_Controller
     } else {
       // 좌석이 남아있을 경우에는 그냥 삭제
       $this->admin_model->deleteReserve($inputData['idx']);
+
+      if ($viewEntry['status'] == STATUS_CONFIRM) {
+        $cntReservation = $this->admin_model->cntReservation($viewReserve['rescode']);
+        if ($cntReservation['CNT'] < 15) {
+          // 예약자가 15명 이하일 경우 예정으로 변경
+          $updateValues = array('status' => STATUS_ABLE);
+          $this->admin_model->updateEntry($updateValues, $viewReserve['rescode']);
+        }
+      }
     }
 
     $result['reload'] = true;
