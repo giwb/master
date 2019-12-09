@@ -1944,7 +1944,7 @@ h1.nav-logo small {
 #club .club-main .story-article .story-reply, #club .club-main .story-reply.reply-type-2 { display: block; }
 #club .club-main .story-article { margin-top: -10px; }
 #club .club-main .story-reply dl { width: 100%; display: table; text-align: left; word-break: break-all; }
-#club .club-main .story-reply dl dt { width: 24%; display: table-cell; vertical-align: top; }
+#club .club-main .story-reply dl dt { width: 24%; display: table-cell; vertical-align: top; padding-left: 15px; white-space: nowrap; }
 #club .club-main .story-reply dl dd { width: 76%; display: table-cell; vertical-align: top; padding-top: 8px; }
 #club .club-main .story-reply dl dd .reply-date { font-size: 12px; color: #aeaeae; margin-left: 20px; }
 #club .club-main .story-reply .story-reply-input { width: 100%; display: table; }
