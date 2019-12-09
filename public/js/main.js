@@ -559,6 +559,37 @@
     var smonth = $('select[name=smonth]').val();
     var lastDay = ( new Date( syear, smonth, 0) ).getDate();
     location.href = ($('#formSearch').attr('action') + '?sdate=' + syear + '-' + smonth + '-01' + '&edate=' + syear + '-' + smonth + '-' + lastDay);
+  }).on('click', '.btn-reserve-wait', function() {
+    // 대기자 등록
+    var $btn = $(this);
+    var formData = new FormData($('#reserveForm')[0]);
+
+    $.ajax({
+      url: $('#reserveForm').attr('action'),
+      data: formData,
+      processData: false,
+      contentType: false,
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+      },
+      success: function(result) {
+        $btn.css('opacity', '1').prop('disabled', false);
+        if (result.error == 1) {
+          $.openMsgModal(result.message);
+        } else {
+          $('.cnt-wait').text(result.cnt);
+          if (result.message == 1) {
+            // 대기자 등록 완료
+            $btn.removeClass('btn-primary').addClass('btn-secondary').text('대기자 등록 완료');
+          } else {
+            // 대기자 등록 취소
+            $btn.removeClass('btn-secondary').addClass('btn-primary').text('대기자 등록');
+          }
+        }
+      }
+    });
   }).on('click', '.btn-reserve-confirm', function() {
     // 좌석 예약
     var $btn = $(this);

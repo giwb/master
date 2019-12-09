@@ -2,7 +2,7 @@
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 $CI = get_instance();
-$CI->load->model(array('admin_model', 'member_model'));
+$CI->load->model(array('admin_model', 'member_model', 'reserve_model'));
 
 // html_escape 리셋
 if (!function_exists('reset_html_escape')) {
@@ -794,6 +794,22 @@ if (!function_exists('calcStoryTime')) {
     }
 
     return $result;
+  }
+}
+
+// 대기자 확인
+if (!function_exists('checkWait')) {
+  function checkWait($clubIdx, $noticeIdx, $userIdx) {
+    $result = $GLOBALS['CI']->reserve_model->viewReserveWait($clubIdx, $noticeIdx, $userIdx);
+    return $result['created_at'];
+  }
+}
+
+// 대기자 카운트
+if (!function_exists('cntWait')) {
+  function cntWait($clubIdx, $noticeIdx) {
+    $result = $GLOBALS['CI']->reserve_model->cntReserveWait($clubIdx, $noticeIdx);
+    return $result['cnt'];
   }
 }
 ?>

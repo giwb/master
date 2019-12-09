@@ -154,5 +154,41 @@ class Reserve_model extends CI_Model
           ->where('seat', $seat);
     return $this->db->get()->row_array(1);
   }
+
+  // 대기자 카운트
+  public function cntReserveWait($clubIdx, $noticeIdx)
+  {
+    $this->db->select('COUNT(created_at) as cnt')
+          ->from(DB_WAIT)
+          ->where('club_idx', $clubIdx)
+          ->where('notice_idx', $noticeIdx);
+    return $this->db->get()->row_array(1);
+  }
+
+  // 대기자 확인
+  public function viewReserveWait($clubIdx, $noticeIdx, $userIdx)
+  {
+    $this->db->select('created_at')
+          ->from(DB_WAIT)
+          ->where('club_idx', $clubIdx)
+          ->where('notice_idx', $noticeIdx)
+          ->where('created_by', $userIdx);
+    return $this->db->get()->row_array(1);
+  }
+
+  // 대기자 등록
+  public function insertReserveWait($data)
+  {
+    return $this->db->insert(DB_WAIT, $data);
+  }
+
+  // 대기자 삭제
+  public function deleteReserveWait($clubIdx, $noticeIdx, $userIdx)
+  {
+    $this->db->where('club_idx', $clubIdx);
+    $this->db->where('notice_idx', $noticeIdx);
+    $this->db->where('created_by', $userIdx);
+    return $this->db->delete(DB_WAIT);
+  }
 }
 ?>

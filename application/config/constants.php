@@ -106,6 +106,7 @@ defined('DB_NOTICE')      OR define('DB_NOTICE', 'giwb_notice');
 defined('DB_RESERVATION') OR define('DB_RESERVATION', 'giwb_reservation');
 defined('DB_SCHEDULE')    OR define('DB_SCHEDULE', 'giwb_schedule');
 defined('DB_VISITOR')     OR define('DB_VISITOR', 'giwb_visitor');
+defined('DB_WAIT')        OR define('DB_WAIT', 'giwb_wait');
 
 // 산행 상태
 defined('STATUS_PLAN')    OR define('STATUS_PLAN', 0); // 계획

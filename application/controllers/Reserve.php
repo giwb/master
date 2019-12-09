@@ -44,6 +44,8 @@ class Reserve extends MY_Controller
       $viewData['reserve'] = array();
     }
 
+    // 대기자 확인
+
     $this->_viewPage('reserve/index', $viewData);
   }
 
@@ -198,6 +200,51 @@ class Reserve extends MY_Controller
       $result = array('error' => 1, 'message' => $this->lang->line('error_seat_duplicate'));
     } else {
       $result = array('error' => 0, 'message' => base_url() . 'reserve/check/' . $clubIdx . '?n=' . $noticeIdx . '&c=' . $result);
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 대기자 처리
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function wait_insert()
+  {
+    checkUserLogin();
+
+    $now = time();
+    $userData   = $this->load->get_var('userData');
+    $postData   = $this->input->post();
+    $clubIdx    = html_escape($postData['clubIdx']);
+    $noticeIdx  = html_escape($postData['noticeIdx']);
+    $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+
+    // 해당 회원이 현재 같은 예약에 대기중인지 확인
+    $check = $this->reserve_model->viewReserveWait($clubIdx, $noticeIdx, $userData['idx']);
+
+    if (!empty($check['created_at'])) {
+      $rtn = $this->reserve_model->deleteReserveWait($clubIdx, $noticeIdx, $userData['idx']);
+
+      if (!empty($rtn)) {
+        $cntReserveWait = $this->reserve_model->cntReserveWait($clubIdx, $noticeIdx);
+        $result = array('error' => 0, 'message' => 0, 'cnt' => $cntReserveWait['cnt']);
+      }
+    } else {
+      $processData  = array(
+        'club_idx'    => $clubIdx,
+        'notice_idx'  => $noticeIdx,
+        'created_by'  => $userData['idx'],
+        'created_at'  => $now,
+      );
+      $rtn = $this->reserve_model->insertReserveWait($processData);
+
+      if (!empty($rtn)) {
+        $cntReserveWait = $this->reserve_model->cntReserveWait($clubIdx, $noticeIdx);
+        $result = array('error' => 0, 'message' => 1, 'cnt' => $cntReserveWait['cnt']);
+      }
     }
 
     $this->output->set_output(json_encode($result));
