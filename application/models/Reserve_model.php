@@ -135,6 +135,18 @@ class Reserve_model extends CI_Model
     return $this->db->update(DB_NOTICE);
   }
 
+  // 예약 목록
+  public function listReserve($clubIdx, $idx)
+  {
+    $this->db->select('a.*, b.idx as resCode, b.subject, b.startdate, b.starttime, b.cost, b.cost_total, b.bus AS notice_bus, b.bustype AS notice_bustype, b.status AS notice_status')
+          ->from(DB_RESERVATION . ' a')
+          ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
+          ->where('a.club_idx', $clubIdx)
+          ->where('b.visible', VISIBLE_ABLE)
+          ->where_in('a.idx', $idx);
+    return $this->db->get()->result_array();
+  }
+
   // 예약 정보 보기
   public function viewReserve($clubIdx, $idx)
   {

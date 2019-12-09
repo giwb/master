@@ -167,7 +167,7 @@ class Reserve extends MY_Controller
 
     foreach ($postData['seat'] as $key => $seat) {
       if (!empty($resIdx[$key])) $resIdxNow = html_escape($resIdx[$key]); else $resIdxNow = 0;
-      $bus = html_escape($bus[$key]);
+      $nowBus = html_escape($bus[$key]);
       $seat = html_escape($seat);
       $processData  = array(
         'club_idx'  => $clubIdx,
@@ -175,7 +175,7 @@ class Reserve extends MY_Controller
         'userid'    => $userData['userid'],
         'nickname'  => $userData['nickname'],
         'gender'    => $userData['gender'],
-        'bus'       => $bus,
+        'bus'       => $nowBus,
         'seat'      => $seat,
         'loc'       => html_escape($location[$key]),
         'memo'      => html_escape($memo[$key]),
@@ -186,15 +186,21 @@ class Reserve extends MY_Controller
       if (empty($resIdxNow)) {
         $result = $this->reserve_model->insertReserve($processData);
 
+        // 예약 번호 저장
+        $reserveIdx[] = $result;
+
         // 로그 기록
         setHistory(2, $noticeIdx, $userData['userid'], $viewNotice['subject'], $now);
       } else {
         // 선택한 좌석 예약 여부 확인
-        $checkReserve = $this->reserve_model->checkReserve($clubIdx, $noticeIdx, $bus, $seat);
+        $checkReserve = $this->reserve_model->checkReserve($clubIdx, $noticeIdx, $nowBus, $seat);
 
         // 자신이 예약한 좌석만 수정 가능
         if ($checkReserve['userid'] == $userData['userid'] || empty($checkReserve['idx'])) {
           $result = $this->reserve_model->updateReserve($processData, $resIdxNow);
+
+          // 예약 번호 저장
+          $reserveIdx[] = $resIdxNow;
         }
       }
     }
@@ -211,7 +217,7 @@ class Reserve extends MY_Controller
         }
       }
 
-      $result = array('error' => 0, 'message' => base_url() . 'reserve/check/' . $clubIdx . '?n=' . $noticeIdx . '&c=' . $result);
+      $result = array('error' => 0, 'message' => base_url() . 'reserve/check/' . $clubIdx . '?n=' . $noticeIdx . '&c=' . implode(',', $reserveIdx));
     }
 
     $this->output->set_output(json_encode($result));
@@ -280,15 +286,16 @@ class Reserve extends MY_Controller
     checkUserLogin();
 
     $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
     $noticeIdx = html_escape($this->input->get('n'));
-    $reserveIdx = html_escape($this->input->get('c'));
+    $reserveIdx = explode(',', (html_escape($this->input->get('c'))));
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
     $viewData['view']['noticeIdx'] = $noticeIdx;
 
-    // 등록된 산행 목록
-    $viewData['listNotice'] = $this->reserve_model->listNotice($clubIdx);
+    // 예약 내역
+    $viewData['listReserve'] = $this->reserve_model->listReserve($clubIdx, $reserveIdx);
 
     $this->_viewPage('reserve/check', $viewData);
   }
