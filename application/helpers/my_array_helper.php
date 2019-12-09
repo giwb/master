@@ -771,4 +771,19 @@ if (!function_exists('memberLevel')) {
     return $result;
   }
 }
+
+// 스토리 댓글 작성 시간 계산
+if (!function_exists('calcStoryTime')) {
+  function calcStoryTime($date) {
+    $time = time() - strtotime($date);
+    if ($time < 60) {
+      $term = gmdate('s', $time)+0 . '초전';
+    } elseif ($time >= 60 && $time < (60 * 60)) {
+      $term = gmdate('i', $time)+0 . '분전';
+    } elseif ($time >= (60 * 60)) {
+      $term = gmdate('G', $time) . '시간전';
+    }
+    return $term;
+  }
+}
 ?>
