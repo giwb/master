@@ -12120,7 +12120,7 @@ body.sidebar-toggled footer.sticky-footer {
 .area-wait { width: 680px; color: #333; margin-top: 20px; }
 .area-wait table { width: 100%; font-size: 14px; margin: 0px; }
 .area-wait table th { border-top: 5px solid #E0552A; background-color: #d9d9d9; }
-.area-wait table th, .area-bus-table table td { padding: 0.5rem; vertical-align: middle; border: 1px solid #999; cursor: pointer; }
+.area-wait table th, .area-wait table td { padding: 0.5rem; vertical-align: middle; border: 1px solid #999; text-align: center; cursor: pointer; }
 .area-wait table td { padding: 0.5rem; vertical-align: middle; border: 1px solid #999; cursor: pointer; }
 .area-wait table td.table-blank { border: 0px; }
 .area-wait table tr:last-child td.table-blank { border-bottom: 1px solid #999; }

@@ -197,6 +197,14 @@ class Admin_model extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  // 대기자 삭제
+  public function deleteWait($noticeIdx, $userIdx)
+  {
+    $this->db->where('notice_idx', $noticeIdx);
+    $this->db->where('created_by', $userIdx);
+    return $this->db->delete(DB_WAIT);
+  }
+
   // 문자양식
   public function listSMS($rescode)
   {

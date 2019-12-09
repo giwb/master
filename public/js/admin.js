@@ -110,6 +110,29 @@
     $('#messageModal input[name=action]').val('main_notice_delete');
     $('#messageModal input[name=delete_idx]').val($(this).data('idx'));
     $('#messageModal').modal({backdrop: 'static', keyboard: false});
+  }).on('click', '.btn-wait-delete-modal', function() {
+    // 산행 삭제 모달
+    $('#waitModal input[name=userIdx]').val($(this).data('idx'));
+    $('#waitModal').modal({backdrop: 'static', keyboard: false});
+  }).on('click', '.btn-wait-delete', function() {
+    // 삭제
+    var $btn = $(this);
+    $.ajax({
+      url: $('input[name=base_url]').val() + 'admin/main_wait_delete',
+      data: 'noticeIdx=' + $('input[name=noticeIdx]').val() + '&userIdx=' + $('input[name=userIdx]').val(),
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+      },
+      success: function(result) {
+        if (result.error == 1) {
+          $.openMsgModal(result.message);
+        } else {
+          location.reload();
+        }
+      }
+    });
   }).on('click', '.btn-delete', function() {
     // 삭제
     var $btn = $(this);

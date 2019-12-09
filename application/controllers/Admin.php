@@ -713,6 +713,28 @@ class Admin extends Admin_Controller
     $this->output->set_output(json_encode($result));
   }
 
+  /**
+   * 대기자 삭제
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function main_wait_delete()
+  {
+    $noticeIdx = html_escape($this->input->post('noticeIdx'));
+    $userIdx = html_escape($this->input->post('userIdx'));
+    $rtn = $this->admin_model->deleteWait($noticeIdx, $userIdx);
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_delete'));
+    } else {
+      $result = array('error' => 0, 'message' => '');
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+
   /** ---------------------------------------------------------------------------------------
    * 회원관리
   --------------------------------------------------------------------------------------- **/

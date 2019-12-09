@@ -88,9 +88,10 @@
         </form>
       </div>
 
+      <?php if (!empty($wait)): ?>
       <div class="area-wait">
       ■ <strong>대기자 목록</strong><br>
-        <table>
+        <table class="mt-2">
           <tr>
             <th>번호</th>
             <th>등록일시</th>
@@ -99,7 +100,7 @@
             <th>성별</th>
             <th>생년월일</th>
             <th>연락처</th>
-            <th>&nbsp;</th>
+            <th>삭제</th>
           </tr>
         <?php foreach ($wait as $key => $value): ?>
           <tr>
@@ -110,9 +111,33 @@
             <td><?=getGender($value['gender'])?></td>
             <td><?=$value['birthday']?></td>
             <td><?=$value['phone']?></td>
-            <td><button class="btn btn-sm btn-primary">삭제</button></td>
+            <td><button type="button" class="btn btn-sm btn-primary btn-wait-delete-modal" data-idx="<?=$value['idx']?>">삭제</button></td>
           </tr>
         <?php endforeach; ?>
         </table>
+      </div>
+      <?php endif ?>
+    </div>
+
+    <!-- Wait Delete Modal -->
+    <div class="modal fade" id="waitModal" tabindex="-1" role="dialog" aria-labelledby="waitModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="smallmodalLabel">대기자 삭제</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-center">
+            <p class="modal-message">정말로 삭제하시겠습니까?</p>
+          </div>
+          <div class="modal-footer">
+            <input type="hidden" name="noticeIdx" value="<?=$view['idx']?>">
+            <input type="hidden" name="userIdx">
+            <button type="button" class="btn btn-primary btn-wait-delete">삭제합니다</button>
+            <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
+          </div>
+        </div>
       </div>
     </div>
