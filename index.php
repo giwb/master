@@ -61,8 +61,7 @@ if (strstr($_SERVER['HTTP_HOST'], 'giwb.localhost') == true) {
 } else {
 	define('ENVIRONMENT', 'production');
 }
-print_r(ENVIRONMENT);
-exit;
+
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
