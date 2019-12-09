@@ -36,6 +36,7 @@
 
   <script src="/public/js/admin.js?<?=time()?>" type="text/javascript"></script>
 
+  <?php if (ENVIRONMENT == 'production'): ?>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -55,6 +56,7 @@
 
     gtag('config', 'UA-141316550-1');
   </script>
+  <?php endif; ?>
 
 </body>
 </html>
