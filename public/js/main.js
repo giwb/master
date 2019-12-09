@@ -562,7 +562,13 @@
   }).on('click', '.btn-reserve-wait', function() {
     // 대기자 등록
     var $btn = $(this);
+    var userIdx = $('input[name=userIdx]').val();
     var formData = new FormData($('#waitForm')[0]);
+
+    if (userIdx == '') {
+      $('#loginModal').modal('show'); // 로그인
+      return false;
+    }
 
     $.ajax({
       url: $('#waitForm').attr('action'),
