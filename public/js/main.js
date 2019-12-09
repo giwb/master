@@ -695,7 +695,11 @@
           $('.btn-reserve-cancel').removeClass('d-none').show();
         } else {
           // 등록
-          var busType = bus + '호차<input type="hidden" name="bus[]" value="' + bus + '"> ';
+          var busNumber = '';
+          if (reserveInfo.busType.length > 1) {
+            var busNumber = bus + '호차';
+          }
+          var busType = busNumber + '<input type="hidden" name="bus[]" value="' + bus + '"> ';
           var selectSeat = reserveInfo.nowSeat + '번<input type="hidden" name="seat[]" value="' + seat + '"> ';
         }
 
