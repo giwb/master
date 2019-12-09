@@ -64,7 +64,8 @@
               </table>
             </div>
             <?php endforeach; ?>
-            <?php if ($maxRes == $value['seat']): $cntWait = cntWait($view['idx'], $notice['idx']); ?>
+            <?php //if ($maxRes == $value['seat']): $cntWait = cntWait($view['idx'], $notice['idx']); ?>
+              <!--
             <div class="text-center mt-3 mb-4">
               현재 <span class="cnt-wait"><?=$cntWait?></span>명 대기중입니다.<br>
               <form id="waitForm" method="post" action="<?=base_url()?>reserve/wait_insert" class="mt-3">
@@ -78,7 +79,8 @@
                 <?php endif; ?>
               </form>
             </div>
-            <?php endif; ?>
+          -->
+            <?php //endif; ?>
             <form id="reserveForm" method="post" action="<?=base_url()?>reserve/insert">
               <div id="addedInfo"></div>
               <button type="button" class="btn btn-primary btn-reserve-confirm">예약합니다</button>
