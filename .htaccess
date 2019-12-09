@@ -1,6 +1,3 @@
-RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://giwb.kr/$1 [R=301,L]
-
 <IfModule mod_rewrite.c>
 DirectoryIndex index.php
 RewriteEngine on
