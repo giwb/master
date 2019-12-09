@@ -433,7 +433,7 @@ if (!function_exists('checkDirection')) {
 
 // 예약자 정보 (관리용)
 if (!function_exists('getReserveAdmin')) {
-  function getReserveAdmin($reserve, $bus, $seat, $userData, $status, $boarding=0) {
+  function getReserveAdmin($reserve, $bus, $seat, $userData, $boarding=0) {
     if ($boarding == 1) {
       $result = array('idx' => '', 'userid' => '', 'nickname' => '', 'class' => '');
     } else {
@@ -445,10 +445,14 @@ if (!function_exists('getReserveAdmin')) {
         $result['idx'] = $value['idx'];
         $result['userid'] = $value['userid'];
         $result['nickname'] = $value['nickname'];
-        if ($value['gender'] == 'M') {
-          $result['class'] .= ' male';
-        } elseif ($value['gender'] == 'F') {
-          $result['class'] .= ' female';
+        if ($value['status'] == 1) {
+          $result['class'] .= '';
+        } else {
+          if ($value['gender'] == 'M') {
+            $result['class'] .= ' male';
+          } elseif ($value['gender'] == 'F') {
+            $result['class'] .= ' female';
+          }
         }
       }
       $checkGender[$value['bus']][$value['seat']] = $value['gender'];
