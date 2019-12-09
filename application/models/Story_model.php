@@ -60,13 +60,14 @@ class Story_model extends CI_Model
   // 스토리 댓글
   public function listStoryReply($clubIdx, $storyIdx, $replyType)
   {
-    $this->db->select('a.idx, a.content, a.created_by, FROM_UNIXTIME(a.created_at, "%Y/%m/%d %H:%i:%s") AS created_at, b.nickname')
+    $this->db->select('a.idx, a.content, a.created_by, a.created_at, b.nickname')
           ->from(DB_STORY_REPLY . ' a')
           ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
           ->where('a.club_idx', $clubIdx)
           ->where('a.story_idx', $storyIdx)
           ->where('a.reply_type', $replyType)
-          ->where('a.deleted_at', NULL);
+          ->where('a.deleted_at', NULL)
+          ->order_by('a.idx', 'asc');
     return $this->db->get()->result_array();
   }
 

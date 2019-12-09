@@ -775,15 +775,25 @@ if (!function_exists('memberLevel')) {
 // 스토리 댓글 작성 시간 계산
 if (!function_exists('calcStoryTime')) {
   function calcStoryTime($date) {
-    $time = time() - strtotime($date);
-    if ($time < 60) {
-      $term = gmdate('s', $time)+0 . '초전';
-    } elseif ($time >= 60 && $time < (60 * 60)) {
-      $term = gmdate('i', $time)+0 . '분전';
-    } elseif ($time >= (60 * 60)) {
-      $term = gmdate('G', $time) . '시간전';
+    $diff = time() - $date;
+    $s = 60;
+    $h = $s * 60;
+    $d = $h * 24;
+    $y = $d * 10;
+
+    if ($diff < $s) {
+      $result = gmdate('s', $diff)+0 . '초전';
+    } elseif ($h > $diff && $diff >= $s) {
+      $result = round($diff/$s) . '분전';
+    } elseif ($d > $diff && $diff >= $h) {
+      $result = round($diff/$h) . '시간전';
+    } elseif ($y > $diff && $diff >= $d) {
+      $result = round($diff/$d) . '일전';
+    } else {
+      $result = date('Y/m/d', $date);
     }
-    return $term;
+
+    return $result;
   }
 }
 ?>
