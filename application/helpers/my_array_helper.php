@@ -448,7 +448,7 @@ if (!function_exists('getReserveAdmin')) {
         if ($value['gender'] == 'M') {
           $result['class'] .= ' male';
         } else {
-          $result['class'] = ' female';
+          $result['class'] .= ' female';
         }
       }
       $checkGender[$value['bus']][$value['seat']] = $value['gender'];
