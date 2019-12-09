@@ -27,6 +27,11 @@ class Club extends MY_Controller
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
+    if (empty($viewData['view'])) {
+      redirect(base_url());
+      exit;
+    }
+
     // 등록된 산행 목록
     $viewData['listNoticeCalendar'] = $this->reserve_model->listNotice($clubIdx);
 
