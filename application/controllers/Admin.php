@@ -77,6 +77,8 @@ class Admin extends Admin_Controller
       $result['reserve'] = $this->admin_model->viewReserve($viewData);
       if (empty($result['reserve']['depositname'])) $result['reserve']['depositname'] = '';
       if (empty($result['reserve']['memo'])) $result['reserve']['memo'] = '';
+
+      // 역방향일 경우 좌석 번호 변경
     } else {
       $result['reserve']['nickname'] = '';
       $result['reserve']['gender'] = 'M';
@@ -94,6 +96,7 @@ class Admin extends Admin_Controller
     // 해당 버스의 좌석
     foreach ($result['busType'] as $busType) {
       foreach (range(1, $busType['seat']) as $seat) {
+        $seat = checkDirection($seat, 1, $viewData['view']['bustype'], $viewData['view']['bus']);
         $result['seat'][] = $seat;
       }
     }
