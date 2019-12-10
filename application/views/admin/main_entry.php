@@ -74,9 +74,6 @@
       <input type="hidden" name="back_url" value="main_list_progress">
         <h2>■ 기본정보</h2>
         <table class="table">
-          <colgroup>
-            <col width="150">
-          </colgroup>
           <tbody>
             <tr>
               <th>출발일시</th>

@@ -12117,13 +12117,7 @@ body.sidebar-toggled footer.sticky-footer {
 .area-boarding dl dt { width: 20%; background-color: #ddd; padding: 10px 0 10px 10px; display: table-cell; vertical-align: middle; }
 .area-boarding dl dd { width: 80%; background-color: #fff; padding: 10px; display: table-cell; vertical-align: middle; }
 
-.area-wait { width: 680px; color: #333; margin-top: 20px; }
-.area-wait table { width: 100%; font-size: 14px; margin: 0px; }
-.area-wait table th { border-top: 5px solid #E0552A; background-color: #d9d9d9; }
-.area-wait table th, .area-wait table td { padding: 0.5rem; vertical-align: middle; border: 1px solid #999; text-align: center; cursor: pointer; }
-.area-wait table td { padding: 0.5rem; vertical-align: middle; border: 1px solid #999; cursor: pointer; }
-.area-wait table td.table-blank { border: 0px; }
-.area-wait table tr:last-child td.table-blank { border-bottom: 1px solid #999; }
+.area-wait { width: 100%; color: #333; margin-top: 20px; }
 
 .area-bus-table { padding-top: 20px; }
 .area-bus-table table { width: 100%; font-size: 14px; margin: 0px; }
@@ -12158,9 +12152,19 @@ body.sidebar-toggled footer.sticky-footer {
   .area-bus-table table { font-size: 11px; }
   .area-bus-table table th, .area-bus-table table td { padding: 5px 1px; }
   .area-bus-table input.seat { font-size: 10px; padding: 0px; }
-  .btn { font-size: 0.7rem; padding: 0.275rem 0.15rem; }
+  /*.btn { font-size: 0.7rem; padding: 0.275rem 0.15rem; }*/
   .btn-member-search { width: 100%; font-size: 14px; margin: 0.8rem 0 0 0; padding: 0.5rem 1rem; }
   #addedInfo .reserve select, #addedInfo .reserve input { font-size: 12px; }
 
+  .table .btn { font-size: 12px; margin: 0 0 2px 0; padding: 5px 15px; }
+  .table th { white-space: nowrap; }
+  .table td:first-child { width: 100%; }
+
+  .area-btn { height: auto!important; }
+  .area-btn .btn { font-size: 12px; padding: 0.375rem 0.60rem; }
+  .area-btn .float-left, .area-btn .float-right { float: none!important; text-align: center; margin-bottom: 10px;  }
+
   .setup-schedule { width: 100%; }
+
+  .area-wait { font-size: 12px; }
 }

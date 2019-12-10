@@ -2109,7 +2109,7 @@ h1.nav-logo small {
 #setupForm .area-btn { border-top: 1px solid #999; margin: 0 0 20px 0; padding: 20px 0 0 0; text-align: center; }
 
 /* Responsive */
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 800px) {
   #club { padding-top: 70px; }
   #club .club-left, #club .club-right { display: none; }
   #club .club-main { width: 100%; flex: auto; -webkit-flex: auto; display: block; margin: 0px; }
@@ -2142,6 +2142,11 @@ h1.nav-logo small {
   #loginModal dl dt { width: 30%; }
   #loginModal dl dd { width: 60%; }
   #loginModal .modal-footer div button { font-size: 12px!important; padding: .375rem .3rem; }
+
+  .loginForm .row { display: block; }
+  .loginForm .col-sm-8 { max-width: 100%; display: block; text-align: center!important; }
+  .loginForm .col-sm-8 .btn { font-size: 12px; }
+  .loginForm .col-sm-4 { max-width: 100%; margin-top: 20px;text-align: center!important; display: block; }
 
   .memberForm h2 { text-align: center; border-bottom: 1px solid #999; margin: 20px 0; padding: 0 0 20px; }
   .memberForm dl dt { width: 100%; display: block; }

@@ -787,11 +787,14 @@ class Admin extends Admin_Controller
     $now = time();
     $clubIdx = 1;
     $postData = $this->input->post();
+    $userIdx = $this->session->userData['idx'];
+    /*
     $userIdx = html_escape($postData['created_by']);
 
     if (empty($userIdx)) {
       $userIdx = $this->session->userData['idx'];
     }
+    */
 
     $processData  = array(
       'club_idx'    => $clubIdx,

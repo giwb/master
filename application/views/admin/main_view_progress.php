@@ -89,61 +89,37 @@
       </div>
 
       <div class="area-wait">
-      ■ <strong>대기자</strong><br>
-        <table class="mt-2">
-          <colgroup>
-            <col width="7%">
-            <col width="12%">
-            <col width="15%">
-            <col width="11%">
-            <col width="10%">
-            <col width="37%">
-            <col width="8%">
-          </colgroup>
-          <thead>
-            <tr>
-              <th>번호</th>
-              <th>등록일시</th>
-              <th>닉네임</th>
-              <th>탑승위치</th>
-              <th>성별</th>
-              <th>메모</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td colspan="2" class="text-center area-userid"></td>
-              <td><input type="hidden" name="created_by"><input type="text" name="nickname" class="form-control form-control-sm search-userid"></td>
-              <td>
-                <select name="location" class="form-control form-control-sm pl-0 pr-0">
-                  <?php foreach ($arrLocation as $value): ?>
-                  <option value='<?=$value['no']?>'><?=$value['stitle']?></option>
-                  <?php endforeach; ?>
-                </select>
-              </td>
-              <td>
-                <select name="gender" class="form-control form-control-sm pl-0 pr-0">
-                  <option value='M'>남성</option>
-                  <option value='F'>여성</option>
-                </select>
-              </td>
-              <td><input type="text" name="memo" class="form-control form-control-sm"></td>
-              <td><button type="button" class="btn btn-sm btn-primary btn-wait-insert">등록</button></td>
-            </tr>
-            <?php foreach ($wait as $key => $value): ?>
-            <tr>
-              <td><?=$key + 1?></td>
-              <td class="small"><?=substr(date('Y-m-d H:i:s', $value['created_at']), 5, 11)?></td>
-              <td><?=$value['nickname']?></td>
-              <td><?=arrLocation(NULL, $value['location'], 1)?></td>
-              <td><?=getGender($value['gender'])?></td>
-              <td class="text-left"><?=$value['memo']?></td>
-              <td><button type="button" class="btn btn-sm btn-primary btn-wait-delete-modal" data-idx="<?=$value['idx']?>">삭제</button></td>
-            </tr>
-            <?php endforeach; ?>
-          </tbody>
-        </table>
+        ■ <strong>대기자 목록</strong><br>
+        <?php foreach ($wait as $key => $value): ?>
+        <div class="mt-1">
+          <a href="javascript:;" class="btn-wait-delete-modal" data-idx="<?=$value['idx']?>">[<?=$key + 1?>] <?=$value['nickname']?> (<?=getGender($value['gender'])?>) <?=arrLocation(NULL, $value['location'], 1)?>
+          <?=!empty($value['memo']) ? ' - ' . $value['memo'] : ''?> <span class="small">(<?=substr(date('Y-m-d H:i:s', $value['created_at']), 5, 11)?>)</span></a>
+        </div>
+        <?php endforeach; ?>
+
+        <div class="mt-4"></div>
+
+        ■ <strong>대기자 추가</strong><br>
+        <!--<div class="area-userid"></div>
+        <input type="hidden" name="created_by">-->
+        <div class="row mt-2 pl-2">
+          <div class="pl-1"><input type="text" name="nickname" class="form-control form-control-sm search-userid" placeholder="닉네임 입력"></div>
+          <div class="pl-1">
+            <select name="location" class="form-control form-control-sm pl-0 pr-0">
+              <?php foreach ($arrLocation as $key => $value): if ($key > 0): ?>
+              <option value='<?=$value['no']?>'><?=$value['stitle']?></option>
+              <?php endif; endforeach; ?>
+            </select>
+          </div>
+          <div class="pl-1">
+            <select name="gender" class="form-control form-control-sm pl-0 pr-0">
+              <option value='M'>남성</option>
+              <option value='F'>여성</option>
+            </select>
+          </div>
+          <div class="pl-1"><input type="text" name="memo" class="form-control form-control-sm" placeholder="메모 입력"></div>
+          <div class="pl-1"><button type="button" class="btn btn-sm btn-primary btn-wait-insert">등록</button></div>
+        </div>
       </div>
     </div>
 

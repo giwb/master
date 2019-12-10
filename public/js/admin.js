@@ -360,6 +360,7 @@
         }
       }
     });
+/*
   }).on('blur', '.search-userid', function() {
     // 대기자 아이디 검색
     $.ajax({
@@ -374,11 +375,13 @@
         }
       }
     });
+*/
   }).on('click', '.btn-wait-insert', function() {
     var $btn = $(this);
     var nickname = $('input[name=nickname]').val();
     var location = $('select[name=location]').val();
-    var data = 'idx=' + $('input[name=idx]').val() + '&created_by=' + $('input[name=created_by]').val() + '&nickname=' + nickname + '&location=' + location + '&gender=' + $('select[name=gender]').val() + '&memo=' + $('input[name=memo]').val();
+    //var data = 'idx=' + $('input[name=idx]').val() + '&created_by=' + $('input[name=created_by]').val() + '&nickname=' + nickname + '&location=' + location + '&gender=' + $('select[name=gender]').val() + '&memo=' + $('input[name=memo]').val();
+    var data = 'idx=' + $('input[name=idx]').val() + '&nickname=' + nickname + '&location=' + location + '&gender=' + $('select[name=gender]').val() + '&memo=' + $('input[name=memo]').val();
     if (nickname == '' || location == 0) return false;
 
     $.ajax({
