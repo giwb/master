@@ -21,7 +21,7 @@
           }
 
           if (file_exists(PHOTO_PATH . $value['created_by'])) $value['photo'] = base_url() . 'public/photos/' . $value['created_by'];
-          else $value['photo'] = base_url() . 'images/user.png';
+          else $value['photo'] = base_url() . 'public/images/user.png';
       ?>
         <div class="mb-2">
           <img class="img-profile" src="<?=$value['photo']?>"> <?=$value['nickname']?>님이
