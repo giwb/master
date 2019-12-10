@@ -920,6 +920,7 @@ class Admin extends Admin_Controller
     $viewData['view']['phone'] = explode('-', $viewData['view']['phone']);
 
     // 산행/예약횟수 구하기
+    /*
     $max = 0; $res = 0;
     $viewData['view']['cntPersonalReservation'] = $this->admin_model->cntPersonalReservation($viewData['view']['userid']);
     foreach ($viewData['view']['cntPersonalReservation'] as $value) {
@@ -940,6 +941,9 @@ class Admin extends Admin_Controller
 
     // 레벨
     $viewData['view']['memberLevel'] = $viewData['view']['cntTotalReservation'] - $viewData['view']['penalty'];
+    */
+
+    $viewData['view']['memberLevel'] = memberLevel($viewData['view']['rescount'], $viewData['view']['penalty'], $viewData['view']['level'], $viewData['view']['admin']);
 
     $this->_viewPage('admin/member_view', $viewData);
   }
@@ -952,7 +956,31 @@ class Admin extends Admin_Controller
    **/
   public function member_update()
   {
-    $result = 0;
+    $inputData = $this->input->post();
+    $idx = html_escape($this->input->post('idx'));
+
+    $updateValues = array(
+      'nickname'      => html_escape($inputData['nickname']),
+      'realname'      => html_escape($inputData['realname']),
+      'gender'        => html_escape($inputData['gender']),
+      'birthday'      => html_escape($inputData['birthday_year']) . '/' . html_escape($inputData['birthday_month']) . '/' . html_escape($inputData['birthday_day']),
+      'birthday_type' => html_escape($inputData['birthday_type']),
+      'phone'         => html_escape($inputData['phone1']) . '-' . html_escape($inputData['phone2']) . '-' . html_escape($inputData['phone3']),
+      'location'      => html_escape($inputData['location']),
+    );
+
+    // 평생회원, 무료회원
+    if (!empty($inputData['level'])) {
+      $updateValues['level'] = html_escape($inputData['level']);
+    }
+
+    // 관리자
+    if (!empty($inputData['admin'])) {
+      $updateValues['admin'] = $inputData['admin'];
+    }
+
+    $result = $this->admin_model->updateMember($updateValues, $idx);
+
     $this->output->set_output(json_encode($result));
   }
 
