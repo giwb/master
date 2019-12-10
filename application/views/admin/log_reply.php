@@ -16,7 +16,7 @@
         <dl>
           <dt><img class="img-profile" src="<?=base_url()?>/public/photos/<?=$value['created_by']?>"> <?=$value['nickname']?></dt>
           <dd>
-            <?=$value['content']?> <span class="reply-date"><?=date('Y-m-d H:i:s', $value['created_at'])?></span><br>
+            <?=$value['content']?> <span class="reply-date"><?=calcStoryTime($value['created_at'])?></span><br>
             <a href="<?=base_url() . $url?>" target="_blank">원글보기</a> | 
             <a href="javascript:;" class="btn-reply-delete" data-idx="<?=$value['idx']?>" data-action="delete_reply">삭제</a>
           </dd>

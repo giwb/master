@@ -1162,7 +1162,7 @@ class Admin extends Admin_Controller
   /**
    * 활동관리 - 클럽 댓글 삭제
    *
-   * @return view
+   * @return json
    * @author bjchoi
    **/
   public function log_reply_delete()
@@ -1188,9 +1188,25 @@ class Admin extends Admin_Controller
    **/
   public function log_reaction()
   {
-
+    $viewData['listReaction'] = $this->admin_model->listReaction();
 
     $this->_viewPage('admin/log_reaction', $viewData);
+  }
+
+  /**
+   * 활동관리 - 좋아요/공유 삭제
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function log_reaction_delete()
+  {
+    $created_by = html_escape($this->input->post('created_by'));
+    $created_at = html_escape($this->input->post('created_at'));
+
+    $result = $this->admin_model->deleteReaction($created_by, $created_at);
+
+    $this->output->set_output(json_encode($result));
   }
 
   /**

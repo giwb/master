@@ -382,6 +382,24 @@ class Admin_model extends CI_Model
     return $this->db->update(DB_STORY_REPLY);
   }
 
+  // 활동관리 - 리액션 수정/삭제
+  public function deleteReaction($created_by, $created_at)
+  {
+    $this->db->where('created_by', $created_by);
+    $this->db->where('created_at', $created_at);
+    return $this->db->delete(DB_STORY_REACTION);
+  }
+
+  // 활동관리 - 좋아요/공유 기록
+  public function listReaction()
+  {
+    $this->db->select('a.club_idx, a.story_idx, a.reaction_type, a.reaction_kind, a.share_type, a.created_by, a.created_at, b.nickname')
+          ->from(DB_STORY_REACTION . ' a')
+          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
+          ->order_by('a.created_at', 'desc');
+    return $this->db->get()->result_array();
+  }
+
   // 대문관리 - 목록
   public function listFront()
   {
