@@ -84,7 +84,7 @@
         <form id="reserveForm" method="post" action="<?=base_url()?>admin/reserve_complete">
           <div id="addedInfo"></div>
           <input type="hidden" name="idx" value="<?=$view['idx']?>">
-          <button type="button" class="btn btn-primary btn-reserve-confirm">예약을 확정합니다</button>
+          <button type="button" class="btn btn-primary btn-reserve-confirm">확인</button>
         </form>
       </div>
 

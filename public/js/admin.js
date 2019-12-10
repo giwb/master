@@ -466,6 +466,7 @@
         },
         success: function(result) {
           if (result.error == 1) {
+            $btn.css('opacity', '1').prop('disabled', false).text('확인');
             $.openMsgModal(result.message);
           } else {
             location.reload();
