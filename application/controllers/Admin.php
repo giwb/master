@@ -1147,6 +1147,53 @@ class Admin extends Admin_Controller
   --------------------------------------------------------------------------------------- **/
 
   /**
+   * 활동관리 - 클럽 댓글
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function log_reply()
+  {
+    $viewData['listReply'] = $this->admin_model->listReply();
+
+    $this->_viewPage('admin/log_reply', $viewData);
+  }
+
+  /**
+   * 활동관리 - 클럽 댓글 삭제
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function log_reply_delete()
+  {
+    $userIdx = html_escape($this->session->userData['idx']);
+    $idx = html_escape($this->input->post('idx'));
+
+    $updateValues = array(
+      'deleted_by' => $userIdx,
+      'deleted_at' => time()
+    );
+    $this->admin_model->deleteReply($updateValues, $idx);
+
+    $result['reload'] = true;
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 활동관리 - 좋아요/공유
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function log_reaction()
+  {
+
+
+    $this->_viewPage('admin/log_reaction', $viewData);
+  }
+
+  /**
    * 활동관리 - 회원 활동 목록
    *
    * @return view

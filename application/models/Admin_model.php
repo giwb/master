@@ -363,6 +363,25 @@ class Admin_model extends CI_Model
     $this->db->empty_table(DB_ATTENDANCE);
   }
 
+  // 활동관리 - 댓글 기록
+  public function listReply()
+  {
+    $this->db->select('a.idx, a.club_idx, a.story_idx, a.reply_type, a.content, a.created_by, a.created_at, b.nickname')
+          ->from(DB_STORY_REPLY . ' a')
+          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
+          ->where('deleted_at', NULL)
+          ->order_by('a.idx', 'desc');
+    return $this->db->get()->result_array();
+  }
+
+  // 활동관리 - 댓글 수정/삭제
+  public function deleteReply($data, $idx)
+  {
+    $this->db->set($data);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_STORY_REPLY);
+  }
+
   // 대문관리 - 목록
   public function listFront()
   {

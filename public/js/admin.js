@@ -110,6 +110,14 @@
     $('#messageModal input[name=action]').val('main_notice_delete');
     $('#messageModal input[name=delete_idx]').val($(this).data('idx'));
     $('#messageModal').modal({backdrop: 'static', keyboard: false});
+  }).on('click', '.btn-reply-delete', function() {
+    // 클럽 댓글 삭제
+    $('#messageModal .modal-message').text('정말로 삭제하시겠습니까?');
+    $('#messageModal .btn-refresh, #messageModal .close').hide();
+    $('#messageModal .btn-delete').show();
+    $('#messageModal input[name=action]').val('log_reply_delete');
+    $('#messageModal input[name=delete_idx]').val($(this).data('idx'));
+    $('#messageModal').modal({backdrop: 'static', keyboard: false});
   }).on('click', '.btn-delete', function() {
     // 삭제
     var $btn = $(this);
