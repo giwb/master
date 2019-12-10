@@ -19,9 +19,12 @@
             elseif ($value['share_type'] == SHARE_TYPE_FACEBOOK) $value['reaction_kind'] = '페이스북 공유';
             elseif ($value['share_type'] == SHARE_TYPE_TWITTER) $value['reaction_kind'] = '트위터 공유';
           }
+
+          if (file_exists(PHOTO_PATH . $value['created_by'])) $value['photo'] = base_url() . 'public/photos/' . $value['created_by'];
+          else $value['photo'] = base_url() . 'images/user.png';
       ?>
         <div class="mb-2">
-          <img class="img-profile" src="<?=base_url()?>public/photos/<?=$value['created_by']?>"> <?=$value['nickname']?>님이
+          <img class="img-profile" src="<?=$value['photo']?>"> <?=$value['nickname']?>님이
           <?=calcStoryTime($value['created_at'])?>
           <?=$value['reaction_type']?>에
           <?=$value['reaction_kind']?>를 하셨습니다.

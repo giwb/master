@@ -12,9 +12,11 @@
         foreach ($listReply as $value):
           if ($value['reply_type'] == REPLY_TYPE_STORY):  $url = 'story/view/' . $value['club_idx'] . '?n=' . $value['idx']; endif;
           if ($value['reply_type'] == REPLY_TYPE_NOTICE): $url = 'reserve/notice/' . $value['club_idx'] . '?n=' . $value['idx']; endif;
+          if (file_exists(PHOTO_PATH . $value['created_by'])) $value['photo'] = base_url() . 'public/photos/' . $value['created_by'];
+          else $value['photo'] = base_url() . 'images/user.png';
       ?>
         <dl>
-          <dt><img class="img-profile" src="<?=base_url()?>public/photos/<?=$value['created_by']?>"> <?=$value['nickname']?></dt>
+          <dt><img class="img-profile" src="<?=$value['photo']?>"> <?=$value['nickname']?></dt>
           <dd>
             <?=$value['content']?> <span class="reply-date"><?=calcStoryTime($value['created_at'])?></span><br>
             <a href="<?=base_url() . $url?>" target="_blank">원글보기</a> | 
