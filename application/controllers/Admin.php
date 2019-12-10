@@ -132,12 +132,15 @@ class Admin extends Admin_Controller
     $viewEntry = $this->admin_model->viewEntry($idx);
 
     foreach ($arrSeat as $key => $seat) {
+      $nowNick = html_escape($arrNickname[$key]);
+      $nowBus = html_escape($arrBus[$key]);
+      $nowSeat = html_escape($seat);
       $postData = array(
         'rescode' => $idx,
-        'nickname' => html_escape($arrNickname[$key]),
+        'nickname' => $nowNick,
         'gender' => html_escape($arrGender[$key]),
-        'bus' => html_escape($arrBus[$key]),
-        'seat' => html_escape($seat),
+        'bus' => $nowBus,
+        'seat' => $nowSeat,
         'loc' => html_escape($arrLocation[$key]),
         'memo' => html_escape($arrMemo[$key]),
         'depositname' => html_escape($arrDepositName[$key]),
@@ -152,17 +155,28 @@ class Admin extends Admin_Controller
       if (empty($resIdx)) {
         $result = $this->admin_model->insertReserve($postData);
       } else {
-        $result = $this->admin_model->updateReserve($postData, $resIdx);
+        // 선택한 좌석 예약 여부 확인
+        $checkReserve = $this->admin_model->checkReserve($idx, $nowBus, $nowSeat);
+
+        // 이동하려는 좌석 데이터가 없거나, 같은 번호인 경우에만 수정 가능
+        if ($checkReserve['idx'] == $resIdx || empty($checkReserve['idx'])) {
+          $result = $this->admin_model->updateReserve($postData, $resIdx);
+        }
       }
     }
 
-    if (!empty($result) && $viewEntry['status'] == STATUS_ABLE) {
-      $cntReservation = $this->admin_model->cntReservation($idx);
-      if ($cntReservation['CNT'] >= 15) {
-        // 예약자가 15명 이상일 경우 확정으로 변경
-        $updateValues = array('status' => STATUS_CONFIRM);
-        $this->admin_model->updateEntry($updateValues, $idx);
+    if (empty($result)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_seat_duplicate'));
+    } else {
+      if ($viewEntry['status'] == STATUS_ABLE) {
+        $cntReservation = $this->admin_model->cntReservation($idx);
+        if ($cntReservation['CNT'] >= 15) {
+          // 예약자가 15명 이상일 경우 확정으로 변경
+          $updateValues = array('status' => STATUS_CONFIRM);
+          $this->admin_model->updateEntry($updateValues, $idx);
+        }
       }
+      $result = array('error' => 0, 'message' => '');
     }
 
     $this->output->set_output(json_encode($result));

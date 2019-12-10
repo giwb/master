@@ -464,8 +464,12 @@
         beforeSend: function() {
           $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
         },
-        success: function() {
-          location.reload();
+        success: function(result) {
+          if (result.error == 1) {
+            $.openMsgModal(result.message);
+          } else {
+            location.reload();
+          }
         }
       });
     }

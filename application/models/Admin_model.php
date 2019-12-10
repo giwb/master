@@ -117,6 +117,17 @@ class Admin_model extends CI_Model
     }
   }
 
+  // 좌석 예약 확인
+  public function checkReserve($idx, $bus, $seat)
+  {
+    $this->db->select('idx')
+          ->from(DB_RESERVATION)
+          ->where('rescode', $idx)
+          ->where('bus', $bus)
+          ->where('seat', $seat);
+    return $this->db->get()->row_array(1);
+  }
+
   // 예약 정보 등록
   public function insertReserve($data)
   {
