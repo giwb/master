@@ -14,7 +14,7 @@
           if ($value['reply_type'] == REPLY_TYPE_NOTICE): $url = 'reserve/notice/' . $value['club_idx'] . '?n=' . $value['idx']; endif;
       ?>
         <dl>
-          <dt><img class="img-profile" src="<?=base_url()?>/public/photos/<?=$value['created_by']?>"> <?=$value['nickname']?></dt>
+          <dt><img class="img-profile" src="<?=base_url()?>public/photos/<?=$value['created_by']?>"> <?=$value['nickname']?></dt>
           <dd>
             <?=$value['content']?> <span class="reply-date"><?=calcStoryTime($value['created_at'])?></span><br>
             <a href="<?=base_url() . $url?>" target="_blank">원글보기</a> | 

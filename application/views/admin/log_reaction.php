@@ -21,7 +21,7 @@
           }
       ?>
         <div class="mb-2">
-          <img class="img-profile" src="<?=base_url()?>/public/photos/<?=$value['created_by']?>"> <?=$value['nickname']?>님이
+          <img class="img-profile" src="<?=base_url()?>public/photos/<?=$value['created_by']?>"> <?=$value['nickname']?>님이
           <?=calcStoryTime($value['created_at'])?>
           <?=$value['reaction_type']?>에
           <?=$value['reaction_kind']?>를 하셨습니다.
