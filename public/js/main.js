@@ -709,7 +709,7 @@
           } else {
             busType += '<input type="hidden" name="bus[]" value="' + bus + '">';
           }
-          var selectSeat = '<select name="seat[]">'; $.each(reserveInfo.seat, function(i, v) { selectSeat += '<option'; if ((i+1) == seat) selectSeat += ' selected'; selectSeat += ' value="' + (i+1) + '">' + (i+1) + '번</option>'; }); selectSeat += '</select> ';
+          var selectSeat = '<select name="seat[]">'; $.each(reserveInfo.seat, function(i, v) { selectSeat += '<option'; if ((i+1) == seat) selectSeat += ' selected'; selectSeat += ' value="' + (i+1) + '">' + v + '번</option>'; }); selectSeat += '</select> ';
           $('.btn-reserve-cancel').removeClass('d-none').show();
         } else {
           // 등록

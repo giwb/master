@@ -124,8 +124,9 @@ class Reserve extends MY_Controller
     $result['busType'] = getBusType($notice['bustype'], $notice['bus']); // 버스 형태별 좌석 배치
 
     // 해당 버스의 좌석
-    foreach ($result['busType'] as $busType) {
+    foreach ($result['busType'] as $key => $busType) {
       foreach (range(1, $busType['seat']) as $seat) {
+        $seat = checkDirection($seat, ($key+1), $notice['bustype'], $notice['bus']);
         $result['seat'][] = $seat;
       }
     }

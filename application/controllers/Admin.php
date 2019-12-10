@@ -94,9 +94,9 @@ class Admin extends Admin_Controller
     $result['busType'] = getBusType($viewData['view']['bustype'], $viewData['view']['bus']); // 버스 형태별 좌석 배치
 
     // 해당 버스의 좌석
-    foreach ($result['busType'] as $busType) {
+    foreach ($result['busType'] as $key => $busType) {
       foreach (range(1, $busType['seat']) as $seat) {
-        $seat = checkDirection($seat, 1, $viewData['view']['bustype'], $viewData['view']['bus']);
+        $seat = checkDirection($seat, ($key+1), $viewData['view']['bustype'], $viewData['view']['bus']);
         $result['seat'][] = $seat;
       }
     }
