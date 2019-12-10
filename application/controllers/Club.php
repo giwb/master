@@ -345,22 +345,14 @@ class Club extends MY_Controller
         $this->image_lib->resize();
       }
     }
-/*
+
     if (empty($result)) {
-      $result = array(
-        'error' => 1,
-        'message' => '문제가 발생했습니다. 다시 시도해 주세요.'
-      );
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
     } else {
-      $result = array(
-        'error' => 0,
-        'message' => '수정이 완료되었습니다.'
-      );
+      $result = array('error' => 0, 'message' => '');
     }
 
     $this->output->set_output(json_encode($result));
-*/
-    redirect('/club/setup/' . $clubIdx);
   }
 
   /**

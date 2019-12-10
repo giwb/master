@@ -63,7 +63,7 @@
           </tbody>
         </table>
 
-        <div class="text-center mb-5">
+        <div class="area-button">
           <button type="submit" class="btn btn-primary">확인합니다</button>
         </div>
       </form>

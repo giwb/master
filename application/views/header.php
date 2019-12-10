@@ -123,7 +123,7 @@
           <li><a href="<?=base_url()?>club/auth_about/<?=$view['idx']?>"> 백산백소 소개</a></li>
           <li><a href="<?=base_url()?>club/auth/<?=$view['idx']?>"> 백산백소 인증현황</a></li><br>
           <?php endif; ?>
-          <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?><li><br><a href="<?=base_url()?>club/setup/<?=$view['idx']?>"> 설정</a></li><?php endif; ?>
+          <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?><li><br><a href="<?=base_url()?>admin"> 설정</a></li><?php endif; ?>
           <li><a href="<?=base_url()?>/member/<?=$view['idx']?>">마이페이지</a></li>
           <li><a href="<?=base_url()?>/member/modify/<?=$view['idx']?>">개인정보수정</a></li>
           <li><a href="javascript:;" class="logout">로그아웃</a></li>
@@ -171,7 +171,7 @@
             <?php endif; ?>
             <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
             <br>
-            <li><a href="<?=base_url()?>club/setup/<?=$view['idx']?>"><i class="fa fa-cog" aria-hidden="true"></i> 설정</a></li>
+            <li><a href="<?=base_url()?>admin"><i class="fa fa-cog" aria-hidden="true"></i> 설정</a></li>
             <?php endif; ?>
           </ul>
           <div class="desc">

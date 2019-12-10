@@ -681,31 +681,6 @@
         }
       }
     });
-  }).on('click', '.btn-club-geton', function() {
-    // 승차위치 추가
-    var $dom = $('.club-geton-text');
-    $('.club-geton-added').append('<div class="club-geton-element"><input readonly type="text" name="club_geton[]" class="width-half" value="' + $dom.val() + '"> <button type="button" class="btn btn-primary btn-club-geton-delete">삭제</button></div>');
-    $dom.val('');
-  }).on('click', '.btn-club-geton-delete', function() {
-    // 승차위치 삭제
-    $(this).parent().remove();
-  }).on('click', '.btn-club-getoff', function() {
-    // 하차위치 추가
-    var $dom = $('.club-getoff-text');
-    $('.club-getoff-added').append('<div class="club-getoff-element"><input readonly type="text" name="club_getoff[]" class="width-half" value="' + $dom.val() + '"> <button type="button" class="btn btn-primary btn-club-getoff-delete">삭제</button></div>');
-    $dom.val('');
-  }).on('click', '.btn-club-getoff-delete', function() {
-    // 하차위치 삭제
-    $(this).parent().remove();
-  }).on('change', '.btn-all-check', function() {
-    // 체크박스 제어
-    var target = $(this).data('id');
-
-    if ($(this).is(':checked') == true) {
-      $('.' + target).prop('checked', true)
-    } else {
-      $('.' + target).prop('checked', false)
-    }
   }).on('click', '.btn-refresh', function() {
     location.reload();
   });
