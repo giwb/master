@@ -442,11 +442,33 @@ class Admin_model extends CI_Model
     return $this->db->get()->result_array();
   }
 
-  // 캘린더 설정
+  // 달력 일정 목록
   public function listCalendar()
   {
     $this->db->select('*')->from(DB_CALENDAR);
     return $this->db->get()->result_array();
+  }
+
+  // 달력 일정 등록
+  public function insertCalendar($data)
+  {
+    $this->db->insert(DB_CALENDAR, $data);
+    return $this->db->insert_id();
+  }
+
+  // 달력 일정 수정
+  public function updateCalendar($data, $idx)
+  {
+    $this->db->set($data);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_CALENDAR);
+  }
+
+  // 달력 일정 삭제
+  public function deleteCalendar($idx)
+  {
+    $this->db->where('idx', $idx);
+    return $this->db->delete(DB_CALENDAR);
   }
 }
 ?>

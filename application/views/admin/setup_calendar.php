@@ -12,97 +12,70 @@
         center: 'title',
         right: 'next'
       },
-<?php if (!empty($sdate)): ?>
+      <?php if (!empty($sdate)): ?>
       year: '<?=date('Y', strtotime($sdate))?>',
       month: '<?=date('m', strtotime($sdate)) - 1?>',
-<?php endif; ?>
+      <?php endif; ?>
+      titleFormat: {
+        month: 'yyyy년 MMMM',
+        week: "yyyy년 MMMM",
+        day: 'yyyy년 MMMM'
+      },
       selectable: true,
-      selectHelper: true,
-      select: function(start, end, allDay) {
-        var title = $.insertScheduleModal(start, end);
+      select: function(date) {
+        var title = $.insertScheduleModal(date);
         var eventData;
         if (title) {
-          eventData = {
-            title: title,
-            start: start,
-            end: end,
-            allDay: allDay
-          };
-          $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+          $('#calendar').fullCalendar('renderEvent', eventData, true);
         }
         $('#calendar').fullCalendar('unselect');
       },
-      editable: false,
-      eventLimit: true, // allow "more" link when too many events
-      columnFormat: {
-                month: 'ddd',
-                week: 'ddd d',
-                day: 'dddd M/d',
-                agendaDay: 'dddd d'
-            },
-            titleFormat: {
-                month: 'yyyy년 MMMM',
-                week: "yyyy년 MMMM",
-                day: 'yyyy년 MMMM'
-            },
       events: [
         <?php
-          foreach ($listSchedule as $value) {
-            $sdate = strtotime($value['startdate']);
-            $edate = strtotime($value['enddate']);
+          foreach ($listCalendar as $value):
+            $startDate = $endDate = strtotime($value['nowdate']);
         ?>
         {
-          title: '<?=$value['subject']?>',
-          start: new Date('<?=date('Y', $sdate)?>-<?=date('m', $sdate)?>-<?=date('d', $sdate)?>T00:00:00'),
-          end: new Date('<?=date('Y', $edate)?>-<?=date('m', $edate)?>-<?=date('d', $edate)?>T23:59:59'),
-          url: 'javascript: $.updateScheduleModal(<?=$value['idx']?>)',
-          className: 'scheduled'
+          title: '<?=$value['dayname']?>',
+          start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>T00:00:00'),
+          end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>T23:59:59'),
+          url: 'javascript: $.updateScheduleModal(<?=$value['idx']?>, "<?=$value['nowdate']?>", "<?=$value['dayname']?>", <?=$value['holiday']?>)',
+          className: '<?=$value['holiday'] == 1 ? "holiday" : "dayname"?>'
         },
         <?php
-          }
+          endforeach;
         ?>
       ]
     });
   });
 
-  $(document).on('click', '.past-schedule a', function() {
-    var subject = $(this).data('subject');
+  $(document).on('click', '.btn-calendar', function() {
+    // 일정 등록
+    var idx     = $('input[name=idx]').val();
+    var nowdate = $('input[name=nowdate]').val();
+    var dayname = $('input[name=dayname]').val();
+    var holiday = $('input:checkbox[name=holiday]').is(':checked');
+    if (holiday == true) holiday = 1; else holiday = 0;
     $('.error-message').hide();
-    $('input[name=subject]').val(subject);
-  }).on('click', '.btn-calendar', function() {
-    alert('준비중');
-    return false;
-    var sdate = $('input[name=sdate]').val();
-    var edate = $('input[name=edate]').val();
-    var subject = $('input[name=subject]').val();
-    var idx = $('input[name=idx]').val();
-    var data;
-    $('.error-message').hide();
-
-    if (idx != '') {
-      data = 'sdate=' + sdate + '&edate=' + edate + '&subject=' + subject + '&idx=' + idx;
-    } else {
-      data = 'sdate=' + sdate + '&edate=' + edate + '&subject=' + subject;
-    }
 
     $.ajax({
-      url: '<?=base_url()?>admin/setup_schedule_update',
-      data: data,
+      url: '<?=base_url()?>admin/setup_calendar_update',
+      data: 'nowdate=' + nowdate + '&dayname=' + dayname + '&holiday=' + holiday + '&idx=' + idx,
       dataType: 'json',
       type: 'post',
       success: function(result) {
         if (result.error == 1) {
           $('.error-message').text(result.message).slideDown();
         } else {
-          location.replace('<?=base_url()?>admin/setup_schedule?d=' + sdate);
+          location.replace('<?=base_url()?>admin/setup_calendar?d=' + nowdate);
         }
       }
     });
   }).on('click', '.btn-calendar-delete', function() {
-    var sdate = $('input[name=sdate]').val();
+    var nowdate = $('input[name=nowdate]').val();
 
     $.ajax({
-      url: '<?=base_url()?>admin/setup_schedule_delete',
+      url: '<?=base_url()?>admin/setup_calendar_delete',
       data: 'idx=' + $('input[name=idx]').val(),
       dataType: 'json',
       type: 'post',
@@ -110,55 +83,35 @@
         if (result.error == 1) {
           $('.error-message').text(result.message).slideDown();
         } else {
-          location.replace('<?=base_url()?>admin/setup_schedule?d=' + sdate);
+          location.replace('<?=base_url()?>admin/setup_calendar?d=' + nowdate);
         }
       }
     });
   });
 
   // 산행계획 등록
-  $.insertScheduleModal = function(start, end) {
-    var sdate = $.changeDate(start);
-    var edate = $.changeDate(end);
+  $.insertScheduleModal = function(nowdate) {
+    var nowdate = $.changeDate(nowdate);
     $('.error-message').hide();
+    $('#scheduleModal input[name=idx]').val('');
+    $('#scheduleModal input[name=nowdate]').val(nowdate);
+    $('#scheduleModal input[name=dayname]').val('');
+    $('#scheduleModal input:checkbox[name=holiday]').prop('checked', false);
     $('#scheduleModal .btn-calendar-delete').hide();
     $('#scheduleModal .btn-calendar').text('등록');
-    $('#scheduleModal input[name=sdate]').val(sdate);
-    $('#scheduleModal input[name=edate]').val(edate);
     $('#scheduleModal').modal('show');
-/*
-    $.ajax({
-      url: $('input[name=base_url]').val() + 'admin/setup_schedule_past',
-      data: 'sdate=' + sdate + '&edate=' + edate,
-      dataType: 'json',
-      type: 'post',
-      success: function(result) {
-        $('.past-schedule').html(result.message);
-      }
-    });
-*/
   }
 
   // 산행계획 수정
-  $.updateScheduleModal = function(idx) {
+  $.updateScheduleModal = function(idx, nowdate, dayname, holiday) {
     $('.error-message').hide();
+    $('#scheduleModal input[name=idx]').val(idx);
+    $('#scheduleModal input[name=nowdate]').val(nowdate);
+    $('#scheduleModal input[name=dayname]').val(dayname);
+    $('#scheduleModal input:checkbox[name=holiday]').prop('checked', holiday);
     $('#scheduleModal .btn-calendar-delete').show();
     $('#scheduleModal .btn-calendar').text('수정');
     $('#scheduleModal').modal('show');
-
-    $.ajax({
-      url: $('input[name=base_url]').val() + 'admin/setup_schedule_past',
-      data: 'idx=' + idx,
-      dataType: 'json',
-      type: 'post',
-      success: function(result) {
-        $('#scheduleModal input[name=sdate]').val(result.sdate);
-        $('#scheduleModal input[name=edate]').val(result.edate);
-        $('#scheduleModal input[name=subject]').val(result.subject);
-        $('#scheduleModal input[name=idx]').val(result.idx);
-        $('.past-schedule').html(result.message);
-      }
-    });
   }
 
   $.changeDate = function(date) {
@@ -190,16 +143,12 @@
             </div>
             <div class="modal-body">
               <div class="row align-items-center mb-2">
-                <div class="col-sm-3">시작일</div>
-                <div class="col-sm-9"><input type="text" name="sdate" class="form-control form-control-sm"></div>
-              </div>
-              <div class="row align-items-center mb-2">
-                <div class="col-sm-3">종료일</div>
-                <div class="col-sm-9"><input type="text" name="edate" class="form-control form-control-sm"></div>
+                <div class="col-sm-3">일자</div>
+                <div class="col-sm-9"><input type="text" name="nowdate" class="form-control form-control-sm"></div>
               </div>
               <div class="row align-items-center">
                 <div class="col-sm-3">일정명</div>
-                <div class="col-sm-9"><input type="text" name="subject" class="form-control form-control-sm"></div>
+                <div class="col-sm-9"><input type="text" name="dayname" class="form-control form-control-sm"></div>
               </div>
               <div class="row align-items-center pt-2 pb-2">
                 <div class="col-sm-3">휴일여부</div>

@@ -1516,22 +1516,69 @@ class Admin extends Admin_Controller
   }
 
   /**
-   * 설정 - 달력관리
+   * 설정 - 달력 일정관리
    *
    * @return view
    * @author bjchoi
    **/
   public function setup_calendar()
   {
-    $viewData['search']['syear'] = NULL;
-    $viewData['search']['smonth'] = NULL;
-    $viewData['search']['status'] = array(STATUS_PLAN);
-
-    $viewData['listSchedule'] = $this->admin_model->listNotice($viewData['search']);
-    $sdate = $this->input->get('d');
+    $sdate = html_escape($this->input->get('d'));
     if (!empty($sdate)) $viewData['sdate'] = html_escape($sdate); else $viewData['sdate'] = NULL;
 
+    // 캘린더 설정
+    $viewData['listCalendar'] = $this->admin_model->listCalendar();
+
     $this->_viewPage('admin/setup_calendar', $viewData);
+  }
+
+  /**
+   * 설정 - 달력 일정 입력/수정
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function setup_calendar_update()
+  {
+    $now = time();
+    $idx = html_escape($this->input->post('idx'));
+    $postData['nowdate'] = html_escape($this->input->post('nowdate'));
+    $postData['dayname'] = html_escape($this->input->post('dayname'));
+    $postData['holiday'] = html_escape($this->input->post('holiday'));
+
+    if (!empty($idx)) {
+      $rtn = $this->admin_model->updateCalendar($postData, $idx);
+    } else {
+      $rtn = $this->admin_model->insertCalendar($postData);
+    }
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_update'));
+    } else {
+      $result = array('error' => 0, 'message' => '');
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 설정 - 달력 일정 삭제
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function setup_calendar_delete()
+  {
+    $idx = html_escape($this->input->post('idx'));
+    $rtn = $this->admin_model->deleteCalendar($idx);
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_delete'));
+    } else {
+      $result = array('error' => 0, 'message' => '');
+    }
+
+    $this->output->set_output(json_encode($result));
   }
 
   /**
@@ -1547,7 +1594,7 @@ class Admin extends Admin_Controller
     $viewData['search']['status'] = array(STATUS_PLAN);
 
     $viewData['listSchedule'] = $this->admin_model->listNotice($viewData['search']);
-    $sdate = $this->input->get('d');
+    $sdate = html_escape($this->input->get('d'));
     if (!empty($sdate)) $viewData['sdate'] = html_escape($sdate); else $viewData['sdate'] = NULL;
 
     $this->_viewPage('admin/setup_schedule', $viewData);
