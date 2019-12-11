@@ -1181,19 +1181,23 @@ class Admin extends Admin_Controller
           break;
         case '3': // 예약취소
           $viewData['listHistory'][$key]['header'] = '[예약취소]';
-          $viewData['listHistory'][$key]['subject'] = '<a href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '">' . $value['subject'] . '</a>';
+          $viewData['listHistory'][$key]['subject'] = '<a href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '" class="text-danger">' . $value['subject'] . '</a>';
           break;
         case '4': // 포인트 적립
           $viewData['listHistory'][$key]['header'] = '[포인트적립]';
+          $viewData['listHistory'][$key]['subject'] = '<a href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '" class="text-success">' . $value['subject'] . '</a>';
           break;
         case '5': // 포인트 감소
           $viewData['listHistory'][$key]['header'] = '[포인트감소]';
+          $viewData['listHistory'][$key]['subject'] = '<a href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '" class="text-warning">' . $value['subject'] . '</a>';
           break;
         case '6': // 페널티 추가
           $viewData['listHistory'][$key]['header'] = '[페널티추가]';
+          $viewData['listHistory'][$key]['subject'] = '<a href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '" class="text-warning">' . $value['subject'] . '</a>';
           break;
         case '7': // 페널티 감소
           $viewData['listHistory'][$key]['header'] = '[페널티감소]';
+          $viewData['listHistory'][$key]['subject'] = '<a href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '" class="text-success">' . $value['subject'] . '</a>';
           break;
         case '8': // 관리자 예약
           $viewData['listHistory'][$key]['header'] = '[관리자예약완료]';
@@ -1201,7 +1205,7 @@ class Admin extends Admin_Controller
           break;
         case '9': // 관리자 예약취소
           $viewData['listHistory'][$key]['header'] = '[관리자예약취소]';
-          $viewData['listHistory'][$key]['subject'] = '<a href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '">' . $value['subject'] . '</a>';
+          $viewData['listHistory'][$key]['subject'] = '<a href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '" class="text-danger">' . $value['subject'] . '</a>';
           break;
       }
     }
