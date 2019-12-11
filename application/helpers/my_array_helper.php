@@ -836,4 +836,21 @@ if (!function_exists('getGender')) {
     return $result;
   }
 }
+
+// 브라우저 종류
+if (!function_exists('getUserAgent')) {
+  function getUserAgent($agent) {
+    $result = '';
+
+    if (strstr($agent, 'Windows'))    $result .= '윈도우즈 ';
+    if (strstr($agent, 'Android'))    $result .= '안드로이드 ';
+    if (strstr($agent, 'iPhone'))     $result .= '아이폰 ';
+    if (strstr($agent, 'Chrome'))     $result .= '구글 크롬 브라우저';
+    if (strstr($agent, 'Trident/7'))     $result .= 'MS 인터넷 익스플로러';
+    if (strstr($agent, 'SM-G'))       $result .= '갤럭시';
+    if (strstr($agent, 'Googlebot'))  $result .= '구글 로봇';
+
+    return $result;
+  }
+}
 ?>
