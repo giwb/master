@@ -1267,11 +1267,11 @@ class Admin extends Admin_Controller
     if ($page >= 2) {
       // 2페이지 이상일 경우에는 Json으로 전송
       $result['page'] = $page;
-      $result['html'] = $this->load->view('admin/log_admin_append', $viewData, true);
+      $result['html'] = $this->load->view('admin/log_user_append', $viewData, true);
       $this->output->set_output(json_encode($result));
     } else {
       // 1페이지에는 View 페이지로 전송
-      $this->_viewPage('admin/log_admin', $viewData);
+      $this->_viewPage('admin/log_user', $viewData);
     }
   }
 
