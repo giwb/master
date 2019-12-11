@@ -390,7 +390,7 @@
     var location = $('select[name=location]').val();
     //var data = 'idx=' + $('input[name=idx]').val() + '&created_by=' + $('input[name=created_by]').val() + '&nickname=' + nickname + '&location=' + location + '&gender=' + $('select[name=gender]').val() + '&memo=' + $('input[name=memo]').val();
     var data = 'idx=' + $('input[name=idx]').val() + '&nickname=' + nickname + '&location=' + location + '&gender=' + $('select[name=gender]').val() + '&memo=' + $('input[name=memo]').val();
-    if (nickname == '' || location == 0) return false;
+    if (nickname == '') return false;
 
     $.ajax({
       url: $('input[name=base_url]').val() + 'admin/main_wait_insert',
