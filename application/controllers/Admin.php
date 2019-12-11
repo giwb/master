@@ -1990,19 +1990,5 @@ class Admin extends Admin_Controller
     $this->load->view($viewPage, $viewData);
     $this->load->view('admin/footer');
   }
-
-  public function test()
-  {
-    $listHistory = $this->admin_model->listHistory();
-
-    foreach ($listHistory as $value) {
-      if (!empty($value['nickname'])) {
-        $updateValues = array(
-          'nickname' => $value['nickname']
-        );
-        $this->admin_model->updateHistory($updateValues, $value['idx']);
-      }
-    }
-  }
 }
 ?>
