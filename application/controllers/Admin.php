@@ -969,6 +969,8 @@ class Admin extends Admin_Controller
     $inputData = $this->input->post();
     $idx = html_escape($this->input->post('idx'));
 
+print_r($inputData);
+exit;
     $updateValues = array(
       'nickname'      => html_escape($inputData['nickname']),
       'realname'      => html_escape($inputData['realname']),
@@ -982,11 +984,15 @@ class Admin extends Admin_Controller
     // 평생회원, 무료회원
     if (!empty($inputData['level'])) {
       $updateValues['level'] = html_escape($inputData['level']);
+    } else {
+      $updateValues['level'] = 0;
     }
 
     // 관리자
     if (!empty($inputData['admin'])) {
       $updateValues['admin'] = $inputData['admin'];
+    } else {
+      $updateValues['admin'] = 0;
     }
 
     $result = $this->admin_model->updateMember($updateValues, $idx);
