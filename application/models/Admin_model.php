@@ -405,7 +405,7 @@ class Admin_model extends CI_Model
     $this->db->select('a.*, b.nickname')
           ->from(DB_VISITOR . ' a')
           ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
-          ->where('b.quitdate !=', NULL)
+          ->where('b.quitdate', NULL)
           ->where('FROM_UNIXTIME(created_at, "%Y%m%d") =', $nowDate)
           ->order_by('a.created_at', 'desc');
     return $this->db->get()->result_array();
