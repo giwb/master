@@ -5,7 +5,7 @@
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
           <h1 class="h3 mb-0 text-gray-800">회원 예약 기록</h1>
         </div>
-        <form id="formList" method="post" action="<?=base_url()?>admin/log_user">
+        <form id="formList" method="post" action="<?=$pageUrl?>">
           <input type="hidden" name="p" value="1">
         </form>
         <?php foreach ($listHistory as $value): ?>
