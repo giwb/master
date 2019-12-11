@@ -12151,6 +12151,8 @@ body.sidebar-toggled footer.sticky-footer {
 .story-reply dl dd .reply-date { font-size: 12px; color: #aeaeae; margin-left: 20px; }
 .story-reply .img-profile { width: 2.5rem; height: 2.5rem; border-radius: 50%; margin: 0 0 0 10px; cursor: pointer; }
 
+.visitor-row { display: flex; }
+
 @media (max-width: 768px) {
   .h3 { text-align: center; }
   .container, .container-fluid { padding: 10px; }
@@ -12174,4 +12176,10 @@ body.sidebar-toggled footer.sticky-footer {
   .setup-schedule { width: 100%; }
 
   .area-wait { font-size: 12px; }
+
+  .visitor-header div { padding: 0 0 0 10px!important; }
+  .visitor-header select { font-size: 12px; margin: 0px; padding: 0 2px; }
+  .visitor-header button { font-size: 12px; }
+  .visitor-row { display: none; }
+  .visitor-data .col-sm-1:first-child { padding: 0 0 0 13px!important; }
 }

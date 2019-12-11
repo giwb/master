@@ -5,7 +5,7 @@
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
           <h1 class="h3 mb-0 text-gray-800">방문자 기록</h1>
         </div>
-        <form id="formSearch" method="post" action="<?=base_url()?>admin/log_visitor" class="row align-items-center mb-3 pb-3">
+        <form id="formSearch" method="post" action="<?=base_url()?>admin/log_visitor" class="row align-items-center mb-3 pb-3 visitor-header">
           <div class="pl-3"><a href="<?=base_url()?>admin/log_visitor?<?=$searchPrev?>">◀</a></div>
           <div class="pl-3">
             <select name="y" class="form-control">
@@ -34,14 +34,14 @@
       </form>
 
       <strong>・총 방문횟수 : <?=count($listVisitor)?>회</strong>
-      <div class="row align-items-center border-top pt-2 pb-2 bg-primary text-white">
+      <div class="row align-items-center border-top pt-2 pb-2 bg-primary text-white visitor-row">
         <div class="col-sm-1 pl-4">접속시간</div>
         <div class="col-sm-1">닉네임/IP</div>
         <div class="col-sm-2">링크된곳</div>
         <div class="col-sm-8">브라우저</div>
       </div>
       <?php foreach ($listVisitor as $value): ?>
-      <div class="row align-items-center border-top pt-2 pb-2 small">
+      <div class="row align-items-center border-top pt-2 pb-2 small visitor-data">
         <div class="col-sm-1 pl-4"><?=calcStoryTime($value['created_at'])?></div>
         <div class="col-sm-1"><?=!empty($value['nickname']) ? '<a href="' . base_url() . 'admin/member_view/' . $value['created_by'] . '">' . $value['nickname'] . '</a>' : $value['ip_address']?></div>
         <div class="col-sm-2"><a target="_blank" href="$value['http_referer']"><?=strlen($value['http_referer']) > 40 ? substr($value['http_referer'], 0, 40) . '...' : $value['http_referer']?></a></div>
