@@ -1180,6 +1180,7 @@ class Admin extends Admin_Controller
     $search['action'] = array(LOG_ENTRY, LOG_RESERVE, LOG_CANCEL, LOG_POINTUP, LOG_POINTDN, LOG_PENALTYUP, LOG_PENALTYDN);
     $viewData['listHistory'] = $this->admin_model->listHistory($paging, $search);
     $viewData['pageUrl'] = base_url() . 'admin/log_user';
+    $viewData['pageTitle'] = '회원 예약 기록';
 
     foreach ($viewData['listHistory'] as $key => $value) {
       switch ($value['action']) {
@@ -1242,6 +1243,7 @@ class Admin extends Admin_Controller
     $search['action'] = array(LOG_ADMIN_RESERVE, LOG_ADMIN_CANCEL, LOG_ADMIN_DEPOSIT_CONFIRM, LOG_ADMIN_DEPOSIT_CANCEL);
     $viewData['listHistory'] = $this->admin_model->listHistory($paging, $search);
     $viewData['pageUrl'] = base_url() . 'admin/log_admin';
+    $viewData['pageTitle'] = '관리자 예약 기록';
 
     foreach ($viewData['listHistory'] as $key => $value) {
       switch ($value['action']) {
