@@ -198,11 +198,10 @@ class Admin_model extends CI_Model
   // 대기자 목록
   public function listWait($rescode)
   {
-    $this->db->select('a.idx, a.location, a.gender, a.memo, a.created_at, b.userid, b.nickname, b.phone')
-          ->from(DB_WAIT . ' a')
-          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx')
-          ->where('a.notice_idx', $rescode)
-          ->order_by('a.created_at', 'asc');
+    $this->db->select('*')
+          ->from(DB_WAIT)
+          ->where('notice_idx', $rescode)
+          ->order_by('created_at', 'asc');
     return $this->db->get()->result_array();
   }
 

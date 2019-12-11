@@ -106,9 +106,9 @@
           <div class="pl-1"><input type="text" name="nickname" class="form-control form-control-sm search-userid" placeholder="닉네임 입력"></div>
           <div class="pl-1">
             <select name="location" class="form-control form-control-sm pl-0 pr-0">
-              <?php foreach ($arrLocation as $key => $value): if ($key > 0): ?>
+              <?php foreach ($arrLocation as $key => $value): ?>
               <option value='<?=$value['no']?>'><?=$value['stitle']?></option>
-              <?php endif; endforeach; ?>
+              <?php endforeach; ?>
             </select>
           </div>
           <div class="pl-1">
