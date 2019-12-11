@@ -342,6 +342,24 @@ class Admin_model extends CI_Model
     return $this->db->get()->row_array(1);
   }
 
+  // 출석체크 - 산행지로 보기
+  public function listAttendanceResCode($nickname)
+  {
+    $this->db->select('rescode')
+          ->from(DB_ATTENDANCE)
+          ->where('nickname', $nickname);
+    return $this->db->get()->result_array();
+  }
+
+  // 출석체크 - 산행지로 보기 - 산 이름 추출
+  public function getAttendanceMountainName($rescode)
+  {
+    $this->db->select('mname')
+          ->from(DB_NOTICE)
+          ->where('idx', $rescode);
+    return $this->db->get()->row_array(1);
+  }
+
   // 출석체크 - 추출
   public function getAttendanceNickname($idx)
   {

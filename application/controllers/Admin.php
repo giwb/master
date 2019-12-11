@@ -1093,7 +1093,20 @@ class Admin extends Admin_Controller
    **/
   public function attendance_mountain()
   {
-    $viewData = array();
+    // 랭킹별 닉네임 추출
+    $viewData['listNickname'] = $this->admin_model->listAttendanceNickname();
+
+    foreach ($viewData['listNickname'] as $key => $value) {
+      $listAttendanceResCode = $this->admin_model->listAttendanceResCode($value['nickname']);
+      $viewData['listNickname'][$key]['mname'] = '';
+
+      foreach ($listAttendanceResCode as $cnt => $data) {
+        $getAttendanceMountainName = $this->admin_model->getAttendanceMountainName($data['rescode']);
+        if ($cnt != 0) $viewData['listNickname'][$key]['mname'] .= ' / ';
+        $viewData['listNickname'][$key]['mname'] .= $getAttendanceMountainName['mname'];
+      }
+    }
+
     $this->_viewPage('admin/attendance_mountain', $viewData);
   }
 
