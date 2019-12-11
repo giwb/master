@@ -145,6 +145,7 @@ class Admin extends Admin_Controller
         'vip' => html_escape($arrVip[$key]) == 'true' ? 1 : 0,
         'manager' => html_escape($arrManager[$key]) == 'true' ? 1 : 0,
         'priority' => html_escape($arrPriority[$key]) == 'true' ? 1 : 0,
+        'status' => 0,
         'regdate' => time(),
       );
 
