@@ -407,9 +407,15 @@
   }).on('blur', '.search-userid', function() {
     // 대기자 아이디 검색
     var $dom = $(this);
+    var nickname = $(this).val();
+
+    if (nickname == '') {
+      return false;
+    }
+
     $.ajax({
       url: $('input[name=base_url]').val() + 'admin/search_by_nickname',
-      data: 'nickname=' + $(this).val(),
+      data: 'nickname=' + nickname,
       dataType: 'json',
       type: 'post',
       success: function(result) {
