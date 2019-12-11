@@ -969,8 +969,6 @@ class Admin extends Admin_Controller
     $inputData = $this->input->post();
     $idx = html_escape($this->input->post('idx'));
 
-print_r($inputData);
-exit;
     $updateValues = array(
       'nickname'      => html_escape($inputData['nickname']),
       'realname'      => html_escape($inputData['realname']),
