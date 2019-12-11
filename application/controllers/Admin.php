@@ -113,6 +113,7 @@ class Admin extends Admin_Controller
    **/
   public function reserve_complete()
   {
+    $now = time();
     $idx = html_escape($this->input->post('idx'));
     $arrResIdx = $this->input->post('resIdx');
     $arrSeat = $this->input->post('seat');
@@ -131,12 +132,13 @@ class Admin extends Admin_Controller
     $viewEntry = $this->admin_model->viewEntry($idx);
 
     foreach ($arrSeat as $key => $seat) {
+      $nowUserid = html_escape($arrUserid[$key]);
       $nowNick = html_escape($arrNickname[$key]);
       $nowBus = html_escape($arrBus[$key]);
       $nowSeat = html_escape($seat);
       $postData = array(
         'rescode' => $idx,
-        'userid' => html_escape($arrUserid[$key]),
+        'userid' => $nowUserid,
         'nickname' => $nowNick,
         'gender' => html_escape($arrGender[$key]),
         'bus' => $nowBus,
@@ -148,13 +150,18 @@ class Admin extends Admin_Controller
         'manager' => html_escape($arrManager[$key]) == 'true' ? 1 : 0,
         'priority' => html_escape($arrPriority[$key]) == 'true' ? 1 : 0,
         'status' => 0,
-        'regdate' => time()
+        'regdate' => $now
       );
 
       $resIdx = html_escape($arrResIdx[$key]);
 
       if (empty($resIdx)) {
         $result = $this->admin_model->insertReserve($postData);
+
+        if (!empty($result)) {
+          // 관리자 예약 기록
+          setHistory(LOG_ADMIN_RESERVE, $idx, $nowUserid, $nowNick, $viewEntry['subject'], $now);
+        }
       } else {
         // 선택한 좌석 예약 여부 확인
         $checkReserve = $this->admin_model->checkReserve($idx, $nowBus, $nowSeat);
@@ -191,6 +198,7 @@ class Admin extends Admin_Controller
    **/
   public function reserve_cancel()
   {
+    $now = time();
     $inputData['idx'] = html_escape($this->input->post('idx'));
 
     // 유저 예약 정보
@@ -231,7 +239,7 @@ class Admin extends Admin_Controller
       $rtn = $this->admin_model->updateReserve($updateValues, $inputData['idx']);
     } else {
       // 좌석이 남아있을 경우에는 그냥 삭제
-      $this->admin_model->deleteReserve($inputData['idx']);
+      $rtn = $this->admin_model->deleteReserve($inputData['idx']);
 
       if ($viewEntry['status'] == STATUS_CONFIRM) {
         $cntReservation = $this->admin_model->cntReservation($viewReserve['rescode']);
@@ -241,6 +249,11 @@ class Admin extends Admin_Controller
           $this->admin_model->updateEntry($updateValues, $viewReserve['rescode']);
         }
       }
+    }
+
+    if (!empty($rtn)) {
+      // 관리자 예약취소 기록
+      setHistory(LOG_ADMIN_CANCEL, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'], $now);
     }
 
     $result['reload'] = true;
@@ -255,7 +268,7 @@ class Admin extends Admin_Controller
    **/
   public function reserve_deposit()
   {
-    // 입금 확인 완료
+    $now = time();
     $viewData['idx'] = html_escape($this->input->post('idx'));
     $viewReserve = $this->admin_model->viewReserve($viewData);
 
@@ -263,10 +276,16 @@ class Admin extends Admin_Controller
       // 입금취소
       $updateValues['status'] = RESERVE_ON;
       $this->admin_model->updateReserve($updateValues, $viewData['idx']);
+
+      // 관리자 입금취소 기록
+      setHistory(LOG_ADMIN_DEPOSIT_CANCEL, $viewData['idx'], $viewReserve['userid'], $viewReserve['nickname'], $viewReserve['subject'], $now);
     } else {
       // 입금확인
       $updateValues['status'] = RESERVE_PAY;
       $this->admin_model->updateReserve($updateValues, $viewData['idx']);
+
+      // 관리자 입금확인 기록
+      setHistory(LOG_ADMIN_DEPOSIT_CONFIRM, $viewData['idx'], $viewReserve['userid'], $viewReserve['nickname'], $viewReserve['subject'], $now);
     }
 
     $result['reload'] = true;
@@ -1970,6 +1989,20 @@ class Admin extends Admin_Controller
     $this->load->view('admin/header', $headerData);
     $this->load->view($viewPage, $viewData);
     $this->load->view('admin/footer');
+  }
+
+  public function test()
+  {
+    $listHistory = $this->admin_model->listHistory();
+
+    foreach ($listHistory as $value) {
+      if (!empty($value['nickname'])) {
+        $updateValues = array(
+          'nickname' => $value['nickname']
+        );
+        $this->admin_model->updateHistory($updateValues, $value['idx']);
+      }
+    }
   }
 }
 ?>

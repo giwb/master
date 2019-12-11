@@ -32,7 +32,7 @@ if (!function_exists('make_serialize')) {
 }
 
 // 방문자 기록
-if (!function_exists('setHistory')) {
+if (!function_exists('setVisitor')) {
   function setVisitor() {
     $CI =& get_instance();
     $clubIdx = $CI->load->get_var('clubIdx');
@@ -710,7 +710,7 @@ if (!function_exists('getClubGetonoff')) {
 
 // 로그 기록
 if (!function_exists('setHistory')) {
-  function setHistory($action, $fkey, $userid, $subject, $regdate, $point=NULL) {
+  function setHistory($action, $fkey, $userid, $nickname, $subject, $regdate, $point=NULL) {
     /*
       action
       1 - 회원가입
@@ -722,11 +722,14 @@ if (!function_exists('setHistory')) {
       7 - 페널티 감소
       8 - 관리자 예약
       9 - 관리자 취소
+      10 - 관리자 입금확인
+      11 - 관리자 입금취소
     */
     $data = array(
       'action' => $action,
       'fkey' => $fkey,
       'userid' => $userid,
+      'nickname' => $nickname,
       'subject' => $subject,
       'regdate' => $regdate,
     );

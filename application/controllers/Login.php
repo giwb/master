@@ -181,18 +181,22 @@ class Login extends CI_Controller
    **/
   public function insert()
   {
+    $now = time();
     $inputData = $this->input->post();
+    $userid = html_escape($inputData['userid']);
+    $nickname = html_escape($inputData['nickname']);
+
     $insertValues = array(
       'club_idx'      => html_escape($inputData['club_idx']),
-      'userid'        => html_escape($inputData['userid']),
+      'userid'        => $userId,
+      'nickname'      => $nickname,
       'password'      => md5(html_escape($inputData['password'])),
-      'nickname'      => html_escape($inputData['nickname']),
       'realname'      => html_escape($inputData['realname']),
       'gender'        => html_escape($inputData['gender']),
       'birthday'      => html_escape($inputData['birthday_year']) . '/' . html_escape($inputData['birthday_month']) . '/' . html_escape($inputData['birthday_day']),
       'birthday_type' => html_escape($inputData['birthday_type']),
       'phone'         => html_escape($inputData['phone1']) . '-' . html_escape($inputData['phone2']) . '-' . html_escape($inputData['phone3']),
-      'regdate'       => time()
+      'regdate'       => $now
     );
 
     $idx = $this->member_model->insertMember($insertValues);
@@ -209,10 +213,10 @@ class Login extends CI_Controller
         rename(UPLOAD_PATH . html_escape($inputData['filename']), PHOTO_PATH . $idx);
       }
 
-      $result = array(
-        'error' => 0,
-        'message' => ''
-      );
+      // 회원 가입 기록
+      setHistory(LOG_ENTRY, $idx, $userid, $nickname, '', $now);
+
+      $result = array('error' => 0, 'message' => '');
     }
 
     $this->output->set_output(json_encode($result));

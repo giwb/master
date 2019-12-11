@@ -156,7 +156,9 @@ defined('LOG_POINTDN')        OR define('LOG_POINTDN', 5);
 defined('LOG_PENALTYUP')      OR define('LOG_PENALTYUP', 6);
 defined('LOG_PENALTYDN')      OR define('LOG_PENALTYDN', 7);
 defined('LOG_ADMIN_RESERVE')  OR define('LOG_ADMIN_RESERVE', 8);
-defined('LOG_ADMIN_CANCEL')   OR define('LOG_ADMIN_CANCEL', 8);
+defined('LOG_ADMIN_CANCEL')   OR define('LOG_ADMIN_CANCEL', 9);
+defined('LOG_ADMIN_DEPOSIT_CONFIRM')  OR define('LOG_ADMIN_DEPOSIT_CONFIRM', 10);
+defined('LOG_ADMIN_DEPOSIT_CANCEL')   OR define('LOG_ADMIN_DEPOSIT_CANCEL', 11);
 
 // 경로 설정
 defined('PATH_FRONT')         OR define('PATH_FRONT', PATH_MAIN . '/public/uploads/front/');

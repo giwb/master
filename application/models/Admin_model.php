@@ -369,7 +369,7 @@ class Admin_model extends CI_Model
   // 활동관리 - 회원 예약 기록
   public function listHistory($paging=NULL, $search=NULL)
   {
-    $this->db->select('a.*, b.idx, b.nickname')
+    $this->db->select('a.idx, b.nickname')
           ->from(DB_HISTORY . ' a')
           ->join(DB_MEMBER . ' b', 'a.userid=b.userid', 'left')
           ->order_by('a.idx', 'desc');
@@ -382,6 +382,12 @@ class Admin_model extends CI_Model
     }
 
     return $this->db->get()->result_array();
+  }
+  public function updateHistory($data, $idx)
+  {
+    $this->db->set($data);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_HISTORY);
   }
 
   // 활동관리 - 댓글 기록

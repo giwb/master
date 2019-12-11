@@ -191,7 +191,7 @@ class Reserve extends MY_Controller
         $reserveIdx[] = $result;
 
         // 로그 기록
-        setHistory(2, $noticeIdx, $userData['userid'], $viewNotice['subject'], $now);
+        setHistory(LOG_RESERVE, $noticeIdx, $userData['userid'], $userData['nickname'], $viewNotice['subject'], $now);
       } else {
         // 선택한 좌석 예약 여부 확인
         $checkReserve = $this->reserve_model->checkReserve($clubIdx, $noticeIdx, $nowBus, $seat);
@@ -387,7 +387,7 @@ class Reserve extends MY_Controller
 
         // 예약 페널티 로그 기록
         if ($penalty > 0) {
-          setHistory(6, $userReserve['resCode'], $userReserve['userid'], $userReserve['subject'] . ' 예약 취소', $nowDate, $penalty);
+          setHistory(LOG_PENALTYUP, $userReserve['resCode'], $userReserve['userid'], $userReserve['nickname'], $userReserve['subject'] . ' 예약 취소', $nowDate, $penalty);
         }
 
         if ($userReserve['status'] == STATUS_ABLE) {
@@ -398,17 +398,17 @@ class Reserve extends MY_Controller
           $this->member_model->updatePoint($clubIdx, $userReserve['userid'], ($userData['point'] + $userReserve['cost']));
 
           // 포인트 반환 로그 기록
-          setHistory(4, $userReserve['resCode'], $userReserve['userid'], $userReserve['subject'] . ' 예약 취소', $nowDate, $userReserve['cost']);
+          setHistory(LOG_POINTUP, $userReserve['resCode'], $userReserve['userid'], $userReserve['nickname'], $userReserve['subject'] . ' 예약 취소', $nowDate, $userReserve['cost']);
         } elseif ($userReserve['status'] == STATUS_PLAN && $userReserve['point'] > 0) {
           // 예약정보에 포인트가 있을때 반환
           $this->member_model->updatePoint($clubIdx, $userReserve['userid'], ($userData['point'] + $userReserve['point']));
 
           // 포인트 반환 로그 기록
-          setHistory(4, $userReserve['resCode'], $userReserve['userid'], $userReserve['subject'] . ' 예약 취소', $nowDate, $userReserve['point']);
+          setHistory(LOG_POINTUP, $userReserve['resCode'], $userReserve['userid'], $userReserve['nickname'], $userReserve['subject'] . ' 예약 취소', $nowDate, $userReserve['point']);
         }
 
         // 예약 취소 로그 기록
-        setHistory(3, $userReserve['resCode'], $userReserve['userid'], $userReserve['subject'], $nowDate);
+        setHistory(LOG_CANCEL, $userReserve['resCode'], $userReserve['userid'], $userReserve['nickname'], $userReserve['subject'], $nowDate);
 
         $result = array('error' => 0, 'message' => '');
       }
@@ -453,7 +453,7 @@ class Reserve extends MY_Controller
         $this->member_model->updatePoint($clubIdx, $userReserve['userid'], ($userData['point'] - $processData['point']));
 
         // 포인트 차감 로그 기록
-        setHistory(5, $userReserve['resCode'], $userReserve['userid'], $userReserve['subject'] . ' 예약', $nowDate, $processData['point']);
+        setHistory(LOG_POINTDN, $userReserve['resCode'], $userReserve['userid'], $userReserve['nickname'], $userReserve['subject'] . ' 예약', $nowDate, $processData['point']);
       }
 
       $rtn = $this->reserve_model->updateReserve($processData, html_escape($value));
