@@ -853,6 +853,7 @@ if (!function_exists('getUserAgent')) {
     if (strstr($agent, 'msnbot'))       $result .= 'MS 검색엔진 로봇 ';
     if (strstr($agent, 'BingPreview'))  $result .= 'Bing 검색엔진 로봇 ';
     if (strstr($agent, 'yandex'))       $result .= 'Yandex 검색엔진 로봇 ';
+    if (strstr($agent, 'DaumApps'))     $result .= '다음앱 ';
     if ($result == '') $result = $agent;
 
     return $result;
