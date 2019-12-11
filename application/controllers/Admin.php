@@ -787,14 +787,6 @@ class Admin extends Admin_Controller
     $now = time();
     $clubIdx = 1;
     $postData = $this->input->post();
-    $userIdx = $this->session->userData['idx'];
-    /*
-    $userIdx = html_escape($postData['created_by']);
-
-    if (empty($userIdx)) {
-      $userIdx = $this->session->userData['idx'];
-    }
-    */
 
     $processData  = array(
       'club_idx'    => $clubIdx,
@@ -803,7 +795,6 @@ class Admin extends Admin_Controller
       'location'    => html_escape($postData['location']),
       'gender'      => html_escape($postData['gender']),
       'memo'        => html_escape($postData['memo']),
-      'created_by'  => $userIdx,
       'created_at'  => $now,
     );
     $rtn = $this->admin_model->insertWait($processData);

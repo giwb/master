@@ -167,7 +167,12 @@ class Story extends CI_Controller
       } else {
         $delete = '';
       }
-      $message .= '<dl><dt><img class="img-profile" src="/public/photos/' . $value['created_by'] . '"> ' . $value['nickname'] . '</dt><dd>' . $value['content'] . '<span class="reply-date">' . calcStoryTime($value['created_at']) . '</span> ' . $delete . '</dd></dl>';
+      if (file_exists(PHOTO_PATH . $value['created_by'])) {
+        $value['photo'] = base_url() . 'public/photos/' . $value['created_by'];
+      } else {
+        $value['photo'] = base_url() . 'public/images/user.png';
+      }
+      $message .= '<dl><dt><img class="img-profile" src="' . $value['photo'] . '"> ' . $value['nickname'] . '</dt><dd>' . $value['content'] . '<span class="reply-date">' . calcStoryTime($value['created_at']) . '</span> ' . $delete . '</dd></dl>';
     }
 
     $result = array('error' => 0, 'message' => $message);
@@ -219,7 +224,13 @@ class Story extends CI_Controller
           $this->story_model->updateStory($updateData, $clubIdx, $storyIdx);
         }
 
-        $html = '<dl><dt><img class="img-profile" src="' . base_url() . '/public/photos/' . $userData['idx'] . '"> ' . $userData['nickname'] . '</dt><dd>' . $content . '<span class="reply-date">(' . calcStoryTime($now) . ')</span> | <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $rtn . '" data-action="delete_reply">삭제</a></dd></dl>';
+        if (file_exists(PHOTO_PATH . $value['created_by'])) {
+          $value['photo'] = base_url() . 'public/photos/' . $userData['idx'];
+        } else {
+          $value['photo'] = base_url() . 'public/images/user.png';
+        }
+
+        $html = '<dl><dt><img class="img-profile" src="' . $value['photo'] . '"> ' . $userData['nickname'] . '</dt><dd>' . $content . '<span class="reply-date">(' . calcStoryTime($now) . ')</span> | <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $rtn . '" data-action="delete_reply">삭제</a></dd></dl>';
 
         $result = array(
           'error' => 0,
