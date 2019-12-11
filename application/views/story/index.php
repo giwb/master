@@ -1,7 +1,14 @@
-<?php foreach ($listStory as $value): ?>
+<?php
+  foreach ($listStory as $value):
+    if (file_exists(PHOTO_PATH . $value['created_by'])) {
+      $value['photo'] = base_url() . 'public/photos/' . $value['user_idx'];
+    } else {
+      $value['photo'] = base_url() . 'public/images/user.png';
+    }
+?>
           <article id="post-<?=$value['idx']?>">
             <div class="story-profile">
-              <img class="img-profile" src="<?=base_url()?>public/photos/<?=$value['user_idx']?>"> <strong><?=$value['user_nickname']?></strong><br>
+              <img class="img-profile" src="<?=$value['photo']?>"> <strong><?=$value['user_nickname']?></strong><br>
               <a href="<?=base_url()?>story/view/<?=$view['idx']?>?n=<?=$value['idx']?>" class="story-date"><?=calcDate($value['created_at'])?></a><?=!empty($userData['idx']) && ($userData['idx'] == $value['created_by'] || $userData['admin'] == 1) ? ' | <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '" data-action="delete">삭제</a>' : ''?>
             </div>
             <div class="story-content">

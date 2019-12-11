@@ -224,7 +224,7 @@ class Story extends CI_Controller
           $this->story_model->updateStory($updateData, $clubIdx, $storyIdx);
         }
 
-        if (file_exists(PHOTO_PATH . $value['created_by'])) {
+        if (file_exists(PHOTO_PATH . $userData['idx'])) {
           $value['photo'] = base_url() . 'public/photos/' . $userData['idx'];
         } else {
           $value['photo'] = base_url() . 'public/images/user.png';
