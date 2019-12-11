@@ -271,6 +271,7 @@ class Admin extends Admin_Controller
     $now = time();
     $viewData['idx'] = html_escape($this->input->post('idx'));
     $viewReserve = $this->admin_model->viewReserve($viewData);
+    $viewEntry = $this->admin_model->viewEntry($viewReserve['rescode']);
 
     if ($viewReserve['status'] == 1) {
       // 입금취소
@@ -278,14 +279,14 @@ class Admin extends Admin_Controller
       $this->admin_model->updateReserve($updateValues, $viewData['idx']);
 
       // 관리자 입금취소 기록
-      setHistory(LOG_ADMIN_DEPOSIT_CANCEL, $viewData['idx'], $viewReserve['userid'], $viewReserve['nickname'], $viewReserve['subject'], $now);
+      setHistory(LOG_ADMIN_DEPOSIT_CANCEL, $viewData['idx'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'], $now);
     } else {
       // 입금확인
       $updateValues['status'] = RESERVE_PAY;
       $this->admin_model->updateReserve($updateValues, $viewData['idx']);
 
       // 관리자 입금확인 기록
-      setHistory(LOG_ADMIN_DEPOSIT_CONFIRM, $viewData['idx'], $viewReserve['userid'], $viewReserve['nickname'], $viewReserve['subject'], $now);
+      setHistory(LOG_ADMIN_DEPOSIT_CONFIRM, $viewData['idx'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'], $now);
     }
 
     $result['reload'] = true;
