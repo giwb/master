@@ -47,7 +47,7 @@
         <div class="col-sm-1 pl-4"><?=calcStoryTime($value['created_at'])?></div>
         <div class="col-sm-1"><?=!empty($value['nickname']) ? '<a href="' . base_url() . 'admin/member_view/' . $value['created_by'] . '">' . $value['nickname'] . '</a>' : $value['ip_address']?></div>
         <div class="col-sm-2"><a target="_blank" href="$value['http_referer']"><?=strlen($value['http_referer']) > 40 ? substr($value['http_referer'], 0, 40) . '...' : $value['http_referer']?></a></div>
-        <div class="col-sm-8"><?=getUserAgent($value['user_agent'])?></div>
+        <div class="col-sm-8" title="<?=$value['user_agent']?>"><?=getUserAgent($value['user_agent'])?></div>
       </div>
       <?php endforeach; ?>
       <div class="mb-5"></div>
