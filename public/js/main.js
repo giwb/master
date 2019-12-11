@@ -875,7 +875,7 @@ $(document).on('click', '.btn-reply', function() {
     return false;
   }
 
-  if ($('.club-story-reply').val() == '') {
+  if ($btn.prev().val() == '') {
     return false;
   }
 

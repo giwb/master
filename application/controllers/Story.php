@@ -379,7 +379,7 @@ class Story extends CI_Controller
 
         if (!empty($rtn)) {
           // 댓글 삭제 플래그 세우기
-          $this->story_model->updateStoryReply($updateData, $clubIdx, $storyIdx);
+          $this->story_model->updateStoryReply($updateData, $clubIdx, $storyIdx, REPLY_TYPE_STORY);
 
           // 리액션 삭제
           $this->story_model->deleteStoryReaction($clubIdx, $storyIdx, $userIdx);
