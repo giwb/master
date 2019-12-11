@@ -405,7 +405,7 @@
       }
     });
   }).on('blur', '.search-userid', function() {
-    // 대기자 아이디 검색
+    // 닉네임으로 아이디 검색
     var $dom = $(this);
     var nickname = $(this).val();
 
@@ -423,6 +423,8 @@
           $dom.next().val(result.userid);
           $dom.tooltip('hide').attr('data-original-title', '회원입니다!').tooltip('show');
           setTimeout(function() { $dom.attr('data-original-title', '').tooltip('hide'); }, 2000);
+        } else {
+          $dom.next().val('');
         }
       }
     });
