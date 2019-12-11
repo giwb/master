@@ -268,16 +268,20 @@ class Admin_model extends CI_Model
   }
 
   // 회원 정보
-  public function viewMember($idx, $nickname=NULL)
+  public function viewMember($search)
   {
     $this->db->select('*')
           ->from(DB_MEMBER)
           ->where('quitdate', NULL);
 
-    if (is_null($nickname)) {
-      $this->db->where('idx', $idx);
-    } else {
-      $this->db->like('nickname', $nickname);
+    if (!empty($search['idx'])) {
+      $this->db->where('idx', $search['idx']);
+    }
+    if (!empty($search['userid'])) {
+      $this->db->where('userid', $search['userid']);
+    }
+    if (!empty($search['nickname'])) {
+      $this->db->like('nickname', $search['nickname']);
     }
 
     return $this->db->get()->row_array(1);

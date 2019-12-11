@@ -116,6 +116,7 @@ class Admin extends Admin_Controller
     $idx = html_escape($this->input->post('idx'));
     $arrResIdx = $this->input->post('resIdx');
     $arrSeat = $this->input->post('seat');
+    $arrUserid = $this->input->post('userid');
     $arrNickname = $this->input->post('nickname');
     $arrGender = $this->input->post('gender');
     $arrBus = $this->input->post('bus');
@@ -135,6 +136,7 @@ class Admin extends Admin_Controller
       $nowSeat = html_escape($seat);
       $postData = array(
         'rescode' => $idx,
+        'userid' => html_escape($arrUserid[$key]),
         'nickname' => $nowNick,
         'gender' => html_escape($arrGender[$key]),
         'bus' => $nowBus,
@@ -146,7 +148,7 @@ class Admin extends Admin_Controller
         'manager' => html_escape($arrManager[$key]) == 'true' ? 1 : 0,
         'priority' => html_escape($arrPriority[$key]) == 'true' ? 1 : 0,
         'status' => 0,
-        'regdate' => time(),
+        'regdate' => time()
       );
 
       $resIdx = html_escape($arrResIdx[$key]);
@@ -794,7 +796,7 @@ class Admin extends Admin_Controller
     $now = time();
     $clubIdx = 1;
     $postData = $this->input->post();
-    $created_by = html_escape($postData['created_by']);
+    $search['userid'] = html_escape($postData['userid']);
 
     $insertValues  = array(
       'club_idx'    => $clubIdx,
@@ -806,8 +808,9 @@ class Admin extends Admin_Controller
       'created_at'  => $now
     );
 
-    if (!empty($created_by)) {
-      $insertValues['created_by'] = $created_by;
+    if (!empty($search['userid'])) {
+      $viewMember = $this->admin_model->viewMember($search);
+      $insertValues['created_by'] = $viewMember['idx'];
     }
 
     $rtn = $this->admin_model->insertWait($insertValues);
@@ -919,7 +922,8 @@ class Admin extends Admin_Controller
    **/
   public function member_view($idx)
   {
-    $viewData['view'] = $this->admin_model->viewMember(html_escape($idx));
+    $search['idx'] = html_escape($idx);
+    $viewData['view'] = $this->admin_model->viewMember($search);
     $viewData['view']['birthday'] = explode('/', $viewData['view']['birthday']);
     $viewData['view']['phone'] = explode('-', $viewData['view']['phone']);
 
@@ -1862,8 +1866,8 @@ class Admin extends Admin_Controller
    **/
   public function search_by_nickname()
   {
-    $nickname = html_escape($this->input->post('nickname'));
-    $rtn = $this->admin_model->viewMember(NULL, $nickname);
+    $search['nickname'] = html_escape($this->input->post('nickname'));
+    $rtn = $this->admin_model->viewMember($search);
 
     if (empty($rtn)) {
       $result = array('error' => 1, 'message' => '');
