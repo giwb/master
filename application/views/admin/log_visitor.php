@@ -5,31 +5,33 @@
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
           <h1 class="h3 mb-0 text-gray-800">방문자 기록</h1>
         </div>
-        <form id="formSearch" method="post" action="<?=base_url()?>admin/log_visitor" class="row align-items-center mb-3 pb-3 visitor-header">
-          <div class="pl-3"><a href="<?=base_url()?>admin/log_visitor?<?=$searchPrev?>">◀</a></div>
-          <div class="pl-3">
-            <select name="y" class="form-control">
-              <?php foreach (range($searchYear, 2010) as $value): ?>
-                <option<?=!empty($searchYear) && $searchYear == $value ? ' selected' : ''?> value='<?=$value?>'><?=$value?>년</option>
-              <?php endforeach; ?>
-            </select>
+        <form id="formSearch" method="post" action="<?=base_url()?>admin/log_visitor" class="mb-3 pb-3 visitor-header">
+          <div class="row align-items-center justify-content-center">
+            <div class="pl-3"><a href="<?=base_url()?>admin/log_visitor?<?=$searchPrev?>">◀</a></div>
+            <div class="pl-3">
+              <select name="y" class="form-control">
+                <?php foreach (range($searchYear, 2010) as $value): ?>
+                  <option<?=!empty($searchYear) && $searchYear == $value ? ' selected' : ''?> value='<?=$value?>'><?=$value?>년</option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+            <div class="pl-3">
+              <select name="m" class="form-control">
+                <?php foreach (range(1, 12) as $value): ?>
+                <option<?=!empty($searchMonth) && $searchMonth == $value ? ' selected' : ''?> value='<?=strlen($value) < 2 ? '0' . $value : $value?>'><?=$value?>월</option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+            <div class="pl-3">
+              <select name="d" class="form-control">
+                <?php foreach (range(1, 31) as $value): ?>
+                <option<?=!empty($searchDay) && $searchDay == $value ? ' selected' : ''?> value='<?=strlen($value) < 2 ? '0' . $value : $value?>'><?=$value?>일</option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+            <div class="pl-3"><button type="button" class="btn btn-primary btn-visitor-search">검색</button></div>
+            <div class="pl-3"><a href="<?=base_url()?>admin/log_visitor?<?=$searchNext?>">▶</a></div>
           </div>
-          <div class="pl-3">
-            <select name="m" class="form-control">
-              <?php foreach (range(1, 12) as $value): ?>
-              <option<?=!empty($searchMonth) && $searchMonth == $value ? ' selected' : ''?> value='<?=strlen($value) < 2 ? '0' . $value : $value?>'><?=$value?>월</option>
-              <?php endforeach; ?>
-            </select>
-          </div>
-          <div class="pl-3">
-            <select name="d" class="form-control">
-              <?php foreach (range(1, 31) as $value): ?>
-              <option<?=!empty($searchDay) && $searchDay == $value ? ' selected' : ''?> value='<?=strlen($value) < 2 ? '0' . $value : $value?>'><?=$value?>일</option>
-              <?php endforeach; ?>
-            </select>
-          </div>
-          <div class="pl-3"><button type="button" class="btn btn-primary btn-visitor-search">검색</button></div>
-          <div class="pl-3"><a href="<?=base_url()?>admin/log_visitor?<?=$searchNext?>">▶</a></div>
         </div>
       </form>
 
