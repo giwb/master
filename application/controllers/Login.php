@@ -104,9 +104,9 @@ class Login extends CI_Controller
    * @return json
    * @author bjchoi
    **/
-  public function check_userid()
+  public function check_userid($clubIdx)
   {
-    $clubIdx = html_escape($this->input->post('club_idx'));
+    $clubIdx = html_escape($clubIdx);
     $userid = html_escape($this->input->post('userid'));
     $check = $this->member_model->checkUserid($clubIdx, $userid);
 
