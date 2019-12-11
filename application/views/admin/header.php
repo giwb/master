@@ -109,6 +109,7 @@
             <a class="collapse-item" href="<?=base_url()?>admin/log_admin"> <i class="menu-icon fas fa-list-alt"></i> 관리자 예약 기록</a>
             <a class="collapse-item" href="<?=base_url()?>admin/log_reply"> <i class="menu-icon fas fa-reply"></i> 댓글 기록</a>
             <a class="collapse-item" href="<?=base_url()?>admin/log_reaction"> <i class="menu-icon fas fa-heart"></i> 좋아요/공유 기록</a>
+            <a class="collapse-item" href="<?=base_url()?>admin/log_visitor"> <i class="menu-icon fas fa-user-check"></i> 방문자 기록</a>
           </div>
         </div>
       </li>

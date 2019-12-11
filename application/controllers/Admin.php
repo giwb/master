@@ -1145,6 +1145,30 @@ class Admin extends Admin_Controller
   --------------------------------------------------------------------------------------- **/
 
   /**
+   * 활동관리 - 회원 예약 목록
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function log_user()
+  {
+    $viewData = array();
+    $this->_viewPage('admin/log_user', $viewData);
+  }
+
+  /**
+   * 활동관리 - 관리자 예약 목록
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function log_admin()
+  {
+    $viewData = array();
+    $this->_viewPage('admin/log_admin', $viewData);
+  }
+
+  /**
    * 활동관리 - 클럽 댓글
    *
    * @return view
@@ -1208,27 +1232,23 @@ class Admin extends Admin_Controller
   }
 
   /**
-   * 활동관리 - 회원 활동 목록
+   * 활동관리 - 방문자 기록
    *
    * @return view
    * @author bjchoi
    **/
-  public function log_user()
+  public function log_visitor()
   {
-    $viewData = array();
-    $this->_viewPage('admin/log_user', $viewData);
-  }
+    $nowDate = $this->input->get('d') ? html_escape($this->input->get('d')) : date('Ymd');
+    $viewData['searchYear']   = date('Y', strtotime($nowDate));
+    $viewData['searchMonth']  = date('m', strtotime($nowDate));
+    $viewData['searchDay']    = date('d', strtotime($nowDate));
+    $viewData['searchPrev']   = 'd=' . date('Ymd', strtotime('-1 day', strtotime($nowDate)));
+    $viewData['searchNext']   = 'd=' . date('Ymd', strtotime('+1 day', strtotime($nowDate)));
 
-  /**
-   * 활동관리 - 관리자 활동 목록
-   *
-   * @return view
-   * @author bjchoi
-   **/
-  public function log_admin()
-  {
-    $viewData = array();
-    $this->_viewPage('admin/log_admin', $viewData);
+    $viewData['listVisitor'] = $this->admin_model->listVisitor($nowDate);
+
+    $this->_viewPage('admin/log_visitor', $viewData);
   }
 
   /** ---------------------------------------------------------------------------------------
