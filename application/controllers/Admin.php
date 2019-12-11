@@ -1249,6 +1249,14 @@ class Admin extends Admin_Controller
           $viewData['listHistory'][$key]['header'] = '[관리자예약취소]';
           $viewData['listHistory'][$key]['subject'] = '<a target="_blank" href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '" class="text-danger">' . $value['subject'] . '</a>';
           break;
+        case LOG_ADMIN_DEPOSIT_CONFIRM: // 관리자 입금확인
+          $viewData['listHistory'][$key]['header'] = '[관리자입금확인]';
+          $viewData['listHistory'][$key]['subject'] = '<a target="_blank" href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '" class="text-success">' . $value['subject'] . '</a>';
+          break;
+        case LOG_ADMIN_DEPOSIT_CANCEL: // 관리자 입금취소
+          $viewData['listHistory'][$key]['header'] = '[관리자입금취소]';
+          $viewData['listHistory'][$key]['subject'] = '<a target="_blank" href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '" class="text-warning">' . $value['subject'] . '</a>';
+          break;
       }
     }
 
