@@ -367,13 +367,16 @@ class Admin_model extends CI_Model
   }
 
   // 활동관리 - 회원 예약 기록
-  public function listHistory($paging=NULL)
+  public function listHistory($paging=NULL, $search=NULL)
   {
     $this->db->select('a.*, b.idx, b.nickname')
           ->from(DB_HISTORY . ' a')
           ->join(DB_MEMBER . ' b', 'a.userid=b.userid', 'left')
           ->order_by('a.idx', 'desc');
 
+    if (!empty($search['action'])) {
+      $this->db->where_in('action', $search['action']);
+    }
     if (!is_null($paging)) {
       $this->db->limit($paging['perPage'], $paging['nowPage']);
     }
