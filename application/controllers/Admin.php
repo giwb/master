@@ -77,8 +77,6 @@ class Admin extends Admin_Controller
       $result['reserve'] = $this->admin_model->viewReserve($viewData);
       if (empty($result['reserve']['depositname'])) $result['reserve']['depositname'] = '';
       if (empty($result['reserve']['memo'])) $result['reserve']['memo'] = '';
-
-      // 역방향일 경우 좌석 번호 변경
     } else {
       $result['reserve']['nickname'] = '';
       $result['reserve']['gender'] = 'M';
@@ -255,10 +253,18 @@ class Admin extends Admin_Controller
   public function reserve_deposit()
   {
     // 입금 확인 완료
-    $idx = html_escape($this->input->post('idx'));
-    $updateData['status'] = RESERVE_PAY;
+    $viewData['idx'] = html_escape($this->input->post('idx'));
+    $viewReserve = $this->admin_model->viewReserve($viewData);
 
-    $this->admin_model->updateReserve($updateData, $idx);
+    if ($viewReserve['status'] == 1) {
+      // 입금취소
+      $updateValues['status'] = RESERVE_ON;
+      $this->admin_model->updateReserve($updateValues, $viewData['idx']);
+    } else {
+      // 입금확인
+      $updateValues['status'] = RESERVE_PAY;
+      $this->admin_model->updateReserve($updateValues, $viewData['idx']);
+    }
 
     $result['reload'] = true;
     $this->output->set_output(json_encode($result));

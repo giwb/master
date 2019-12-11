@@ -491,7 +491,11 @@
     $('#messageModal .modal-footer .btn-delete').text('완료합니다').show();
     $('#messageModal .modal-footer input[name=action]').val('reserve_deposit');
     $('#messageModal .modal-footer input[name=delete_idx]').val($(this).data('idx'));
-    $('#messageModal .modal-message').text('입금 확인을 완료하시겠습니까?');
+    if ($(this).data('status') == 1) {
+      $('#messageModal .modal-message').text('입금 확인을 취소하시겠습니까?');
+    } else {
+      $('#messageModal .modal-message').text('입금 확인을 완료하시겠습니까?');
+    }
     $('#messageModal').modal('show');
   }).on('click', '.btn-reserve-cancel', function() {
     // 예약 취소
@@ -764,7 +768,14 @@
         var depositname = '<input type="text" name="depositname[]" size="20" placeholder="입금자명" value="' + reserveInfo.reserve.depositname + '">';
         var memo = '<div class="mt-1"><input type="text" name="memo[]" size="30" placeholder="메모" value="' + reserveInfo.reserve.memo + '"> ';
         var options = '<label><input'; if (reserveInfo.reserve.vip == 1) options += ' checked'; options += ' type="checkbox" name="vip[]">평생회원</label> <label><input'; if (reserveInfo.reserve.manager == 1) options += ' checked'; options += ' type="checkbox" name="manager[]">운영진우선</label> <label><input'; if (reserveInfo.reserve.priority == 1) options += ' checked'; options += ' type="checkbox" name="priority[]">2인우선</label> ';
-        if (resIdx != '') var button = '<button type="button" class="btn btn-secondary btn-reserve-deposit" data-idx="' + resIdx + '">입금확인</button> <button type="button" class="btn btn-secondary btn-reserve-cancel" data-idx="' + resIdx + '">예약취소</button> '; else var button = ''; // 수정일 경우에만
+        if (resIdx != '') {
+          var button = '<button type="button" class="btn btn-secondary btn-reserve-deposit" data-idx="' + resIdx + '" data-status="' + reserveInfo.reserve.status + '">';
+          if (reserveInfo.reserve.status == 1) button += '입금취소'; else button += '입금확인';
+          button += '</button> ';
+          button += '<button type="button" class="btn btn-secondary btn-reserve-cancel" data-idx="' + resIdx + '">예약취소</button> ';
+        } else {
+          var button = '';
+        }
         var footer = '</div></div>';
         $('#addedInfo').append(header + busType + selectSeat + nickname + gender + location + depositname + memo + options + button + footer);
 
