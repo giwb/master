@@ -939,37 +939,20 @@ class Admin extends Admin_Controller
    * @return view
    * @author bjchoi
    **/
-  public function member_view($idx)
+  public function member_view($keyword)
   {
-    $search['idx'] = html_escape($idx);
+    $keyword = html_escape($keyword);
+
+    $search = array('idx' => $keyword);
     $viewData['view'] = $this->admin_model->viewMember($search);
-    $viewData['view']['birthday'] = explode('/', $viewData['view']['birthday']);
-    $viewData['view']['phone'] = explode('-', $viewData['view']['phone']);
 
-    // 산행/예약횟수 구하기
-    /*
-    $max = 0; $res = 0;
-    $viewData['view']['cntPersonalReservation'] = $this->admin_model->cntPersonalReservation($viewData['view']['userid']);
-    foreach ($viewData['view']['cntPersonalReservation'] as $value) {
-      // 예약횟수는 자신 이외의 사람을 포함하여 전체 예약한 숫자
-      $max += $value['cnt'];
-
-      // 산행횟수는 자신만 카운트
-      if ($value['cnt'] != 0) {
-        $res++;
-      }
+    if (empty($viewData['view'])) {
+      $search = array('userid' => $keyword);
+      $viewData['view'] = $this->admin_model->viewMember($search);
     }
 
-    // 산행횟수
-    $viewData['view']['cntPersonalReservation'] = $res;
-
-    // 예약횟수
-    $viewData['view']['cntTotalReservation'] = $max;
-
-    // 레벨
-    $viewData['view']['memberLevel'] = $viewData['view']['cntTotalReservation'] - $viewData['view']['penalty'];
-    */
-
+    $viewData['view']['birthday'] = explode('/', $viewData['view']['birthday']);
+    $viewData['view']['phone'] = explode('-', $viewData['view']['phone']);
     $viewData['view']['memberLevel'] = memberLevel($viewData['view']['rescount'], $viewData['view']['penalty'], $viewData['view']['level'], $viewData['view']['admin']);
 
     $this->_viewPage('admin/member_view', $viewData);
