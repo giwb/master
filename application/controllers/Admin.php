@@ -75,9 +75,11 @@ class Admin extends Admin_Controller
 
     if (!empty($viewData['idx'])) {
       $result['reserve'] = $this->admin_model->viewReserve($viewData);
+      if (empty($result['reserve']['userid'])) $result['reserve']['userid'] = '';
       if (empty($result['reserve']['depositname'])) $result['reserve']['depositname'] = '';
       if (empty($result['reserve']['memo'])) $result['reserve']['memo'] = '';
     } else {
+      $result['reserve']['userid'] = '';
       $result['reserve']['nickname'] = '';
       $result['reserve']['gender'] = 'M';
       $result['reserve']['loc'] = '';
