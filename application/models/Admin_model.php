@@ -366,6 +366,21 @@ class Admin_model extends CI_Model
     $this->db->empty_table(DB_ATTENDANCE);
   }
 
+  // 활동관리 - 회원 예약 기록
+  public function listHistory($paging=NULL)
+  {
+    $this->db->select('a.*, b.nickname')
+          ->from(DB_HISTORY . ' a')
+          ->join(DB_MEMBER . ' b', 'a.userid=b.userid', 'left')
+          ->order_by('a.idx', 'desc');
+
+    if (!is_null($paging)) {
+      $this->db->limit($paging['perPage'], $paging['nowPage']);
+    }
+
+    return $this->db->get()->result_array();
+  }
+
   // 활동관리 - 댓글 기록
   public function listReply()
   {

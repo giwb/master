@@ -235,6 +235,36 @@
         }
       });
     }
+  }).on('click', '.btn-page-next', function() {
+    // 페이징
+    var $btn = $(this);
+    var $dom = $('#formList');
+    var formData = new FormData($dom[0]);
+
+    $.ajax({
+      url: $dom.attr('action'),
+      data: formData,
+      processData: false,
+      contentType: false,
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('불러오는 중.....');
+      },
+      success: function(result) {
+        if (result.html == '') {
+          $btn.css('opacity', '1').prop('disabled', true).text('마지막 페이지 입니다.');
+        } else {
+          $btn.css('opacity', '1').prop('disabled', false).text('다음 페이지 보기 ▼');
+          $('input[name=p]').val(result.page);
+          if (result != '') $('.area-append').append(result.html);
+        }
+      }
+    });
+  }).on('click', '.btn-member-search', function() {
+    // 회원 검색
+    $('input[name=p]').val('');
+    $('#formList').submit();
   }).on('click', '.btn-front-sort', function() {
     // 대문 정렬
     var $dom = $('#formSort .sort-idx');

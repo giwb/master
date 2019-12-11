@@ -1162,8 +1162,59 @@ class Admin extends Admin_Controller
    **/
   public function log_user()
   {
-    $viewData = array();
-    $this->_viewPage('admin/log_user', $viewData);
+    $page = html_escape($this->input->post('p'));
+    if (empty($page)) $page = 1; else $page++;
+    $paging['perPage'] = 30;
+    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
+
+    $viewData['listHistory'] = $this->admin_model->listHistory($paging);
+
+    foreach ($viewData['listHistory'] as $key => $value) {
+      switch ($value['action']) {
+        case '1': // 회원등록
+          $viewData['listHistory'][$key]['header'] = '[회원등록]';
+          $viewData['listHistory'][$key]['subject'] = '<a href="' . base_url() . 'admin/member_view/' . $value['fkey'] . '">' . $value['userid'] . '</a>';
+          break;
+        case '2': // 예약
+          $viewData['listHistory'][$key]['header'] = '[예약완료]';
+          $viewData['listHistory'][$key]['subject'] = '<a href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '">' . $value['subject'] . '</a>';
+          break;
+        case '3': // 예약취소
+          $viewData['listHistory'][$key]['header'] = '[예약취소]';
+          $viewData['listHistory'][$key]['subject'] = '<a href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '">' . $value['subject'] . '</a>';
+          break;
+        case '4': // 포인트 적립
+          $viewData['listHistory'][$key]['header'] = '[포인트적립]';
+          break;
+        case '5': // 포인트 감소
+          $viewData['listHistory'][$key]['header'] = '[포인트감소]';
+          break;
+        case '6': // 페널티 추가
+          $viewData['listHistory'][$key]['header'] = '[페널티추가]';
+          break;
+        case '7': // 페널티 감소
+          $viewData['listHistory'][$key]['header'] = '[페널티감소]';
+          break;
+        case '8': // 관리자 예약
+          $viewData['listHistory'][$key]['header'] = '[관리자예약완료]';
+          $viewData['listHistory'][$key]['subject'] = '<a href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '">' . $value['subject'] . '</a>';
+          break;
+        case '9': // 관리자 예약취소
+          $viewData['listHistory'][$key]['header'] = '[관리자예약취소]';
+          $viewData['listHistory'][$key]['subject'] = '<a href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '">' . $value['subject'] . '</a>';
+          break;
+      }
+    }
+
+    if ($page >= 2) {
+      // 2페이지 이상일 경우에는 Json으로 전송
+      $result['page'] = $page;
+      $result['html'] = $this->load->view('admin/log_user_append', $viewData, true);
+      $this->output->set_output(json_encode($result));
+    } else {
+      // 1페이지에는 View 페이지로 전송
+      $this->_viewPage('admin/log_user', $viewData);
+    }
   }
 
   /**

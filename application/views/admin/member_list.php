@@ -6,7 +6,7 @@
           <h1 class="h3 mb-0 text-gray-800">전체 회원 목록</h1>
         </div>
         <div class="w-100 border mt-2 mb-3 p-3">
-          <form id="formMember" method="post" action="<?=base_url()?>admin/member_list" class="row align-items-center text-center">
+          <form id="formList" method="post" action="<?=base_url()?>admin/member_list" class="row align-items-center text-center">
             <input type="hidden" name="p" value="1">
             <div class="col-sm-1 pl-0 pr-0">실명으로 검색</div>
             <div class="col-sm-2 pl-0 pr-0"><input type="text" name="realname" class="form-control" value="<?=!empty($search['realname']) ? $search['realname'] : ''?>"></div>
@@ -40,44 +40,8 @@
 <?php
   endforeach;
 ?>
-        <div class="area-list-member">
+        <div class="area-append">
         </div>
         <button class="btn btn-page-next">다음 페이지 보기 ▼</button>
       </div>
     </div>
-
-    <script type="text/javascript">
-      $(document).ready(function() {
-        $('.btn-member-search').click(function() {
-          // 검색
-          $('input[name=p]').val('');
-          $('#formMember').submit();
-        });
-
-        $('.btn-page-next').click(function() {
-          // 페이징
-          var $btn = $(this);
-          var formData = new FormData($('#formMember')[0]);
-          $.ajax({
-            url: $('input[name=base_url]').val() + 'admin/member_list',
-            data: formData,
-            processData: false,
-            contentType: false,
-            dataType: 'json',
-            type: 'post',
-            beforeSend: function() {
-              $btn.css('opacity', '0.5').prop('disabled', true).text('불러오는 중.....');
-            },
-            success: function(result) {
-              if (result.html == '') {
-                $btn.css('opacity', '1').prop('disabled', true).text('마지막 페이지 입니다.');
-              } else {
-                $btn.css('opacity', '1').prop('disabled', false).text('다음 페이지 보기 ▼');
-                $('input[name=p]').val(result.page);
-                if (result != '') $('.area-list-member').append(result.html);
-              }
-            }
-          });
-        });
-      });
-    </script>
