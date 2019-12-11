@@ -106,6 +106,16 @@
             <div class="col-sm-1">포인트</div>
             <div class="col-sm-4"><?=$view['point']?></div>
           </div>
+          <div class="row align-items-center mb-2 pt-2 pb-2">
+            <div class="col-sm-1">아이콘</div>
+            <div class="col-sm-4">
+              <?php if (file_exists(PHOTO_PATH . $view['idx'])): ?>
+                <img src="<?=base_url()?><?=PHOTO_URL?><?=$view['idx']?>" style="max-width: 100px;">
+              <?php else: ?>
+                <img src="<?=base_url()?>public/images/user.png">
+              <?php endif; ?>
+            </div>
+          </div>
 
           <div class="pt-2 pb-5 text-center">
             <div class="error-message"></div>
