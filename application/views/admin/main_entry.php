@@ -47,6 +47,14 @@
           yearSuffix: '년'
         });
 
+        // 신규 등록시, 출발일시를 선택하면 도착일시는 당일로 자동 선택
+        $('#startDatePicker').change(function() {
+          if ($('#endDatePicker').val() == '') {
+            $('#endDatePicker').val($(this).val());
+          }
+        });
+
+        // 통행료 계산
         $('.road-cost').each(function(n) {
           if (n == 0 && $(this).val() == '') {
             $(this).val('0');
