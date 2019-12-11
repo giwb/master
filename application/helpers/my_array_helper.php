@@ -840,7 +840,7 @@ if (!function_exists('getGender')) {
 // 브라우저 종류
 if (!function_exists('getUserAgent')) {
   function getUserAgent($agent) {
-    $result = $agent;
+    $result = '';
 
     if (strstr($agent, 'Windows'))    $result .= '윈도우즈 ';
     if (strstr($agent, 'Android'))    $result .= '안드로이드 ';
@@ -849,6 +849,7 @@ if (!function_exists('getUserAgent')) {
     if (strstr($agent, 'Trident/7'))  $result .= 'MS 인터넷 익스플로러';
     if (strstr($agent, 'SM-G'))       $result .= '갤럭시';
     if (strstr($agent, 'Googlebot'))  $result .= '구글 로봇';
+    if ($result == '') $result = $agent;
 
     return $result;
   }
