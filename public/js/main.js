@@ -646,7 +646,7 @@
     var resIdx = new Array();
 
     if (typeof $('input[name=noticeIdx]').val() != 'undefined') {
-      $dom = $('.resIDx'); // 예약페이지
+      $dom = $('.resIdx'); // 예약페이지
     } else {
       $dom = $('.check-reserve:checked'); // 마이페이지
     }
