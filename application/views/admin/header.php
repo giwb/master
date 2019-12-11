@@ -4,21 +4,24 @@
 <head>
   <meta charset="utf-8">
   <title>경인웰빙 관리페이지</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
   <meta name="robots" content="noindex">
-  <meta property="og:title" content="경인웰빙 관리페이지" />
-  <meta property="og:image" content="<?=base_url()?>public/images/logo.jpg" />
-  <meta property="og:url" content="http://giwb.kr/" />
-  <link rel="stylesheet" type="text/css" href="/public/vendors/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="/public/css/fontawesome/css/all.min.css">
-  <link rel="stylesheet" type="text/css" href="/public/css/fullcalendar.css">
-  <link rel="stylesheet" type="text/css" href="/public/css/fullcalendar.print.css">
-  <link rel="stylesheet" type="text/css" href="/public/css/admin.css?<?=time()?>">
-  <script src="/public/js/jquery-1.11.1.min.js" type="text/javascript"></script>
-  <script src="/public/js/jquery-ui.custom.min.js" type="text/javascript"></script>
-  <script src="/public/vendors/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
-  <script src="/public/js/fullcalendar.js" type="text/javascript"></script>
-  <script src="/public/ckeditor/ckeditor.js" type="text/javascript" charset="utf-8"></script>
+  <meta property="og:title" content="경인웰빙" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://giwb.kr/" />
+  <meta property="og:image" content="<?=base_url()?>public/images/logo.png" />
+  <meta property="og:description" content="매주 토, 일. 차내 음주가무 없으며, 초보자도 함께할 수 있는 여유있는 산행.">
+  <meta name="description" content="매주 토, 일. 차내 음주가무 없으며, 초보자도 함께할 수 있는 여유있는 산행.">
+  <link rel="stylesheet" type="text/css" href="<?=base_url()?>public/lib/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="<?=base_url()?>public/css/fontawesome/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="<?=base_url()?>public/css/fullcalendar.css">
+  <link rel="stylesheet" type="text/css" href="<?=base_url()?>public/css/fullcalendar.print.css">
+  <link rel="stylesheet" type="text/css" href="<?=base_url()?>public/css/admin.css?<?=time()?>">
+  <script type="text/javascript" src="<?=base_url()?>public/js/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="<?=base_url()?>public/js/jquery-ui.custom.min.js"></script>
+  <script type="text/javascript" src="<?=base_url()?>public/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="<?=base_url()?>public/js/fullcalendar.js"></script>
+  <script type="text/javascript" src="<?=base_url()?>public/ckeditor/ckeditor.js" charset="utf-8"></script>
 </head>
 
 <body id="page-top">

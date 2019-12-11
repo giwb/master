@@ -34,7 +34,7 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <script src="/public/js/admin.js?<?=time()?>" type="text/javascript"></script>
+  <script src="<?=base_url()?>public/js/admin.js?<?=time()?>" type="text/javascript"></script>
 
   <?php if (ENVIRONMENT == 'production'): ?>
   <script>

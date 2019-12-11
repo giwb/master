@@ -100,10 +100,8 @@
         <div class="mt-4"></div>
 
         ■ <strong>대기자 추가</strong><br>
-        <!--<div class="area-userid"></div>
-        <input type="hidden" name="created_by">-->
         <div class="row mt-2 pl-2">
-          <div class="pl-1"><input type="text" name="nickname" class="form-control form-control-sm search-userid" placeholder="닉네임 입력"></div>
+          <div class="pl-1"><input type="hidden" name="created_by"><input type="text" name="nickname" class="form-control form-control-sm search-userid" placeholder="닉네임 입력" data-placement="bottom"></div>
           <div class="pl-1">
             <select name="location" class="form-control form-control-sm pl-0 pr-0">
               <?php foreach ($arrLocation as $key => $value): if ($key == 0) $value['stitle'] = '선택'; ?>

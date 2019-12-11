@@ -374,9 +374,9 @@
         }
       }
     });
-/*
   }).on('blur', '.search-userid', function() {
     // 대기자 아이디 검색
+    var $dom = $(this);
     $.ajax({
       url: $('input[name=base_url]').val() + 'admin/search_by_nickname',
       data: 'nickname=' + $(this).val(),
@@ -384,13 +384,14 @@
       type: 'post',
       success: function(result) {
         if (result.error != 1) {
-          $('.area-userid').text(result.userid);
           $('input[name=created_by]').val(result.idx);
+          $dom.tooltip('hide').attr('data-original-title', '회원입니다!').tooltip('show');
+          setTimeout(function() { $dom.tooltip('hide'); }, 2000);
         }
       }
     });
-*/
   }).on('click', '.btn-wait-insert', function() {
+    // 대기자 추가
     var $btn = $(this);
     var nickname = $('input[name=nickname]').val();
     var location = $('select[name=location]').val();
