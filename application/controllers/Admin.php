@@ -794,17 +794,23 @@ class Admin extends Admin_Controller
     $now = time();
     $clubIdx = 1;
     $postData = $this->input->post();
+    $created_by = html_escape($postData['created_by']);
 
-    $processData  = array(
+    $insertValues  = array(
       'club_idx'    => $clubIdx,
       'notice_idx'  => html_escape($postData['idx']),
       'nickname'    => html_escape($postData['nickname']),
       'location'    => html_escape($postData['location']),
       'gender'      => html_escape($postData['gender']),
       'memo'        => html_escape($postData['memo']),
-      'created_at'  => $now,
+      'created_at'  => $now
     );
-    $rtn = $this->admin_model->insertWait($processData);
+
+    if (!empty($created_by)) {
+      $insertValues['created_by'] = $created_by;
+    }
+
+    $rtn = $this->admin_model->insertWait($insertValues);
 
     if (empty($rtn)) {
       $result = array('error' => 1, 'message' => $this->lang->line('error_all'));

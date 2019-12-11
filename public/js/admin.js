@@ -386,7 +386,7 @@
         if (result.error != 1) {
           $('input[name=created_by]').val(result.idx);
           $dom.tooltip('hide').attr('data-original-title', '회원입니다!').tooltip('show');
-          setTimeout(function() { $dom.tooltip('hide'); }, 2000);
+          setTimeout(function() { $dom.attr('data-original-title', '').tooltip('hide'); }, 2000);
         }
       }
     });
@@ -395,8 +395,7 @@
     var $btn = $(this);
     var nickname = $('input[name=nickname]').val();
     var location = $('select[name=location]').val();
-    //var data = 'idx=' + $('input[name=idx]').val() + '&created_by=' + $('input[name=created_by]').val() + '&nickname=' + nickname + '&location=' + location + '&gender=' + $('select[name=gender]').val() + '&memo=' + $('input[name=memo]').val();
-    var data = 'idx=' + $('input[name=idx]').val() + '&nickname=' + nickname + '&location=' + location + '&gender=' + $('select[name=gender]').val() + '&memo=' + $('input[name=memo]').val();
+    var data = 'idx=' + $('input[name=idx]').val() + '&created_by=' + $('input[name=created_by]').val() + '&nickname=' + nickname + '&location=' + location + '&gender=' + $('select[name=gender]').val() + '&memo=' + $('input[name=memo]').val();
     if (nickname == '') return false;
 
     $.ajax({
