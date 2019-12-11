@@ -33,6 +33,7 @@
         </div>
       </form>
 
+      <strong>・총 방문횟수 : <?=count($listVisitor)?>회</strong>
       <div class="row align-items-center border-top pt-2 pb-2 bg-primary text-white">
         <div class="col-sm-1 pl-4">접속시간</div>
         <div class="col-sm-1">닉네임/IP</div>
@@ -47,4 +48,5 @@
         <div class="col-sm-8"><?=$value['user_agent']?></div>
       </div>
       <?php endforeach; ?>
+      <div class="mb-5"></div>
     </div>
