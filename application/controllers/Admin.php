@@ -1235,7 +1235,7 @@ class Admin extends Admin_Controller
     $paging['perPage'] = 30;
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
 
-    $search['action'] = array(LOG_ADMIN_RESERVE, LOG_ADMIN_CANCEL);
+    $search['action'] = array(LOG_ADMIN_RESERVE, LOG_ADMIN_CANCEL, LOG_ADMIN_DEPOSIT_CONFIRM, LOG_ADMIN_DEPOSIT_CANCEL);
     $viewData['listHistory'] = $this->admin_model->listHistory($paging, $search);
 
     foreach ($viewData['listHistory'] as $key => $value) {
