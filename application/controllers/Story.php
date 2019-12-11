@@ -163,7 +163,7 @@ class Story extends CI_Controller
 
     foreach ($reply as $value) {
       if ($userData['idx'] == $value['created_by'] || $userData['admin'] == 1) {
-        $delete = '| <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '" data-action="delete_reply">삭제</a>';
+        $delete = ' | <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '" data-action="delete_reply">삭제</a>';
       } else {
         $delete = '';
       }
@@ -172,7 +172,7 @@ class Story extends CI_Controller
       } else {
         $value['photo'] = base_url() . 'public/images/user.png';
       }
-      $message .= '<dl><dt><img class="img-profile" src="' . $value['photo'] . '"> ' . $value['nickname'] . '</dt><dd>' . $value['content'] . '<span class="reply-date">' . calcStoryTime($value['created_at']) . '</span> ' . $delete . '</dd></dl>';
+      $message .= '<dl><dt><img class="img-profile" src="' . $value['photo'] . '"></dt><dd><strong>' . $value['nickname'] . '</strong> · <span class="reply-date">' . calcStoryTime($value['created_at']) . $delete . '</span><br>' . $value['content'] . '</dd></dl>';
     }
 
     $result = array('error' => 0, 'message' => $message);
@@ -230,7 +230,7 @@ class Story extends CI_Controller
           $value['photo'] = base_url() . 'public/images/user.png';
         }
 
-        $html = '<dl><dt><img class="img-profile" src="' . $value['photo'] . '"> ' . $userData['nickname'] . '</dt><dd>' . $content . '<span class="reply-date">(' . calcStoryTime($now) . ')</span> | <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $rtn . '" data-action="delete_reply">삭제</a></dd></dl>';
+        $html = '<dl><dt><img class="img-profile" src="' . $value['photo'] . '"></dt><dd><strong>' . $userData['nickname'] . '</strong> · <span class="reply-date">(' . calcStoryTime($now) . ') | <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $rtn . '" data-action="delete_reply">삭제</a></span><br>' . $content . '</dd></dl>';
 
         $result = array(
           'error' => 0,
