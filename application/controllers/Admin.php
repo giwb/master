@@ -1173,7 +1173,7 @@ class Admin extends Admin_Controller
       switch ($value['action']) {
         case '1': // 회원등록
           $viewData['listHistory'][$key]['header'] = '[회원등록]';
-          $viewData['listHistory'][$key]['subject'] = '<a href="' . base_url() . 'admin/member_view/' . $value['idx'] . '">' . $value['userid'] . '</a>';
+          $viewData['listHistory'][$key]['subject'] = '<a href="' . base_url() . 'admin/member_view/' . $value['idx'] . '" class="text-dark">' . $value['userid'] . '</a>';
           break;
         case '2': // 예약
           $viewData['listHistory'][$key]['header'] = '[예약완료]';
