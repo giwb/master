@@ -842,15 +842,17 @@ if (!function_exists('getUserAgent')) {
   function getUserAgent($agent) {
     $result = '';
 
-    if (strstr($agent, 'Windows'))    $result .= '윈도우즈 ';
-    if (strstr($agent, 'Android'))    $result .= '안드로이드 ';
-    if (strstr($agent, 'iPhone'))     $result .= '아이폰 ';
-    if (strstr($agent, 'SM-G'))       $result .= '갤럭시 ';
-    if (strstr($agent, 'Chrome'))     $result .= '구글 크롬 브라우저 ';
-    if (strstr($agent, 'Trident/7'))  $result .= 'MS 인터넷 익스플로러 ';
-    if (strstr($agent, 'Googlebot'))  $result .= '구글 검색엔진 로봇 ';
-    if (strstr($agent, 'msnbot'))     $result .= 'MS 검색엔진 로봇 ';
-    if (strstr($agent, 'yandex'))     $result .= 'Yandex 검색엔진 로봇 ';
+    if (strstr($agent, 'Windows'))      $result .= '윈도우즈 ';
+    if (strstr($agent, 'Android'))      $result .= '안드로이드 ';
+    if (strstr($agent, 'iPhone'))       $result .= '아이폰 ';
+    if (strstr($agent, 'SM-G'))         $result .= '갤럭시 ';
+    if (strstr($agent, 'Chrome'))       $result .= '구글 크롬 브라우저 ';
+    elseif (strstr($agent, 'Safari'))   $result .= '애플 사파리 브라우저 ';
+    if (strstr($agent, 'Trident/7'))    $result .= 'MS 인터넷 익스플로러 ';
+    if (strstr($agent, 'Googlebot'))    $result .= '구글 검색엔진 로봇 ';
+    if (strstr($agent, 'msnbot'))       $result .= 'MS 검색엔진 로봇 ';
+    if (strstr($agent, 'BingPreview'))  $result .= 'Bing 검색엔진 로봇 ';
+    if (strstr($agent, 'yandex'))       $result .= 'Yandex 검색엔진 로봇 ';
     if ($result == '') $result = $agent;
 
     return $result;
