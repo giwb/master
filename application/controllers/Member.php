@@ -29,6 +29,9 @@ class Member extends MY_Controller
     // 예약 내역
     $viewData['userReserve'] = $this->reserve_model->userReserve($clubIdx, $userData['userid']);
 
+    // 예약 취소 내역 (로그)
+    $viewData['userReserveCancel'] = $this->reserve_model->userReserveCancel($clubIdx, $userData['userid']);
+
     // 산행 내역
     $viewData['userVisit'] = $this->reserve_model->userVisit($clubIdx, $userData['userid']);
 

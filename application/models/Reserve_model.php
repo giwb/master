@@ -97,10 +97,24 @@ class Reserve_model extends CI_Model
     };
   }
 
+  // 마이페이지 사용자 예약취소 내역
+  public function userReserveCancel($clubIdx, $userId)
+  {
+    $this->db->select('a.*, b.idx as resCode, b.subject, b.startdate, b.starttime, b.cost, b.cost_total, b.bus AS notice_bus, b.bustype AS notice_bustype, b.status AS notice_status')
+          ->from(DB_HISTORY . ' a')
+          ->join(DB_NOTICE . ' b', 'a.fkey=b.idx', 'left')
+          ->where('a.club_idx', $clubIdx)
+          ->where('a.userid', $userId)
+          ->where('b.visible', VISIBLE_ABLE)
+          ->order_by('a.idx', 'desc')
+          ->limit(5);
+    return $this->db->get()->result_array();
+  }
+
   // 마이페이지 사용자 산행 내역
   public function userVisit($clubIdx, $userId)
   {
-    $this->db->select('a.*, b.idx as resCode, b.subject, b.startdate, b.starttime, b.cost, b.cost_total, b.bus AS notice_bus, b.bustype AS notice_bustype, b.status AS notice_status')
+    $this->db->select('a.*, b.idx as resCode, b.subject')
           ->from(DB_RESERVATION . ' a')
           ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
           ->where('a.club_idx', $clubIdx)

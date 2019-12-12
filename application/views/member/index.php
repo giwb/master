@@ -30,6 +30,18 @@
 <?php endforeach; ?>
           </form>
 
+          <h3>■ 예약취소 내역</h3>
+<?php foreach ($userReserveCancel as $value): ?>
+            <dl>
+              <dd>
+                <?=viewStatus($value['notice_status'])?> <?=$value['subject']?><br>
+                <small>
+                  취소일시 : <?=date('Y-m-d', $value['regdate'])?> (<?=calcWeek(date('Y-m-d', $value['regdate']))?>) <?=date('H:i', $value['regdate'])?>
+                </small>
+              </dd>
+            </dl>
+<?php endforeach; ?>
+
           <h3>■ 산행 내역</h3>
 <?php foreach ($userVisit as $value): ?>
             <dl>
