@@ -713,6 +713,26 @@ class Admin extends Admin_Controller
     // 버스 형태
     $viewData['listBustype'] = $this->admin_model->listBustype();
 
+    // 지역
+    $viewData['area_sido'] = $this->area_model->listSido();
+    if (!empty($viewData['view']['area_sido'])) {
+      $area_sido = unserialize($viewData['view']['area_sido']);
+      $area_gugun = unserialize($viewData['view']['area_gugun']);
+
+      foreach ($area_sido as $key => $value) {
+        $sido = $this->area_model->getName($value);
+        $gugun = $this->area_model->getName($area_gugun[$key]);
+        $viewData['list_sido'] = $this->area_model->listSido();
+        $viewData['list_gugun'][$key] = $this->area_model->listGugun($value);
+        $viewData['view']['sido'][$key] = $sido['name'];
+        $viewData['view']['gugun'][$key] = $gugun['name'];
+      }
+
+      $viewData['area_gugun'] = $this->area_model->listGugun($viewData['view']['area_sido']);
+    } else {
+      $viewData['area_gugun'] = array();
+    }
+
     if (empty($viewData['view']['driving_fuel'][2])) {
       // 전국 유가 정보 (오피넷 Key : F657191209)
       $url = 'http://www.opinet.co.kr/api/avgSidoPrice.do?out=xml&code=F657191209';
@@ -751,6 +771,8 @@ class Admin extends Admin_Controller
       $result = array('error' => 1, 'message' => '에러가 발생했습니다.');
     } else {
       $postData = array(
+        'area_sido'       => make_serialize($this->input->post('area_sido')),     // 지역 시/도
+        'area_gugun'      => make_serialize($this->input->post('area_gugun')),    // 지역 구/군
         'startdate'       => html_escape($this->input->post('startdate')),        // 출발일시
         'starttime'       => html_escape($this->input->post('starttime')),        // 출발시간
         'enddate'         => html_escape($this->input->post('enddate')),          // 도착일자
@@ -1474,6 +1496,7 @@ class Admin extends Admin_Controller
       }
     }
 
+    // 지역
     $viewData['area_sido'] = $this->area_model->listSido();
     if (!empty($viewData['view']['area_sido'])) {
       $area_sido = unserialize($viewData['view']['area_sido']);

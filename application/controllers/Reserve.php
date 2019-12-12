@@ -38,6 +38,26 @@ class Reserve extends MY_Controller
 
       // 예약 정보
       $viewData['reserve'] = $this->reserve_model->viewProgress($clubIdx, $noticeIdx);
+
+      // 지역
+      $viewData['area_sido'] = $this->area_model->listSido();
+      if (!empty($viewData['notice']['area_sido'])) {
+        $area_sido = unserialize($viewData['notice']['area_sido']);
+        $area_gugun = unserialize($viewData['notice']['area_gugun']);
+
+        foreach ($area_sido as $key => $value) {
+          $sido = $this->area_model->getName($value);
+          $gugun = $this->area_model->getName($area_gugun[$key]);
+          $viewData['list_sido'] = $this->area_model->listSido();
+          $viewData['list_gugun'][$key] = $this->area_model->listGugun($value);
+          $viewData['notice']['sido'][$key] = $sido['name'];
+          $viewData['notice']['gugun'][$key] = $gugun['name'];
+        }
+
+        $viewData['area_gugun'] = $this->area_model->listGugun($viewData['notice']['area_sido']);
+      } else {
+        $viewData['area_gugun'] = array();
+      }
     } else {
       $viewData['notice'] = array();
       $viewData['busType'] = array();

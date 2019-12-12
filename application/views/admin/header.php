@@ -13,12 +13,14 @@
   <meta property="og:description" content="매주 토, 일. 차내 음주가무 없으며, 초보자도 함께할 수 있는 여유있는 산행.">
   <meta name="description" content="매주 토, 일. 차내 음주가무 없으며, 초보자도 함께할 수 있는 여유있는 산행.">
   <link rel="stylesheet" type="text/css" href="<?=base_url()?>public/lib/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="<?=base_url()?>public/css/jquery-ui.css">
   <link rel="stylesheet" type="text/css" href="<?=base_url()?>public/css/fontawesome/css/all.min.css">
   <link rel="stylesheet" type="text/css" href="<?=base_url()?>public/css/fullcalendar.css">
   <link rel="stylesheet" type="text/css" href="<?=base_url()?>public/css/fullcalendar.print.css">
   <link rel="stylesheet" type="text/css" href="<?=base_url()?>public/css/admin.css?<?=time()?>">
   <script type="text/javascript" src="<?=base_url()?>public/js/jquery-1.11.1.min.js"></script>
   <script type="text/javascript" src="<?=base_url()?>public/js/jquery-ui.custom.min.js"></script>
+  <script type="text/javascript" src="<?=base_url()?>public/js/jquery-ui.min.js"></script>
   <script type="text/javascript" src="<?=base_url()?>public/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script type="text/javascript" src="<?=base_url()?>public/js/fullcalendar.js"></script>
   <script type="text/javascript" src="<?=base_url()?>public/ckeditor/ckeditor.js" charset="utf-8"></script>

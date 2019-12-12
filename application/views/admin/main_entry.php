@@ -1,75 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-    <link rel="stylesheet" href="<?=base_url()?>public/css/jquery-ui.css">
-    <script src="<?=base_url()?>public/js/jquery-ui.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function(){
-        var totalDistance = $.calcTotalDistance(); // 총 거리 계산
-        $.calcSchedule($('#startDatePicker').val(), $('#startTime').val(), $('#endDatePicker').val()) // 여행기간 계산
-        <?php if (empty($view['idx'])): ?>
-        $.calcRoadCost(); // 통행료 계산
-        $.calcFuel(); // 연비 계산 (총주행 / 3.5)
-        $.calcBusCost(totalDistance); // 버스비용/산행분담 기본비용 계산
-        $.calcTotalFuel(); // 주유비 합계
-        $.calcTotalDriving(); // 운행비 합계
-        $.calcAdd(); // 추가비용 합계
-        $.calcTotalBus(); // 추가비용 합계
-        $.calcCost(); // 산행 분담금 계산
-
-        // 통행료 계산
-        $('.road-cost').each(function(n) {
-          if (n == 0 && $(this).val() == '') {
-            $(this).val('0');
-          }
-        });
-        <?php endif; ?>
-
-        // 출발일시
-        $('#startDatePicker').datepicker({
-          dateFormat: 'yy-mm-dd',
-          prevText: '이전 달',
-          nextText: '다음 달',
-          monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-          monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-          dayNames: ['일','월','화','수','목','금','토'],
-          dayNamesShort: ['일','월','화','수','목','금','토'],
-          dayNamesMin: ['일','월','화','수','목','금','토'],
-          showMonthAfterYear: true,
-          changeMonth: true,
-          changeYear: true,
-          yearSuffix: '년'
-        });
-
-        // 도착일
-        $('#endDatePicker').datepicker({
-          dateFormat: 'yy-mm-dd',
-          prevText: '이전 달',
-          nextText: '다음 달',
-          monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-          monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-          dayNames: ['일','월','화','수','목','금','토'],
-          dayNamesShort: ['일','월','화','수','목','금','토'],
-          dayNamesMin: ['일','월','화','수','목','금','토'],
-          showMonthAfterYear: true,
-          changeMonth: true,
-          changeYear: true,
-          yearSuffix: '년'
-        });
-
-        // 신규 등록시, 출발일시를 선택하면 도착일시는 당일로 자동 선택
-        $('#startDatePicker').change(function() {
-          if ($('#endDatePicker').val() == '') {
-            $('#endDatePicker').val($(this).val());
-          }
-        });
-      });
-    </script>
-
-    <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-      <!-- Main Content -->
       <div id="content">
-        <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
           <h1 class="h3 mb-0 text-gray-800">신규 산행 <?=$btn?></h1>
         </div>
@@ -92,16 +24,16 @@
                   <div class="col-md-2"><input readonly type="text" name="startdate" id="startDatePicker" class="form-control" value="<?=$view['startdate']?>"></div>
                   <div class="col-md-2">
                     <select name="starttime" id="startTime" class="form-control">
-<?php
-  $tStart = $tNow = strtotime('06:00');
-  $tEnd = strtotime('23:30');
-  while ($tNow <= $tEnd): $nowTime = date('H:i', $tNow);
-?>
-                  <option<?=$view['starttime'] == $nowTime ? ' selected' : ''?> value="<?=$nowTime?>"><?=$nowTime?></option>
-<?php
-    $tNow = strtotime('+30 minutes', $tNow);
-  endwhile;
-?>
+                    <?php
+                      $tStart = $tNow = strtotime('06:00');
+                      $tEnd = strtotime('23:30');
+                      while ($tNow <= $tEnd): $nowTime = date('H:i', $tNow);
+                    ?>
+                      <option<?=$view['starttime'] == $nowTime ? ' selected' : ''?> value="<?=$nowTime?>"><?=$nowTime?></option>
+                    <?php
+                        $tNow = strtotime('+30 minutes', $tNow);
+                      endwhile;
+                    ?>
                     </select>
                   </div>
                 </div>
@@ -121,6 +53,55 @@
               <td class="form-row">
                 <div class="col-md-4">
                   <input type="text" name="mname" class="form-control" value="<?=$view['mname']?>">
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th>지역</th>
+              <td>
+                <button type="button" class="btn btn-primary btn-add-area mb-2">추가</button><br>
+                <?php if (empty($view['sido'])): ?>
+                <div class="row pl-1">
+                  <div class="ml-2">
+                    <select name="area_sido[]" class="area-sido form-control">
+                      <option value=''>시/도</option>
+                      <?php foreach ($area_sido as $value): ?>
+                      <option<?=$value['idx'] == $view['area_sido'] ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                  <div class="ml-2">
+                    <select name="area_gugun[]" class="area-gugun form-control">
+                      <option value=''>시/군/구</option>
+                      <?php foreach ($area_gugun as $value): ?>
+                      <option<?=$value['idx'] == $view['area_gugun'] ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                </div>
+                <?php else: ?>
+                  <?php foreach ($view['sido'] as $key => $val): ?>
+                  <div class="row pl-1">
+                    <div class="ml-2">
+                      <select name="area_sido[]" class="area-sido form-control">
+                        <option value=''>시/도</option>
+                        <?php foreach ($list_sido as $value): ?>
+                        <option<?=$value['name'] == $val ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
+                        <?php endforeach; ?>
+                      </select>
+                    </div>
+                    <div class="ml-2">
+                      <select name="area_gugun[]" class="area-gugun form-control">
+                        <option value=''>시/군/구</option>
+                        <?php foreach ($list_gugun[$key] as $value): ?>
+                        <option<?=$value['name'] == $view['gugun'][$key] ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
+                        <?php endforeach; ?>
+                      </select><div class="mt-1"></div>
+                    </div>
+                  </div>
+                  <?php endforeach; ?>
+                <?php endif; ?>
+                <div class="added-area">
                 </div>
               </td>
             </tr>
@@ -146,43 +127,40 @@
                 <button type="button" class="btn btn-primary btn-add-bus">추가</button><br>
                 <div class="form-row mt-2">
                   <div class="col-md-4">
-<?php
-  if (!$view['idx']):
-    // 등록
-?>
+                    <?php if (!$view['idx']): // 등록 ?>
                     <div id="area-init-bus">
                       <select name="bustype[]" class="form-control mb-2">
                         <option value="">버스 종류를 선택해주세요.</option>
-<?php foreach ($listBustype as $value): ?>
+                        <?php foreach ($listBustype as $value): ?>
                         <option value="<?=$value['idx']?>"><?=$value['bus_name']?></option>
-<?php endforeach; ?>
+                        <?php endforeach; ?>
                       </select>
                     </div>
-<?php
-  else:
-    // 수정
-    for ($i=0; $i<count($view['bustype']); $i++):
-      if ($i == 0):
-?>
+                    <?php
+                      else:
+                        // 수정
+                        for ($i=0; $i<count($view['bustype']); $i++):
+                          if ($i == 0):
+                    ?>
                     <div id="area-init-bus" class="d-none">
                       <select name="bustype[]" class="form-control mb-2">
                         <option value="">버스 종류를 선택해주세요.</option>
-<?php foreach ($listBustype as $value): ?>
+                        <?php foreach ($listBustype as $value): ?>
                         <option value="<?=$value['idx']?>"><?=$value['bus_name']?></option>
-<?php endforeach; ?>
+                        <?php endforeach; ?>
                       </select>
                     </div>
-<?php endif; ?>
+                    <?php endif; ?>
                     <select name="bustype[]" class="form-control mb-2">
                       <option value="">버스 종류를 선택해주세요.</option>
-<?php foreach ($listBustype as $value): ?>
+                      <?php foreach ($listBustype as $value): ?>
                       <option<?=$value['idx'] == $view['bustype'][$i] ? ' selected' : ''?> value="<?=$value['idx']?>"><?=$value['bus_name']?></option>
-<?php endforeach; ?>
+                      <?php endforeach; ?>
                     </select>
-<?php
-    endfor;
-  endif;
-?>
+                    <?php
+                        endfor;
+                      endif;
+                    ?>
                     <div id="area-add-bus">
                     </div>
                   </div>
@@ -211,7 +189,7 @@
             </tr>
           </thead>
           <tbody>
-<?php foreach (range(1, 10) as $key => $value): ?>
+            <?php foreach (range(1, 10) as $key => $value): ?>
             <tr>
               <td><?=$value?></td>
               <td><input class="form-control w2x" type="text" size="20" name="road_course[]" value="<?=!empty($view['road_course'][$key]) ? $view['road_course'][$key] : ''?>"></td>
@@ -219,7 +197,7 @@
               <td><input class="form-control road-runtime" type="text" size="4" name="road_runtime[]" value="<?=!empty($view['road_runtime'][$key]) ? $view['road_runtime'][$key] : ''?>"></td>
               <td><input class="form-control road-cost" type="text" size="4" name="road_cost[]" value="<?=!empty($view['road_cost'][$key]) ? $view['road_cost'][$key] : ''?>">원</td>
             </tr>
-<?php endforeach; ?>
+            <?php endforeach; ?>
             <tr>
               <th>합계</th>
               <td>&nbsp;</td>
@@ -329,3 +307,99 @@
         </div>
       </form>
     </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        var totalDistance = $.calcTotalDistance(); // 총 거리 계산
+        $.calcSchedule($('#startDatePicker').val(), $('#startTime').val(), $('#endDatePicker').val()) // 여행기간 계산
+        <?php if (empty($view['idx'])): ?>
+        $.calcRoadCost(); // 통행료 계산
+        $.calcFuel(); // 연비 계산 (총주행 / 3.5)
+        $.calcBusCost(totalDistance); // 버스비용/산행분담 기본비용 계산
+        $.calcTotalFuel(); // 주유비 합계
+        $.calcTotalDriving(); // 운행비 합계
+        $.calcAdd(); // 추가비용 합계
+        $.calcTotalBus(); // 추가비용 합계
+        $.calcCost(); // 산행 분담금 계산
+
+        // 통행료 계산
+        $('.road-cost').each(function(n) {
+          if (n == 0 && $(this).val() == '') {
+            $(this).val('0');
+          }
+        });
+        <?php endif; ?>
+
+        // 출발일시
+        $('#startDatePicker').datepicker({
+          dateFormat: 'yy-mm-dd',
+          prevText: '이전 달',
+          nextText: '다음 달',
+          monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+          monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+          dayNames: ['일','월','화','수','목','금','토'],
+          dayNamesShort: ['일','월','화','수','목','금','토'],
+          dayNamesMin: ['일','월','화','수','목','금','토'],
+          showMonthAfterYear: true,
+          changeMonth: true,
+          changeYear: true,
+          yearSuffix: '년'
+        });
+
+        // 도착일
+        $('#endDatePicker').datepicker({
+          dateFormat: 'yy-mm-dd',
+          prevText: '이전 달',
+          nextText: '다음 달',
+          monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+          monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+          dayNames: ['일','월','화','수','목','금','토'],
+          dayNamesShort: ['일','월','화','수','목','금','토'],
+          dayNamesMin: ['일','월','화','수','목','금','토'],
+          showMonthAfterYear: true,
+          changeMonth: true,
+          changeYear: true,
+          yearSuffix: '년'
+        });
+
+        // 신규 등록시, 출발일시를 선택하면 도착일시는 당일로 자동 선택
+        $('#startDatePicker').change(function() {
+          if ($('#endDatePicker').val() == '') {
+            $('#endDatePicker').val($(this).val());
+          }
+        });
+      });
+
+      $(document).on('change', '.area-sido', function() {
+        var $dom = $(this);
+        var parent = $dom.val();
+
+        $.ajax({
+          url: $('input[name=base_url]').val() + 'club/list_gugun',
+          data: 'parent=' + parent,
+          dataType: 'json',
+          type: 'post',
+          success: function(result) {
+            var $appendDom = $dom.parent().parent().find('.area-gugun');
+            $appendDom.empty().append( $('<option value="">시/군/구</option>') );
+            for (var i=0; i<result.length; i++) {
+              $appendDom.append( $('<option value="' + result[i].idx + '">' + result[i].name + '</option>') );
+            }
+          }
+        });
+      }).on('click', '.btn-add-area', function() {
+        var data = '<div class="row mt-1 pl-1"><div class="ml-2"><select name="area_sido[]" class="area-sido form-control">';
+        data += '<option value="">시/도</option>';
+        <?php foreach ($area_sido as $value): ?>
+        data += '<option<?=$value['idx'] == $view['area_sido'] ? " selected" : ""?> value="<?=$value['idx']?>""><?=$value['name']?></option>';
+        <?php endforeach; ?>
+        data += '</select></div>';
+        data += '<div class="ml-2"><select name="area_gugun[]" class="area-gugun form-control">';
+        data += '<option value="">시/군/구</option>';
+        <?php foreach ($area_gugun as $value): ?>
+        data += '<option<?=$value['idx'] == $view['area_gugun'] ? " selected" : ""?> value="<?=$value['idx']?>""><?=$value['name']?></option>';
+        <?php endforeach; ?>
+        data += '</select></div></div>';
+        $('.added-area').append(data);
+      });
+    </script>
