@@ -753,7 +753,7 @@ class Admin extends Admin_Controller
     } else {
       $viewData['area_gugun'] = array();
     }
-/*
+
     if (empty($viewData['view']['driving_fuel'][2])) {
       // 전국 유가 정보 (오피넷 Key : F657191209)
       $url = 'http://www.opinet.co.kr/api/avgSidoPrice.do?out=xml&code=F657191209';
@@ -773,7 +773,7 @@ class Admin extends Admin_Controller
         }
       }
     }
-*/
+
     $this->_viewPage('admin/main_entry', $viewData);
   }
 
