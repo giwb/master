@@ -12145,10 +12145,10 @@ body.sidebar-toggled footer.sticky-footer {
 .area-button { position: fixed; bottom: 1px; width: 100%; background-color: #f8f9fc; padding: 20px 0; text-align: center; z-index: 1000; }
 
 .story-reply { font-size: 14px; margin: 10px 0; }
-.story-reply dl { width: 680px; display: table; text-align: left; word-break: break-all; }
-.story-reply dl dt { width: 24%; display: table-cell; vertical-align: top; padding-right: 15px; white-space: nowrap; }
-.story-reply dl dd { width: 76%; display: table-cell; vertical-align: top; padding-top: 8px; }
-.story-reply dl dd .reply-date { font-size: 12px; color: #aeaeae; margin-left: 20px; }
+.story-reply dl { width: 100%; display: table; text-align: left; word-break: break-all; }
+.story-reply dl dt { width: 60px; display: table-cell; vertical-align: top; padding-right: 15px; white-space: nowrap; }
+.story-reply dl dd { display: table-cell; vertical-align: top; }
+.story-reply dl dd .reply-date { font-size: 12px; color: #aeaeae; }
 .story-reply .img-profile { width: 2.5rem; height: 2.5rem; border-radius: 50%; margin: 0 0 0 10px; cursor: pointer; }
 
 .visitor-row { display: flex; }
