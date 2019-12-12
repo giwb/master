@@ -11,12 +11,13 @@
 
         <table class="table">
           <tbody>
-<?php
-  foreach ($list as $value) {
-?>
+            <?php foreach ($list as $value): ?>
             <tr>
               <td>
                 <b><?=viewStatus($value['status'])?></b> <a href="<?=base_url()?>admin/main_view_progress/<?=$value['idx']?>"><?=$value['subject']?></a><br>
+                <?php if (!empty($value['sido'])): ?>
+                <?php foreach ($value['sido'] as $key => $sido): ?><?=$sido?> <?=!empty($value['gugun'][$key]) ? $value['gugun'][$key] : ''?>, <?php endforeach; ?>
+                <?php endif; ?>
                 <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / 예약인원 <?=cntRes($value['idx'])?>명
               </td>
               <td align="right">
@@ -31,9 +32,7 @@
                 <button type="button" class="btn btn-primary btn-adjust">정산</button>
               </td>
             </tr>
-<?php
-  }
-?>
+            <?php endforeach; ?>
           </tbody>
         </table>
       </div>

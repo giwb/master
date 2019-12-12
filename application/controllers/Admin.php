@@ -395,6 +395,21 @@ class Admin extends Admin_Controller
     $search['status'] = array(STATUS_ABLE, STATUS_CONFIRM);
     $viewData['list'] = $this->admin_model->listNotice($search);
 
+    foreach ($viewData['list'] as $key => $value) {
+      // 지역
+      if (!empty($value['area_sido'])) {
+        $areaSido = unserialize($value['area_sido']);
+        $areaGugun = unserialize($value['area_gugun']);
+
+        foreach ($areaSido as $cnt => $sido) {
+          $getSido = $this->area_model->getName($sido);
+          $getGugun = $this->area_model->getName($areaGugun[$cnt]);
+          $viewData['list'][$key]['sido'][$cnt] = $getSido['name'];
+          $viewData['list'][$key]['gugun'][$cnt] = $getGugun['name'];
+        }
+      }
+    }
+
     $this->_viewPage('admin/main_list_progress', $viewData);
   }
 
