@@ -390,16 +390,23 @@ class Reserve extends MY_Controller
           setHistory(LOG_PENALTYUP, $userReserve['resCode'], $userReserve['userid'], $userReserve['nickname'], $userReserve['subject'] . ' 예약 취소', $nowDate, $penalty);
         }
 
-        if ($userReserve['status'] == STATUS_ABLE) {
+        if ($userReserve['status'] == RESERVE_PAY) {
           // 분담금 합계 (기존 버젼 호환용)
           $userReserve['cost'] = $userReserve['cost_total'] == 0 ? $userReserve['cost'] : $userReserve['cost_total'];
 
-          // 이미 입금을 마친 상태라면, 전액 포인트로 환불
-          $this->member_model->updatePoint($clubIdx, $userReserve['userid'], ($userData['point'] + $userReserve['cost']));
-
-          // 포인트 반환 로그 기록
-          setHistory(LOG_POINTUP, $userReserve['resCode'], $userReserve['userid'], $userReserve['nickname'], $userReserve['subject'] . ' 예약 취소', $nowDate, $userReserve['cost']);
-        } elseif ($userReserve['status'] == STATUS_PLAN && $userReserve['point'] > 0) {
+          // 이미 입금을 마친 상태라면, 전액 포인트로 환불 (무료회원은 환불 안함)
+          if (empty($userData['level']) || $userData['level'] != 2) {
+            if ($userData['level'] == 1) {
+              // 평생회원은 할인 적용된 가격을 환불
+              $userReserve['cost'] = $userReserve['cost'] - 5000;
+              $this->member_model->updatePoint($clubIdx, $userReserve['userid'], ($userData['point'] + $userReserve['cost']));
+            } else {
+              $this->member_model->updatePoint($clubIdx, $userReserve['userid'], ($userData['point'] + $userReserve['cost']));
+            }
+            // 포인트 반환 로그 기록
+            setHistory(LOG_POINTUP, $userReserve['resCode'], $userReserve['userid'], $userReserve['nickname'], $userReserve['subject'] . ' 예약 취소', $nowDate, $userReserve['cost']);
+          }
+        } elseif ($userReserve['status'] == RESERVE_ON && $userReserve['point'] > 0) {
           // 예약정보에 포인트가 있을때 반환
           $this->member_model->updatePoint($clubIdx, $userReserve['userid'], ($userData['point'] + $userReserve['point']));
 
