@@ -12,3 +12,20 @@
           </div>
         </div>
       </div>
+
+      <script type="text/javascript">
+        $(document).ready(function() {
+            var storyIdx = '<?=$storyIdx?>';
+            var replyType = '<?=REPLY_TYPE_STORY?>';
+            var $dom = $('.story-reply[data-idx=' + storyIdx + ']');
+            $.ajax({
+              url: '<?=base_url()?>story/reply/<?=$clubIdx?>',
+              data: 'storyIdx=' + storyIdx + '&replyType=' + replyType,
+              dataType: 'json',
+              type: 'post',
+              success: function(result) {
+                $('.story-reply-content', $dom).append(result.message);
+              }
+            });
+        });
+      </script>

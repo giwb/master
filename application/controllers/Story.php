@@ -52,14 +52,14 @@ class Story extends CI_Controller
    **/
   public function view($clubIdx)
   {
-    $clubIdx = html_escape($clubIdx);
-    $storyIdx = html_escape($this->input->get('n'));
+    $viewData['clubIdx'] = html_escape($clubIdx);
+    $viewData['storyIdx'] = html_escape($this->input->get('n'));
 
     // 클럽 정보
-    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+    $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
 
     // 최초 스토리 출력
-    $viewData['listStory'] = $this->story_model->viewStory($clubIdx, $storyIdx);
+    $viewData['listStory'] = $this->story_model->viewStory($viewData['clubIdx'], $viewData['storyIdx']);
     $viewData['viewStory'] = $this->load->view('story/index', $viewData, true);
 
     $this->_viewPage('story/view', $viewData);
