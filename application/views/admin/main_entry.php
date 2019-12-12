@@ -6,6 +6,7 @@
       $(document).ready(function(){
         var totalDistance = $.calcTotalDistance(); // 총 거리 계산
         $.calcSchedule($('#startDatePicker').val(), $('#startTime').val(), $('#endDatePicker').val()) // 여행기간 계산
+        <?php if (empty($view['idx'])): ?>
         $.calcRoadCost(); // 통행료 계산
         $.calcFuel(); // 연비 계산 (총주행 / 3.5)
         $.calcBusCost(totalDistance); // 버스비용/산행분담 기본비용 계산
@@ -14,6 +15,14 @@
         $.calcAdd(); // 추가비용 합계
         $.calcTotalBus(); // 추가비용 합계
         $.calcCost(); // 산행 분담금 계산
+
+        // 통행료 계산
+        $('.road-cost').each(function(n) {
+          if (n == 0 && $(this).val() == '') {
+            $(this).val('0');
+          }
+        });
+        <?php endif; ?>
 
         // 출발일시
         $('#startDatePicker').datepicker({
@@ -51,13 +60,6 @@
         $('#startDatePicker').change(function() {
           if ($('#endDatePicker').val() == '') {
             $('#endDatePicker').val($(this).val());
-          }
-        });
-
-        // 통행료 계산
-        $('.road-cost').each(function(n) {
-          if (n == 0 && $(this).val() == '') {
-            $(this).val('0');
           }
         });
       });
