@@ -218,6 +218,11 @@ class Reserve extends MY_Controller
         }
       }
 
+      // 회원 예약 횟수 갱신 (회원 레벨 체크를 위해)
+      $rescount = $this->reserve_model->cntMemberReserve($userData['userid']);
+      $updateValues['rescount'] = $rescount['cnt'];
+      $this->member_model->updateMember($updateValues, $clubIdx, $userData['idx']);
+
       $result = array('error' => 0, 'message' => base_url() . 'reserve/check/' . $clubIdx . '?n=' . $noticeIdx . '&c=' . implode(',', $reserveIdx));
     }
 

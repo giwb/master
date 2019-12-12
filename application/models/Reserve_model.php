@@ -59,6 +59,18 @@ class Reserve_model extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  // 회원 예약횟수
+  public function cntMemberReserve($userid)
+  {
+    $this->db->select('COUNT(a.userid) as cnt')
+          ->from(DB_RESERVATION . ' a')
+          ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
+          ->where('a.userid', $userid)
+          ->where('a.status', RESERVE_PAY)
+          ->where('b.status', STATUS_CLOSED);
+    return $this->db->get()->row_array(1);
+  }
+
   // 산행 예약자 카운트
   public function cntReserve($clubIdx, $noticeIdx, $bus=NULL)
   {
@@ -115,7 +127,7 @@ class Reserve_model extends CI_Model
   // 마이페이지 사용자 산행 내역
   public function userVisit($clubIdx, $userId)
   {
-    $this->db->select('a.*, b.idx as resCode, b.subject')
+    $this->db->select('a.*, b.idx as resCode, b.subject, b.startdate, b.starttime, b.cost, b.cost_total, b.bus AS notice_bus, b.bustype AS notice_bustype, b.status AS notice_status')
           ->from(DB_RESERVATION . ' a')
           ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
           ->where('a.club_idx', $clubIdx)
