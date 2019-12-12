@@ -58,24 +58,10 @@ class Story extends CI_Controller
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
+    // 최초 스토리 출력
     $viewData['listStory'] = $this->story_model->viewStory($clubIdx, $storyIdx);
     $viewData['viewStory'] = $this->load->view('story/index', $viewData, true);
-    /*
-    $clubIdx = html_escape($clubIdx);
-    $userIdx = !empty($this->session->userData['idx']) ? html_escape($this->session->userData['idx']) : NULL;
-    $storyIdx = html_escape($this->input->get('n'));
 
-    // 스토리 보기
-    $viewData['viewStory'] = $this->story_model->viewStory($clubIdx, $storyIdx);
-
-    // 스토리 좋아요 확인 (로그인시에만)
-    if (!empty($userIdx)) {
-      $viewStoryReaction = $this->story_model->viewStoryReaction($clubIdx, $storyIdx, $userIdx);
-      if ($viewData['viewStory']['idx'] == $viewStoryReaction['story_idx']) {
-        $viewData['viewStory']['like'] = $viewStoryReaction['created_by'];
-      }
-    }
-*/
     $this->_viewPage('story/view', $viewData);
   }
 
