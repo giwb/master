@@ -154,20 +154,35 @@ if (!function_exists('cntRes')) {
 
 // 산행 기간 계산
 if (!function_exists('calcTerm')) {
-  function calcTerm($startDate, $startTime, $endDate) {
-    // 새로운 방식
-    $sTime = explode(':', $startTime);
-    $dTerm = date('j', (strtotime($endDate) - strtotime($startDate)));
-
-    if ($startDate == $endDate) {
-      $result = '당일';
+  function calcTerm($startDate, $startTime, $endDate, $schedule = NULL) {
+    if (!is_null($schedule)) {
+      // 예전 방식
+      switch ($schedule) {
+        case "1": $result = "무박"; break;
+        case "2": $result = "1박2일"; break;
+        case "3": $result = "1무1박3일"; break;
+        case "4": $result = "2박3일"; break;
+        case "5": $result = "3박4일"; break;
+        case "6": $result = "3박5일"; break;
+        case "7": $result = "4박5일"; break;
+        case "8": $result = "7박9일"; break;
+        default : $result = "당일";
+      }
     } else {
-      if ($sTime[0].$sTime[1] <= '2200') {
-        // 22시 이전 출발은 1박 확정
-        $result = ($dTerm - 1) . '박 ' . $dTerm . '일';
+      // 새로운 방식
+      $sTime = explode(':', $startTime);
+      $dTerm = date('j', (strtotime($endDate) - strtotime($startDate)));
+
+      if ($startDate == $endDate) {
+        $result = '당일';
       } else {
-        // 22시 이후 출발은 1일 무박
-        $result = '1무 ' . ($dTerm - 2) . '박 ' . $dTerm . '일';
+        if ($sTime[0].$sTime[1] <= '2200') {
+          // 22시 이전 출발은 1박 확정
+          $result = ($dTerm - 1) . '박 ' . $dTerm . '일';
+        } else {
+          // 22시 이후 출발은 1일 무박
+          $result = '1무 ' . ($dTerm - 2) . '박 ' . $dTerm . '일';
+        }
       }
     }
 
