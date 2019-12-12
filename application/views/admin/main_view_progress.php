@@ -17,10 +17,12 @@
       <div class="area-reservation">
         <div class="area-btn">
           <div class="float-left">
+            <?php if ($view['status'] != STATUS_PLAN): ?>
             <a href="<?=base_url()?>admin/main_view_progress/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">예약관리</button></a>
             <a href="<?=base_url()?>admin/main_view_boarding/<?=$view['idx']?>"><button type="button" class="btn btn-primary">승차관리</button></a>
             <a href="<?=base_url()?>admin/main_view_sms/<?=$view['idx']?>"><button type="button" class="btn btn-primary">문자양식</button></a>
             <a href="<?=base_url()?>admin/main_view_adjust/<?=$view['idx']?>"><button type="button" class="btn btn-primary">정산관리</button></a>
+            <?php endif; ?>
           </div>
           <div class="float-right">
             <select name="status" class="form-control change-status">
@@ -88,6 +90,7 @@
         </form>
       </div>
 
+      <?php if ($view['status'] >= STATUS_CONFIRM): ?>
       <div class="area-wait">
         ■ <strong>대기자 목록</strong><br>
         <?php foreach ($wait as $key => $value): ?>
@@ -119,6 +122,7 @@
           <div class="pl-1"><button type="button" class="btn btn-sm btn-primary btn-wait-insert">등록</button></div>
         </div>
       </div>
+      <?php endif; ?>
     </div>
 
     <!-- Wait Delete Modal -->

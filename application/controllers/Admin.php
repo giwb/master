@@ -340,10 +340,24 @@ class Admin extends Admin_Controller
    **/
   public function main_list_progress()
   {
-    $search['status'] = array(STATUS_PLAN, STATUS_ABLE, STATUS_CONFIRM);
+    $search['status'] = array(STATUS_ABLE, STATUS_CONFIRM);
     $viewData['list'] = $this->admin_model->listNotice($search);
 
     $this->_viewPage('admin/main_list_progress', $viewData);
+  }
+
+  /**
+   * 계획중 산행 목록
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function main_list_planned()
+  {
+    $search['status'] = array(STATUS_PLAN);
+    $viewData['list'] = $this->admin_model->listNotice($search);
+
+    $this->_viewPage('admin/main_list_planned', $viewData);
   }
 
   /**
