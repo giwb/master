@@ -143,52 +143,6 @@
     </div>
   </div>
 
-  <!-- 결제정보 작성 -->
-  <div class="modal fade" id="reservePaymentModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="smallmodalLabel">결제정보 입력</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body text-center">
-          <dl>
-            <dt>합계금액</dt>
-            <dd><span class="reserveCost"></span><input type="hidden" name="reserveCost"></dd>
-          </dl>
-          <dl>
-            <dt>결제금액</dt>
-            <dd><strong class="paymentCost text-danger"></strong><input type="hidden" name="paymentCost"></dd>
-          </dl>
-          <dl>
-            <dt>포인트 사용</dt>
-            <dd>
-              총 <span class="myPoint"><?=number_format($userData['point'])?></span> 포인트 중
-              <input type="number" name="usingPoint" class="using-point form-control form-control-sm"> 포인트 사용<br>
-              <label class="mb-0"><input type="checkbox" class="using-point-all"> 포인트 전액 사용</label>
-              <input type="hidden" name="userPoint" value="<?=$userData['point']?>">
-            </dd>
-          </dl>
-          <dl>
-            <dt>입금은행</dt>
-            <dd>국민은행 / 288001-04-154630 / 경인웰빙산악회 (김영미)</dd>
-          </dl>
-          <dl>
-            <dt>입금자명</dt>
-            <dd><input type="text" name="depositName" class="form-control form-control-sm"></dd>
-          </dl>
-        </div>
-        <div class="error-message"></div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary btn-reserve-payment">입력완료</button>
-          <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- FOOTER -->
   <footer id="footer">
     <div class="text-center">

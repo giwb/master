@@ -9,7 +9,7 @@ class Admin extends Admin_Controller
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
     $this->load->library('session');
-    $this->load->model(array('admin_model', 'area_model', 'club_model', 'file_model'));
+    $this->load->model(array('admin_model', 'area_model', 'club_model', 'file_model', 'member_model'));
   }
 
   /**
@@ -201,10 +201,15 @@ class Admin extends Admin_Controller
   public function reserve_cancel()
   {
     $now = time();
+    $clubIdx = 1; // 경인웰빙
     $inputData['idx'] = html_escape($this->input->post('idx'));
 
-    // 유저 예약 정보
+    // 예약 정보
     $viewReserve = $this->admin_model->viewReserve($inputData);
+
+    // 회원 정보
+    $search['userid'] = $viewReserve['userid'];
+    $userData = $this->admin_model->viewMember($search);
 
     // 산행 정보
     $viewEntry = $this->admin_model->viewEntry($viewReserve['rescode']);
@@ -254,8 +259,55 @@ class Admin extends Admin_Controller
     }
 
     if (!empty($rtn)) {
+      $startTime = explode(':', $viewEntry['starttime']);
+      $startDate = explode('-', $viewEntry['startdate']);
+      $limitDate = mktime($startTime[0], $startTime[1], 0, $startDate[1], $startDate[2], $startDate[0]);
+
+      // 예약 페널티
+      $penalty = 0;
+      if ( $limitDate < ($now + 86400) ) {
+        // 1일전 취소시 3점 페널티
+        $penalty = 3;
+      } elseif ( $limitDate < ($now + 172800) ) {
+        // 2일전 취소시 1점 페널티
+        $penalty = 1;
+      }
+      $this->member_model->updatePenalty($clubIdx, $viewReserve['userid'], ($userData['penalty'] + $penalty));
+
+      // 예약 페널티 로그 기록
+      if ($penalty > 0) {
+        setHistory(LOG_PENALTYUP, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'] . ' 관리자 예약 취소', $now, $penalty);
+      }
+
+      if ($viewReserve['status'] == RESERVE_PAY) {
+        // 분담금 합계 (기존 버젼 호환용)
+        $viewEntry['cost'] = $viewEntry['cost_total'] == 0 ? $viewEntry['cost'] : $viewEntry['cost_total'];
+
+        // 이미 입금을 마친 상태라면, 전액 포인트로 환불 (무료회원은 환불 안함)
+        if (empty($userData['level']) || $userData['level'] != 2) {
+          if ($userData['level'] == 1) {
+            // 평생회원은 할인 적용된 가격을 환불
+            $viewEntry['cost'] = $viewEntry['cost'] - 5000;
+            $this->member_model->updatePoint($clubIdx, $viewReserve['userid'], ($userData['point'] + $viewEntry['cost']));
+          } else {
+            $this->member_model->updatePoint($clubIdx, $viewReserve['userid'], ($userData['point'] + $viewEntry['cost']));
+          }
+          // 포인트 반환 로그 기록
+          setHistory(LOG_POINTUP, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'] . ' 관리자 예약 취소', $now, $viewEntry['cost']);
+        }
+      } elseif ($viewReserve['status'] == RESERVE_ON && $viewReserve['point'] > 0) {
+        // 예약정보에 포인트가 있을때 반환
+        $this->member_model->updatePoint($clubIdx, $viewReserve['userid'], ($userData['point'] + $viewReserve['point']));
+
+        // 포인트 반환 로그 기록
+        setHistory(LOG_POINTUP, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'] . ' 관리자 예약 취소', $now, $viewReserve['point']);
+      }
+
       // 관리자 예약취소 기록
       setHistory(LOG_ADMIN_CANCEL, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'], $now);
+
+      // 예약 취소 로그 기록
+      setHistory(LOG_CANCEL, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'], $now);
     }
 
     $result['reload'] = true;

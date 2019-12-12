@@ -300,6 +300,9 @@ class Reserve extends MY_Controller
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
     $viewData['view']['noticeIdx'] = $noticeIdx;
 
+    // 회원 정보
+    $viewData['viewMember'] = $this->member_model->viewMember($clubIdx, $userData['idx']);
+
     // 예약 내역
     $viewData['listReserve'] = $this->reserve_model->listReserve($clubIdx, $reserveIdx);
 

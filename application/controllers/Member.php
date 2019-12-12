@@ -26,6 +26,9 @@ class Member extends MY_Controller
     $userData = $this->load->get_var('userData');
     $viewData['view'] = $this->club_model->viewclub($clubIdx);
 
+    // 회원 정보
+    $viewData['viewMember'] = $this->member_model->viewMember($clubIdx, $userData['idx']);
+
     // 예약 내역
     $viewData['userReserve'] = $this->reserve_model->userReserve($clubIdx, $userData['userid']);
 
