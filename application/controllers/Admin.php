@@ -704,6 +704,8 @@ class Admin extends Admin_Controller
       $viewData['view']['starttime'] = '';
       $viewData['view']['enddate'] = '';
       $viewData['view']['mname'] = '';
+      $viewData['view']['area_sido'] = '';
+      $viewData['view']['area_gugun'] = '';
       $viewData['view']['subject'] = '';
       $viewData['view']['content'] = '';
       $viewData['view']['bustype'] = '';
@@ -723,7 +725,11 @@ class Admin extends Admin_Controller
       $viewData['view']['cost_added'] = '';
       $viewData['view']['cost_total'] = '';
       $viewData['view']['costmemo'] = '';
+      $viewData['costGas'] = 0;
     }
+
+    // 산행 정보
+    $viewData['listNotice'] = $this->admin_model->listNotice(NULL, 'desc');
 
     // 버스 형태
     $viewData['listBustype'] = $this->admin_model->listBustype();
@@ -747,7 +753,7 @@ class Admin extends Admin_Controller
     } else {
       $viewData['area_gugun'] = array();
     }
-
+/*
     if (empty($viewData['view']['driving_fuel'][2])) {
       // 전국 유가 정보 (오피넷 Key : F657191209)
       $url = 'http://www.opinet.co.kr/api/avgSidoPrice.do?out=xml&code=F657191209';
@@ -767,8 +773,53 @@ class Admin extends Admin_Controller
         }
       }
     }
-
+*/
     $this->_viewPage('admin/main_entry', $viewData);
+  }
+
+  /**
+   * 산행 등록시 다른 산행 정보 적용
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function main_entry_notice()
+  {
+    $result = '';
+    $idx = html_escape($this->input->post('idx'));
+
+    if (!empty($idx)) {
+      $result = $this->admin_model->viewEntry($idx);
+
+      // 지역
+      if (!empty($result['area_sido'])) {
+        $areaSido = unserialize($result['area_sido']);
+        $areaGugun = unserialize($result['area_gugun']);
+
+        foreach ($areaSido as $key => $sido) {
+          $result['sido'][$key] = $sido;
+          $result['gugun'][$key] = $areaGugun[$key];
+        }
+      }
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 구/군 정보 불러오기
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function main_entry_notice_area()
+  {
+    $sido = html_escape($this->input->post('sido'));
+
+    $result['area_sido'] = $this->area_model->listSido();
+    $result['area_gugun'] = $this->area_model->listGugun($sido);
+
+    $this->output->set_output(json_encode($result));
   }
 
   /**

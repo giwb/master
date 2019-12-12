@@ -14,7 +14,19 @@
       <input type="hidden" name="peak" class="peak" value="<?=$view['peak']?>">
       <input type="hidden" name="winter" class="winter" value="<?=$view['winter']?>">
       <input type="hidden" name="back_url" value="main_list_progress">
-        <h2>■ 기본정보</h2>
+        <div class="row">
+          <div class="col-sm-9">
+            <h2>■ 기본정보</h2>
+          </div>
+          <div class="col-sm-3 pb-2 text-right">
+            <select class="form-control form-control-sm search-notice">
+              <option value="">▼ 다른 산행 정보 불러오기</option>
+              <?php foreach ($listNotice as $value): ?>
+              <option value='<?=$value['idx']?>'><?=$value['subject']?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+        </div>
         <table class="table">
           <tbody>
             <tr>
@@ -61,7 +73,7 @@
               <td>
                 <button type="button" class="btn btn-primary btn-add-area mb-2">추가</button><br>
                 <?php if (empty($view['sido'])): ?>
-                <div class="row pl-1">
+                <div class="row mt-1 pl-1 select-area">
                   <div class="ml-2">
                     <select name="area_sido[]" class="area-sido form-control">
                       <option value=''>시/도</option>
@@ -81,7 +93,7 @@
                 </div>
                 <?php else: ?>
                   <?php foreach ($view['sido'] as $key => $val): ?>
-                  <div class="row pl-1">
+                  <div class="row mt-1 pl-1 select-area">
                     <div class="ml-2">
                       <select name="area_sido[]" class="area-sido form-control">
                         <option value=''>시/도</option>
@@ -388,6 +400,59 @@
           }
         });
       }).on('click', '.btn-add-area', function() {
+        var data = $.getAreaTemplate();
+        $('.added-area').append(data);
+      }).on('change', '.search-notice', function() {
+        $.ajax({
+          url: $('input[name=base_url]').val() + 'admin/main_entry_notice',
+          data: 'idx=' + $(this).val(),
+          dataType: 'json',
+          type: 'post',
+          success: function(result) {
+            $('input[name=mname]').val(result.mname);
+            $('input[name=subject]').val(result.subject);
+            $('textarea[name=content]').val(result.content);
+            $('textarea[name=article]').val(result.article);
+            $('.select-area').remove();
+            $('.added-area').empty();
+
+            if (typeof result.sido != 'undefined') {
+              $.each(result.sido, function(i1, v1) {
+                $.ajax({
+                  url: $('input[name=base_url]').val() + 'admin/main_entry_notice_area',
+                  data: 'sido=' + v1,
+                  dataType: 'json',
+                  type: 'post',
+                  success: function(result2) {
+                    var data = '<div class="row mt-1 pl-1"><div class="ml-2"><select name="area_sido[]" class="area-sido form-control">';
+                    data += '<option value="">시/도</option>';
+                    $.each(result2.area_sido, function(i2, v2) {
+                      data += '<option';
+                      if (v2.idx == v1) data += ' selected';
+                      data +=' value="' + v2.idx + '">' + v2.name + '</option>';
+                    });
+                    data += '</select></div>';
+                    data += '<div class="ml-2"><select name="area_gugun[]" class="area-gugun form-control">';
+                    data += '<option value="">시/군/구</option>';
+                    $.each(result2.area_gugun, function(i3, v3) {
+                      data += '<option';
+                      if (v3.idx == result.gugun[i1]) data += ' selected';
+                      data +=' value="' + v3.idx + '">' + v3.name + '</option>';
+                    });
+                    data += '</select></div></div>';
+                    $('.added-area').append(data);
+                  }
+                });
+              });
+            } else {
+              var data = $.getAreaTemplate();
+              $('.added-area').append(data);
+            }
+          }
+        });
+      });
+
+      $.getAreaTemplate = function() {
         var data = '<div class="row mt-1 pl-1"><div class="ml-2"><select name="area_sido[]" class="area-sido form-control">';
         data += '<option value="">시/도</option>';
         <?php foreach ($area_sido as $value): ?>
@@ -399,7 +464,7 @@
         <?php foreach ($area_gugun as $value): ?>
         data += '<option<?=$value['idx'] == $view['area_gugun'] ? " selected" : ""?> value="<?=$value['idx']?>""><?=$value['name']?></option>';
         <?php endforeach; ?>
-        data += '</select></div></div>';
-        $('.added-area').append(data);
-      });
+        data += '</select></div></div>';        
+        return data;
+      }
     </script>

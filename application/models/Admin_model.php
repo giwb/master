@@ -75,11 +75,11 @@ class Admin_model extends CI_Model
   }
 
   // 산행 목록
-  public function listNotice($search=NULL)
+  public function listNotice($search=NULL, $order='asc')
   {
     $this->db->select('*')
           ->from(DB_NOTICE)
-          ->order_by('startdate', 'asc');
+          ->order_by('startdate', $order);
 
     if (!empty($search['sdate'])) {
       $this->db->where("DATE_FORMAT(startdate, '%Y-%m-%d') >= '" . $search['sdate'] . "'");
