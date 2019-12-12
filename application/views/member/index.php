@@ -34,7 +34,7 @@
 <?php foreach ($userReserveCancel as $value): ?>
             <dl>
               <dd>
-                <?=viewStatus($value['notice_status'])?> <?=$value['subject']?><br>
+                <?=$value['subject']?><br>
                 <small>
                   취소일시 : <?=date('Y-m-d', $value['regdate'])?> (<?=calcWeek(date('Y-m-d', $value['regdate']))?>) <?=date('H:i', $value['regdate'])?>
                 </small>
