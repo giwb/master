@@ -12154,6 +12154,7 @@ body.sidebar-toggled footer.sticky-footer {
 .visitor-row { display: flex; }
 
 @media (max-width: 768px) {
+  #sidebarToggleTop .fa-bars { margin-left: -2px; }
   .h3 { text-align: center; }
   .container, .container-fluid { padding: 10px; }
   .area-reservation { width: 100%; }
