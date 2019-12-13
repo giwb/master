@@ -176,7 +176,7 @@ if (!function_exists('calcTerm')) {
       if ($startDate == $endDate) {
         $result = '당일';
       } else {
-        if ($sTime[0].$sTime[1] <= '2200') {
+        if ($sTime[0].$sTime[1] < '2200') {
           // 22시 이전 출발은 1박 확정
           $result = ($dTerm - 1) . '박 ' . $dTerm . '일';
         } else {

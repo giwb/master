@@ -630,7 +630,7 @@
     var result = '당일';
 
     if (resultDay != 0) {
-      if (parseInt(sTime) <= '2200') {
+      if (parseInt(sTime) < '2200') {
         // 22시 이전 출발은 1박 확정
         result = resultDay + '박 ' + addDay + '일';
         $.calcAddSchedule(resultDay, 0); // 일정추가
