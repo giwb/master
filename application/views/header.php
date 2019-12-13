@@ -11,8 +11,8 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://giwb.kr/" />
   <meta property="og:image" content="<?=base_url()?>public/images/logo.png" />
-  <meta property="og:description" content="매주 토, 일. 차내 음주가무 없으며, 초보자도 함께할 수 있는 여유있는 산행.">
-  <meta name="description" content="매주 토, 일. 차내 음주가무 없으며, 초보자도 함께할 수 있는 여유있는 산행.">
+  <meta property="og:description" content="인천과 부천 지역을 기반으로 토요산행과 일요산행을 매주 운행하는 안내산악회입니다. 차내 음주가무 없으며 초보자도 함께할 수 있도록 여유롭게 산행을 진행합니다.">
+  <meta name="description" content="인천과 부천 지역을 기반으로 토요산행과 일요산행을 매주 운행하는 안내산악회입니다. 차내 음주가무 없으며 초보자도 함께할 수 있도록 여유롭게 산행을 진행합니다.">
 
   <link rel="icon" type="image/png" href="<?=base_url()?>public/images/favicon.png">
   <link rel="shortcut icon" type="image/png" href="<?=base_url()?>public/images/favicon.png">

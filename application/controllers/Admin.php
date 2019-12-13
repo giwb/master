@@ -229,7 +229,7 @@ class Admin extends Admin_Controller
       // 예약 삭제 처리
       $updateValues = array(
         'userid' => NULL,
-        'nickname' => '대기자 우선',
+        'nickname' => '대기자우선',
         'gender' => '',
         'loc' => NULL,
         'bref' => NULL,

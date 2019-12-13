@@ -569,7 +569,7 @@
       $('#loginModal').modal('show'); // 로그인
       return false;
     }
-    $(this).removeClass('btn-primary').addClass('btn-secondary').text('탑승객 추가');
+    $(this).removeClass('btn-primary').addClass('btn-secondary').text('일행 추가');
     $('.btn-reserve-wait').removeClass('d-none');
     var header = '<div class="reserve">';
     var location = '<select name="location[]" class="location">'; $.each(arrLocation, function(i, v) { if (v == '') v = '승차위치'; location += '<option'; if ($('input[name=userLocation]').val() == i) location += ' selected'; location += ' value="' + i + '">' + v + '</option>'; }); location += '</select> ';
