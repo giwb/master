@@ -160,19 +160,22 @@ class Admin extends Admin_Controller
         $postData['status'] = RESERVE_PAY;
       }
 
+      // 예약 번호 (수정시)
       $resIdx = html_escape($arrResIdx[$key]);
 
-      if (empty($resIdx)) {
-        $result = $this->admin_model->insertReserve($postData);
+      // 선택한 좌석 예약 여부 확인
+      $checkReserve = $this->admin_model->checkReserve($idx, $nowBus, $nowSeat);
 
-        if (!empty($result)) {
-          // 관리자 예약 기록
-          setHistory(LOG_ADMIN_RESERVE, $idx, $nowUserid, $nowNick, $viewEntry['subject'], $now);
+      if (empty($resIdx)) {
+        if (empty($checkReserve['idx'])) {
+          $result = $this->admin_model->insertReserve($postData);
+
+          if (!empty($result)) {
+            // 관리자 예약 기록
+            setHistory(LOG_ADMIN_RESERVE, $idx, $nowUserid, $nowNick, $viewEntry['subject'], $now);
+          }
         }
       } else {
-        // 선택한 좌석 예약 여부 확인
-        $checkReserve = $this->admin_model->checkReserve($idx, $nowBus, $nowSeat);
-
         // 이동하려는 좌석 데이터가 없거나, 같은 번호인 경우에만 수정 가능
         if ($checkReserve['idx'] == $resIdx || empty($checkReserve['idx'])) {
         if ($checkReserve['status'] == RESERVE_WAIT) $postData['status'] = RESERVE_ON; // 대기자우선석이면 미입금으로 변경
