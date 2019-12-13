@@ -476,6 +476,14 @@
     // 신규 산행 등록 차량 추가
     var $dom = $('#area-init-bus').clone();
     $('#area-add-bus').append($dom.removeClass('d-none'));
+  }).on('click', '.btn-manager', function() {
+    var $dom = $(this).parent().parent().parent().find('.nickname');
+    var checked = $(this).is(':checked');
+    if (checked == true) {
+      $dom.val('운영진우선');
+    } else {
+      $dom.val('');
+    }
   }).on('click', '.area-bus-table .seat', function() {
     // 산행 예약/수정 버튼
     var resIdx = $(this).data('id');
@@ -830,7 +838,7 @@
         var location = '<select name="location[]">'; $.each(reserveInfo.location, function(i, v) { if (v.stitle == '') v.stitle = '승차위치'; cnt = i + 1; if (reserveInfo.reserve.loc == v.no) selected = ' selected'; else selected = ''; location += '<option' + selected + ' value="' + v.no + '">' + v.stitle + '</option>'; }); location += '</select> ';
         var depositname = '<input type="text" name="depositname[]" size="20" placeholder="입금자명" value="' + reserveInfo.reserve.depositname + '">';
         var memo = '<div class="mt-1"><input type="text" name="memo[]" size="30" placeholder="메모" value="' + reserveInfo.reserve.memo + '"> ';
-        var options = '<label><input'; if (reserveInfo.reserve.vip == 1) options += ' checked'; options += ' type="checkbox" name="vip[]">평생회원</label> <label><input'; if (reserveInfo.reserve.manager == 1) options += ' checked'; options += ' type="checkbox" name="manager[]">운영진우선</label> <label><input'; if (reserveInfo.reserve.priority == 1) options += ' checked'; options += ' type="checkbox" name="priority[]">2인우선</label> ';
+        var options = '<label><input'; if (reserveInfo.reserve.vip == 1) options += ' checked'; options += ' type="checkbox" name="vip[]">평생회원</label> <label><input'; if (reserveInfo.reserve.manager == 1) options += ' checked'; options += ' type="checkbox" name="manager[]" class="btn-manager">운영진우선</label> <label><input'; if (reserveInfo.reserve.priority == 1) options += ' checked'; options += ' type="checkbox" name="priority[]">2인우선</label> ';
         if (resIdx != '') {
           var button = '<button type="button" class="btn btn-secondary btn-reserve-deposit" data-idx="' + resIdx + '" data-status="' + reserveInfo.reserve.status + '">';
           if (reserveInfo.reserve.status == 1) button += '입금취소'; else button += '입금확인';

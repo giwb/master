@@ -138,6 +138,8 @@ class Admin extends Admin_Controller
       $nowNick = html_escape($arrNickname[$key]);
       $nowBus = html_escape($arrBus[$key]);
       $nowSeat = html_escape($seat);
+      $nowManager = html_escape($arrManager[$key]) == 'true' ? 1 : 0;
+
       $postData = array(
         'rescode' => $idx,
         'userid' => $nowUserid,
@@ -149,11 +151,14 @@ class Admin extends Admin_Controller
         'memo' => html_escape($arrMemo[$key]),
         'depositname' => html_escape($arrDepositName[$key]),
         'vip' => html_escape($arrVip[$key]) == 'true' ? 1 : 0,
-        'manager' => html_escape($arrManager[$key]) == 'true' ? 1 : 0,
+        'manager' => $nowManager,
         'priority' => html_escape($arrPriority[$key]) == 'true' ? 1 : 0,
-        'status' => 0,
         'regdate' => $now
       );
+
+      if ($nowManager == 1) { // 운영진우선석
+        $postData['status'] = RESERVE_PAY;
+      }
 
       $resIdx = html_escape($arrResIdx[$key]);
 
@@ -170,6 +175,7 @@ class Admin extends Admin_Controller
 
         // 이동하려는 좌석 데이터가 없거나, 같은 번호인 경우에만 수정 가능
         if ($checkReserve['idx'] == $resIdx || empty($checkReserve['idx'])) {
+        if ($checkReserve['status'] == RESERVE_WAIT) $postData['status'] = RESERVE_ON; // 대기자우선석이면 미입금으로 변경
           $result = $this->admin_model->updateReserve($postData, $resIdx);
         }
       }
