@@ -464,13 +464,20 @@ class Admin_model extends CI_Model
   }
 
   // 활동관리 - 방문자 기록
-  public function listVisitor($nowDate)
+  public function listVisitor($search)
   {
     $this->db->select('a.*, b.nickname, b.quitdate')
           ->from(DB_VISITOR . ' a')
           ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
-          ->where('FROM_UNIXTIME(created_at, "%Y%m%d") =', $nowDate)
           ->order_by('a.created_at', 'desc');
+
+    if (!empty($search['nowDate'])) {
+      $this->db->where('FROM_UNIXTIME(created_at, "%Y%m%d") =', $search['nowDate']);
+    }
+    if (!empty($search['created_by'])) {
+      $this->db->where('created_by', $search['createdBy']);
+    }
+          
     return $this->db->get()->result_array();
   }
 

@@ -35,7 +35,18 @@
         </div>
       </form>
 
-      <strong>・총 방문횟수 : <?=count($listVisitor)?>회</strong>
+      <div class="row align-items-center">
+        <div class="col-sm-6">
+          <strong>・총 방문횟수 : <?=count($listVisitor)?>회</strong>
+        </div>
+        <div class="col-sm-6 text-right mb-2">
+          <?php if (empty($createdBy)): ?>
+          <a href="<?=base_url()?>admin/log_visitor/?k=created_by"><button class="btn btn-primary">회원만 보기</button></a>
+          <?php else: ?>
+          <a href="<?=base_url()?>admin/log_visitor"><button class="btn btn-primary">모두 보기</button></a>
+          <?php endif; ?>
+        </div>
+      </div>
       <div class="row align-items-center border-top pt-2 pb-2 bg-primary text-white visitor-row">
         <div class="col-sm-1 pl-4">접속시간</div>
         <div class="col-sm-1">닉네임/IP</div>

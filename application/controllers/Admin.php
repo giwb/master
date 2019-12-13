@@ -1631,14 +1631,15 @@ class Admin extends Admin_Controller
    **/
   public function log_visitor()
   {
-    $nowDate = $this->input->get('d') ? html_escape($this->input->get('d')) : date('Ymd');
-    $viewData['searchYear']   = date('Y', strtotime($nowDate));
-    $viewData['searchMonth']  = date('m', strtotime($nowDate));
-    $viewData['searchDay']    = date('d', strtotime($nowDate));
-    $viewData['searchPrev']   = 'd=' . date('Ymd', strtotime('-1 day', strtotime($nowDate)));
-    $viewData['searchNext']   = 'd=' . date('Ymd', strtotime('+1 day', strtotime($nowDate)));
+    $viewData['createdBy'] = $this->input->get('k') ? html_escape($this->input->get('k')) : '';
+    $viewData['nowDate'] = $this->input->get('d') ? html_escape($this->input->get('d')) : date('Ymd');
+    $viewData['searchYear']   = date('Y', strtotime($viewData['nowDate']));
+    $viewData['searchMonth']  = date('m', strtotime($viewData['nowDate']));
+    $viewData['searchDay']    = date('d', strtotime($viewData['nowDate']));
+    $viewData['searchPrev']   = 'd=' . date('Ymd', strtotime('-1 day', strtotime($viewData['nowDate'])));
+    $viewData['searchNext']   = 'd=' . date('Ymd', strtotime('+1 day', strtotime($viewData['nowDate'])));
 
-    $viewData['listVisitor'] = $this->admin_model->listVisitor($nowDate);
+    $viewData['listVisitor'] = $this->admin_model->listVisitor($viewData);
 
     $this->_viewPage('admin/log_visitor', $viewData);
   }
