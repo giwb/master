@@ -176,9 +176,35 @@ class Admin extends Admin_Controller
           }
         }
       } else {
-        // 이동하려는 좌석 데이터가 없거나, 같은 번호인 경우에만 수정 가능
-        if ($checkReserve['idx'] == $resIdx || empty($checkReserve['idx'])) {
-        if ($checkReserve['status'] == RESERVE_WAIT) $postData['status'] = RESERVE_ON; // 대기자우선석이면 미입금으로 변경
+        // 이동하려는 좌석 데이터가 없거나, 같은 번호인 경우, 그리고 대기자우선석에만 수정 가능
+        if (empty($checkReserve['idx']) || $checkReserve['idx'] == $resIdx || $checkReserve['status'] == RESERVE_WAIT) {
+          if ($checkReserve['status'] == RESERVE_WAIT) {
+            // 대기자우선석 처리
+            if ($checkReserve['idx'] == $resIdx) {
+              // 같은 좌석이면 대기자 입력이기 때문에 미입금으로 변경
+              $postData['status'] = RESERVE_ON;
+            } else {
+              // 좌석 이동이면 기존 데이터 수정
+              $search['idx'] = $resIdx;
+              $viewOldReserve = $this->admin_model->viewReserve($search);
+              $updateWait = array(
+                'userid' => NULL,
+                'nickname' => '대기자우선',
+                'seat' => $viewOldReserve['seat'],
+                'loc' => NULL,
+                'bref' => NULL,
+                'memo' => NULL,
+                'depositname' => NULL,
+                'point' => 0,
+                'priority' => 0,
+                'vip' => 0,
+                'manager' => 0,
+                'penalty' => 0,
+                'status' => RESERVE_WAIT
+              );
+              $this->admin_model->updateReserve($updateWait, $checkReserve['idx']);
+            }
+          }
           $result = $this->admin_model->updateReserve($postData, $resIdx);
         }
       }
