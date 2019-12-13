@@ -67,7 +67,7 @@
             <a href="<?=base_url()?><?=$view['idx']?>" class="logo">경인웰빙</a>
           </h1>
           <ul class="nav-menu">
-            <li<?=$uri == 'top' ? ' class="active"' : ''?>><a href="<?=base_url()?><?=$view['idx']?>">TOP</a></li>
+            <li<?=$uri == 'top' ? ' class="active"' : ''?>><a href="<?=base_url()?><?=$view['idx']?>"><i class="fa fa-home" aria-hidden="true"></i></a></li>
 <?php if (empty($userData['idx'])): ?>
             <li><a href="javascript:;" class="login-popup">로그인</a></li>
             <!--<li><button class="search-btn"><i class="fa fa-search"></i></button></li>-->
@@ -94,8 +94,8 @@
 
       <!-- Aside Nav -->
       <div class="nav-btns">
-        <button class="aside-btn"><i class="fa fa-bars"></i></button>
-        <button class="search-btn"><i class="fa fa-search"></i></button>
+        <button type="button" class="aside-btn"><i class="fa fa-bars"></i></button>
+        <a href="<?=base_url()?><?=$view['idx']?>"><button type="button" class="search-btn"><i class="fa fa-home"></i></button></a>
       </div>
       <div id="nav-aside">
         <ul class="nav-aside-menu">
@@ -110,7 +110,7 @@
 <?php else: ?>
           <li><p>&nbsp;</p></li>
 <?php endif; ?>
-          <li><a href="<?=base_url()?><?=$view['idx']?>">TOP</a></li>
+          <li><a href="<?=base_url()?><?=$view['idx']?>">첫페이지</a></li>
 <?php if (empty($userData['idx'])): ?>
           <li><a href="javascript:;" class="login-popup">로그인</a></li>
 <?php else: ?>

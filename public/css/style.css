@@ -359,11 +359,16 @@ h1.nav-logo small {
 .nav-btns>button, .search-btn {
   width: 50px;
   height: 50px;
-  line-height: 50px;
+  line-height: 40px;
   text-align: center;
   border: none;
   background: transparent;
   cursor: pointer;
+}
+
+.search-btn {
+  font-size: 20px;
+  color: #fff;
 }
 
 #nav-search {
@@ -416,7 +421,7 @@ h1.nav-logo small {
 
 .nav-menu>li>a {
   display: block;
-  padding: 25px 15px;
+  padding: 20px 15px;
   line-height: 20px;
   font-weight: 700;
   text-transform: uppercase;
@@ -427,12 +432,16 @@ h1.nav-logo small {
   color: #000;
 }
 
+.nav-menu .fa {
+  font-size: 30px;
+}
+
 /* Nav Profile */
 .img-profile {
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
-  margin: 0 0 0 10px;
+  margin: 0 0 10px 10px;
   cursor: pointer;
 }
 
@@ -1517,7 +1526,7 @@ h1.nav-logo small {
   .nav-btns {
     display: block;
     position: absolute;
-    top: 10px;
+    top: 5px;
     right: 10px;
   }
   .nav-btns>button {
