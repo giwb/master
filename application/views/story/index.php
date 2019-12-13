@@ -1,7 +1,7 @@
 <?php
   foreach ($listStory as $value):
     if (file_exists(PHOTO_PATH . $value['created_by'])) {
-      $value['photo'] = base_url() . 'public/photos/' . $value['user_idx'];
+      $value['photo'] = PHOTO_URL . $value['user_idx'];
     } else {
       $value['photo'] = base_url() . 'public/images/user.png';
     }
