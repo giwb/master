@@ -25,7 +25,7 @@
             <?php endif; ?>
           </div>
           <div class="float-right">
-            <select name="status" class="form-control change-status">
+            <select name="status" class="form-control change-status-modal">
               <option value="">산행 상태</option>
               <option value="">------------</option>
               <option<?=$view['status'] == STATUS_PLAN ? ' selected' : ''?> value="<?=STATUS_PLAN?>">계획</option>
@@ -141,6 +141,28 @@
           <div class="modal-footer">
             <input type="hidden" name="waitIdx">
             <button type="button" class="btn btn-primary btn-wait-delete">삭제합니다</button>
+            <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Change Status Modal -->
+    <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="smallmodalLabel">메시지</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-center">
+            <p class="modal-message"></p>
+          </div>
+          <div class="modal-footer">
+            <input type="hidden" name="selectStatus">
+            <button type="button" class="btn btn-primary btn-change-status">승인</button>
             <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
           </div>
         </div>

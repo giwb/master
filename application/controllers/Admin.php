@@ -642,10 +642,76 @@ class Admin extends Admin_Controller
    **/
   public function change_status()
   {
-    $idx = html_escape($this->input->post('idx'));
-    $updateData['status'] = html_escape($this->input->post('status'));
+    $now = time();
+    $clubIdx = 1;
+    $search['rescode'] = html_escape($this->input->post('idx'));
+    $updateValues['status'] = html_escape($this->input->post('status'));
 
-    $rtn = $this->admin_model->updateEntry($updateData, $idx);
+    if ($updateValues['status'] == STATUS_CLOSED) { // 종료 처리
+      $viewEntry = $this->admin_model->viewEntry($search['rescode']);
+      $viewReserve = $this->admin_model->viewReserveClosed($search['rescode']);
+
+      foreach ($viewReserve as $value) {
+        $search['userid'] = $value['userid'];
+        $userData = $this->admin_model->viewMember($search);
+
+        if ($userData['level'] != 2 && $userData['admin'] != 1) { // 무료회원과 관리자는 적립금 없음
+          // 최초 1회는 자신의 레벨에 맞게 포인트 지급
+          $memberLevel = memberLevel($userData['rescount'], $userData['penalty'], $userData['level'], $userData['admin']);
+          $this->member_model->updatePoint($clubIdx, $userData['userid'], ($userData['point'] + $memberLevel['point']));
+          setHistory(LOG_POINTUP, $search['rescode'], $userData['userid'], $userData['nickname'], $viewEntry['subject'] . ' 본인 예약 포인트', $now, $memberLevel['point']);
+
+          // 같은 아이디로 추가 예약을 했을 경우 포인트 1000씩 지급
+          $addedReserve = $this->admin_model->viewReserveClosedAdded($search['rescode'], $userData['userid']);
+          if ($addedReserve['cnt'] > 1) {
+            $addedPoint = ($addedReserve['cnt'] - 1) * 1000;
+            $this->member_model->updatePoint($clubIdx, $userData['userid'], ($userData['point'] + $addedPoint));
+            setHistory(LOG_POINTUP, $search['rescode'], $userData['userid'], $userData['nickname'], $viewEntry['subject'] . ' 일행 예약 포인트', $now, $addedPoint);
+          }
+        }
+
+      }
+    } elseif ($updateValues['status'] == STATUS_CANCEL) { // 취소 처리
+      $viewEntry = $this->admin_model->viewEntry($search['rescode']);
+      $viewReserve = $this->admin_model->viewReserve($search);
+
+      foreach ($viewReserve as $value) {
+        $search['userid'] = $value['userid'];
+        $userData = $this->admin_model->viewMember($search);
+
+        if ($value['status'] == RESERVE_PAY) {
+          // 분담금 합계 (기존 버젼 호환용)
+          $viewEntry['cost'] = $viewEntry['cost_total'] == 0 ? $viewEntry['cost'] : $viewEntry['cost_total'];
+
+          // 이미 입금을 마친 상태라면, 전액 포인트로 환불 (무료회원은 환불 안함)
+          if (empty($userData['level']) || $userData['level'] != 2) {
+            if ($userData['level'] == 1) {
+              // 평생회원은 할인 적용된 가격을 환불
+              $viewEntry['cost'] = $viewEntry['cost'] - 5000;
+              $this->member_model->updatePoint($clubIdx, $value['userid'], ($userData['point'] + $viewEntry['cost']));
+            } else {
+              $this->member_model->updatePoint($clubIdx, $value['userid'], ($userData['point'] + $viewEntry['cost']));
+            }
+            // 포인트 반환 로그 기록
+            setHistory(LOG_POINTUP, $value['rescode'], $value['userid'], $value['nickname'], $viewEntry['subject'] . ' 산행 취소', $now, $viewEntry['cost']);
+          }
+        } elseif ($value['status'] == RESERVE_ON && $value['point'] > 0) {
+          // 예약정보에 포인트가 있을때 반환
+          $this->member_model->updatePoint($clubIdx, $value['userid'], ($userData['point'] + $value['point']));
+
+          // 포인트 반환 로그 기록
+          setHistory(LOG_POINTUP, $value['rescode'], $value['userid'], $value['nickname'], $viewEntry['subject'] . ' 산행 취소', $now, $value['point']);
+        }
+
+        // 관리자 예약취소 기록
+        setHistory(LOG_ADMIN_CANCEL, $value['rescode'], $value['userid'], $value['nickname'], $viewEntry['subject'] . ' 산행 취소', $now);
+
+        // 예약 취소 로그 기록
+        setHistory(LOG_CANCEL, $value['rescode'], $value['userid'], $value['nickname'], $viewEntry['subject'] . ' 산행 취소', $now);
+      }
+    }
+
+    $rtn = $this->admin_model->updateEntry($updateValues, $search['rescode']);
 
     if (empty($rtn)) {
       $result = array('error' => 1, 'message' => $this->lang->line('error_all'));

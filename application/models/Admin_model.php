@@ -117,6 +117,31 @@ class Admin_model extends CI_Model
     }
   }
 
+  // 예약 정보 보기 : 종료시
+  public function viewReserveClosed($rescode)
+  {
+    $this->db->select('userid')
+          ->from(DB_RESERVATION)
+          ->where('rescode', $rescode)
+          ->where('userid !=', NULL)
+          ->where('status', RESERVE_PAY)
+          ->where('penalty', 0)
+          ->group_by('userid');
+    return $this->db->get()->result_array();
+  }
+
+  // 예약 정보 보기 : 종료시 추가 예약
+  public function viewReserveClosedAdded($rescode, $userid)
+  {
+    $this->db->select('COUNT(*) AS cnt')
+          ->from(DB_RESERVATION)
+          ->where('rescode', $rescode)
+          ->where('userid', $userid)
+          ->where('status', RESERVE_PAY)
+          ->where('penalty', 0);
+    return $this->db->get()->row_array(1);
+  }
+
   // 좌석 예약 확인
   public function checkReserve($idx, $bus, $seat)
   {

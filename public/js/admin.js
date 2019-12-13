@@ -339,11 +339,25 @@
         }
       });
     }
-  }).on('change', '.change-status', function() {
+  }).on('change', '.change-status-modal', function() {
+    var msg;
+    var status = $(this).val();
+    if (status == 8) {
+      msg = '취소하시면 입금된 회원들에게 포인트를 환불합니다.<br>정말로 취소하시겠습니까?';
+    } else if (status == 9) {
+      msg = '종료하시면 회원들에게 포인트를 지급합니다.<br>정말로 종료하시겠습니까?';
+    } else {
+      msg = '정말로 상태를 변경하시겠습니까?';
+    }
+    $('#statusModal input[name=selectStatus]').val(status);
+    $('#statusModal .modal-message').html(msg);
+    $('#statusModal').modal({backdrop: 'static', keyboard: false});
+  }).on('click', '.btn-change-status', function() {
     // 상태 변경
+    var status = $('#statusModal input[name=selectStatus]').val();
     $.ajax({
       url: $('input[name=base_url]').val() + 'admin/change_status',
-      data: 'idx=' + $('input[name=idx]').val() + '&status=' + $(this).val(),
+      data: 'idx=' + $('input[name=idx]').val() + '&status=' + status,
       dataType: 'json',
       type: 'post',
       success: function(result) {
