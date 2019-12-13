@@ -2010,8 +2010,9 @@ h1.nav-logo small {
 #club .sub-contents .area-bus-table .male { color: #505050; background-color: #E5FAFF; }
 #club .sub-contents .area-bus-table .female { color: #505050; background-color: #FFEAFA; }
 #club .sub-contents .area-bus-table .reserved { color: #505050!important; background-color: #FBEFD8; }
+#club .sub-contents .area-bus-table .seat.reserved { color: #505050!important; background-color: #FBEFD8; }
 #club .sub-contents .area-bus-table .wait { font-weight: normal; color: #505050; }
-#club .sub-contents .area-bus-table .active { color: #505050; background-color: #FFCC00; }
+#club .sub-contents .area-bus-table .active { color: #505050!important; background-color: #FFCC00!important; }
 #club .sub-contents #reserveForm { text-align: center; margin: 10px 0; }
 #club .sub-contents #reserveForm .btn-reserve-confirm { display: none; }
 #club .sub-contents .reserve { font-size: 12px; background-color: #fff; border: 1px solid #999; margin: 10px 0; padding: 0.5rem 0.3rem; }
