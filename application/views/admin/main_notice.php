@@ -15,7 +15,19 @@
       <form id="myForm" method="post" action="<?=base_url()?>admin/main_notice_update" enctype="multipart/form-data">
         <input type="hidden" name="idx" value="<?=$view['idx']?>">
         <input type="hidden" name="notice" value="1">
-        <h2>■ 산행 공지</h2>
+        <div class="row">
+          <div class="col-sm-9">
+            <h2>■ 산행 공지</h2>
+          </div>
+          <div class="col-sm-3 pb-2 text-right">
+            <select class="form-control form-control-sm search-notice">
+              <option value="">▼ 다른 산행 공지 불러오기</option>
+              <?php foreach ($listNotice as $value): ?>
+              <option value='<?=$value['idx']?>'><?=$value['subject']?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+        </div>
         <table class="table table-notice">
           <colgroup>
             <col width="150">
@@ -76,4 +88,21 @@
       CKEDITOR.replace('timetable');
       CKEDITOR.replace('information');
       CKEDITOR.replace('course');
+
+      $(document).on('change', '.search-notice', function() {
+        $.ajax({
+          url: $('input[name=base_url]').val() + 'admin/main_entry_notice',
+          data: 'idx=' + $(this).val(),
+          dataType: 'json',
+          type: 'post',
+          success: function(result) {
+            CKEDITOR.instances.plan.setData(result.plan);
+            CKEDITOR.instances.point.setData(result.point);
+            CKEDITOR.instances.intro.setData(result.intro);
+            CKEDITOR.instances.timetable.setData(result.timetable);
+            CKEDITOR.instances.information.setData(result.information);
+            CKEDITOR.instances.course.setData(result.course);
+          }
+        });
+      });
     </script>

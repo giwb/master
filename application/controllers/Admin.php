@@ -794,7 +794,7 @@ class Admin extends Admin_Controller
       $viewData['costGas'] = 0;
     }
 
-    // 산행 정보
+    // 산행 목록
     $viewData['listNotice'] = $this->admin_model->listNotice(NULL, 'desc');
 
     // 버스 형태
@@ -856,6 +856,13 @@ class Admin extends Admin_Controller
 
     if (!empty($idx)) {
       $result = $this->admin_model->viewEntry($idx);
+
+      $result['plan'] = reset_html_escape($result['plan']);
+      $result['point'] = reset_html_escape($result['point']);
+      $result['intro'] = reset_html_escape($result['intro']);
+      $result['timetable'] = reset_html_escape($result['timetable']);
+      $result['information'] = reset_html_escape($result['information']);
+      $result['course'] = reset_html_escape($result['course']);
 
       // 지역
       if (!empty($result['area_sido'])) {
@@ -957,7 +964,11 @@ class Admin extends Admin_Controller
   {
     if (is_null($idx)) exit;
 
+    // 산행 정보
     $viewData['view'] = $this->admin_model->viewEntry(html_escape($idx));
+
+    // 산행 목록
+    $viewData['listNotice'] = $this->admin_model->listNotice(NULL, 'desc');
 
     $this->_viewPage('admin/main_notice', $viewData);
   }
