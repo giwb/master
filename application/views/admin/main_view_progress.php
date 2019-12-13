@@ -18,10 +18,12 @@
         <div class="area-btn">
           <div class="float-left">
             <?php if ($view['status'] != STATUS_PLAN): ?>
-            <a href="<?=base_url()?>admin/main_view_progress/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">예약관리</button></a>
-            <a href="<?=base_url()?>admin/main_view_boarding/<?=$view['idx']?>"><button type="button" class="btn btn-primary">승차관리</button></a>
-            <a href="<?=base_url()?>admin/main_view_sms/<?=$view['idx']?>"><button type="button" class="btn btn-primary">문자양식</button></a>
-            <a href="<?=base_url()?>admin/main_view_adjust/<?=$view['idx']?>"><button type="button" class="btn btn-primary">정산관리</button></a>
+            <a href="<?=base_url()?>admin/main_entry/<?=$view['idx']?>"><button type="button" class="btn btn-primary">수정</button></a>
+            <a href="<?=base_url()?>admin/main_notice/<?=$view['idx']?>"><button type="button" class="btn btn-primary">공지</button></a>
+            <a href="<?=base_url()?>admin/main_view_progress/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">예약</button></a>
+            <a href="<?=base_url()?>admin/main_view_boarding/<?=$view['idx']?>"><button type="button" class="btn btn-primary">승차</button></a>
+            <a href="<?=base_url()?>admin/main_view_sms/<?=$view['idx']?>"><button type="button" class="btn btn-primary">문자</button></a>
+            <a href="<?=base_url()?>admin/main_view_adjust/<?=$view['idx']?>"><button type="button" class="btn btn-primary">정산</button></a>
             <?php endif; ?>
           </div>
           <div class="float-right">
@@ -123,6 +125,16 @@
         </div>
       </div>
       <?php endif; ?>
+
+      <div class="border-top mt-5 mb-5">
+        <h3 class="pt-4 pb-3">진행중 산행 목록</h3>
+        <?php foreach ($list as $value): ?>
+        <div class="border-top pt-2 pb-2">
+          <b><?=viewStatus($value['status'])?></b> <a href="<?=base_url()?>admin/main_view_progress/<?=$value['idx']?>"><?=$value['subject']?></a><br>
+          <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / 예약인원 <?=cntRes($value['idx'])?>명
+        </div>
+        <?php endforeach; ?>
+      </div>
     </div>
 
     <!-- Wait Delete Modal -->

@@ -485,6 +485,10 @@ class Admin extends Admin_Controller
     // 승차위치
     $viewData['arrLocation'] = arrLocation();
 
+    // 진행중 산행 목록
+    $search['status'] = array(STATUS_ABLE, STATUS_CONFIRM);
+    $viewData['list'] = $this->admin_model->listNotice($search);
+
     $this->_viewPage('admin/main_view_progress', $viewData);
   }
 
