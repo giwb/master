@@ -40,7 +40,7 @@
           <strong>・총 방문횟수 : <?=count($listVisitor)?>회</strong>
         </div>
         <div class="col-sm-6 text-right mb-2">
-          <?php if (empty($createdBy)): ?>
+          <?php if (empty($keyWord)): ?>
           <a href="<?=base_url()?>admin/log_visitor/?k=created_by"><button class="btn btn-primary">회원만 보기</button></a>
           <?php else: ?>
           <a href="<?=base_url()?>admin/log_visitor"><button class="btn btn-primary">모두 보기</button></a>
