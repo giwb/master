@@ -63,8 +63,8 @@
             <tbody>
               <?php if ($value['seat'] > 12): ?>
               <tr>
-                <th colspan="4" align="left">운전석<?=!empty($value['bus_owner']) ? ' (' . $value['bus_owner'] . ' 기사님)' : ''?></th>
-                <th colspan="6" style="text-align: right;">출입구</th>
+                <th colspan="4" class="text-left">운전석<?=!empty($value['bus_owner']) ? ' (' . $value['bus_owner'] . ' 기사님)' : ''?></th>
+                <th colspan="6" class="text-right">출입구 (예약 : <?=cntRes($view['idx'], $bus)?>명)</th>
               </tr>
               <?php endif; ?>
               <?php
