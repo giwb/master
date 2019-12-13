@@ -90,7 +90,7 @@
         </form>
       </div>
 
-      <?php if ($view['status'] >= STATUS_CONFIRM): ?>
+      <?php if ($view['status'] == STATUS_ABLE || $view['status'] == STATUS_CONFIRM): ?>
       <div class="area-wait">
         ■ <strong>대기자 목록</strong><br>
         <?php foreach ($wait as $key => $value): ?>
