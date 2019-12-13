@@ -37,23 +37,30 @@ if (!function_exists('setVisitor')) {
     $CI =& get_instance();
     $clubIdx = $CI->load->get_var('clubIdx');
     $userData = $CI->load->get_var('userData');
-    if (empty($userData['idx'])) $userData['idx'] = NULL;
+    $ipAddress = $_SERVER['REMOTE_ADDR'];
 
     if (!empty($clubIdx)) {
-      $visitor = $GLOBALS['CI']->member_model->viewVisitor($clubIdx, $userData['idx'], $_SERVER['REMOTE_ADDR']);
+      $visitor = $GLOBALS['CI']->member_model->viewVisitor($clubIdx, NULL, $ipAddress);
 
       // 최근 30분 이내 접속했다면 동일 접속으로 취급
       $limitTime = time() - (60 * 30);
-      if ($visitor['created_at'] <= $limitTime) {
-        $insertData = array(
+
+      if ($visitor['ip_address'] == $ipAddress && empty($visitor['created_by']) && !empty($userData['idx'])) {
+        // 직전 접속한 같은 IP의 사람이 로그인 했다면 닉네임으로 변경
+        $updateValues = array(
+          'created_by' => $userData['idx']
+        );
+        $GLOBALS['CI']->member_model->updateVisitor($updateValues, $visitor['idx']);
+      } elseif ($visitor['created_at'] <= $limitTime) {
+        $insertValues = array(
           'club_idx'      => $clubIdx,
-          'ip_address'    => $_SERVER['REMOTE_ADDR'],
+          'ip_address'    => $ipAddress,
           'user_agent'    => $_SERVER['HTTP_USER_AGENT'],
           'http_referer'  => !empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : NULL,
           'created_by'    => $userData['idx'],
           'created_at'    => time()
         );
-        $GLOBALS['CI']->member_model->insertVisitor($insertData);
+        $GLOBALS['CI']->member_model->insertVisitor($insertValues);
       }
     }
   }

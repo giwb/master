@@ -218,5 +218,13 @@ class Member_model extends CI_Model
     $this->db->insert(DB_VISITOR, $data);
     return $this->db->insert_id();
   }
+
+  // 방문자 수정
+  public function updateVisitor($data, $idx)
+  {
+    $this->db->set($data);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_VISITOR);
+  }
 }
 ?>
