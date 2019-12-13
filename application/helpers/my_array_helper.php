@@ -445,7 +445,7 @@ if (!function_exists('getReserveAdmin')) {
     if ($boarding == 1) {
       $result = array('idx' => '', 'userid' => '', 'nickname' => '', 'class' => '');
     } else {
-      $result = array('idx' => '', 'userid' => '', 'nickname' => '예약가능', 'class' => 'seat');
+      $result = array('idx' => '', 'userid' => '', 'nickname' => '', 'class' => 'seat');
     }
 
     foreach ($reserve as $key => $value) {

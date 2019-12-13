@@ -12099,6 +12099,7 @@ body.sidebar-toggled footer.sticky-footer {
 .error-message { font-size: 12px; color: #E0552A; padding: 0 0 10px 0; display: none; }
 .required { font-size: 11px; font-family: Gulim; color: red; }
 .fc-event { padding: 5px 5px 4px 5px; }
+.fc-event.notice-status0 { background-color: #F8F9FC!important; }
 .fc-event.notice-status1 { background-color: #FEECBF!important; }
 .fc-event.notice-status2 { background-color: #F6C23E!important; }
 .fc-event.notice-status8 { background-color: #EFEFEF!important; }
@@ -12125,10 +12126,10 @@ body.sidebar-toggled footer.sticky-footer {
 .area-bus-table table th, .area-bus-table table td { padding: 0.5rem; vertical-align: middle; border: 1px solid #999; cursor: pointer; }
 .area-bus-table table td.table-blank { border: 0px; }
 .area-bus-table table tr:last-child td.table-blank { border-bottom: 1px solid #999; }
-.area-bus-table .male { color: #000; background-color: #E5FAFF; }
-.area-bus-table .female { color: #000; background-color: #FFEAFA; }
+.area-bus-table .male { background-color: #E5FAFF; }
+.area-bus-table .female { background-color: #FFEAFA; }
 .area-bus-table .wait { color: #333; background-color: #ddd; }
-.area-bus-table .active { color: #000; background-color: #FFCC00; }
+.area-bus-table .active { background-color: #FFCC00; }
 .area-bus-table input.seat { width: 20px; }
 
 #addedInfo .reserve { font-size: 12px; background-color: #fff; border: 1px solid #999; margin: 10px 0; padding: 0.5rem 0 0.3rem 0.5rem; }
