@@ -1631,7 +1631,7 @@ class Admin extends Admin_Controller
    **/
   public function log_visitor()
   {
-    $viewData['createdBy'] = $this->input->get('k') ? html_escape($this->input->get('k')) : '';
+    $viewData['keyWord'] = $this->input->get('k') ? html_escape($this->input->get('k')) : '';
     $viewData['nowDate'] = $this->input->get('d') ? html_escape($this->input->get('d')) : date('Ymd');
     $viewData['searchYear']   = date('Y', strtotime($viewData['nowDate']));
     $viewData['searchMonth']  = date('m', strtotime($viewData['nowDate']));

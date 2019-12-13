@@ -474,8 +474,8 @@ class Admin_model extends CI_Model
     if (!empty($search['nowDate'])) {
       $this->db->where('FROM_UNIXTIME(created_at, "%Y%m%d") =', $search['nowDate']);
     }
-    if (!empty($search['created_by'])) {
-      $this->db->where('created_by', $search['createdBy']);
+    if (!empty($search['keyWord'])) {
+      $this->db->where($search['keyWord'] . ' !=', NULL);
     }
           
     return $this->db->get()->result_array();
