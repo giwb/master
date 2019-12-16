@@ -245,6 +245,22 @@ class Login extends CI_Controller
   }
 
   /**
+   * 사진 삭제
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function photo_delete()
+  {
+    $filename = html_escape($this->input->post('filename'));
+    if (file_exists(UPLOAD_PATH . $filename)) unlink(UPLOAD_PATH . $filename);
+    if (file_exists(PHOTO_PATH . $filename)) unlink(PHOTO_PATH . $filename);
+
+    $result = array('error' => 0);
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 아이디/비밀번호 찾기 페이지
    *
    * @return view

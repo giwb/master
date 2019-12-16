@@ -90,6 +90,24 @@ class Member extends MY_Controller
   }
 
   /**
+   * 사진 삭제
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function photo_delete()
+  {
+    $userIdx = html_escape($this->input->post('userIdx'));
+    $filename = html_escape($this->input->post('filename'));
+
+    if (!empty($filename) && file_exists(UPLOAD_PATH . $filename)) unlink(UPLOAD_PATH . $filename);
+    if (!empty($userIdx) && file_exists(PHOTO_PATH . $userIdx)) unlink(PHOTO_PATH . $userIdx);
+
+    $result = array('error' => 0);
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 개인정보수정 처리
    *
    * @return json

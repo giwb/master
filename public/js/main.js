@@ -265,6 +265,8 @@
             // 회원가입
             $('.photo').attr('src', result.message);
             $('input[name=filename]').val(result.filename);
+            $('.btn-photo-delete').removeClass('d-none');
+            $('.btn-modify-photo-delete').removeClass('d-none');
           } else if (page == 'club') {
             // 클럽
             $('.added-files').html('<img src="' + result.message + '" class="btn-photo-modal" data-photo="' + result.filename + '">');
@@ -280,6 +282,38 @@
             }
           }
         }
+      }
+    });
+  }).on('click', '.btn-photo-delete', function() {
+    // 회원가입 사진 삭제
+    var $btn = $(this);
+    var baseUrl = $('input[name=baseUrl]').val();
+
+    $.ajax({
+      url: baseUrl + '/login/photo_delete',
+      data: 'filename=' + $('input[name=filename]').val(),
+      dataType: 'json',
+      type: 'post',
+      success: function() {
+        $('input[name=filename]').val('');
+        $('.photo').attr('src', baseUrl + 'public/images/noimage.png');
+        $btn.addClass('d-none');
+      }
+    });
+  }).on('click', '.btn-modify-photo-delete', function() {
+    // 개인정보수정 사진 삭제
+    var $btn = $(this);
+    var baseUrl = $('input[name=baseUrl]').val();
+
+    $.ajax({
+      url: baseUrl + '/member/photo_delete',
+      data: 'userIdx=' + $('input[name=userIdx]').val() + '&filename=' + $('input[name=filename]').val(),
+      dataType: 'json',
+      type: 'post',
+      success: function() {
+        $('input[name=filename]').val('');
+        $('.photo').attr('src', baseUrl + 'public/images/noimage.png');
+        $btn.addClass('d-none');
       }
     });
   }).on('click', '.login-popup', function() {
@@ -328,13 +362,19 @@
   }).on('blur', '.check-userid', function() {
     // 아이디 중복 체크
     var $dom = $(this);
-    var userId = $('input[name=userid]').val();
+    var userid = $('input[name=userid]').val();
     var clubIdx = $('input[name=clubIdx]').val();
+    var pattern = /^[a-z0-9]{3,20}$/;
 
-    if (userId != '') {
+    if (userid != '') {
+      if (userid.length < 3 || userid.length > 20 || !pattern.test(userid) || userid.search(/\s/) != -1) {
+        $.openMsgModal('아이디는 띄어쓰기 없이<br>3자 ~ 20자 이하의 영어 소문자만 가능합니다.');
+        $('input[name=userid]').val('');
+        return false;
+      }
       $.ajax({
         url: $('input[name=baseUrl]').val() + 'login/check_userid/' + clubIdx,
-        data: 'userid=' + userId,
+        data: 'userid=' + userid,
         dataType: 'json',
         type: 'post',
         success: function(result) {
@@ -349,11 +389,18 @@
     $.checkNickname();
   }).on('blur', '.check-password', function() {
     // 비밀번호 확인
+    var password = $('input[name=password]').val();
     var $dom = $('.check-password-message');
     $('img', $dom).remove();
 
-    if ($('input[name=password]').val() != '') {
-      if ($('input[name=password]').val() == $('input[name=password_check]').val()) {
+    if (password != '') {
+      if (password.length < 6 || password.length > 20 || password.search(/\s/) != -1) {
+        $.openMsgModal('비밀번호는 띄어쓰기 없이<br>6자 ~ 20자 이하만 가능합니다.');
+        $('input[name=password]').val('');
+        $('input[name=password_check]').val('');
+        return false;
+      }
+      if (password == $('input[name=password_check]').val()) {
         $dom.append('<img class="check-password-complete" src="/public/images/icon_check.png">')
       } else {
         $dom.append('<img src="/public/images/icon_cross.png">')
@@ -756,7 +803,7 @@
   $.openMsgModal = function(msg) {
     $('#messageModal .modal-footer .btn').hide();
     $('#messageModal .modal-footer .btn-close').show();
-    $('#messageModal .modal-message').text(msg);
+    $('#messageModal .modal-message').html(msg);
     $('#messageModal').modal('show');
   }
 
@@ -772,6 +819,11 @@
     var nickname = $('input[name=nickname]').val();
 
     if (nickname != '') {
+      if (nickname.length < 2 || nickname.length > 10 || nickname.search(/\s/) != -1) {
+        $.openMsgModal('닉네임은 띄어쓰기 없이<br>2자 ~ 10자 이하만 가능합니다.');
+        $('input[name=nickname]').val('');
+        return false;
+      }
       $.ajax({
         url: $('input[name=baseUrl]').val() + 'login/check_nickname/' + clubIdx,
         data: 'userid=' + userid + '&nickname=' + nickname,

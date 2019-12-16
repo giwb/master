@@ -2072,7 +2072,6 @@ h1.nav-logo small {
 .memberForm dl dd label { margin: 0 20px 0 0; }
 .memberForm dl dd img { position: absolute; top: 10px; right: 10px; width: 20px; }
 .memberForm dl dd .photo { position: relative; width: 110px; top: auto; right: auto; display: block; }
-.memberForm dl dd .btn-upload { font-size: 14px; margin-top: 10px; padding: 5px 19px; }
 .memberForm .area-btn { border-top: 1px solid #999; margin: 20px 0 0 0; padding: 20px 0 0; text-align: center; }
 .memberForm .area-btn .btn { margin: 0 20px; }
 
