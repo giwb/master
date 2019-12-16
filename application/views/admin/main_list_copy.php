@@ -54,6 +54,7 @@
     #club a:link, #club a:active, #club a:visited { color: #FF6C00; }
     #club a:hover { color: #0AB031; }
     .fc-event { background: #fff; color: #000; }
+    .status-wait { color: #999; }
     #calendar { margin: 30px 0; }
     #calendar .fc-event { padding: 5px 5px 4px 5px; }
     #calendar .fc-event.notice-status1 { color: #000; background-color: #FEECBF; }
@@ -134,7 +135,7 @@
   </div>
   <?php foreach ($listNotice as $value): ?>
   <div style="font-size: 14px;">
-    <strong><?=viewStatus($value['status'])?></strong> <a target="_blank" href="<?=base_url()?>reserve/?n=<?=$value['idx']?>"><strong><?=$value['subject']?></strong></a><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원<hr style="margin: 10px 0 9px 0;">
+    <strong><?=viewStatus($value['status'])?></strong> <a target="_blank" href="<?=base_url()?>reserve/?n=<?=$value['idx']?>"><strong><?=$value['subject']?></strong></a><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원<hr style="margin: 9px 0 10px 0;">
   </div>
   <?php endforeach; ?>
 </div><br><br>
