@@ -58,10 +58,10 @@
 
 if (strstr($_SERVER['HTTP_HOST'], 'giwb.localhost') == true) {
 	define('ENVIRONMENT', 'development');
-} elseif (strstr($_SERVER['HTTP_HOST'], 'giwb.kr') == true) {
-	define('ENVIRONMENT', 'production');
-} else {
+} elseif (strstr($_SERVER['HTTP_HOST'], 'testing.giwb.kr') == true) {
 	define('ENVIRONMENT', 'testing');
+} else {
+	define('ENVIRONMENT', 'production');
 }
 
 /*
