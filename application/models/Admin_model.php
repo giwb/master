@@ -81,6 +81,16 @@ class Admin_model extends CI_Model
           ->from(DB_NOTICE)
           ->order_by('startdate', $order);
 
+    if (!empty($search['past_sdate'])) {
+      $this->db->where("DATE_FORMAT(startdate, '%m-%d') >= '" . $search['past_sdate'] . "'");
+    }
+    if (!empty($search['past_edate'])) {
+      if ($search['past_edate'] < $search['past_sdate']) {
+        $this->db->or_where("DATE_FORMAT(startdate, '%m-%d') <= '" . $search['past_edate'] . "'");
+      } else {
+        $this->db->where("DATE_FORMAT(startdate, '%m-%d') <= '" . $search['past_edate'] . "'");
+      }
+    }
     if (!empty($search['sdate'])) {
       $this->db->where("DATE_FORMAT(startdate, '%Y-%m-%d') >= '" . $search['sdate'] . "'");
     }

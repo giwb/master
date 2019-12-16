@@ -10615,6 +10615,7 @@ a:focus {
   color: #fff;
   background: rgba(90, 92, 105, 0.5);
   line-height: 46px;
+  z-index: 10000;
 }
 
 .scroll-to-top:focus, .scroll-to-top:hover {
@@ -12162,7 +12163,9 @@ body.sidebar-toggled footer.sticky-footer {
   #sidebarToggleTop .fa-bars { margin-left: -2px; }
   .h3 { text-align: center; }
   .container, .container-fluid { padding: 10px; }
-  .area-reservation { width: 100%; }
+  .area-reservation, .area-boarding { width: 100%; }
+  .area-boarding dl dt { width: 30%; padding: 10px; }
+  .area-boarding dl dd { width: 70%; }
   .area-bus-table { padding-top: 0px; }
   .area-bus-table table { font-size: 11px; }
   .area-bus-table table th, .area-bus-table table td { padding: 5px 1px; }
