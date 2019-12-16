@@ -144,7 +144,7 @@
           <h5>■ 예약 내역</h5>
           <?php foreach ($userReserve as $key => $value): ?>
           <div class="border-top pt-2 pb-2">
-            <?=viewStatus($value['notice_status'])?> <a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
+            <?=viewStatus($value['notice_status'])?> <a href="<?=base_url()?>admin/main_view_progress/<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
             <small>
               일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 
               분담금 : <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 /
@@ -157,7 +157,7 @@
           <h5 class="mt-4">■ 예약취소 내역</h5>
           <?php foreach ($userReserveCancel as $value): ?>
           <div class="border-top pt-2 pb-2">
-            <?=viewStatus($value['notice_status'])?> <a href="<?=base_url()?>reserve/<?=$clubIdx?>?n=<?=$value['resCode']?>"><?=$value['subject']?></a><br>
+            <?=viewStatus($value['notice_status'])?> <a href="<?=base_url()?>admin/main_view_progress/<?=$value['resCode']?>"><?=$value['subject']?></a><br>
             <small>취소일시 : <?=date('Y-m-d', $value['regdate'])?> (<?=calcWeek(date('Y-m-d', $value['regdate']))?>) <?=date('H:i', $value['regdate'])?></small>
           </div>
           <?php endforeach; ?>
