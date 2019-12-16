@@ -429,6 +429,13 @@ class Admin_model extends CI_Model
     $this->db->empty_table(DB_ATTENDANCE);
   }
 
+  // 출석체크 - 인증현황 입력
+  public function insertAttendanceAuth($data)
+  {
+    $this->db->insert(DB_AUTH, $data);
+    return $this->db->insert_id();
+  }
+
   // 활동관리 - 회원 예약 기록
   public function listHistory($paging=NULL, $search=NULL)
   {

@@ -1629,6 +1629,53 @@ class Admin extends Admin_Controller
     $this->output->set_output(json_encode($result));
   }
 
+  /**
+   * 인증현황 등록
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function attendance_auth()
+  {
+    $search['status'] = array(STATUS_CLOSED);
+    $search['sdate'] = '2019-04-06';
+    $search['edate'] = date('Y-m-d');
+    $viewData['listNotice'] = $this->admin_model->listNotice($search, 'desc');
+
+    $this->_viewPage('admin/attendance_auth', $viewData);
+  }
+
+  /**
+   * 인증현황 등록 처리
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function attendance_auth_insert()
+  {
+    $inputData = $this->input->post();
+
+    $insertValues = array(
+      'rescode' => html_escape($inputData['rescode']),
+      'userid' => html_escape($inputData['userid']),
+      'nickname' => html_escape($inputData['nickname']),
+      'photo' => html_escape($inputData['photo']),
+      'title' => html_escape($inputData['title']),
+      'regdate' => time()
+    );
+
+    $rtn = $this->admin_model->insertAttendanceAuth($insertValues);
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_insert'));
+    } else {
+      $result = array('error' => 0, 'message' => $this->lang->line('msg_insert_complete'));
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+
   /** ---------------------------------------------------------------------------------------
    * 활동관리
   --------------------------------------------------------------------------------------- **/

@@ -100,6 +100,7 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="<?=base_url()?>admin/attendance_list"> <i class="menu-icon fas fa-check-square"></i> 출석체크 보기</a>
             <a class="collapse-item" href="<?=base_url()?>admin/attendance_mountain"> <i class="menu-icon fas fa-child"></i> 산행지로 보기</a>
+            <a class="collapse-item" href="<?=base_url()?>admin/attendance_auth"> <i class="menu-icon fas fa-camera-retro"></i> 인증현황 등록</a>
           </div>
         </div>
       </li>

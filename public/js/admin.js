@@ -461,9 +461,13 @@
       type: 'post',
       success: function(result) {
         if (result.error != 1) {
-          $dom.next().val(result.userid);
-          $dom.tooltip('hide').attr('data-original-title', '회원입니다!').tooltip('show');
-          setTimeout(function() { $dom.attr('data-original-title', '').tooltip('hide'); }, 2000);
+          if (typeof $('.search-userid-result').css('display') == 'undefined') {
+            $dom.next().val(result.userid);
+            $dom.tooltip('hide').attr('data-original-title', '회원입니다!').tooltip('show');
+            setTimeout(function() { $dom.attr('data-original-title', '').tooltip('hide'); }, 2000);
+          } else {
+            $('.search-userid-result').val(result.userid);
+          }
         } else {
           $dom.next().val('');
         }
@@ -499,6 +503,31 @@
   }).on('click', '.btn-member-list', function() {
     // 회원 목록 돌아가기
     location.href=($('input[name=base_url]').val() + 'admin/member_list');
+  }).on('click', '.btn-auth', function() {
+    // 백산백소 인증현황 등록
+    var $btn = $(this);
+    var $dom = $('#formAuth');
+    var formData = new FormData($dom[0]);
+    $.ajax({
+        url: $dom.attr('action'),
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: 'json',
+        type: 'post',
+        beforeSend: function() {
+          $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+        },
+        success: function(result) {
+          $btn.css('opacity', '1').prop('disabled', false).text('인증 사진을 등록합니다');
+          if (result.error != 1) {
+            $dom.each(function() {
+              this.reset();
+            });
+          }
+          $.openMsgModal(result.message);
+        }
+      });
   }).on('click', '.btn-add-bus', function() {
     // 신규 산행 등록 차량 추가
     var $dom = $('#area-init-bus').clone();
