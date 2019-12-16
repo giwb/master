@@ -17,7 +17,9 @@
                   <?php
                     foreach ($listNotice as $value):
                       $startDate = strtotime($value['startdate']);
-                      $endDate = calcEndDate($value['startdate'], $value['schedule']);
+                      if (!empty($value['enddate'])): $endDate = calcEndDate($value['startdate'], $value['enddate']);
+                      else: $endDate = calcEndDate($value['startdate'], $value['schedule']);
+                      endif;
                       if ($value['status'] == 'schedule'):
                   ?>
                   {
