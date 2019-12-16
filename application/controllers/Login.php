@@ -188,7 +188,7 @@ class Login extends CI_Controller
 
     $insertValues = array(
       'club_idx'      => html_escape($inputData['club_idx']),
-      'userid'        => $userId,
+      'userid'        => $userid,
       'nickname'      => $nickname,
       'password'      => md5(html_escape($inputData['password'])),
       'realname'      => html_escape($inputData['realname']),
