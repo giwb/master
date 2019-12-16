@@ -1484,7 +1484,7 @@ class Admin extends Admin_Controller
           break;
         case '4': // 포인트 적립
           $viewData['listHistory'][$key]['header'] = '[포인트적립]';
-          $viewData['listHistory'][$key]['subject'] = '<a target="_blank" href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '" class="text-success">' . $value['subject'] . '</a>';
+          $viewData['listHistory'][$key]['subject'] = '<a target="_blank" href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '" class="text-success">' . $value['subject'] . '</a> ' . $value['point'];
           break;
         case '5': // 포인트 감소
           $viewData['listHistory'][$key]['header'] = '[포인트감소]';
