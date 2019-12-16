@@ -10,19 +10,19 @@
         </div>
         <form id="formMember" method="post" action="<?=base_url()?>admin/member_update">
           <input type="hidden" name="idx" value="<?=$view['idx']?>">
-          <div class="row align-items-center mb-2">
+          <div class="row align-items-center border-bottom mb-3 pb-3">
             <div class="col-sm-1">아이디</div>
             <div class="col-sm-4"><input type="text" readonly name="userid" value="<?=$view['userid']?>" class="form-control"></div>
           </div>
-          <div class="row align-items-center mb-2">
+          <div class="row align-items-center border-bottom mb-3 pb-3">
             <div class="col-sm-1">닉네임</div>
             <div class="col-sm-4"><input type="text" name="nickname" value="<?=$view['nickname']?>" class="form-control"></div>
           </div>
-          <div class="row align-items-center mb-2">
+          <div class="row align-items-center border-bottom mb-3 pb-3">
             <div class="col-sm-1">실명</div>
             <div class="col-sm-4"><input type="text" name="realname" value="<?=$view['realname']?>" class="form-control"></div>
           </div>
-          <div class="row align-items-center mb-2">
+          <div class="row align-items-center border-bottom mb-3 pb-3">
             <div class="col-sm-1">전화번호</div>
             <div class="col-sm-4 row">
               <div class="pl-3"><input type="text" size="4" name="phone1" value="<?=$view['phone'][0]?>" class="form-control"></div>
@@ -30,7 +30,7 @@
               <div class="pl-1"><input type="text" size="4" name="phone3" value="<?=$view['phone'][2]?>" class="form-control"></div>
             </div>
           </div>
-          <div class="row align-items-center mb-2">
+          <div class="row align-items-center border-bottom mb-3 pb-3">
             <div class="col-sm-1">생년월일</div>
             <div class="col-sm-4">
               <div class="row align-items-center">
@@ -64,14 +64,14 @@
               </div>
             </div>
           </div>
-          <div class="row align-items-center mb-2">
+          <div class="row align-items-center border-bottom mb-3 pb-3">
             <div class="col-sm-1">성별</div>
             <div class="col-sm-4">
               <label><input type="radio" name="gender" value="M"<?=$view['gender'] == 'M' ? ' checked' : ''?>> 남성</label> &nbsp;
               <label><input type="radio" name="gender" value="F"<?=$view['gender'] == 'F' ? ' checked' : ''?>> 여성</label>
             </div>
           </div>
-          <div class="row align-items-center mb-2">
+          <div class="row align-items-center border-bottom mb-3 pb-3">
             <div class="col-sm-1">승차위치</div>
             <div class="col-sm-4">
               <select name="location" class="form-control">
@@ -81,7 +81,7 @@
               </select>
             </div>
           </div>
-          <div class="row align-items-center mb-2 pt-2 pb-2">
+          <div class="row align-items-center border-bottom mb-3 pb-3">
             <div class="col-sm-1">회원 형태</div>
             <div class="col-sm-4 row align-items-center">
               <div class="col-sm-4"><label><input<?=$view['level'] == LEVEL_LIFETIME ? ' checked' : ''?> type="checkbox" name="level" value="<?=LEVEL_LIFETIME?>"> 평생회원</label></div>
@@ -89,15 +89,15 @@
               <div class="col-sm-4"><label><input<?=$view['admin'] == 1 ? ' checked' : ''?> type="checkbox" name="admin" value="1"> 관리자</label></div>
             </div>
           </div>
-          <div class="row align-items-center mb-2 pt-2 pb-2">
+          <div class="row align-items-center border-bottom mb-3 pb-3">
             <div class="col-sm-1">등급</div>
             <div class="col-sm-4"><?=$view['memberLevel']['levelName']?></div>
           </div>
-          <div class="row align-items-center mb-2 pt-2 pb-2">
+          <div class="row align-items-center border-bottom mb-3 pb-3">
             <div class="col-sm-1">예약횟수</div>
             <div class="col-sm-4"><?=$view['rescount']?></div>
           </div>
-          <div class="row align-items-center mb-2 pt-2 pb-2">
+          <div class="row align-items-center border-bottom mb-3 pb-3">
             <div class="col-sm-1">포인트</div>
             <div class="col-sm-4 row align-items-center">
               <div class="col-sm-5"><?=$view['point']?></div>
@@ -110,7 +110,7 @@
               </div>
             </div>
           </div>
-          <div class="row align-items-center mb-2 pt-2 pb-2">
+          <div class="row align-items-center border-bottom mb-3 pb-3">
             <div class="col-sm-1">페널티</div>
             <div class="col-sm-4 row align-items-center">
               <div class="col-sm-5"><?=$view['penalty']?></div>
@@ -123,7 +123,7 @@
               </div>
             </div>
           </div>
-          <div class="row align-items-center mb-2 pt-2 pb-2">
+          <div class="row align-items-center border-bottom mb-3 pb-3">
             <div class="col-sm-1">아이콘</div>
             <div class="col-sm-4">
               <?php if (file_exists(PHOTO_PATH . $view['idx'])): ?>
@@ -140,6 +140,63 @@
             <button type="button" class="btn btn-secondary btn-member-delete-modal">삭제합니다</button>
           </div>
         </form>
+        <div class="border-bottom mt-4 mb-3 pb-3">
+          <h5>■ 예약 내역</h5>
+          <?php foreach ($userReserve as $key => $value): ?>
+          <div class="border-top pt-2 pb-2">
+            <?=viewStatus($value['notice_status'])?> <a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
+            <small>
+              일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 
+              분담금 : <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 /
+              <?=!empty($value['status']) && $value['status'] == STATUS_ABLE ? '입금완료' : '입금대기'?>
+              <?=!empty($value['depositname']) ? ' / 입금자 : ' . $value['depositname'] : ''?>
+            </small>
+          </div>
+          <?php endforeach; ?>
+
+          <h5 class="mt-4">■ 예약취소 내역</h5>
+          <?php foreach ($userReserveCancel as $value): ?>
+          <div class="border-top pt-2 pb-2">
+            <?=viewStatus($value['notice_status'])?> <a href="<?=base_url()?>reserve/<?=$clubIdx?>?n=<?=$value['resCode']?>"><?=$value['subject']?></a><br>
+            <small>취소일시 : <?=date('Y-m-d', $value['regdate'])?> (<?=calcWeek(date('Y-m-d', $value['regdate']))?>) <?=date('H:i', $value['regdate'])?></small>
+          </div>
+          <?php endforeach; ?>
+
+          <h5 class="mt-4">■ 산행 내역</h5>
+          <?php foreach ($userVisit as $value): ?>
+          <div class="border-top pt-2 pb-2">
+            <?=viewStatus($value['notice_status'])?> <a href="<?=base_url()?>reserve/<?=$clubIdx?>?n=<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
+            <small>
+              일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 
+              분담금 : <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원
+            </small>
+          </div>
+          <?php endforeach; ?>
+
+          <h5 class="mt-4">■ 포인트 내역 <small>- 잔액 <?=number_format($viewMember['point'])?> 포인트</small></h5>
+          <?php foreach ($userPoint as $value): ?>
+          <div class="border-top pt-2 pb-2">
+            <?php switch ($value['action']): case LOG_POINTUP: ?>
+            <strong><span class="text-primary">[포인트추가]</span> <?=number_format($value['point'])?> 포인트 추가</strong>
+            <?php break; case LOG_POINTDN: ?>
+            <strong><span class="text-danger">[포인트감소]</span> <?=number_format($value['point'])?> 포인트 감소</strong>
+            <?php break; endswitch; ?>
+            <small>일시 : <?=date('Y-m-d, H:i:s', $value['regdate'])?></small>
+          </div>
+          <?php endforeach; ?>
+
+          <h5 class="mt-4">■ 페널티 내역</h5>
+          <?php foreach ($userPenalty as $value): ?>
+          <div class="border-top pt-2 pb-2">
+            <?php switch ($value['action']): case LOG_PENALTYUP: ?>
+            <strong><span class="text-primary">[페널티추가]</span> <?=number_format($value['point'])?> 페널티 추가</strong>
+            <?php break; case LOG_PENALTYDN: ?>
+            <strong><span class="text-danger">[페널티감소]</span> <?=number_format($value['point'])?> 페널티 감소</strong>
+            <?php break; endswitch; ?>
+            <small>일시 : <?=date('Y-m-d, H:i:s', $value['regdate'])?></small>
+          </div>
+          <?php endforeach; ?>
+        </div>
       </div>
     </div>
 

@@ -1360,6 +1360,7 @@ class Admin extends Admin_Controller
    **/
   public function member_view($keyword)
   {
+    $viewData['clubIdx'] = 1;
     $keyword = html_escape($keyword);
 
     $search = array('idx' => $keyword);
@@ -1373,6 +1374,27 @@ class Admin extends Admin_Controller
     $viewData['view']['birthday'] = explode('/', $viewData['view']['birthday']);
     $viewData['view']['phone'] = explode('-', $viewData['view']['phone']);
     $viewData['view']['memberLevel'] = memberLevel($viewData['view']['rescount'], $viewData['view']['penalty'], $viewData['view']['level'], $viewData['view']['admin']);
+
+    // 회원 정보
+    $viewData['viewMember'] = $this->member_model->viewMember($viewData['clubIdx'], $viewData['view']['idx']);
+
+    // 예약 내역
+    $viewData['userReserve'] = $this->reserve_model->userReserve($viewData['clubIdx'], $viewData['view']['userid']);
+
+    // 예약 취소 내역 (로그)
+    $viewData['userReserveCancel'] = $this->reserve_model->userReserveCancel($viewData['clubIdx'], $viewData['view']['userid']);
+
+    // 산행 내역
+    $viewData['userVisit'] = $this->reserve_model->userVisit($viewData['clubIdx'], $viewData['view']['userid']);
+
+    // 산행 횟수
+    $viewData['userVisitCount'] = $this->reserve_model->userVisitCount($viewData['clubIdx'], $viewData['view']['userid']);
+
+    // 포인트 내역
+    $viewData['userPoint'] = $this->member_model->userPointLog($viewData['clubIdx'], $viewData['view']['userid']);
+
+    // 페널티 내역
+    $viewData['userPenalty'] = $this->member_model->userPenaltyLog($viewData['clubIdx'], $viewData['view']['userid']);
 
     $this->_viewPage('admin/member_view', $viewData);
   }
