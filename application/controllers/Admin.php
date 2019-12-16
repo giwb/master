@@ -1642,15 +1642,27 @@ class Admin extends Admin_Controller
    **/
   public function log_user()
   {
+    $action = html_escape($this->input->post('action'));
+    $viewData['subject'] = html_escape($this->input->post('subject'));
+    $viewData['nickname'] = html_escape($this->input->post('nickname'));
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
+
     $paging['perPage'] = 30;
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
 
-    $search['action'] = array(LOG_ENTRY, LOG_RESERVE, LOG_CANCEL, LOG_POINTUP, LOG_POINTDN, LOG_PENALTYUP, LOG_PENALTYDN);
-    $viewData['listHistory'] = $this->admin_model->listHistory($paging, $search);
+    if (!empty($action)) {
+      $viewData['action'] = array($action);
+      $viewData['listHistory'] = $this->admin_model->listHistory($paging, $viewData);
+    } else {
+      $viewData['action'] = array(LOG_ENTRY, LOG_RESERVE, LOG_CANCEL, LOG_POINTUP, LOG_POINTDN, LOG_PENALTYUP, LOG_PENALTYDN);
+      $viewData['listHistory'] = $this->admin_model->listHistory($paging, $viewData);
+      $viewData['action'][0] = ''; // 액션 초기화
+    }
+
+    $viewData['pageType'] = 'member';
     $viewData['pageUrl'] = base_url() . 'admin/log_user';
-    $viewData['pageTitle'] = '회원 예약 기록';
+    $viewData['pageTitle'] = '회원 활동기록';
 
     foreach ($viewData['listHistory'] as $key => $value) {
       $search['userid'] = $value['userid'];
@@ -1708,15 +1720,27 @@ class Admin extends Admin_Controller
    **/
   public function log_admin()
   {
+    $action = html_escape($this->input->post('action'));
+    $viewData['subject'] = html_escape($this->input->post('subject'));
+    $viewData['nickname'] = html_escape($this->input->post('nickname'));
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
+
     $paging['perPage'] = 30;
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
 
-    $search['action'] = array(LOG_ADMIN_RESERVE, LOG_ADMIN_CANCEL, LOG_ADMIN_DEPOSIT_CONFIRM, LOG_ADMIN_DEPOSIT_CANCEL);
-    $viewData['listHistory'] = $this->admin_model->listHistory($paging, $search);
+    if (!empty($action)) {
+      $viewData['action'] = array($action);
+      $viewData['listHistory'] = $this->admin_model->listHistory($paging, $viewData);
+    } else {
+      $viewData['action'] = array(LOG_ADMIN_RESERVE, LOG_ADMIN_CANCEL, LOG_ADMIN_DEPOSIT_CONFIRM, LOG_ADMIN_DEPOSIT_CANCEL);
+      $viewData['listHistory'] = $this->admin_model->listHistory($paging, $viewData);
+      $viewData['action'][0] = ''; // 액션 초기화
+    }
+
+    $viewData['pageType'] = 'admin';
     $viewData['pageUrl'] = base_url() . 'admin/log_admin';
-    $viewData['pageTitle'] = '관리자 예약 기록';
+    $viewData['pageTitle'] = '관리자 활동기록';
 
     foreach ($viewData['listHistory'] as $key => $value) {
       $search['userid'] = $value['userid'];

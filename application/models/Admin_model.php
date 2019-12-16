@@ -439,6 +439,12 @@ class Admin_model extends CI_Model
     if (!empty($search['action'])) {
       $this->db->where_in('action', $search['action']);
     }
+    if (!empty($search['subject'])) {
+      $this->db->like('subject', $search['subject']);
+    }
+    if (!empty($search['nickname'])) {
+      $this->db->like('nickname', $search['nickname']);
+    }
     if (!is_null($paging)) {
       $this->db->limit($paging['perPage'], $paging['nowPage']);
     }
