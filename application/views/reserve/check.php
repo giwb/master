@@ -3,7 +3,7 @@
       <div class="club-main">
         <div class="sub-contents">
           <div class="area-reservation text-center"><br>
-            <h2>예약 신청이 완료되었습니다!</h2>
+            <h2>예약이 완료되었습니다!</h2>
 
             <form id="reserveForm" method="post" class="border-top border-bottom text-left mt-4 mb-4 pt-3 pl-5 pr-5">
 <?php foreach ($listReserve as $key => $value): ?>

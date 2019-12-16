@@ -41,15 +41,14 @@
                 </colgroup>
                 <thead>
                   <tr>
-                    <th colspan="5" style="border-right: 0px;"><?=count($busType) >= 2 ? $bus . '호차 - ' : ''?><?=$value['bus_name']?></td>
-                    <th colspan="5" style="border-left: 0px;" class="text-right">예약 : <?=$maxRes?>명</th>
+                    <th colspan="10" style="border-right: 0px;"><?=count($busType) >= 2 ? $bus . '호차 - ' : ''?><?=$value['bus_name']?></td>
                   </tr>
                 </thead>
                 <tbody>
                   <?php if ($value['seat'] > 13): ?>
                   <tr>
                     <th colspan="4" class="text-left">운전석<?=!empty($value['bus_owner']) ? ' (' . $value['bus_owner'] . ' 기사님)' : ''?></th>
-                    <th colspan="6" class="text-right">출입구</th>
+                    <th colspan="6" class="text-right">출입구 (예약 : <?=$maxRes?>명)</th>
                   </tr>
                   <?php endif; ?>
                   <?php
