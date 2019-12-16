@@ -11,7 +11,7 @@
 
         <?php foreach ($list as $value): ?>
         <div class="border-top pt-2 pb-2">
-          <b><?=viewStatus($value['status'])?></b> <a href="<?=base_url()?>admin/main_view_progress/<?=$value['idx']?>"><?=$value['subject']?></a><br>
+          <b><?=viewStatus($value['status'], $value['visible'])?></b> <a href="<?=base_url()?>admin/main_view_progress/<?=$value['idx']?>"><?=$value['subject']?></a><br>
           <?php if (!empty($value['sido'])): ?>
           <?php foreach ($value['sido'] as $key => $sido): ?><?=$sido?> <?=!empty($value['gugun'][$key]) ? $value['gugun'][$key] : ''?>, <?php endforeach; ?>
           <?php endif; ?>

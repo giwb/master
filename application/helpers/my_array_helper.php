@@ -103,13 +103,14 @@ if (!function_exists('checkAdminLogin')) {
 
 // 산행 상태
 if (!function_exists('viewStatus')) {
-  function viewStatus($status=0) {
+  function viewStatus($status=0, $visible=1) {
+    if ($visible != 1) $visible = ' blur'; else $visible = '';
     switch ($status) {
-      case STATUS_ABLE:     $result = '<span class="status-wait">[예정]</span>'; break;
-      case STATUS_CONFIRM:  $result = '<span class="status-confirm">[확정]</span>'; break;
-      case STATUS_CANCEL:   $result = '<span class="status-cancel">[취소]</span>'; break;
-      case STATUS_CLOSED:   $result = '<span class="status-closed">[종료]</span>'; break;
-      default:              $result = '<span class="status-plan">[계획]</span>'; break;
+      case STATUS_ABLE:     $result = '<span class="status-wait' . $visible . '">[예정]</span>'; break;
+      case STATUS_CONFIRM:  $result = '<span class="status-confirm' . $visible . '">[확정]</span>'; break;
+      case STATUS_CANCEL:   $result = '<span class="status-cancel' . $visible . '">[취소]</span>'; break;
+      case STATUS_CLOSED:   $result = '<span class="status-closed' . $visible . '">[종료]</span>'; break;
+      default:              $result = '<span class="status-plan' . $visible . '">[계획]</span>'; break;
     }
     return $result;
   }

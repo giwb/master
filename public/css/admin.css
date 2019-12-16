@@ -12108,6 +12108,10 @@ body.sidebar-toggled footer.sticky-footer {
 .fc-event.holiday { color: #fff!important; background-color: #dc3545!important; }
 .fc-event.dayname { color: #fff!important; background-color: #999!important; }
 
+.status-wait { color: #000; }
+.status-confirm { color: #FF6C00; }
+.blur { color: #ccc; }
+
 .sub-contents { margin-bottom: 100px; }
 .sub-contents h2 { font-size: 20px; font-family: "Malgun Gothic"; font-weight: bold; }
 .area-reservation { width: 680px; }
