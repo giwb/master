@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://new.giwb.kr/';
+$config['base_url'] = 'https://giwb.kr/';
 
 /*
 |--------------------------------------------------------------------------
@@ -76,7 +76,7 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-$config['language']	= 'ko_kr';
+$config['language']	= 'ko';
 
 /*
 |--------------------------------------------------------------------------

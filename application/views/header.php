@@ -1,171 +1,183 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<!DOCTYPE html>
+<!DOCTYPE html5>
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <title>경인웰빙</title>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <meta content="" name="keywords">
-  <meta content="" name="description">
+  <title>경인웰빙산악회</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 
-  <!-- Favicons -->
-  <link href="/public/images/favicon.png" rel="icon">
-  <link href="/public/images/apple-touch-icon.png" rel="apple-touch-icon">
+  <meta property="og:title" content="경인웰빙" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://giwb.kr/" />
+  <meta property="og:image" content="<?=base_url()?>public/images/logo.png" />
+  <meta property="og:description" content="인천과 부천 지역을 기반으로 토요산행과 일요산행을 매주 운행하는 안내산악회입니다. 차내 음주가무 없으며 초보자도 함께할 수 있도록 여유롭게 산행을 진행합니다.">
+  <meta name="description" content="인천과 부천 지역을 기반으로 토요산행과 일요산행을 매주 운행하는 안내산악회입니다. 차내 음주가무 없으며 초보자도 함께할 수 있도록 여유롭게 산행을 진행합니다.">
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Montserrat:300,400,500,700" rel="stylesheet">
+  <link rel="icon" type="image/png" href="<?=base_url()?>public/images/favicon.png">
+  <link rel="shortcut icon" type="image/png" href="<?=base_url()?>public/images/favicon.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="<?=base_url()?>public/images/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="<?=base_url()?>public/images/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="<?=base_url()?>public/images/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="<?=base_url()?>public/images/apple-touch-icon-180x180.png">
+  <link rel="apple-touch-icon" sizes="256x256" href="<?=base_url()?>public/images/apple-touch-icon-256x256.png">
 
-  <!-- Bootstrap CSS File -->
-  <link href="/public/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+  <link href="<?=base_url()?>public/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/lib/animate/animate.min.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/css/fullcalendar.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/css/fullcalendar.print.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/css/style.css?<?=time()?>" rel="stylesheet">
 
-  <!-- Libraries CSS Files -->
-  <link href="/public/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  <link href="/public/lib/animate/animate.min.css" rel="stylesheet">
-  <link href="/public/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
-  <link href="/public/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-  <link href="/public/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+  <script src="<?=base_url()?>public/js/jquery-2.1.4.min.js" type="text/javascript"></script>
+  <script src="<?=base_url()?>public/js/jquery-ui.custom.min.js" type="text/javascript"></script>
 
-  <!-- Main Stylesheet File -->
-  <link href="/public/css/style.css" rel="stylesheet">
+  <script src="<?=base_url()?>public/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="<?=base_url()?>public/lib/easing/easing.min.js"></script>
+  <script src="<?=base_url()?>public/lib/superfish/hoverIntent.js"></script>
+  <script src="<?=base_url()?>public/lib/superfish/superfish.min.js"></script>
+  <script src="<?=base_url()?>public/lib/wow/wow.min.js"></script>
+  <script src="<?=base_url()?>public/lib/waypoints/waypoints.min.js"></script>
+  <script src="<?=base_url()?>public/lib/counterup/counterup.min.js"></script>
+  <script src="<?=base_url()?>public/lib/owlcarousel/owl.carousel.min.js"></script>
+  <script src="<?=base_url()?>public/lib/isotope/isotope.pkgd.min.js"></script>
+  <script src="<?=base_url()?>public/lib/lightbox/js/lightbox.min.js"></script>
+  <script src="<?=base_url()?>public/lib/touchSwipe/jquery.touchSwipe.min.js"></script>
+  <script src="<?=base_url()?>public/ckeditor/ckeditor.js" type="text/javascript" charset="utf-8"></script>
 
-  <link href='/public/css/fullcalendar.css' rel='stylesheet' />
-  <link href='/public/css/fullcalendar.print.css' rel='stylesheet' media='print' />
-  <script src='/public/js/jquery-1.10.2.js' type="text/javascript"></script>
-  <script src='/public/js/jquery-ui.custom.min.js' type="text/javascript"></script>
-  <script src='/public/js/fullcalendar.js' type="text/javascript"></script>
-  <script>
-    $(document).ready(function() {
-      var date = new Date();
-      var d = date.getDate();
-      var m = date.getMonth();
-      var y = date.getFullYear();
-
-      /* initialize the calendar
-      -----------------------------------------------------------------*/
-      var calendar =  $('#calendar').fullCalendar({
-        header: {
-          left: 'prev',
-          center: 'title',
-          right: 'next'
-        },
-        editable: false,
-        selectable: false,
-        defaultView: 'month',
-        axisFormat: 'h:mm',
-        columnFormat: {
-                  month: 'ddd',
-                  week: 'ddd d',
-                  day: 'dddd M/d',
-                  agendaDay: 'dddd d'
-              },
-              titleFormat: {
-                  month: 'yyyy년 MMMM',
-                  week: "yyyy년 MMMM",
-                  day: 'yyyy년 MMMM'
-              },
-        allDaySlot: false,
-        selectHelper: true,
-        select: function(start, end, allDay) {
-          var title = prompt('Event Title:');
-          if (title) {
-            calendar.fullCalendar('renderEvent',
-              {
-                title: title,
-                start: start,
-                end: end,
-                allDay: allDay
-              },
-              true // make the event "stick"
-            );
-          }
-          calendar.fullCalendar('unselect');
-        },
-        droppable: false, // this allows things to be dropped onto the calendar !!!
-        drop: function(date, allDay) { // this function is called when something is dropped
-
-          // retrieve the dropped element's stored Event Object
-          var originalEventObject = $(this).data('eventObject');
-
-          // we need to copy it, so that multiple events don't have a reference to the same object
-          var copiedEventObject = $.extend({}, originalEventObject);
-
-          // assign it the date that was reported
-          copiedEventObject.start = date;
-          copiedEventObject.allDay = allDay;
-
-          // render the event on the calendar
-          // the last `true` argument determines if the event "sticks" (https://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-          $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-
-          // is the "remove after drop" checkbox checked?
-          if ($('#drop-remove').is(':checked')) {
-            // if so, remove the element from the "Draggable Events" list
-            $(this).remove();
-          }
-        },
-        events: [
-          {
-            title: 'Click for Google',
-            start: new Date(y, m, 28),
-            end: new Date(y, m, 29),
-            url: 'https://google.com/',
-            className: 'success'
-          }
-        ],
-      });
-    });
-  </script>
-
-  <!-- JavaScript Libraries -->
-  <script src="/public/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="/public/lib/easing/easing.min.js"></script>
-  <script src="/public/lib/superfish/hoverIntent.js"></script>
-  <script src="/public/lib/superfish/superfish.min.js"></script>
-  <script src="/public/lib/wow/wow.min.js"></script>
-  <script src="/public/lib/waypoints/waypoints.min.js"></script>
-  <script src="/public/lib/counterup/counterup.min.js"></script>
-  <script src="/public/lib/owlcarousel/owl.carousel.min.js"></script>
-  <script src="/public/lib/isotope/isotope.pkgd.min.js"></script>
-  <script src="/public/lib/lightbox/js/lightbox.min.js"></script>
-  <script src="/public/lib/touchSwipe/jquery.touchSwipe.min.js"></script>
-  <!-- Contact Form JavaScript File -->
-  <script src="/public/js/contactform.js"></script>
-
-  <!-- Template Main Javascript File -->
-  <script src="/public/js/main.js"></script>
+  <script src="<?=base_url()?>public/js/fullcalendar.js" type="text/javascript"></script>
+  <script src="<?=base_url()?>public/js/clipboard.min.js" type="text/javascript"></script>
+  <script src="<?=base_url()?>public/js/main.js?<?=time()?>"></script>
 
 </head>
-
 <body>
 
-  <!--==========================
-    Header
-  ============================-->
+  <!-- HEADER -->
   <header id="header">
-    <div class="container-fluid">
-
-      <div id="logo" class="pull-left">
-        <h1><a href="#intro" class="scrollto">경인웰빙산악회</a></h1>
-        <!-- <a href="#intro"><img src="/public/images/logo.png" alt="" title="" /></a>-->
+    <!-- NAV -->
+    <div id="nav">
+      <!-- Top Nav -->
+      <div id="nav-top">
+        <div class="container">
+          <h1 class="nav-logo">
+            <a href="<?=base_url()?><?=$view['idx']?>" class="logo">경인웰빙</a>
+          </h1>
+          <ul class="nav-menu">
+            <li<?=$uri == 'top' ? ' class="active"' : ''?>><a href="<?=base_url()?><?=$view['idx']?>"><i class="fa fa-home" aria-hidden="true"></i></a></li>
+<?php if (empty($userData['idx'])): ?>
+            <li><a href="javascript:;" class="login-popup">로그인</a></li>
+            <!--<li><button class="search-btn"><i class="fa fa-search"></i></button></li>-->
+<?php else: ?>
+            <!--<li><button class="search-btn"><i class="fa fa-search"></i></button></li>-->
+            <li>
+            <?php if (file_exists(PHOTO_PATH . $userData['idx'])): ?>
+            <img class="img-profile" src="<?=base_url()?>public/photos/<?=$userData['idx']?>">
+            <?php else: ?>
+            <img class="img-profile" src="<?=base_url()?>public/images/user.png">
+            <?php endif; ?>
+              <div class="profile-box">
+                <strong><?=$userData['nickname']?></strong> (<?=$userLevel['levelName']?>)<hr>
+                <a href="<?=base_url()?>member/<?=$view['idx']?>">마이페이지</a><br>
+                <a href="<?=base_url()?>member/modify/<?=$view['idx']?>">개인정보수정</a><br>
+                <a href="javascript:;" class="logout">로그아웃</a>
+              </div>
+            </li>
+<?php endif; ?>
+          </ul>
+        </div>
       </div>
+      <!-- /Top Nav -->
 
-      <nav id="nav-menu-container">
-        <ul class="nav-menu">
-          <li class="menu-active"><a href="#intro">TOP</a></li>
-          <li><a href="#">산행일정</a></li>
-          <li><a href="#">백산백소</a></li>
-          <li><a href="#">마이페이지</a></li>
-          <!--
-          <li class="menu-has-children"><a href="">Drop Down</a>
-            <ul>
-              <li><a href="#">Drop Down 1</a></li>
-              <li><a href="#">Drop Down 3</a></li>
-              <li><a href="#">Drop Down 4</a></li>
-              <li><a href="#">Drop Down 5</a></li>
-            </ul>
-          </li>-->
-          <li><a href="#">로그인</a></li>
+      <!-- Aside Nav -->
+      <div class="nav-btns">
+        <button type="button" class="aside-btn"><i class="fa fa-bars"></i></button>
+        <a href="<?=base_url()?><?=$view['idx']?>"><button type="button" class="search-btn"><i class="fa fa-home"></i></button></a>
+      </div>
+      <div id="nav-aside">
+        <ul class="nav-aside-menu">
+<?php if (!empty($userData['idx'])): ?>
+          <li>
+            <?php if (file_exists(PHOTO_PATH . $userData['idx'])): ?>
+            <img class="img-profile" src="<?=base_url()?>public/photos/<?=$userData['idx']?>">
+            <?php else: ?>
+            <img class="img-profile" src="<?=base_url()?>public/images/user.png">
+            <?php endif; ?>
+            <span class="header-nickname"><?=$userData['nickname']?> (<?=$userLevel['levelName']?>)</span></li>
+<?php else: ?>
+          <li><p>&nbsp;</p></li>
+<?php endif; ?>
+          <li><a href="<?=base_url()?><?=$view['idx']?>">첫페이지</a></li>
+<?php if (empty($userData['idx'])): ?>
+          <li><a href="javascript:;" class="login-popup">로그인</a></li>
+<?php else: ?>
+          <li><a href="<?=base_url()?>club/about/<?=$view['idx']?>"> 산악회 소개</a></li>
+          <li><a href="<?=base_url()?>club/guide/<?=$view['idx']?>"> 등산 안내인 소개</a></li>
+          <li><a href="<?=base_url()?>club/past/<?=$view['idx']?>"> 지난 산행보기</a></li>
+          <li><a href="<?=base_url()?>club/howto/<?=$view['idx']?>"> 이용안내</a></li><br>
+          <?php if ($view['idx'] == 1): ?>
+          <li><a href="<?=base_url()?>club/auth_about/<?=$view['idx']?>"> 백산백소 소개</a></li>
+          <li><a href="<?=base_url()?>club/auth/<?=$view['idx']?>"> 백산백소 인증현황</a></li><br>
+          <?php endif; ?>
+          <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?><li><br><a href="<?=base_url()?>admin"> 설정</a></li><?php endif; ?>
+          <li><a href="<?=base_url()?>/member/<?=$view['idx']?>">마이페이지</a></li>
+          <li><a href="<?=base_url()?>/member/modify/<?=$view['idx']?>">개인정보수정</a></li>
+          <li><a href="javascript:;" class="logout">로그아웃</a></li>
+<?php endif; ?>
         </ul>
-      </nav><!-- #nav-menu-container -->
+        <button class="nav-close nav-aside-close"><span></span></button>
+      </div>
+      <!-- /Aside Nav -->
+
+      <!-- /Nav Search -->
+      <div id="nav-search">
+        <form>
+          <input class="input" name="search" placeholder="검색할 내용을 입력해 주세요.">
+        </form>
+        <button class="nav-close search-close">
+          <span></span>
+        </button>
+      </div>
+      <!-- /Nav Search -->
     </div>
-  </header><!-- #header -->
+    <!-- /NAV -->
+  </header>
+  <!-- /HEADER -->
+
+  <section id="club">
+    <div class="container">
+      <div class="club-left">
+        <div class="club-left-layer">
+          <div class="club-header">
+            <?php if (!empty($view['photo'][0])): ?>
+            <!-- 대표 사진 -->
+            <a href="<?=base_url()?>"><img src="<?=base_url()?><?=PHOTO_URL?><?=$view['photo'][0]?>"></a>
+            <?php endif; ?>
+            <h3><?=$view['title']?></h3>
+          </div>
+          <?=$view['homepage'] != '' ? '<a href="' . $view['homepage'] . '" class="url">' . $view['homepage'] . '</a>' : ''?>
+          <ul class="navi">
+            <li><a href="<?=base_url()?>club/about/<?=$view['idx']?>"><i class="fa fa-picture-o" aria-hidden="true"></i> 산악회 소개</a></li>
+            <li><a href="<?=base_url()?>club/guide/<?=$view['idx']?>"><i class="fa fa-user-circle" aria-hidden="true"></i> 등산 안내인 소개</a></li>
+            <li><a href="<?=base_url()?>club/past/<?=$view['idx']?>"><i class="fa fa-calendar" aria-hidden="true"></i> 지난 산행보기</a></li>
+            <li><a href="<?=base_url()?>club/howto/<?=$view['idx']?>"><i class="fa fa-map-o" aria-hidden="true"></i> 이용안내</a></li>
+            <?php if ($view['idx'] == 1): ?><br>
+            <li><a href="<?=base_url()?>club/auth_about/<?=$view['idx']?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 백산백소 소개</a></li>
+            <li><a href="<?=base_url()?>club/auth/<?=$view['idx']?>"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소 인증현황</a></li>
+            <?php endif; ?>
+            <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
+            <br>
+            <li><a href="<?=base_url()?>admin"><i class="fa fa-cog" aria-hidden="true"></i> 설정</a></li>
+            <?php endif; ?>
+          </ul>
+          <div class="desc">
+          ・개설일 : <?=$view['establish']?>년<br>
+          ・관리자 : <?=$view['nickname']?><br>
+          ・회원수 : <?=number_format($view['cntMember']['cnt'])?>명 / 오늘 <?=number_format($view['cntMemberToday']['cnt'])?>명<br>
+          ・방문수 : <?=number_format($view['cntVisitor']['cnt'])?>회 / 오늘 <?=number_format($view['cntVisitorToday']['cnt'])?>명<br>
+          </div>
+        </div>
+      </div>

@@ -90,19 +90,89 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 |--------------------------------------------------------------------------
 */
 
-// 테이블명
+// 테이블명 - 경인웰빙
 defined('DB_ADJUST')      OR define('DB_ADJUST', 'giwb_adjust');
 defined('DB_ATTENDANCE')  OR define('DB_ATTENDANCE', 'giwb_attendance');
+defined('DB_AUTH')        OR define('DB_AUTH', 'giwb_auth');
 defined('DB_BOARD')       OR define('DB_BOARD', 'giwb_board');
+defined('DB_BUSDATA')     OR define('DB_BUSDATA', 'giwb_busdata');
+defined('DB_BUSTYPE')     OR define('DB_BUSTYPE', 'giwb_bustype');
 defined('DB_CALENDAR')    OR define('DB_CALENDAR', 'giwb_calendar');
+defined('DB_FRONT')       OR define('DB_FRONT', 'giwb_front');
 defined('DB_HISTORY')     OR define('DB_HISTORY', 'giwb_history');
 defined('DB_MEMBER')      OR define('DB_MEMBER', 'giwb_member');
 defined('DB_MTDB')        OR define('DB_MTDB', 'giwb_mtdb');
 defined('DB_NOTICE')      OR define('DB_NOTICE', 'giwb_notice');
 defined('DB_RESERVATION') OR define('DB_RESERVATION', 'giwb_reservation');
+defined('DB_SCHEDULE')    OR define('DB_SCHEDULE', 'giwb_schedule');
+defined('DB_VISITOR')     OR define('DB_VISITOR', 'giwb_visitor');
+defined('DB_WAIT')        OR define('DB_WAIT', 'giwb_wait');
 
 // 산행 상태
-defined('STATUS_NONE')    OR define('STATUS_NONE', 0);
-defined('STATUS_ABLE')    OR define('STATUS_ABLE', 1);
-defined('STATUS_CANCLE')  OR define('STATUS_CANCLE', 8);
-defined('STATUS_CLOSED')   OR define('STATUS_CLOSED', 9);
+defined('STATUS_PLAN')    OR define('STATUS_PLAN', 0); // 계획
+defined('STATUS_ABLE')    OR define('STATUS_ABLE', 1); // 예정
+defined('STATUS_CONFIRM') OR define('STATUS_CONFIRM', 2); // 확정
+defined('STATUS_CANCEL')  OR define('STATUS_CANCEL', 8); // 취소
+defined('STATUS_CLOSED')  OR define('STATUS_CLOSED', 9); // 종료
+
+// 예약 상태
+defined('RESERVE_ON')     OR define('RESERVE_ON', 0); // 예약상태
+defined('RESERVE_PAY')    OR define('RESERVE_PAY', 1); // 입금상태
+defined('RESERVE_WAIT')   OR define('RESERVE_WAIT', 9); // 대기상태
+
+// 산행 숨김
+defined('VISIBLE_NONE')   OR define('VISIBLE_NONE', 0); // 숨김
+defined('VISIBLE_ABLE')   OR define('VISIBLE_ABLE', 1); // 공개
+
+// 스토리 리액션 형태
+defined('REACTION_KIND_LIKE') OR define('REACTION_KIND_LIKE', 1); // 좋아요
+defined('REACTION_KIND_SHARE') OR define('REACTION_KIND_SHARE', 2); // 공유하기
+
+// 스토리 공유 형태
+defined('SHARE_TYPE_URL') OR define('SHARE_TYPE_URL', 1); // 페이스북
+defined('SHARE_TYPE_FACEBOOK') OR define('SHARE_TYPE_FACEBOOK', 2); // 페이스북
+defined('SHARE_TYPE_TWITTER') OR define('SHARE_TYPE_TWITTER', 3); // 트위터
+defined('SHARE_TYPE_KAKAO') OR define('SHARE_TYPE_KAKAO', 4); // 카카오톡
+defined('SHARE_TYPE_DAUM') OR define('SHARE_TYPE_DAUM', 5); // 다음
+
+// 로그 키
+/*
+  action
+  1 - 회원가입
+  2 - 산행예약
+  3 - 산행취소
+  4 - 포인트 적립
+  5 - 포인트 감소
+  6 - 페널티 추가
+  7 - 페널티 감소
+  8 - 관리자 예약
+  9 - 관리자 취소
+*/
+defined('LOG_ENTRY')          OR define('LOG_ENTRY', 1);
+defined('LOG_RESERVE')        OR define('LOG_RESERVE', 2);
+defined('LOG_CANCEL')         OR define('LOG_CANCEL', 3);
+defined('LOG_POINTUP')        OR define('LOG_POINTUP', 4);
+defined('LOG_POINTDN')        OR define('LOG_POINTDN', 5);
+defined('LOG_PENALTYUP')      OR define('LOG_PENALTYUP', 6);
+defined('LOG_PENALTYDN')      OR define('LOG_PENALTYDN', 7);
+defined('LOG_ADMIN_RESERVE')  OR define('LOG_ADMIN_RESERVE', 8);
+defined('LOG_ADMIN_CANCEL')   OR define('LOG_ADMIN_CANCEL', 9);
+defined('LOG_ADMIN_DEPOSIT_CONFIRM')  OR define('LOG_ADMIN_DEPOSIT_CONFIRM', 10);
+defined('LOG_ADMIN_DEPOSIT_CANCEL')   OR define('LOG_ADMIN_DEPOSIT_CANCEL', 11);
+
+// 경로 설정
+defined('PATH_FRONT')         OR define('PATH_FRONT', PATH_MAIN . '/public/uploads/front/');
+defined('URL_FRONT')          OR define('URL_FRONT', 'public/uploads/front/');
+
+// 레벨 형태
+defined('LEVEL_NORMAL')       OR define('LEVEL_NORMAL', 0);
+defined('LEVEL_LIFETIME')     OR define('LEVEL_LIFETIME', 1);
+defined('LEVEL_FREE')         OR define('LEVEL_FREE', 2);
+
+// 댓글 형태
+defined('REPLY_TYPE_STORY')   OR define('REPLY_TYPE_STORY', 1);
+defined('REPLY_TYPE_NOTICE')  OR define('REPLY_TYPE_NOTICE', 2);
+
+// 공유 형태
+defined('REACTION_TYPE_STORY')   OR define('REACTION_TYPE_STORY', 1);
+defined('REACTION_TYPE_NOTICE')  OR define('REACTION_TYPE_NOTICE', 2);
