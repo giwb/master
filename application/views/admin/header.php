@@ -8,7 +8,7 @@
   <meta name="robots" content="noindex">
   <meta property="og:title" content="경인웰빙" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://giwb.kr/" />
+  <meta property="og:url" content="<?=base_url()?>" />
   <meta property="og:image" content="<?=base_url()?>public/images/logo.png" />
   <meta property="og:description" content="매주 토, 일. 차내 음주가무 없으며, 초보자도 함께할 수 있는 여유있는 산행.">
   <meta name="description" content="매주 토, 일. 차내 음주가무 없으며, 초보자도 함께할 수 있는 여유있는 산행.">
