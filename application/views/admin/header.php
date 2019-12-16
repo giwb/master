@@ -67,12 +67,12 @@
         </a>
         <div id="collapseItem" class="collapse<?=strstr($uri, 'main') ? " show" : ""?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="<?=base_url()?>admin/setup_schedule"> <i class="menu-icon fas fa-calendar-alt"></i> 산행계획</a>
             <a class="collapse-item" href="<?=base_url()?>admin/main_list_progress"> <i class="menu-icon fas fa-calendar"></i> 진행중 산행 목록</a>
             <a class="collapse-item" href="<?=base_url()?>admin/main_list_closed"> <i class="menu-icon fas fa-calendar-check"></i> 다녀온 산행 목록</a>
             <a class="collapse-item" href="<?=base_url()?>admin/main_list_canceled"> <i class="menu-icon fas fa-calendar-times"></i> 취소된 산행 목록</a>
             <a class="collapse-item" href="<?=base_url()?>admin/main_list_planned"> <i class="menu-icon fas fa-calendar-alt"></i> 계획중 산행 목록</a>
             <a class="collapse-item" href="<?=base_url()?>admin/main_entry"> <i class="menu-icon fas fa-calendar-plus"></i> 신규 산행 등록</a>
+            <a class="collapse-item" href="<?=base_url()?>admin/setup_schedule"> <i class="menu-icon fas fa-calendar-alt"></i> 산행계획</a>
           </div>
         </div>
       </li>
