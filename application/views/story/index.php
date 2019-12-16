@@ -1,7 +1,7 @@
 <?php
   foreach ($listStory as $value):
     if (file_exists(PHOTO_PATH . $value['created_by'])) {
-      $value['photo'] = PHOTO_URL . $value['user_idx'];
+      $value['photo'] = base_url() . PHOTO_URL . $value['user_idx'];
     } else {
       $value['photo'] = base_url() . 'public/images/user.png';
     }
@@ -12,7 +12,7 @@
               <a href="<?=base_url()?>story/view/<?=$view['idx']?>?n=<?=$value['idx']?>" class="story-date"><?=calcDate($value['created_at'])?></a><?=!empty($userData['idx']) && ($userData['idx'] == $value['created_by'] || $userData['admin'] == 1) ? ' | <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '" data-action="delete">삭제</a>' : ''?>
             </div>
             <div class="story-content">
-<?php if (!empty($value['filename'])): ?><img src="<?=base_url()?>public/photos/<?=$value['filename']?>"><br><?php endif; ?>
+              <?php if (!empty($value['filename'])): ?><img src="<?=base_url()?>public/photos/<?=$value['filename']?>"><br><?php endif; ?>
               <?=nl2br(strip_tags($value['content']))?>
             </div>
             <div class="story-reaction">

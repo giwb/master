@@ -261,6 +261,12 @@
         }
       }
     });
+  }).on('keypress', '.form-search', function(e) {
+    // 검색폼 엔터 처리
+    if (e.keyCode == 13) {
+      $('input[name=p]').val('');
+      $('#formList').submit();
+    }
   }).on('click', '.btn-member-search', function() {
     // 회원 검색
     $('input[name=p]').val('');
