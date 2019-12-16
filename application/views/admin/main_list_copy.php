@@ -116,8 +116,10 @@
 <div id="club" class="m-auto" style="width: 750px;">
   <div id="calendar"></div>
 
-  ■ <strong>현재 예약 진행중인 산행 내역</strong> <small>(<?=date('Y-m-d H:i:s')?> Updated!)</small>
-  <div class="list-schedule border-top mt-3 mb-5">
+  <div class="text-left mb-2">
+    ■ <strong>현재 예약 진행중인 산행 내역</strong> <small>(<?=date('Y-m-d H:i:s')?> Updated!)</small>
+  </div>
+  <div class="list-schedule border-top mt-2 mb-5">
     <?php foreach ($listNotice as $value): ?>
       <a target="_blank" href="<?=base_url()?>reserve/?n=<?=$value['idx']?>"><?=viewStatus($value['status'])?> <strong><?=$value['subject']?></strong><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원</a>
     <?php endforeach; ?>
