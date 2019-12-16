@@ -50,6 +50,7 @@
   <script src="<?=base_url()?>public/js/main.js?<?=time()?>"></script>
 
   <style>
+    body { font-size: 14px; font-family: "Malgun Gothic"; }
     #club a:link, #club a:active, #club a:visited { color: #FF6C00; }
     #club a:hover { color: #0AB031; }
     .fc-event { background: #fff; color: #000; }
