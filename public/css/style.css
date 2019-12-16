@@ -1933,8 +1933,8 @@ h1.nav-logo small {
 #club .club-main .your-story .area-photo .icon-photo-delete:before { transform: rotate(45deg); }
 #club .club-main .your-story .area-photo .icon-photo-delete:after { transform: rotate(-45deg); }
 
-#club .club-main article { width: 100%; background-color: #ddd; clear: both; display: block; margin: 0 0 20px 0; padding: 10px; border-radius: 10px; }
-#club .club-main .story-container { width: 100%; background-color: #fff; padding: 20px; border-radius: 5px; }
+#club .club-main article { width: 100%; background-color: #ddd; clear: both; display: block; margin: 0 0 20px 0; padding: 1px; border-radius: 0px; }
+#club .club-main .story-container { width: 100%; background-color: #fff; padding: 20px; border-radius: 0px; }
 #club .club-main .story-profile { font-size: 12px; }
 #club .club-main .story-profile strong { font-size: 14px; font-weight: bold; color: #000; }
 #club .club-main .story-profile img { margin: 0 10px 0 0; float: left; }
