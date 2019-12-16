@@ -95,20 +95,14 @@
           title: '<?=$value['starttime']?>\n<?=$value['mname']?>',
           start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>T00:00:01'),
           end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>T23:59:59'),
-          url: '<?=$url?>',
+          url: 'javascript:;',
           className: 'notice-status<?=$value['status']?>'
         },
         <?php
             endif;
           endforeach;
         ?>
-      ],
-      eventClick: function(event) {
-        if (event.url) {
-          window.open(event.url, '_blank');
-          return false;
-        }
-      }
+      ]
     });
   });
 </script>
