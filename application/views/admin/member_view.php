@@ -85,9 +85,9 @@
           <div class="row align-items-center mb-2 pt-2 pb-2">
             <div class="col-sm-1">회원 형태</div>
             <div class="col-sm-4 row align-items-center">
-              <div class="col-sm-4"><label><input<?=$view['level'] == LEVEL_LIFETIME ? ' checked' : ''?> type="checkbox" name="level" value="<?=LEVEL_LIFETIME?>"> 평생회원 체크</label></div>
-              <div class="col-sm-4"><label><input<?=$view['level'] == LEVEL_FREE ? ' checked' : ''?> type="checkbox" name="level" value="<?=LEVEL_FREE?>"> 무료회원 체크</label></div>
-              <div class="col-sm-4"><label><input<?=$view['admin'] == 1 ? ' checked' : ''?> type="checkbox" name="admin" value="1"> 관리자 체크</label></div>
+              <div class="col-sm-4"><label><input<?=$view['level'] == LEVEL_LIFETIME ? ' checked' : ''?> type="checkbox" name="level" value="<?=LEVEL_LIFETIME?>"> 평생회원</label></div>
+              <div class="col-sm-4"><label><input<?=$view['level'] == LEVEL_FREE ? ' checked' : ''?> type="checkbox" name="level" value="<?=LEVEL_FREE?>"> 무료회원</label></div>
+              <div class="col-sm-4"><label><input<?=$view['admin'] == 1 ? ' checked' : ''?> type="checkbox" name="admin" value="1"> 관리자</label></div>
             </div>
           </div>
           <div class="row align-items-center mb-2 pt-2 pb-2">

@@ -67,6 +67,7 @@
         </a>
         <div id="collapseItem" class="collapse<?=strstr($uri, 'main') ? " show" : ""?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="<?=base_url()?>admin/setup_schedule"> <i class="menu-icon fas fa-calendar-alt"></i> 산행계획</a>
             <a class="collapse-item" href="<?=base_url()?>admin/main_list_progress"> <i class="menu-icon fas fa-calendar"></i> 진행중 산행 목록</a>
             <a class="collapse-item" href="<?=base_url()?>admin/main_list_closed"> <i class="menu-icon fas fa-calendar-check"></i> 다녀온 산행 목록</a>
             <a class="collapse-item" href="<?=base_url()?>admin/main_list_canceled"> <i class="menu-icon fas fa-calendar-times"></i> 취소된 산행 목록</a>
@@ -136,7 +137,6 @@
             <a class="collapse-item" href="<?=base_url()?>admin/setup_sms"> <i class="menu-icon fas fa-sms"></i> 문자양식보기</a>
             <a class="collapse-item" href="<?=base_url()?>admin/setup_bustype"> <i class="menu-icon fas fa-bus"></i> 차종등록</a>
             <a class="collapse-item" href="<?=base_url()?>admin/setup_calendar"> <i class="menu-icon fas fa-calendar"></i> 달력관리</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/setup_schedule"> <i class="menu-icon fas fa-calendar-alt"></i> 산행계획</a>
             <!--<a class="collapse-item" href="<?=base_url()?>admin/setup_front"> <i class="menu-icon fas fa-square"></i> 대문관리</a>-->
           </div>
         </div>

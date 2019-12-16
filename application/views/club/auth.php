@@ -4,6 +4,7 @@
         <div class="sub-header">백산백소 인증현황</div>
         <div class="sub-content">
 
+          <br>
           <table class="auth">
             <colgroup>
               <col width="5%">
