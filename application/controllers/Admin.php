@@ -992,9 +992,9 @@ class Admin extends Admin_Controller
       }
 
       if (!$rtn) {
-        $result = array('error' => 1, 'message' => '에러가 발생했습니다.');
+        $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
       } else {
-        $result = array('error' => 0, 'message' => '');
+        $result = array('error' => 0, 'message' => $this->lang->line('msg_update_complete'));
       }
     }
 
@@ -1418,6 +1418,47 @@ class Admin extends Admin_Controller
   }
 
   /**
+   * 회원 포인트/페널티 수정
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function member_update_point($idx)
+  {
+    $now = time();
+    $search['idx'] = html_escape($idx);
+    $type = html_escape($this->input->post('type'));
+    $point = html_escape($this->input->post('point'));
+    $penalty = html_escape($this->input->post('penalty'));
+
+    // 회원 정보
+    $viewMember = $this->admin_model->viewMember($search);
+
+    switch ($type) {
+      case 1: // 포인트 추가
+        $updateValues['point'] = $viewMember['point'] + $point;
+        setHistory(LOG_POINTUP, $search['idx'], $viewMember['userid'], $viewMember['nickname'], '관리자', $now, $point);
+        break;
+      case 2: // 포인트 감소
+        $updateValues['point'] = $viewMember['point'] - $point;
+        setHistory(LOG_POINTDN, $search['idx'], $viewMember['userid'], $viewMember['nickname'], '관리자', $now, $point);
+        break;
+      case 3: // 페널티 추가
+        $updateValues['penalty'] = $viewMember['penalty'] + $penalty;
+        setHistory(LOG_PENALTYUP, $search['idx'], $viewMember['userid'], $viewMember['nickname'], '관리자', $now, $penalty);
+        break;
+      case 4: // 페널티 감소
+        $updateValues['penalty'] = $viewMember['penalty'] - $penalty;
+        setHistory(LOG_PENALTYDN, $search['idx'], $viewMember['userid'], $viewMember['nickname'], '관리자', $now, $penalty);
+        break;
+    }
+
+    $result = $this->admin_model->updateMember($updateValues, $search['idx']);
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 회원 정보 삭제
    *
    * @return view
@@ -1634,15 +1675,15 @@ class Admin extends Admin_Controller
           break;
         case '5': // 포인트 감소
           $viewData['listHistory'][$key]['header'] = '[포인트감소]';
-          $viewData['listHistory'][$key]['subject'] = '<a target="_blank" href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '" class="text-warning">' . $value['subject'] . '</a>';
+          $viewData['listHistory'][$key]['subject'] = '<a target="_blank" href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '" class="text-warning">' . $value['subject'] . '</a> ' . $value['point'];
           break;
         case '6': // 페널티 추가
           $viewData['listHistory'][$key]['header'] = '[페널티추가]';
-          $viewData['listHistory'][$key]['subject'] = '<a target="_blank" href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '" class="text-warning">' . $value['subject'] . '</a>';
+          $viewData['listHistory'][$key]['subject'] = '<a target="_blank" href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '" class="text-warning">' . $value['subject'] . '</a> ' . $value['point'];
           break;
         case '7': // 페널티 감소
           $viewData['listHistory'][$key]['header'] = '[페널티감소]';
-          $viewData['listHistory'][$key]['subject'] = '<a target="_blank" href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '" class="text-success">' . $value['subject'] . '</a>';
+          $viewData['listHistory'][$key]['subject'] = '<a target="_blank" href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '" class="text-success">' . $value['subject'] . '</a> ' . $value['point'];
           break;
       }
     }
@@ -1678,6 +1719,9 @@ class Admin extends Admin_Controller
     $viewData['pageTitle'] = '관리자 예약 기록';
 
     foreach ($viewData['listHistory'] as $key => $value) {
+      $search['userid'] = $value['userid'];
+      $viewData['listHistory'][$key]['userData'] = $this->admin_model->viewMember($search);
+
       switch ($value['action']) {
         case LOG_ADMIN_RESERVE: // 관리자 예약
           $viewData['listHistory'][$key]['header'] = '[관리자예약완료]';

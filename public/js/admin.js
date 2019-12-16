@@ -46,7 +46,19 @@
     e.preventDefault();
   });
 
-  $(document).on('click', '.btn-member-update', function() {
+  $(document).on('click', '.logout', function() {
+    // 로그아웃
+    var base_url = $('input[name=base_url]').val();
+
+    $.ajax({
+      url: base_url + 'logout',
+      dataType: 'json',
+      success: function() {
+        location.href = (base_url);
+      }
+    });
+  }).on('click', '.btn-member-update', function() {
+    // 회원정보 수정
     var $btn = $(this);
     var formData = new FormData($('#formMember')[0]);
     $.ajax({
@@ -67,17 +79,33 @@
         }, 3000);
       }
     });
-  }).on('click', '.logout', function() {
-    // 로그아웃
-    var base_url = $('input[name=base_url]').val();
-
+  }).on('click', '.btn-member-point-update', function() {
+    var $btn = $(this);
     $.ajax({
-      url: base_url + 'logout',
+      url: $('input[name=base_url]').val() + 'admin/member_update_point/' + $('input[name=idx]').val(),
+      data: 'action=' + $('input[name=action]').val() + '&type=' + $('input[name=type]').val() + '&point=' + $('input[name=point]').val() + '&penalty=' + $('input[name=penalty]').val(),
       dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+      },
       success: function() {
-        location.href = (base_url);
+        location.reload();
       }
     });
+  }).on('click', '.btn-point-modal', function() {
+    // 회원 페널티 모달
+    var type = $(this).data('type');
+    var action;
+    var msg;
+    if (type == 1) { msg = '포인트를 추가'; action = 'member_update_point'; }
+    if (type == 2) { msg = '포인트를 감소'; action = 'member_update_point'; }
+    if (type == 3) { msg = '페널티를 추가'; action = 'member_update_penalty'; }
+    if (type == 4) { msg = '페널티를 감소'; action = 'member_update_penalty'; }
+    $('#pointModal .modal-message').text('정말로 ' + msg + '하시겠습니까?');
+    $('#pointModal input[name=action]').val(action);
+    $('#pointModal input[name=type]').val(type);
+    $('#pointModal').modal({backdrop: 'static', keyboard: false});
   }).on('click', '.btn-member-delete-modal', function() {
     // 회원 삭제 모달
     $('#messageModal .modal-message').text('정말로 이 회원을 삭제하시겠습니까?');
@@ -175,15 +203,8 @@
           $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
         },
         success: function(result) {
-          if (result.error == 1) {
-            $('#messageModal .modal-footer .btn').hide();
-            $('#messageModal .modal-footer .btn-close').show();
-            $('#messageModal .modal-message').text(result.message);
-            $('#messageModal').modal('show');
-            $btn.css('opacity', '1').prop('disabled', false).text(btnText);
-          } else {
-            location.href=($('input[name=base_url]').val() + 'admin/main_list_progress');
-          }
+          $btn.css('opacity', '1').prop('disabled', false).text(btnText);
+          $.openMsgModal(result.message);
         }
       });
   }).on('click', '.btn-front-submit', function() {

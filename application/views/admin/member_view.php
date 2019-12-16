@@ -1,14 +1,13 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-    <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-      <!-- Main Content -->
       <div id="content">
-        <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-          <h1 class="h3 mb-0 text-gray-800">회원 정보</h1>
+          <h1 class="h3 mb-0 text-gray-800">회원 정보 수정</h1>
         </div>
-
+        <div class="border-bottom mt-5 mb-3 pb-3">
+          <h5>■ 기본 정보</h3>
+        </div>
         <form id="formMember" method="post" action="<?=base_url()?>admin/member_update">
           <input type="hidden" name="idx" value="<?=$view['idx']?>">
           <div class="row align-items-center mb-2">
@@ -91,20 +90,38 @@
             </div>
           </div>
           <div class="row align-items-center mb-2 pt-2 pb-2">
-            <div class="col-sm-1">예약횟수</div>
-            <div class="col-sm-4"><?=$view['rescount']?></div>
-          </div>
-          <div class="row align-items-center mb-2 pt-2 pb-2">
-            <div class="col-sm-1">페널티</div>
-            <div class="col-sm-4"><?=$view['penalty']?></div>
-          </div>
-          <div class="row align-items-center mb-2 pt-2 pb-2">
             <div class="col-sm-1">등급</div>
             <div class="col-sm-4"><?=$view['memberLevel']['levelName']?></div>
           </div>
           <div class="row align-items-center mb-2 pt-2 pb-2">
+            <div class="col-sm-1">예약횟수</div>
+            <div class="col-sm-4"><?=$view['rescount']?></div>
+          </div>
+          <div class="row align-items-center mb-2 pt-2 pb-2">
             <div class="col-sm-1">포인트</div>
-            <div class="col-sm-4"><?=$view['point']?></div>
+            <div class="col-sm-4 row align-items-center">
+              <div class="col-sm-5"><?=$view['point']?></div>
+              <div class="col-sm-4">
+                <input type="text" name="point" class="form-control form-control-sm">
+              </div>
+              <div class="col-sm-3">
+                <button type="button" class="btn btn-sm btn-primary btn-point-modal" data-type="1">추가</button>
+                <button type="button" class="btn btn-sm btn-danger btn-point-modal" data-type="2">감소</button>
+              </div>
+            </div>
+          </div>
+          <div class="row align-items-center mb-2 pt-2 pb-2">
+            <div class="col-sm-1">페널티</div>
+            <div class="col-sm-4 row align-items-center">
+              <div class="col-sm-5"><?=$view['penalty']?></div>
+              <div class="col-sm-4">
+                <input type="text" name="penalty" class="form-control form-control-sm">
+              </div>
+              <div class="col-sm-3">
+                <button type="button" class="btn btn-sm btn-primary btn-point-modal" data-type="3">추가</button>
+                <button type="button" class="btn btn-sm btn-danger btn-point-modal" data-type="4">감소</button>
+              </div>
+            </div>
           </div>
           <div class="row align-items-center mb-2 pt-2 pb-2">
             <div class="col-sm-1">아이콘</div>
@@ -116,7 +133,6 @@
               <?php endif; ?>
             </div>
           </div>
-
           <div class="pt-2 pb-5 text-center">
             <div class="error-message"></div>
             <input type="hidden" name="back_url" value="member_list">
@@ -124,5 +140,28 @@
             <button type="button" class="btn btn-secondary btn-member-delete-modal">삭제합니다</button>
           </div>
         </form>
+      </div>
+    </div>
+
+    <!-- 페널티/포인트 추가 모달 -->
+    <div class="modal fade" id="pointModal" tabindex="-1" role="dialog" aria-labelledby="pointModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="smallmodalLabel">메세지</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-center">
+            <p class="modal-message"></p>
+          </div>
+          <div class="modal-footer">
+            <input type="hidden" name="action">
+            <input type="hidden" name="type">
+            <button type="button" class="btn btn-primary btn-member-point-update">승인</button>
+            <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
+          </div>
+        </div>
       </div>
     </div>
