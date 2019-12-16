@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => 'M0YmWf6IW35Y',
-	'database' => 'giwb',
+	'hostname' => 'mysql1022.db.sakura.ne.jp',
+	'username' => 'sayhome',
+	'password' => '3xp83vs548',
+	'database' => 'sayhome_giwb',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
