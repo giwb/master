@@ -50,7 +50,7 @@
   <script src="<?=base_url()?>public/js/main.js?<?=time()?>"></script>
 
   <style>
-    body { font-size: 14px; font-family: "Malgun Gothic"; }
+    body { font-size: 14px; font-family: "맑은 고딕"; }
     #club a:link, #club a:active, #club a:visited { color: #FF6C00; }
     #club a:hover { color: #0AB031; }
     .fc-event { background: #fff; color: #000; }
@@ -121,6 +121,7 @@
         ?>
       ]
     });
+    $(".fc-state-highlight").removeClass("fc-state-highlight");
   });
 </script>
 
@@ -133,7 +134,7 @@
   </div>
   <?php foreach ($listNotice as $value): ?>
   <div style="font-size: 14px;">
-    <strong><?=viewStatus($value['status'])?></strong> <a target="_blank" href="<?=base_url()?>reserve/?n=<?=$value['idx']?>"><strong><?=$value['subject']?></strong></a><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원<hr style="margin: 10px 0;">
+    <strong><?=viewStatus($value['status'])?></strong> <a target="_blank" href="<?=base_url()?>reserve/?n=<?=$value['idx']?>"><strong><?=$value['subject']?></strong></a><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원<hr style="margin: 10px 0 9px 0;">
   </div>
   <?php endforeach; ?>
 </div><br><br>
