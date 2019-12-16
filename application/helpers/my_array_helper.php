@@ -107,9 +107,9 @@ if (!function_exists('viewStatus')) {
     switch ($status) {
       case STATUS_ABLE:     $result = '<span class="status-wait">[예정]</span>'; break;
       case STATUS_CONFIRM:  $result = '<span class="status-confirm">[확정]</span>'; break;
-      case STATUS_CANCEL:   $result = '[취소]'; break;
-      case STATUS_CLOSED:   $result = '[종료]'; break;
-      default:              $result = '[계획]'; break;
+      case STATUS_CANCEL:   $result = '<span class="status-cancel">[취소]</span>'; break;
+      case STATUS_CLOSED:   $result = '<span class="status-closed">[종료]</span>'; break;
+      default:              $result = '<span class="status-plan">[계획]</span>'; break;
     }
     return $result;
   }
