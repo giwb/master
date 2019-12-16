@@ -1918,7 +1918,7 @@ h1.nav-logo small {
 #club .club-left .desc p { margin: 0 0 10px 0; }
 #club .club-left .banner { width: 100%; border: 1px solid #999; margin: 10px 0; padding: 10px 0; text-align: center; cursor: pointer; }
 
-#club .club-main .your-story { width: 100%!important; clear: both; margin: 20px 0 0 0; text-align: justify; overflow: hidden; }
+#club .club-main .your-story { width: 100%!important; clear: both; text-align: justify; overflow: hidden; }
 #club .club-main .your-story #club-story-content { width: 100%!important; height: 105px; padding: 10px; }
 #club .club-main .your-story .area-btn { height: 40px; margin: 10px 0; }
 #club .club-main .your-story .area-btn .btn-photo { font-size: 14px; border-radius: 10px; margin: 0 0 0 4px; padding: 3px 15px; float: left; }
@@ -1933,7 +1933,8 @@ h1.nav-logo small {
 #club .club-main .your-story .area-photo .icon-photo-delete:before { transform: rotate(45deg); }
 #club .club-main .your-story .area-photo .icon-photo-delete:after { transform: rotate(-45deg); }
 
-#club .club-main article { width: 100%; clear: both; display: block; margin: 0px; padding: 10px 0; }
+#club .club-main article { width: 100%; background-color: #ddd; clear: both; display: block; margin: 0 0 20px 0; padding: 10px; border-radius: 10px; }
+#club .club-main .story-container { width: 100%; background-color: #fff; padding: 20px; border-radius: 5px; }
 #club .club-main .story-profile { font-size: 12px; }
 #club .club-main .story-profile strong { font-size: 14px; font-weight: bold; color: #000; }
 #club .club-main .story-profile img { margin: 0 10px 0 0; float: left; }
@@ -1951,7 +1952,6 @@ h1.nav-logo small {
 #club .club-main .sub-contents .story-reaction { margin-top: 20px; }
 #club .club-main .story-reply { font-size: 14px; margin: 10px 0; display: none; }
 #club .club-main .story-article .story-reply, #club .club-main .story-reply.reply-type-2 { display: block; }
-#club .club-main .story-article { margin-top: -10px; }
 #club .club-main .story-reply dl { width: 100%; display: table; text-align: left; word-break: break-all; }
 #club .club-main .story-reply dl dt { width: 60px; display: table-cell; vertical-align: top; padding-right: 15px; white-space: nowrap; }
 #club .club-main .story-reply dl dd { display: table-cell; vertical-align: top; }

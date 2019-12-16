@@ -233,6 +233,8 @@
               </div>
             </li>
 
+            <li class="nav-item"><a class="nav-link" href="<?=base_url()?>"><i class="fa fa-home text-primary" aria-hidden="true"></i></a></li>
+
           </ul>
 
         </nav>
