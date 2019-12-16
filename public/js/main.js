@@ -359,6 +359,24 @@
         $dom.append('<img src="/public/images/icon_cross.png">')
       }
     }
+  }).on('blur', '.check-phone', function() {
+    var $dom = $('.check-phone');
+    var clubIdx = $('input[name=clubIdx]').val();
+    var phone = $('input[name=phone1]').val() + '-' + $('input[name=phone2]').val() + '-' + $('input[name=phone3]').val();
+    $.ajax({
+      url: $('input[name=baseUrl]').val() + 'login/check_phone/' + clubIdx,
+      data: 'phone=' + phone,
+      dataType: 'json',
+      type: 'post',
+      success: function(result) {
+        if (result.error == 1) {
+          $.openMsgModal(result.message);
+          $dom.append('<img class="check-phone-error" src="/public/images/icon_cross.png">')
+        } else {
+          $('img', $dom).remove();
+        }
+      }
+    });
   }).on('click', '.btn-entry', function() {
     // 회원가입
     if ($('.check-userid img').hasClass('check-userid-complete') == false) {
@@ -387,6 +405,10 @@
     }
     if ($('input:radio[name=birthday_type]').is(':checked') == false) {
       $.openMsgModal('양력/음력은 꼭 선택해주세요.');
+      return false;
+    }
+    if ($('.check-phone img').hasClass('check-phone-error') == true) {
+      $.openMsgModal('전화번호를 확인해주세요.');
       return false;
     }
     if ($('input[name=phone1]').val() == '' || $('input[name=phone2]').val() == '' || $('input[name=phone3]').val() == '') {
@@ -761,7 +783,7 @@
         }
       });
     } else {
-      $('img', $dom).remove();
+      $('.check-nickname img').remove();
     }
   }
 })(jQuery);

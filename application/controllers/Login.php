@@ -154,6 +154,27 @@ class Login extends CI_Controller
   }
 
   /**
+   * 전화번호 중복 체크
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function check_phone($clubIdx)
+  {
+    $clubIdx = html_escape($clubIdx);
+    $phone = html_escape($this->input->post('phone'));
+    $check = $this->member_model->checkPhone($clubIdx, $phone);
+
+    if (!empty($check['idx'])) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_phone_duplicate'));
+    } else {
+      $result = array('error' => 0);
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 회원가입 페이지
    *
    * @return view

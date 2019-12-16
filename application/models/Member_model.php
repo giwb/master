@@ -61,6 +61,16 @@ class Member_model extends CI_Model
     return $this->db->get()->row_array(1);
   }
 
+  // 전화번호 중복 확인
+  public function checkPhone($clubIdx, $phone)
+  {
+    $this->db->select('*')
+          ->from(DB_MEMBER)
+          ->where('club_idx', $clubIdx)
+          ->where('phone', $phone);
+    return $this->db->get()->row_array(1);
+  }
+
   // 총 예약 횟수
   public function cntReserve($userData, $status, $group=NULL)
   {
