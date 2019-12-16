@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'https://giwb.kr/';
+$config['base_url'] = 'http://testing.giwb.kr/';
 
 /*
 |--------------------------------------------------------------------------
