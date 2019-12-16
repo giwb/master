@@ -357,6 +357,9 @@ class Reserve extends MY_Controller
       // 해당 산행과 버스의 예약자 수
       $cntReserve = $this->reserve_model->cntReserve($clubIdx, $userReserve['rescode'], $userBus);
 
+      // 해당 산행의 대기자수
+      $cntReserveWait = $this->reserve_model->cntReserveWait($clubIdx, $userReserve['rescode']);
+
       $busType = getBusType($viewNotice['bustype'], $viewNotice['bus']);
       $maxSeat = array();
       foreach ($busType as $key => $value) {
@@ -364,8 +367,8 @@ class Reserve extends MY_Controller
         $maxSeat[$cnt] = $value['seat'];
       }
 
-      // 예약자가 초과됐을 경우
-      if ($cntReserve['cnt'] >= $maxSeat[$userBus]) {
+      // 예약자가 초과됐을 경우, 대기자수가 1명이라도 있을 경우
+      if ($cntReserve['cnt'] >= $maxSeat[$userBus] && $cntReserveWait['cnt'] >= 1) {
         // 예약 삭제 처리
         $updateValues = array(
           'userid' => NULL,

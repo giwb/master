@@ -220,6 +220,16 @@ class Admin_model extends CI_Model
     return $this->db->delete(DB_NOTICE);
   }
 
+  // 대기자 카운트
+  public function cntWait($clubIdx, $noticeIdx)
+  {
+    $this->db->select('COUNT(created_at) as cnt')
+          ->from(DB_WAIT)
+          ->where('club_idx', $clubIdx)
+          ->where('notice_idx', $noticeIdx);
+    return $this->db->get()->row_array(1);
+  }
+
   // 대기자 목록
   public function listWait($rescode)
   {

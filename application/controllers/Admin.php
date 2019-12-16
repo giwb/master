@@ -252,6 +252,9 @@ class Admin extends Admin_Controller
     // 해당 산행과 버스의 예약자 수
     $cntReservation = $this->admin_model->cntReservation($viewReserve['rescode'], $viewReserve['bus']);
 
+    // 대기자 수
+    $cntWait = $this->admin_model->cntWait($clubIdx, $viewReserve['rescode']);
+
     $busType = getBusType($viewEntry['bustype'], $viewEntry['bus']);
     $maxSeat = array();
     foreach ($busType as $key => $value) {
@@ -259,8 +262,8 @@ class Admin extends Admin_Controller
       $maxSeat[$cnt] = $value['seat'];
     }
 
-    // 예약자가 초과됐을 경우
-    if ($cntReservation['CNT'] >= $maxSeat[$viewReserve['bus']]) {
+    // 예약자가 초과됐을 경우, 대기자수가 1명 이상일 경우
+    if ($cntReservation['CNT'] >= $maxSeat[$viewReserve['bus']] && $cntWait['cnt'] >= 1) {
       // 예약 삭제 처리
       $updateValues = array(
         'userid' => NULL,
