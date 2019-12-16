@@ -1282,6 +1282,56 @@ class Admin extends Admin_Controller
     $this->output->set_output(json_encode($result));
   }
 
+  /**
+   * 산행관리 - 산행일정 복사하기
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function main_list_copy()
+  {
+    // 등록된 산행 목록
+    $search['sdate'] = date('Y-m-01');
+    $search['edate'] = date('Y-m-t', time() + (60 * 60 * 24 * 30 * 12));
+    $search['status'] = array(STATUS_ABLE, STATUS_CONFIRM);
+    $viewData['listNotice'] = $this->admin_model->listNotice($search);
+
+    foreach ($viewData['listNotice'] as $key => $value) {
+      $viewData['listCalendar'][] = array(
+        'idx' => $value['idx'],
+        'startdate' => $value['startdate'],
+        'starttime' => $value['starttime'],
+        'enddate' => $value['enddate'],
+        'schedule' => $value['schedule'],
+        'status' => $value['status'],
+        'mname' => $value['mname'],
+        'class' => '',
+      );
+    }
+
+    // 캘린더 설정
+    $listCalendar = $this->admin_model->listCalendar();
+
+    foreach ($listCalendar as $key => $value) {
+      if ($value['holiday'] == 1) {
+        $class = 'holiday';
+      } else {
+        $class = 'dayname';
+      }
+      $viewData['listCalendar'][] = array(
+        'idx' => 0,
+        'startdate' => $value['nowdate'],
+        'enddate' => $value['nowdate'],
+        'schedule' => 0,
+        'status' => 'schedule',
+        'mname' => $value['dayname'],
+        'class' => $class,
+      );
+    }
+
+    $this->load->view('admin/main_list_copy', $viewData);
+  }
+
 
   /** ---------------------------------------------------------------------------------------
    * 회원관리

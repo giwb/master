@@ -73,6 +73,7 @@
             <a class="collapse-item" href="<?=base_url()?>admin/main_list_planned"> <i class="menu-icon fas fa-calendar-alt"></i> 계획중 산행 목록</a>
             <a class="collapse-item" href="<?=base_url()?>admin/main_entry"> <i class="menu-icon fas fa-calendar-plus"></i> 신규 산행 등록</a>
             <a class="collapse-item" href="<?=base_url()?>admin/main_schedule"> <i class="menu-icon fas fa-calendar-week"></i> 산행계획</a>
+            <a class="collapse-item" href="<?=base_url()?>admin/main_list_copy"> <i class="menu-icon fas fa-copy"></i> 산행일정 복사하기</a>
           </div>
         </div>
       </li>
