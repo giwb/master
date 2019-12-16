@@ -637,8 +637,11 @@ table.fc-header{
     padding: 0px 5px;
     text-align: center;
 }
-.fc-sun, .fc-sat{
-    color: #b8b8b8;
+.fc-sat {
+    color: #1D73F2;
+}
+.fc-sun {
+    color: #FF0000;
 }
 
 .fc-week .fc-day:hover .fc-day-number{
