@@ -30,9 +30,7 @@
   <link href="<?=base_url()?>public/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
   <link href="<?=base_url()?>public/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
   <link href="<?=base_url()?>public/css/fullcalendar.css" rel="stylesheet">
-  <link href="<?=base_url()?>public/css/fullcalendar.print.css" rel="stylesheet">
-  <link href="<?=base_url()?>public/css/style.css?<?=time()?>" rel="stylesheet">
-
+  
   <script src="<?=base_url()?>public/js/jquery-2.1.4.min.js" type="text/javascript"></script>
   <script src="<?=base_url()?>public/js/jquery-ui.custom.min.js" type="text/javascript"></script>
 
@@ -51,6 +49,24 @@
   <script src="<?=base_url()?>public/js/fullcalendar.js" type="text/javascript"></script>
   <script src="<?=base_url()?>public/js/main.js?<?=time()?>"></script>
 
+  <style>
+    #club a:link, #club a:active, #club a:visited { color: #FF6C00; }
+    #club a:hover { color: #0AB031; }
+    .fc-event { background: #fff; color: #000; }
+    #calendar { margin: 30px 0; }
+    #calendar .fc-event { padding: 5px 5px 4px 5px; }
+    #calendar .fc-event.notice-status1 { color: #000; background-color: #FEECBF; }
+    #calendar .fc-event.notice-status2 { color: #000; background-color: #F6C23E; }
+    #calendar .fc-event.notice-status8 { background-color: #EFEFEF; }
+    #calendar .fc-event.notice-status8 .fc-event-title { color: #999; text-decoration: line-through; }
+    #calendar .fc-event.notice-status9 { background-color: #EFEFEF; }
+    #calendar .fc-event.holiday { color: #fff; background-color: #dc3545; }
+    #calendar .fc-event.dayname { color: #fff; background-color: #999; }
+    #calendar .fc-view { border-bottom: 1px solid #d9d9d9; }
+    #calendar .fc-week .fc-day > div .fc-day-number { padding: 1px; }
+    #calendar .fc-border-separate tr.fc-last th { border: 1px solid #cdcdcd; border-width: 1px 0; font-size: 14px; padding: 0px; line-height: 1.8rem; }
+  </style>
+
 </head>
 <body>
 
@@ -58,9 +74,9 @@
   $(document).ready(function() {
     $('#calendar').fullCalendar({
       header: {
-        left: 'prev',
+        left: '',
         center: 'title',
-        right: 'next'
+        right: ''
       },
       titleFormat: {
         month: 'yyyy년 MMMM',
@@ -110,15 +126,16 @@
 <div id="club" class="m-auto" style="width: 750px;">
   <div id="calendar"></div>
 
-  <div class="text-left border-bottom pb-3">
+  <div class="text-left">
     ■ <strong>현재 예약 진행중인 산행 내역</strong> <small>(<?=date('Y-m-d H:i:s')?> Updated!)</small>
+    <hr style="margin: 10px 0;">
   </div>
-  <div class="list-schedule mt-2 mb-5">
-    <?php foreach ($listNotice as $value): ?>
-      <a target="_blank" href="<?=base_url()?>reserve/?n=<?=$value['idx']?>"><?=viewStatus($value['status'])?> <strong><?=$value['subject']?></strong><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원</a>
-    <?php endforeach; ?>
+  <?php foreach ($listNotice as $value): ?>
+  <div style="font-size: 14px;">
+    <strong><?=viewStatus($value['status'])?></strong> <a target="_blank" href="<?=base_url()?>reserve/?n=<?=$value['idx']?>"><strong><?=$value['subject']?></strong></a><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원<hr style="margin: 10px 0;">
   </div>
-</div>
+  <?php endforeach; ?>
+</div><br><br>
 
 </body>
 </html>
