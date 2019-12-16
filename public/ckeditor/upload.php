@@ -4,7 +4,7 @@ if (strstr($_SERVER['HTTP_HOST'], 'giwb.localhost') == true) {
 } elseif (strstr($_SERVER['HTTP_HOST'], 'testing.giwb.kr') == true) {
   define('EDITOR_PATH', '/home/sayhome/www/giwb/public/uploads/editor/');
 } else {
-  define('EDITOR_PATH', '/home/bitnami/htdocs/giwb/public/uploads/editor/');
+  define('EDITOR_PATH', '/home/bitnami/htdocs/public/uploads/editor/');
 }
 define('EDITOR_URL', '/public/uploads/editor/');
 
