@@ -491,7 +491,7 @@
   }).on('click', '.btn-upload', function() {
     $(this).prev().click();
   }).on('click', '.search-btn', function() {
-  $('#nav-search').toggleClass('active');
+    //$('#nav-search').toggleClass('active');
   }).on('click', '.search-close', function() {
     $('#nav-search').removeClass('active');
   }).on('click', '.nav-aside-close', function() {
