@@ -51,6 +51,7 @@
 
   <style>
     body { font-size: 14px; font-family: "맑은 고딕"; }
+    .fc-header-title { font-family: "맑은 고딕"; }
     #club a:link, #club a:active, #club a:visited { color: #FF6C00; }
     #club a:hover { color: #0AB031; }
     .fc-event { background: #fff; color: #000; }
