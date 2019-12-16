@@ -66,7 +66,7 @@ class Club_model extends CI_Model
   // 백산백소 닉네임별 정보
   public function listAuthNotice($nickname)
   {
-    $this->db->select('ANY_VALUE(a.*), ANY_VALUE(a.rescode), ANY_VALUE(a.userid), ANY_VALUE(a.nickname), ANY_VALUE(a.photo), ANY_VALUE(a.title), ANY_VALUE(a.regdate)')
+    $this->db->select('ANY_VALUE(a.idx), ANY_VALUE(a.rescode), ANY_VALUE(a.userid), ANY_VALUE(a.nickname), ANY_VALUE(a.photo), ANY_VALUE(a.title), ANY_VALUE(a.regdate)')
           ->from(DB_AUTH . ' a')
           ->from(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
           ->where('a.nickname', $nickname)
