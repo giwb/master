@@ -1469,6 +1469,9 @@ class Admin extends Admin_Controller
     $viewData['pageTitle'] = '회원 예약 기록';
 
     foreach ($viewData['listHistory'] as $key => $value) {
+      $search['userid'] = $value['userid'];
+      $viewData['listHistory'][$key]['userData'] = $this->admin_model->viewMember($search);
+
       switch ($value['action']) {
         case '1': // 회원등록
           $viewData['listHistory'][$key]['header'] = '[회원등록]';
