@@ -1755,17 +1755,14 @@ class Admin extends Admin_Controller
    **/
   public function log_reserve()
   {
-    $viewData['keyword'] = html_escape($this->input->post('k'));
-    $viewData['searchReserve'] = array();
-
+    $viewData['keyword'] = !empty($this->input->post('k')) ? html_escape($this->input->post('k')) : NULL;
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
     $paging['perPage'] = 20;
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
 
-    if (!empty($viewData['keyword'])) {
-      $viewData['searchReserve'] = $this->admin_model->searchReserve($paging, $viewData['keyword']);
-    }
+    // 예약기록 불러오기
+    $viewData['listReserve'] = $this->admin_model->listReserve($paging, $viewData['keyword']);
 
     if ($page >= 2) {
       // 2페이지 이상일 경우에는 Json으로 전송
