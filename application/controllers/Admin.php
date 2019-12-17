@@ -1753,7 +1753,39 @@ class Admin extends Admin_Controller
   --------------------------------------------------------------------------------------- **/
 
   /**
-   * 활동관리 - 회원 예약 목록
+   * 활동관리 - 예약기록
+   *
+   * @return view
+   * @return json
+   * @author bjchoi
+   **/
+  public function log_reserve()
+  {
+    $viewData['keyword'] = html_escape($this->input->post('k'));
+    $viewData['searchReserve'] = array();
+
+    $page = html_escape($this->input->post('p'));
+    if (empty($page)) $page = 1; else $page++;
+    $paging['perPage'] = 20;
+    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
+
+    if (!empty($viewData['keyword'])) {
+      $viewData['searchReserve'] = $this->admin_model->searchReserve($paging, $viewData['keyword']);
+    }
+
+    if ($page >= 2) {
+      // 2페이지 이상일 경우에는 Json으로 전송
+      $result['page'] = $page;
+      $result['html'] = $this->load->view('admin/log_reserve_append', $viewData, true);
+      $this->output->set_output(json_encode($result));
+    } else {
+      // 1페이지에는 View 페이지로 전송
+      $this->_viewPage('admin/log_reserve', $viewData);
+    }
+  }
+
+  /**
+   * 활동관리 - 회원 활동기록
    *
    * @return view
    * @return json
@@ -1831,7 +1863,7 @@ class Admin extends Admin_Controller
   }
 
   /**
-   * 활동관리 - 관리자 예약 목록
+   * 활동관리 - 관리자 활동기록
    *
    * @return view
    * @return json
@@ -2475,6 +2507,7 @@ class Admin extends Admin_Controller
   private function _viewPage($viewPage, $viewData=NULL)
   {
     $headerData['uri'] = $_SERVER['REQUEST_URI'];
+    $headerData['keyword'] = html_escape($this->input->post('k'));
     $this->load->view('admin/header', $headerData);
     $this->load->view($viewPage, $viewData);
     $this->load->view('admin/footer');
