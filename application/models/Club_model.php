@@ -68,7 +68,7 @@ class Club_model extends CI_Model
   {
     $this->db->select('ANY_VALUE(a.idx) AS idx, ANY_VALUE(a.rescode) AS rescode, ANY_VALUE(a.userid) AS userid, ANY_VALUE(a.nickname) AS nickname, ANY_VALUE(a.photo) AS photo, ANY_VALUE(a.title) AS title, ANY_VALUE(a.regdate) AS regdate, ANY_VALUE(b.startdate) AS startdate')
           ->from(DB_AUTH . ' a')
-          ->from(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
+          ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
           ->where('a.nickname', $nickname)
           ->group_by('a.title')
           ->order_by('startdate', 'asc');
