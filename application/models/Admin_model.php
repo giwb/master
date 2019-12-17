@@ -111,6 +111,23 @@ class Admin_model extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  // 회원 예약 목록
+  public function searchReserve($paging, $nickname)
+  {
+    $this->db->select('a.rescode, a.userid, a.nickname, a.bus, a.seat, a.loc, a.memo, b.startdate, b.starttime, b.subject, b.bus AS notice_bus, b.bustype AS notice_bustype, b.status AS notice_status, b.cost, b.cost_total')
+          ->from(DB_RESERVATION . ' a')
+          ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
+          ->like('a.nickname', $nickname)
+          ->where_in('b.status', array(STATUS_ABLE, STATUS_CONFIRM, STATUS_CLOSED))
+          ->order_by('b.startdate', 'desc');
+
+    if (!is_null($paging)) {
+      $this->db->limit($paging['perPage'], $paging['nowPage']);
+    }
+
+    return $this->db->get()->result_array();
+  }
+
   // 예약 정보 보기
   public function viewReserve($search)
   {

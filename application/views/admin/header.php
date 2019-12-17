@@ -114,6 +114,7 @@
         </a>
         <div id="collapseLog" class="collapse<?=strstr($uri, 'log') ? " show" : ""?>" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="<?=base_url()?>admin/log_reserve"> <i class="menu-icon fas fa-history"></i> 예약기록</a>
             <a class="collapse-item" href="<?=base_url()?>admin/log_user"> <i class="menu-icon fas fa-th-list"></i> 회원 활동기록</a>
             <a class="collapse-item" href="<?=base_url()?>admin/log_admin"> <i class="menu-icon fas fa-list-alt"></i> 관리자 활동기록</a>
             <a class="collapse-item" href="<?=base_url()?>admin/log_reply"> <i class="menu-icon fas fa-reply"></i> 댓글 기록</a>
@@ -170,18 +171,16 @@
           </button>
 
           <!-- Topbar Search -->
-          <!--
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+          <form method="post" action="<?=base_url()?>admin/log_reserve" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
             <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+              <input type="text" name="k" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" value="<?=!empty($keyword) ? $keyword : ''?>">
               <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
+                <button class="btn btn-primary">
                   <i class="fas fa-search fa-sm"></i>
                 </button>
               </div>
             </div>
           </form>
-          -->
 
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
@@ -193,11 +192,11 @@
               </a>
               <!-- Dropdown - Messages -->
               <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
-                <form class="form-inline mr-auto w-100 navbar-search">
+                <form method="post" action="<?=base_url()?>admin/log_reserve" class="form-inline mr-auto w-100 navbar-search">
                   <div class="input-group">
-                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                    <input type="text" name="k" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" value="<?=!empty($keyword) ? $keyword : ''?>">
                     <div class="input-group-append">
-                      <button class="btn btn-primary" type="button">
+                      <button class="btn btn-primary">
                         <i class="fas fa-search fa-sm"></i>
                       </button>
                     </div>
