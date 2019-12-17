@@ -810,6 +810,11 @@ class Admin extends Admin_Controller
       $viewData['view']['driving_fuel'] = @unserialize($viewData['view']['driving_fuel']);
       $viewData['view']['driving_cost'] = @unserialize($viewData['view']['driving_cost']);
       $viewData['view']['driving_add'] = @unserialize($viewData['view']['driving_add']);
+
+      if (empty($viewData['view']['road_course'][0])) $viewData['view']['road_course'][0] = '기본운행구간';
+      if (empty($viewData['view']['road_distance'][0])) $viewData['view']['road_distance'][0] = '43.44';
+      if (empty($viewData['view']['road_runtime'][0])) $viewData['view']['road_runtime'][0] = '0:50';
+      if (empty($viewData['view']['road_cost'][0])) $viewData['view']['road_cost'][0] = '0';
     } else {
       $viewData['btn'] = '등록';
       $viewData['view']['idx'] = '';
