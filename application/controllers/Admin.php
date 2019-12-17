@@ -2329,6 +2329,7 @@ class Admin extends Admin_Controller
       $viewData['viewBustype']['bus_name'] = '';
       $viewData['viewBustype']['bus_owner'] = '';
       $viewData['viewBustype']['bus_seat'] = '';
+      $viewData['viewBustype']['memo'] = '';
       $viewData['action'] = "setup_bustype_insert";
       $viewData['btnName'] = "등록합니다";
     }
@@ -2350,12 +2351,14 @@ class Admin extends Admin_Controller
     $bus_name   = $this->input->post('bus_name') != '' ? html_escape($this->input->post('bus_name')) : NULL;
     $bus_owner  = $this->input->post('bus_owner') != '' ? html_escape($this->input->post('bus_owner')) : NULL;
     $bus_seat   = $this->input->post('bus_seat') != '' ? html_escape($this->input->post('bus_seat')) : NULL;
+    $memo       = $this->input->post('memo') != '' ? html_escape($this->input->post('memo')) : NULL;
 
     $insertData = array(
-      'bus_name' => $bus_name,
-      'bus_owner' => $bus_owner,
-      'bus_seat' => $bus_seat,
-      'created_at' => $now,
+      'bus_name'    => $bus_name,
+      'bus_owner'   => $bus_owner,
+      'bus_seat'    => $bus_seat,
+      'memo'        => $memo,
+      'created_at'  => $now,
     );
     $result = $this->admin_model->insertBustype($insertData);
 
@@ -2374,6 +2377,7 @@ class Admin extends Admin_Controller
     $bus_name   = $this->input->post('bus_name') != '' ? html_escape($this->input->post('bus_name')) : NULL;
     $bus_owner  = $this->input->post('bus_owner') != '' ? html_escape($this->input->post('bus_owner')) : NULL;
     $bus_seat   = $this->input->post('bus_seat') != '' ? html_escape($this->input->post('bus_seat')) : NULL;
+    $memo       = $this->input->post('memo') != '' ? html_escape($this->input->post('memo')) : NULL;
     $result     = 0;
 
     if (!is_null($idx)) {
@@ -2381,6 +2385,7 @@ class Admin extends Admin_Controller
         'bus_name' => $bus_name,
         'bus_owner' => $bus_owner,
         'bus_seat' => $bus_seat,
+        'memo' => $memo,
       );
 
       $result = $this->admin_model->updateBustype($updateData, $idx);

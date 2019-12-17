@@ -583,7 +583,7 @@ class Admin_model extends CI_Model
   // 설정 - 차종 정보
   public function getBustype($idx)
   {
-    $this->db->select('a.idx, a.bus_name, a.bus_owner, a.bus_seat, b.seat, b.direction')
+    $this->db->select('a.idx, a.bus_name, a.bus_owner, a.bus_seat, a.memo, b.seat, b.direction')
           ->from(DB_BUSTYPE . ' a')
           ->join(DB_BUSDATA . ' b', 'a.bus_seat=b.idx', 'left')
           ->where('a.idx', $idx);
