@@ -5,7 +5,6 @@
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
           <h1 class="h3 mb-0 text-gray-800">백산백소 인증현황 등록</h1>
         </div>
-
         <form id="formAuth" method="post" action="<?=base_url()?>admin/attendance_auth_insert">
           <div class="row align-items-center mb-2">
             <div class="col-sm-1">산행 선택 <span class="required">(*)</span></div>
@@ -43,7 +42,6 @@
         </form>
       </div>
     </div>
-
     <script type="text/javascript">
       $(document).on('change', '.rescode', function() {
         $('input[name=title]').val($(this).find('option:selected').data('name'));

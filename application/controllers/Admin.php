@@ -1660,10 +1660,7 @@ class Admin extends Admin_Controller
 
       $cnt = 0;
       foreach ($entryMember as $key => $entry) {
-        // PHP Ver 7.x
-        //if (!empty($arrDummy[$value['idx']])) {
-        // PHP Ver 5.x
-        if ($arrDummy[$value['idx']] != '') {
+        if (!empty($arrDummy[$value['idx']])) {
           $cnt = 1;
           foreach ($arrDummy[$value['idx']] as $list) {
             if ($list == $entry['nickname']) $cnt++;
@@ -1689,10 +1686,7 @@ class Admin extends Admin_Controller
       }
     }
 
-    // PHP Ver 7.x
-    //if (empty($rtn)) {
-    // PHP Ver 5.x
-    if (!$rtn) {
+    if (empty($rtn)) {
       $result['message'] = '에러가 발생했습니다.';
     } else {
       $result['message'] = '최신 데이터로 갱신했습니다.';

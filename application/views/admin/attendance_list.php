@@ -6,7 +6,6 @@
           <h1 class="h3 mb-0 text-gray-800">출석체크 보기</h1>
           <button class="btn btn-primary btn-get-attendance">최신 데이터 받기</button>
         </div>
-
         <div class="table-check">
           <div class="table-head w30">No.</div>
           <div class="table-head w100">닉네임</div>
