@@ -70,7 +70,8 @@ class Club_model extends CI_Model
           ->from(DB_AUTH . ' a')
           ->from(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
           ->where('a.nickname', $nickname)
-          ->group_by('a.title');
+          ->group_by('a.title')
+          ->order_by('rescode', 'asc');
     return $this->db->get()->result_array();
   }
 }
