@@ -134,11 +134,11 @@
     ■ <strong>현재 예약 진행중인 산행 내역</strong> <small>(<?=date('Y-m-d H:i:s')?> Updated!)</small>
     <hr style="margin: 10px 0;">
   </div>
-  <?php foreach ($listNotice as $value): ?>
+  <?php foreach ($listNotice as $value): if ($value['status'] >= STATUS_ABLE && $value['status'] <= STATUS_CONFIRM): ?>
   <div style="font-size: 14px;">
     <strong><?=viewStatus($value['status'])?></strong> <a target="_blank" href="<?=base_url()?>reserve/?n=<?=$value['idx']?>"><strong><?=$value['subject']?></strong></a><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원<hr style="margin: 9px 0 10px 0;">
   </div>
-  <?php endforeach; ?>
+  <?php endif; endforeach; ?>
 </div><br><br>
 
 </body>

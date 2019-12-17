@@ -1293,7 +1293,7 @@ class Admin extends Admin_Controller
     // 등록된 산행 목록
     $search['sdate'] = date('Y-m-01');
     $search['edate'] = date('Y-m-t', time() + (60 * 60 * 24 * 30 * 12));
-    $search['status'] = array(STATUS_ABLE, STATUS_CONFIRM);
+    $search['status'] = array(STATUS_PLAN, STATUS_ABLE, STATUS_CONFIRM, STATUS_CANCEL, STATUS_CLOSED);
     $viewData['listNotice'] = $this->admin_model->listNotice($search);
 
     foreach ($viewData['listNotice'] as $key => $value) {
