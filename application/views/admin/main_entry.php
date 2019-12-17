@@ -231,7 +231,7 @@
               <td><input class="form-control w2x" type="text" size="20" name="road_course[]" value="<?=!empty($view['road_course'][$key]) ? $view['road_course'][$key] : ''?>"></td>
               <td><input class="form-control road-distance" type="text" size="4" name="road_distance[]" value="<?=!empty($view['road_distance'][$key]) ? $view['road_distance'][$key] : ''?>">km</td>
               <td><input class="form-control road-runtime" type="text" size="4" name="road_runtime[]" value="<?=!empty($view['road_runtime'][$key]) ? $view['road_runtime'][$key] : ''?>"></td>
-              <td><input class="form-control road-cost" type="text" size="4" name="road_cost[]" value="<?=!empty($view['road_cost'][$key]) ? $view['road_cost'][$key] : ''?>">원</td>
+              <td><input class="form-control road-cost" type="text" size="4" name="road_cost[]" value="<?=array_key_exists($key, $view['road_cost']) ? $view['road_cost'][$key] : ''?>">원</td>
             </tr>
             <?php endforeach; ?>
             <tr>
