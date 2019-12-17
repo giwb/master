@@ -127,9 +127,10 @@
   });
 </script>
 
-<div id="club" class="m-auto" style="width: 750px;">
+<div class="m-auto" style="width: 750px;">
   <div id="calendar"></div>
-
+</div>
+<div id="club" class="m-auto" style="width: 750px;">
   <div class="text-left">
     ■ <strong>현재 예약 진행중인 산행 내역</strong> <small>(<?=date('Y-m-d H:i:s')?> Updated!)</small>
     <hr style="margin: 10px 0;">
