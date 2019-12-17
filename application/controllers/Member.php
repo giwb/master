@@ -26,28 +26,32 @@ class Member extends MY_Controller
     $userData = $this->load->get_var('userData');
     $viewData['view'] = $this->club_model->viewclub($clubIdx);
 
-    // 회원 정보
-    $viewData['viewMember'] = $this->member_model->viewMember($clubIdx, $userData['idx']);
+    if ($userData['level'] == LEVEL_DRIVER) {
+      $this->_viewPage('member/driver', $viewData);
+    } else {
+      // 회원 정보
+      $viewData['viewMember'] = $this->member_model->viewMember($clubIdx, $userData['idx']);
 
-    // 예약 내역
-    $viewData['userReserve'] = $this->reserve_model->userReserve($clubIdx, $userData['userid']);
+      // 예약 내역
+      $viewData['userReserve'] = $this->reserve_model->userReserve($clubIdx, $userData['userid']);
 
-    // 예약 취소 내역 (로그)
-    $viewData['userReserveCancel'] = $this->reserve_model->userReserveCancel($clubIdx, $userData['userid']);
+      // 예약 취소 내역 (로그)
+      $viewData['userReserveCancel'] = $this->reserve_model->userReserveCancel($clubIdx, $userData['userid']);
 
-    // 산행 내역
-    $viewData['userVisit'] = $this->reserve_model->userVisit($clubIdx, $userData['userid']);
+      // 산행 내역
+      $viewData['userVisit'] = $this->reserve_model->userVisit($clubIdx, $userData['userid']);
 
-    // 산행 횟수
-    $viewData['userVisitCount'] = $this->reserve_model->userVisitCount($clubIdx, $userData['userid']);
+      // 산행 횟수
+      $viewData['userVisitCount'] = $this->reserve_model->userVisitCount($clubIdx, $userData['userid']);
 
-    // 포인트 내역
-    $viewData['userPoint'] = $this->member_model->userPointLog($clubIdx, $userData['userid']);
+      // 포인트 내역
+      $viewData['userPoint'] = $this->member_model->userPointLog($clubIdx, $userData['userid']);
 
-    // 페널티 내역
-    $viewData['userPenalty'] = $this->member_model->userPenaltyLog($clubIdx, $userData['userid']);
+      // 페널티 내역
+      $viewData['userPenalty'] = $this->member_model->userPenaltyLog($clubIdx, $userData['userid']);
 
-    $this->_viewPage('member/index', $viewData);
+      $this->_viewPage('member/index', $viewData);
+    }
   }
 
   /**

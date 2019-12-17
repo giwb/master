@@ -1470,7 +1470,7 @@ class Admin extends Admin_Controller
       'location'      => html_escape($inputData['location']),
     );
 
-    // 평생회원, 무료회원
+    // 평생회원, 무료회원, 드라이버
     if (!empty($inputData['level'])) {
       $updateValues['level'] = html_escape($inputData['level']);
     } else {

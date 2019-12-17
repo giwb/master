@@ -124,13 +124,12 @@ class Member_model extends CI_Model
   // 사용자 포인트 기록
   public function userPointLog($clubIdx, $userId)
   {
-    $this->db->select('a.*, b.mname')
-          ->from(DB_HISTORY . ' a')
-          ->join(DB_NOTICE . ' b', 'a.fkey=b.idx', 'left')
-          ->where('a.club_idx', $clubIdx)
-          ->where('a.userid', $userId)
-          ->where_in('a.action', array(LOG_POINTUP, LOG_POINTDN))
-          ->order_by('a.regdate', 'desc')
+    $this->db->select('*')
+          ->from(DB_HISTORY)
+          ->where('club_idx', $clubIdx)
+          ->where('userid', $userId)
+          ->where_in('action', array(LOG_POINTUP, LOG_POINTDN))
+          ->order_by('regdate', 'desc')
           ->limit(5);
     return $this->db->get()->result_array();
   }
@@ -138,13 +137,12 @@ class Member_model extends CI_Model
   // 사용자 페널티 기록
   public function userPenaltyLog($clubIdx, $userId)
   {
-    $this->db->select('a.*, b.mname')
-          ->from(DB_HISTORY . ' a')
-          ->join(DB_NOTICE . ' b', 'a.fkey=b.idx', 'left')
-          ->where('a.club_idx', $clubIdx)
-          ->where('a.userid', $userId)
+    $this->db->select('*')
+          ->from(DB_HISTORY)
+          ->where('club_idx', $clubIdx)
+          ->where('userid', $userId)
           ->where_in('action', array(LOG_PENALTYUP, LOG_PENALTYDN))
-          ->order_by('a.regdate', 'desc')
+          ->order_by('regdate', 'desc')
           ->limit(5);
     return $this->db->get()->result_array();
   }

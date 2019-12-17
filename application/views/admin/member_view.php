@@ -84,9 +84,10 @@
           <div class="row align-items-center border-bottom mb-3 pb-3">
             <div class="col-sm-1">회원 형태</div>
             <div class="col-sm-4 row align-items-center">
-              <div class="col-sm-4"><label><input<?=$view['level'] == LEVEL_LIFETIME ? ' checked' : ''?> type="checkbox" name="level" value="<?=LEVEL_LIFETIME?>"> 평생회원</label></div>
-              <div class="col-sm-4"><label><input<?=$view['level'] == LEVEL_FREE ? ' checked' : ''?> type="checkbox" name="level" value="<?=LEVEL_FREE?>"> 무료회원</label></div>
-              <div class="col-sm-4"><label><input<?=$view['admin'] == 1 ? ' checked' : ''?> type="checkbox" name="admin" value="1"> 관리자</label></div>
+              <div class="col-sm-3"><label><input<?=$view['level'] == LEVEL_LIFETIME ? ' checked' : ''?> type="checkbox" name="level" value="<?=LEVEL_LIFETIME?>"> 평생회원</label></div>
+              <div class="col-sm-3"><label><input<?=$view['level'] == LEVEL_FREE ? ' checked' : ''?> type="checkbox" name="level" value="<?=LEVEL_FREE?>"> 무료회원</label></div>
+              <div class="col-sm-3"><label><input<?=$view['level'] == LEVEL_DRIVER ? ' checked' : ''?> type="checkbox" name="level" value="<?=LEVEL_DRIVER?>"> 드라이버</label></div>
+              <div class="col-sm-3"><label><input<?=$view['admin'] == 1 ? ' checked' : ''?> type="checkbox" name="admin" value="1"> 관리자</label></div>
             </div>
           </div>
           <div class="row align-items-center border-bottom mb-3 pb-3">

@@ -168,6 +168,7 @@ defined('URL_FRONT')          OR define('URL_FRONT', 'public/uploads/front/');
 defined('LEVEL_NORMAL')       OR define('LEVEL_NORMAL', 0);
 defined('LEVEL_LIFETIME')     OR define('LEVEL_LIFETIME', 1);
 defined('LEVEL_FREE')         OR define('LEVEL_FREE', 2);
+defined('LEVEL_DRIVER')       OR define('LEVEL_DRIVER', 3);
 
 // 댓글 형태
 defined('REPLY_TYPE_STORY')   OR define('REPLY_TYPE_STORY', 1);

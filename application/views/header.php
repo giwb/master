@@ -76,7 +76,7 @@
             <?php endif; ?>
               <div class="profile-box">
                 <strong><?=$userData['nickname']?></strong> (<?=$userLevel['levelName']?>)<hr>
-                <a href="<?=base_url()?>member/<?=$view['idx']?>">마이페이지</a><br>
+                <a href="<?=base_url()?>member/<?=$view['idx']?>"><?=$userData['level'] == LEVEL_DRIVER ? '드라이버 페이지' : '마이페이지'?></a><br>
                 <a href="<?=base_url()?>member/modify/<?=$view['idx']?>">개인정보수정</a><br>
                 <a href="javascript:;" class="logout">로그아웃</a>
               </div>
@@ -117,27 +117,14 @@
           <br><li><a href="javascript:;" class="login-popup">로그인</a></li>
           <?php else: ?>
           <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?><br><li><a href="<?=base_url()?>admin"> 설정</a></li><?php endif; ?>
-          <li><a href="<?=base_url()?>/member/<?=$view['idx']?>">마이페이지</a></li>
-          <li><a href="<?=base_url()?>/member/modify/<?=$view['idx']?>">개인정보수정</a></li>
+          <li><a href="<?=base_url()?>member/<?=$view['idx']?>"><?=$userData['level'] == LEVEL_DRIVER ? '드라이버 페이지' : '마이페이지'?></a></li>
+          <li><a href="<?=base_url()?>member/modify/<?=$view['idx']?>">개인정보수정</a></li>
           <li><a href="javascript:;" class="logout">로그아웃</a></li>
-<?php endif; ?>
+          <?php endif; ?>
         </ul>
         <button class="nav-close nav-aside-close"><span></span></button>
       </div>
-      <!-- /Aside Nav -->
-
-      <!-- /Nav Search -->
-      <div id="nav-search">
-        <form>
-          <input class="input" name="search" placeholder="검색할 내용을 입력해 주세요.">
-        </form>
-        <button class="nav-close search-close">
-          <span></span>
-        </button>
-      </div>
-      <!-- /Nav Search -->
     </div>
-    <!-- /NAV -->
   </header>
   <!-- /HEADER -->
 

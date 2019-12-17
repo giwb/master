@@ -764,15 +764,15 @@ if (!function_exists('memberLevel')) {
         $result['levelType'] = 2;
         $result['levelName'] = '두그루 회원';
         $result['point'] = 2000;
-      } else if ($result['level'] >= 30 && $result['level'] <= 49) {
+      } elseif ($result['level'] >= 30 && $result['level'] <= 49) {
         $result['levelType'] = 3;
         $result['levelName'] = '세그루 회원';
         $result['point'] = 3000;
-      } else if ($result['level'] >= 50 && $result['level'] <= 99) {
+      } elseif ($result['level'] >= 50 && $result['level'] <= 99) {
         $result['levelType'] = 4;
         $result['levelName'] = '네그루 회원';
         $result['point'] = 4000;
-      } else if ($result['level'] >= 100) {
+      } elseif ($result['level'] >= 100) {
         $result['levelType'] = 5;
         $result['levelName'] = '다섯그루 회원';
         $result['point'] = 5000;
@@ -781,14 +781,22 @@ if (!function_exists('memberLevel')) {
         $result['levelName'] = '한그루 회원';
         $result['point'] = 1000;
       }
-    } else if ($admin == '1') {
+    } elseif ($admin == '1') {
       $result['levelType'] = 9;
       $result['levelName'] = '관리자';
       $result['point'] = 0;
-    } else if ($level == '1') {
+    } elseif ($level == '1') {
       $result['levelType'] = 8;
       $result['levelName'] = '평생회원';
       $result['point'] = 1000;
+    } elseif ($level == '2') {
+      $result['levelType'] = 7;
+      $result['levelName'] = '무료회원';
+      $result['point'] = 0;
+    } elseif ($level == '3') {
+      $result['levelType'] = 6;
+      $result['levelName'] = '드라이버';
+      $result['point'] = 0;
     } else {
       $result['levelType'] = 0;
       $result['levelName'] = '비회원';
