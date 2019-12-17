@@ -219,6 +219,7 @@
             <tr>
               <th>번호</th>
               <th>운행구간</th>
+              <th>도착지 주소</th>
               <th>거리</th>
               <th>소요시간</th>
               <th>통행료</th>
@@ -229,6 +230,7 @@
             <tr>
               <td><?=$value?></td>
               <td><input class="form-control w2x" type="text" size="20" name="road_course[]" value="<?=!empty($view['road_course'][$key]) ? $view['road_course'][$key] : ''?>"></td>
+              <td><input class="form-control w2x" type="text" size="20" name="road_address[]" value="<?=!empty($view['road_address'][$key]) ? $view['road_address'][$key] : ''?>"></td>
               <td><input class="form-control road-distance" type="text" size="4" name="road_distance[]" value="<?=!empty($view['road_distance'][$key]) ? $view['road_distance'][$key] : ''?>">km</td>
               <td><input class="form-control road-runtime" type="text" size="4" name="road_runtime[]" value="<?=!empty($view['road_runtime'][$key]) ? $view['road_runtime'][$key] : ''?>"></td>
               <td><input class="form-control road-cost" type="text" size="4" name="road_cost[]" value="<?=array_key_exists($key, $view['road_cost']) ? $view['road_cost'][$key] : ''?>">원</td>
@@ -236,6 +238,7 @@
             <?php endforeach; ?>
             <tr>
               <th>합계</th>
+              <td>&nbsp;</td>
               <td>&nbsp;</td>
               <td><input class="form-control total-distance" readonly type="text" name="distance" size="4" value="0">km</td>
               <td>&nbsp;</td>

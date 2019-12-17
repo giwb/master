@@ -804,6 +804,7 @@ class Admin extends Admin_Controller
       $viewData['view'] = $this->admin_model->viewEntry(html_escape($idx));
       $viewData['view']['bustype'] = @unserialize($viewData['view']['bustype']);
       $viewData['view']['road_course'] = @unserialize($viewData['view']['road_course']);
+      $viewData['view']['road_address'] = @unserialize($viewData['view']['road_address']);
       $viewData['view']['road_distance'] = @unserialize($viewData['view']['road_distance']);
       $viewData['view']['road_runtime'] = @unserialize($viewData['view']['road_runtime']);
       $viewData['view']['road_cost'] = @unserialize($viewData['view']['road_cost']);
@@ -812,6 +813,7 @@ class Admin extends Admin_Controller
       $viewData['view']['driving_add'] = @unserialize($viewData['view']['driving_add']);
 
       if (empty($viewData['view']['road_course'][0])) $viewData['view']['road_course'][0] = '기본운행구간';
+      if (empty($viewData['view']['road_address'][0])) $viewData['view']['road_address'][0] = '';
       if (empty($viewData['view']['road_distance'][0])) $viewData['view']['road_distance'][0] = '43.44';
       if (empty($viewData['view']['road_runtime'][0])) $viewData['view']['road_runtime'][0] = '0:50';
       if (empty($viewData['view']['road_cost'][0])) $viewData['view']['road_cost'][0] = '0';
@@ -832,6 +834,7 @@ class Admin extends Admin_Controller
       $viewData['view']['winter'] = '';
       $viewData['view']['distance'] = '';
       $viewData['view']['road_course'][0] = '기본운행구간';
+      $viewData['view']['road_address'][0] = '';
       $viewData['view']['road_distance'][0] = '43.44';
       $viewData['view']['road_runtime'][0] = '0:50';
       $viewData['view']['road_cost'][0] = '0';
@@ -974,6 +977,7 @@ class Admin extends Admin_Controller
         'article'         => html_escape($this->input->post('article')),          // 메모
         'distance'        => html_escape($this->input->post('distance')),         // 운행거리
         'road_course'     => make_serialize($this->input->post('road_course')),   // 운행구간
+        'road_address'    => make_serialize($this->input->post('road_address')),  // 도착지주소
         'road_distance'   => make_serialize($this->input->post('road_distance')), // 거리
         'road_runtime'    => make_serialize($this->input->post('road_runtime')),  // 소요시간
         'road_cost'       => make_serialize($this->input->post('road_cost')),     // 통행료
