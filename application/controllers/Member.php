@@ -24,9 +24,44 @@ class Member extends MY_Controller
 
     $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
-    $viewData['view'] = $this->club_model->viewclub($clubIdx);
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
     if ($userData['level'] == LEVEL_DRIVER) {
+      // 진행 중 산행
+      $viewData['listNoticeDriver'] = $this->reserve_model->listNotice($clubIdx, array(STATUS_ABLE, STATUS_CONFIRM));
+
+      foreach ($viewData['listNoticeDriver'] as $key => $value) {
+        // 버스 종류 확인
+        $viewData['listNoticeDriver'][$key]['notice_bus_type'] = getBusType($value['bustype'], $value['bus']);
+
+        $maxSeat = 0; // 최대 좌석 계산
+        foreach ($viewData['listNoticeDriver'][$key]['notice_bus_type'] as $bus) {
+          $maxSeat += $bus['seat'];
+        }
+
+        // 승객수
+        $viewData['listNoticeDriver'][$key]['count'] = cntRes($value['idx']);
+
+        // 승객수당
+        if ($viewData['listNoticeDriver'][$key]['count'] < 30) {
+          $viewData['listNoticeDriver'][$key]['cost_driver'] = 0;
+        } elseif ($viewData['listNoticeDriver'][$key]['count'] >= 30 && $viewData['listNoticeDriver'][$key]['count'] < 40) {
+          $viewData['listNoticeDriver'][$key]['cost_driver'] = 40000;
+        } elseif ($viewData['listNoticeDriver'][$key]['count'] >= 30 && $viewData['listNoticeDriver'][$key]['count'] < $maxSeat) {
+          $viewData['listNoticeDriver'][$key]['cost_driver'] = 80000;
+        } elseif ($viewData['listNoticeDriver'][$key]['count'] == $maxSeat) {
+          $viewData['listNoticeDriver'][$key]['cost_driver'] = 120000;
+        }
+
+        // 주행거리
+        $driving_fuel = unserialize($value['driving_fuel']);
+        $viewData['listNoticeDriver'][$key]['driving_fuel'] = $driving_fuel[0];
+
+        // 통행료
+        $driving_cost = unserialize($value['driving_cost']);
+        $viewData['listNoticeDriver'][$key]['driving_cost'] = $driving_cost[0];
+      }
+
       $this->_viewPage('member/driver', $viewData);
     } else {
       // 회원 정보
