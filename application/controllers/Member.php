@@ -32,10 +32,10 @@ class Member extends MY_Controller
 
       foreach ($viewData['listNoticeDriver'] as $key => $value) {
         // 버스 종류 확인
-        $viewData['listNoticeDriver'][$key]['notice_bus_type'] = getBusType($value['bustype'], $value['bus']);
+        $bus_type = getBusType($value['bustype'], $value['bus']);
 
         $maxSeat = 0; // 최대 좌석 계산
-        foreach ($viewData['listNoticeDriver'][$key]['notice_bus_type'] as $bus) {
+        foreach ($bus_type as $bus) {
           $maxSeat += $bus['seat'];
         }
 
@@ -60,6 +60,16 @@ class Member extends MY_Controller
         // 통행료
         $driving_cost = unserialize($value['driving_cost']);
         $viewData['listNoticeDriver'][$key]['driving_cost'] = $driving_cost[0];
+
+        // 도착지주소
+        $viewData['listNoticeDriver'][$key]['road_address_text'] = '';
+        if (count($value['road_address']) > 0) {
+          $road_address = unserialize($value['road_address']);
+          foreach ($road_address as $cnt => $ra) {
+            if ($cnt != 0) $viewData['listNoticeDriver'][$key]['road_address_text'] .= ' - ';
+            $viewData['listNoticeDriver'][$key]['road_address_text'] .= $ra;
+          }
+        }
       }
 
       $this->_viewPage('member/driver', $viewData);

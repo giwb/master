@@ -10,7 +10,8 @@
             ・승객 : <?=$value['count']?>명<br>
             ・거리 : <?=$value['driving_fuel']?>km<br>
             ・통행료 : <?=number_format($value['driving_cost'])?>원<br>
-            ・승객수당 : <?=number_format($value['cost_driver'])?>원
+            ・승객수당 : <?=number_format($value['cost_driver'])?>원<br>
+            <?=!empty($value['road_address_text']) ? '・도착지주소 : ' . $value['road_address_text'] : ''?>
           </div>
           <?php endforeach; ?>
         </div>
