@@ -339,7 +339,7 @@
 
         <div class="area-button">
           <button type="button" class="btn btn-primary btn-entry"><?=$btn?></button> &nbsp;
-          <?php if ($view['visible'] == VISIBLE_ABLE): ?>
+          <?php if (!empty($view['visible']) && $view['visible'] == VISIBLE_ABLE): ?>
           <button type="button" class="btn btn-secondary btn-change-visible" data-idx="<?=$view['idx']?>" data-visible="<?=VISIBLE_NONE?>">숨김</button>
           <?php else: ?>
           <button type="button" class="btn btn-primary btn-change-visible" data-idx="<?=$view['idx']?>" data-visible="<?=VISIBLE_ABLE?>">공개</button>
