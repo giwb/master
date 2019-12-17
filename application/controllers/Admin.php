@@ -1862,8 +1862,12 @@ class Admin extends Admin_Controller
     $viewData['pageTitle'] = '관리자 활동기록';
 
     foreach ($viewData['listHistory'] as $key => $value) {
-      $search['userid'] = $value['userid'];
-      $viewData['listHistory'][$key]['userData'] = $this->admin_model->viewMember($search);
+      if (!empty($value['userid'])) {
+        $search['userid'] = $value['userid'];
+        $viewData['listHistory'][$key]['userData'] = $this->admin_model->viewMember($search);
+      } else {
+        $viewData['listHistory'][$key]['userData']['nickname'] = $value['nickname'];
+      }
 
       switch ($value['action']) {
         case LOG_ADMIN_RESERVE: // 관리자 예약
