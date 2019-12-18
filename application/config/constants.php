@@ -177,3 +177,6 @@ defined('REPLY_TYPE_NOTICE')  OR define('REPLY_TYPE_NOTICE', 2);
 // 공유 형태
 defined('REACTION_TYPE_STORY')   OR define('REACTION_TYPE_STORY', 1);
 defined('REACTION_TYPE_NOTICE')  OR define('REACTION_TYPE_NOTICE', 2);
+
+// 쿠키 시간 (1년)
+define('COOKIE_STRAGE_PERIOD', 60 * 60 * 24 * 30 * 12);

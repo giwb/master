@@ -16,6 +16,7 @@
   <input type="hidden" name="userIdx" value="<?=!empty($userData['idx']) ? $userData['idx'] : ''?>">
   <input type="hidden" name="redirectUrl" value="<?=!empty($_SERVER['REQUEST_URI']) ? base_url() . substr($_SERVER['REQUEST_URI'], 1) : ''?>">
 
+  <?php if (empty($userData['idx'])): ?>
   <!-- Login Modal -->
   <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -28,14 +29,15 @@
         </div>
         <div class="modal-body text-center">
           <form class="loginForm" method="post">
-          <dl>
-            <dt>아이디</dt>
-            <dd><input type="text" name="userid" class="form-control input-login"></dd>
-          </dl>
-          <dl>
-            <dt>비밀번호</dt>
-            <dd><input type="password" name="password" class="form-control input-login"></dd>
-          </dl>
+            <dl>
+              <dt>아이디</dt>
+              <dd><input type="text" name="userid" class="form-control input-login" value="<?=get_cookie('cookie_userid')?>"></dd>
+            </dl>
+            <dl>
+              <dt>비밀번호</dt>
+              <dd><input type="password" name="password" class="form-control input-login" value="<?=get_cookie('cookie_passwd')?>"></dd>
+            </dl>
+            <label class="small pl-5"><input type="checkbox" name="save"> 아이디/비밀번호 저장</label>
           </form>
           <div class="error-message"></div>
         </div>
@@ -51,6 +53,7 @@
       </div>
     </div>
   </div>
+  <?php endif; ?>
 
   <!-- Message Modal -->
   <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">

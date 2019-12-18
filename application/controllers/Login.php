@@ -7,7 +7,7 @@ class Login extends CI_Controller
   function __construct()
   {
     parent::__construct();
-    $this->load->helper(array('url', 'my_array_helper'));
+    $this->load->helper(array('cookie', 'my_array_helper', 'url'));
     $this->load->library(array('image_lib', 'session'));
     $this->load->model(array('club_model', 'file_model', 'member_model', 'reserve_model'));
   }
@@ -33,6 +33,7 @@ class Login extends CI_Controller
 
     $userid = html_escape($this->input->post('userid'));
     $password = html_escape($this->input->post('password'));
+    $save = html_escape($this->input->post('save'));
 
     if (empty($userid) || empty($password)) {
       // 아이디와 패스워드가 없을때는 로그인 페이지를 보여준다.
@@ -58,6 +59,16 @@ class Login extends CI_Controller
 
         // 세션 저장
         $this->session->set_userdata('userData', $userData);
+
+        if (empty($save)) {
+          // 쿠키 삭제
+          delete_cookie('cookie_userid');
+          delete_cookie('cookie_passwd');
+        } else {
+          // 쿠키 저장
+          set_cookie('cookie_userid', $userid, COOKIE_STRAGE_PERIOD);
+          set_cookie('cookie_passwd', $password, COOKIE_STRAGE_PERIOD);
+        }
 
         // 아이콘 사이즈 변경 (가로 사이즈가 200보다 클 경우)
         $filename = PHOTO_PATH . $userData['idx'];
@@ -94,6 +105,7 @@ class Login extends CI_Controller
    **/
   public function logout()
   {
+    // 세션 삭제
     $this->session->unset_userdata('userData');
     $this->output->set_output(0);
   }
