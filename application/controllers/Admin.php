@@ -168,11 +168,11 @@ class Admin extends Admin_Controller
 
       if (empty($resIdx)) {
         if (empty($checkReserve['idx'])) {
-          $idx = $this->admin_model->insertReserve($postData);
+          $result = $this->admin_model->insertReserve($postData);
 
           if (!empty($result)) {
             // 관리자 예약 기록
-            setHistory(LOG_ADMIN_RESERVE, $idx, $nowUserid, $nowNick, $viewEntry['subject'], $now);
+            setHistory(LOG_ADMIN_RESERVE, $result, $nowUserid, $nowNick, $viewEntry['subject'], $now);
           }
         }
       } else {
