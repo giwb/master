@@ -19,6 +19,7 @@
           <a href="<?=base_url()?>admin/main_view_adjust/<?=$view['idx']?>"><button type="button" class="btn btn-primary">정산</button></a>
         </div>
         <div class="float-right">
+          <?php if (!empty($view['status'])): ?>
           <select name="status" class="form-control form-control-sm change-status">
             <option value="">산행 상태</option>
             <option value="">------------</option>
@@ -28,6 +29,7 @@
             <option<?=$view['status'] == STATUS_CANCEL ? ' selected' : ''?> value="<?=STATUS_CANCEL?>">취소</option>
             <option<?=$view['status'] == STATUS_CLOSED ? ' selected' : ''?> value="<?=STATUS_CLOSED?>">종료</option>
           </select>
+          <?php endif;?>
         </div>
       </div>
     </div>

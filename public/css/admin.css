@@ -12134,6 +12134,7 @@ body.sidebar-toggled footer.sticky-footer {
 .area-bus-table .male { background-color: #E5FAFF; }
 .area-bus-table .female { background-color: #FFEAFA; }
 .area-bus-table .wait { color: #333; background-color: #ddd; }
+.area-bus-table .priority { background-color: #fff; }
 .area-bus-table .active { background-color: #FFCC00; }
 .area-bus-table input.seat { width: 20px; }
 

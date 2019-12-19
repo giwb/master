@@ -461,15 +461,21 @@ if (!function_exists('getReserveAdmin')) {
         $result['idx'] = $value['idx'];
         $result['userid'] = $value['userid'];
         $result['nickname'] = $value['nickname'];
-        if ($value['status'] == RESERVE_PAY) {
-          $result['class'] .= '';
-        } elseif ($value['status'] == RESERVE_WAIT) {
-          $result['class'] .= ' wait';
+
+        if (!empty($value['priority'])) {
+          $result['class'] = 'priority';
+          $result['priority'] = $value['priority'];
         } else {
-          if ($value['gender'] == 'M') {
-            $result['class'] .= ' male';
-          } elseif ($value['gender'] == 'F') {
-            $result['class'] .= ' female';
+          if ($value['status'] == RESERVE_PAY) {
+            $result['class'] .= '';
+          } elseif ($value['status'] == RESERVE_WAIT) {
+            $result['class'] .= ' wait';
+          } else {
+            if ($value['gender'] == 'M') {
+              $result['class'] .= ' male';
+            } elseif ($value['gender'] == 'F') {
+              $result['class'] .= ' female';
+            }
           }
         }
       }
@@ -888,6 +894,8 @@ if (!function_exists('getUserAgent')) {
     if (strstr($agent, 'MJ12bot'))      $result .= 'MJ12BOT 검색엔진 로봇 ';
     if (strstr($agent, 'DaumApps'))     $result .= '다음앱 ';
     if (strstr($agent, 'AppleWebKit') && strstr($agent, 'Mobile/15E148')) $result .= '다음앱 ';
+    if (strstr($agent, 'kakaotalk'))    $result .= '카카오톡 ';
+    if (strstr($agent, 'facebook'))     $result .= '페이스북 ';
     if ($result == '') $result = $agent;
 
     return $result;

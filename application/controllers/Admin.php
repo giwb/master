@@ -170,6 +170,10 @@ class Admin extends Admin_Controller
         if (empty($checkReserve['idx'])) {
           $result = $this->admin_model->insertReserve($postData);
 
+          if (!empty($nowPriority)) {
+            $priorityIdx[] = $result; // 2인우선석일 경우, 각각의 고유번호를 저장
+          }
+
           if (!empty($result)) {
             // 관리자 예약 기록
             setHistory(LOG_ADMIN_RESERVE, $idx, $nowUserid, $nowNick, $viewEntry['subject'], $now);
@@ -213,6 +217,13 @@ class Admin extends Admin_Controller
     if (empty($result)) {
       $result = array('error' => 1, 'message' => $this->lang->line('error_seat_duplicate'));
     } else {
+      // 2인우선석 처리 (각각의 예약 고유번호를 입력)
+      if (!empty($priorityIdx)) {
+        $updateValues['priority'] = $priorityIdx[0];
+        $this->admin_model->updateReserve($updateValues, $priorityIdx[1]);
+        $updateValues['priority'] = $priorityIdx[1];
+        $this->admin_model->updateReserve($updateValues, $priorityIdx[0]);
+      }
       if ($viewEntry['status'] == STATUS_ABLE) {
         $cntReservation = $this->admin_model->cntReservation($idx);
         if ($cntReservation['CNT'] >= 15) {

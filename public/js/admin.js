@@ -592,21 +592,31 @@
   }).on('click', '.area-bus-table .priority', function() {
     // 2인우선 예약 버튼
     var resIdx = $(this).data('id');
+    var priorityIdx = $(this).data('priority');
     var bus = $(this).data('bus');
     var seat = $(this).data('seat');
+
+    // 우선석 정보가 있는지 확인하고, 없으면 종료
+    if (typeof priorityIdx == 'undefined') {
+      return false;
+    }
+    var prioritySeat = $('.priority[data-bus=' + bus + '][data-id=' + priorityIdx + ']').attr('data-seat');
 
     // 좌석 배경색 토글
     if ($(this).hasClass('active')) {
       // 삭제
-      $('.seat[data-bus=' + bus + '][data-seat=' + seat + ']').removeClass('active');
+      $('.priority[data-bus=' + bus + '][data-seat=' + seat + ']').removeClass('active');
+      $('.priority[data-bus=' + bus + '][data-id=' + priorityIdx + ']').removeClass('active');
       $('#addedInfo .reserve[data-seat=' + seat + ']').remove();
 
       // 예약 내용이 없으면 예약 확정 버튼 삭제
       if ($('#addedInfo .reserve').length == 0) $('.btn-reserve-confirm').hide();
     } else {
       // 예약 활성화
-      $('.seat[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
-      $.viewReserveInfo(resIdx, bus, seat); // 예약 정보
+      $('.priority[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
+      $('.priority[data-bus=' + bus + '][data-id=' + priorityIdx + ']').addClass('active');
+      $.viewReserveInfo(resIdx, bus, seat); // 1인석 예약
+      $.viewReserveInfo(priorityIdx, bus, prioritySeat); // 2인석 예약
     }
   }).on('click', '.btn-reserve-confirm', function() {
     // 예약 확정
@@ -762,7 +772,10 @@
     var eDateArr = endDate.split('-');
     var sDate = new Date(sDateArr[0], sDateArr[1], sDateArr[2]);
     var eDate = new Date(eDateArr[0], eDateArr[1], eDateArr[2]);
-    var resultDay = parseInt((eDate - sDate) / (24 * 60 * 60 * 1000));
+    var lastDay = new Date(sDateArr[0], sDateArr[1], 0).getDate();
+    var addedTime = 0;
+    if (lastDay == sDateArr[2] && lastDay != eDateArr[2]) addedTime = 1;
+    var resultDay = parseInt((eDate - sDate) / (24 * 60 * 60 * 1000) - addedTime);
     var addDay = (parseInt(resultDay) + 1);
     var startTimeArr = startTime.split(':');
     var sTime = startTimeArr[0] + startTimeArr[1];
