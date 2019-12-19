@@ -553,10 +553,20 @@
     var $dom = $('#area-init-bus').clone();
     $('#area-add-bus').append($dom.removeClass('d-none'));
   }).on('click', '.btn-manager', function() {
+    // 운영진우선
     var $dom = $(this).parent().parent().parent().find('.nickname');
     var checked = $(this).is(':checked');
     if (checked == true) {
       $dom.val('운영진우선');
+    } else {
+      $dom.val('');
+    }
+  }).on('click', '#addedInfo .priority', function() {
+    // 2인우선
+    var $dom = $(this).parent().parent().parent().find('.nickname');
+    var checked = $(this).is(':checked');
+    if (checked == true) {
+      $dom.val('2인우선');
     } else {
       $dom.val('');
     }
@@ -605,6 +615,18 @@
         return false;
       }
     });
+
+    // 2인우선석은 2개가 선택되었는지 확인
+    var cnt = 0;
+    $('#addedInfo .priority').each(function() {
+      if ($(this).is(':checked') == true) {
+        cnt++;
+      }
+    });
+    if (cnt != 2) {
+      $.openMsgModal('2인우선석은 2개 자리만 지정해주세요.');
+      return false;
+    }
 
     if (formCheck == true) {
       $.ajax({

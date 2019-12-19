@@ -1905,7 +1905,7 @@ h1.nav-logo small {
 #club .container { display: flex; display: -webkit-flex; }
 #club .club-left { flex: 1; -webkit-flex: 1; }
 #club .club-main { flex: 3; -webkit-flex: 3; margin: 0 20px; }
-#club .club-right { flex: 1; -webkit-flex: 1; }
+#club .club-right { flex: 1; -webkit-flex: 1; min-height: 825px; }
 
 #club .club-left .club-left-layer { position: fixed; }
 #club .club-left .club-header img { max-width: 200px; vertical-align: middle; margin-bottom: 10px; }
@@ -1994,8 +1994,9 @@ h1.nav-logo small {
 #club .list-schedule a { font-size: 11px; color: #000; display: block; border-bottom: 1px solid #eee; margin: 0px; padding: 10px 5px; }
 #club .list-schedule a:hover { background-color: #e9e9e9; cursor: pointer; }
 #club .list-schedule a strong { font-size: 14px; color: #FF6C00; margin: 0px; padding: 0px; }
-#club span.status-confirm { font-size: 14px; font-weight: bold; color: #000; }
-#club span.status-wait { font-size: 14px; font-weight: bold; color: #999; }
+#club .list-schedule span { font-size: 14px; }
+#club span.status-confirm { font-weight: bold; color: #000; }
+#club span.status-wait { font-weight: bold; color: #999; }
 #club .club-main .list-schedule { border: 1px solid #d9d9d9; border-width: 1px 0; }
 #club .club-main .list-schedule a { padding: 10px; }
 #club .club-main .area-schedule { display: none; }
