@@ -172,7 +172,7 @@ class Admin extends Admin_Controller
 
           if (!empty($result)) {
             // 관리자 예약 기록
-            setHistory(LOG_ADMIN_RESERVE, $result, $nowUserid, $nowNick, $viewEntry['subject'], $now);
+            setHistory(LOG_ADMIN_RESERVE, $idx, $nowUserid, $nowNick, $viewEntry['subject'], $now);
           }
         }
       } else {
