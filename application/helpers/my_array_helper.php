@@ -871,12 +871,11 @@ if (!function_exists('getUserAgent')) {
     if (strstr($agent, 'SM-G'))         $result .= '갤럭시 ';
     if (strstr($agent, 'Chrome'))       $result .= '구글 크롬 브라우저 ';
     elseif (strstr($agent, 'Safari'))   $result .= '애플 사파리 브라우저 ';
-    if (strstr($agent, 'Trident/7'))    $result .= 'MS 인터넷 익스플로러 ';
-    elseif (strstr($agent, 'MSIE 11'))  $result .= 'MS 인터넷 익스플로러 11';
-    elseif (strstr($agent, 'MSIE 10'))  $result .= 'MS 인터넷 익스플로러 10';
+    if (strstr($agent, 'MSIE 10'))  $result .= 'MS 인터넷 익스플로러 10';
     elseif (strstr($agent, 'MSIE 9'))   $result .= 'MS 인터넷 익스플로러 9';
     elseif (strstr($agent, 'MSIE 8'))   $result .= 'MS 인터넷 익스플로러 8';
     elseif (strstr($agent, 'MSIE 7'))   $result .= 'MS 인터넷 익스플로러 7';
+    elseif (strstr($agent, 'rv:11'))    $result .= 'MS 인터넷 익스플로러 11';
     if (strstr($agent, 'Firefox'))      $result .= '파이어폭스 ';
     if (strstr($agent, 'Googlebot'))    $result .= '구글 검색엔진 로봇 ';
     if (strstr($agent, 'msnbot'))       $result .= 'MS 검색엔진 로봇 ';
