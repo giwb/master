@@ -16,8 +16,8 @@
           <?php endif; ?>
           <strong>・분담금</strong> : <?=number_format($notice['cost_total'] == 0 ? $notice['cost'] : $notice['cost_total'])?>원 (<?=calcTerm($notice['startdate'], $notice['starttime'], $notice['enddate'], $notice['schedule'])?><?=!empty($notice['distance']) ? ', ' . calcDistance($notice['distance']) : ''?><?=!empty($notice['costmemo']) ? ', ' . $notice['costmemo'] : ''?>)<br>
           <?php endif; ?>
-          <?=!empty($notice['content']) ? "<strong>・코스</strong> : " . nl2br($notice['content']) : ""?>
-          <br><strong>・예약인원</strong> : <?=cntRes($notice['idx'])?>명
+          <?=!empty($notice['content']) ? "<strong>・코스</strong> : " . nl2br($notice['content']) . "<br>" : ""?>
+          <strong>・예약인원</strong> : <?=cntRes($notice['idx'])?>명
 
           <div class="area-reservation">
             <?php
