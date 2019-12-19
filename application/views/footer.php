@@ -161,7 +161,7 @@
     Kakao.init('bc341ce483d209b1712bf3a88b598ddb');
     // 카카오톡 채널 추가 버튼을 생성합니다.
     Kakao.Channel.createAddChannelButton({
-      container: '#kakao-add-channel-button',
+      container: '.kakao-add-channel-button',
       channelPublicId: '_xcLqmC' // 채널 홈 URL에 명시된 id로 설정합니다.
     });
   //]]>
