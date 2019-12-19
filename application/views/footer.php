@@ -155,17 +155,6 @@
   <!-- /FOOTER -->
 
   <script type="text/javascript" src="<?=base_url()?>public/vendors/chart.js/dist/Chart.bundle.min.js"></script>
-  <script type='text/javascript'>
-  //<![CDATA[
-    // 사용할 앱의 JavaScript 키를 설정해 주세요.
-    Kakao.init('bc341ce483d209b1712bf3a88b598ddb');
-    // 카카오톡 채널 추가 버튼을 생성합니다.
-    Kakao.Channel.createAddChannelButton({
-      container: '#kakao-add-channel-button',
-      channelPublicId: '_xcLqmC' // 채널 홈 URL에 명시된 id로 설정합니다.
-    });
-  //]]>
-  </script>
 
   <?php if (ENVIRONMENT == 'production'): ?>
   <script>

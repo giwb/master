@@ -103,6 +103,7 @@
           <?php else: ?>
           <li><p>&nbsp;</p></li>
           <?php endif; ?>
+          <li><a target="_blank" href="https://pf.kakao.com/_BxaPRxb/friend"><img src="https://developers.kakao.com/assets/img/about/logos/channel/friendadd_small_yellow_rect.png"></a></li>
           <li><a href="<?=base_url()?>club/about/<?=$view['idx']?>"> 산악회 소개</a></li>
           <li><a href="<?=base_url()?>club/guide/<?=$view['idx']?>"> 등산 안내인 소개</a></li>
           <?php if ($userLevel['levelType'] >= 2): ?>
@@ -163,7 +164,7 @@
           ・방문수 : <?=number_format($view['cntVisitor']['cnt'])?>회 / 오늘 <?=number_format($view['cntVisitorToday']['cnt'])?>명<br>
           </div>
           <div class="text-center border-top mt-4 pt-3">
-            <div id="kakao-add-channel-button"></div>
+            <a target="_blank" href="https://pf.kakao.com/_BxaPRxb/friend"><img src="https://developers.kakao.com/assets/img/about/logos/channel/friendadd_large_yellow_rect.png"></a>
           </div>
         </div>
       </div>
