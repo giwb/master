@@ -872,11 +872,17 @@ if (!function_exists('getUserAgent')) {
     if (strstr($agent, 'Chrome'))       $result .= '구글 크롬 브라우저 ';
     elseif (strstr($agent, 'Safari'))   $result .= '애플 사파리 브라우저 ';
     if (strstr($agent, 'Trident/7'))    $result .= 'MS 인터넷 익스플로러 ';
+    elseif (strstr($agent, 'MSIE 10'))  $result .= 'MS 인터넷 익스플로러 10';
+    elseif (strstr($agent, 'MSIE 8'))   $result .= 'MS 인터넷 익스플로러 8.0';
+    if (strstr($agent, 'Firefox'))      $result .= '파이어폭스 ';
     if (strstr($agent, 'Googlebot'))    $result .= '구글 검색엔진 로봇 ';
     if (strstr($agent, 'msnbot'))       $result .= 'MS 검색엔진 로봇 ';
     if (strstr($agent, 'BingPreview'))  $result .= 'Bing 검색엔진 로봇 ';
+    if (strstr($agent, 'bingbot'))      $result .= 'Bing 검색엔진 로봇 ';
     if (strstr($agent, 'yandex'))       $result .= 'Yandex 검색엔진 로봇 ';
+    if (strstr($agent, 'MJ12bot'))      $result .= 'MJ12BOT 검색엔진 로봇 ';
     if (strstr($agent, 'DaumApps'))     $result .= '다음앱 ';
+    if (strstr($agent, 'AppleWebKit') && strstr($agent, 'Mobile/15E148')) $result .= '다음앱 ';
     if ($result == '') $result = $agent;
 
     return $result;
