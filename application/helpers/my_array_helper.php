@@ -872,6 +872,7 @@ if (!function_exists('getUserAgent')) {
     if (strstr($agent, 'Chrome'))       $result .= '구글 크롬 브라우저 ';
     elseif (strstr($agent, 'Safari'))   $result .= '애플 사파리 브라우저 ';
     if (strstr($agent, 'Trident/7'))    $result .= 'MS 인터넷 익스플로러 ';
+    elseif (strstr($agent, 'MSIE 11'))  $result .= 'MS 인터넷 익스플로러 11';
     elseif (strstr($agent, 'MSIE 10'))  $result .= 'MS 인터넷 익스플로러 10';
     elseif (strstr($agent, 'MSIE 9'))   $result .= 'MS 인터넷 익스플로러 9';
     elseif (strstr($agent, 'MSIE 8'))   $result .= 'MS 인터넷 익스플로러 8';
