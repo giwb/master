@@ -59,7 +59,7 @@
               <th>출발일시</th>
               <td>
                 <div class="form-row">
-                  <div class="col-md-2"><input readonly type="text" name="startdate" id="startDatePicker" class="form-control" value="<?=$view['startdate']?>"></div>
+                  <div class="col-md-2"><input type="text" name="startdate" id="startDatePicker" class="form-control" value="<?=$view['startdate']?>"></div>
                   <div class="col-md-2">
                     <select name="starttime" id="startTime" class="form-control">
                     <?php

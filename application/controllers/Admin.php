@@ -1014,7 +1014,7 @@ class Admin extends Admin_Controller
       if (!$rtn) {
         $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
       } else {
-        $result = array('error' => 0, 'message' => $this->lang->line('msg_update_complete'));
+        $result = array('error' => 0, 'message' => $this->lang->line('msg_complete'));
       }
     }
 
