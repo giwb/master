@@ -174,7 +174,7 @@ class Admin extends Admin_Controller
             $priorityIdx[] = $result; // 2인우선석일 경우, 각각의 고유번호를 저장
           }
 
-          if (!empty($result)) {
+          if (!empty($result) && empty($nowPriority)) {
             // 관리자 예약 기록
             setHistory(LOG_ADMIN_RESERVE, $idx, $nowUserid, $nowNick, $viewEntry['subject'], $now);
           }
@@ -208,6 +208,10 @@ class Admin extends Admin_Controller
               );
               $this->admin_model->updateReserve($updateWait, $checkReserve['idx']);
             }
+          }
+          if (!empty($checkReserve['priority']) && $checkReserve['nickname'] == '2인우선') {
+            $postData['status'] = RESERVE_ON;
+            $postData['priority'] = 0;
           }
           $result = $this->admin_model->updateReserve($postData, $resIdx);
         }

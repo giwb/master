@@ -175,7 +175,7 @@ class Admin_model extends CI_Model
   // 좌석 예약 확인
   public function checkReserve($idx, $bus, $seat)
   {
-    $this->db->select('idx, status')
+    $this->db->select('idx, userid, nickname, priority, status')
           ->from(DB_RESERVATION)
           ->where('rescode', $idx)
           ->where('bus', $bus)

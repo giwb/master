@@ -716,16 +716,11 @@
         $.openMsgModal('일반예약과 2인예약을 동시에 할 수 없습니다.');
         return false;
       }
-      if ($(this).text() == '2인우선') {
-      } else {
-        $('.btn-reserve-confirm').text('수정합니다');
-        $('.btn-reserve-cancel').removeClass('d-none');
-      }
       $('.priority[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
       $('.priority[data-bus=' + bus + '][data-id=' + priorityIdx + ']').addClass('active');
       $('html, body').animate( { scrollTop : $('#reserveForm').offset().top - 100 }, 1000 ); // 하단으로 스크롤
-      $.viewReserveInfo(resIdx, bus, seat); // 예약 정보
-      $.viewReserveInfo(priorityIdx, bus, prioritySeat); // 예약 정보
+      $.viewReserveInfo(resIdx, bus, seat, priorityIdx);
+      setTimeout(function() { $.viewReserveInfo(priorityIdx, bus, prioritySeat, priorityIdx); }, 1000);
     }
   }).on('click', '.btn-reserve-confirm', function() {
     // 좌석 예약
@@ -814,7 +809,7 @@
   });
 
   // 예약 정보
-  $.viewReserveInfo = function(resIdx, bus, seat) {
+  $.viewReserveInfo = function(resIdx, bus, seat, priorityIdx='') {
     $.ajax({
       url: $('input[name=baseUrl]').val() + 'reserve/information/' + $('input[name=clubIdx]').val(),
       data: 'idx=' + $('input[name=noticeIdx]').val() + '&bus=' + bus + '&seat=' + seat + '&resIdx=' + resIdx,
@@ -838,7 +833,10 @@
             busType += '<input type="hidden" name="bus[]" value="' + bus + '">';
           }
           var selectSeat = '<select name="seat[]">'; $.each(reserveInfo.seat, function(i, v) { selectSeat += '<option'; if ((i+1) == seat) selectSeat += ' selected'; selectSeat += ' value="' + (i+1) + '">' + v + '번</option>'; }); selectSeat += '</select> ';
-          $('.btn-reserve-cancel').removeClass('d-none').show();
+
+          if (reserveInfo.reserve.priority == 0 && reserveInfo.reserve.nickname != '2인우선') {
+            $('.btn-reserve-cancel').removeClass('d-none').show();
+          }
         } else {
           // 등록
           var busNumber = '';

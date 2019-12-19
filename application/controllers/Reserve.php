@@ -205,6 +205,7 @@ class Reserve extends MY_Controller
       );
 
       if (empty($resIdxNow)) {
+        // 등록
         $result = $this->reserve_model->insertReserve($processData);
 
         // 예약 번호 저장
@@ -213,11 +214,16 @@ class Reserve extends MY_Controller
         // 로그 기록
         setHistory(LOG_RESERVE, $noticeIdx, $userData['userid'], $userData['nickname'], $viewNotice['subject'], $now);
       } else {
+        // 수정
         // 선택한 좌석 예약 여부 확인
         $checkReserve = $this->reserve_model->checkReserve($clubIdx, $noticeIdx, $nowBus, $seat);
 
         // 자신이 예약한 좌석만 수정 가능
-        if ($checkReserve['userid'] == $userData['userid'] || empty($checkReserve['idx'])) {
+        if ($checkReserve['userid'] == $userData['userid'] || empty($checkReserve['idx']) || (!empty($checkReserve['priority']) && $checkReserve['nickname'] == '2인우선')) {
+          if (!empty($checkReserve['priority']) && $checkReserve['nickname'] == '2인우선') {
+            $processData['status'] = RESERVE_ON;
+            $processData['priority'] = 0;
+          }
           $result = $this->reserve_model->updateReserve($processData, $resIdxNow);
 
           // 예약 번호 저장

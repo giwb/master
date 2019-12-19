@@ -614,9 +614,11 @@
     } else {
       // 예약 활성화
       $('.priority[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
-      $('.priority[data-bus=' + bus + '][data-id=' + priorityIdx + ']').addClass('active');
       $.viewReserveInfo(resIdx, bus, seat); // 1인석 예약
-      $.viewReserveInfo(priorityIdx, bus, prioritySeat); // 2인석 예약
+      if (typeof $('.priority[data-bus=' + bus + '][data-id=' + priorityIdx + ']').css('display') != 'undefined') {
+        $('.priority[data-bus=' + bus + '][data-id=' + priorityIdx + ']').addClass('active');
+        $.viewReserveInfo(priorityIdx, bus, prioritySeat); // 2인석 예약
+      }
     }
   }).on('click', '.btn-reserve-confirm', function() {
     // 예약 확정
