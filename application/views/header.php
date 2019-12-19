@@ -51,7 +51,8 @@
 
   <script src="<?=base_url()?>public/js/fullcalendar.js" type="text/javascript"></script>
   <script src="<?=base_url()?>public/js/clipboard.min.js" type="text/javascript"></script>
-  <script src="<?=base_url()?>public/js/main.js?<?=time()?>"></script>
+  <script src="<?=base_url()?>public/js/main.js?<?=time()?>" type="text/javascript"></script>
+  <script src="//developers.kakao.com/sdk/js/kakao.min.js" type="text/javascript"></script>
 
 </head>
 <body>
@@ -102,7 +103,7 @@
           <?php else: ?>
           <li><p>&nbsp;</p></li>
           <?php endif; ?>
-          <li><a href="<?=base_url()?><?=$view['idx']?>">첫페이지</a></li>
+          <li><div id="kakao-add-channel-button"></div></li>
           <li><a href="<?=base_url()?>club/about/<?=$view['idx']?>"> 산악회 소개</a></li>
           <li><a href="<?=base_url()?>club/guide/<?=$view['idx']?>"> 등산 안내인 소개</a></li>
           <?php if ($userLevel['levelType'] >= 2): ?>
@@ -161,6 +162,9 @@
           ・관리자 : <?=$view['nickname']?><br>
           ・회원수 : <?=number_format($view['cntMember']['cnt'])?>명 / 오늘 <?=number_format($view['cntMemberToday']['cnt'])?>명<br>
           ・방문수 : <?=number_format($view['cntVisitor']['cnt'])?>회 / 오늘 <?=number_format($view['cntVisitorToday']['cnt'])?>명<br>
+          </div>
+          <div class="text-center border-top mt-4 pt-3">
+            <div id="kakao-add-channel-button"></div>
           </div>
         </div>
       </div>
