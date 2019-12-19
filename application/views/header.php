@@ -103,7 +103,10 @@
           <?php else: ?>
           <li><p>&nbsp;</p></li>
           <?php endif; ?>
-          <li><a target="_blank" href="https://pf.kakao.com/_BxaPRxb/friend"><img src="https://developers.kakao.com/assets/img/about/logos/channel/friendadd_small_yellow_rect.png"></a></li>
+          <li class="row">
+            <div class="pl-3"><a target="_blank" href="https://pf.kakao.com/_BxaPRxb/friend"><img src="https://developers.kakao.com/assets/img/about/logos/channel/friendadd_small_yellow_rect.png"></a></div>
+            <div class="pl-3"><a target="_blank" href="https://facebook.com/giwb.kr"><img height="30" src="<?=base_url()?>public/images/icon_facebook.png"></a></div>
+          </li>
           <li><a href="<?=base_url()?>club/about/<?=$view['idx']?>"> 산악회 소개</a></li>
           <li><a href="<?=base_url()?>club/guide/<?=$view['idx']?>"> 등산 안내인 소개</a></li>
           <?php if ($userLevel['levelType'] >= 2): ?>
@@ -165,6 +168,7 @@
           </div>
           <div class="text-center border-top mt-4 pt-3">
             <a target="_blank" href="https://pf.kakao.com/_BxaPRxb/friend"><img src="https://developers.kakao.com/assets/img/about/logos/channel/friendadd_large_yellow_rect.png"></a>
+            <a target="_blank" href="https://facebook.com/giwb.kr"><img height="45" src="<?=base_url()?>public/images/btn_facebook.png"></a>
           </div>
         </div>
       </div>
