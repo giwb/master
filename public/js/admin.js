@@ -642,7 +642,7 @@
         cnt++;
       }
     });
-    if (cnt != 2) {
+    if (cnt > 0 && cnt != 2) {
       $.openMsgModal('2인우선석은 2개 자리만 지정해주세요.');
       return false;
     }
