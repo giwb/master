@@ -774,7 +774,7 @@
     var eDate = new Date(eDateArr[0], eDateArr[1], eDateArr[2]);
     var lastDay = new Date(sDateArr[0], sDateArr[1], 0).getDate();
     var addedTime = 0;
-    if (lastDay == sDateArr[2] && lastDay != eDateArr[2]) addedTime = 1;
+    if (eDateArr[1] > sDateArr[1]) addedTime = 1;
     var resultDay = parseInt((eDate - sDate) / (24 * 60 * 60 * 1000) - addedTime);
     var addDay = (parseInt(resultDay) + 1);
     var startTimeArr = startTime.split(':');
