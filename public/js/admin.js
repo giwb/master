@@ -589,6 +589,25 @@
       $('.seat[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
       $.viewReserveInfo(resIdx, bus, seat); // 예약 정보
     }
+  }).on('click', '.area-bus-table .priority', function() {
+    // 2인우선 예약 버튼
+    var resIdx = $(this).data('id');
+    var bus = $(this).data('bus');
+    var seat = $(this).data('seat');
+
+    // 좌석 배경색 토글
+    if ($(this).hasClass('active')) {
+      // 삭제
+      $('.seat[data-bus=' + bus + '][data-seat=' + seat + ']').removeClass('active');
+      $('#addedInfo .reserve[data-seat=' + seat + ']').remove();
+
+      // 예약 내용이 없으면 예약 확정 버튼 삭제
+      if ($('#addedInfo .reserve').length == 0) $('.btn-reserve-confirm').hide();
+    } else {
+      // 예약 활성화
+      $('.seat[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
+      $.viewReserveInfo(resIdx, bus, seat); // 예약 정보
+    }
   }).on('click', '.btn-reserve-confirm', function() {
     // 예약 확정
     var $btn = $(this);

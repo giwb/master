@@ -2020,7 +2020,8 @@ h1.nav-logo small {
 #club .sub-contents .area-bus-table .male { color: #505050; background-color: #E5FAFF; }
 #club .sub-contents .area-bus-table .female { color: #505050; background-color: #FFEAFA; }
 #club .sub-contents .area-bus-table .reserved { color: #505050!important; background-color: #FBEFD8; }
-#club .sub-contents .area-bus-table .seat.reserved { color: #505050!important; background-color: #FBEFD8; }
+#club .sub-contents .area-bus-table .reserved.seat { color: #505050!important; background-color: #FBEFD8; }
+#club .sub-contents .area-bus-table .reserved.priority { color: #AAA!important; background-color: #fff; }
 #club .sub-contents .area-bus-table .wait { font-weight: normal; color: #505050; }
 #club .sub-contents .area-bus-table .active { color: #505050!important; background-color: #FFCC00!important; }
 #club .sub-contents #reserveForm { text-align: center; margin: 10px 0; }

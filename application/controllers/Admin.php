@@ -139,6 +139,7 @@ class Admin extends Admin_Controller
       $nowBus = html_escape($arrBus[$key]);
       $nowSeat = html_escape($seat);
       $nowManager = html_escape($arrManager[$key]) == 'true' ? 1 : 0;
+      $nowPriority = html_escape($arrPriority[$key]) == 'true' ? 1 : 0;
 
       $postData = array(
         'rescode' => $idx,
@@ -152,7 +153,6 @@ class Admin extends Admin_Controller
         'depositname' => html_escape($arrDepositName[$key]),
         'vip' => html_escape($arrVip[$key]) == 'true' ? 1 : 0,
         'manager' => $nowManager,
-        'priority' => html_escape($arrPriority[$key]) == 'true' ? 1 : 0,
         'regdate' => $now
       );
 
@@ -168,7 +168,7 @@ class Admin extends Admin_Controller
 
       if (empty($resIdx)) {
         if (empty($checkReserve['idx'])) {
-          $result = $this->admin_model->insertReserve($postData);
+          $idx = $this->admin_model->insertReserve($postData);
 
           if (!empty($result)) {
             // 관리자 예약 기록

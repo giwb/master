@@ -502,6 +502,9 @@ if (!function_exists('getReserve')) {
         } else {
           $value['class'] .= ' reserved';
         }
+        if (!empty($value['priority'])) {
+          $value['class'] .= ' priority';
+        }
         $result = $value;
       }
       $checkGender[$value['bus']][$value['seat']] = $value['gender'];
