@@ -15,8 +15,8 @@
       예약인원 : <?=cntRes($view['idx'])?>명<br>
 
       <div class="area-reservation">
-        <div class="area-btn">
-          <div class="float-left">
+        <div class="border-top border-bottom mt-4 pt-3 pb-3 row align-items-center">
+          <div class="col-sm-9 area-btn">
             <?php if ($view['status'] != STATUS_PLAN): ?>
             <a href="<?=base_url()?>admin/main_entry/<?=$view['idx']?>"><button type="button" class="btn btn-primary">수정</button></a>
             <a href="<?=base_url()?>admin/main_notice/<?=$view['idx']?>"><button type="button" class="btn btn-primary">공지</button></a>
@@ -26,7 +26,7 @@
             <a href="<?=base_url()?>admin/main_view_adjust/<?=$view['idx']?>"><button type="button" class="btn btn-primary">정산</button></a>
             <?php endif; ?>
           </div>
-          <div class="float-right">
+          <div class="col-sm-3">
             <select name="status" class="form-control change-status-modal">
               <option value="">산행 상태</option>
               <option value="">------------</option>

@@ -12116,7 +12116,6 @@ body.sidebar-toggled footer.sticky-footer {
 .sub-contents { margin-bottom: 100px; }
 .sub-contents h2 { font-size: 20px; font-family: "Malgun Gothic"; font-weight: bold; }
 .area-reservation { width: 680px; }
-.area-reservation .area-btn { height: 30px; margin: 20px 0 10px 0; }
 .area-boarding { width: 680px; margin: 20px 0; color: #333; }
 .area-boarding dl { width: 100%; font-size: 14px; border: 1px solid #999; border-width: 1px 1px 0 1px; margin: 0px; padding: 0px; display: table; }
 .area-boarding dl:last-child { border-bottom-width: 1px; }

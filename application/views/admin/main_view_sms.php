@@ -15,8 +15,8 @@
       예약인원 : <?=cntRes($view['idx'])?>명<br>
 
       <div class="area-reservation">
-        <div class="area-btn">
-          <div class="float-left">
+        <div class="border-top border-bottom mt-4 pt-3 pb-3">
+          <div class="area-btn">
             <a href="<?=base_url()?>admin/main_entry/<?=$view['idx']?>"><button type="button" class="btn btn-primary">수정</button></a>
             <a href="<?=base_url()?>admin/main_notice/<?=$view['idx']?>"><button type="button" class="btn btn-primary">공지</button></a>
             <a href="<?=base_url()?>admin/main_view_progress/<?=$view['idx']?>"><button type="button" class="btn btn-primary">예약</button></a>
@@ -26,7 +26,7 @@
           </div>
         </div><br>
 
-        <?php foreach ($list as $value): ?>
+        <?php if (!empty($list)): foreach ($list as $value): ?>
           <?=$value['date']?> (<?=$value['week']?>요<?=$value['dist']?>)<br>
           <?=$value['subject']?><br>
           <?=$value['nickname']?>님<br>
@@ -34,6 +34,6 @@
           <?=$value['seat']?>번 좌석<br>
           <?=$value['time']?> <?=$value['title']?><br>
           경인웰빙산악회<br><br>
-        <?php endforeach; ?>
+        <?php endforeach; endif; ?>
       </div>
     </div>
