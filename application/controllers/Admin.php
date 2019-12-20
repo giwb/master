@@ -1958,6 +1958,66 @@ class Admin extends Admin_Controller
   }
 
   /**
+   * 활동관리 - 비회원 환불기록
+   *
+   * @return view
+   * @return json
+   * @author bjchoi
+   **/
+  public function log_refund()
+  {
+    $action = html_escape($this->input->post('action'));
+    $viewData['subject'] = html_escape($this->input->post('subject'));
+    $viewData['nickname'] = html_escape($this->input->post('nickname'));
+    $page = html_escape($this->input->post('p'));
+    if (empty($page)) $page = 1; else $page++;
+
+    $paging['perPage'] = 30;
+    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
+
+    if (!empty($action)) {
+      $viewData['action'] = array($action);
+      $viewData['listHistory'] = $this->admin_model->listHistory($paging, $viewData);
+    } else {
+      $viewData['action'] = array(LOG_ADMIN_CANCEL, LOG_ADMIN_DEPOSIT_CANCEL); // 비회원은 관리자 취소, 관리자 입금취소만 확인
+      $viewData['refund'] = 'refund';
+      $viewData['listHistory'] = $this->admin_model->listHistory($paging, $viewData);
+      $viewData['action'][0] = ''; // 액션 초기화
+    }
+
+    $viewData['pageType'] = 'refund';
+    $viewData['pageUrl'] = base_url() . 'admin/log_refund';
+    $viewData['pageTitle'] = '비회원 환불기록';
+
+    foreach ($viewData['listHistory'] as $key => $value) {
+      $viewData['listHistory'][$key]['userData']['nickname'] = $value['nickname'];
+
+      switch ($value['action']) {
+        case LOG_ADMIN_CANCEL: // 관리자 예약취소
+          $viewData['listHistory'][$key]['header'] = '<span class="text-danger">[관리자예약취소]</span>';
+          $viewData['listHistory'][$key]['subject'] = $value['subject'];
+          break;
+        case LOG_ADMIN_DEPOSIT_CANCEL: // 관리자 입금취소
+          $search_reserve['idx'] = $value['fkey'];
+          $viewReserve = $this->admin_model->viewReserve($search_reserve);
+          $viewData['listHistory'][$key]['header'] = '<span class="text-warning">[관리자입금취소]</span>';
+          $viewData['listHistory'][$key]['subject'] = $value['subject'];
+          break;
+      }
+    }
+
+    if ($page >= 2) {
+      // 2페이지 이상일 경우에는 Json으로 전송
+      $result['page'] = $page;
+      $result['html'] = $this->load->view('admin/log_user_append', $viewData, true);
+      $this->output->set_output(json_encode($result));
+    } else {
+      // 1페이지에는 View 페이지로 전송
+      $this->_viewPage('admin/log_user', $viewData);
+    }
+  }
+
+  /**
    * 활동관리 - 클럽 댓글
    *
    * @return view

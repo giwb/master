@@ -27,6 +27,10 @@
                 <option<?=$action[0] == 10 ? ' selected' : ''?> value="10">관리자 입금확인</option>
                 <option<?=$action[0] == 11 ? ' selected' : ''?> value="11">관리자 입금취소</option>
                 <?php endif; ?>
+                <?php if ($pageType == 'refund'): ?>
+                <option<?=$action[0] == 9 ? ' selected' : ''?> value="9">관리자 취소</option>
+                <option<?=$action[0] == 11 ? ' selected' : ''?> value="11">관리자 입금취소</option>
+                <?php endif; ?>
               </select>
             </div>
             <div class="col-sm-1 pl-0 pr-0">산행으로 검색</div>

@@ -477,6 +477,9 @@ class Admin_model extends CI_Model
     if (!is_null($paging)) {
       $this->db->limit($paging['perPage'], $paging['nowPage']);
     }
+    if (!empty($search['refund'])) {
+      $this->db->where('userid', NULL);
+    }
 
     return $this->db->get()->result_array();
   }

@@ -152,7 +152,7 @@
     var $btn = $(this);
     $.ajax({
       url: $('input[name=base_url]').val() + 'admin/' + $('#messageModal input[name=action]').val(),
-      data: 'idx=' + $('input[name=delete_idx]').val(),
+      data: 'idx=' + $('#messageModal input[name=delete_idx]').val(),
       dataType: 'json',
       type: 'post',
       beforeSend: function() {
