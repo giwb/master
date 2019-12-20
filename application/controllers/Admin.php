@@ -1994,14 +1994,14 @@ class Admin extends Admin_Controller
 
       switch ($value['action']) {
         case LOG_ADMIN_CANCEL: // 관리자 예약취소
+          $viewEntry = $this->admin_model->viewEntry($value['fkey']);
           $viewData['listHistory'][$key]['header'] = '<span class="text-danger">[관리자예약취소]</span>';
-          $viewData['listHistory'][$key]['subject'] = $value['subject'];
+          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' - ' . number_format($viewEntry['cost_total']) . '원';
           break;
         case LOG_ADMIN_DEPOSIT_CANCEL: // 관리자 입금취소
-          $search_reserve['idx'] = $value['fkey'];
-          $viewReserve = $this->admin_model->viewReserve($search_reserve);
+          $listReserve = $this->admin_model->listReserve(1, $value['nickname']);
           $viewData['listHistory'][$key]['header'] = '<span class="text-warning">[관리자입금취소]</span>';
-          $viewData['listHistory'][$key]['subject'] = $value['subject'];
+          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' - ' . number_format($listReserve[0]['cost_total']) . '원';
           break;
       }
     }
