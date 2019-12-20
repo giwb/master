@@ -529,6 +529,16 @@
     var $btn = $(this);
     var $dom = $('#formAuth');
     var formData = new FormData($dom[0]);
+
+    if ($('select[name=rescode]:selected').val() == '') {
+      $.openMsgModal('산행은 꼭 선택해주세요.');
+      return false;
+    }
+    if ($('input[name=title]').val() == '') {
+      $.openMsgModal('산행명은 꼭 입력해주세요.');
+      return false;
+    }
+
     $.ajax({
       url: $dom.attr('action'),
       data: formData,
