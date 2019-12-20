@@ -110,7 +110,7 @@
           <li><p>&nbsp;</p></li>
           <?php endif; ?>
           <li class="row">
-            <div class="pl-3"><a target="_blank" href="https://pf.kakao.com/_BxaPRxb/friend"><img src="https://developers.kakao.com/assets/img/about/logos/channel/friendadd_small_yellow_rect.png"></a></div>
+            <div class="pl-3"><a target="_blank" href="https://pf.kakao.com/_BxaPRxb/friend"><img src="<?=base_url()?>public/images/icon_kakao_channel.png"></a></div>
             <div class="pl-3"><a target="_blank" href="https://facebook.com/giwb.kr"><img height="30" src="<?=base_url()?>public/images/icon_facebook.png"></a></div>
           </li>
           <li><a href="<?=base_url()?>club/about/<?=$view['idx']?>"> 산악회 소개</a></li>
@@ -173,7 +173,7 @@
           ・방문수 : <?=number_format($view['cntVisitor']['cnt'])?>회 / 오늘 <?=number_format($view['cntVisitorToday']['cnt'])?>명<br>
           </div>
           <div class="text-center border-top mt-4 pt-3">
-            <a target="_blank" href="https://pf.kakao.com/_BxaPRxb/friend"><img src="https://developers.kakao.com/assets/img/about/logos/channel/friendadd_large_yellow_rect.png"></a>
+            <a target="_blank" href="https://pf.kakao.com/_BxaPRxb/friend"><img src="<?=base_url()?>public/images/icon_kakao_channel.png"></a>
             <a target="_blank" href="https://facebook.com/giwb.kr"><img height="45" src="<?=base_url()?>public/images/btn_facebook.png"></a>
           </div>
         </div>
