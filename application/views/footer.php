@@ -18,7 +18,7 @@
 
   <?php if (empty($userData['idx'])): ?>
   <!-- Login Modal -->
-  <div class="modal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -154,7 +154,7 @@
   </footer>
   <!-- /FOOTER -->
 
-  <script type="text/javascript" src="<?=base_url()?>public/vendors/chart.js/dist/Chart.bundle.min.js"></script>
+  <script src="<?=base_url()?>public/vendors/chart.js/dist/Chart.bundle.min.js" type="text/javascript"></script>
 
   <?php if (ENVIRONMENT == 'production'): ?>
   <script>

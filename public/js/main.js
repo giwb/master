@@ -666,7 +666,7 @@
       }
       $('.seat[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
       $('html, body').animate( { scrollTop : $('#reserveForm').offset().top - 100 }, 1000 ); // 하단으로 스크롤
-      $.viewReserveInfo(resIdx, bus, seat); // 예약 정보
+      $.viewReserveInfo(resIdx, bus, seat, 0); // 예약 정보
     }
   }).on('click', '.area-bus-table .priority', function() {
     // 2인우선 예약 버튼
@@ -809,7 +809,7 @@
   });
 
   // 예약 정보
-  $.viewReserveInfo = function(resIdx, bus, seat, priorityIdx='') {
+  $.viewReserveInfo = function(resIdx, bus, seat, priorityIdx) {
     $.ajax({
       url: $('input[name=baseUrl]').val() + 'reserve/information/' + $('input[name=clubIdx]').val(),
       data: 'idx=' + $('input[name=noticeIdx]').val() + '&bus=' + bus + '&seat=' + seat + '&resIdx=' + resIdx,
