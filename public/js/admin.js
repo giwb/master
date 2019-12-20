@@ -530,7 +530,7 @@
     var $dom = $('#formAuth');
     var formData = new FormData($dom[0]);
 
-    if ($('select[name=rescode]:selected').val() == '') {
+    if ($('select[name=rescode] option:selected').val() == '') {
       $.openMsgModal('산행은 꼭 선택해주세요.');
       return false;
     }
