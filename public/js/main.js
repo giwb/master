@@ -720,7 +720,7 @@
       $('.priority[data-bus=' + bus + '][data-id=' + priorityIdx + ']').addClass('active');
       $('html, body').animate( { scrollTop : $('#reserveForm').offset().top - 100 }, 1000 ); // 하단으로 스크롤
       $.viewReserveInfo(resIdx, bus, seat, priorityIdx);
-      setTimeout(function() { $.viewReserveInfo(priorityIdx, bus, prioritySeat, priorityIdx); }, 1000);
+      setTimeout(function() { $.viewReserveInfo(priorityIdx, bus, prioritySeat, priorityIdx); }, 500);
     }
   }).on('click', '.btn-reserve-confirm', function() {
     // 좌석 예약
