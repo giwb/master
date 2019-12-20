@@ -253,6 +253,7 @@ class Admin extends Admin_Controller
     $now = time();
     $clubIdx = 1; // 경인웰빙
     $inputData['idx'] = html_escape($this->input->post('idx'));
+    $subject = !empty($this->input->post('subject')) ? html_escape($this->input->post('subject')) : '';
 
     // 예약 정보
     $viewReserve = $this->admin_model->viewReserve($inputData);
@@ -357,10 +358,10 @@ class Admin extends Admin_Controller
       }
 
       // 관리자 예약취소 기록
-      setHistory(LOG_ADMIN_CANCEL, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'], $now);
+      setHistory(LOG_ADMIN_CANCEL, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'] . ' ' . $subject, $now);
 
       // 예약 취소 로그 기록
-      setHistory(LOG_CANCEL, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'], $now);
+      setHistory(LOG_CANCEL, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'] . ' ' . $subject, $now);
     }
 
     $result['reload'] = true;
@@ -1844,28 +1845,28 @@ class Admin extends Admin_Controller
           $viewData['listHistory'][$key]['subject'] = '<a target="_blank" href="' . base_url() . 'admin/member_view/' . $value['idx'] . '" class="text-dark">' . $value['userid'] . '</a>';
           break;
         case '2': // 예약
-          $viewData['listHistory'][$key]['header'] = '[예약완료]';
-          $viewData['listHistory'][$key]['subject'] = '<a target="_blank" href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '">' . $value['subject'] . '</a>';
+          $viewData['listHistory'][$key]['header'] = '<span class="text-primary">[예약완료]</span>';
+          $viewData['listHistory'][$key]['subject'] = $value['subject'];
           break;
         case '3': // 예약취소
-          $viewData['listHistory'][$key]['header'] = '[예약취소]';
-          $viewData['listHistory'][$key]['subject'] = '<a target="_blank" href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '" class="text-danger">' . $value['subject'] . '</a>';
+          $viewData['listHistory'][$key]['header'] = '<span class="text-danger">[예약취소]</span>';
+          $viewData['listHistory'][$key]['subject'] = $value['subject'];
           break;
         case '4': // 포인트 적립
-          $viewData['listHistory'][$key]['header'] = '[포인트적립]';
-          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' ' . $value['point'];
+          $viewData['listHistory'][$key]['header'] = '<span class="text-info">[포인트적립]</span>';
+          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' - ' . $value['point'] . ' 포인트적립';
           break;
         case '5': // 포인트 감소
-          $viewData['listHistory'][$key]['header'] = '[포인트감소]';
-          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' ' . $value['point'];
+          $viewData['listHistory'][$key]['header'] = '<span class="text-warning">[포인트감소]</span>';
+          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' - ' . $value['point'] . ' 포인트감소';
           break;
         case '6': // 페널티 추가
-          $viewData['listHistory'][$key]['header'] = '[페널티추가]';
-          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' ' . $value['point'];
+          $viewData['listHistory'][$key]['header'] = '<span class="text-warning">[페널티추가]</span>';
+          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' - ' . $value['point'] . ' 페널티추가';
           break;
         case '7': // 페널티 감소
-          $viewData['listHistory'][$key]['header'] = '[페널티감소]';
-          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' ' . $value['point'];
+          $viewData['listHistory'][$key]['header'] = '<span class="text-info">[페널티감소]</span>';
+          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' - ' . $value['point'] . ' 페널티감소';
           break;
       }
     }
@@ -1922,24 +1923,24 @@ class Admin extends Admin_Controller
 
       switch ($value['action']) {
         case LOG_ADMIN_RESERVE: // 관리자 예약
-          $viewData['listHistory'][$key]['header'] = '[관리자예약완료]';
-          $viewData['listHistory'][$key]['subject'] = '<a target="_blank" href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '">' . $value['subject'] . '</a>';
+          $viewData['listHistory'][$key]['header'] = '<span class="text-primary">[관리자예약완료]</span>';
+          $viewData['listHistory'][$key]['subject'] = $value['subject'];
           break;
         case LOG_ADMIN_CANCEL: // 관리자 예약취소
-          $viewData['listHistory'][$key]['header'] = '[관리자예약취소]';
-          $viewData['listHistory'][$key]['subject'] = '<a target="_blank" href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '" class="text-danger">' . $value['subject'] . '</a>';
+          $viewData['listHistory'][$key]['header'] = '<span class="text-danger">[관리자예약취소]</span>';
+          $viewData['listHistory'][$key]['subject'] = $value['subject'];
           break;
         case LOG_ADMIN_DEPOSIT_CONFIRM: // 관리자 입금확인
           $search_reserve['idx'] = $value['fkey'];
           $viewReserve = $this->admin_model->viewReserve($search_reserve);
-          $viewData['listHistory'][$key]['header'] = '[관리자입금확인]';
-          $viewData['listHistory'][$key]['subject'] = '<a target="_blank" href="' . base_url() . 'admin/main_view_progress/' . $viewReserve['rescode'] . '" class="text-success">' . $value['subject'] . '</a>';
+          $viewData['listHistory'][$key]['header'] = '<span class="text-info">[관리자입금확인]</span>';
+          $viewData['listHistory'][$key]['subject'] = $value['subject'];
           break;
         case LOG_ADMIN_DEPOSIT_CANCEL: // 관리자 입금취소
           $search_reserve['idx'] = $value['fkey'];
           $viewReserve = $this->admin_model->viewReserve($search_reserve);
-          $viewData['listHistory'][$key]['header'] = '[관리자입금취소]';
-          $viewData['listHistory'][$key]['subject'] = '<a target="_blank" href="' . base_url() . 'admin/main_view_progress/' . $viewReserve['rescode'] . '" class="text-warning">' . $value['subject'] . '</a>';
+          $viewData['listHistory'][$key]['header'] = '<span class="text-warning">[관리자입금취소]</span>';
+          $viewData['listHistory'][$key]['subject'] = $value['subject'];
           break;
       }
     }

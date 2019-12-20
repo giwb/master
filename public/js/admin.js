@@ -693,13 +693,24 @@
     }
     $('#messageModal').modal('show');
   }).on('click', '.btn-reserve-cancel', function() {
+    // 예약 취소 모달
+    $('#cancelModal .modal-footer input[name=delete_idx]').val($(this).data('idx'));
+    $('#cancelModal').modal('show');
+  }).on('click', '.btn-reserve-cancel-complete', function() {
     // 예약 취소
-    $('#messageModal .modal-footer .btn-refresh, #messageModal .modal-footer .btn-list').hide();
-    $('#messageModal .modal-footer .btn-delete').text('취소합니다').show();
-    $('#messageModal .modal-footer input[name=action]').val('reserve_cancel');
-    $('#messageModal .modal-footer input[name=delete_idx]').val($(this).data('idx'));
-    $('#messageModal .modal-message').text('정말로 이 좌석의 예약을 취소하시겠습니까?');
-    $('#messageModal').modal('show');
+    var $btn = $(this);
+    $.ajax({
+      url: $('input[name=base_url]').val() + 'admin/reserve_cancel',
+      data: 'idx=' + $('#cancelModal input[name=delete_idx]').val() + '&subject=' + $('#cancelModal input[name=subject]').val(),
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+      },
+      success: function() {
+        location.reload();
+      }
+    });
   }).on('click', '.btn-change-seat', function() {
     // 좌석 변경
     var $btn = $(this);

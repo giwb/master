@@ -180,3 +180,31 @@
         </div>
       </div>
     </div>
+
+    <!-- Cancel Modal -->
+    <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="smallmodalLabel">메시지</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-center">
+            <p class="modal-message">
+              정말로 이 좌석의 예약을 취소하시겠습니까?<br>
+              <div class="row align-items-center">
+                <div class="col-sm-3 pl-0 pr-0">취소사유</div>
+                <div class="col-sm-9 pl-0"><input type="text" name="subject" class="form-control"></div>
+              </div>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <input type="hidden" name="delete_idx">
+            <button type="button" class="btn btn-primary btn-reserve-cancel-complete">승인</button>
+            <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
+          </div>
+        </div>
+      </div>
+    </div>
