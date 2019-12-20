@@ -213,6 +213,10 @@
           </div>
           <div class="modal-body text-center">
             <p class="modal-message"></p>
+            <div class="row align-items-center">
+                <div class="col-sm-2 pl-0 pr-0">사유</div>
+                <div class="col-sm-10 pl-0"><input type="text" name="subject" class="form-control"></div>
+              </div>
           </div>
           <div class="modal-footer">
             <input type="hidden" name="action">

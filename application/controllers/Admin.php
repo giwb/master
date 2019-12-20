@@ -1527,6 +1527,7 @@ class Admin extends Admin_Controller
     $type = html_escape($this->input->post('type'));
     $point = html_escape($this->input->post('point'));
     $penalty = html_escape($this->input->post('penalty'));
+    $subject = !empty($this->input->post('subject')) ? html_escape($this->input->post('subject')) : '';
 
     // 회원 정보
     $viewMember = $this->admin_model->viewMember($search);
@@ -1534,19 +1535,19 @@ class Admin extends Admin_Controller
     switch ($type) {
       case 1: // 포인트 추가
         $updateValues['point'] = $viewMember['point'] + $point;
-        setHistory(LOG_POINTUP, $search['idx'], $viewMember['userid'], $viewMember['nickname'], '관리자', $now, $point);
+        setHistory(LOG_POINTUP, $search['idx'], $viewMember['userid'], $viewMember['nickname'], $subject, $now, $point);
         break;
       case 2: // 포인트 감소
         $updateValues['point'] = $viewMember['point'] - $point;
-        setHistory(LOG_POINTDN, $search['idx'], $viewMember['userid'], $viewMember['nickname'], '관리자', $now, $point);
+        setHistory(LOG_POINTDN, $search['idx'], $viewMember['userid'], $viewMember['nickname'], $subject, $now, $point);
         break;
       case 3: // 페널티 추가
         $updateValues['penalty'] = $viewMember['penalty'] + $penalty;
-        setHistory(LOG_PENALTYUP, $search['idx'], $viewMember['userid'], $viewMember['nickname'], '관리자', $now, $penalty);
+        setHistory(LOG_PENALTYUP, $search['idx'], $viewMember['userid'], $viewMember['nickname'], $subject, $now, $penalty);
         break;
       case 4: // 페널티 감소
         $updateValues['penalty'] = $viewMember['penalty'] - $penalty;
-        setHistory(LOG_PENALTYDN, $search['idx'], $viewMember['userid'], $viewMember['nickname'], '관리자', $now, $penalty);
+        setHistory(LOG_PENALTYDN, $search['idx'], $viewMember['userid'], $viewMember['nickname'], $subject, $now, $penalty);
         break;
     }
 
@@ -1854,19 +1855,19 @@ class Admin extends Admin_Controller
           break;
         case '4': // 포인트 적립
           $viewData['listHistory'][$key]['header'] = '<span class="text-info">[포인트적립]</span>';
-          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' - ' . $value['point'] . ' 포인트적립';
+          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' ' . $value['point'] . ' 포인트적립';
           break;
         case '5': // 포인트 감소
           $viewData['listHistory'][$key]['header'] = '<span class="text-warning">[포인트감소]</span>';
-          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' - ' . $value['point'] . ' 포인트감소';
+          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' ' . $value['point'] . ' 포인트감소';
           break;
         case '6': // 페널티 추가
           $viewData['listHistory'][$key]['header'] = '<span class="text-warning">[페널티추가]</span>';
-          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' - ' . $value['point'] . ' 페널티추가';
+          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' ' . $value['point'] . ' 페널티추가';
           break;
         case '7': // 페널티 감소
           $viewData['listHistory'][$key]['header'] = '<span class="text-info">[페널티감소]</span>';
-          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' - ' . $value['point'] . ' 페널티감소';
+          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' ' . $value['point'] . ' 페널티감소';
           break;
       }
     }

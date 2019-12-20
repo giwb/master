@@ -80,10 +80,11 @@
       }
     });
   }).on('click', '.btn-member-point-update', function() {
+    // 포인트/페널티 추가/감소
     var $btn = $(this);
     $.ajax({
       url: $('input[name=base_url]').val() + 'admin/member_update_point/' + $('input[name=idx]').val(),
-      data: 'action=' + $('input[name=action]').val() + '&type=' + $('input[name=type]').val() + '&point=' + $('input[name=point]').val() + '&penalty=' + $('input[name=penalty]').val(),
+      data: 'action=' + $('input[name=action]').val() + '&type=' + $('input[name=type]').val() + '&point=' + $('input[name=point]').val() + '&penalty=' + $('input[name=penalty]').val() + '&subject=' + $('input[name=subject]').val(),
       dataType: 'json',
       type: 'post',
       beforeSend: function() {
