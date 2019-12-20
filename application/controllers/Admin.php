@@ -358,10 +358,10 @@ class Admin extends Admin_Controller
       }
 
       // 관리자 예약취소 기록
-      setHistory(LOG_ADMIN_CANCEL, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'] . ' - ' . $subject, $now);
+      setHistory(LOG_ADMIN_CANCEL, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'] . '<br>' . $subject, $now);
 
       // 예약 취소 로그 기록
-      setHistory(LOG_CANCEL, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'] . ' - ' . $subject, $now);
+      setHistory(LOG_CANCEL, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'] . '<br>' . $subject, $now);
     }
 
     $result['reload'] = true;
