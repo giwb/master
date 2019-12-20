@@ -1910,8 +1910,8 @@ class Admin extends Admin_Controller
 
     foreach ($viewData['listHistory'] as $key => $value) {
       if (!empty($value['userid'])) {
-        $search['userid'] = $value['userid'];
-        $viewData['listHistory'][$key]['userData'] = $this->admin_model->viewMember($search);
+        $search_member['userid'] = $value['userid'];
+        $viewData['listHistory'][$key]['userData'] = $this->admin_model->viewMember($search_member);
       } else {
         $viewData['listHistory'][$key]['userData']['nickname'] = $value['nickname'];
       }
@@ -1926,14 +1926,14 @@ class Admin extends Admin_Controller
           $viewData['listHistory'][$key]['subject'] = '<a target="_blank" href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '" class="text-danger">' . $value['subject'] . '</a>';
           break;
         case LOG_ADMIN_DEPOSIT_CONFIRM: // 관리자 입금확인
-          $search['idx'] = $value['fkey'];
-          $viewReserve = $this->admin_model->viewReserve($search);
+          $search_reserve['idx'] = $value['fkey'];
+          $viewReserve = $this->admin_model->viewReserve($search_reserve);
           $viewData['listHistory'][$key]['header'] = '[관리자입금확인]';
           $viewData['listHistory'][$key]['subject'] = '<a target="_blank" href="' . base_url() . 'admin/main_view_progress/' . $viewReserve['rescode'] . '" class="text-success">' . $value['subject'] . '</a>';
           break;
         case LOG_ADMIN_DEPOSIT_CANCEL: // 관리자 입금취소
-          $search['idx'] = $value['fkey'];
-          $viewReserve = $this->admin_model->viewReserve($search);
+          $search_reserve['idx'] = $value['fkey'];
+          $viewReserve = $this->admin_model->viewReserve($search_reserve);
           $viewData['listHistory'][$key]['header'] = '[관리자입금취소]';
           $viewData['listHistory'][$key]['subject'] = '<a target="_blank" href="' . base_url() . 'admin/main_view_progress/' . $viewReserve['rescode'] . '" class="text-warning">' . $value['subject'] . '</a>';
           break;
