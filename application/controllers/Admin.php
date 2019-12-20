@@ -311,7 +311,7 @@ class Admin extends Admin_Controller
       }
     }
 
-    if (!empty($rtn)) {
+    if (!empty($rtn) && empty($viewReserve['priority'])) {
       $startTime = explode(':', $viewEntry['starttime']);
       $startDate = explode('-', $viewEntry['startdate']);
       $limitDate = mktime($startTime[0], $startTime[1], 0, $startDate[1], $startDate[2], $startDate[0]);
