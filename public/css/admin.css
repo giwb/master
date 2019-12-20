@@ -12180,7 +12180,7 @@ body.sidebar-toggled footer.sticky-footer {
   .table th { white-space: nowrap; }
   .table td:first-child { width: 100%; }
 
-  .area-btn { height: auto!important; }
+  .area-btn { padding-bottom: 10px; text-align: center; }
   .area-btn .btn { font-size: 12px; padding: 0.375rem 0.60rem; }
   .area-btn .float-left, .area-btn .float-right { float: none!important; text-align: center; margin-bottom: 10px;  }
 

@@ -1,358 +1,337 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-    <div id="content-wrapper" class="d-flex flex-column">
-      <div id="content">
-        <div class="d-sm-flex align-items-center justify-content-between">
-          <h1 class="h3 mb-0 text-gray-800">신규 산행 <?=$btn?></h1>
-        </div>
+    <h1 class="h3 mb-0 text-gray-800">신규 산행 <?=$btn?></h1>
+    <div class="border-top border-bottom mt-4 mb-4 pt-3 pb-3 row align-items-center">
+      <div class="col-sm-9 area-btn">
+        <a href="<?=base_url()?>admin/main_entry/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">수정</button></a>
+        <a href="<?=base_url()?>admin/main_notice/<?=$view['idx']?>"><button type="button" class="btn btn-primary">공지</button></a>
+        <a href="<?=base_url()?>admin/main_view_progress/<?=$view['idx']?>"><button type="button" class="btn btn-primary">예약</button></a>
+        <a href="<?=base_url()?>admin/main_view_boarding/<?=$view['idx']?>"><button type="button" class="btn btn-primary">승차</button></a>
+        <a href="<?=base_url()?>admin/main_view_sms/<?=$view['idx']?>"><button type="button" class="btn btn-primary">문자</button></a>
+        <a href="<?=base_url()?>admin/main_view_adjust/<?=$view['idx']?>"><button type="button" class="btn btn-primary">정산</button></a>
+      </div>
+      <div class="col-sm-3">
+        <?php if (!empty($view['status'])): ?>
+        <select name="status" class="form-control form-control-sm change-status">
+          <option value="">산행 상태</option>
+          <option value="">------------</option>
+          <option<?=$view['status'] == STATUS_PLAN ? ' selected' : ''?> value="<?=STATUS_PLAN?>">계획</option>
+          <option<?=$view['status'] == STATUS_ABLE ? ' selected' : ''?> value="<?=STATUS_ABLE?>">예정</option>
+          <option<?=$view['status'] == STATUS_CONFIRM ? ' selected' : ''?> value="<?=STATUS_CONFIRM?>">확정</option>
+          <option<?=$view['status'] == STATUS_CANCEL ? ' selected' : ''?> value="<?=STATUS_CANCEL?>">취소</option>
+          <option<?=$view['status'] == STATUS_CLOSED ? ' selected' : ''?> value="<?=STATUS_CLOSED?>">종료</option>
+        </select>
+        <?php endif;?>
       </div>
     </div>
-
-    <div class="area-reservation border-top border-bottom w-100 mt-4 mb-4 pb-4">
-      <div class="area-btn">
-        <div class="float-left">
-          <a href="<?=base_url()?>admin/main_entry/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">수정</button></a>
-          <a href="<?=base_url()?>admin/main_notice/<?=$view['idx']?>"><button type="button" class="btn btn-primary">공지</button></a>
-          <a href="<?=base_url()?>admin/main_view_progress/<?=$view['idx']?>"><button type="button" class="btn btn-primary">예약</button></a>
-          <a href="<?=base_url()?>admin/main_view_boarding/<?=$view['idx']?>"><button type="button" class="btn btn-primary">승차</button></a>
-          <a href="<?=base_url()?>admin/main_view_sms/<?=$view['idx']?>"><button type="button" class="btn btn-primary">문자</button></a>
-          <a href="<?=base_url()?>admin/main_view_adjust/<?=$view['idx']?>"><button type="button" class="btn btn-primary">정산</button></a>
-        </div>
-        <div class="float-right">
-          <?php if (!empty($view['status'])): ?>
-          <select name="status" class="form-control form-control-sm change-status">
-            <option value="">산행 상태</option>
-            <option value="">------------</option>
-            <option<?=$view['status'] == STATUS_PLAN ? ' selected' : ''?> value="<?=STATUS_PLAN?>">계획</option>
-            <option<?=$view['status'] == STATUS_ABLE ? ' selected' : ''?> value="<?=STATUS_ABLE?>">예정</option>
-            <option<?=$view['status'] == STATUS_CONFIRM ? ' selected' : ''?> value="<?=STATUS_CONFIRM?>">확정</option>
-            <option<?=$view['status'] == STATUS_CANCEL ? ' selected' : ''?> value="<?=STATUS_CANCEL?>">취소</option>
-            <option<?=$view['status'] == STATUS_CLOSED ? ' selected' : ''?> value="<?=STATUS_CLOSED?>">종료</option>
-          </select>
-          <?php endif;?>
-        </div>
-      </div>
-    </div>
-
-    <div class="sub-contents">
-      <form id="myForm" method="post" action="<?=base_url()?>admin/main_entry_update">
+    <form id="myForm" method="post" action="<?=base_url()?>admin/main_entry_update">
       <input type="hidden" name="idx" value="<?=$view['idx']?>">
       <input type="hidden" name="peak" class="peak" value="<?=$view['peak']?>">
       <input type="hidden" name="winter" class="winter" value="<?=$view['winter']?>">
       <input type="hidden" name="back_url" value="main_list_progress">
-        <div class="row">
-          <div class="col-sm-9">
-            <h2>■ 기본정보</h2>
-          </div>
-          <div class="col-sm-3 pb-2 text-right">
-            <select class="form-control form-control-sm search-notice">
-              <option value="">▼ 다른 산행 정보 불러오기</option>
-              <?php foreach ($listNotice as $value): ?>
-              <option value='<?=$value['idx']?>'><?=$value['subject']?></option>
-              <?php endforeach; ?>
+      <div class="row align-items-center">
+        <div class="col-sm-9">
+          <h4>■ 기본정보</h4>
+        </div>
+        <div class="col-sm-3 pb-2 text-right">
+          <select class="form-control form-control-sm search-notice">
+            <option value="">▼ 다른 산행 정보 불러오기</option>
+            <?php foreach ($listNotice as $value): ?>
+            <option value='<?=$value['idx']?>'><?=$value['subject']?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+      </div>
+      <div class="row align-items-center border-top mt-3 pt-3">
+        <div class="col-sm-1 font-weight-bold">출발일시</div>
+        <div class="col-sm-11 row align-items-center">
+          <div class="col-sm-2"><input type="text" name="startdate" id="startDatePicker" class="form-control" value="<?=$view['startdate']?>"></div>
+          <div class="col-sm-2">
+            <select name="starttime" id="startTime" class="form-control">
+            <?php
+              $tStart = $tNow = strtotime('06:00');
+              $tEnd = strtotime('23:30');
+              while ($tNow <= $tEnd): $nowTime = date('H:i', $tNow);
+            ?>
+              <option<?=$view['starttime'] == $nowTime ? ' selected' : ''?> value="<?=$nowTime?>"><?=$nowTime?></option>
+            <?php
+                $tNow = strtotime('+30 minutes', $tNow);
+              endwhile;
+            ?>
             </select>
           </div>
         </div>
-        <table class="table">
-          <tbody>
-            <tr>
-              <th>출발일시</th>
-              <td>
-                <div class="form-row">
-                  <div class="col-md-2"><input type="text" name="startdate" id="startDatePicker" class="form-control" value="<?=$view['startdate']?>"></div>
-                  <div class="col-md-2">
-                    <select name="starttime" id="startTime" class="form-control">
-                    <?php
-                      $tStart = $tNow = strtotime('06:00');
-                      $tEnd = strtotime('23:30');
-                      while ($tNow <= $tEnd): $nowTime = date('H:i', $tNow);
-                    ?>
-                      <option<?=$view['starttime'] == $nowTime ? ' selected' : ''?> value="<?=$nowTime?>"><?=$nowTime?></option>
-                    <?php
-                        $tNow = strtotime('+30 minutes', $tNow);
-                      endwhile;
-                    ?>
-                    </select>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <th>도착일자</th>
-              <td>
-                <div class="form-row">
-                  <div class="col-md-2"><input readonly type="text" name="enddate" id="endDatePicker" class="form-control" value="<?=$view['enddate']?>"></div>
-                  <div class="col-md-2"><input readonly type="text" id="calcSchedule" class="form-control"></div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <th>산 이름</th>
-              <td class="form-row">
-                <div class="col-md-4">
-                  <input type="text" name="mname" class="form-control" value="<?=$view['mname']?>">
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <th>지역</th>
-              <td>
-                <button type="button" class="btn btn-primary btn-add-area mb-2">추가</button><br>
-                <?php if (empty($view['sido'])): ?>
-                <div class="row mt-1 pl-1 select-area">
-                  <div class="ml-2">
-                    <select name="area_sido[]" class="area-sido form-control">
-                      <option value=''>시/도</option>
-                      <?php foreach ($area_sido as $value): ?>
-                      <option<?=$value['idx'] == $view['area_sido'] ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
-                      <?php endforeach; ?>
-                    </select>
-                  </div>
-                  <div class="ml-2">
-                    <select name="area_gugun[]" class="area-gugun form-control">
-                      <option value=''>시/군/구</option>
-                      <?php foreach ($area_gugun as $value): ?>
-                      <option<?=$value['idx'] == $view['area_gugun'] ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
-                      <?php endforeach; ?>
-                    </select>
-                  </div>
-                </div>
-                <?php else: ?>
-                  <?php foreach ($view['sido'] as $key => $val): ?>
-                  <div class="row mt-1 pl-1 select-area">
-                    <div class="ml-2">
-                      <select name="area_sido[]" class="area-sido form-control">
-                        <option value=''>시/도</option>
-                        <?php foreach ($list_sido as $value): ?>
-                        <option<?=$value['name'] == $val ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
-                        <?php endforeach; ?>
-                      </select>
-                    </div>
-                    <div class="ml-2">
-                      <select name="area_gugun[]" class="area-gugun form-control">
-                        <option value=''>시/군/구</option>
-                        <?php foreach ($list_gugun[$key] as $value): ?>
-                        <option<?=$value['name'] == $view['gugun'][$key] ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
-                        <?php endforeach; ?>
-                      </select><div class="mt-1"></div>
-                    </div>
-                  </div>
-                  <?php endforeach; ?>
-                <?php endif; ?>
-                <div class="added-area">
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <th>산행 제목</th>
-              <td class="form-row">
-                <div class="col-md-4">
-                  <input type="text" name="subject" class="form-control subject" value="<?=$view['subject']?>">
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <th>산행 코스</th>
-              <td class="form-row">
-                <div class="col-md-4">
-                  <textarea name="content" rows="5" class="form-control w-100"><?=$view['content']?></textarea>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <th>차량</th>
-              <td>
-                <button type="button" class="btn btn-primary btn-add-bus">추가</button><br>
-                <div class="form-row mt-2">
-                  <div class="col-md-4">
-                    <?php if (!$view['idx']): // 등록 ?>
-                    <div id="area-init-bus">
-                      <select name="bustype[]" class="form-control mb-2">
-                        <option value="">버스 종류를 선택해주세요.</option>
-                        <?php foreach ($listBustype as $value): ?>
-                        <option value="<?=$value['idx']?>"><?=$value['bus_name']?></option>
-                        <?php endforeach; ?>
-                      </select>
-                    </div>
-                    <?php
-                      else:
-                        // 수정
-                        for ($i=0; $i<count($view['bustype']); $i++):
-                          if ($i == 0):
-                    ?>
-                    <div id="area-init-bus" class="d-none">
-                      <select name="bustype[]" class="form-control mb-2">
-                        <option value="">버스 종류를 선택해주세요.</option>
-                        <?php foreach ($listBustype as $value): ?>
-                        <option value="<?=$value['idx']?>"><?=$value['bus_name']?></option>
-                        <?php endforeach; ?>
-                      </select>
-                    </div>
-                    <?php endif; ?>
-                    <select name="bustype[]" class="form-control mb-2">
-                      <option value="">버스 종류를 선택해주세요.</option>
-                      <?php foreach ($listBustype as $value): ?>
-                      <option<?=$value['idx'] == $view['bustype'][$i] ? ' selected' : ''?> value="<?=$value['idx']?>"><?=$value['bus_name']?></option>
-                      <?php endforeach; ?>
-                    </select>
-                    <?php
-                        endfor;
-                      endif;
-                    ?>
-                    <div id="area-add-bus">
-                    </div>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <th>메모</th>
-              <td><textarea name="article" rows="5" cols="100" class="form-control"><?=$view['article']?></textarea></td>
-            </tr>
-            <tr>
-              <td colspan="2"></td>
-            </tr>
-          </tbody>
-        </table>
-
-        <h2>■ 운행거리 및 통행료 산출</h2>
-        <table class="table form-small">
-          <thead>
-            <tr>
-              <th>번호</th>
-              <th>운행구간</th>
-              <th>도착지 주소</th>
-              <th>거리</th>
-              <th>소요시간</th>
-              <th>통행료</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php foreach (range(1, 10) as $key => $value): ?>
-            <tr>
-              <td><?=$value?></td>
-              <td><input class="form-control w2x" type="text" size="20" name="road_course[]" value="<?=!empty($view['road_course'][$key]) ? $view['road_course'][$key] : ''?>"></td>
-              <td><input class="form-control w2x" type="text" size="20" name="road_address[]" value="<?=!empty($view['road_address'][$key]) ? $view['road_address'][$key] : ''?>"></td>
-              <td><input class="form-control road-distance" type="text" size="4" name="road_distance[]" value="<?=!empty($view['road_distance'][$key]) ? $view['road_distance'][$key] : ''?>">km</td>
-              <td><input class="form-control road-runtime" type="text" size="4" name="road_runtime[]" value="<?=!empty($view['road_runtime'][$key]) ? $view['road_runtime'][$key] : ''?>"></td>
-              <td><input class="form-control road-cost" type="text" size="4" name="road_cost[]" value="<?=array_key_exists($key, $view['road_cost']) ? $view['road_cost'][$key] : ''?>">원</td>
-            </tr>
-            <?php endforeach; ?>
-            <tr>
-              <th>합계</th>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td><input class="form-control total-distance" readonly type="text" name="distance" size="4" value="0">km</td>
-              <td>&nbsp;</td>
-              <td><input class="form-control total-cost" readonly type="text" size="4" value="0">원</td>
-            </tr>
-            <tr><td colspan="5"></td></tr>
-          </tbody>
-        </table>
-
-        <h2>■ 버스비용 산출</h2>
-        <table class="table form-small">
-          <thead>
-            <tr>
-              <th colspan="2">기본요금</th>
-              <th colspan="2">주유비</th>
-              <th colspan="2">운행비</th>
-              <th colspan="2">추가비용</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td rowspan="4" colspan="2">&nbsp;</td>
-              <td width="9%">총주행</td>
-              <td width="18%"><input class="form-control total-distance" readonly type="text" size="3" name="driving_fuel[]">km</td>
-              <td width="9%">통행료</td>
-              <td width="16%"><input class="form-control driving-cost total-cost" readonly type="text" size="4" name="driving_cost[]" value="<?=!empty($view['driving_cost'][0]) ? $view['driving_cost'][0] : ''?>">원</td>
-              <td width="12%">일정추가</td>
-              <td width="16%"><input class="form-control driving-add cost-add-schedule" readonly type="text" size="4" name="driving_add[]" value="<?=!empty($view['driving_add'][0]) ? $view['driving_add'][0] : ''?>">원</td>
-            </tr>
-            <tr>
-              <td>연비</td>
-              <td><input class="form-control driving-fuel" readonly type="text" size="3" name="driving_fuel[]">km</td>
-              <td>주차비</td>
-              <td><input class="form-control driving-cost" type="text" size="4" name="driving_cost[]" value="<?=!empty($view['driving_cost'][1]) ? $view['driving_cost'][1] : '6000'?>">원</td>
-              <td>성수기</td>
-              <td><input class="form-control driving-add cost-peak" readonly type="text" size="4" name="driving_add[]">원</td>
-            </tr>
-            <tr>
-              <td>시세</td>
-              <td><input class="form-control cost-gas" type="text" size="3" name="driving_fuel[]" value="<?=!empty($view['driving_fuel'][2]) ? $view['driving_fuel'][2] : $costGas?>">원/L</td>
-              <td>식대</td>
-              <td><input class="form-control driving-cost" type="text" size="4" name="driving_cost[]" value="<?=!empty($view['driving_cost'][2]) ? $view['driving_cost'][2] : '10000'?>">원</td>
-              <td>승객수당</td>
-              <td><input class="form-control driving-add" type="text" size="4" name="driving_add[]" value="<?=!empty($view['driving_add'][2]) ? $view['driving_add'][2] : ''?>">원</td>
-            </tr>
-            <tr>
-              <td colspan="2">&nbsp;</td>
-              <td>숙박</td>
-              <td><input class="form-control driving-cost" type="text" size="4" name="driving_cost[]" value="<?=!empty($view['driving_cost'][3]) ? $view['driving_cost'][3] : ''?>">원</td>
-              <td colspan="2">&nbsp;</td>
-            </tr>
-            <tr>
-              <td colspan="2"><input class="form-control driving-default" readonly type="text" size="6" name="driving_default">원</td>
-              <td>합계</td>
-              <td><input class="form-control total-driving-fuel" readonly type="text" size="3">원</td>
-              <td>합계</td>
-              <td><input class="form-control total-driving-cost" readonly type="text" size="4">원</td>
-              <td>합계</td>
-              <td><input class="form-control total-driving-add" readonly type="text" size="4">원</td>
-            </tr>
-            <tr>
-              <th colspan="2">운행견적총액</th>
-              <td colspan="5">&nbsp;</td>
-              <td colspan="2"><input class="form-control total-bus-cost" readonly type="text" size="4" name="driving_total" value="<?=$view['driving_total'] != '' ? $view['driving_total'] : ''?>">원</td>
-            </tr>
-            <tr><td colspan="9"></td></tr>
-          </tbody>
-        </table>
-
-        <h2>■ 산행 분담금</h2>
-        <table class="table">
-          <colgroup>
-            <col width="150">
-          </colgroup>
-          <tbody>
-            <tr>
-              <th>기본 비용</th>
-              <td class="form-row">
-                <div class="col-md-4"><input readonly type="text" name="cost" class="form-control cost-default" value="<?=$view['cost'] != '' ? $view['cost'] : '0'?>"></div>
-              </td>
-            </tr>
-            <tr>
-              <th>추가 비용</th>
-              <td class="form-row">
-                <div class="col-md-4"><input type="text" name="cost_added" class="form-control cost-added" value="<?=$view['cost_added'] != '' ? $view['cost_added'] : '0'?>"></div>
-              </td>
-            </tr>
-            <tr>
-              <th>산행 분담금</th>
-              <td class="form-row">
-                <div class="col-md-4"><input type="text" name="cost_total" class="form-control cost-total" value="<?=$view['cost_total'] != '' ? $view['cost_total'] : '0'?>"></div>
-              </td>
-            </tr>
-            <tr>
-              <th>포함사항</th>
-              <td><textarea rows="5" cols="100" name="cost_memo" class="form-control"><?=$view['costmemo']?></textarea></td>
-            </tr>
-            <tr><td colspan="2"></td></tr>
-          </tbody>
-        </table>
-
-        <div class="area-button">
-          <button type="button" class="btn btn-primary btn-entry"><?=$btn?></button> &nbsp;
-          <?php if (!empty($view['visible']) && $view['visible'] == VISIBLE_ABLE): ?>
-          <button type="button" class="btn btn-secondary btn-change-visible" data-idx="<?=$view['idx']?>" data-visible="<?=VISIBLE_NONE?>">숨김</button>
-          <?php else: ?>
-          <button type="button" class="btn btn-primary btn-change-visible" data-idx="<?=$view['idx']?>" data-visible="<?=VISIBLE_ABLE?>">공개</button>
-          <?php endif; ?>
-          &nbsp; <button type="button" class="btn btn-danger btn-notice-delete" data-idx="<?=$view['idx']?>">삭제</button>
+      </div>
+      <div class="row align-items-center border-top mt-3 pt-3">
+        <div class="col-sm-1 font-weight-bold">도착일자</div>
+        <div class="col-sm-11 row align-items-center">
+          <div class="col-sm-2"><input readonly type="text" name="enddate" id="endDatePicker" class="form-control" value="<?=$view['enddate']?>"></div>
+          <div class="col-sm-2"><input readonly type="text" id="calcSchedule" class="form-control"></div>
         </div>
-      </form>
-    </div>
+      </div>
+      <div class="row align-items-center border-top mt-3 pt-3">
+        <div class="col-sm-1 font-weight-bold">산 이름</div>
+        <div class="col-sm-11"><input type="text" name="mname" class="form-control" value="<?=$view['mname']?>"></div>
+      </div>
+      <div class="row align-items-center border-top mt-3 pt-3">
+        <div class="col-sm-1 font-weight-bold">지역</div>
+        <div class="col-sm-11">
+          <button type="button" class="btn btn-primary btn-add-area mb-2">추가</button><br>
+          <?php if (empty($view['sido'])): ?>
+          <div class="row mt-1 pl-1 select-area">
+            <div class="ml-2">
+              <select name="area_sido[]" class="area-sido form-control">
+                <option value=''>시/도</option>
+                <?php foreach ($area_sido as $value): ?>
+                <option<?=$value['idx'] == $view['area_sido'] ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+            <div class="ml-2">
+              <select name="area_gugun[]" class="area-gugun form-control">
+                <option value=''>시/군/구</option>
+                <?php foreach ($area_gugun as $value): ?>
+                <option<?=$value['idx'] == $view['area_gugun'] ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+          </div>
+          <?php else: ?>
+            <?php foreach ($view['sido'] as $key => $val): ?>
+            <div class="row mt-1 pl-1 select-area">
+              <div class="ml-2">
+                <select name="area_sido[]" class="area-sido form-control">
+                  <option value=''>시/도</option>
+                  <?php foreach ($list_sido as $value): ?>
+                  <option<?=$value['name'] == $val ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              <div class="ml-2">
+                <select name="area_gugun[]" class="area-gugun form-control">
+                  <option value=''>시/군/구</option>
+                  <?php foreach ($list_gugun[$key] as $value): ?>
+                  <option<?=$value['name'] == $view['gugun'][$key] ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
+                  <?php endforeach; ?>
+                </select><div class="mt-1"></div>
+              </div>
+            </div>
+            <?php endforeach; ?>
+          <?php endif; ?>
+          <div class="added-area">
+          </div>
+        </div>
+      </div>
+      <div class="row align-items-center border-top mt-3 pt-3">
+        <div class="col-sm-1 font-weight-bold">산행 제목</div>
+        <div class="col-sm-11"><input type="text" name="subject" class="form-control subject" value="<?=$view['subject']?>"></div>
+      </div>
+      <div class="row align-items-center border-top mt-3 pt-3">
+        <div class="col-sm-1 font-weight-bold">산행 코스</div>
+        <div class="col-sm-11"><textarea name="content" rows="5" class="form-control w-100"><?=$view['content']?></textarea></div>
+      </div>
+      <div class="row align-items-center border-top mt-3 pt-3">
+        <div class="col-sm-1 font-weight-bold">차량</div>
+        <div class="col-sm-11">
+          <button type="button" class="btn btn-primary btn-add-bus">추가</button><br>
+          <div class="form-row mt-2">
+            <div class="col-md-4">
+              <?php if (!$view['idx']): // 등록 ?>
+              <div id="area-init-bus">
+                <select name="bustype[]" class="form-control mb-2">
+                  <option value="">버스 종류를 선택해주세요.</option>
+                  <?php foreach ($listBustype as $value): ?>
+                  <option value="<?=$value['idx']?>"><?=$value['bus_name']?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              <?php
+                else:
+                  // 수정
+                  for ($i=0; $i<count($view['bustype']); $i++):
+                    if ($i == 0):
+              ?>
+              <div id="area-init-bus" class="d-none">
+                <select name="bustype[]" class="form-control mb-2">
+                  <option value="">버스 종류를 선택해주세요.</option>
+                  <?php foreach ($listBustype as $value): ?>
+                  <option value="<?=$value['idx']?>"><?=$value['bus_name']?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              <?php endif; ?>
+              <select name="bustype[]" class="form-control mb-2">
+                <option value="">버스 종류를 선택해주세요.</option>
+                <?php foreach ($listBustype as $value): ?>
+                <option<?=$value['idx'] == $view['bustype'][$i] ? ' selected' : ''?> value="<?=$value['idx']?>"><?=$value['bus_name']?></option>
+                <?php endforeach; ?>
+              </select>
+              <?php
+                  endfor;
+                endif;
+              ?>
+              <div id="area-add-bus">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row align-items-center border-top mt-3 pt-3">
+        <div class="col-sm-1 font-weight-bold">메모</div>
+        <div class="col-sm-11"><textarea name="article" rows="5" cols="100" class="form-control"><?=$view['article']?></textarea></div>
+      </div>
+
+      <div class="mt-5">
+        <h4>■ 운행거리 및 통행료 산출</h4>
+      </div>
+      <div class="row align-items-center font-weight-bold border-top mt-3 pt-3">
+        <div class="col-sm-1">번호</div>
+        <div class="col-sm-3">운행구간</div>
+        <div class="col-sm-3">도착지주소</div>
+        <div class="col-sm-2">거리 (km)</div>
+        <div class="col-sm-1">소요시간</div>
+        <div class="col-sm-2">통행료 (원)</div>
+      </div>
+      <?php foreach (range(1, 10) as $key => $value): ?>
+      <div class="row align-items-center font-weight-bold border-top mt-3 pt-3">
+        <div class="col-sm-1"><?=$value?></div>
+        <div class="col-sm-3"><input class="form-control w2x" type="text" size="20" name="road_course[]" value="<?=!empty($view['road_course'][$key]) ? $view['road_course'][$key] : ''?>"></div>
+        <div class="col-sm-3"><input class="form-control w2x" type="text" size="20" name="road_address[]" value="<?=!empty($view['road_address'][$key]) ? $view['road_address'][$key] : ''?>"></div>
+        <div class="col-sm-2"><input class="form-control road-distance" type="text" size="4" name="road_distance[]" value="<?=!empty($view['road_distance'][$key]) ? $view['road_distance'][$key] : ''?>"></div>
+        <div class="col-sm-1"><input class="form-control road-runtime" type="text" size="4" name="road_runtime[]" value="<?=!empty($view['road_runtime'][$key]) ? $view['road_runtime'][$key] : ''?>"></div>
+        <div class="col-sm-2"><input class="form-control road-cost" type="text" size="4" name="road_cost[]" value="<?=array_key_exists($key, $view['road_cost']) ? $view['road_cost'][$key] : ''?>"></div>
+      </div>
+      <?php endforeach; ?>
+      <div class="row align-items-center font-weight-bold border-top mt-3 pt-3">
+        <div class="col-sm-1">합계</div>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-2"><input class="form-control total-distance" readonly type="text" name="distance" size="4" value="0"></div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-2"><input class="form-control total-cost" readonly type="text" size="4" value="0"></div>
+      </div>
+
+      <div class="mt-5">
+        <h4>■ 버스비용 산출</h4>
+      </div>
+      <div class="row align-items-center font-weight-bold border-top mt-3 pt-3">
+        <div class="col-sm-3">기본요금</div>
+        <div class="col-sm-3">주유비</div>
+        <div class="col-sm-3">운행비</div>
+        <div class="col-sm-3">추가비용</div>
+      </div>
+      <div class="row align-items-center border-top mt-3 pt-3">
+        <div class="col-sm-3 row"></div>
+        <div class="col-sm-3 row align-items-center">
+          <div class="col-sm-6">총주행 (km)</div>
+          <div class="col-sm-6"><input class="form-control total-distance" readonly type="text" size="3" name="driving_fuel[]"></div>
+        </div>
+        <div class="col-sm-3 row align-items-center">
+          <div class="col-sm-6">통행료 (원)</div>
+          <div class="col-sm-6"><input class="form-control driving-cost total-cost" readonly type="text" size="4" name="driving_cost[]" value="<?=!empty($view['driving_cost'][0]) ? $view['driving_cost'][0] : ''?>"></div>
+        </div>
+        <div class="col-sm-3 row align-items-center">
+          <div class="col-sm-6">일정추가 (원)</div>
+          <div class="col-sm-6"><input class="form-control driving-add cost-add-schedule" readonly type="text" size="4" name="driving_add[]" value="<?=!empty($view['driving_add'][0]) ? $view['driving_add'][0] : ''?>"></div>
+        </div>
+      </div>
+      <div class="row align-items-center border-top mt-3 pt-3">
+        <div class="col-sm-3 row"></div>
+        <div class="col-sm-3 row align-items-center">
+          <div class="col-sm-6">연비 (km)</div>
+          <div class="col-sm-6"><input class="form-control driving-fuel" readonly type="text" size="3" name="driving_fuel[]"></div>
+        </div>
+        <div class="col-sm-3 row align-items-center">
+          <div class="col-sm-6">주차비 (원)</div>
+          <div class="col-sm-6"><input class="form-control driving-cost" type="text" size="4" name="driving_cost[]" value="<?=!empty($view['driving_cost'][1]) ? $view['driving_cost'][1] : '6000'?>"></div>
+        </div>
+        <div class="col-sm-3 row align-items-center">
+          <div class="col-sm-6">성수기 (원)</div>
+          <div class="col-sm-6"><input class="form-control driving-add cost-peak" readonly type="text" size="4" name="driving_add[]"></div>
+        </div>
+      </div>
+      <div class="row align-items-center border-top mt-3 pt-3">
+        <div class="col-sm-3 row"></div>
+        <div class="col-sm-3 row align-items-center">
+          <div class="col-sm-6">시세 (원/L)</div>
+          <div class="col-sm-6"><input class="form-control cost-gas" type="text" size="3" name="driving_fuel[]" value="<?=!empty($view['driving_fuel'][2]) ? $view['driving_fuel'][2] : $costGas?>"></div>
+        </div>
+        <div class="col-sm-3 row align-items-center">
+          <div class="col-sm-6">식대 (원)</div>
+          <div class="col-sm-6"><input class="form-control driving-cost" type="text" size="4" name="driving_cost[]" value="<?=!empty($view['driving_cost'][2]) ? $view['driving_cost'][2] : '10000'?>"></div>
+        </div>
+        <div class="col-sm-3 row align-items-center">
+          <div class="col-sm-6">승객수당 (원)</div>
+          <div class="col-sm-6"><input class="form-control driving-add" type="text" size="4" name="driving_add[]" value="<?=!empty($view['driving_add'][2]) ? $view['driving_add'][2] : ''?>"></div>
+        </div>
+      </div>
+      <div class="row align-items-center border-top mt-3 pt-3">
+        <div class="col-sm-3 row"></div>
+        <div class="col-sm-3 row"></div>
+        <div class="col-sm-3 row align-items-center">
+          <div class="col-sm-6">숙박 (원)</div>
+          <div class="col-sm-6"><input class="form-control driving-cost" type="text" size="4" name="driving_cost[]" value="<?=!empty($view['driving_cost'][3]) ? $view['driving_cost'][3] : ''?>"></div>
+        </div>
+        <div class="col-sm-3 row"></div>
+      </div>
+      <div class="row align-items-center border-top mt-3 pt-3">
+        <div class="col-sm-3 row align-items-center">
+          <div class="col-sm-6">기본요금 (원)</div>
+          <div class="col-sm-6"><input class="form-control driving-default" readonly type="text" size="6" name="driving_default"></div>
+        </div>
+        <div class="col-sm-3 row align-items-center">
+          <div class="col-sm-6">합계 (원)</div>
+          <div class="col-sm-6"><input class="form-control total-driving-fuel" readonly type="text" size="3"></div>
+        </div>
+        <div class="col-sm-3 row align-items-center">
+          <div class="col-sm-6">합계 (원)</div>
+          <div class="col-sm-6"><input class="form-control total-driving-cost" readonly type="text" size="4"></div>
+        </div>
+        <div class="col-sm-3 row align-items-center">
+          <div class="col-sm-6">합계 (원)</div>
+          <div class="col-sm-6"><input class="form-control total-driving-add" readonly type="text" size="4"></div>
+        </div>
+      </div>
+      <div class="row align-items-center border-top mt-3 pt-3">
+        <div class="col-sm-3 row"></div>
+        <div class="col-sm-3 row"></div>
+        <div class="col-sm-3 row"></div>
+        <div class="col-sm-3 row align-items-center">
+          <div class="col-sm-6 font-weight-bold">운행견적총액 (원)</div>
+          <div class="col-sm-6"><input class="form-control total-bus-cost" readonly type="text" size="4" name="driving_total" value="<?=$view['driving_total'] != '' ? $view['driving_total'] : ''?>"></div>
+        </div>
+      </div>
+
+      <div class="mt-5">
+        <h4>■ 산행 분담금</h4>
+      </div>
+      <div class="row align-items-center border-top mt-3 pt-3">
+        <div class="col-sm-1 font-weight-bold">기본 비용</div>
+        <div class="col-sm-11"><input readonly type="text" name="cost" class="form-control cost-default" value="<?=$view['cost'] != '' ? $view['cost'] : '0'?>"></div>
+      </div>
+      <div class="row align-items-center border-top mt-3 pt-3">
+        <div class="col-sm-1 font-weight-bold">추가 비용</div>
+        <div class="col-sm-11"><input type="text" name="cost_added" class="form-control cost-added" value="<?=$view['cost_added'] != '' ? $view['cost_added'] : '0'?>"></div>
+      </div>
+      <div class="row align-items-center border-top mt-3 pt-3">
+        <div class="col-sm-1 font-weight-bold">산행 분담금</div>
+        <div class="col-sm-11"><input type="text" name="cost_total" class="form-control cost-total" value="<?=$view['cost_total'] != '' ? $view['cost_total'] : '0'?>"></div>
+      </div>
+      <div class="row align-items-center border-top mt-3 mb-5 pt-3 pb-5">
+        <div class="col-sm-1 font-weight-bold">포함사항</div>
+        <div class="col-sm-11"><textarea rows="5" cols="100" name="cost_memo" class="form-control"><?=$view['costmemo']?></textarea></div>
+      </div>
+
+      <div class="area-button">
+        <button type="button" class="btn btn-primary btn-entry"><?=$btn?></button> &nbsp;
+        <?php if (!empty($view['visible']) && $view['visible'] == VISIBLE_ABLE): ?>
+        <button type="button" class="btn btn-secondary btn-change-visible" data-idx="<?=$view['idx']?>" data-visible="<?=VISIBLE_NONE?>">숨김</button>
+        <?php else: ?>
+        <button type="button" class="btn btn-primary btn-change-visible" data-idx="<?=$view['idx']?>" data-visible="<?=VISIBLE_ABLE?>">공개</button>
+        <?php endif; ?>
+        &nbsp; <button type="button" class="btn btn-danger btn-notice-delete" data-idx="<?=$view['idx']?>">삭제</button>
+      </div>
+    </form>
 
     <script type="text/javascript">
       $(document).ready(function(){
