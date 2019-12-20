@@ -463,7 +463,9 @@
       success: function(result) {
         if (result.error != 1) {
           if (typeof $('.search-userid-result').css('display') == 'undefined') {
-            $dom.next().val(result.userid);
+            $dom.next().val(result.message.userid);
+            $dom.parent().find('.gender').val(result.message.gender);
+            $dom.parent().find('.location').val(result.message.location);
             $dom.tooltip('hide').attr('data-original-title', '회원입니다!').tooltip('show');
             setTimeout(function() { $dom.attr('data-original-title', '').tooltip('hide'); }, 2000);
           } else {
@@ -986,10 +988,10 @@
       success: function(reserveInfo) {
         var header = '<div class="reserve" data-seat="' + seat + '"><input type="hidden" name="resIdx[]" value="' + resIdx + '">';
         var nickname = '<input type="text" name="nickname[]" size="20" placeholder="닉네임" class="nickname search-userid" value="' + reserveInfo.reserve.nickname + '"><input type="hidden" name="userid[]" class="userid" value="' + reserveInfo.reserve.userid + '"> ';
-        var gender = '<select name="gender[]"><option'; if (reserveInfo.reserve.gender == 'M') gender += ' selected'; gender += ' value="M">남</option><option '; if (reserveInfo.reserve.gender == 'F') gender += ' selected'; gender +=' value="F">여</option></select> ';
+        var gender = '<select name="gender[]" class="gender"><option'; if (reserveInfo.reserve.gender == 'M') gender += ' selected'; gender += ' value="M">남</option><option '; if (reserveInfo.reserve.gender == 'F') gender += ' selected'; gender +=' value="F">여</option></select> ';
         var busType = '<select name="bus[]">'; $.each(reserveInfo.busType, function(i, v) { if (v.idx == '') v.idx = '버스'; cnt = i + 1; if (cnt == bus) selected = ' selected'; else selected = ''; busType += '<option' + selected + ' value="' + cnt + '">' + cnt + '호차</option>'; }); busType += '</select> ';
         var selectSeat = '<select name="seat[]">'; $.each(reserveInfo.seat, function(i, v) { if ((i+1) == seat) selected = ' selected'; else selected = ''; selectSeat += '<option' + selected + ' value="' + (i+1) + '">' + v + '번</option>'; }); selectSeat += '</select> ';
-        var location = '<select name="location[]">'; $.each(reserveInfo.location, function(i, v) { if (v.stitle == '') v.stitle = '승차위치'; cnt = i + 1; if (reserveInfo.reserve.loc == v.no) selected = ' selected'; else selected = ''; location += '<option' + selected + ' value="' + v.no + '">' + v.stitle + '</option>'; }); location += '</select> ';
+        var location = '<select name="location[]" class="location">'; $.each(reserveInfo.location, function(i, v) { if (v.stitle == '') v.stitle = '승차위치'; cnt = i + 1; if (reserveInfo.reserve.loc == v.no) selected = ' selected'; else selected = ''; location += '<option' + selected + ' value="' + v.no + '">' + v.stitle + '</option>'; }); location += '</select> ';
         var depositname = '<input type="text" name="depositname[]" size="20" placeholder="입금자명" value="' + reserveInfo.reserve.depositname + '">';
         var memo = '<div class="mt-1"><input type="text" name="memo[]" size="30" placeholder="메모" value="' + reserveInfo.reserve.memo + '"> ';
         var options = '<label><input'; if (reserveInfo.reserve.vip == 1) options += ' checked'; options += ' type="checkbox" name="vip[]">평생회원</label> <label><input'; if (reserveInfo.reserve.manager == 1) options += ' checked'; options += ' type="checkbox" name="manager[]" class="btn-manager">운영진우선</label> <label><input'; if (reserveInfo.reserve.priority == 1) options += ' checked'; options += ' type="checkbox" name="priority[]" class="priority">2인우선</label> ';

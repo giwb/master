@@ -12139,11 +12139,12 @@ body.sidebar-toggled footer.sticky-footer {
 .area-bus-table input.seat { width: 20px; }
 
 #addedInfo .reserve { font-size: 12px; background-color: #fff; border: 1px solid #999; margin: 10px 0; padding: 0.5rem 0 0.3rem 0.5rem; }
-#addedInfo .reserve input, #addedInfo .reserve select { font-size: 14px; }
-#addedInfo .reserve input { padding: 2px 4px; }
+#addedInfo .reserve input, #addedInfo .reserve select, .wait input, .wait select { font-size: 14px; }
+#addedInfo .reserve input, .wait input { padding: 2px 4px; }
 #addedInfo .reserve input[type=checkbox] { margin: 3px 2px 0 4px; vertical-align: top; }
-#addedInfo .reserve select { padding: 3px 2px; }
+#addedInfo .reserve select, .wait select { padding: 3px 2px; }
 #addedInfo .reserve .btn { font-size: 12px; margin: 0 0 3px 3px; padding: 2px 5px; }
+.wait .btn { font-size: 12px; margin: 0 0 3px 3px; padding: 4px 10px 5px; }
 #reserveForm .btn-reserve-confirm { display: none; }
 
 .setup-schedule { width: 700px; }

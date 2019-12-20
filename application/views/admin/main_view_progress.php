@@ -105,23 +105,19 @@
         <div class="mt-4"></div>
 
         ■ <strong>대기자 추가</strong><br>
-        <div class="row mt-2 pl-2">
-          <div class="pl-1"><input type="text" name="nickname" class="form-control form-control-sm search-userid" placeholder="닉네임 입력" data-placement="bottom"><input type="hidden" name="userid"></div>
-          <div class="pl-1">
-            <select name="location" class="form-control form-control-sm pl-0 pr-0">
-              <?php foreach ($arrLocation as $key => $value): if ($key == 0) $value['stitle'] = '선택'; ?>
-              <option value='<?=$value['no']?>'><?=$value['stitle']?></option>
-              <?php endforeach; ?>
-            </select>
-          </div>
-          <div class="pl-1">
-            <select name="gender" class="form-control form-control-sm pl-0 pr-0">
-              <option value='M'>남성</option>
-              <option value='F'>여성</option>
-            </select>
-          </div>
-          <div class="pl-1"><input type="text" name="memo" class="form-control form-control-sm" placeholder="메모 입력"></div>
-          <div class="pl-1"><button type="button" class="btn btn-sm btn-primary btn-wait-insert">등록</button></div>
+        <div class="wait">
+          <input type="text" name="nickname" class="search-userid" placeholder="닉네임 입력" data-placement="bottom"><input type="hidden" name="userid">
+          <select name="gender" class="gender pl-0 pr-0">
+            <option value='M'>남성</option>
+            <option value='F'>여성</option>
+          </select>
+          <select name="location" class="location pl-0 pr-0">
+            <?php foreach ($arrLocation as $key => $value): if ($key == 0) $value['stitle'] = '선택'; ?>
+            <option value='<?=$value['no']?>'><?=$value['stitle']?></option>
+            <?php endforeach; ?>
+          </select>
+          <input type="text" name="memo" placeholder="메모 입력">
+          <button type="button" class="btn btn-sm btn-primary btn-wait-insert">등록</button>
         </div>
       </div>
       <?php endif; ?>

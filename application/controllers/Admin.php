@@ -2520,7 +2520,7 @@ class Admin extends Admin_Controller
     if (empty($rtn)) {
       $result = array('error' => 1, 'message' => '');
     } else {
-      $result = array('error' => 0, 'message' => '', 'idx' => $rtn['idx'], 'userid' => $rtn['userid']);
+      $result = array('error' => 0, 'message' => $rtn);
     }
 
     $this->output->set_output(json_encode($result));
