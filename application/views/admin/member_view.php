@@ -178,9 +178,9 @@
           <?php foreach ($userPoint as $value): ?>
           <div class="border-top pt-2 pb-2">
             <?php switch ($value['action']): case LOG_POINTUP: ?>
-            <strong><span class="text-primary">[포인트추가]</span> <?=number_format($value['point'])?> 포인트 추가</strong>
+            <strong><span class="text-primary">[포인트추가]</span> <?=$value['subject']?> - <?=number_format($value['point'])?> 포인트 추가</strong>
             <?php break; case LOG_POINTDN: ?>
-            <strong><span class="text-danger">[포인트감소]</span> <?=number_format($value['point'])?> 포인트 감소</strong>
+            <strong><span class="text-danger">[포인트감소]</span> <?=$value['subject']?> - <?=number_format($value['point'])?> 포인트 감소</strong>
             <?php break; endswitch; ?>
             <small>일시 : <?=date('Y-m-d, H:i:s', $value['regdate'])?></small>
           </div>
@@ -190,9 +190,9 @@
           <?php foreach ($userPenalty as $value): ?>
           <div class="border-top pt-2 pb-2">
             <?php switch ($value['action']): case LOG_PENALTYUP: ?>
-            <strong><span class="text-primary">[페널티추가]</span> <?=number_format($value['point'])?> 페널티 추가</strong>
+            <strong><span class="text-primary">[페널티추가]</span> <?=$value['subject']?> - <?=number_format($value['point'])?> 페널티 추가</strong>
             <?php break; case LOG_PENALTYDN: ?>
-            <strong><span class="text-danger">[페널티감소]</span> <?=number_format($value['point'])?> 페널티 감소</strong>
+            <strong><span class="text-danger">[페널티감소]</span> <?=$value['subject']?> - <?=number_format($value['point'])?> 페널티 감소</strong>
             <?php break; endswitch; ?>
             <small>일시 : <?=date('Y-m-d, H:i:s', $value['regdate'])?></small>
           </div>
