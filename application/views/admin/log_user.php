@@ -43,8 +43,7 @@
         <?php foreach ($listHistory as $value): ?>
           <div class="border-bottom pt-3 pb-3 pl-2 pr-2">
             <strong><?=$value['header']?></strong> 
-            <a<?=!empty($value['userid']) ? ' target="_blank" href="' . base_url() . 'admin/member_view/' . $value['userData']['idx'] . '"' : ' href="javascript:;"'?> class="text-secondary"><strong><?=$value['userData']['nickname']?>님</strong></a> - 
-             <?=$value['subject']?>
+            <a<?=!empty($value['userid']) ? ' target="_blank" href="' . base_url() . 'admin/member_view/' . $value['userData']['idx'] . '"' : ' href="javascript:;"'?> class="text-secondary"><strong><?=$value['userData']['nickname']?>님</strong></a> - <?=$value['subject']?>
             <div class="small"><?=calcStoryTime($value['regdate'])?> (<?=date('Y-m-d H:i:s', $value['regdate'])?>)</div>
           </div>
         <?php endforeach; ?>

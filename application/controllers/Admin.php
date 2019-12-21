@@ -1855,19 +1855,19 @@ class Admin extends Admin_Controller
           break;
         case '4': // 포인트 적립
           $viewData['listHistory'][$key]['header'] = '<span class="text-info">[포인트적립]</span>';
-          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' ' . $value['point'] . ' 포인트적립';
+          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' - ' . number_format($value['point']) . ' 포인트적립';
           break;
         case '5': // 포인트 감소
           $viewData['listHistory'][$key]['header'] = '<span class="text-warning">[포인트감소]</span>';
-          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' ' . $value['point'] . ' 포인트감소';
+          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' - ' . number_format($value['point']) . ' 포인트감소';
           break;
         case '6': // 페널티 추가
           $viewData['listHistory'][$key]['header'] = '<span class="text-warning">[페널티추가]</span>';
-          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' ' . $value['point'] . ' 페널티추가';
+          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' - ' . number_format($value['point']) . ' 페널티추가';
           break;
         case '7': // 페널티 감소
           $viewData['listHistory'][$key]['header'] = '<span class="text-info">[페널티감소]</span>';
-          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' ' . $value['point'] . ' 페널티감소';
+          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' - ' . number_format($value['point']) . ' 페널티감소';
           break;
       }
     }
@@ -1996,12 +1996,12 @@ class Admin extends Admin_Controller
         case LOG_ADMIN_CANCEL: // 관리자 예약취소
           $viewEntry = $this->admin_model->viewEntry($value['fkey']);
           $viewData['listHistory'][$key]['header'] = '<span class="text-danger">[관리자예약취소]</span>';
-          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' - ' . number_format($viewEntry['cost_total']) . '원';
+          $viewData['listHistory'][$key]['subject'] = $viewEntry['subject'] . ' - ' . number_format($viewEntry['cost_total']) . '원<br>' . $value['subject'];
           break;
         case LOG_ADMIN_DEPOSIT_CANCEL: // 관리자 입금취소
           $listReserve = $this->admin_model->listReserve(1, $value['nickname']);
           $viewData['listHistory'][$key]['header'] = '<span class="text-warning">[관리자입금취소]</span>';
-          $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' - ' . number_format($listReserve[0]['cost_total']) . '원';
+          $viewData['listHistory'][$key]['subject'] = $viewEntry['subject'] . ' - ' . number_format($viewEntry['cost_total']) . '원<br>' . $value['subject'];
           break;
       }
     }

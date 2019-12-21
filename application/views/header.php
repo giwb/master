@@ -110,7 +110,7 @@
           <li><p>&nbsp;</p></li>
           <?php endif; ?>
           <li class="row">
-            <div class="pl-3"><a target="_blank" href="https://pf.kakao.com/_BxaPRxb/friend"><img src="<?=base_url()?>public/images/icon_kakao_channel.png"></a></div>
+            <div class="pl-3"><a target="_blank" href="https://pf.kakao.com/_BxaPRxb/friend"><img src="<?=base_url()?>public/images/icon_kakao_channel_sp.png"></a></div>
             <div class="pl-3"><a target="_blank" href="https://facebook.com/giwb.kr"><img height="30" src="<?=base_url()?>public/images/icon_facebook.png"></a></div>
           </li>
           <li><a href="<?=base_url()?>club/about/<?=$view['idx']?>"> 산악회 소개</a></li>
