@@ -216,7 +216,7 @@ class Admin_model extends CI_Model
           ->where('bus', $bus)
           ->where('loc', $location)
           ->where('manager !=', 1)
-          ->where('priority !=', 1)
+          ->where('priority=', 0)
           ->order_by('seat', 'asc');
     return $this->db->get()->result_array();
   }
