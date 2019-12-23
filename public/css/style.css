@@ -2038,7 +2038,7 @@ h1.nav-logo small {
 #club .club-main .area-reply .reply-input textarea { width: 80%; height: 50px; display: table-cell; vertical-align: middle; }
 #club .club-main .area-reply .reply-input button { width: 19%; height: 50px; display: table-cell; vertical-align: middle; float: right; }
 
-#calendar { margin: 0 0 30px 0; }
+#calendar { margin: 0 0 20px 0; }
 #calendar .fc-event { padding: 5px 5px 4px 5px; }
 #calendar .fc-event.notice-status1 { color: #000; background-color: #FEECBF!important; }
 #calendar .fc-event.notice-status2 { color: #000; background-color: #F6C23E!important; }
@@ -2125,7 +2125,7 @@ h1.nav-logo small {
 
 /* Responsive */
 @media only screen and (max-width: 800px) {
-  .ad-sp { display: block; }
+  .ad-sp { display: block; margin: 0 0 20px 0; }
 
   #club { padding-top: 70px; }
   #club .club-left, #club .club-right { display: none; }
