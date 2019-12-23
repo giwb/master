@@ -71,7 +71,7 @@
 
     <script type="text/javascript">
       CKEDITOR.replace('plan');
-      CKEDITOR.replace('point');
+      //CKEDITOR.replace('point');
       CKEDITOR.replace('intro');
       CKEDITOR.replace('timetable');
       CKEDITOR.replace('information');
@@ -85,7 +85,7 @@
           type: 'post',
           success: function(result) {
             CKEDITOR.instances.plan.setData(result.plan);
-            CKEDITOR.instances.point.setData(result.point);
+            //CKEDITOR.instances.point.setData(result.point);
             CKEDITOR.instances.intro.setData(result.intro);
             CKEDITOR.instances.timetable.setData(result.timetable);
             CKEDITOR.instances.information.setData(result.information);
