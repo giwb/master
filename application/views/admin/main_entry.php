@@ -339,8 +339,8 @@
         $.calcSchedule($('#startDatePicker').val(), $('#startTime').val(), $('#endDatePicker').val()) // 여행기간 계산
         $.calcRoadCost(); // 통행료 계산
         $.calcFuel(); // 연비 계산 (총주행 / 3.5)
-        <?php if (empty($view['idx']) || $view['status'] == STATUS_PLAN): ?>
         $.calcBusCost(totalDistance); // 버스비용/산행분담 기본비용 계산
+        <?php if (empty($view['idx']) || $view['status'] == STATUS_PLAN): ?>
         $.calcTotalFuel(); // 주유비 합계
         $.calcTotalDriving(); // 운행비 합계
         $.calcAdd(); // 추가비용 합계
