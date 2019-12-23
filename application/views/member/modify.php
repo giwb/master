@@ -93,6 +93,17 @@
             </div>
           </form>
         </div>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- SP_CENTER -->
+        <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2424708381875991"
+          data-ad-slot="4319659782"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
       </div>
 
       <div class="modal fade" id="quitModal" tabindex="-1" role="dialog" aria-labelledby="quitModalLabel" aria-hidden="true">

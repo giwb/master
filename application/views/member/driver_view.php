@@ -57,4 +57,15 @@
         <div class="text-center border-top pt-4">
           <a href="<?=base_url()?>member"><button class="btn btn-primary">목록으로</button></a>
         </div>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- SP_CENTER -->
+        <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2424708381875991"
+          data-ad-slot="4319659782"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
       </div>
