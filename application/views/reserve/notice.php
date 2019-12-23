@@ -37,18 +37,18 @@
               </ul>
             </div>
           </div>
-          <div class="story-reply reply-type-<?=REPLY_TYPE_NOTICE?>" data-idx="<?=$notice['idx']?>">
+          <div class="story-reply mt-4 reply-type-<?=REPLY_TYPE_NOTICE?>" data-idx="<?=$notice['idx']?>">
             <div class="story-reply-content">
-<?php
-foreach ($listReply as $value):
-  if (file_exists(PHOTO_PATH . $value['created_by'])) {
-    $value['photo'] = PHOTO_URL . $value['user_idx'];
-  } else {
-    $value['photo'] = base_url() . 'public/images/user.png';
-  }
-?>
-              <dl><dt><img class="img-profile" src="<?=$value['photo']?>"> <?=$value['nickname']?></dt><dd><?=$value['content']?> <span class="date">(<?=calcStoryTime($value['created_at'])?>)</span><?=$userData['idx'] == $value['created_by'] || $userData['admin'] == 1 ? ' | <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '" data-action="delete_reply">삭제</a>' : ''?></dd></dl>
-<?php endforeach; ?>
+              <?php
+              foreach ($listReply as $value):
+                if (file_exists(PHOTO_PATH . $value['created_by'])) {
+                  $value['photo'] = base_url() . PHOTO_URL . $value['created_by'];
+                } else {
+                  $value['photo'] = base_url() . 'public/images/user.png';
+                }
+              ?>
+              <dl><dt><img class="img-profile" src="<?=$value['photo']?>"></dt><dd><strong><?=$value['nickname']?></strong> · <span class="reply-date">(<?=calcStoryTime($value['created_at'])?>)</span><?=$userData['idx'] == $value['created_by'] || $userData['admin'] == 1 ? ' | <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '" data-action="delete_reply">삭제</a>' : ''?><br><?=$value['content']?></dd></dl>
+              <?php endforeach; ?>
             </div>
             <form method="post" action="<?=base_url()?>story/insert_reply/<?=$view['idx']?>" class="story-reply-input" data-idx="<?=$notice['idx']?>">
               <input type="hidden" name="storyIdx" value="<?=$notice['idx']?>">

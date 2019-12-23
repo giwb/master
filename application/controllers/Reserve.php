@@ -67,6 +67,16 @@ class Reserve extends MY_Controller
     // 탑승 위치
     $viewData['arrLocation'] = arrLocation();
 
+    $cntReply = $this->story_model->cntStoryReply($clubIdx, $noticeIdx, REPLY_TYPE_NOTICE);
+    $cntLike = $this->story_model->cntStoryReaction($clubIdx, $noticeIdx, REPLY_TYPE_NOTICE, REACTION_KIND_LIKE);
+    $cntShare = $this->story_model->cntStoryReaction($clubIdx, $noticeIdx, REPLY_TYPE_NOTICE, REACTION_KIND_SHARE);
+    $viewData['notice']['reply_cnt'] = $cntReply['cnt'];
+    $viewData['notice']['like_cnt'] = $cntLike['cnt'];
+    $viewData['notice']['share_cnt'] = $cntShare['cnt'];
+
+    // 댓글
+    $viewData['listReply'] = $this->story_model->listStoryReply($clubIdx, $noticeIdx, REPLY_TYPE_NOTICE);
+
     $this->_viewPage('reserve/index', $viewData);
   }
 
