@@ -173,26 +173,7 @@
     // 신규 산행 등록
     var $btn = $(this);
     var btnText = $btn.text();
-/*
-    if ($('input[name=notice]').val() == 1) {
-      // 공지사항
-      oEditors1.getById['plan'].exec("UPDATE_CONTENTS_FIELD", []);
-      oEditors2.getById['point'].exec("UPDATE_CONTENTS_FIELD", []);
-      oEditors3.getById['timetable'].exec("UPDATE_CONTENTS_FIELD", []);
-      oEditors4.getById['information'].exec("UPDATE_CONTENTS_FIELD", []);
-      oEditors5.getById['course'].exec("UPDATE_CONTENTS_FIELD", []);
-      oEditors6.getById['intro'].exec("UPDATE_CONTENTS_FIELD", []);
-    } else {
-      // 신규 산행
-      if ($('.subject').val() == '') { $.openMsgModal('산행 제목은 꼭 입력해주세요.'); return false; }
-      if ($('.startdate').val() == '') { $.openMsgModal('출발일시는 꼭 선택해주세요.'); return false; }
-      if ($('.enddate').val() == '') { $.openMsgModal('도착일자는 꼭 선택해주세요.'); return false; }
-    }
-*/
-//    CKEDITOR.instances.contents.updateElement();
-
     var formData = new FormData($('#myForm')[0]);
-
     $.ajax({
         url: $('#myForm').attr('action'),
         data: formData,
@@ -205,7 +186,10 @@
         },
         success: function(result) {
           $btn.css('opacity', '1').prop('disabled', false).text(btnText);
-          $.openMsgModal(result.message);
+          $('#messageModal .btn-delete, #messageModal .btn-refresh').hide();
+          $('#messageModal .btn-list').attr('data-action', $('input[name=back_url').val()).show();
+          $('#messageModal .modal-message').text(result.message);
+          $('#messageModal').modal('show');
         }
       });
   }).on('click', '.btn-front-submit', function() {
