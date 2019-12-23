@@ -18,7 +18,7 @@
           <div class="ti"><strong>・승객수당</strong> : <?=number_format($viewNotice['cost_driver'])?>원</div>
 
           <h3 class="mb-3">■ 운행거리 및 통행료</h3>
-          <?php foreach ($viewNotice['road_course'] as $key => $value): if (!empty($value)): ?>
+          <?php if (!empty($viewNotice['road_course'])): foreach ($viewNotice['road_course'] as $key => $value): if (!empty($value)): ?>
           <div class="border-bottom pb-2 mb-2">
             <strong>・제<?=$key+1?>운행구간</strong> : <?=$value?><br>
             <strong>・도착지 주소</strong> : <?=!empty($viewNotice['road_address'][$key]) ? $viewNotice['road_address'][$key] : ''?><br>
@@ -26,7 +26,7 @@
             <strong>・소요시간</strong> : <?=!empty($viewNotice['road_runtime'][$key]) ? $viewNotice['road_runtime'][$key] : ''?><br>
             <strong>・통행료</strong> : <?=!empty($viewNotice['road_cost'][$key]) ? number_format($viewNotice['road_cost'][$key]) : '0'?>원<br>
           </div>
-          <?php endif; endforeach; ?>
+          <?php endif; endforeach; endif; ?>
 
           <h3 class="mb-3">■ 버스비용</h3>
           <strong>・기본요금</strong> : <?=number_format($viewNotice['driving_default'])?>원<br>

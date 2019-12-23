@@ -109,8 +109,10 @@ class Member extends MY_Controller
 
       // 총 주행거리
       $viewData['viewNotice']['total_distance'] = 0;
-      foreach ($viewData['viewNotice']['road_distance'] as $value) {
-        if (!empty($value)) $viewData['viewNotice']['total_distance'] += $value;
+      if (!empty($viewData['viewNotice']['road_distance'])) {
+        foreach ($viewData['viewNotice']['road_distance'] as $value) {
+          if (!empty($value)) $viewData['viewNotice']['total_distance'] += $value;
+        }
       }
 
       // 운행 소요시간
