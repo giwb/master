@@ -165,10 +165,10 @@ defined('PATH_FRONT')         OR define('PATH_FRONT', PATH_MAIN . '/public/uploa
 defined('URL_FRONT')          OR define('URL_FRONT', 'public/uploads/front/');
 
 // 레벨 형태
-defined('LEVEL_NORMAL')       OR define('LEVEL_NORMAL', 0);
-defined('LEVEL_LIFETIME')     OR define('LEVEL_LIFETIME', 1);
-defined('LEVEL_FREE')         OR define('LEVEL_FREE', 2);
-defined('LEVEL_DRIVER')       OR define('LEVEL_DRIVER', 3);
+defined('LEVEL_NORMAL')       OR define('LEVEL_NORMAL', 0);   // 일반회원
+defined('LEVEL_LIFETIME')     OR define('LEVEL_LIFETIME', 1); // 평생회원
+defined('LEVEL_FREE')         OR define('LEVEL_FREE', 2);     // 무료회원
+defined('LEVEL_DRIVER')       OR define('LEVEL_DRIVER', 3);   // 드라이버
 
 // 댓글 형태
 defined('REPLY_TYPE_STORY')   OR define('REPLY_TYPE_STORY', 1);
