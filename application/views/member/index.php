@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
       <div class="club-main">
-        <div class="mypage">
+        <div class="mypage mt-2">
           <h2>마이페이지</h2>
           <b><?=$viewMember['nickname']?></b>님은 현재 <?=$userLevel['levelName']?> 이십니다.<br>
           현재 산행 횟수 <?=number_format(count($userVisitCount))?>회, 예약 횟수 <?=number_format($viewMember['rescount'])?>회, 취소 페널티 <?=number_format($viewMember['penalty'])?>점, 현재 레벨은 <?=number_format($viewMember['rescount'] - $viewMember['penalty'])?>점 입니다.
@@ -97,17 +97,19 @@
             <?php endforeach; ?>
           </ul>
         </div>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <!-- SP_CENTER -->
-        <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-2424708381875991"
-          data-ad-slot="4319659782"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-        <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
+        <div class="ad-sp">
+          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <!-- SP_CENTER -->
+          <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-pub-2424708381875991"
+            data-ad-slot="4319659782"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
       </div>
 
       <!-- 결제정보 작성 -->
