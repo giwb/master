@@ -348,7 +348,7 @@ class Admin_model extends CI_Model
       $this->db->where('userid', $search['userid']);
     }
     if (!empty($search['nickname'])) {
-      $this->db->like('nickname', $search['nickname']);
+      $this->db->where('nickname', $search['nickname']);
     }
 
     return $this->db->get()->row_array(1);
