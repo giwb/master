@@ -49,6 +49,10 @@
         <div class="col-sm-11"><textarea name="plan" id="plan" rows="10" cols="100"><?=$view['plan']?></textarea></div>
       </div>
       <div class="row align-items-center border-top mt-3 pt-3">
+        <div class="col-sm-1 font-weight-bold">산행개요</div>
+        <div class="col-sm-11"><textarea name="point" id="point" rows="10" cols="100"><?=$view['point']?></textarea></div>
+      </div>
+      <div class="row align-items-center border-top mt-3 pt-3">
         <div class="col-sm-1 font-weight-bold">산행지 소개</div>
         <div class="col-sm-11"><textarea name="intro" id="intro" rows="10" cols="100"><?=$view['intro']?></textarea></div>
       </div>
@@ -71,7 +75,7 @@
 
     <script type="text/javascript">
       CKEDITOR.replace('plan');
-      //CKEDITOR.replace('point');
+      CKEDITOR.replace('point');
       CKEDITOR.replace('intro');
       CKEDITOR.replace('timetable');
       CKEDITOR.replace('information');
@@ -84,8 +88,9 @@
           dataType: 'json',
           type: 'post',
           success: function(result) {
+            console.log(result);
             CKEDITOR.instances.plan.setData(result.plan);
-            //CKEDITOR.instances.point.setData(result.point);
+            CKEDITOR.instances.point.setData(result.point);
             CKEDITOR.instances.intro.setData(result.intro);
             CKEDITOR.instances.timetable.setData(result.timetable);
             CKEDITOR.instances.information.setData(result.information);
