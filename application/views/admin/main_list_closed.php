@@ -40,7 +40,7 @@
   foreach ($listClosed as $value) {
 ?>
         <div class="row mb-3">
-          <div class="col-lg-11"><b><?=viewStatus($value['status'])?></b> <a href="<?=base_url()?>admin/main_view_progress/<?=$value['idx']?>"><?=$value['subject']?></a><br>산행일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 산행분담금 : <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원</div>
+          <div class="col-lg-11"><b><?=viewStatus($value['status'])?></b> <a target="_blank" href="<?=base_url()?>admin/main_view_progress/<?=$value['idx']?>"><?=$value['subject']?></a><br>산행일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 산행분담금 : <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원</div>
           <div class="col-lg-1 text-right">0원<br><?=cntRes($value['idx'])?>명</div>
         </div>
 <?php

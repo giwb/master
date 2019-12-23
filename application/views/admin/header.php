@@ -121,7 +121,7 @@
             <a class="collapse-item" href="<?=base_url()?>admin/log_reply"> <i class="menu-icon fas fa-reply"></i> 댓글 기록</a>
             <a class="collapse-item" href="<?=base_url()?>admin/log_reaction"> <i class="menu-icon fas fa-heart"></i> 좋아요/공유 기록</a>
             <a class="collapse-item" href="<?=base_url()?>admin/log_visitor"> <i class="menu-icon fas fa-user-check"></i> 방문자 기록</a>
-            <a class="collapse-item" href="https://analytics.google.com/analytics/web/" target="_blank"> <i class="menu-icon fas fa-user-check"></i> Google Analytics</a>
+            <a class="collapse-item" href="https://analytics.google.com/analytics/web/" target="_blank"> <i class="menu-icon fab fa-google"></i> Google Analytics</a>
           </div>
         </div>
       </li>

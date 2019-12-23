@@ -529,11 +529,11 @@ class Admin_model extends CI_Model
           ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
           ->order_by('a.created_at', 'desc');
 
-    if (!empty($search['nowDate'])) {
-      $this->db->where('FROM_UNIXTIME(created_at, "%Y%m%d") =', $search['nowDate']);
+    if (!empty($search['nowdate'])) {
+      $this->db->where('FROM_UNIXTIME(created_at, "%Y%m%d") =', $search['nowdate']);
     }
-    if (!empty($search['keyWord'])) {
-      $this->db->where($search['keyWord'] . ' !=', NULL);
+    if (!empty($search['keyword'])) {
+      $this->db->where($search['keyword'] . ' !=', NULL);
     }
           
     return $this->db->get()->result_array();

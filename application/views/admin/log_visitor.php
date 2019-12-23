@@ -6,8 +6,10 @@
           <h1 class="h3 mb-0 text-gray-800">방문자 기록</h1>
         </div>
         <form id="formSearch" method="post" action="<?=base_url()?>admin/log_visitor" class="mb-3 pb-3 visitor-header">
+          <input type="hidden" name="keyword" value="<?=!empty($keyword) ? $keyword : ''?>">
+          <input type="hidden" name="nowdate" value="<?=!empty($nowdate) ? $nowdate : ''?>">
           <div class="row align-items-center justify-content-center">
-            <div class="pl-3"><a href="<?=base_url()?>admin/log_visitor?<?=$searchPrev?>">◀</a></div>
+            <div class="pl-3"><a href="javascript:;" class="btn-search-visitor-date" data-nowdate="<?=$searchPrev?>">◀</a></div>
             <div class="pl-3">
               <select name="y" class="form-control">
                 <?php foreach (range($searchYear, 2010) as $value): ?>
@@ -29,8 +31,8 @@
                 <?php endforeach; ?>
               </select>
             </div>
-            <div class="pl-3"><button type="button" class="btn btn-primary btn-visitor-search">검색</button></div>
-            <div class="pl-3"><a href="<?=base_url()?>admin/log_visitor?<?=$searchNext?>">▶</a></div>
+            <div class="pl-3"><button type="button" class="btn btn-primary btn-search-visitor">검색</button></div>
+            <div class="pl-3"><a href="javascript:;" class="btn-search-visitor-date" data-nowdate="<?=$searchNext?>">▶</a></div>
           </div>
         </div>
       </form>
@@ -40,10 +42,10 @@
           <strong>・총 방문횟수 : <?=count($listVisitor)?>회</strong>
         </div>
         <div class="col-sm-6 text-right mb-2">
-          <?php if (empty($keyWord)): ?>
-          <a href="<?=base_url()?>admin/log_visitor/?k=created_by"><button class="btn btn-primary">회원만 보기</button></a>
+          <?php if (empty($keyword)): ?>
+          <button class="btn btn-primary btn-search-visitor-member" data-keyword="created_by">회원만 보기</button>
           <?php else: ?>
-          <a href="<?=base_url()?>admin/log_visitor"><button class="btn btn-primary">모두 보기</button></a>
+          <button class="btn btn-primary btn-search-visitor-member" data-keyword="">모두 보기</button>
           <?php endif; ?>
         </div>
       </div>
@@ -63,3 +65,31 @@
       <?php endforeach; ?>
       <div class="mb-5"></div>
     </div>
+
+    <script>
+      $(document).ready(function() {
+        $('.btn-search-visitor-member').click(function() {
+          // 회원만 검색
+          var $dom = $('#formSearch');
+          var keyword = $(this).data('keyword');
+          $('input[name=keyword]', $dom).val(keyword);
+          $dom.submit();
+        });
+        $('.btn-search-visitor').click(function() {
+          // 방문자 기록 검색
+          var $dom = $('#formSearch');
+          var y = $('select[name=y]').val();
+          var m = $('select[name=m]').val();
+          var d = $('select[name=d]').val();
+          $('input[name=nowdate]', $dom).val(y + m + d);
+          $dom.submit();
+        });
+        $('.btn-search-visitor-date').click(function() {
+          // 전날, 다음날 방문자 검색
+          var $dom = $('#formSearch');
+          var nowdate = $(this).data('nowdate');
+          $('input[name=nowdate]', $dom).val(nowdate);
+          $dom.submit();
+        });
+      });
+    </script>
