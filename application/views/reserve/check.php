@@ -6,18 +6,18 @@
             <h2>예약이 완료되었습니다!</h2>
 
             <form id="reserveForm" method="post" class="border-top border-bottom text-left mt-4 mb-4 pt-3 pl-5 pr-5">
-<?php foreach ($listReserve as $key => $value): ?>
+              <?php foreach ($listReserve as $key => $value): ?>
               <dl>
                 <dt><?=viewStatus($value['notice_status'])?> <a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석</dt>
                 <dd>
                   일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 
-                  분담금 : <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 /
+                  분담금 : <?=$value['view_cost']?> /
                   <?=!empty($value['status']) && $value['status'] == STATUS_ABLE ? '입금완료' : '입금대기'?>
                   <?=!empty($value['depositname']) ? ' / 입금자 : ' . $value['depositname'] : ''?>
-                  <input type="hidden" name="checkReserve[]" class="check-reserve" value="<?=$value['idx']?>" data-cost="<?=$value['cost_total'] == 0 ? $value['cost'] : $value['cost_total']?>">
+                  <input type="hidden" name="checkReserve[]" class="check-reserve" value="<?=$value['idx']?>" data-cost="<?=$value['real_cost']?>">
                 </dd>
               </dl>
-<?php endforeach; ?>
+              <?php endforeach; ?>
             </form>
 
             결제정보입력은 아래 버튼을 눌러서 곧바로 진행하실 수 있으며,<br>
@@ -90,18 +90,8 @@
           if (reserveIdx.length > 0) {
             $('#reservePaymentModal input[name=reserveCost]').val(reserveCost);
             $('#reservePaymentModal .reserveCost').text($.setNumberFormat(reserveCost) + '원');
-            <?php if ($viewMember['level'] == LEVEL_LIFETIME): // 평생회원은 5천원 할인 ?>
-            reducedCost = Number(reserveCost) - 5000;
-            $('#reservePaymentModal input[name=paymentCost]').val(reducedCost);
-            $('#reservePaymentModal .paymentCost').html('<s>' + $.setNumberFormat(reserveCost) + '원</s> → ' + $.setNumberFormat(reducedCost) + '원 (평생회원 할인)');
-            <?php elseif ($viewMember['level'] == LEVEL_FREE): // 무료회원은 무료 ?>
-            reducedCost = 0;
-            $('#reservePaymentModal input[name=paymentCost]').val(reducedCost);
-            $('#reservePaymentModal .paymentCost').html('<s>' + $.setNumberFormat(reserveCost) + '원</s> → ' + $.setNumberFormat(reducedCost) + '원 (무료회원 할인)');
-            <?php else: // 일반회원 ?>
             $('#reservePaymentModal input[name=paymentCost]').val(reserveCost);
             $('#reservePaymentModal .paymentCost').text($.setNumberFormat(reserveCost) + '원');
-            <?php endif; ?>
             $('#reservePaymentModal').modal({backdrop: 'static', keyboard: false});
           } else {
             $.openMsgModal('결제정보를 입력할 예약 내역을 선택해주세요.');

@@ -42,7 +42,6 @@ class Member extends MY_Controller
         if (empty($value['cost_total'])) {
           $value['cost_total'] = $value['cost'];
         }
-
         if ($userData['level'] == LEVEL_LIFETIME) {
           // 평생회원 할인
           $viewData['userReserve'][$key]['view_cost'] = '<s class="text-secondary">' . number_format($value['cost_total']) . '원</s> → ' . number_format($value['cost_total'] - 5000) . '원';
