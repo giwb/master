@@ -46,11 +46,14 @@ class Member extends MY_Controller
         if ($userData['level'] == LEVEL_LIFETIME) {
           // 평생회원 할인
           $viewData['userReserve'][$key]['view_cost'] = '<s class="text-secondary">' . number_format($value['cost_total']) . '원</s> → ' . number_format($value['cost_total'] - 5000) . '원';
+          $viewData['userReserve'][$key]['real_cost'] = $value['cost_total'] - 5000;
         } elseif ($userData['level'] == LEVEL_FREE) {
           // 무료회원 할인
           $viewData['userReserve'][$key]['view_cost'] = '<s class="text-secondary">' . number_format($value['cost_total']) . '원</s> → ' . '0원';
+          $viewData['userReserve'][$key]['real_cost'] = 0;
         } else {
           $viewData['userReserve'][$key]['view_cost'] = number_format($value['cost_total']) . '원';
+          $viewData['userReserve'][$key]['real_cost'] = $value['cost_total'];
         }
       }
 

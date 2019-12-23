@@ -16,7 +16,7 @@
           <form id="reserveForm" method="post">
             <?php foreach ($userReserve as $key => $value): ?>
             <dl>
-              <dt><input type="checkbox" id="cr<?=$key?>" name="checkReserve[]" class="check-reserve" value="<?=$value['idx']?>" data-cost="<?=$value['cost_total'] == 0 ? $value['cost'] : $value['cost_total']?>" data-status="<?=$value['status']?>"><label for="cr<?=$key?>"></label></dt>
+              <dt><input type="checkbox" id="cr<?=$key?>" name="checkReserve[]" class="check-reserve" value="<?=$value['idx']?>" data-cost="<?=$value['real_cost']?>" data-status="<?=$value['status']?>"><label for="cr<?=$key?>"></label></dt>
               <dd>
                 <?=viewStatus($value['notice_status'])?> <a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
                 <small>
@@ -168,18 +168,8 @@
           if (reserveIdx.length > 0) {
             $('#reservePaymentModal input[name=reserveCost]').val(reserveCost);
             $('#reservePaymentModal .reserveCost').text($.setNumberFormat(reserveCost) + '원');
-            <?php if ($viewMember['level'] == LEVEL_LIFETIME): // 평생회원은 5천원 할인 ?>
-            reducedCost = Number(reserveCost) - 5000;
-            $('#reservePaymentModal input[name=paymentCost]').val(reducedCost);
-            $('#reservePaymentModal .paymentCost').html('<s>' + $.setNumberFormat(reserveCost) + '원</s> → ' + $.setNumberFormat(reducedCost) + '원 (평생회원 할인)');
-            <?php elseif ($viewMember['level'] == LEVEL_FREE): // 무료회원은 무료 ?>
-            reducedCost = 0;
-            $('#reservePaymentModal input[name=paymentCost]').val(reducedCost);
-            $('#reservePaymentModal .paymentCost').html('<s>' + $.setNumberFormat(reserveCost) + '원</s> → ' + $.setNumberFormat(reducedCost) + '원 (무료회원 할인)');
-            <?php else: // 일반회원 ?>
             $('#reservePaymentModal input[name=paymentCost]').val(reserveCost);
             $('#reservePaymentModal .paymentCost').text($.setNumberFormat(reserveCost) + '원');
-            <?php endif; ?>
             $('#reservePaymentModal').modal({backdrop: 'static', keyboard: false});
           } else {
             $.openMsgModal('결제정보를 입력할 예약 내역을 선택해주세요.');
