@@ -340,9 +340,9 @@
         $.calcRoadCost(); // 통행료 계산
         $.calcFuel(); // 연비 계산 (총주행 / 3.5)
         $.calcBusCost(totalDistance); // 버스비용/산행분담 기본비용 계산
+        $.calcTotalDriving(); // 운행비 합계
         <?php if (empty($view['idx']) || $view['status'] == STATUS_PLAN): ?>
         $.calcTotalFuel(); // 주유비 합계
-        $.calcTotalDriving(); // 운행비 합계
         $.calcAdd(); // 추가비용 합계
         $.calcTotalBus(); // 추가비용 합계
         $.calcCost(); // 산행 분담금 계산
