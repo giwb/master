@@ -2121,8 +2121,12 @@ h1.nav-logo small {
 #setupForm .setup-content textarea { display: none; }
 #setupForm .area-btn { border-top: 1px solid #999; margin: 0 0 20px 0; padding: 20px 0 0 0; text-align: center; }
 
+.ad-sp { display: none; }
+
 /* Responsive */
 @media only screen and (max-width: 800px) {
+  .ad-sp { display: block; }
+
   #club { padding-top: 70px; }
   #club .club-left, #club .club-right { display: none; }
   #club .club-main { width: 100%; flex: auto; -webkit-flex: auto; display: block; margin: 0px; }

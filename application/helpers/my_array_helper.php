@@ -745,6 +745,7 @@ if (!function_exists('setHistory')) {
       9 - 관리자 취소
       10 - 관리자 입금확인
       11 - 관리자 입금취소
+      12 - 관리자 비회원 환불내역 (입금 확인 후 예약 취소)
     */
     $data = array(
       'action' => $action,
