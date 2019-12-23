@@ -2094,6 +2094,7 @@ h1.nav-logo small {
 .mypage dl dd { width: 100%; font-size: 14px; font-weight: bold; display: table-cell; vertical-align: middle; }
 .mypage ul li { font-size: 14px; display: block; margin: 10px 0; }
 .mypage ul li small { font-size: 12px; font-weight: normal; display: block; }
+.mypage .ti { text-indent: -1em; margin-left: 1em; }
 
 #reservePaymentModal dl { width: 100%; font-size: 13px; display: table; border-top: 1px solid #bbb; margin: 0px; padding: 0px; }
 #reservePaymentModal dl:last-child { border-bottom: 1px solid #bbb; }

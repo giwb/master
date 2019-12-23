@@ -30,48 +30,6 @@ class Member extends MY_Controller
       // 진행 중 산행
       $viewData['listNoticeDriver'] = $this->reserve_model->listNotice($clubIdx, array(STATUS_ABLE, STATUS_CONFIRM));
 
-      foreach ($viewData['listNoticeDriver'] as $key => $value) {
-        // 버스 종류 확인
-        $bus_type = getBusType($value['bustype'], $value['bus']);
-
-        $maxSeat = 0; // 최대 좌석 계산
-        foreach ($bus_type as $bus) {
-          $maxSeat += $bus['seat'];
-        }
-
-        // 승객수
-        $viewData['listNoticeDriver'][$key]['count'] = cntRes($value['idx']);
-
-        // 승객수당
-        if ($viewData['listNoticeDriver'][$key]['count'] < 30) {
-          $viewData['listNoticeDriver'][$key]['cost_driver'] = 0;
-        } elseif ($viewData['listNoticeDriver'][$key]['count'] >= 30 && $viewData['listNoticeDriver'][$key]['count'] < 40) {
-          $viewData['listNoticeDriver'][$key]['cost_driver'] = 40000;
-        } elseif ($viewData['listNoticeDriver'][$key]['count'] >= 30 && $viewData['listNoticeDriver'][$key]['count'] < $maxSeat) {
-          $viewData['listNoticeDriver'][$key]['cost_driver'] = 80000;
-        } elseif ($viewData['listNoticeDriver'][$key]['count'] == $maxSeat) {
-          $viewData['listNoticeDriver'][$key]['cost_driver'] = 120000;
-        }
-
-        // 주행거리
-        $driving_fuel = unserialize($value['driving_fuel']);
-        $viewData['listNoticeDriver'][$key]['driving_fuel'] = $driving_fuel[0];
-
-        // 통행료
-        $driving_cost = unserialize($value['driving_cost']);
-        $viewData['listNoticeDriver'][$key]['driving_cost'] = $driving_cost[0];
-
-        // 도착지주소
-        $viewData['listNoticeDriver'][$key]['road_address_text'] = '';
-        if (count($value['road_address']) > 0) {
-          $road_address = unserialize($value['road_address']);
-          foreach ($road_address as $cnt => $ra) {
-            if ($cnt != 0) $viewData['listNoticeDriver'][$key]['road_address_text'] .= ' - ';
-            $viewData['listNoticeDriver'][$key]['road_address_text'] .= $ra;
-          }
-        }
-      }
-
       $this->_viewPage('member/driver', $viewData);
     } else {
       // 회원 정보
@@ -97,6 +55,100 @@ class Member extends MY_Controller
 
       $this->_viewPage('member/index', $viewData);
     }
+  }
+
+  /**
+   * 드라이버 상세 페이지
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function driver()
+  {
+    checkUserLogin();
+
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+    $noticeIdx = html_escape($this->input->get('n'));
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    if (!empty($noticeIdx)) {
+      // 진행 중 산행
+      $viewData['viewNotice'] = $this->reserve_model->viewNotice($clubIdx, $noticeIdx);
+
+      // 버스 종류 확인
+      $bus_type = getBusType($viewData['viewNotice']['bustype'], $viewData['viewNotice']['bus']);
+
+      $viewData['maxSeat'] = 0; // 최대 좌석 계산
+      foreach ($bus_type as $bus) {
+        $viewData['maxSeat'] += $bus['seat'];
+      }
+
+      // 승객수
+      $viewData['viewNotice']['count'] = cntRes($viewData['viewNotice']['idx']);
+
+      // 승객수당
+      if ($viewData['viewNotice']['count'] < 30) {
+        $viewData['viewNotice']['cost_driver'] = 0;
+      } elseif ($viewData['viewNotice']['count'] >= 30 && $viewData['viewNotice']['count'] < 40) {
+        $viewData['viewNotice']['cost_driver'] = 40000;
+      } elseif ($viewData['viewNotice']['count'] >= 30 && $viewData['viewNotice']['count'] < $viewData['maxSeat']) {
+        $viewData['viewNotice']['cost_driver'] = 80000;
+      } elseif ($viewData['viewNotice']['count'] == $viewData['maxSeat']) {
+        $viewData['viewNotice']['cost_driver'] = 120000;
+      }
+
+      // 운행구간
+      $viewData['viewNotice']['road_course'] = unserialize($viewData['viewNotice']['road_course']);
+      
+      // 도착지주소
+      $viewData['viewNotice']['road_address'] = unserialize($viewData['viewNotice']['road_address']);
+
+      // 거리
+      $viewData['viewNotice']['road_distance'] = unserialize($viewData['viewNotice']['road_distance']);
+
+      // 총 주행거리
+      $viewData['viewNotice']['total_distance'] = 0;
+      foreach ($viewData['viewNotice']['road_distance'] as $value) {
+        if (!empty($value)) $viewData['viewNotice']['total_distance'] += $value;
+      }
+
+      // 운행 소요시간
+      $viewData['viewNotice']['road_runtime'] = unserialize($viewData['viewNotice']['road_runtime']);
+
+      // 운행 통행료
+      $viewData['viewNotice']['road_cost'] = unserialize($viewData['viewNotice']['road_cost']);
+
+      // 주유비
+      $viewData['viewNotice']['driving_fuel'] = unserialize($viewData['viewNotice']['driving_fuel']);
+
+      // 총 주유비
+      if (empty($viewData['viewNotice']['driving_fuel'][1]) || empty($viewData['viewNotice']['driving_fuel'][2])) {
+        $viewData['viewNotice']['total_fuel'] = 0;
+      } else {
+        $viewData['viewNotice']['total_fuel'] = $viewData['viewNotice']['driving_fuel'][1] * $viewData['viewNotice']['driving_fuel'][2];
+      }
+
+      // 운행비
+      $viewData['viewNotice']['driving_cost'] = unserialize($viewData['viewNotice']['driving_cost']);
+
+      // 총 운행비
+      $viewData['viewNotice']['total_cost'] = 0;
+      foreach ($viewData['viewNotice']['driving_cost'] as $value) {
+        if (!empty($value)) $viewData['viewNotice']['total_cost'] += $value;
+      }
+
+      // 추가비용
+      $viewData['viewNotice']['driving_add'] = unserialize($viewData['viewNotice']['driving_add']);
+
+      // 추가비용 합계
+      $viewData['viewNotice']['total_add'] = $viewData['viewNotice']['cost_driver'];
+      foreach ($viewData['viewNotice']['driving_add'] as $value) {
+        if (!empty($value)) $viewData['viewNotice']['total_cost'] += $value;
+      }
+    }
+
+    $this->_viewPage('member/driver_view', $viewData);
   }
 
   /**

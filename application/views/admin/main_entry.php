@@ -262,7 +262,7 @@
         </div>
         <div class="col-sm-3 row align-items-center">
           <div class="col-sm-6">승객수당 (원)</div>
-          <div class="col-sm-6"><input class="form-control driving-add" type="text" size="4" name="driving_add[]" value="<?=!empty($view['driving_add'][2]) ? $view['driving_add'][2] : ''?>"></div>
+          <div class="col-sm-6"><input class="form-control driving-add" type="text" size="4" name="driving_add[]" value="<?=!empty($view['cost_driver']) ? $view['cost_driver'] : ''?>"></div>
         </div>
       </div>
       <div class="row align-items-center border-top mt-3 pt-3">

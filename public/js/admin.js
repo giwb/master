@@ -825,7 +825,7 @@
       result = result + ' (성수기)';
     //} else if ( (sDate >= sPeak4 && eDate <= ePeak4) || (sDate >= sPeak5 && eDate <= ePeak5) ) {
     } else if ( (sDate >= sPeak5 && eDate <= ePeak5) ) {
-      $('.cost-peak').val(''); // 동계예비비 버스비용 추가는 없음
+      $('.cost-peak').val('0'); // 동계예비비 버스비용 추가는 없음
       if ($('.cost-added').val() == '0') {
         $('.cost-added').val(Number($('.cost-added').val()) + 2000); // 동계예비비 분담금 추가
       }
@@ -833,7 +833,7 @@
       $('.winter').val('1');
       result = result + ' (동계예비비)';
     } else {
-      $('.cost-peak').val('');
+      $('.cost-peak').val('0');
       if ( $('.peak').val() == '1' || $('.winter').val() == '1' ) {
         $('.cost-added').val(Number($('.cost-added').val()) - 2000); // 추가비용 삭제
       }

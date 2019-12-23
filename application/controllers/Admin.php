@@ -818,6 +818,10 @@ class Admin extends Admin_Controller
     if (!is_null($idx)) {
       $viewData['btn'] = '수정';
       $viewData['view'] = $this->admin_model->viewEntry(html_escape($idx));
+
+      // 버스 종류 확인
+      $bus_type = getBusType($viewData['view']['bustype'], $viewData['view']['bus']);
+
       $viewData['view']['bustype'] = @unserialize($viewData['view']['bustype']);
       $viewData['view']['road_course'] = @unserialize($viewData['view']['road_course']);
       $viewData['view']['road_address'] = @unserialize($viewData['view']['road_address']);
@@ -833,6 +837,25 @@ class Admin extends Admin_Controller
       if (empty($viewData['view']['road_distance'][0])) $viewData['view']['road_distance'][0] = '43.44';
       if (empty($viewData['view']['road_runtime'][0])) $viewData['view']['road_runtime'][0] = '0:50';
       if (empty($viewData['view']['road_cost'][0])) $viewData['view']['road_cost'][0] = '0';
+
+      $viewData['maxSeat'] = 0; // 최대 좌석 계산
+      foreach ($bus_type as $bus) {
+        $viewData['maxSeat'] += $bus['seat'];
+      }
+
+      // 승객수에 따라 승객수당 지정
+      $cntRes = cntRes($viewData['view']['idx']);
+
+      // 승객수당
+      if ($cntRes < 30) {
+        $viewData['view']['cost_driver'] = 0;
+      } elseif ($cntRes >= 30 && $cntRes < 40) {
+        $viewData['view']['cost_driver'] = 40000;
+      } elseif ($cntRes >= 30 && $cntRes < $viewData['maxSeat']) {
+        $viewData['view']['cost_driver'] = 80000;
+      } elseif ($cntRes == $viewData['maxSeat']) {
+        $viewData['view']['cost_driver'] = 120000;
+      }
     } else {
       $viewData['btn'] = '등록';
       $viewData['view']['idx'] = '';
