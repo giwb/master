@@ -27,7 +27,7 @@
             <a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$view['noticeIdx']?>"><button type="button" class="btn btn-secondary">좌석현황보기</button></a>
           </div>
         </div>
-        <div class="ad-sp mt-4">
+        <div class="ad-sp mt-5">
           <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
           <!-- SP_CENTER -->
           <ins class="adsbygoogle"

@@ -58,7 +58,7 @@ foreach ($listReply as $value):
             </form>
           </div>
         </div>
-        <div class="ad-sp">
+        <div class="ad-sp mt-5">
           <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
           <!-- SP_CENTER -->
           <ins class="adsbygoogle"
