@@ -508,7 +508,7 @@
     location.reload();
   }).on('click', '.btn-list', function() {
     // 모달 돌아가기 버튼
-    location.replace($('input[name=base_url]').val() + 'admin/' + $(this).data('action'));
+    location.replace($('input[name=base_url]').val() + $(this).data('action'));
   }).on('click', '.btn-member-list', function() {
     // 회원 목록 돌아가기
     location.href=($('input[name=base_url]').val() + 'admin/member_list');

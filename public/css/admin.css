@@ -12160,6 +12160,14 @@ body.sidebar-toggled footer.sticky-footer {
 
 .visitor-row { display: flex; }
 
+#formShop .item-cost { position: relative; }
+#formShop .item-cost .item-cost-text { position: absolute; top: 8px; right: 24px; z-index: 100; }
+#formShop .item-cost input { text-align: right; padding-right: 30px; }
+#formShop .added-files img { width: 150px; display: inline-block; margin-right: 10px; cursor: pointer; }
+.item-list { cursor: pointer; }
+.item-category { display: block; }
+.category-input { display: inline-block; vertical-align: middle; }
+
 @media (max-width: 768px) {
   #sidebarToggleTop .fa-bars { margin-left: -2px; }
   .h3 { text-align: center; }

@@ -28,7 +28,7 @@
       <input type="hidden" name="idx" value="<?=$view['idx']?>">
       <input type="hidden" name="peak" class="peak" value="<?=$view['peak']?>">
       <input type="hidden" name="winter" class="winter" value="<?=$view['winter']?>">
-      <input type="hidden" name="back_url" value="main_list_progress">
+      <input type="hidden" name="back_url" value="admin/main_list_progress">
       <div class="row align-items-center">
         <div class="col-sm-9">
           <h4>■ 기본정보</h4>

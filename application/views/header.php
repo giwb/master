@@ -53,7 +53,7 @@
   <script src="<?=base_url()?>public/js/clipboard.min.js" type="text/javascript"></script>
   <script src="<?=base_url()?>public/js/main.js?<?=time()?>" type="text/javascript"></script>
   <script src="//developers.kakao.com/sdk/js/kakao.min.js" type="text/javascript"></script>
-  <!--<script data-ad-client="ca-pub-2424708381875991" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
+  <script data-ad-client="ca-pub-2424708381875991" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
   <!--[if lt IE 9]>
