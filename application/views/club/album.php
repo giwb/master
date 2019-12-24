@@ -11,7 +11,7 @@
             <?php if ($key == 0): ?><div class="row"><?php elseif ($key%3 == 0): ?></div><div class="row"><?php endif; ?>
             <div class="col-sm-4 text-center mb-2 gallery-item"><a href="javascript:;" class="btn-gallery" data-idx="<?=$value['idx']?>"><img class="gallery-photo border mb-2" src="<?=$value['photo']?>"><br><?=$value['subject']?></a><?=$value['created_by'] == $userIdx || !empty($adminCheck) ? ' | <a href="' . base_url() . 'club/album_upload/' . $view['idx'] . '?n=' . $value['idx'] .'">수정</a>' : ''?></div>
           <?php endforeach; ?>
-          </div>
+          <?php if (!empty($listAlbum)): ?></div><?php endif; ?>
         </div>
       </div>
 
