@@ -9,7 +9,6 @@
         </div>
         <!-- PC_RIGHT -->
         <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2424708381875991" data-ad-slot="4143565817" data-ad-format="auto" data-full-width-responsive="true"></ins>
-        <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
       </div>
     </div>
   </section>
@@ -177,6 +176,14 @@
     gtag('js', new Date());
 
     gtag('config', 'UA-141316550-1');
+  </script>
+  <script>
+    // 동적 푸시
+    $(window).on('load', function () {
+      $('.adsbygoogle').each(function () {
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      });
+    });
   </script>
   <?php endif; ?>
 
