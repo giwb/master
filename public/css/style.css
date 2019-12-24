@@ -2124,6 +2124,7 @@ h1.nav-logo small {
 
 .gallery-item { position: relative; }
 .gallery-item .ajax-loader { position: absolute; top: 45px; left: 80px; z-index: 1000; }
+.mfp-content .mfp-img { height: 800px; }
 
 .ad-sp { display: none; }
 

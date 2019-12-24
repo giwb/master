@@ -442,7 +442,7 @@ class Club extends MY_Controller
       $filename = time() . mt_rand(10000, 99999) . ".jpg";
 
       if (move_uploaded_file($_FILES['file_obj']['tmp_name'], UPLOAD_PATH . $filename)) {
-        // 사진 사이즈 줄이기 (가로가 사이즈가 1024보다 클 경우)
+        // 사진 사이즈 줄이기 (세로 사이즈가 800보다 클 경우)
         $maxSize = 800;
         $size = getImageSize(UPLOAD_PATH . $filename);
         if ($size[0] >= $maxSize) {
@@ -451,7 +451,7 @@ class Club extends MY_Controller
           $config['source_image'] = UPLOAD_PATH . $filename;
           //$config['new_image'] = UPLOAD_PATH . 'thumb_' . $filename;
           $config['maintain_ratio'] = TRUE;
-          $config['width'] = $maxSize;
+          $config['height'] = $maxSize;
           $this->image_lib->initialize($config);
           $this->image_lib->resize();
         }
