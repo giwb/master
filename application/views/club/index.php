@@ -61,15 +61,7 @@
         <div id="calendar"></div>
         <div class="ad-sp">
           <!-- SP_CENTER -->
-          <ins class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-pub-2424708381875991"
-            data-ad-slot="4319659782"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-          <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-          </script>
+          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2424708381875991" data-ad-slot="4319659782" data-ad-format="auto" data-full-width-responsive="true"></ins>
         </div>
         <div class="your-story">
           <form id="your-story-form" method="post" action="<?=base_url()?>club/upload">

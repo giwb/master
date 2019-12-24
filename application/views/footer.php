@@ -8,15 +8,7 @@
           <?php endforeach; ?>
         </div>
         <!-- PC_RIGHT -->
-        <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-2424708381875991"
-          data-ad-slot="4143565817"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-        <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2424708381875991" data-ad-slot="4143565817" data-ad-format="auto" data-full-width-responsive="true"></ins>
       </div>
     </div>
   </section>
@@ -175,7 +167,6 @@
 
     ga('create', 'UA-80490919-1', 'auto');
     ga('send', 'pageview');
-
   </script>
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-141316550-1"></script>
@@ -185,6 +176,9 @@
     gtag('js', new Date());
 
     gtag('config', 'UA-141316550-1');
+  </script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
   <?php endif; ?>
 
