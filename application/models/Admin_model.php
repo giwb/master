@@ -463,6 +463,7 @@ class Admin_model extends CI_Model
   {
     $this->db->select('*')
           ->from(DB_HISTORY)
+          ->where('status', $search['status'])
           ->order_by('idx', 'desc');
 
     if (!empty($search['action'])) {
@@ -482,6 +483,23 @@ class Admin_model extends CI_Model
     }
 
     return $this->db->get()->result_array();
+  }
+
+  // 활동관리 - 기록 상세 보기
+  public function viewHistory($idx)
+  {
+    $this->db->select('*')
+          ->from(DB_HISTORY)
+          ->where('idx', $idx);
+    return $this->db->get()->row_array(1);
+  }
+
+  // 활동관리 - 확인 체크
+  public function updateHistory($data, $idx)
+  {
+    $this->db->set($data);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_HISTORY);
   }
 
   // 활동관리 - 댓글 기록

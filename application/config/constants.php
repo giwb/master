@@ -147,6 +147,9 @@ defined('SHARE_TYPE_DAUM') OR define('SHARE_TYPE_DAUM', 5); // 다음
   7 - 페널티 감소
   8 - 관리자 예약
   9 - 관리자 취소
+  10 - 관리자 입금확인
+  11 - 관리자 입금취소
+  12 - 비회원 환불내역
 */
 defined('LOG_ENTRY')          OR define('LOG_ENTRY', 1);
 defined('LOG_RESERVE')        OR define('LOG_RESERVE', 2);
@@ -159,6 +162,7 @@ defined('LOG_ADMIN_RESERVE')  OR define('LOG_ADMIN_RESERVE', 8);
 defined('LOG_ADMIN_CANCEL')   OR define('LOG_ADMIN_CANCEL', 9);
 defined('LOG_ADMIN_DEPOSIT_CONFIRM')  OR define('LOG_ADMIN_DEPOSIT_CONFIRM', 10);
 defined('LOG_ADMIN_DEPOSIT_CANCEL')   OR define('LOG_ADMIN_DEPOSIT_CANCEL', 11);
+defined('LOG_ADMIN_REFUND')   OR define('LOG_ADMIN_REFUND', 12);
 
 // 경로 설정
 defined('PATH_FRONT')         OR define('PATH_FRONT', PATH_MAIN . '/public/uploads/front/');

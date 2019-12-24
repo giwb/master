@@ -241,6 +241,32 @@
         }
       });
     }
+  }).on('click', '.btn-log-check', function() {
+    // 활동관리 확인 체크
+    var $btn = $(this);
+    var idx = $(this).data('idx');
+    $.ajax({
+      url: $('input[name=base_url]').val() + 'admin/log_check',
+      data: 'idx=' + idx + '&status=' + status,
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('확인중..');
+      },
+      success: function(result) {
+        if (result.error == 1) {
+          $btn.css('opacity', '1').prop('disabled', false).text('확인');
+          $.openMsgModal(result.message);
+        } else {
+          $btn.css('opacity', '1').prop('disabled', false);
+          if (result.status == 1) {
+            $btn.removeClass('btn-primary').addClass('btn-secondary').attr('data-status', 0).text('복원');
+          } else {
+            $btn.removeClass('btn-secondary').addClass('btn-primary').attr('data-status', 1).text('확인');
+          }
+        }
+      }
+    });
   }).on('click', '.btn-page-next', function() {
     // 페이징
     var $btn = $(this);

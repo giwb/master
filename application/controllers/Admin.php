@@ -253,7 +253,7 @@ class Admin extends Admin_Controller
     $now = time();
     $clubIdx = 1; // 경인웰빙
     $inputData['idx'] = html_escape($this->input->post('idx'));
-    $subject = !empty($this->input->post('subject')) ? html_escape($this->input->post('subject')) : '';
+    $subject = !empty($this->input->post('subject')) ? '<br>' . html_escape($this->input->post('subject')) : '';
 
     // 예약 정보
     $viewReserve = $this->admin_model->viewReserve($inputData);
@@ -337,6 +337,11 @@ class Admin extends Admin_Controller
         // 분담금 합계 (기존 버젼 호환용)
         $viewEntry['cost'] = $viewEntry['cost_total'] == 0 ? $viewEntry['cost'] : $viewEntry['cost_total'];
 
+        // 비회원 입금취소의 경우, 환불내역 기록
+        if (empty($viewReserve['userid'])) {
+          setHistory(LOG_ADMIN_REFUND, $viewReserve['rescode'], '', $viewReserve['nickname'], $viewEntry['subject'], $now);
+        }
+
         // 이미 입금을 마친 상태라면, 전액 포인트로 환불 (무료회원은 환불 안함)
         if (empty($userData['level']) || $userData['level'] != 2) {
           if ($userData['level'] == 1) {
@@ -358,10 +363,10 @@ class Admin extends Admin_Controller
       }
 
       // 관리자 예약취소 기록
-      setHistory(LOG_ADMIN_CANCEL, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'] . '<br>' . $subject, $now);
+      setHistory(LOG_ADMIN_CANCEL, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'] . $subject, $now);
 
       // 예약 취소 로그 기록
-      setHistory(LOG_CANCEL, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'] . '<br>' . $subject, $now);
+      setHistory(LOG_CANCEL, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'] . $subject, $now);
     }
 
     $result['reload'] = true;
@@ -387,14 +392,25 @@ class Admin extends Admin_Controller
       $this->admin_model->updateReserve($updateValues, $viewData['idx']);
 
       // 관리자 입금취소 기록
-      setHistory(LOG_ADMIN_DEPOSIT_CANCEL, $viewData['idx'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'], $now);
+      setHistory(LOG_ADMIN_DEPOSIT_CANCEL, $viewEntry['idx'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'], $now);
+
+      // 비회원 입금취소의 경우, 환불내역 기록
+      if (empty($viewReserve['userid'])) {
+        setHistory(LOG_ADMIN_REFUND, $viewEntry['idx'], '', $viewReserve['nickname'], $viewEntry['subject'], $now);
+      }
     } else {
+      // 입금확인 날짜 체크
+      if (strtotime($viewEntry['startdate']) <= strtotime(date('Y-m-d', $now))) {
+        // 출발일보다 입금확인이 같거나 늦으면 예약 페널티 기록 (추후 포인트 지급 안됨)
+        $updateValues['penalty'] = 1;
+      }
+
       // 입금확인
       $updateValues['status'] = RESERVE_PAY;
       $this->admin_model->updateReserve($updateValues, $viewData['idx']);
 
       // 관리자 입금확인 기록
-      setHistory(LOG_ADMIN_DEPOSIT_CONFIRM, $viewData['idx'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'], $now);
+      setHistory(LOG_ADMIN_DEPOSIT_CONFIRM, $viewEntry['idx'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'], $now);
     }
 
     $result['reload'] = true;
@@ -1992,6 +2008,7 @@ class Admin extends Admin_Controller
     $action = html_escape($this->input->post('action'));
     $viewData['subject'] = html_escape($this->input->post('subject'));
     $viewData['nickname'] = html_escape($this->input->post('nickname'));
+    $viewData['status'] = !empty($this->input->post('status')) ? html_escape($this->input->post('status')) : 0;
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
 
@@ -2002,7 +2019,7 @@ class Admin extends Admin_Controller
       $viewData['action'] = array($action);
       $viewData['listHistory'] = $this->admin_model->listHistory($paging, $viewData);
     } else {
-      $viewData['action'] = array(LOG_ADMIN_CANCEL, LOG_ADMIN_DEPOSIT_CANCEL); // 비회원은 관리자 취소, 관리자 입금취소만 확인
+      $viewData['action'] = array(LOG_ADMIN_REFUND);
       $viewData['refund'] = 'refund';
       $viewData['listHistory'] = $this->admin_model->listHistory($paging, $viewData);
       $viewData['action'][0] = ''; // 액션 초기화
@@ -2015,18 +2032,9 @@ class Admin extends Admin_Controller
     foreach ($viewData['listHistory'] as $key => $value) {
       $viewData['listHistory'][$key]['userData']['nickname'] = $value['nickname'];
 
-      switch ($value['action']) {
-        case LOG_ADMIN_CANCEL: // 관리자 예약취소
-          $viewEntry = $this->admin_model->viewEntry($value['fkey']);
-          $viewData['listHistory'][$key]['header'] = '<span class="text-danger">[관리자예약취소]</span>';
-          $viewData['listHistory'][$key]['subject'] = number_format($viewEntry['cost_total']) . '원<br>' . $value['subject'];
-          break;
-        case LOG_ADMIN_DEPOSIT_CANCEL: // 관리자 입금취소
-          $viewEntry = $this->admin_model->viewEntry($value['fkey']);
-          $viewData['listHistory'][$key]['header'] = '<span class="text-warning">[관리자입금취소]</span>';
-          $viewData['listHistory'][$key]['subject'] = number_format($viewEntry['cost_total']) . '원 - ' . $value['subject'];
-          break;
-      }
+      $viewEntry = $this->admin_model->viewEntry($value['fkey']);
+      $viewData['listHistory'][$key]['header'] = '<span class="text-danger">[비회원환불기록]</span>';
+      $viewData['listHistory'][$key]['subject'] = number_format($viewEntry['cost_total']) . '원<br>' . $value['subject'];
     }
 
     if ($page >= 2) {
@@ -2038,6 +2046,33 @@ class Admin extends Admin_Controller
       // 1페이지에는 View 페이지로 전송
       $this->_viewPage('admin/log_user', $viewData);
     }
+  }
+
+  /**
+   * 활동관리 - 확인 체크
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function log_check()
+  {
+    $idx = html_escape($this->input->post('idx'));
+    $status = html_escape($this->input->post('status'));
+
+    $viewHistory = $this->admin_model->viewHistory($idx);
+
+    if ($viewHistory['status'] == 1) $status = 0; else $status = 1;
+
+    $updateValues = array('status' => $status);
+    $rtn = $this->admin_model->updateHistory($updateValues, $idx);
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'status' => $status, 'message' => $this->lang->line('error_all'));
+    } else {
+      $result = array('error' => 0, 'status' => $status, 'message' => '');
+    }
+
+    $this->output->set_output(json_encode($result));
   }
 
   /**
