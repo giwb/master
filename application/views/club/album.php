@@ -4,11 +4,11 @@
       <div class="club-main">
         <div class="sub-header">사진첩</div>
         <div class="sub-content">
-          <?php if (!empty($userIdx)): ?>
           <div class="text-right mt-3 mb-3">
+            <?php if (!empty($userIdx)): ?>
             <a href="<?=base_url()?>club/album_upload/<?=$view['idx']?>"><button class="btn btn-sm btn-primary">사진 등록</button></a>
+            <?php endif; ?>
           </div>
-          <?php endif; ?>
           <?php foreach ($listAlbum as $key => $value): ?>
             <?php if ($key == 0): ?><div class="row"><?php elseif ($key%3 == 0): ?></div><div class="row"><?php endif; ?>
             <div class="col-sm-4 text-center mb-2 gallery-item"><a href="javascript:;" class="btn-gallery" data-idx="<?=$value['idx']?>"><img class="gallery-photo border mb-2" src="<?=$value['photo']?>"></a><br><?=$value['nickname']?>님 - <?=$value['subject']?><br><span class="small"><?=date('Y-m-d H:i', $value['created_at'])?><?=$value['created_by'] == $userIdx || !empty($adminCheck) ? ' | <a href="' . base_url() . 'club/album_upload/' . $view['idx'] . '?n=' . $value['idx'] .'">수정</a>' : ''?></span></div>
