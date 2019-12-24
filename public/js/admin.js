@@ -473,7 +473,7 @@
             $dom.tooltip('hide').attr('data-original-title', '회원입니다!').tooltip('show');
             setTimeout(function() { $dom.attr('data-original-title', '').tooltip('hide'); }, 2000);
           } else {
-            $('.search-userid-result').val(result.userid);
+            $('.search-userid-result').val(result.message.userid);
           }
         } else {
           $dom.next().val('');
