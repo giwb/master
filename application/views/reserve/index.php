@@ -1,5 +1,9 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
+      <script>
+        new ClipboardJS('.btn-share-url');
+      </script>
+
       <div class="club-main">
         <?php if (empty($notice['idx'])): ?>
         <div class="text-center mt-5">데이터가 없습니다.</div>

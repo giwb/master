@@ -1,5 +1,9 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
+      <script>
+        new ClipboardJS('.btn-share-url');
+      </script>
+
       <div class="club-main">
         <div class="sub-contents">
           <div class="sub-title">
