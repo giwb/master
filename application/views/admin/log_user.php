@@ -51,7 +51,7 @@
               <a<?=!empty($value['userid']) ? ' target="_blank" href="' . base_url() . 'admin/member_view/' . $value['userData']['idx'] . '"' : ' href="javascript:;"'?> class="text-secondary"><strong><?=$value['userData']['nickname']?>님</strong></a> - <?=$value['subject']?>
               <div class="small"><?=calcStoryTime($value['regdate'])?> (<?=date('Y-m-d H:i:s', $value['regdate'])?>)</div>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1 text-right">
               <?php if ($value['status'] == 1): ?>
               <button class="btn btn-secondary btn-log-check" data-idx="<?=$value['idx']?>">복원</button>
               <?php else: ?>
