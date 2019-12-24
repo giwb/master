@@ -928,7 +928,7 @@ $(document).on('click', '.btn-reply', function() {
   }
 }).on('click', '.btn-share', function() {
   // 공유하기
-  var $dom = $('.area-share');
+  var $dom = $('.area-share[data-idx="' + $(this).data('idx') + '"]');
   var userIdx = $('input[name=userIdx]').val();
 
   if (userIdx == '') {
