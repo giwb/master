@@ -218,153 +218,213 @@ class Club extends MY_Controller
   }
 
   /**
-   * 설정
+   * 사진첩
    *
-   * @return json
+   * @return view
    * @author bjchoi
    **/
-  public function setup()
+  public function album()
   {
-    checkAdminLogin();
     $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+    $viewData['userIdx'] = $userData['idx'];
+    $viewData['adminCheck'] = $userData['admin'];
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
-    $viewData['view']['club_type'] = is_null($viewData['view']['club_type']) || strlen($viewData['view']['club_type']) <= 3 ? array() : unserialize($viewData['view']['club_type']);
-    $viewData['view']['club_option'] = is_null($viewData['view']['club_option']) || strlen($viewData['view']['club_option']) <= 3 ? array() : unserialize($viewData['view']['club_option']);
-    $viewData['view']['club_cycle'] = is_null($viewData['view']['club_cycle']) || strlen($viewData['view']['club_cycle']) <= 3 ? array() : unserialize($viewData['view']['club_cycle']);
-    $viewData['view']['club_week'] = is_null($viewData['view']['club_week']) || strlen($viewData['view']['club_week']) <= 3 ? array() : unserialize($viewData['view']['club_week']);
-    $viewData['view']['club_geton'] = is_null($viewData['view']['club_geton']) || strlen($viewData['view']['club_geton']) <= 3 ? array() : unserialize($viewData['view']['club_geton']);
-    $viewData['view']['club_getoff'] = is_null($viewData['view']['club_getoff']) || strlen($viewData['view']['club_getoff']) <= 3 ? array() : unserialize($viewData['view']['club_getoff']);
-    $files = $this->file_model->getFile('club', $clubIdx);
 
-    if (empty($files)) {
-      $viewData['view']['photo'][0] = '';
-    } else {
-      foreach ($files as $key => $value) {
-        if (!$value['filename'] == '') {
-          $viewData['view']['photo'][$key] = $value['filename'];
-        } else {
-          $viewData['view']['photo'][$key] = '';
-        }
+    // 사진첩
+    $viewData['listAlbum'] = $this->club_model->listAlbum($clubIdx);
+
+    foreach ($viewData['listAlbum'] as $key => $value) {
+      $photo = $this->file_model->getFile('album', $value['idx'], NULL, 1);
+      if (!empty($photo[0]['filename'])) {
+        $viewData['listAlbum'][$key]['photo'] = base_url() . PHOTO_URL . $photo[0]['filename'];
+      } else {
+        $viewData['listAlbum'][$key]['photo'] = base_url() . 'public/images/noimage.png';
       }
     }
 
-    $viewData['area_sido'] = $this->area_model->listSido();
-    if (!empty($viewData['view']['area_sido'])) {
-      $area_sido = unserialize($viewData['view']['area_sido']);
-      $area_gugun = unserialize($viewData['view']['area_gugun']);
-
-      foreach ($area_sido as $key => $value) {
-        $sido = $this->area_model->getName($value);
-        $gugun = $this->area_model->getName($area_gugun[$key]);
-        $viewData['list_sido'] = $this->area_model->listSido();
-        $viewData['list_gugun'][$key] = $this->area_model->listGugun($value);
-        $viewData['view']['sido'][$key] = $sido['name'];
-        $viewData['view']['gugun'][$key] = $gugun['name'];
-      }
-
-      $viewData['area_gugun'] = $this->area_model->listGugun($viewData['view']['area_sido']);
-    } else {
-      $viewData['area_gugun'] = array();
-    }
-
-    $this->_viewPage('club/setup', $viewData);
+    $this->_viewPage('club/album', $viewData);
   }
 
   /**
-   * 설정 수정
+   * 사진첩 보기
    *
    * @return json
    * @author bjchoi
    **/
-  public function setup_update()
+  public function album_view()
   {
-    $now = time();
-    $input_data = $this->input->post();
-    $clubIdx = html_escape($input_data['clubIdx']);
-    $file = html_escape($input_data['file']);
-    $page = html_escape($input_data['page']);
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+    $idx = html_escape($this->input->post('idx'));
+    $result = array();
+    $cnt = 0;
 
-    $update_values = array(
-      'title'             => html_escape($input_data['title']),
-      'homepage'          => html_escape($input_data['homepage']),
-      'phone'             => html_escape($input_data['phone']),
-      'area_sido'         => make_serialize($input_data['area_sido']),
-      'area_gugun'        => make_serialize($input_data['area_gugun']),
-      'establish'         => html_escape($input_data['establish']),
-      'club_type'         => make_serialize($input_data['club_type']),
-      'club_option'       => make_serialize($input_data['club_option']),
-      'club_option_text'  => html_escape($input_data['club_option_text']),
-      'club_cycle'        => make_serialize($input_data['club_cycle']),
-      'club_week'         => make_serialize($input_data['club_week']),
-      'club_geton'        => make_serialize($input_data['club_geton']),
-      'club_getoff'       => make_serialize($input_data['club_getoff']),
-      'about'             => html_escape($input_data['about']),
-      'guide'             => html_escape($input_data['guide']),
-      'howto'             => html_escape($input_data['howto']),
-      'auth'              => html_escape($input_data['auth']),
-      'updated_by'        => 1,
-      'updated_at'        => $now
-    );
-    $result = $this->club_model->updateClub($update_values, $clubIdx);
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
-    // 로고 파일 등록
-    if (!empty($file)) {
-      // 기존 로고 파일이 있는 경우 삭제
-      $files = $this->file_model->getFile($page, $clubIdx);
-      foreach ($files as $value) {
-        $this->file_model->deleteFile($value['filename']);
-        if (file_exists(PHOTO_PATH . $value['filename'])) unlink(PHOTO_PATH . $value['filename']);
+    // 사진첩
+    $viewData['viewAlbum'] = $this->club_model->viewAlbum($clubIdx, $idx);
+
+    $photos = $this->file_model->getFile('album', $idx);
+    foreach ($photos as $value) {
+      if (!empty($value['filename'])) {
+        $result[$cnt]['src'] = base_url() . PHOTO_URL . $value['filename'];
+        $result[$cnt]['title'] = $viewData['viewAlbum']['subject'];
+        $cnt++;
       }
-
-      // 업로드 된 로고 파일이 있을 경우에만 등록 후 이동
-      if (file_exists(UPLOAD_PATH . $file)) {
-        $file_values = array(
-          'page' => $page,
-          'page_idx' => $clubIdx,
-          'filename' => $file,
-          'created_at' => $now
-        );
-        $this->file_model->insertFile($file_values);
-
-        // 파일 이동
-        rename(UPLOAD_PATH . $file, PHOTO_PATH . $file);
-
-        // 썸네일 만들기
-        $this->image_lib->clear();
-        $config['image_library'] = 'gd2';
-        $config['source_image'] = PHOTO_PATH . $file;
-        $config['new_image'] = PHOTO_PATH . 'thumb_' . $file;
-        $config['create_thumb'] = TRUE;
-        $config['maintain_ratio'] = FALSE;
-        $config['thumb_marker'] = '';
-        $config['width'] = 200;
-        $config['height'] = 200;
-        $this->image_lib->initialize($config);
-        $this->image_lib->resize();
-      }
-    }
-
-    if (empty($result)) {
-      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
-    } else {
-      $result = array('error' => 0, 'message' => '');
     }
 
     $this->output->set_output(json_encode($result));
   }
 
   /**
-   * 구군 목록
+   * 사진 등록폼
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function album_upload()
+  {
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+    $idx = html_escape($this->input->get('n'));
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    // 수정
+    if (!empty($idx)) {
+      $viewData['viewAlbum'] = $this->club_model->viewAlbum($clubIdx, $idx);
+      $viewData['photos'] = $this->file_model->getFile('album', $idx);
+    } else {
+      $viewData['photos'] = array();
+    }
+
+    $this->_viewPage('club/album_upload', $viewData);
+  }
+
+  /**
+   * 사진 등록/수정
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function album_update()
+  {
+    $now = time();
+    $pageName = 'album';
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+    $postData = $this->input->post();
+    $idx = html_escape($postData['idx']);
+    $photos = html_escape($postData['photos']);
+
+    $updateValues = array(
+      'club_idx' => $clubIdx,
+      'subject' => html_escape($postData['subject']),
+      'content' => html_escape($postData['content']),
+    );
+
+    if (empty($idx)) {
+      // 등록
+      $updateValues['created_by'] = $userData['idx'];
+      $updateValues['created_at'] = $now;
+      $idx = $rtn = $this->club_model->insertAlbum($updateValues);
+    } else {
+      // 수정
+      $updateValues['updated_by'] = $userData['idx'];
+      $updateValues['updated_at'] = $now;
+      $rtn = $this->club_model->updateAlbum($updateValues, $idx);
+    }
+
+    // 사진 처리
+    if (!empty($idx) && !empty($photos)) {
+      $arrPhoto = explode(',', $photos);
+
+      foreach ($arrPhoto as $value) {
+        if (!empty($value) && file_exists(UPLOAD_PATH . $value)) {
+          $fileValues = array(
+            'page' => $pageName,
+            'page_idx' => $idx,
+            'filename' => $value,
+            'created_at' => $now
+          );
+          $this->file_model->insertFile($fileValues);
+
+          // 파일 이동
+          rename(UPLOAD_PATH . $value, PHOTO_PATH . $value);
+
+          // 썸네일 만들기
+          $this->image_lib->clear();
+          $config['image_library'] = 'gd2';
+          $config['source_image'] = PHOTO_PATH . $value;
+          $config['new_image'] = PHOTO_PATH . 'thumb_' . $value;
+          $config['create_thumb'] = TRUE;
+          $config['maintain_ratio'] = FALSE;
+          $config['thumb_marker'] = '';
+          $config['width'] = 200;
+          $config['height'] = 200;
+          $this->image_lib->initialize($config);
+          $this->image_lib->resize();
+        }
+      }
+    }
+
+    redirect(base_url() . 'club/album');
+  }
+
+  /**
+   * 사진첩 삭제
    *
    * @return json
    * @author bjchoi
    **/
-  public function list_gugun()
+  public function album_delete()
   {
-    $parent = html_escape($this->input->post('parent'));
-    $result = $this->area_model->listGugun($parent);
+    $now = time();
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+    $idx = html_escape($this->input->post('idx'));
+
+    if (!empty($idx)) {
+      $updateValues['deleted_by'] = $userData['idx'];
+      $updateValues['deleted_at'] = $now;
+      $rtn = $this->club_model->updateAlbum($updateValues, $idx);
+    }
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_delete'));
+    } else {
+      $result = array('error' => 0, 'message' => $this->lang->line('msg_delete_complete'));
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 사진 삭제
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function photo_delete()
+  {
+    $filename = html_escape($this->input->post('filename'));
+
+    if (!empty($filename)) {
+      if (file_exists(PHOTO_PATH . $filename)) {
+        unlink(PHOTO_PATH . $filename);
+      }
+      if (file_exists(PHOTO_PATH . 'thumb_' . $filename)) {
+        unlink(PHOTO_PATH . 'thumb_' . $filename);
+      }
+      $this->file_model->deleteFile($filename);
+    }
+
+    $result = array('error' => 0);
     $this->output->set_output(json_encode($result));
   }
 

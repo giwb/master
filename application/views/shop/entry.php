@@ -138,7 +138,7 @@
 
               var files = $('input[name=filename]').val();
               var newFiles = '';
-              file = files.split(',');
+              var file = files.split(',');
               for (var i in file) {
                 if (filename != file[i] && file[i] != '') newFiles += file[i] + ',';
               }

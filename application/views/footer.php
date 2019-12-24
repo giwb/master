@@ -98,10 +98,8 @@
           <p class="modal-message"></p>
         </div>
         <div class="modal-footer">
-          <input type="hidden" class="photo" value="">
-          <button type="button" class="btn btn-primary btn-list">목록으로</button>
-          <button type="button" class="btn btn-primary btn-refresh">새로고침</button>
-          <button type="button" class="btn btn-primary btn-delete">삭제합니다</button>
+          <input type="hidden" name="photo_name" value="">
+          <button type="button" class="btn btn-primary btn-photo-delete">삭제합니다</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
         </div>
       </div>

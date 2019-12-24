@@ -35,7 +35,6 @@
 
   <script src="<?=base_url()?>public/js/jquery-2.1.4.min.js" type="text/javascript"></script>
   <script src="<?=base_url()?>public/js/jquery-ui.custom.min.js" type="text/javascript"></script>
-
   <script src="<?=base_url()?>public/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="<?=base_url()?>public/lib/easing/easing.min.js"></script>
   <script src="<?=base_url()?>public/lib/superfish/hoverIntent.js"></script>
@@ -48,7 +47,6 @@
   <script src="<?=base_url()?>public/lib/lightbox/js/lightbox.min.js"></script>
   <script src="<?=base_url()?>public/lib/touchSwipe/jquery.touchSwipe.min.js"></script>
   <script src="<?=base_url()?>public/ckeditor/ckeditor.js" type="text/javascript" charset="utf-8"></script>
-
   <script src="<?=base_url()?>public/js/fullcalendar.js" type="text/javascript"></script>
   <script src="<?=base_url()?>public/js/clipboard.min.js" type="text/javascript"></script>
   <script src="<?=base_url()?>public/js/main.js?<?=time()?>" type="text/javascript"></script>
@@ -119,6 +117,7 @@
           <li><a href="<?=base_url()?>club/past/<?=$view['idx']?>"> 지난 산행보기</a></li>
           <?php endif; ?>
           <li><a href="<?=base_url()?>club/howto/<?=$view['idx']?>"> 이용안내</a></li>
+          <li><a href="<?=base_url()?>club/album/<?=$view['idx']?>"> 사진첩</a></li>
           <?php if ($view['idx'] == 1): ?>
           <li><a href="<?=base_url()?>club/auth_about/<?=$view['idx']?>"> 백산백소 소개</a></li>
           <li><a href="<?=base_url()?>club/auth/<?=$view['idx']?>"> 백산백소 인증현황</a></li>
@@ -157,6 +156,7 @@
             <li><a href="<?=base_url()?>club/past/<?=$view['idx']?>"><i class="fa fa-calendar" aria-hidden="true"></i> 지난 산행보기</a></li>
             <?php endif; ?>
             <li><a href="<?=base_url()?>club/howto/<?=$view['idx']?>"><i class="fa fa-map-o" aria-hidden="true"></i> 이용안내</a></li>
+            <li><a href="<?=base_url()?>club/album/<?=$view['idx']?>"><i class="fa fa-photo" aria-hidden="true"></i> 사진첩</a></li>
             <?php if ($view['idx'] == 1): ?><br>
             <li><a href="<?=base_url()?>club/auth_about/<?=$view['idx']?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 백산백소 소개</a></li>
             <li><a href="<?=base_url()?>club/auth/<?=$view['idx']?>"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소 인증현황</a></li>

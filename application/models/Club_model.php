@@ -74,5 +74,41 @@ class Club_model extends CI_Model
           ->order_by('startdate', 'asc');
     return $this->db->get()->result_array();
   }
+
+  // 앨범 목록
+  public function listAlbum($clubIdx)
+  {
+    $this->db->select('*')
+          ->from(DB_ALBUM)
+          ->where('club_idx', $clubIdx)
+          ->where('deleted_at', NULL)
+          ->order_by('idx', 'desc');
+    return $this->db->get()->result_array();
+  }
+
+  // 앨범 상세
+  public function viewAlbum($clubIdx, $idx)
+  {
+    $this->db->select('*')
+          ->from(DB_ALBUM)
+          ->where('deleted_at', NULL)
+          ->where('idx', $idx);
+    return $this->db->get()->row_array(1);
+  }
+
+  // 앨범 등록
+  public function insertAlbum($data)
+  {
+    $this->db->insert(DB_ALBUM, $data);
+    return $this->db->insert_id();
+  }
+
+  // 앨범 수정
+  public function updateAlbum($data, $idx)
+  {
+    $this->db->set($data);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_ALBUM);
+  }
 }
 ?>

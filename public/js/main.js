@@ -265,7 +265,7 @@
             // 회원가입
             $('.photo').attr('src', result.message);
             $('input[name=filename]').val(result.filename);
-            $('.btn-photo-delete').removeClass('d-none');
+            $('.btn-entry-photo-delete').removeClass('d-none');
             $('.btn-modify-photo-delete').removeClass('d-none');
           } else if (page == 'club') {
             // 클럽
@@ -284,13 +284,13 @@
         }
       }
     });
-  }).on('click', '.btn-photo-delete', function() {
+  }).on('click', '.btn-entry-photo-delete', function() {
     // 회원가입 사진 삭제
     var $btn = $(this);
     var baseUrl = $('input[name=baseUrl]').val();
 
     $.ajax({
-      url: baseUrl + '/login/photo_delete',
+      url: baseUrl + 'login/photo_delete',
       data: 'filename=' + $('input[name=filename]').val(),
       dataType: 'json',
       type: 'post',
@@ -306,7 +306,7 @@
     var baseUrl = $('input[name=baseUrl]').val();
 
     $.ajax({
-      url: baseUrl + '/member/photo_delete',
+      url: baseUrl + 'member/photo_delete',
       data: 'userIdx=' + $('input[name=userIdx]').val() + '&filename=' + $('input[name=filename]').val(),
       dataType: 'json',
       type: 'post',
@@ -316,6 +316,41 @@
         $btn.addClass('d-none');
       }
     });
+  }).on('click', '.btn-photo-delete', function() {
+    // 팝업창 사진 삭제
+    var $btn = $(this);
+    var baseUrl = $('input[name=baseUrl]').val();
+    var photoName = $('#photoModal input[name=photo_name]').val();
+    $.ajax({
+      url: baseUrl + 'club/photo_delete',
+      data: 'filename=' + photoName,
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('삭제중.....');
+      },
+      success: function(result) {
+        $btn.css('opacity', '1').prop('disabled', false).text('삭제합니다');
+        if (result.error != 1) {
+          // 사진 삭제
+          $('.btn-photo-modal[data-photo="' + photoName + '"]').remove();
+          var files = $('input[name=photos]').val();
+          var newFiles = '';
+          var file = files.split(',');
+          for (var i in file) {
+            if (photoName != file[i] && file[i] != '') newFiles += file[i] + ',';
+          }
+          $('input[name=photos]').val(newFiles);
+          $('#photoModal').modal('hide');
+        }
+      }
+    });
+  }).on('click', '.btn-photo-modal', function() {
+    // 사진 모달
+    $('#photoModal .btn-list, #photoModal .btn-refresh').hide();
+    $('#photoModal .modal-message').empty().append('<img class="w-100" src="' + $(this).attr('src') + '">');
+    $('#photoModal input[name=photo_name]').val($(this).data('photo'))
+    $('#photoModal').modal('show');
   }).on('click', '.login-popup', function() {
     // 로그인 모달
     $('#loginModal').modal('show');
@@ -566,6 +601,9 @@
   }).on('click', '.nav-aside-close', function() {
     $('#nav-aside').removeClass('active');
     $('#nav').removeClass('shadow-active');
+  }).on('click', '.btn-list', function() {
+    // 모달 돌아가기 버튼
+    location.replace($('input[name=baseUrl]').val() + $(this).data('action'));
   }).on('click', '.nav-menu .img-profile', function() {
     // 로그인 아이콘
     var $dom = $('.profile-box');

@@ -2122,6 +2122,9 @@ h1.nav-logo small {
 #setupForm .setup-content textarea { display: none; }
 #setupForm .area-btn { border-top: 1px solid #999; margin: 0 0 20px 0; padding: 20px 0 0 0; text-align: center; }
 
+.gallery-item { position: relative; }
+.gallery-item .ajax-loader { position: absolute; top: 45px; left: 80px; z-index: 1000; }
+
 .ad-sp { display: none; }
 
 /* Responsive */
@@ -2198,4 +2201,6 @@ h1.nav-logo small {
   #club .club-main .box-past-search li:nth-child(7) { width: 20%; }
 
   #club .club-main .story-reply .btn-post-reply { font-size: 12px; }
+
+  .gallery-item .ajax-loader { position: absolute; top: 38%; left: 43%; z-index: 1000; }
 }

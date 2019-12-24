@@ -5,6 +5,7 @@ defined('BASEPATH')           OR exit('No direct script access allowed');
 defined('PATH_MAIN')          OR define('PATH_MAIN', '/home/bitnami/htdocs');
 
 // 테이블명 - 한국여행
+defined('DB_ALBUM')           OR define('DB_ALBUM', 'tripkorea.album');
 defined('DB_AREAS')           OR define('DB_AREAS', 'tripkorea.areas');
 defined('DB_CLUBS')           OR define('DB_CLUBS', 'tripkorea.clubs');
 defined('DB_FILES')           OR define('DB_FILES', 'tripkorea.files');
