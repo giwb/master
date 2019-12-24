@@ -78,11 +78,12 @@ class Club_model extends CI_Model
   // 앨범 목록
   public function listAlbum($clubIdx)
   {
-    $this->db->select('*')
-          ->from(DB_ALBUM)
-          ->where('club_idx', $clubIdx)
-          ->where('deleted_at', NULL)
-          ->order_by('idx', 'desc');
+    $this->db->select('a.*, b.nickname')
+          ->from(DB_ALBUM . ' a')
+          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
+          ->where('a.club_idx', $clubIdx)
+          ->where('a.deleted_at', NULL)
+          ->order_by('a.idx', 'desc');
     return $this->db->get()->result_array();
   }
 
