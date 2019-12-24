@@ -163,7 +163,7 @@
           $.openMsgModal('품명은 꼭 입력해주세요.');
           return false;
         }
-        if ($('input[name=item_category1]').val() == '' || $('input[name=item_category2]').val() == '') {
+        if ($('select[name=item_category1]').val() == '' || $('select[name=item_category2]').val() == '') {
           $.openMsgModal('분류는 꼭 선택해주세요.');
           return false;
         }
