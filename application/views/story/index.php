@@ -19,7 +19,7 @@
               <div class="story-reaction">
                 <button type="button" class="btn-reply" data-idx="<?=$value['idx']?>" data-type="<?=REPLY_TYPE_STORY?>"><i class="fa fa-reply" aria-hidden="true"></i> 댓글 <span class="cnt-reply" data-idx="<?=$value['idx']?>"><?=$value['reply_cnt']?></span></button>
                 <button type="button" class="btn-like<?=!empty($value['like']) ? ' text-danger' : ''?>" data-idx="<?=$value['idx']?>" data-type="<?=REACTION_TYPE_STORY?>"><i class="fa fa-heart" aria-hidden="true"></i> 좋아요 <span class="cnt-like"><?=$value['like_cnt']?></span></button>
-                <button type="button" class="btn-share" data-idx="<?=$value['idx']?>" data-type="<?=REACTION_TYPE_STORY?>"><i class="fa fa-share-alt" aria-hidden="true"></i> 공유하기 <span class="cnt-share"><?=$value['share_cnt']?></span></button>
+                <button type="button" class="btn-share" data-idx="<?=$value['idx']?>" data-type="<?=REACTION_TYPE_STORY?>"><i class="fa fa-share-alt" aria-hidden="true"></i> 공유 <span class="cnt-share"><?=$value['share_cnt']?></span></button>
                 <div class="area-share" data-idx="<?=$value['idx']?>">
                   <ul>
                     <li><a href="javascript:;" class="btn-share-sns" data-idx="<?=$value['idx']?>" data-reaction-type="<?=REACTION_TYPE_STORY?>" data-type="<?=SHARE_TYPE_FACEBOOK?>" data-url="https://facebook.com/sharer/sharer.php?u=<?=base_url()?>story/view/<?=$view['idx']?>?n=<?=$value['idx']?>"><img src="<?=base_url()?>public/images/icon_facebook.png"><br>페이스북</a></li>
