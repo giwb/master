@@ -58,7 +58,6 @@
           <a href="<?=base_url()?>member"><button class="btn btn-primary">목록으로</button></a>
         </div>
         <div class="ad-sp">
-          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
           <!-- SP_CENTER -->
           <ins class="adsbygoogle"
             style="display:block"

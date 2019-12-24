@@ -140,7 +140,6 @@
             <?php endforeach; ?>
           </div>
           <div class="ad-sp">
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
             <!-- SP_CENTER -->
             <ins class="adsbygoogle"
               style="display:block"
