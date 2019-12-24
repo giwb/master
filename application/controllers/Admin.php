@@ -1852,6 +1852,7 @@ class Admin extends Admin_Controller
     $action = html_escape($this->input->post('action'));
     $viewData['subject'] = html_escape($this->input->post('subject'));
     $viewData['nickname'] = html_escape($this->input->post('nickname'));
+    $viewData['status'] = !empty($this->input->post('status')) ? html_escape($this->input->post('status')) : 0;
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
 
@@ -1934,6 +1935,7 @@ class Admin extends Admin_Controller
     $action = html_escape($this->input->post('action'));
     $viewData['subject'] = html_escape($this->input->post('subject'));
     $viewData['nickname'] = html_escape($this->input->post('nickname'));
+    $viewData['status'] = !empty($this->input->post('status')) ? html_escape($this->input->post('status')) : 0;
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
 
