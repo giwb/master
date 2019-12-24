@@ -288,6 +288,8 @@ class Club extends MY_Controller
    **/
   public function album_upload()
   {
+    checkUserLogin();
+
     $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
     $idx = html_escape($this->input->get('n'));
