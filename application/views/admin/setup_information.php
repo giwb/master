@@ -9,7 +9,7 @@
     </div>
 
     <div class="sub-contents">
-      <form id="setupForm" method="post" action="<?=base_url()?>admin/setup_information_update">
+      <form id="setupForm" method="post" action="<?=base_url()?>admin/setup_information_update" enctype="multipart/form-data">
         <h2>■ 기본정보</h2>
         <dl class="row align-items-center">
           <dt class="col-sm-1">산악회/단체명</dt>
@@ -248,5 +248,52 @@
         } else {
           $('.' + target).prop('checked', false)
         }
+      }).on('change', '.file', function() {
+        // 파일 업로드
+        var $dom = $(this);
+        var baseUrl = $('input[name=base_url]').val();
+        var formData = new FormData($('form')[0]);
+        var maxSize = 20480000;
+        var size = $dom[0].files[0].size;
+
+        if (size > maxSize) {
+          $dom.val('');
+          $('#messageModal .modal-message').text('파일의 용량은 20MB를 넘을 수 없습니다.');
+          $('#messageModal').modal('show');
+          return;
+        }
+
+        // 사진 형태 추가
+        formData.append('file_obj', $dom[0].files[0]);
+
+        $.ajax({
+          url: baseUrl + 'club/upload',
+          processData: false,
+          contentType: false,
+          data: formData,
+          dataType: 'json',
+          type: 'post',
+          beforeSend: function() {
+            $('.btn-upload').css('opacity', '0.5').prop('disabled', true).text('업로드중.....');
+            $dom.val('');
+          },
+          success: function(result) {
+            $('.btn-upload').css('opacity', '1').prop('disabled', false).text('사진올리기');
+            if (result.error == 1) {
+              $('.btn-list, .btn-refresh, .btn-delete').hide();
+              $('#messageModal .modal-message').text(result.message);
+              $('#messageModal').modal('show');
+            } else {
+              // 그 외
+              var $domFiles = $('input[name=file]');
+              $('.added-files').append('<img src="' + result.message + '" class="btn-photo-modal" data-photo="' + result.filename + '">');
+              if ($domFiles.val() == '') {
+                $domFiles.val(result.filename);
+              } else {
+                $domFiles.val($domFiles.val() + ',' + result.filename);
+              }
+            }
+          }
+        });
       });
     </script>

@@ -8,7 +8,7 @@ class Admin extends Admin_Controller
   {
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
-    $this->load->library('session');
+    $this->load->library(array('image_lib', 'session'));
     $this->load->model(array('admin_model', 'area_model', 'club_model', 'file_model', 'member_model'));
   }
 
@@ -2229,6 +2229,7 @@ class Admin extends Admin_Controller
   {
     $now = time();
     $clubIdx = 1; // 경인웰빙
+    $page = 'club';
     $userIdx = $this->session->userData['idx'];
     $input_data = $this->input->post();
     $file = html_escape($input_data['file']);
