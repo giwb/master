@@ -8,8 +8,8 @@
           <?php endforeach; ?>
         </div>
         <!-- PC_RIGHT -->
-        <ins class="adsbygoogle_pc" style="display:block" data-ad-client="ca-pub-2424708381875991" data-ad-slot="4143565817" data-ad-format="auto" data-full-width-responsive="true"></ins>
-        <script> (adsbygoogle_pc = window.adsbygoogle_pc || []).push({}); </script>
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2424708381875991" data-ad-slot="4143565817" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
       </div>
     </div>
   </section>
