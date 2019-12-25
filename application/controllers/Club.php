@@ -8,8 +8,8 @@ class Club extends MY_Controller
   {
     parent::__construct();
     $this->load->helper(array('cookie', 'security', 'url', 'my_array_helper'));
-    $this->load->library('image_lib');
-    $this->load->model(array('admin_model', 'area_model', 'club_model', 'file_model', 'notice_model', 'member_model', 'reserve_model', 'story_model'));
+    $this->load->library(array('cart', 'image_lib'));
+    $this->load->model(array('admin_model', 'area_model', 'club_model', 'file_model', 'notice_model', 'member_model', 'reserve_model', 'shop_model', 'story_model'));
   }
 
   /**
@@ -61,23 +61,6 @@ class Club extends MY_Controller
     $viewData['listStory'] = $this->story_model->listStory($clubIdx, $paging);
     $viewData['listStory'] = $this->load->view('story/index', $viewData, true);
 
-    // 클럽 스토리
-    //$viewData['listStory'] = $this->story_model->listStory($clubIdx, 5);
-
-/*
-    // 클럽 스토리 좋아요 확인 (로그인시에만)
-    if (!empty($userData['idx'])) {
-      $listStoryReaction = $this->story_model->listStoryReaction($clubIdx, $userData['idx']);
-
-      foreach ($viewData['listStory'] as $key => $value) {
-        foreach ($listStoryReaction as $reaction) {
-          if ($value['idx'] == $reaction['story_idx']) {
-            $viewData['listStory'][$key]['like'] = $reaction['created_by'];
-          }
-        }
-      }
-    }
-*/
     $this->_viewPage('club/index', $viewData);
   }
 
@@ -215,6 +198,215 @@ class Club extends MY_Controller
     }
 
     $this->_viewPage('club/auth', $viewData);
+  }
+
+  /**
+   * 용품 목록
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function shop()
+  {
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+
+    $viewData['search'] = array(
+      'item_name' => !empty($this->input->post('item_name')) ? html_escape($this->input->post('item_name')) : NULL,
+      'item_category1' => !empty($this->input->post('item_category1')) ? html_escape($this->input->post('item_category1')) : NULL,
+      'item_category2' => !empty($this->input->post('item_category2')) ? html_escape($this->input->post('item_category2')) : NULL,
+    );
+    $page = html_escape($this->input->post('p'));
+    if (empty($page)) $page = 1; else $page++;
+    $paging['perPage'] = 20;
+    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
+
+    $viewData['listItem'] = $this->shop_model->listItem($paging, $viewData['search']);
+
+    foreach ($viewData['listItem'] as $key => $value) {
+      // 대표 사진 추출
+      $photo = unserialize($value['item_photo']);
+      if (!empty($photo[0]) && file_exists(PHOTO_PATH . $photo[0])) {
+        $viewData['listItem'][$key]['item_photo'] = base_url() . PHOTO_URL . $photo[0];
+      } else {
+        $viewData['listItem'][$key]['item_photo'] = base_url() . 'public/images/noimage.png';
+      }
+
+      // 카테고리명
+      if (!empty($value['item_category1'])) {
+        $viewData['listItem'][$key]['item_category1'] = $this->shop_model->viewCategory($value['item_category1']);
+      }
+      if (!empty($value['item_category2'])) {
+        $viewData['listItem'][$key]['item_category2'] = $this->shop_model->viewCategory($value['item_category2']);
+      }
+    }
+
+    // 검색 분류
+    $viewData['listCategory1'] = $this->shop_model->listCategory();
+
+    if (!empty($viewData['search']['item_category1'])) {
+      // 하위 분류
+      $viewData['listCategory2'] = $this->shop_model->listCategory($viewData['search']['item_category1']);
+    }
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    if ($page >= 2) {
+      // 2페이지 이상일 경우에는 Json으로 전송
+      $result['page'] = $page;
+      $result['html'] = $this->load->view('club/shop_list', $viewData, true);
+      $this->output->set_output(json_encode($result));
+    } else {
+      // 1페이지에는 View 페이지로 전송
+      $this->_viewPage('club/shop', $viewData);
+    }
+  }
+
+  /**
+   * 용품 상세
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function shop_item()
+  {
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+    $idx = html_escape($this->input->get('n'));
+
+    // 상품이 없을때는 목록으로
+    if (empty($idx)) {
+      redirect(base_url() . 'club/shop/' . $clubIdx);
+      exit;
+    }
+
+    $viewData['viewItem'] = $this->shop_model->viewItem($idx);
+
+    // 사진이 실제로 업로드 되어 있는지 확인
+    $arrPhotos = unserialize($viewData['viewItem']['item_photo']);
+    $arr = array();
+    foreach ($arrPhotos as $value) {
+      if (!empty($value) && file_exists(PHOTO_PATH . $value)) {
+        $arr[] = base_url() . PHOTO_URL . $value;
+      }
+    }
+    $viewData['viewItem']['item_photo'] = $arr;
+
+    // 카테고리명
+    if (!empty($viewData['viewItem']['item_category1'])) {
+      $viewData['viewItem']['item_category1'] = $this->shop_model->viewCategory($viewData['viewItem']['item_category1']);
+    }
+    if (!empty($viewData['viewItem'])) {
+      $viewData['viewItem']['item_category2'] = $this->shop_model->viewCategory($viewData['viewItem']['item_category2']);
+    }
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    $this->_viewPage('club/shop_item', $viewData);
+  }
+
+  /**
+   * 장바구니
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function shop_cart()
+  {
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+    $cnt = 0;
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    // 카트 정보
+    $viewData['listCart'] = array();
+    $viewData['total_amount'] = $viewData['total_cost'] = 0;
+    foreach ($this->cart->contents() as $value) {
+      $view = $this->shop_model->viewItem($value['id']);
+
+      if (!empty($view['idx'])) {
+        $viewData['listCart'][$cnt]['rowid'] = $value['rowid'];
+        $viewData['listCart'][$cnt]['item_qty'] = $value['qty'];
+        $viewData['listCart'][$cnt]['item_name'] = $view['item_name'];
+        $viewData['listCart'][$cnt]['item_cost'] = $view['item_cost'];
+        $viewData['listCart'][$cnt]['subtotal'] = $value['subtotal'];
+        $viewData['listCart'][$cnt]['item_photo'] = array();
+        $arrPhotos = unserialize($view['item_photo']);
+        if (!empty($arrPhotos[0]) && file_exists(PHOTO_PATH . $arrPhotos[0])) {
+          $viewData['listCart'][$cnt]['item_photo'] = base_url() . PHOTO_URL . $arrPhotos[0];
+        }
+        $viewData['total_amount'] += $value['qty'];
+        $viewData['total_cost'] += $value['subtotal'];
+        $cnt++;
+      }
+    }
+
+    $this->_viewPage('club/shop_cart', $viewData);
+  }
+
+
+  /**
+   * 장바구니에 담기
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function shop_cart_insert()
+  {
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+    $idx = html_escape($this->input->post('idx'));
+    $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+
+    if (!empty($idx)) {
+      $view = $this->shop_model->viewItem($idx);
+
+      // 장바구니에 담기
+      $cartItem = array(
+        'id'    => $idx,               // 상품번호
+        'qty'   => 1,                  // 개수
+        'price' => $view['item_cost'], // 가격
+        'name'  => $idx, // 품명
+      );
+      $rtn = $this->cart->insert($cartItem);
+
+      if (!empty($rtn)) {
+        $result = array('error' => 0, 'message' => base_url() . 'club/shop_cart/' . $clubIdx);
+      }
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 장바구니 수정/삭제
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function shop_cart_update()
+  {
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+    $rowid = html_escape($this->input->post('rowid'));
+    $amount = html_escape($this->input->post('amount')); // 수량이 0이면 삭제
+    $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+
+    if (!empty($rowid)) {
+      // 장바구니 수정
+      $cartItem = array(
+        'rowid' => $rowid,
+        'qty'   => $amount,
+      );
+      $this->cart->update($cartItem);
+      $result = array('error' => 0, 'message' => base_url() . 'club/shop_cart/' . $clubIdx);
+    }
+
+    $this->output->set_output(json_encode($result));
   }
 
   /**

@@ -155,6 +155,11 @@
   </footer>
   <!-- /FOOTER -->
 
+  <!-- Back to Top -->
+  <a class="scroll-to-top rounded" href="javascript:;">
+    <i class="fa fa-angle-up"></i>
+  </a>
+
   <script src="<?=base_url()?>public/vendors/chart.js/dist/Chart.bundle.min.js" type="text/javascript"></script>
 
   <?php if (ENVIRONMENT == 'production'): ?>

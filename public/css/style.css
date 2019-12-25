@@ -327,6 +327,33 @@ textarea.input {
   border-top: 1px solid #e8eaed;
 }
 
+.scroll-to-top {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  display: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  text-align: center;
+  color: #fff;
+  background: rgba(90, 92, 105, 0.5);
+  line-height: 46px;
+  z-index: 10000;
+}
+
+.scroll-to-top:focus, .scroll-to-top:hover {
+  color: white;
+}
+
+.scroll-to-top:hover {
+  background: #5a5c69;
+}
+
+.scroll-to-top i {
+  font-size: 40px;
+  font-weight: 800;
+}
+
 /*----------------------------*\
   logo
 \*----------------------------*/
@@ -1910,12 +1937,11 @@ h1.nav-logo small {
 #club .club-left .club-left-layer { position: fixed; }
 #club .club-left .club-header img { max-width: 200px; vertical-align: middle; margin-bottom: 10px; }
 #club .club-left .club-header h3 { margin: 0px; vertical-align: middle; }
-#club .club-left ul.navi { font-size: 14px; border: 1px solid #d9d9d9; border-width: 1px 0; margin: 10px 0 15px 0; padding: 10px 0; }
+#club .club-left ul.navi { font-size: 14px; border: 1px solid #d9d9d9; border-width: 1px 0; margin: 10px 0; padding: 10px 0; line-height: 1.2em; }
 #club .club-left ul.navi li a { padding: 3px 0 3px 3px; display: block; }
 #club .club-left ul.navi li i { width: 20px; text-align: center; }
 #club .club-left .url { font-size: 12px; }
 #club .club-left .desc { font-size: 13px; text-align: justify; }
-#club .club-left .desc p { margin: 0 0 10px 0; }
 #club .club-left .banner { width: 100%; border: 1px solid #999; margin: 10px 0; padding: 10px 0; text-align: center; cursor: pointer; }
 
 #club .club-main .your-story { width: 100%!important; clear: both; text-align: justify; overflow: hidden; }
@@ -2122,8 +2148,22 @@ h1.nav-logo small {
 #setupForm .setup-content textarea { display: none; }
 #setupForm .area-btn { border-top: 1px solid #999; margin: 0 0 20px 0; padding: 20px 0 0 0; text-align: center; }
 
-.gallery-item { position: relative; }
-.gallery-item .ajax-loader { position: absolute; top: 45px; left: 80px; z-index: 1000; }
+/* 사진첩 */
+#album .album-item { position: relative; }
+#album .album-item .ajax-loader { position: absolute; top: 45px; left: 80px; z-index: 1000; }
+
+/* 용품판매 */
+#shop .shop-item { border: 1px solid #d9d9d9; padding: 20px 0; cursor: pointer; }
+#shop .shop-item:hover { box-shadow: #ddd 3px 3px 3px; }
+#shop .shop-item img { max-height: 150px; }
+#shop .item-photo { font-size: 11px; color: #999; margin: 0 0 20px 0; }
+#shop .item-category { font-size: 11px; color: #999; }
+#shop .item-name { font-size: 20px; border-bottom: 1px solid #d9d9d9; padding: 5px 0 10px 0; }
+#shop .item-cost { font-weight: bold; color: #FF6C00; }
+#shop .item-content { margin-top: 30px; }
+#shop .item-content h4 { color: #505050; border: 1px solid #999; border-width: 1px 0 1px 0; background-color: #ddd; padding: 10px; }
+#shop .btn-cart { color: #fff; background-color: #FF6C00; border-color: #FF6C00; }
+#shop .btn-cart:hover { opacity: 0.9; }
 
 .ad-sp { display: none; }
 
@@ -2200,7 +2240,7 @@ h1.nav-logo small {
   #club .club-main .box-past-search li:nth-child(6) { width: 49%; }
   #club .club-main .box-past-search li:nth-child(7) { width: 20%; }
 
-  #club .club-main .story-reply .btn-post-reply { font-size: 12px; }
+  #club .club-main .story-reply .btn-post-reply { font-size: 12px; white-space: nowrap; }
 
-  .gallery-item .ajax-loader { position: absolute; top: 38%; left: 43%; z-index: 1000; }
+  #album .album-item .ajax-loader { position: absolute; top: 38%; left: 43%; z-index: 1000; }
 }

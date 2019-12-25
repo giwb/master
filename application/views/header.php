@@ -59,7 +59,7 @@
   <![endif]-->
 
 </head>
-<body>
+<body id="page-top">
 
   <header id="header">
     <div id="nav">
@@ -117,16 +117,19 @@
           <li><a href="<?=base_url()?>club/past/<?=$view['idx']?>"> 지난 산행보기</a></li>
           <?php endif; ?>
           <li><a href="<?=base_url()?>club/howto/<?=$view['idx']?>"> 이용안내</a></li>
-          <li><a href="<?=base_url()?>club/album/<?=$view['idx']?>"> 사진첩</a></li>
           <?php if ($view['idx'] == 1): ?>
-          <li><a href="<?=base_url()?>club/auth_about/<?=$view['idx']?>"> 백산백소 소개</a></li>
+          <br><li><a href="<?=base_url()?>club/auth_about/<?=$view['idx']?>"> 백산백소 소개</a></li>
           <li><a href="<?=base_url()?>club/auth/<?=$view['idx']?>"> 백산백소 인증현황</a></li>
+          <?php endif; ?>
+          <li><a href="<?=base_url()?>club/album/<?=$view['idx']?>"> 사진첩</a></li>
+          <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
+          <li><a href="<?=base_url()?>club/shop/<?=$view['idx']?>"> 용품판매</a></li>
+          <br><li><a href="<?=base_url()?>admin"> 설정</a></li>
           <?php endif; ?>
           <?php if (empty($userData['idx'])): ?>
           <br><li><a href="javascript:;" class="login-popup">로그인</a></li>
           <?php else: ?>
-          <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?><br><li><a href="<?=base_url()?>admin"> 설정</a></li><?php endif; ?>
-          <li><a href="<?=base_url()?>member/<?=$view['idx']?>"><?=$userData['level'] == LEVEL_DRIVER ? '드라이버 페이지' : '마이페이지'?></a></li>
+          <br><li><a href="<?=base_url()?>member/<?=$view['idx']?>"><?=$userData['level'] == LEVEL_DRIVER ? '드라이버 페이지' : '마이페이지'?></a></li>
           <li><a href="<?=base_url()?>member/modify/<?=$view['idx']?>">개인정보수정</a></li>
           <li><a href="javascript:;" class="logout">로그아웃</a></li>
           <?php endif; ?>
@@ -156,12 +159,13 @@
             <li><a href="<?=base_url()?>club/past/<?=$view['idx']?>"><i class="fa fa-calendar" aria-hidden="true"></i> 지난 산행보기</a></li>
             <?php endif; ?>
             <li><a href="<?=base_url()?>club/howto/<?=$view['idx']?>"><i class="fa fa-map-o" aria-hidden="true"></i> 이용안내</a></li>
-            <li><a href="<?=base_url()?>club/album/<?=$view['idx']?>"><i class="fa fa-photo" aria-hidden="true"></i> 사진첩</a></li>
             <?php if ($view['idx'] == 1): ?><br>
             <li><a href="<?=base_url()?>club/auth_about/<?=$view['idx']?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 백산백소 소개</a></li>
             <li><a href="<?=base_url()?>club/auth/<?=$view['idx']?>"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소 인증현황</a></li>
-            <?php endif; ?>
+            <?php endif; ?><br>
+            <li><a href="<?=base_url()?>club/album/<?=$view['idx']?>"><i class="fa fa-photo" aria-hidden="true"></i> 사진첩</a></li>
             <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
+            <li><a href="<?=base_url()?>club/shop/<?=$view['idx']?>"><i class="fa fa-shopping-basket" aria-hidden="true"></i> 용품판매</a></li>
             <br>
             <li><a href="<?=base_url()?>admin"><i class="fa fa-cog" aria-hidden="true"></i> 설정</a></li>
             <?php endif; ?>
@@ -172,7 +176,7 @@
           ・회원수 : <?=number_format($view['cntMember']['cnt'])?>명 / 오늘 <?=number_format($view['cntMemberToday']['cnt'])?>명<br>
           ・방문수 : <?=number_format($view['cntVisitor']['cnt'])?>회 / 오늘 <?=number_format($view['cntVisitorToday']['cnt'])?>명<br>
           </div>
-          <div class="text-center border-top mt-4 pt-3">
+          <div class="text-center border-top mt-3 pt-3">
             <a target="_blank" title="카카오채널 링크" href="https://pf.kakao.com/_BxaPRxb"><img src="<?=base_url()?>public/images/icon_kakaotalk.png"></a>
             <a target="_blank" title="페이스북 링크" href="https://facebook.com/giwb.kr"><img src="<?=base_url()?>public/images/icon_facebook.png"></a>
           </div>

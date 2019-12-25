@@ -28,14 +28,10 @@
   // Back to top button
   $(window).scroll(function() {
     if ($(this).scrollTop() > 100) {
-      $('.back-to-top').fadeIn('slow');
+      $('.scroll-to-top').fadeIn('slow');
     } else {
-      $('.back-to-top').fadeOut('slow');
+      $('.scroll-to-top').fadeOut('slow');
     }
-  });
-  $('.back-to-top').click(function(){
-    $('html, body').animate({scrollTop : 0},1500, 'easeInOutExpo');
-    return false;
   });
 
   // Initiate the wowjs animation library
@@ -604,6 +600,9 @@
   }).on('click', '.btn-list', function() {
     // 모달 돌아가기 버튼
     location.replace($('input[name=baseUrl]').val() + $(this).data('action'));
+  }).on('click', '.scroll-to-top', function() {
+    // 상단 스크롤
+    $('html, body').animate({scrollTop : 0}, 1000, 'easeInOutExpo');
   }).on('click', '.nav-menu .img-profile', function() {
     // 로그인 아이콘
     var $dom = $('.profile-box');
