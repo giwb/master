@@ -30,6 +30,9 @@ class Member extends MY_Controller
       // 진행 중 산행
       $viewData['listNoticeDriver'] = $this->reserve_model->listNotice($clubIdx, array(STATUS_ABLE, STATUS_CONFIRM));
 
+      // 페이지 타이틀
+      $viewData['pageTitle'] = '드라이버 페이지';
+
       $this->_viewPage('member/driver', $viewData);
     } else {
       // 회원 정보
@@ -70,6 +73,9 @@ class Member extends MY_Controller
 
       // 페널티 내역
       $viewData['userPenalty'] = $this->member_model->userPenaltyLog($clubIdx, $userData['userid']);
+
+      // 페이지 타이틀
+      $viewData['pageTitle'] = '마이페이지';
 
       $this->_viewPage('member/index', $viewData);
     }
@@ -168,6 +174,9 @@ class Member extends MY_Controller
       }
     }
 
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '드라이버 페이지';
+
     $this->_viewPage('member/driver_view', $viewData);
   }
 
@@ -206,6 +215,9 @@ class Member extends MY_Controller
     } else {
       $viewData['viewMember']['photo'] = base_url() . 'public/images/noimage.png';
     }
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '개인정보수정';
 
     $this->_viewPage('member/modify', $viewData);
   }
