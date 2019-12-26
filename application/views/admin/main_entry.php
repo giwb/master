@@ -324,7 +324,7 @@
 
       <div class="area-button">
         <button type="button" class="btn btn-primary btn-entry mr-2"><?=$btn?></button>
-        <button type="button" class="btn btn-dark btn-list mr-5" data-action="main_list_progress">목록</button>
+        <button type="button" class="btn btn-dark btn-list mr-5" data-action="admin/main_list_progress">목록</button>
         <?php if (!empty($view['visible']) && $view['visible'] == VISIBLE_ABLE): ?>
         <button type="button" class="btn btn-secondary btn-change-visible" data-idx="<?=$view['idx']?>" data-visible="<?=VISIBLE_NONE?>">숨김</button>
         <?php else: ?>
