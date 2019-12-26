@@ -77,6 +77,9 @@ class Reserve extends MY_Controller
     // 댓글
     $viewData['listReply'] = $this->story_model->listStoryReply($clubIdx, $noticeIdx, REPLY_TYPE_NOTICE);
 
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '산행 예약';
+
     $this->_viewPage('reserve/index', $viewData);
   }
 
@@ -114,6 +117,9 @@ class Reserve extends MY_Controller
     if (!empty($viewData['notice']['map']) && file_exists(PHOTO_PATH . $viewData['notice']['map'])) {
       $viewData['notice']['map'] = base_url() . '/' . PHOTO_URL . $viewData['notice']['map'];
     }
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '산행 공지사항';
 
     $this->_viewPage('reserve/notice', $viewData);
   }
@@ -359,6 +365,9 @@ class Reserve extends MY_Controller
         $viewData['listReserve'][$key]['real_cost'] = $value['cost_total'];
       }
     }
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '산행 예약확인';
 
     $this->_viewPage('reserve/check', $viewData);
   }
