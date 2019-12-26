@@ -12,7 +12,7 @@
               <h2 class="item-name"><?=$viewItem['item_name']?></h2>
               <h3 class="item-cost"><?=number_format($viewItem['item_cost'])?>원</h3>
               <button type="button" class="btn btn-cart" data-idx="<?=$viewItem['idx']?>">장바구니에 담기</button>
-              <a href="<?=base_url()?>club/shop_cart/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">장바구니 보기</button>
+              <a href="<?=base_url()?>club/shop_cart/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">장바구니 보기</button></a>
             </div>
           </div>
           <div class="item-content">
