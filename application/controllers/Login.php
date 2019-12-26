@@ -36,6 +36,9 @@ class Login extends CI_Controller
     $save = html_escape($this->input->post('save'));
 
     if (empty($userid) || empty($password)) {
+      // 페이지 타이틀
+      $viewData['pageTitle'] = '로그인';
+
       // 아이디와 패스워드가 없을때는 로그인 페이지를 보여준다.
       $this->_viewPage('login', $viewData);
     } else {
@@ -203,6 +206,10 @@ class Login extends CI_Controller
     checkUserLoginRedirect($clubIdx); // 로그인 상태의 회원은 메인 페이지로
 
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '회원가입';
+
     $this->_viewPage('member/entry', $viewData);
   }
 
@@ -289,6 +296,10 @@ class Login extends CI_Controller
     checkUserLoginRedirect($clubIdx); // 로그인 상태의 회원은 메인 페이지로
 
     $viewData['view'] = $this->club_model->viewclub($clubIdx);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '아이디/비밀번호 찾기';
+
     $this->_viewPage('member/forgot', $viewData);
   }
 
