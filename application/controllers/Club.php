@@ -93,6 +93,9 @@ class Club extends MY_Controller
     // 지난 산행
     $viewData['listPastNotice'] = $this->reserve_model->listNotice($clubIdx, array(STATUS_CLOSED), 'desc', $viewData['searchData']);
 
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '지난 산행보기';
+
     $this->_viewPage('club/past', $viewData);
   }
 
@@ -109,6 +112,9 @@ class Club extends MY_Controller
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '산악회 소개';
 
     $this->_viewPage('club/about', $viewData);
   }
@@ -127,6 +133,9 @@ class Club extends MY_Controller
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '등산 안내인 소개';
+
     $this->_viewPage('club/guide', $viewData);
   }
 
@@ -144,6 +153,9 @@ class Club extends MY_Controller
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '이용안내';
+
     $this->_viewPage('club/howto', $viewData);
   }
 
@@ -160,6 +172,9 @@ class Club extends MY_Controller
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '백산백소 소개';
 
     $this->_viewPage('club/auth_about', $viewData);
   }
@@ -196,6 +211,9 @@ class Club extends MY_Controller
       }
       $buf = $value['cnt'];
     }
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '백산백소 인증현황';
 
     $this->_viewPage('club/auth', $viewData);
   }
@@ -252,6 +270,9 @@ class Club extends MY_Controller
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '용품판매';
+
     if ($page >= 2) {
       // 2페이지 이상일 경우에는 Json으로 전송
       $result['page'] = $page;
@@ -304,6 +325,9 @@ class Club extends MY_Controller
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '용품판매';
+
     $this->_viewPage('club/shop_item', $viewData);
   }
 
@@ -344,6 +368,9 @@ class Club extends MY_Controller
         $cnt++;
       }
     }
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '용품판매';
 
     $this->_viewPage('club/shop_cart', $viewData);
   }
@@ -437,6 +464,9 @@ class Club extends MY_Controller
       }
     }
 
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '사진첩';
+
     $this->_viewPage('club/album', $viewData);
   }
 
@@ -496,6 +526,9 @@ class Club extends MY_Controller
     } else {
       $viewData['photos'] = array();
     }
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '사진첩';
 
     $this->_viewPage('club/album_upload', $viewData);
   }

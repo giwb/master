@@ -6,30 +6,42 @@
     http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <url>
     <loc>https://giwb.kr</loc>
-    <lastmod>2019-12-19</lastmod>
+    <lastmod>2019-12-26</lastmod>
+    <priority>1.00</priority>
   </url>
   <url>
     <loc>https://giwb.kr/club/about</loc>
-    <lastmod>2019-12-19</lastmod>
+    <lastmod>2019-12-26</lastmod>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://giwb.kr/club/guide</loc>
-    <lastmod>2019-12-19</lastmod>
+    <lastmod>2019-12-26</lastmod>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://giwb.kr/club/past</loc>
-    <lastmod>2019-12-19</lastmod>
+    <lastmod>2019-12-26</lastmod>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://giwb.kr/club/howto</loc>
-    <lastmod>2019-12-19</lastmod>
+    <lastmod>2019-12-26</lastmod>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://giwb.kr/club/auth_about</loc>
-    <lastmod>2019-12-19</lastmod>
+    <lastmod>2019-12-26</lastmod>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://giwb.kr/club/auth</loc>
-    <lastmod>2019-12-19</lastmod>
+    <lastmod>2019-12-26</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://giwb.kr/club/album</loc>
+    <lastmod>2019-12-26</lastmod>
+    <priority>0.85</priority>
   </url>
 </urlset>
