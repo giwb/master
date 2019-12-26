@@ -236,9 +236,13 @@ class Club extends MY_Controller
     );
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
-    $paging['perPage'] = 20;
+    $paging['perPage'] = $viewData['perPage'] = 20;
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
 
+    // 용품 카운트
+    $viewData['cntItem'] = $this->shop_model->cntItem($viewData['search']);
+
+    // 용품 목록
     $viewData['listItem'] = $this->shop_model->listItem($paging, $viewData['search']);
 
     foreach ($viewData['listItem'] as $key => $value) {
@@ -279,6 +283,9 @@ class Club extends MY_Controller
       $result['html'] = $this->load->view('club/shop_list', $viewData, true);
       $this->output->set_output(json_encode($result));
     } else {
+      // 아이템 목록 템플릿
+      $viewData['listItem'] = $this->load->view('club/shop_list', $viewData, true);
+
       // 1페이지에는 View 페이지로 전송
       $this->_viewPage('club/shop', $viewData);
     }
@@ -375,7 +382,6 @@ class Club extends MY_Controller
     $this->_viewPage('club/shop_cart', $viewData);
   }
 
-
   /**
    * 장바구니에 담기
    *
@@ -437,6 +443,149 @@ class Club extends MY_Controller
   }
 
   /**
+   * 구매진행
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function shop_checkout()
+  {
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+    $cnt = 0;
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    // 카트 정보
+    $viewData['listCart'] = array();
+    $viewData['total_amount'] = $viewData['total_cost'] = 0;
+    foreach ($this->cart->contents() as $value) {
+      $view = $this->shop_model->viewItem($value['id']);
+
+      if (!empty($view['idx'])) {
+        $viewData['listCart'][$cnt]['rowid'] = $value['rowid'];
+        $viewData['listCart'][$cnt]['item_qty'] = $value['qty'];
+        $viewData['listCart'][$cnt]['item_name'] = $view['item_name'];
+        $viewData['listCart'][$cnt]['item_cost'] = $view['item_cost'];
+        $viewData['listCart'][$cnt]['subtotal'] = $value['subtotal'];
+        $viewData['listCart'][$cnt]['item_photo'] = array();
+        $arrPhotos = unserialize($view['item_photo']);
+        if (!empty($arrPhotos[0]) && file_exists(PHOTO_PATH . $arrPhotos[0])) {
+          $viewData['listCart'][$cnt]['item_photo'] = base_url() . PHOTO_URL . $arrPhotos[0];
+        }
+        $viewData['total_amount'] += $value['qty'];
+        $viewData['total_cost'] += $value['subtotal'];
+        $cnt++;
+      }
+    }
+
+    // 용품 인수를 위한 회원 예약 내역
+    $viewData['listMemberReserve'] = $this->shop_model->listMemberReserve($clubIdx, $userData['userid']);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '용품판매 - 구매진행';
+
+    $this->_viewPage('club/shop_checkout', $viewData);
+  }
+
+  /**
+   * 구매 완료하기
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function shop_insert()
+  {
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+    $postData = $this->input->post();
+
+    $insertValues['notice_idx'] = !empty($postData['reserveIdx']) ? html_escape($postData['reserveIdx']) : NULL; // 인수받을 산행
+    $insertValues['point'] = !empty($postData['usingPoint']) ? html_escape($postData['usingPoint']) : 0; // 사용한 포인트
+    $insertValues['deposit_name'] = !empty($postData['depositName']) ? html_escape($postData['depositName']) : ''; // 입금자명
+    $insertValues['created_by'] = $userData['idx'];
+    $insertValues['created_at'] = time();
+
+    // 카트에 담긴 상품 입력
+    $arrItem = array();
+    $totalCost = 0;
+    foreach ($this->cart->contents() as $key => $value) {
+      $arrItem[$key]['idx'] = $value['id'];
+      $arrItem[$key]['amount'] = $value['qty'];
+      $totalCost += $value['subtotal'];
+    }
+    $insertValues['items'] = serialize($arrItem);
+
+    if ($totalCost == $insertValues['point']) {
+      // 포인트로 전부 결제했을때는 곧바로 입금완료
+      $insertValues['status'] = RESERVE_PAY;
+    }
+
+    // 구매한 상품 저장
+    $rtn = $this->shop_model->insertPurchase($insertValues);
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_purchase'));
+    } else {
+      // 카트 초기화
+      $this->cart->destroy();
+
+      // 포인트 차감
+      if ($insertValues['point'] > 0) {
+        $this->member_model->updatePoint($clubIdx, $userData['userid'], ($userData['point'] - $insertValues['point']));
+      }
+
+      $result = array('error' => 0, 'message' => base_url() . 'club/shop_complete/' . $clubIdx . '?n=' . $rtn);
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 구매 완료 페이지
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function shop_complete()
+  {
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+    $idx = !empty($this->input->get('n')) ? html_escape($this->input->get('n')) : NULL;
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    if (empty($idx)) {
+      redirect(base_url() . 'club/shop/' . $clubIdx);
+    } else {
+      // 구매 정보
+      $viewData['viewPurchase'] = $this->shop_model->viewPurchase($idx);
+
+      // 상품 정보
+      $items = unserialize($viewData['viewPurchase']['items']);
+      foreach ($items as $key => $value) {
+        $item = $this->shop_model->viewItem($value['idx']);
+        $viewData['listCart'][$key] = $item;
+        $viewData['listCart'][$key]['amount'] = $value['amount'];
+
+        if (!empty($item['item_photo'])) {
+          $photo = unserialize($item['item_photo']);
+          $viewData['listCart'][$key]['item_photo'] = base_url() . PHOTO_URL . $photo[0];
+        }
+      }
+
+      // 인수할 산행
+      if (!empty($viewData['viewPurchase']['notice_idx'])) {
+        $viewData['viewNotice'] = $this->reserve_model->viewNotice($clubIdx, $viewData['viewPurchase']['notice_idx']);
+      }
+    }
+
+    $this->_viewPage('club/shop_complete', $viewData);
+  }
+
+  /**
    * 사진첩
    *
    * @return view
@@ -449,11 +598,19 @@ class Club extends MY_Controller
     $viewData['userIdx'] = $userData['idx'];
     $viewData['adminCheck'] = $userData['admin'];
 
+    $page = html_escape($this->input->post('p'));
+    if (empty($page)) $page = 1; else $page++;
+    $paging['perPage'] = $viewData['perPage'] = 30;
+    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
+
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
+    // 사진첩 카운트
+    $viewData['cntAlbum'] = $this->club_model->cntAlbum($clubIdx);
+
     // 사진첩
-    $viewData['listAlbum'] = $this->club_model->listAlbum($clubIdx);
+    $viewData['listAlbum'] = $this->club_model->listAlbum($clubIdx, $paging);
 
     foreach ($viewData['listAlbum'] as $key => $value) {
       $photo = $this->file_model->getFile('album', $value['idx'], NULL, 1);
@@ -467,7 +624,18 @@ class Club extends MY_Controller
     // 페이지 타이틀
     $viewData['pageTitle'] = '사진첩';
 
-    $this->_viewPage('club/album', $viewData);
+    if ($page >= 2) {
+      // 2페이지 이상일 경우에는 Json으로 전송
+      $result['page'] = $page;
+      $result['html'] = $this->load->view('club/album_list', $viewData, true);
+      $this->output->set_output(json_encode($result));
+    } else {
+      // 아이템 목록 템플릿
+      $viewData['listAlbum'] = $this->load->view('club/album_list', $viewData, true);
+
+      // 1페이지에는 View 페이지로 전송
+      $this->_viewPage('club/album', $viewData);
+    }
   }
 
   /**

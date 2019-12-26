@@ -30,17 +30,7 @@
             </form>
           </div>
 
-          <?php foreach ($listItem as $value): ?>
-          <div class="row align-items-center mb-3 item-list" data-idx="<?=$value['idx']?>">
-            <div class="col-sm-1"><img src="<?=$value['item_photo']?>" class="w-100"></div>
-            <div class="col-sm-11">
-              ・분류 : <?=$value['item_category1']['name']?> > <?=$value['item_category2']['name']?><br>
-              ・품명 : <?=$value['item_name']?><br>
-              ・가격 : <?=number_format($value['item_cost'])?>원<br>
-              ・등록 : <?=date('Y년 m월 d일 H시 i분', $value['created_at'])?><br>
-            </div>
-          </div>
-          <?php endforeach; ?>
+          <?=$listItem?>
 
           <div class="area-append"></div>
           <button class="btn btn-page-next">다음 페이지 보기 ▼</button>

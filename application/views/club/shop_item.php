@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
       <div id="shop" class="club-main">
-        <div class="sub-header">용품판매</div>
+        <div class="sub-header">용품판매 - 상세</div>
         <div class="sub-content">
           <div class="row mt-4">
             <div class="col-sm-5 text-center pb-3">
@@ -21,5 +21,4 @@
           </div>
         </div>
       </div>
-
       <script type="text/javascript" src="<?=base_url()?>public/js/shop.js"></script>

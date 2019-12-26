@@ -65,6 +65,9 @@ class Shop extends Admin_Controller
       $result['html'] = $this->load->view('shop/list', $viewData, true);
       $this->output->set_output(json_encode($result));
     } else {
+      // 아이템 목록 템플릿
+      $viewData['listItem'] = $this->load->view('shop/list', $viewData, true);
+
       // 1페이지에는 View 페이지로 전송
       $this->_viewPage('shop/index', $viewData);
     }

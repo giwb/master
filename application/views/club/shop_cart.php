@@ -2,7 +2,7 @@
 
       <div id="shop" class="club-main">
         <div class="mt-4 d-none d-md-block d-lg-none"></div>
-        <div class="sub-header">장바구니</div>
+        <div class="sub-header">용품판매 - 장바구니</div>
         <div class="sub-content">
           <?php if (empty($listCart)): ?>
           <div class="text-center border-bottom mt-5 pb-5">현재 장바구니에 담긴 상품이 없습니다.</div>
@@ -34,10 +34,9 @@
           <div class="text-center mt-4">
             <a href="<?=base_url()?>club/shop/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">계속 쇼핑하기</button></a>
             <?php if (!empty($listCart)): ?>
-            <button type="button" class="btn btn-primary ml-4">용품 구매하기</button>
+            <a href="<?=base_url()?>club/shop_checkout/<?=$view['idx']?>"><button type="button" class="btn btn-primary ml-4">용품 구매진행</button></a>
             <?php endif; ?>
           </div>
         </div>
       </div>
-
       <script type="text/javascript" src="<?=base_url()?>public/js/shop.js"></script>

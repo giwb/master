@@ -107,6 +107,7 @@ defined('DB_RESERVATION') OR define('DB_RESERVATION', 'giwb_reservation');
 defined('DB_SCHEDULE')    OR define('DB_SCHEDULE', 'giwb_schedule');
 defined('DB_SHOP')        OR define('DB_SHOP', 'giwb_shop');
 defined('DB_SHOP_CATEGORY') OR define('DB_SHOP_CATEGORY', 'giwb_shop_category');
+defined('DB_SHOP_PURCHASE') OR define('DB_SHOP_PURCHASE', 'giwb_shop_purchase');
 defined('DB_VISITOR')     OR define('DB_VISITOR', 'giwb_visitor');
 defined('DB_WAIT')        OR define('DB_WAIT', 'giwb_wait');
 

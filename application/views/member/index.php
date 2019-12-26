@@ -5,7 +5,25 @@
           <h2>마이페이지</h2>
           <b><?=$viewMember['nickname']?></b>님은 현재 <?=$userLevel['levelName']?> 이십니다.<br>
           현재 산행 횟수 <?=number_format(count($userVisitCount))?>회, 예약 횟수 <?=number_format($viewMember['rescount'])?>회, 취소 페널티 <?=number_format($viewMember['penalty'])?>점, 현재 레벨은 <?=number_format($viewMember['rescount'] - $viewMember['penalty'])?>점 입니다.
-
+<?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
+          <h3>
+            ■ 구매 내역
+            <div class="area-btn">
+              <button type="button" class="btn btn-primary btn-shop-payment">결제정보입력</button>
+              <button type="button" class="btn btn-secondary btn-shop-cancel">구매취소</button>
+            </div>
+          </h3>
+          <?php foreach ($listPurchase as $value): ?>
+          <dl>
+            <dd>
+              <?=!empty($value['status']) && $value['status'] == RESERVE_PAY ? '<strong>[입금완료]</strong>' : '<strong class="text-secondary">[입금대기]</strong>'?>
+              <a href="<?=base_url()?>club/shop_item/<?=$clubIdx?>/?n=<?=$value['listCart'][0]['idx']?>"><?=$value['listCart'][0]['item_name']?></a> 외 <?=$value['amount'] - 1?>개<br>
+              <small>구매일시 : <?=date('Y-m-d', $value['created_at'])?> (<?=calcWeek(date('Y-m-d', $value['created_at']))?>) <?=date('H:i', $value['created_at'])?> / 구매금액 : <?=number_format($value['totalCost'])?>원 / 사용한 포인트 <?=number_format($value['point'])?>원<br>
+              인수산행 : <?=$value['viewNotice']['startdate']?> (<?=calcWeek($value['viewNotice']['startdate'])?>) <?=$value['viewNotice']['mname']?></small>
+            </dd>
+          </dl>
+          <?php endforeach; ?>
+<?php endif; ?>
           <h3>
             ■ 예약 내역
             <div class="area-btn">
@@ -31,29 +49,29 @@
           </form>
 
           <h3>■ 예약취소 내역</h3>
-            <?php foreach ($userReserveCancel as $value): ?>
-            <dl>
-              <dd>
-                <?=viewStatus($value['notice_status'])?> <a href="<?=base_url()?>reserve/<?=$clubIdx?>?n=<?=$value['resCode']?>"><?=$value['subject']?></a><br>
-                <small>
-                  취소일시 : <?=date('Y-m-d', $value['regdate'])?> (<?=calcWeek(date('Y-m-d', $value['regdate']))?>) <?=date('H:i', $value['regdate'])?>
-                </small>
-              </dd>
-            </dl>
-            <?php endforeach; ?>
+          <?php foreach ($userReserveCancel as $value): ?>
+          <dl>
+            <dd>
+              <?=viewStatus($value['notice_status'])?> <a href="<?=base_url()?>reserve/<?=$clubIdx?>?n=<?=$value['resCode']?>"><?=$value['subject']?></a><br>
+              <small>
+                취소일시 : <?=date('Y-m-d', $value['regdate'])?> (<?=calcWeek(date('Y-m-d', $value['regdate']))?>) <?=date('H:i', $value['regdate'])?>
+              </small>
+            </dd>
+          </dl>
+          <?php endforeach; ?>
 
           <h3>■ 산행 내역</h3>
-            <?php foreach ($userVisit as $value): ?>
-            <dl>
-              <dd>
-                <?=viewStatus($value['notice_status'])?> <a href="<?=base_url()?>reserve/<?=$clubIdx?>?n=<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
-                <small>
-                  일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 
-                  분담금 : <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원
-                </small>
-              </dd>
-            </dl>
-            <?php endforeach; ?>
+          <?php foreach ($userVisit as $value): ?>
+          <dl>
+            <dd>
+              <?=viewStatus($value['notice_status'])?> <a href="<?=base_url()?>reserve/<?=$clubIdx?>?n=<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
+              <small>
+                일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 
+                분담금 : <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원
+              </small>
+            </dd>
+          </dl>
+          <?php endforeach; ?>
 
           <h3>■ 포인트 내역 <small>- 잔액 <?=number_format($viewMember['point'])?> 포인트</small></h3>
           <ul>

@@ -9,7 +9,7 @@ class Member extends MY_Controller
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
     $this->load->library(array('image_lib', 'session'));
-    $this->load->model(array('club_model', 'file_model', 'member_model', 'reserve_model'));
+    $this->load->model(array('club_model', 'file_model', 'member_model', 'reserve_model', 'shop_model'));
   }
 
   /**
@@ -37,6 +37,35 @@ class Member extends MY_Controller
     } else {
       // 회원 정보
       $viewData['viewMember'] = $this->member_model->viewMember($clubIdx, $userData['idx']);
+
+      // 구매 내역
+      $viewData['listPurchase'] = $this->shop_model->listPurchase($userData['idx']);
+
+      foreach ($viewData['listPurchase'] as $key => $value) {
+        $viewData['listPurchase'][$key]['totalCost'] = 0;
+
+        // 상품 정보
+        $cnt = 0;
+        $items = unserialize($value['items']);
+
+        foreach ($items as $item) {
+          $viewItem = $this->shop_model->viewItem($item['idx']);
+          $viewData['listPurchase'][$key]['listCart'][$cnt] = $viewItem;
+          $viewData['listPurchase'][$key]['amount'] = $item['amount'];
+          $viewData['listPurchase'][$key]['totalCost'] += $viewItem['item_cost'] * $item['amount'];
+
+          if (!empty($viewItem['item_photo'])) {
+            $photo = unserialize($viewItem['item_photo']);
+            $viewData['listPurchase'][$key]['listCart'][$cnt]['item_photo'] = base_url() . PHOTO_URL . $photo[0];
+          }
+          $cnt++;
+        }
+
+        // 인수할 산행
+        if (!empty($value['notice_idx'])) {
+          $viewData['listPurchase'][$key]['viewNotice'] = $this->reserve_model->viewNotice($clubIdx, $value['notice_idx']);
+        }
+      }
 
       // 예약 내역
       $viewData['userReserve'] = $this->reserve_model->userReserve($clubIdx, $userData['userid']);

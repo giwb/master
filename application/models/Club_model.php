@@ -76,7 +76,7 @@ class Club_model extends CI_Model
   }
 
   // 앨범 목록
-  public function listAlbum($clubIdx)
+  public function listAlbum($clubIdx, $paging)
   {
     $this->db->select('a.*, b.nickname')
           ->from(DB_ALBUM . ' a')
@@ -84,7 +84,22 @@ class Club_model extends CI_Model
           ->where('a.club_idx', $clubIdx)
           ->where('a.deleted_at', NULL)
           ->order_by('a.idx', 'desc');
+
+    if (!empty($paging)) {
+      $this->db->limit($paging['perPage'], $paging['nowPage']);
+    }
+
     return $this->db->get()->result_array();
+  }
+
+  // 앨범 카운트
+  public function cntAlbum($clubIdx)
+  {
+    $this->db->select('COUNT(*) AS cnt')
+          ->from(DB_ALBUM)
+          ->where('club_idx', $clubIdx)
+          ->where('deleted_at', NULL);
+    return $this->db->get()->row_array(1);
   }
 
   // 앨범 상세

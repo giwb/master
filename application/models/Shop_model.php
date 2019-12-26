@@ -34,6 +34,26 @@ class Shop_model extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  // 용품 카운트
+  public function cntItem($search)
+  {
+    $this->db->select('COUNT(*) AS cnt')
+          ->from(DB_SHOP)
+          ->where('deleted_at', NULL);
+
+    if (!empty($search['item_name'])) {
+      $this->db->like('item_name', $search['item_name']);
+    }
+    if (!empty($search['item_category1'])) {
+      $this->db->where('item_category1', $search['item_category1']);
+    }
+    if (!empty($search['item_category2'])) {
+      $this->db->where('item_category2', $search['item_category2']);
+    }
+
+    return $this->db->get()->row_array(1);
+  }
+
   // 등록된 용품 상세
   public function viewItem($idx)
   {
@@ -95,5 +115,47 @@ class Shop_model extends CI_Model
     return $this->db->update(DB_SHOP_CATEGORY);
   }
 
+  // 구매진행 - 예약된 산행보기
+  public function listMemberReserve($clubIdx, $userid)
+  {
+    $this->db->select('b.idx, b.startdate, b.mname')
+          ->from(DB_RESERVATION . ' a')
+          ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
+          ->where('a.club_idx', $clubIdx)
+          ->where('a.userid', $userid)
+          ->where('b.visible', VISIBLE_ABLE)
+          ->where('b.startdate >', date('Y-m-d'))
+          ->where_in('b.status', array(STATUS_ABLE, STATUS_CONFIRM))
+          ->group_by('b.mname')
+          ->order_by('b.startdate', 'asc');
+    return $this->db->get()->result_array();
+  }
+
+  // 구매 목록
+  public function listPurchase($userIdx)
+  {
+    $this->db->select('*')
+          ->from(DB_SHOP_PURCHASE)
+          ->where('deleted_at', NULL)
+          ->where('created_by', $userIdx);
+    return $this->db->get()->result_array();
+  }
+
+  // 구매 내역 보기
+  public function viewPurchase($idx)
+  {
+    $this->db->select('*')
+          ->from(DB_SHOP_PURCHASE)
+          ->where('deleted_at', NULL)
+          ->where('idx', $idx);
+    return $this->db->get()->row_array(1);
+  }
+
+  // 구매 등록
+  public function insertPurchase($data)
+  {
+    $this->db->insert(DB_SHOP_PURCHASE, $data);
+    return $this->db->insert_id();
+  }
 }
 ?>

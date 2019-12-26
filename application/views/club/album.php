@@ -9,48 +9,15 @@
             <a href="<?=base_url()?>club/album_upload/<?=$view['idx']?>"><button class="btn btn-sm btn-primary">사진 등록</button></a>
             <?php endif; ?>
           </div>
-          <?php foreach ($listAlbum as $key => $value): ?>
-            <?php if ($key == 0): ?><div class="row"><?php elseif ($key%3 == 0): ?></div><div class="row"><?php endif; ?>
-            <div class="col-sm-4 text-center mb-2 album-item"><a href="javascript:;" class="btn-album" data-idx="<?=$value['idx']?>"><img class="album-photo border mb-2" src="<?=$value['photo']?>"></a><br><?=$value['subject']?><br><span class="small"><?=$value['nickname']?>님 | <?=date('Y-m-d H:i', $value['created_at'])?><?=$value['created_by'] == $userIdx || !empty($adminCheck) ? ' | <a href="' . base_url() . 'club/album_upload/' . $view['idx'] . '?n=' . $value['idx'] .'">수정</a>' : ''?></span></div>
-          <?php endforeach; ?>
-          <?php if (!empty($listAlbum)): ?></div><?php endif; ?>
+          <form id="formList">
+            <input type="hidden" name="p" value="1">
+            <?=$listAlbum?>
+            <div class="area-append"></div>
+            <?php if ($cntAlbum['cnt'] > $perPage): ?>
+            <button type="button" class="btn btn-page-next">다음 페이지 보기 ▼</button>
+            <?php endif; ?>
+          </form>
         </div>
       </div>
-
       <script src="<?=base_url()?>public/js/jquery.magnific-popup.min.js" type="text/javascript"></script>
-      <script type="text/javascript">
-        $(document).ready(function() {
-          $('.btn-album').click(function() {
-            var $dom = $(this).parent();
-            var items = [];
-            $.ajax({
-              url: $('input[name=baseUrl]').val() + 'club/album_view',
-              data: 'idx=' + $(this).data('idx'),
-              dataType: 'json',
-              type: 'post',
-              beforeSend: function() {
-                $('.album-photo', $dom).css('opacity', '0.5');
-                $dom.append('<img class="ajax-loader" src="/public/images/preloader.png">')
-              },
-              success: function(result) {
-                $('.album-photo', $dom).css('opacity', '1');
-                $('.ajax-loader', $dom).remove();
-                $.each(result, function(i, v) {
-                  items.push({
-                    src: v.src,
-                    title: v.title
-                  });
-                });
-              },
-              complete: function() {
-                $.magnificPopup.open({
-                  items: items,
-                  gallery: { enabled: true },
-                  type: 'image',
-                  image: { titleSrc: 'title' }
-                });
-              }
-            });
-          });
-        });
-      </script>
+      <script src="<?=base_url()?>public/js/album.js" type="text/javascript"></script>
