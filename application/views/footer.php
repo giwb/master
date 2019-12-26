@@ -34,11 +34,11 @@
           <form class="loginForm" method="post">
             <dl>
               <dt>아이디</dt>
-              <dd><input type="text" name="userid" class="form-control input-login" value="<?=get_cookie('cookie_userid')?>"></dd>
+              <dd><input type="text" name="userid" class="form-control input-login" value="<?=$cookieUserid?>"></dd>
             </dl>
             <dl>
               <dt>비밀번호</dt>
-              <dd><input type="password" name="password" class="form-control input-login" value="<?=get_cookie('cookie_passwd')?>"></dd>
+              <dd><input type="password" name="password" class="form-control input-login" value="<?=$cookiePasswd?>"></dd>
             </dl>
             <label class="small pl-5"><input type="checkbox" name="save"> 아이디/비밀번호 저장</label>
           </form>

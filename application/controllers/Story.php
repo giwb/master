@@ -7,7 +7,7 @@ class Story extends CI_Controller
   function __construct()
   {
     parent::__construct();
-    $this->load->helper(array('security', 'url', 'my_array_helper'));
+    $this->load->helper(array('cookie', 'security', 'url', 'my_array_helper'));
     $this->load->library(array('image_lib', 'session'));
     $this->load->model(array('club_model', 'file_model', 'reserve_model', 'story_model'));
   }
@@ -527,7 +527,7 @@ class Story extends CI_Controller
     $viewData['userLevel'] = memberLevel($viewData['userData']['rescount'], $viewData['userData']['penalty'], $viewData['userData']['level'], $viewData['userData']['admin']);
 
     // 진행 중 산행
-    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_PLAN, STATUS_ABLE, STATUS_CONFIRM));
+    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
 
     // 회원수
     $viewData['view']['cntMember'] = $this->member_model->cntMember($viewData['view']['idx']);
@@ -550,6 +550,18 @@ class Story extends CI_Controller
           $viewData['view']['photo'][$key] = 'noimage.png';
         }
       }
+    }
+
+    // 로그인 쿠키 처리
+    if (!empty(get_cookie('cookie_userid'))) {
+      $viewData['cookieUserid'] = get_cookie('cookie_userid');
+    } else {
+      $viewData['cookieUserid'] = '';
+    }
+    if (!empty(get_cookie('cookie_passwd'))) {
+      $viewData['cookiePasswd'] = get_cookie('cookie_passwd');
+    } else {
+      $viewData['cookiePasswd'] = '';
     }
 
     // 방문자 기록

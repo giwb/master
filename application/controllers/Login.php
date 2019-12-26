@@ -414,6 +414,18 @@ class Login extends CI_Controller
       }
     }
 
+    // 로그인 쿠키 처리
+    if (!empty(get_cookie('cookie_userid'))) {
+      $viewData['cookieUserid'] = get_cookie('cookie_userid');
+    } else {
+      $viewData['cookieUserid'] = '';
+    }
+    if (!empty(get_cookie('cookie_passwd'))) {
+      $viewData['cookiePasswd'] = get_cookie('cookie_passwd');
+    } else {
+      $viewData['cookiePasswd'] = '';
+    }
+
     // 방문자 기록
     setVisitor();
 
