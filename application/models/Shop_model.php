@@ -163,8 +163,8 @@ class Shop_model extends CI_Model
   {
     $this->db->select('a.*, b.nickname, c.startdate, c.mname')
           ->from(DB_SHOP_PURCHASE . ' a')
-          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx')
-          ->join(DB_NOTICE . ' c', 'a.notice_idx=c.idx')
+          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
+          ->join(DB_NOTICE . ' c', 'a.notice_idx=c.idx', 'left')
           ->where('a.deleted_at', NULL)
           ->order_by('a.idx', 'desc');
     return $this->db->get()->result_array();
