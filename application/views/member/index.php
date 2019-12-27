@@ -8,18 +8,29 @@
 <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
           <h3>
             ■ 구매 내역
+            <!--
             <div class="area-btn">
               <button type="button" class="btn btn-primary btn-shop-payment">결제정보입력</button>
               <button type="button" class="btn btn-secondary btn-shop-cancel">구매취소</button>
             </div>
+          -->
           </h3>
           <?php foreach ($listPurchase as $value): ?>
           <dl>
             <dd>
-              <?=!empty($value['status']) && $value['status'] == RESERVE_PAY ? '<strong>[입금완료]</strong>' : '<strong class="text-secondary">[입금대기]</strong>'?>
-              <a href="<?=base_url()?>club/shop_item/<?=$clubIdx?>/?n=<?=$value['listCart'][0]['idx']?>"><?=$value['listCart'][0]['item_name']?></a> 외 <?=$value['amount'] - 1?>개<br>
-              <small>구매일시 : <?=date('Y-m-d', $value['created_at'])?> (<?=calcWeek(date('Y-m-d', $value['created_at']))?>) <?=date('H:i', $value['created_at'])?> / 구매금액 : <?=number_format($value['totalCost'])?>원 / 사용한 포인트 <?=number_format($value['point'])?>원<br>
-              인수산행 : <?=$value['viewNotice']['startdate']?> (<?=calcWeek($value['viewNotice']['startdate'])?>) <?=$value['viewNotice']['mname']?></small>
+              <div class="border">
+                <div class="bg-light p-2"><input type="checkbox" id="cr" name="checkReserve[]" class="check-reserve" value=""><label for="cr"></label><?=!empty($value['status']) && $value['status'] == RESERVE_PAY ? '<strong>[입금완료]</strong>' : '<strong class="text-secondary">[입금대기]</strong>'?> 구매일 <?=date('Y-m-d', $value['created_at'])?> (<?=calcWeek(date('Y-m-d', $value['created_at']))?>) <?=date('H:i', $value['created_at'])?></div>
+                <div class="p-3">
+                  ・구매금액 : <?=number_format($value['totalCost'])?>원 / 사용한 포인트 : <?=number_format($value['point'])?>원<br>
+                  ・인수산행 : <?php if (!empty($value['viewNotice'])): ?><?=$value['viewNotice']['startdate']?> (<?=calcWeek($value['viewNotice']['startdate'])?>) <?=$value['viewNotice']['mname']?><? else: ?>미지정<?php endif; ?>
+                  <?php foreach ($value['listCart'] as $key => $item): ?>
+                  <div class="row align-items-center mt-3">
+                    <div class="col-sm-2"><img class="w-100" src="<?=base_url() . PHOTO_URL . $item['photo']?>"></div>
+                    <div class="col-sm-10"><?=$item['name']?><br><small><?=number_format($item['amount'])?>개, <?=number_format($item['cost'] * $item['amount'])?>원</small></div>
+                  </div>
+                  <?php endforeach; ?>
+                </div>
+              </div>
             </dd>
           </dl>
           <?php endforeach; ?>

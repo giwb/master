@@ -64,8 +64,9 @@
               </div>
             </div>
             <div class="pt-2 pb-2 pl-3 pr-3 text-danger small">
+              ※ 결제방법, 인수방법은 구입 후 마이페이지에서도 지정할 수 있습니다.<br>
               ※ 구입한 용품을 인수하실 예약된 산행을 선택해주세요.<br>
-              ※ 현재는 차량 인수만 가능합니다.
+              ※ 현재는 차량 인수만 가능합니다.<br>
             </div>
             <div class="text-center mt-4">
               <a href="<?=base_url()?>club/shop/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">계속 쇼핑하기</button></a>

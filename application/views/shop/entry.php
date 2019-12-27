@@ -33,7 +33,9 @@
             <div class="row align-items-center mb-3">
               <div class="col-sm-1 font-weight-bold">가격 <span class="required">(*)</span></div>
               <div class="col-sm-11 row align-items-center">
-                <div class="col-sm-2 item-cost"><input type="text" name="item_cost" maxlength="8" class="form-control" value="<?=!empty($view['item_cost']) ? $view['item_cost'] : ''?>"><div class="item-cost-text">원</div></div>
+                <div class="col-sm-2"><input type="text" name="item_option[]" class="form-control" placeholder="옵션명"></div>
+                <div class="col-sm-2 item-cost"><input type="text" name="item_cost[]" maxlength="8" class="form-control"><span class="item-cost-text">원</span></div>
+                <div class="col-sm-8"><button type="button" class="btn btn-primary" class="btn-add-cost">추가</button></div>
               </div>
             </div>
             <div class="row align-items-center mb-2">

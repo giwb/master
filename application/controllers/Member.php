@@ -45,26 +45,8 @@ class Member extends MY_Controller
         $viewData['listPurchase'][$key]['totalCost'] = 0;
 
         // 상품 정보
-        $cnt = 0;
         $items = unserialize($value['items']);
-
-        foreach ($items as $item) {
-          $viewItem = $this->shop_model->viewItem($item['idx']);
-          $viewData['listPurchase'][$key]['listCart'][$cnt] = $viewItem;
-          $viewData['listPurchase'][$key]['amount'] = $item['amount'];
-          $viewData['listPurchase'][$key]['totalCost'] += $viewItem['item_cost'] * $item['amount'];
-
-          if (!empty($viewItem['item_photo'])) {
-            $photo = unserialize($viewItem['item_photo']);
-            $viewData['listPurchase'][$key]['listCart'][$cnt]['item_photo'] = base_url() . PHOTO_URL . $photo[0];
-          }
-          $cnt++;
-        }
-
-        // 인수할 산행
-        if (!empty($value['notice_idx'])) {
-          $viewData['listPurchase'][$key]['viewNotice'] = $this->reserve_model->viewNotice($clubIdx, $value['notice_idx']);
-        }
+        $viewData['listPurchase'][$key]['listCart'] = $items;
       }
 
       // 예약 내역

@@ -511,7 +511,12 @@ class Club extends MY_Controller
     $arrItem = array();
     $totalCost = 0;
     foreach ($this->cart->contents() as $key => $value) {
+      $viewItem = $this->shop_model->viewItem($value['id']);
+      $photo = unserialize($viewItem['item_photo']);
       $arrItem[$key]['idx'] = $value['id'];
+      $arrItem[$key]['photo'] = $photo[0];
+      $arrItem[$key]['name'] = $viewItem['item_name'];
+      $arrItem[$key]['cost'] = $viewItem['item_cost'];
       $arrItem[$key]['amount'] = $value['qty'];
       $totalCost += $value['subtotal'];
     }
@@ -564,17 +569,7 @@ class Club extends MY_Controller
       $viewData['viewPurchase'] = $this->shop_model->viewPurchase($idx);
 
       // 상품 정보
-      $items = unserialize($viewData['viewPurchase']['items']);
-      foreach ($items as $key => $value) {
-        $item = $this->shop_model->viewItem($value['idx']);
-        $viewData['listCart'][$key] = $item;
-        $viewData['listCart'][$key]['amount'] = $value['amount'];
-
-        if (!empty($item['item_photo'])) {
-          $photo = unserialize($item['item_photo']);
-          $viewData['listCart'][$key]['item_photo'] = base_url() . PHOTO_URL . $photo[0];
-        }
-      }
+      $viewData['listCart'] = unserialize($viewData['viewPurchase']['items']);
 
       // 인수할 산행
       if (!empty($viewData['viewPurchase']['notice_idx'])) {
