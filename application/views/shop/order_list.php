@@ -1,11 +1,15 @@
 <?php foreach ($listOrder as $value): ?>
-<div class="border-bottom mb-3 pb-3 order-list" data-idx="<?=$value['idx']?>">
-  <?=!empty($value['status']) && $value['status'] == RESERVE_PAY ? '<strong class="text-primary">[입금완료]</strong>' : '<strong class="text-secondary">[입금대기]</strong>'?>
-  <a href="<?=base_url()?>admin/member_view/<?=$value['created_by']?>"><?=$value['nickname']?></a>님
-  <div class="small">
-    ・구매상품 : <?php foreach ($value['order_item'] as $key => $item): if ($key != 0) { echo '/ '; } ?><?=$item['item_name']?> (<?=$item['amount']?>개) <?php endforeach; ?><br>
-    ・구매일시 : <?=date('Y-m-d', $value['created_at'])?> (<?=calcWeek(date('Y-m-d', $value['created_at']))?>) <?=date('H:i', $value['created_at'])?> / 구매금액 : <?=number_format($value['totalCost'])?>원 / 사용한 포인트 <?=number_format($value['point'])?>원<br>
-    ・인수산행 : <?php if (!empty($value['startdate'])): ?> <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <a href="<?=base_url()?>admin/main_view_progress/<?=$value['notice_idx']?>"><?=$value['mname']?></a><?php else: ?>미지정<?php endif; ?>
+<div class="border">
+  <div class="bg-secondary text-white p-2"><?=!empty($value['status']) && $value['status'] == RESERVE_PAY ? '<strong class="text-primary">[입금완료]</strong>' : '<strong class="text-dark">[입금대기]</strong>'?> <?=$value['nickname']?>님 - <?=date('Y-m-d', $value['created_at'])?> (<?=calcWeek(date('Y-m-d', $value['created_at']))?>) <?=date('H:i', $value['created_at'])?></div>
+  <div class="p-3">
+    ・구매금액 : <?=number_format($value['totalCost'])?>원 / 사용한 포인트 : <?=number_format($value['point'])?>원<br>
+    ・인수산행 : <?php if (!empty($value['viewNotice'])): ?><?=$value['viewNotice']['startdate']?> (<?=calcWeek($value['viewNotice']['startdate'])?>) <?=$value['viewNotice']['mname']?><? else: ?>미지정<?php endif; ?>
+    <?php foreach ($value['listCart'] as $key => $item): ?>
+    <div class="row align-items-center mt-3">
+      <div class="col-sm-1"><img class="w-100" src="<?=base_url() . PHOTO_URL . $item['photo']?>"></div>
+      <div class="col-sm-11"><?=$item['name']?><br><small><?=number_format($item['amount'])?>개, <?=number_format($item['cost'] * $item['amount'])?>원</small></div>
+    </div>
+    <?php endforeach; ?>
   </div>
 </div>
 <?php endforeach; ?>

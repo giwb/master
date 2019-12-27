@@ -316,20 +316,9 @@ class Shop extends Admin_Controller
 
     foreach ($viewData['listOrder'] as $key => $value) {
       $viewData['listOrder'][$key]['totalCost'] = 0;
-      $items = unserialize($value['items']);
-      $cnt = 0;
-      foreach ($items as $item) {
-        $viewItem = $this->shop_model->viewItem($item['idx']);
-        $viewData['listOrder'][$key]['order_item'][$cnt]['item_name'] = $viewItem['item_name'];
-        $viewData['listOrder'][$key]['order_item'][$cnt]['amount'] = $item['amount'];
-        $viewData['listOrder'][$key]['totalCost'] += $viewItem['item_cost'] * $item['amount'];
 
-        if (!empty($viewItem['item_photo'])) {
-          $photo = unserialize($viewItem['item_photo']);
-          $viewData['listOrder'][$key]['item_photo'] = base_url() . PHOTO_URL . $photo[0];
-        }
-        $cnt++;
-      }
+      $items = unserialize($value['items']);
+      $viewData['listOrder'][$key]['listCart'] = $items;
     }
 
     if ($page >= 2) {
