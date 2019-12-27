@@ -1222,7 +1222,7 @@ $(document).on('click', '.btn-reply', function() {
 });
 
 $(window).scroll(function() {
-  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+  if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 500)) {
     var paging = $('input[name=p]').val();
     if (typeof paging != 'undefined') {
       $('input[name=p]').val(Number(paging) + 1);
