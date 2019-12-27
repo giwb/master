@@ -126,7 +126,7 @@ class Shop_model extends CI_Model
           ->where('b.visible', VISIBLE_ABLE)
           ->where('b.startdate >', date('Y-m-d'))
           ->where_in('b.status', array(STATUS_ABLE, STATUS_CONFIRM))
-          ->group_by('b.mname')
+          ->group_by('b.mname, b.idx, b.startdate')
           ->order_by('b.startdate', 'asc');
     return $this->db->get()->result_array();
   }
