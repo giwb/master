@@ -6,6 +6,7 @@
           <form id="formList">
             <input type="hidden" name="p" value="1">
             <?=$listItem?>
+
             <div class="area-append"></div>
             <?php if ($cntItem['cnt'] > $perPage): ?>
             <button type="button" class="btn btn-page-next">다음 페이지 보기 ▼</button>
