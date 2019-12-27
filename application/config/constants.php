@@ -153,6 +153,13 @@ defined('SHARE_TYPE_DAUM') OR define('SHARE_TYPE_DAUM', 5); // 다음
   10 - 관리자 입금확인
   11 - 관리자 입금취소
   12 - 비회원 환불내역
+  21 - 용품판매 - 구매
+  22 - 용품판매 - 결제
+  23 - 용품판매 - 취소
+  24 - 용품판매 관리자 - 구매
+  25 - 용품판매 관리자 - 취소
+  26 - 용품판매 관리자 - 입금확인
+  27 - 용품판매 관리자 - 입금취소
 */
 defined('LOG_ENTRY')          OR define('LOG_ENTRY', 1);
 defined('LOG_RESERVE')        OR define('LOG_RESERVE', 2);
@@ -166,6 +173,13 @@ defined('LOG_ADMIN_CANCEL')   OR define('LOG_ADMIN_CANCEL', 9);
 defined('LOG_ADMIN_DEPOSIT_CONFIRM')  OR define('LOG_ADMIN_DEPOSIT_CONFIRM', 10);
 defined('LOG_ADMIN_DEPOSIT_CANCEL')   OR define('LOG_ADMIN_DEPOSIT_CANCEL', 11);
 defined('LOG_ADMIN_REFUND')   OR define('LOG_ADMIN_REFUND', 12);
+defined('LOG_SHOP_BUY')       OR define('LOG_SHOP_BUY', 21);
+defined('LOG_SHOP_CHECKOUT')  OR define('LOG_SHOP_CHECKOUT', 22);
+defined('LOG_SHOP_CANCEL')    OR define('LOG_SHOP_CANCEL', 23);
+defined('LOG_ADMIN_SHOP_BUY') OR define('LOG_ADMIN_SHOP_BUY', 24);
+defined('LOG_ADMIN_SHOP_CANCEL') OR define('LOG_ADMIN_SHOP_CANCEL', 25);
+defined('LOG_ADMIN_SHOP_DEPOSIT_CONFIRM') OR define('LOG_ADMIN_SHOP_DEPOSIT_CONFIRM', 26);
+defined('LOG_ADMIN_SHOP_DEPOSIT_CANCEL') OR define('LOG_ADMIN_SHOP_DEPOSIT_CANCEL', 27);
 
 // 경로 설정
 defined('PATH_FRONT')         OR define('PATH_FRONT', PATH_MAIN . '/public/uploads/front/');

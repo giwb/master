@@ -17,7 +17,7 @@
             </div>
             <div class="row align-items-center border-bottom p-3">
               <div class="col-5 col-md-2 p-0 text-center"><img src="<?=$value['item_photo']?>"></div>
-              <div class="col-1 col-md-7 p-0 pl-3"><div class="d-none d-sm-block"><strong><?=$value['item_name']?></strong><br><?=number_format($value['item_cost'])?>원</div></div>
+              <div class="col-1 col-md-7 p-0 pl-3"><div class="d-none d-sm-block"><strong><?=$value['item_name']?></strong><br><?=!empty($value['item_option']) ? $value['item_option'] . ' - ' : ''?><?=number_format($value['item_cost'])?>원</div></div>
               <div class="col-2 col-md-1 p-0 text-center"><?=number_format($value['item_qty'])?>개</div>
               <div class="col-3 col-md-2 p-0 text-right item-cost"><?=number_format($value['subtotal'])?>원</div>
             </div>

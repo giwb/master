@@ -24,13 +24,24 @@ class Shop extends Admin_Controller
     $viewData['search'] = array(
       'item_name' => !empty($this->input->post('item_name')) ? html_escape($this->input->post('item_name')) : NULL,
       'item_category1' => !empty($this->input->post('item_category1')) ? html_escape($this->input->post('item_category1')) : NULL,
-      'item_category2' => !empty($this->input->post('item_category2')) ? html_escape($this->input->post('item_category2')) : NULL,
+      'item_category2' => !empty($this->input->post('item_category2')) ? html_escape($this->input->post('item_category2')) : NULL
     );
+
+    // 검색 분류
+    $viewData['listCategory1'] = $this->shop_model->listCategory();
+
+    if (!empty($viewData['search']['item_category1'])) {
+      // 하위 분류
+      $viewData['listCategory2'] = $this->shop_model->listCategory($viewData['search']['item_category1']);
+    }
+
+    // 페이징
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
     $paging['perPage'] = 20;
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
 
+    // 등록된 용품 목록
     $viewData['listItem'] = $this->shop_model->listItem($paging, $viewData['search']);
 
     foreach ($viewData['listItem'] as $key => $value) {
@@ -43,20 +54,22 @@ class Shop extends Admin_Controller
       }
 
       // 카테고리명
-      if (!empty($value['item_category1'])) {
-        $viewData['listItem'][$key]['item_category1'] = $this->shop_model->viewCategory($value['item_category1']);
+      $itemCategory = unserialize($value['item_category']);
+      $cnt = 0;
+      foreach ($itemCategory as $category) {
+        $buf = $this->shop_model->viewCategory($category);
+        $viewData['listItem'][$key]['item_category_name'][$cnt] = $buf['name'];
+        $cnt++;
       }
-      if (!empty($value['item_category2'])) {
-        $viewData['listItem'][$key]['item_category2'] = $this->shop_model->viewCategory($value['item_category2']);
+
+      // 가격
+      $itemCost = unserialize($value['item_cost']);
+      $cnt = 0;
+      foreach ($itemCost as $cost) {
+        $viewData['listItem'][$key]['item_option'][$cnt] = $cost['item_option'];
+        $viewData['listItem'][$key]['item_option_cost'][$cnt] = $cost['item_cost'];
+        $cnt++;
       }
-    }
-
-    // 검색 분류
-    $viewData['listCategory1'] = $this->shop_model->listCategory();
-
-    if (!empty($viewData['search']['item_category1'])) {
-      // 하위 분류
-      $viewData['listCategory2'] = $this->shop_model->listCategory($viewData['search']['item_category1']);
     }
 
     if ($page >= 2) {
@@ -89,18 +102,37 @@ class Shop extends Admin_Controller
     $viewData['listCategory1'] = $this->shop_model->listCategory();
 
     if (!empty($idx)) {
+      // 수정
       $viewData['view'] = $this->shop_model->viewItem($idx);
-      $itemPhoto = unserialize($viewData['view']['item_photo']);
 
+      // 가격
+      $itemCost = unserialize($viewData['view']['item_cost']);
+      $cnt = 0;
+      foreach ($itemCost as $cost) {
+        $viewData['view']['item_option'][$cnt] = $cost['item_option'];
+        $viewData['view']['item_option_cost'][$cnt] = $cost['item_cost'];
+        $cnt++;
+      }
+
+      // 사진
+      $itemPhoto = unserialize($viewData['view']['item_photo']);
       foreach ($itemPhoto as $value) {
         if (!empty($value) && file_exists(PHOTO_PATH . $value)) {
           $viewData['item_photo'][] = $value;
         }
       }
 
-      if (!empty($viewData['view']['item_category1'])) {
+      // 분류
+      $itemCategory = unserialize($viewData['view']['item_category']);
+      $cnt = 0;
+      foreach ($itemCategory as $category) {
+        $viewData['view']['item_category_name'][$cnt] = $category;
+        $cnt++;
+      }
+
+      if (!empty($viewData['view']['item_category_name'][0])) {
         // 하위 분류
-        $viewData['listCategory2'] = $this->shop_model->listCategory($viewData['view']['item_category1']);
+        $viewData['listCategory2'] = $this->shop_model->listCategory($viewData['view']['item_category_name'][0]);
       }
     }
 
@@ -120,7 +152,27 @@ class Shop extends Admin_Controller
     $postData = $this->input->post();
     $idx = html_escape($postData['idx']);
     $photo = html_escape($postData['filename']);
+    $itemOption = html_escape($postData['item_option']);
+    $itemCost = html_escape($postData['item_cost']);
+    $arrCost = array();
 
+    // 카테고리
+    $itemCategory = array(
+      html_escape($postData['item_category1']),
+      html_escape($postData['item_category2'])
+    );
+
+    // 옵션/가격
+    foreach ($itemCost as $key => $value) {
+      if (!empty($value)) {
+        $arrCost[] = array(
+          'item_option' => $itemOption[$key],
+          'item_cost' => $value
+        );
+      }
+    }
+
+    // 사진 처리
     if (!empty($photo)) {
       $arrPhoto = explode(',', $photo);
       foreach ($arrPhoto as $value) {
@@ -143,15 +195,13 @@ class Shop extends Admin_Controller
         }
         $arrPhotoData[] = $value;
       }
-      $arrPhotoData = serialize($arrPhotoData);
     }
 
     $updateValues = array(
       'item_name'       => html_escape($postData['item_name']),
-      'item_category1'  => html_escape($postData['item_category1']),
-      'item_category2'  => html_escape($postData['item_category2']),
-      'item_cost'       => html_escape($postData['item_cost']),
-      'item_photo'      => $arrPhotoData,
+      'item_category'   => serialize($itemCategory),
+      'item_cost'       => serialize($arrCost),
+      'item_photo'      => serialize($arrPhotoData),
       'item_content'    => html_escape($postData['item_content']),
     );
 
@@ -320,7 +370,7 @@ class Shop extends Admin_Controller
 
       $viewData['listOrder'][$key]['totalCost'] = 0;
       foreach ($items as $item) {
-        $viewData['listOrder'][$key]['totalCost'] = $item['cost'] * $item['amount'];
+        $viewData['listOrder'][$key]['totalCost'] += $item['cost'] * $item['amount'];
       }
     }
 

@@ -30,6 +30,11 @@
                 <?php if ($pageType == 'refund'): ?>
                 <option<?=$action[0] == 12 ? ' selected' : ''?> value="12">비회원 환불기록</option>
                 <?php endif; ?>
+                <?php if ($pageType == 'buy'): ?>
+                <option<?=$action[0] == 21 ? ' selected' : ''?> value="21">구매내역</option>
+                <option<?=$action[0] == 22 ? ' selected' : ''?> value="22">결제내역</option>
+                <option<?=$action[0] == 23 ? ' selected' : ''?> value="23">취소내역</option>
+                <?php endif; ?>
               </select>
             </div>
             <div class="col-sm-1 pl-0 pr-0">상태로 검색</div>
@@ -44,22 +49,7 @@
             <div class="col-sm-3 text-left"><button type="button" class="btn btn-primary btn-member-search">검색</button></div>
           </form>
         </div>
-        <?php foreach ($listHistory as $value): ?>
-          <div class="row align-items-center border-bottom pt-3 pb-3 pl-2 pr-2">
-            <div class="col-sm-11">
-              <strong><?=$value['header']?></strong> 
-              <a<?=!empty($value['userid']) ? ' target="_blank" href="' . base_url() . 'admin/member_view/' . $value['userData']['idx'] . '"' : ' href="javascript:;"'?> class="text-secondary"><strong><?=$value['userData']['nickname']?>님</strong></a> - <?=$value['subject']?>
-              <div class="small"><?=calcStoryTime($value['regdate'])?> (<?=date('Y-m-d H:i:s', $value['regdate'])?>)</div>
-            </div>
-            <div class="col-sm-1 text-right">
-              <?php if ($value['status'] == 1): ?>
-              <button class="btn btn-secondary btn-log-check" data-idx="<?=$value['idx']?>">복원</button>
-              <?php else: ?>
-              <button class="btn btn-primary btn-log-check" data-idx="<?=$value['idx']?>">확인</button>
-              <?php endif; ?>
-            </div>
-          </div>
-        <?php endforeach; ?>
+        <?=$listHistory?>
         <div class="area-append">
         </div>
         <button class="btn btn-page-next">다음 페이지 보기 ▼</button>

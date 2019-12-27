@@ -255,11 +255,21 @@ class Club extends MY_Controller
       }
 
       // 카테고리명
-      if (!empty($value['item_category1'])) {
-        $viewData['listItem'][$key]['item_category1'] = $this->shop_model->viewCategory($value['item_category1']);
+      $itemCategory = unserialize($value['item_category']);
+      $cnt = 0;
+      foreach ($itemCategory as $category) {
+        $buf = $this->shop_model->viewCategory($category);
+        $viewData['listItem'][$key]['item_category_name'][$cnt] = $buf['name'];
+        $cnt++;
       }
-      if (!empty($value['item_category2'])) {
-        $viewData['listItem'][$key]['item_category2'] = $this->shop_model->viewCategory($value['item_category2']);
+
+      // 가격
+      $itemCost = unserialize($value['item_cost']);
+      $cnt = 0;
+      foreach ($itemCost as $cost) {
+        $viewData['listItem'][$key]['item_option'][$cnt] = $cost['item_option'];
+        $viewData['listItem'][$key]['item_option_cost'][$cnt] = $cost['item_cost'];
+        $cnt++;
       }
     }
 
@@ -322,11 +332,21 @@ class Club extends MY_Controller
     $viewData['viewItem']['item_photo'] = $arr;
 
     // 카테고리명
-    if (!empty($viewData['viewItem']['item_category1'])) {
-      $viewData['viewItem']['item_category1'] = $this->shop_model->viewCategory($viewData['viewItem']['item_category1']);
+    $itemCategory = unserialize($viewData['viewItem']['item_category']);
+    $cnt = 0;
+    foreach ($itemCategory as $category) {
+      $buf = $this->shop_model->viewCategory($category);
+      $viewData['viewItem']['item_category_name'][$cnt] = $buf['name'];
+      $cnt++;
     }
-    if (!empty($viewData['viewItem'])) {
-      $viewData['viewItem']['item_category2'] = $this->shop_model->viewCategory($viewData['viewItem']['item_category2']);
+
+    // 가격
+    $itemCost = unserialize($viewData['viewItem']['item_cost']);
+    $cnt = 0;
+    foreach ($itemCost as $cost) {
+      $viewData['viewItem']['item_option'][$cnt] = $cost['item_option'];
+      $viewData['viewItem']['item_option_cost'][$cnt] = $cost['item_cost'];
+      $cnt++;
     }
 
     // 클럽 정보
@@ -356,6 +376,7 @@ class Club extends MY_Controller
     // 카트 정보
     $viewData['listCart'] = array();
     $viewData['total_amount'] = $viewData['total_cost'] = 0;
+
     foreach ($this->cart->contents() as $value) {
       $view = $this->shop_model->viewItem($value['id']);
 
@@ -363,13 +384,25 @@ class Club extends MY_Controller
         $viewData['listCart'][$cnt]['rowid'] = $value['rowid'];
         $viewData['listCart'][$cnt]['item_qty'] = $value['qty'];
         $viewData['listCart'][$cnt]['item_name'] = $view['item_name'];
-        $viewData['listCart'][$cnt]['item_cost'] = $view['item_cost'];
+        $viewData['listCart'][$cnt]['item_option'] = '';
+        $viewData['listCart'][$cnt]['item_cost'] = $value['price'];
         $viewData['listCart'][$cnt]['subtotal'] = $value['subtotal'];
         $viewData['listCart'][$cnt]['item_photo'] = array();
+
+        // 가격
+        $itemCost = unserialize($view['item_cost']);
+        $key = 0;
+        foreach ($itemCost as $cost) {
+          if ($value['name'] == $key) $viewData['listCart'][$cnt]['item_option'] = $cost['item_option'];
+          $key++;
+        }
+
+        // 사진
         $arrPhotos = unserialize($view['item_photo']);
         if (!empty($arrPhotos[0]) && file_exists(PHOTO_PATH . $arrPhotos[0])) {
           $viewData['listCart'][$cnt]['item_photo'] = base_url() . PHOTO_URL . $arrPhotos[0];
         }
+
         $viewData['total_amount'] += $value['qty'];
         $viewData['total_cost'] += $value['subtotal'];
         $cnt++;
@@ -393,6 +426,8 @@ class Club extends MY_Controller
     $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
     $idx = html_escape($this->input->post('idx'));
+    $itemKey = html_escape($this->input->post('item_key'));
+    $itemCost = html_escape($this->input->post('item_cost'));
     $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
 
     if (!empty($idx)) {
@@ -400,10 +435,10 @@ class Club extends MY_Controller
 
       // 장바구니에 담기
       $cartItem = array(
-        'id'    => $idx,               // 상품번호
-        'qty'   => 1,                  // 개수
-        'price' => $view['item_cost'], // 가격
-        'name'  => $idx, // 품명
+        'id'    => $idx,      // 상품번호
+        'qty'   => 1,         // 개수
+        'price' => $itemCost, // 가격
+        'name'  => $itemKey,  // 옵션키
       );
       $rtn = $this->cart->insert($cartItem);
 
@@ -460,6 +495,7 @@ class Club extends MY_Controller
     // 카트 정보
     $viewData['listCart'] = array();
     $viewData['total_amount'] = $viewData['total_cost'] = 0;
+
     foreach ($this->cart->contents() as $value) {
       $view = $this->shop_model->viewItem($value['id']);
 
@@ -467,13 +503,25 @@ class Club extends MY_Controller
         $viewData['listCart'][$cnt]['rowid'] = $value['rowid'];
         $viewData['listCart'][$cnt]['item_qty'] = $value['qty'];
         $viewData['listCart'][$cnt]['item_name'] = $view['item_name'];
-        $viewData['listCart'][$cnt]['item_cost'] = $view['item_cost'];
+        $viewData['listCart'][$cnt]['item_option'] = '';
+        $viewData['listCart'][$cnt]['item_cost'] = $value['price'];
         $viewData['listCart'][$cnt]['subtotal'] = $value['subtotal'];
         $viewData['listCart'][$cnt]['item_photo'] = array();
+
+        // 가격
+        $itemCost = unserialize($view['item_cost']);
+        $key = 0;
+        foreach ($itemCost as $cost) {
+          if ($value['name'] == $key) $viewData['listCart'][$cnt]['item_option'] = $cost['item_option'];
+          $key++;
+        }
+
+        // 사진
         $arrPhotos = unserialize($view['item_photo']);
         if (!empty($arrPhotos[0]) && file_exists(PHOTO_PATH . $arrPhotos[0])) {
           $viewData['listCart'][$cnt]['item_photo'] = base_url() . PHOTO_URL . $arrPhotos[0];
         }
+
         $viewData['total_amount'] += $value['qty'];
         $viewData['total_cost'] += $value['subtotal'];
         $cnt++;
@@ -497,28 +545,45 @@ class Club extends MY_Controller
    **/
   public function shop_insert()
   {
+    $now = time();
     $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
     $postData = $this->input->post();
 
-    $insertValues['notice_idx'] = !empty($postData['reserveIdx']) ? html_escape($postData['reserveIdx']) : NULL; // 인수받을 산행
-    $insertValues['point'] = !empty($postData['usingPoint']) ? html_escape($postData['usingPoint']) : 0; // 사용한 포인트
-    $insertValues['deposit_name'] = !empty($postData['depositName']) ? html_escape($postData['depositName']) : ''; // 입금자명
-    $insertValues['created_by'] = $userData['idx'];
-    $insertValues['created_at'] = time();
+    $insertValues = array(
+      'notice_idx'    => !empty($postData['reserveIdx']) ? html_escape($postData['reserveIdx']) : NULL, // 인수받을 산행
+      'point'         => !empty($postData['usingPoint']) ? html_escape($postData['usingPoint']) : 0,    // 사용한 포인트
+      'deposit_name'  => !empty($postData['depositName']) ? html_escape($postData['depositName']) : '', // 입금자명
+      'created_by'    => $userData['idx'],
+      'created_at'    => $now
+    );
 
     // 카트에 담긴 상품 입력
     $arrItem = array();
     $totalCost = 0;
-    foreach ($this->cart->contents() as $key => $value) {
+    $cnt = 0;
+    foreach ($this->cart->contents() as $value) {
       $viewItem = $this->shop_model->viewItem($value['id']);
+
+      $arrItem[$cnt]['idx'] = $viewItem['idx']; // 상품 고유번호
+      $arrItem[$cnt]['name'] = $viewItem['item_name']; // 상품명
+      $arrItem[$cnt]['cost'] = $value['price']; // 가격
+      $arrItem[$cnt]['amount']  = $value['qty']; // 수량
+      $totalCost += $value['subtotal']; // 합계
+
+      // 옵션명 추출
+      $itemCost = unserialize($viewItem['item_cost']);
+      $key = 0;
+      foreach ($itemCost as $cost) {
+        if ($value['name'] == $key) $arrItem[$cnt]['option'] = $cost['item_option']; // 옵션명
+        $key++;
+      }
+
+      // 사진
       $photo = unserialize($viewItem['item_photo']);
-      $arrItem[$key]['idx'] = $value['id'];
-      $arrItem[$key]['photo'] = $photo[0];
-      $arrItem[$key]['name'] = $viewItem['item_name'];
-      $arrItem[$key]['cost'] = $viewItem['item_cost'];
-      $arrItem[$key]['amount'] = $value['qty'];
-      $totalCost += $value['subtotal'];
+      $arrItem[$cnt]['photo'] = $photo[0];
+
+      $cnt++;
     }
     $insertValues['items'] = serialize($arrItem);
 
@@ -539,6 +604,20 @@ class Club extends MY_Controller
       // 포인트 차감
       if ($insertValues['point'] > 0) {
         $this->member_model->updatePoint($clubIdx, $userData['userid'], ($userData['point'] - $insertValues['point']));
+      }
+
+      // 구매 기록
+      $cntItem = count($arrItem);
+      $subject = $arrItem[0]['name'];
+      if ($cntItem > 1) $subject .= ' 외 ' . ($cntItem - 1) . '개';
+      setHistory(LOG_SHOP_BUY, $rtn, $userData['userid'], $userData['nickname'], $subject, $now);
+
+      if ($totalCost == $insertValues['point']) {
+        // 포인트로 전부 결제했을때 결제 기록
+        setHistory(LOG_SHOP_CHECKOUT, $rtn, $userData['userid'], $userData['nickname'], '전액 포인트 결제 완료', $now, $insertValues['point']);
+      } elseif (!empty($insertValues['deposit_name'])) {
+        // 은행 입금을 위한 입금자명을 입력했을 경우 결제 기록
+        setHistory(LOG_SHOP_CHECKOUT, $rtn, $userData['userid'], $userData['nickname'], '입금자명 입력 - ' . $insertValues['deposit_name'], $now);
       }
 
       $result = array('error' => 0, 'message' => base_url() . 'club/shop_complete/' . $clubIdx . '?n=' . $rtn);

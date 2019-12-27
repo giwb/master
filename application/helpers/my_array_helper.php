@@ -732,21 +732,6 @@ if (!function_exists('getClubGetonoff')) {
 // 로그 기록
 if (!function_exists('setHistory')) {
   function setHistory($action, $fkey, $userid, $nickname, $subject, $regdate, $point=NULL) {
-    /*
-      action
-      1 - 회원가입
-      2 - 산행예약
-      3 - 산행취소
-      4 - 포인트 적립
-      5 - 포인트 감소
-      6 - 페널티 추가
-      7 - 페널티 감소
-      8 - 관리자 예약
-      9 - 관리자 취소
-      10 - 관리자 입금확인
-      11 - 관리자 입금취소
-      12 - 관리자 비회원 환불내역 (입금 확인 후 예약 취소)
-    */
     $data = array(
       'action' => $action,
       'fkey' => $fkey,

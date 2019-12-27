@@ -15,7 +15,7 @@
                   <select name="item_category1" class="form-control item-category">
                     <option value=''></option>
                     <?php if (!empty($listCategory1)): foreach ($listCategory1 as $value): ?>
-                    <option<?=$view['item_category1'] == $value['idx'] ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
+                    <option<?=!empty($view['item_category_name'][0]) && $view['item_category_name'][0] == $value['idx'] ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
                     <?php endforeach; endif; ?>
                   </select>
                 </div>
@@ -23,19 +23,30 @@
                   <select name="item_category2" class="form-control item-category-child">
                     <option value=''></option>
                     <?php if (!empty($listCategory2)): foreach ($listCategory2 as $value): ?>
-                    <option<?=$view['item_category2'] == $value['idx'] ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
+                    <option<?=!empty($view['item_category_name'][1]) && $view['item_category_name'][1] == $value['idx'] ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
                     <?php endforeach; endif; ?>
                   </select>
                 </div>
                 <div class="col-sm-1 item-category-loader"></div>
               </div>
             </div>
-            <div class="row align-items-center mb-3">
-              <div class="col-sm-1 font-weight-bold">가격 <span class="required">(*)</span></div>
-              <div class="col-sm-11 row align-items-center">
-                <div class="col-sm-2"><input type="text" name="item_option[]" class="form-control" placeholder="옵션명"></div>
-                <div class="col-sm-2 item-cost"><input type="text" name="item_cost[]" maxlength="8" class="form-control"><span class="item-cost-text">원</span></div>
-                <div class="col-sm-8"><button type="button" class="btn btn-primary" class="btn-add-cost">추가</button></div>
+            <div class="row align-items-top mb-3">
+              <div class="col-sm-1 font-weight-bold mt-2">가격 <span class="required">(*)</span></div>
+              <div class="col-sm-11">
+                <?php if (empty($view['item_option_cost'])): ?>
+                <div class="w-100 row align-items-center mt-1">
+                  <div class="col-sm-2"><input type="text" name="item_option[]" class="form-control" placeholder="옵션명"></div>
+                  <div class="col-sm-2 item-cost"><input type="text" name="item_cost[]" maxlength="8" class="form-control"><span class="item-cost-text">원</span></div>
+                  <div class="col-sm-8"><button type="button" class="btn btn-primary btn-add-cost">추가</button></div>
+                </div>
+                <?php else: foreach ($view['item_option_cost'] as $key => $value): ?>
+                <div class="w-100 row align-items-center mt-1">
+                  <div class="col-sm-2"><input type="text" name="item_option[]" class="form-control" placeholder="옵션명" value="<?=$view['item_option'][$key]?>"></div>
+                  <div class="col-sm-2 item-cost"><input type="text" name="item_cost[]" maxlength="8" class="form-control" value="<?=$value?>"><span class="item-cost-text">원</span></div>
+                  <?php if ($key == 0): ?><div class="col-sm-8"><button type="button" class="btn btn-primary btn-add-cost">추가</button></div><?php endif; ?>
+                </div>
+                <?php endforeach; endif; ?>
+                <div class="added-cost"></div>
               </div>
             </div>
             <div class="row align-items-center mb-2">
@@ -226,6 +237,7 @@
           }
         });
       }).on('change', '.item-category', function() {
+        // 분류 선택
         var baseUrl = $('input[name=base_url]').val();
         var categoryIdx = $(this).val();
         $.ajax({
@@ -242,6 +254,9 @@
             });
           }
         });
+      }).on('click', '.btn-add-cost', function() {
+        var addedCost = '<div class="w-100 row align-items-center mt-1"><div class="col-sm-2"><input type="text" name="item_option[]" class="form-control" placeholder="옵션명"></div><div class="col-sm-2 item-cost"><input type="text" name="item_cost[]" maxlength="8" class="form-control"><span class="item-cost-text">원</span></div></div>';
+        $('.added-cost').append(addedCost);
       });
     </script>
 

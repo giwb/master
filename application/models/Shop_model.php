@@ -21,11 +21,11 @@ class Shop_model extends CI_Model
     if (!empty($search['item_name'])) {
       $this->db->like('item_name', $search['item_name']);
     }
-    if (!empty($search['item_category1'])) {
-      $this->db->where('item_category1', $search['item_category1']);
+    if (!empty($search['item_category1']) && empty($search['item_category2'])) {
+      $this->db->like('item_category', '"' . $search['item_category1'] . '"');
     }
     if (!empty($search['item_category2'])) {
-      $this->db->where('item_category2', $search['item_category2']);
+      $this->db->like('item_category', '"' . $search['item_category2'] . '"');
     }
     if (!empty($paging)) {
       $this->db->limit($paging['perPage'], $paging['nowPage']);
@@ -167,6 +167,19 @@ class Shop_model extends CI_Model
           ->from(DB_SHOP_PURCHASE . ' a')
           ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
           ->join(DB_NOTICE . ' c', 'a.notice_idx=c.idx', 'left')
+          ->where('a.deleted_at', NULL)
+          ->order_by('a.idx', 'desc');
+    return $this->db->get()->result_array();
+  }
+
+  // 주문 내역
+  public function viewOrder($idx)
+  {
+    $this->db->select('a.*, b.nickname, c.startdate, c.mname')
+          ->from(DB_SHOP_PURCHASE . ' a')
+          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
+          ->join(DB_NOTICE . ' c', 'a.notice_idx=c.idx', 'left')
+          ->where('a.idx', $idx)
           ->where('a.deleted_at', NULL)
           ->order_by('a.idx', 'desc');
     return $this->db->get()->result_array();

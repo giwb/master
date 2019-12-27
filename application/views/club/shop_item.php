@@ -8,11 +8,23 @@
               <img src="<?=$viewItem['item_photo'][0]?>">
             </div>
             <div class="col-sm-7 text-left">
-              <div class="item-category"><?=$viewItem['item_category1']['name']?> > <?=$viewItem['item_category2']['name']?></div>
+              <div class="item-category"><?php if (!empty($viewItem['item_category_name'])): foreach ($viewItem['item_category_name'] as $key => $cname): if ($key != 0) { echo ' > '; } ?><?=$cname?><? endforeach; endif; ?></div>
               <h2 class="item-name"><?=$viewItem['item_name']?></h2>
-              <h3 class="item-cost"><?=number_format($viewItem['item_cost'])?>원</h3>
+              <h4 class="mt-4 mb-4">
+                <?php if (count($viewItem['item_option_cost']) == 1 && empty($viewItem['item_option'][0])): ?>
+                <span class="item-cost"><?=number_format($viewItem['item_option_cost'][0])?>원</span>
+                <input type="hidden" value="0" class="item-option" data-cost="<?=$viewItem['item_option_cost'][0]?>">
+                <?php else: ?>
+                <select name="item_option" class="form-control item-option">
+                  <option value="">옵션을 선택해주세요</option>
+                  <?php foreach ($viewItem['item_option_cost'] as $key => $cost): ?>
+                  <option value="<?=$key?>" data-cost="<?=$cost?>"><?=!empty($viewItem['item_option'][$key]) ? $viewItem['item_option'][$key] . ' - ' : ''?><?=number_format($cost)?>원</option>
+                  <?php endforeach; ?>
+                </select>
+                <?php endif; ?>
+              </h4>
               <button type="button" class="btn btn-cart" data-idx="<?=$viewItem['idx']?>">장바구니에 담기</button>
-              <a href="<?=base_url()?>club/shop_cart/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">장바구니 보기</button></a>
+              <a href="<?=base_url()?>club/shop/<?=$view['idx']?>"><button type="button" class="btn btn-secondary ml-3">목록으로</button></a>
             </div>
           </div>
           <div class="item-content">

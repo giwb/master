@@ -7,7 +7,10 @@
     <?php foreach ($value['listCart'] as $key => $item): ?>
     <div class="row align-items-center mt-3">
       <div class="col-sm-1"><img class="w-100" src="<?=base_url() . PHOTO_URL . $item['photo']?>"></div>
-      <div class="col-sm-11"><?=$item['name']?><br><small><?=number_format($item['amount'])?>개, <?=number_format($item['cost'] * $item['amount'])?>원</small></div>
+      <div class="col-sm-11">
+        <?=$item['name']?><br>
+        <small><?=!empty($item['option']) ? $item['option'] . ' - ' : ''?><?=number_format($item['amount'])?>개, <?=number_format($item['cost'] * $item['amount'])?>원</small>
+      </div>
     </div>
     <?php endforeach; ?>
   </div>

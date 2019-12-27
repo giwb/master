@@ -134,6 +134,8 @@
             <a class="collapse-item" href="<?=base_url()?>admin/log_user"> <i class="menu-icon fas fa-th-list"></i> 회원 활동기록</a>
             <a class="collapse-item" href="<?=base_url()?>admin/log_admin"> <i class="menu-icon fas fa-list-alt"></i> 관리자 활동기록</a>
             <a class="collapse-item" href="<?=base_url()?>admin/log_refund"> <i class="menu-icon fas fa-won-sign"></i> 비회원 환불기록</a>
+            <a class="collapse-item" href="<?=base_url()?>admin/log_buy"> <i class="menu-icon fas fa-cart-plus"></i> 회원 구매기록</a>
+            <a class="collapse-item" href="<?=base_url()?>admin/log_buy_admin"> <i class="menu-icon fas fa-luggage-cart"></i> 관리자 구매기록</a>
             <a class="collapse-item" href="<?=base_url()?>admin/log_reply"> <i class="menu-icon fas fa-reply"></i> 댓글 기록</a>
             <a class="collapse-item" href="<?=base_url()?>admin/log_reaction"> <i class="menu-icon fas fa-heart"></i> 좋아요/공유 기록</a>
             <a class="collapse-item" href="<?=base_url()?>admin/log_visitor"> <i class="menu-icon fas fa-user-check"></i> 방문자 기록</a>

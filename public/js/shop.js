@@ -7,9 +7,21 @@ $(document).on('click', '.shop-item', function() {
   var baseUrl = $('input[name=baseUrl]').val();
   var clubIdx = $('input[name=clubIdx]').val();
   var idx = $(this).data('idx');
+  var item_key = $('.item-option').val();
+  var item_cost = $('.item-option option:selected').data('cost');
+
+  if (typeof item_cost == 'undefined' || item_cost == '') {
+    item_cost = $('.item-option').data('cost');
+  }
+
+  if (typeof $('.item-option').val() == 'undefined' || $('.item-option').val() == '') {
+    $.openMsgModal('옵션은 꼭 선택해주세요.');
+    return false;
+  }
+
   $.ajax({
     url: baseUrl + 'club/shop_cart_insert/' + clubIdx,
-    data: 'idx=' + idx,
+    data: 'idx=' + idx + '&item_key=' + item_key + '&item_cost=' + item_cost,
     dataType: 'json',
     type: 'post',
     beforeSend: function() {

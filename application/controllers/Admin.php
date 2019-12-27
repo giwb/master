@@ -9,7 +9,7 @@ class Admin extends Admin_Controller
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
     $this->load->library(array('image_lib', 'session'));
-    $this->load->model(array('admin_model', 'area_model', 'club_model', 'file_model', 'member_model'));
+    $this->load->model(array('admin_model', 'area_model', 'club_model', 'file_model', 'member_model', 'shop_model'));
   }
 
   /**
@@ -1958,6 +1958,7 @@ class Admin extends Admin_Controller
       $this->output->set_output(json_encode($result));
     } else {
       // 1페이지에는 View 페이지로 전송
+      $viewData['listHistory'] = $this->load->view('admin/log_user_append', $viewData, true);
       $this->_viewPage('admin/log_user', $viewData);
     }
   }
@@ -2033,6 +2034,7 @@ class Admin extends Admin_Controller
       $this->output->set_output(json_encode($result));
     } else {
       // 1페이지에는 View 페이지로 전송
+      $viewData['listHistory'] = $this->load->view('admin/log_user_append', $viewData, true);
       $this->_viewPage('admin/log_user', $viewData);
     }
   }
@@ -2085,6 +2087,71 @@ class Admin extends Admin_Controller
       $this->output->set_output(json_encode($result));
     } else {
       // 1페이지에는 View 페이지로 전송
+      $viewData['listHistory'] = $this->load->view('admin/log_user_append', $viewData, true);
+      $this->_viewPage('admin/log_user', $viewData);
+    }
+  }
+
+  /**
+   * 활동관리 - 회원 구매기록
+   *
+   * @return view
+   * @return json
+   * @author bjchoi
+   **/
+  public function log_buy()
+  {
+    $action = html_escape($this->input->post('action'));
+    $viewData['subject'] = html_escape($this->input->post('subject'));
+    $viewData['nickname'] = html_escape($this->input->post('nickname'));
+    $viewData['status'] = !empty($this->input->post('status')) ? html_escape($this->input->post('status')) : 0;
+    $page = html_escape($this->input->post('p'));
+    if (empty($page)) $page = 1; else $page++;
+
+    $paging['perPage'] = 30;
+    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
+
+    if (!empty($action)) {
+      $viewData['action'] = array($action);
+      $viewData['listHistory'] = $this->admin_model->listHistory($paging, $viewData);
+    } else {
+      $viewData['action'] = array(LOG_SHOP_BUY, LOG_SHOP_CHECKOUT, LOG_SHOP_CANCEL);
+      $viewData['listHistory'] = $this->admin_model->listHistory($paging, $viewData);
+      $viewData['action'][0] = ''; // 액션 초기화
+    }
+
+    $viewData['pageType'] = 'buy';
+    $viewData['pageUrl'] = base_url() . 'admin/log_buy';
+    $viewData['pageTitle'] = '회원 구매기록';
+
+    foreach ($viewData['listHistory'] as $key => $value) {
+      $viewData['listHistory'][$key]['userData']['nickname'] = $value['nickname'];
+      $viewOrder = $this->shop_model->viewOrder($value['fkey']);
+
+      switch ($value['action']) {
+        case LOG_SHOP_BUY: // 용품판매 - 구매
+          $viewData['listHistory'][$key]['header'] = '<span class="text-primary">[구매완료]</span>';
+          $viewData['listHistory'][$key]['subject'] = $value['subject'];
+          break;
+        case LOG_SHOP_CHECKOUT: // 용품판매 - 결제
+          $viewData['listHistory'][$key]['header'] = '<span class="text-info">[결제완료]</span>';
+          $viewData['listHistory'][$key]['subject'] = $value['subject'];
+          break;
+        case LOG_SHOP_CANCEL: // 용품판매 - 취소
+          $viewData['listHistory'][$key]['header'] = '<span class="text-danger">[구매취소]</span>';
+          $viewData['listHistory'][$key]['subject'] = $value['subject'];
+          break;
+      }
+    }
+
+    if ($page >= 2) {
+      // 2페이지 이상일 경우에는 Json으로 전송
+      $result['page'] = $page;
+      $result['html'] = $this->load->view('admin/log_user_append', $viewData, true);
+      $this->output->set_output(json_encode($result));
+    } else {
+      // 1페이지에는 View 페이지로 전송
+      $viewData['listHistory'] = $this->load->view('admin/log_user_append', $viewData, true);
       $this->_viewPage('admin/log_user', $viewData);
     }
   }
