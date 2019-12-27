@@ -42,11 +42,14 @@ class Member extends MY_Controller
       $viewData['listPurchase'] = $this->shop_model->listPurchase($userData['idx']);
 
       foreach ($viewData['listPurchase'] as $key => $value) {
-        $viewData['listPurchase'][$key]['totalCost'] = 0;
-
         // 상품 정보
         $items = unserialize($value['items']);
         $viewData['listPurchase'][$key]['listCart'] = $items;
+
+        $viewData['listPurchase'][$key]['totalCost'] = 0;
+        foreach ($items as $item) {
+          $viewData['listPurchase'][$key]['totalCost'] = $items['cost'] * $items['amount'];
+        }
       }
 
       // 예약 내역

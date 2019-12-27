@@ -3,7 +3,7 @@
   <div class="bg-secondary text-white p-2"><?=!empty($value['status']) && $value['status'] == RESERVE_PAY ? '<strong class="text-primary">[입금완료]</strong>' : '<strong class="text-dark">[입금대기]</strong>'?> <?=$value['nickname']?>님 - <?=date('Y-m-d', $value['created_at'])?> (<?=calcWeek(date('Y-m-d', $value['created_at']))?>) <?=date('H:i', $value['created_at'])?></div>
   <div class="p-3">
     ・구매금액 : <?=number_format($value['totalCost'])?>원 / 사용한 포인트 : <?=number_format($value['point'])?>원<br>
-    ・인수산행 : <?php if (!empty($value['viewNotice'])): ?><?=$value['viewNotice']['startdate']?> (<?=calcWeek($value['viewNotice']['startdate'])?>) <?=$value['viewNotice']['mname']?><? else: ?>미지정<?php endif; ?>
+    ・인수산행 : <?php if (!empty($value['startdate'])): ?><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['mname']?><? else: ?>미지정<?php endif; ?>
     <?php foreach ($value['listCart'] as $key => $item): ?>
     <div class="row align-items-center mt-3">
       <div class="col-sm-1"><img class="w-100" src="<?=base_url() . PHOTO_URL . $item['photo']?>"></div>

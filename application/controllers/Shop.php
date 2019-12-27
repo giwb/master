@@ -315,10 +315,13 @@ class Shop extends Admin_Controller
     $viewData['listOrder'] = $this->shop_model->listOrder($paging, $viewData['search']);
 
     foreach ($viewData['listOrder'] as $key => $value) {
-      $viewData['listOrder'][$key]['totalCost'] = 0;
-
       $items = unserialize($value['items']);
       $viewData['listOrder'][$key]['listCart'] = $items;
+
+      $viewData['listOrder'][$key]['totalCost'] = 0;
+      foreach ($items as $item) {
+        $viewData['listOrder'][$key]['totalCost'] = $items['cost'] * $items['amount'];
+      }
     }
 
     if ($page >= 2) {
