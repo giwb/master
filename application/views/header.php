@@ -108,8 +108,9 @@
           <li><p>&nbsp;</p></li>
           <?php endif; ?>
           <li class="row">
+            <div class="pl-3"><a target="_blank" title="페이스북 링크" href="https://facebook.com/giwb.kr"><img src="<?=base_url()?>public/images/icon_facebook.png"></a></div>
+            <div class="pl-3"><a target="_blank" title="트위터 링크" href="https://twitter.com/giwb_alpine"><img src="<?=base_url()?>public/images/icon_twitter.png"></a></div>
             <div class="pl-3"><a target="_blank" title="카카오채널 링크" href="https://pf.kakao.com/_BxaPRxb"><img src="<?=base_url()?>public/images/icon_kakaotalk.png"></a></div>
-            <div class="pl-3"><a target="_blank" title="페이스북 링크" href="https://facebook.com/giwb.kr"><img src="<?=base_url()?>public/images/icon_facebook.png"></a></div>            
           </li>
           <li><a href="<?=base_url()?>club/about/<?=$view['idx']?>"> 산악회 소개</a></li>
           <li><a href="<?=base_url()?>club/guide/<?=$view['idx']?>"> 등산 안내인 소개</a></li>
@@ -177,8 +178,9 @@
           ・방문수 : <?=number_format($view['cntVisitor']['cnt'])?>회 / 오늘 <?=number_format($view['cntVisitorToday']['cnt'])?>명<br>
           </div>
           <div class="text-center border-top mt-3 pt-3">
-            <a target="_blank" title="카카오채널 링크" href="https://pf.kakao.com/_BxaPRxb"><img src="<?=base_url()?>public/images/icon_kakaotalk.png"></a>
             <a target="_blank" title="페이스북 링크" href="https://facebook.com/giwb.kr"><img src="<?=base_url()?>public/images/icon_facebook.png"></a>
+            <a target="_blank" title="트위터 링크" href="https://twitter.com/giwb_alpine"><img src="<?=base_url()?>public/images/icon_twitter.png"></a>
+            <a target="_blank" title="카카오채널 링크" href="https://pf.kakao.com/_BxaPRxb"><img src="<?=base_url()?>public/images/icon_kakaotalk.png"></a>
           </div>
         </div>
       </div>
