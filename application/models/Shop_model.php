@@ -134,10 +134,12 @@ class Shop_model extends CI_Model
   // 구매 목록
   public function listPurchase($userIdx)
   {
-    $this->db->select('*')
-          ->from(DB_SHOP_PURCHASE)
-          ->where('deleted_at', NULL)
-          ->where('created_by', $userIdx);
+    $this->db->select('a.*, b.nickname, c.startdate, c.mname')
+          ->from(DB_SHOP_PURCHASE . ' a')
+          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
+          ->join(DB_NOTICE . ' c', 'a.notice_idx=c.idx', 'left')
+          ->where('a.deleted_at', NULL)
+          ->order_by('a.idx', 'desc');
     return $this->db->get()->result_array();
   }
 
