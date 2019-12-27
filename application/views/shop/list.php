@@ -1,5 +1,5 @@
 <?php foreach ($listItem as $value): ?>
-<div class="row align-items-center mb-3">
+<div class="row align-items-center mb-3 item-list" data-idx="<?=$value['idx']?>">
   <div class="col-sm-1"><img src="<?=$value['item_photo']?>" class="w-100"></div>
   <div class="col-sm-11">
     ・번호 : <?=$value['idx']?><br>
