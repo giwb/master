@@ -48,7 +48,7 @@ class Member extends MY_Controller
 
         $viewData['listPurchase'][$key]['totalCost'] = 0;
         foreach ($items as $item) {
-          $viewData['listPurchase'][$key]['totalCost'] = $items['cost'] * $items['amount'];
+          $viewData['listPurchase'][$key]['totalCost'] = $item['cost'] * $item['amount'];
         }
       }
 
