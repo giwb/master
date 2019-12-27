@@ -320,7 +320,7 @@ class Shop extends Admin_Controller
 
       $viewData['listOrder'][$key]['totalCost'] = 0;
       foreach ($items as $item) {
-        $viewData['listOrder'][$key]['totalCost'] = $items['cost'] * $items['amount'];
+        $viewData['listOrder'][$key]['totalCost'] = $item['cost'] * $item['amount'];
       }
     }
 
