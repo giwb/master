@@ -8,7 +8,7 @@
               <img src="<?=$viewItem['item_photo'][0]?>">
             </div>
             <div class="col-sm-7 text-left">
-              <div class="item-category"><?php if (!empty($viewItem['item_category_name'])): foreach ($viewItem['item_category_name'] as $key => $cname): if ($key != 0) { echo ' > '; } ?><?=$cname?><? endforeach; endif; ?></div>
+              <div class="item-category"><?php if (!empty($viewItem['item_category_name'])): foreach ($viewItem['item_category_name'] as $key => $cname): if ($key != 0) { echo ' > '; } ?><?=$cname?><?php endforeach; endif; ?></div>
               <h2 class="item-name"><?=$viewItem['item_name']?></h2>
               <h4 class="mt-4 mb-4">
                 <?php if (count($viewItem['item_option_cost']) == 1 && empty($viewItem['item_option'][0])): ?>
