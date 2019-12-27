@@ -849,7 +849,7 @@ class Admin extends Admin_Controller
       $viewData['view']['driving_add'] = @unserialize($viewData['view']['driving_add']);
 
       if (empty($viewData['view']['road_course'][0])) $viewData['view']['road_course'][0] = '기본운행구간';
-      if (empty($viewData['view']['road_address'][0])) $viewData['view']['road_address'][0] = '';
+      if (empty($viewData['view']['road_address'][0])) $viewData['view']['road_address'][0] = '경기도 부천시 수도로 344';
       if (empty($viewData['view']['road_distance'][0])) $viewData['view']['road_distance'][0] = '43.44';
       if (empty($viewData['view']['road_runtime'][0])) $viewData['view']['road_runtime'][0] = '0:50';
       if (empty($viewData['view']['road_cost'][0])) $viewData['view']['road_cost'][0] = '0';
@@ -889,7 +889,7 @@ class Admin extends Admin_Controller
       $viewData['view']['winter'] = '';
       $viewData['view']['distance'] = '';
       $viewData['view']['road_course'][0] = '기본운행구간';
-      $viewData['view']['road_address'][0] = '';
+      $viewData['view']['road_address'][0] = '경기도 부천시 수도로 344';
       $viewData['view']['road_distance'][0] = '43.44';
       $viewData['view']['road_runtime'][0] = '0:50';
       $viewData['view']['road_cost'][0] = '0';
@@ -2644,6 +2644,19 @@ class Admin extends Admin_Controller
       $result = array('error' => 0, 'message' => $rtn);
     }
 
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 구군 목록
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function list_gugun()
+  {
+    $parent = html_escape($this->input->post('parent'));
+    $result = $this->area_model->listGugun($parent);
     $this->output->set_output(json_encode($result));
   }
 

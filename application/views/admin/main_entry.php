@@ -400,7 +400,7 @@
         var parent = $dom.val();
 
         $.ajax({
-          url: $('input[name=base_url]').val() + 'club/list_gugun',
+          url: $('input[name=base_url]').val() + 'admin/list_gugun',
           data: 'parent=' + parent,
           dataType: 'json',
           type: 'post',
