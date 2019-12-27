@@ -294,6 +294,59 @@ class Shop extends Admin_Controller
   }
 
   /**
+   * 쇼핑몰 : 주문 관리
+   *
+   * @return view
+   * @return json
+   * @author bjchoi
+   **/
+  public function order()
+  {
+    $viewData['search'] = array(
+      'item_name' => !empty($this->input->post('item_name')) ? html_escape($this->input->post('item_name')) : NULL,
+      'nickname' => !empty($this->input->post('nickname')) ? html_escape($this->input->post('nickname')) : NULL,
+    );
+    $page = html_escape($this->input->post('p'));
+    if (empty($page)) $page = 1; else $page++;
+    $paging['perPage'] = $viewData['perPage'] = 30;
+    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
+
+    $viewData['maxOrder'] = $this->shop_model->cntOrder($viewData['search']);
+    $viewData['listOrder'] = $this->shop_model->listOrder($paging, $viewData['search']);
+
+    foreach ($viewData['listOrder'] as $key => $value) {
+      $viewData['listOrder'][$key]['totalCost'] = 0;
+      $items = unserialize($value['items']);
+      $cnt = 0;
+      foreach ($items as $item) {
+        $viewItem = $this->shop_model->viewItem($item['idx']);
+        $viewData['listOrder'][$key]['order_item'][$cnt]['item_name'] = $viewItem['item_name'];
+        $viewData['listOrder'][$key]['order_item'][$cnt]['amount'] = $item['amount'];
+        $viewData['listOrder'][$key]['totalCost'] += $viewItem['item_cost'] * $item['amount'];
+
+        if (!empty($viewItem['item_photo'])) {
+          $photo = unserialize($viewItem['item_photo']);
+          $viewData['listOrder'][$key]['item_photo'] = base_url() . PHOTO_URL . $photo[0];
+        }
+        $cnt++;
+      }
+    }
+
+    if ($page >= 2) {
+      // 2페이지 이상일 경우에는 Json으로 전송
+      $result['page'] = $page;
+      $result['html'] = $this->load->view('shop/order_list', $viewData, true);
+      $this->output->set_output(json_encode($result));
+    } else {
+      // 아이템 목록 템플릿
+      $viewData['listOrder'] = $this->load->view('shop/order_list', $viewData, true);
+
+      // 1페이지에는 View 페이지로 전송
+      $this->_viewPage('shop/order', $viewData);
+    }
+  }
+
+  /**
    * 파일 업로드
    *
    * @return json

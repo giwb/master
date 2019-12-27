@@ -157,5 +157,26 @@ class Shop_model extends CI_Model
     $this->db->insert(DB_SHOP_PURCHASE, $data);
     return $this->db->insert_id();
   }
+
+  // 주문 관리
+  public function listOrder($paging, $search)
+  {
+    $this->db->select('a.*, b.nickname, c.startdate, c.mname')
+          ->from(DB_SHOP_PURCHASE . ' a')
+          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx')
+          ->join(DB_NOTICE . ' c', 'a.notice_idx=c.idx')
+          ->where('a.deleted_at', NULL)
+          ->order_by('a.idx', 'desc');
+    return $this->db->get()->result_array();
+  }
+
+  // 주문 관리 카운트
+  public function cntOrder($search)
+  {
+    $this->db->select('COUNT(*) AS cnt')
+          ->from(DB_SHOP_PURCHASE)
+          ->where('deleted_at', NULL);
+    return $this->db->get()->row_array(1);
+  }
 }
 ?>
