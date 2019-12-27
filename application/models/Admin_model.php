@@ -55,7 +55,8 @@ class Admin_model extends CI_Model
           ->from(DB_RESERVATION)
           ->where('rescode', $resCode)
           ->where('manager', 0)
-          ->where('priority', 0);
+          ->where('priority', 0)
+          ->where('status !=', RESERVE_WAIT);
 
     if (!is_null($bus)) {
       $this->db->where('bus', $bus);

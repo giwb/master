@@ -162,8 +162,9 @@ class Reserve extends MY_Controller
     // 해당 버스의 좌석
     foreach ($result['busType'] as $key => $busType) {
       foreach (range(1, $busType['seat']) as $seat) {
-        $seat = checkDirection($seat, ($key+1), $notice['bustype'], $notice['bus']);
-        $result['seat'][] = $seat;
+        $bus = $key + 1;
+        $seat = checkDirection($seat, ($bus), $notice['bustype'], $notice['bus']);
+        $result['seat'][$bus][] = $seat;
       }
     }
 
@@ -171,6 +172,32 @@ class Reserve extends MY_Controller
     $result['breakfast'] = arrBreakfast(); // 아침식사
     $result['nowSeat'] = checkDirection($nowSeat, $nowBus, $notice['bustype'], $notice['bus']);
     $result['userLocation'] = $userData['location'];
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 예약 정보 - 버스
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function information_bus()
+  {
+    $clubIdx = $this->load->get_var('clubIdx');
+    $noticeIdx = html_escape($this->input->post('idx'));
+    $viewData['view'] = $this->reserve_model->viewNotice($clubIdx, $noticeIdx);
+
+    $result['busType'] = getBusType($viewData['view']['bustype'], $viewData['view']['bus']); // 버스 형태별 좌석 배치
+
+    // 해당 버스의 좌석
+    foreach ($result['busType'] as $key => $busType) {
+      foreach (range(1, $busType['seat']) as $seat) {
+        $bus = $key + 1;
+        $seat = checkDirection($seat, ($bus), $viewData['view']['bustype'], $viewData['view']['bus']);
+        $result['seat'][$bus][] = $seat;
+      }
+    }
 
     $this->output->set_output(json_encode($result));
   }

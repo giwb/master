@@ -606,6 +606,24 @@
       $('.seat[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
       $.viewReserveInfo(resIdx, bus, seat); // 예약 정보
     }
+  }).on('change', '.reserve .busSelect', function() {
+    // 버스 선택시 해당 버스의 좌석으로 변경
+    var $dom = $(this);
+    var $domSeat = $dom.parent().find('.busSeat');
+    var seat = $domSeat.val();
+    var bus = $dom.val();
+    var selectSeat = '';
+    var selected = '';
+    $.ajax({
+      url: $('input[name=base_url]').val() + 'admin/reserve_information_bus',
+      data: 'idx=' + $('input[name=idx]').val(),
+      dataType: 'json',
+      type: 'post',
+      success: function(result) {
+        $.each(result.seat[bus], function(i, v) { if ((i+1) == seat) selected = ' selected'; else selected = ''; selectSeat += '<option' + selected + ' value="' + (i+1) + '">' + v + '번</option>'; });
+        $domSeat.empty().append(selectSeat);
+      }
+    });
   }).on('click', '.area-bus-table .priority', function() {
     // 2인우선 예약 버튼
     var resIdx = $(this).data('id');
@@ -993,8 +1011,8 @@
         var header = '<div class="reserve" data-seat="' + seat + '"><input type="hidden" name="resIdx[]" value="' + resIdx + '">';
         var nickname = '<input type="text" name="nickname[]" size="20" placeholder="닉네임" class="nickname search-userid" value="' + reserveInfo.reserve.nickname + '"><input type="hidden" name="userid[]" class="userid" value="' + reserveInfo.reserve.userid + '"> ';
         var gender = '<select name="gender[]" class="gender"><option'; if (reserveInfo.reserve.gender == 'M') gender += ' selected'; gender += ' value="M">남</option><option '; if (reserveInfo.reserve.gender == 'F') gender += ' selected'; gender +=' value="F">여</option></select> ';
-        var busType = '<select name="bus[]">'; $.each(reserveInfo.busType, function(i, v) { if (v.idx == '') v.idx = '버스'; cnt = i + 1; if (cnt == bus) selected = ' selected'; else selected = ''; busType += '<option' + selected + ' value="' + cnt + '">' + cnt + '호차</option>'; }); busType += '</select> ';
-        var selectSeat = '<select name="seat[]">'; $.each(reserveInfo.seat, function(i, v) { if ((i+1) == seat) selected = ' selected'; else selected = ''; selectSeat += '<option' + selected + ' value="' + (i+1) + '">' + v + '번</option>'; }); selectSeat += '</select> ';
+        var busType = '<select name="bus[]" class="busSelect">'; $.each(reserveInfo.busType, function(i, v) { if (v.idx == '') v.idx = '버스'; cnt = i + 1; if (cnt == bus) selected = ' selected'; else selected = ''; busType += '<option' + selected + ' value="' + cnt + '">' + cnt + '호차</option>'; }); busType += '</select> ';
+        var selectSeat = '<select name="seat[]" class="busSeat">'; $.each(reserveInfo.seat[bus], function(i, v) { if ((i+1) == seat) selected = ' selected'; else selected = ''; selectSeat += '<option' + selected + ' value="' + (i+1) + '">' + v + '번</option>'; }); selectSeat += '</select> ';
         var location = '<select name="location[]" class="location">'; $.each(reserveInfo.location, function(i, v) { if (v.stitle == '') v.stitle = '승차위치'; cnt = i + 1; if (reserveInfo.reserve.loc == v.no) selected = ' selected'; else selected = ''; location += '<option' + selected + ' value="' + v.no + '">' + v.stitle + '</option>'; }); location += '</select> ';
         var depositname = '<input type="text" name="depositname[]" size="20" placeholder="입금자명" value="' + reserveInfo.reserve.depositname + '">';
         var memo = '<div class="mt-1"><input type="text" name="memo[]" size="30" placeholder="메모" value="' + reserveInfo.reserve.memo + '"> ';

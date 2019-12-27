@@ -96,13 +96,39 @@ class Admin extends Admin_Controller
     // 해당 버스의 좌석
     foreach ($result['busType'] as $key => $busType) {
       foreach (range(1, $busType['seat']) as $seat) {
-        $seat = checkDirection($seat, ($key+1), $viewData['view']['bustype'], $viewData['view']['bus']);
-        $result['seat'][] = $seat;
+        $bus = $key + 1;
+        $seat = checkDirection($seat, ($bus), $viewData['view']['bustype'], $viewData['view']['bus']);
+        $result['seat'][$bus][] = $seat;
       }
     }
 
     $result['location'] = arrLocation(); // 승차위치
     $result['breakfast'] = arrBreakfast(); // 아침식사
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 예약 정보 - 버스
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function reserve_information_bus()
+  {
+    $idx = html_escape($this->input->post('idx'));
+    $viewData['view'] = $this->admin_model->viewEntry($idx);
+
+    $result['busType'] = getBusType($viewData['view']['bustype'], $viewData['view']['bus']); // 버스 형태별 좌석 배치
+
+    // 해당 버스의 좌석
+    foreach ($result['busType'] as $key => $busType) {
+      foreach (range(1, $busType['seat']) as $seat) {
+        $bus = $key + 1;
+        $seat = checkDirection($seat, ($bus), $viewData['view']['bustype'], $viewData['view']['bus']);
+        $result['seat'][$bus][] = $seat;
+      }
+    }
 
     $this->output->set_output(json_encode($result));
   }
@@ -180,41 +206,54 @@ class Admin extends Admin_Controller
           }
         }
       } else {
-        // 이동하려는 좌석 데이터가 없거나, 같은 번호인 경우, 그리고 대기자우선석에만 수정 가능
-        if (empty($checkReserve['idx']) || $checkReserve['idx'] == $resIdx || $checkReserve['status'] == RESERVE_WAIT) {
+        // 선택한 좌석과 기존 예약좌석이 다를경우
+        if (!empty($checkReserve['idx']) && $checkReserve['idx'] != $resIdx) {
+          // 기존 예약정보 불러오기
+          $search['idx'] = $resIdx;
+          $viewOldReserve = $this->admin_model->viewReserve($search);
+
+          // 이동하려는 좌석이 대기자우선석인 경우, 기존 좌석을 대기자우선석으로 변경
           if ($checkReserve['status'] == RESERVE_WAIT) {
-            // 대기자우선석 처리
-            if ($checkReserve['idx'] == $resIdx) {
-              // 같은 좌석이면 대기자 입력이기 때문에 미입금으로 변경
-              $postData['status'] = RESERVE_ON;
-            } else {
-              // 좌석 이동이면 기존 데이터 수정
-              $search['idx'] = $resIdx;
-              $viewOldReserve = $this->admin_model->viewReserve($search);
-              $updateWait = array(
-                'userid' => NULL,
-                'nickname' => '대기자우선',
-                'seat' => $viewOldReserve['seat'],
-                'loc' => NULL,
-                'bref' => NULL,
-                'memo' => NULL,
-                'depositname' => NULL,
-                'point' => 0,
-                'priority' => 0,
-                'vip' => 0,
-                'manager' => 0,
-                'penalty' => 0,
-                'status' => RESERVE_WAIT
-              );
-              $this->admin_model->updateReserve($updateWait, $checkReserve['idx']);
-            }
-          }
-          if (!empty($checkReserve['priority']) && $checkReserve['nickname'] == '2인우선') {
+            $updateWait = array(
+              'userid' => NULL,
+              'nickname' => '대기자우선',
+              'bus' => $viewOldReserve['bus'],
+              'seat' => $viewOldReserve['seat'],
+              'loc' => NULL,
+              'bref' => NULL,
+              'memo' => NULL,
+              'depositname' => NULL,
+              'point' => 0,
+              'priority' => 0,
+              'vip' => 0,
+              'manager' => 0,
+              'penalty' => 0,
+              'status' => RESERVE_WAIT
+            );
+            $this->admin_model->updateReserve($updateWait, $checkReserve['idx']);
+
+            // 대기자 입력이기 때문에 미입금으로 변경
+            $postData['status'] = RESERVE_ON;
+          } elseif (!empty($checkReserve['priority']) && $checkReserve['nickname'] == '2인우선') {
+            // 2인우선석의 경우
             $postData['status'] = RESERVE_ON;
             $postData['priority'] = 0;
+          } else {
+            // 일반 좌석일 경우 좌석을 교환
+            $changeData = array(
+              'bus' => $viewOldReserve['bus'],
+              'seat' => $viewOldReserve['seat']
+            );
+            $this->admin_model->updateReserve($changeData, $checkReserve['idx']);
           }
-          $result = $this->admin_model->updateReserve($postData, $resIdx);
+        } else {
+          if ($checkReserve['status'] == RESERVE_WAIT) {
+            // 대기자 입력이기 때문에 미입금으로 변경
+            $postData['status'] = RESERVE_ON;
+          }
         }
+        // 예약정보 수정
+        $result = $this->admin_model->updateReserve($postData, $resIdx);
       }
     }
 
