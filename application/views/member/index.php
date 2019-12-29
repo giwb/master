@@ -255,14 +255,14 @@
             reserveCost += Number($(this).data('reserve-cost'));
             paymentCost += Number($(this).data('payment-cost'));
             usingPoint += Number($(this).data('using-point'));
-            if ($(this).data('status') == <?=ORDER_CHECK?>) {
+            if ($(this).data('status') == <?=ORDER_PAY?>) {
               reserveStatus = $(this).data('status');
             }
             depositName = $(this).data('deposit-name');
             noticeIdx = $(this).data('notice-idx');
           });
 
-          if (reserveStatus == <?=ORDER_CHECK?>) {
+          if (reserveStatus == <?=ORDER_PAY?>) {
             $.openMsgModal('이미 입금확인된 내역이 포함되어 있습니다.');
             return false;
           }
