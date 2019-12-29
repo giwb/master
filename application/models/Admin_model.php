@@ -486,6 +486,29 @@ class Admin_model extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  // 활동관리 - 회원 예약 기록 카운트
+  public function cntHistory($search=NULL)
+  {
+    $this->db->select('COUNT(*) AS cnt')
+          ->from(DB_HISTORY)
+          ->where('status', $search['status']);
+
+    if (!empty($search['action'])) {
+      $this->db->where_in('action', $search['action']);
+    }
+    if (!empty($search['subject'])) {
+      $this->db->like('subject', $search['subject']);
+    }
+    if (!empty($search['nickname'])) {
+      $this->db->like('nickname', $search['nickname']);
+    }
+    if (!empty($search['refund'])) {
+      $this->db->where('userid', '');
+    }
+
+    return $this->db->get()->row_array(1);
+  }
+
   // 활동관리 - 기록 상세 보기
   public function viewHistory($idx)
   {

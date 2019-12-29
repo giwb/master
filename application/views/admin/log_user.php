@@ -49,9 +49,12 @@
             <div class="col-sm-3 text-left"><button type="button" class="btn btn-primary btn-member-search">검색</button></div>
           </form>
         </div>
+
         <?=$listHistory?>
-        <div class="area-append">
-        </div>
+
+        <div class="area-append"></div>
+        <?php if ($maxLog['cnt'] > $perPage): ?>
         <button class="btn btn-page-next">다음 페이지 보기 ▼</button>
+        <?php endif; ?>
       </div>
     </div>

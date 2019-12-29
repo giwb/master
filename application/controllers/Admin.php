@@ -1895,7 +1895,7 @@ class Admin extends Admin_Controller
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
 
-    $paging['perPage'] = 30;
+    $paging['perPage'] = $viewData['perPage'] = 30;
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
 
     if (!empty($action)) {
@@ -1907,6 +1907,7 @@ class Admin extends Admin_Controller
       $viewData['action'][0] = ''; // 액션 초기화
     }
 
+    $viewData['maxLog'] = $this->admin_model->cntHistory($viewData);
     $viewData['pageType'] = 'member';
     $viewData['pageUrl'] = base_url() . 'admin/log_user';
     $viewData['pageTitle'] = '회원 활동기록';
@@ -1979,7 +1980,7 @@ class Admin extends Admin_Controller
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
 
-    $paging['perPage'] = 30;
+    $paging['perPage'] = $viewData['perPage'] = 30;
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
 
     if (!empty($action)) {
@@ -1991,6 +1992,7 @@ class Admin extends Admin_Controller
       $viewData['action'][0] = ''; // 액션 초기화
     }
 
+    $viewData['maxLog'] = $this->admin_model->cntHistory($viewData);
     $viewData['pageType'] = 'admin';
     $viewData['pageUrl'] = base_url() . 'admin/log_admin';
     $viewData['pageTitle'] = '관리자 활동기록';
@@ -2055,7 +2057,7 @@ class Admin extends Admin_Controller
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
 
-    $paging['perPage'] = 30;
+    $paging['perPage'] = $viewData['perPage'] = 30;
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
 
     if (!empty($action)) {
@@ -2068,6 +2070,7 @@ class Admin extends Admin_Controller
       $viewData['action'][0] = ''; // 액션 초기화
     }
 
+    $viewData['maxLog'] = $this->admin_model->cntHistory($viewData);
     $viewData['pageType'] = 'refund';
     $viewData['pageUrl'] = base_url() . 'admin/log_refund';
     $viewData['pageTitle'] = '비회원 환불기록';
@@ -2108,7 +2111,7 @@ class Admin extends Admin_Controller
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
 
-    $paging['perPage'] = 30;
+    $paging['perPage'] = $viewData['perPage'] = 30;
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
 
     if (!empty($action)) {
@@ -2120,6 +2123,7 @@ class Admin extends Admin_Controller
       $viewData['action'][0] = ''; // 액션 초기화
     }
 
+    $viewData['maxLog'] = $this->admin_model->cntHistory($viewData);
     $viewData['pageType'] = 'buy';
     $viewData['pageUrl'] = base_url() . 'admin/log_buy';
     $viewData['pageTitle'] = '회원 구매기록';
@@ -2172,7 +2176,7 @@ class Admin extends Admin_Controller
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
 
-    $paging['perPage'] = 30;
+    $paging['perPage'] = $viewData['perPage'] = 30;
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
 
     if (!empty($action)) {
@@ -2184,6 +2188,7 @@ class Admin extends Admin_Controller
       $viewData['action'][0] = ''; // 액션 초기화
     }
 
+    $viewData['maxLog'] = $this->admin_model->cntHistory($viewData);
     $viewData['pageType'] = 'buy_admin';
     $viewData['pageUrl'] = base_url() . 'admin/log_buy_admin';
     $viewData['pageTitle'] = '관리자 구매기록';
