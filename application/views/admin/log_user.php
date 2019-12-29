@@ -35,6 +35,13 @@
                 <option<?=$action[0] == 22 ? ' selected' : ''?> value="22">결제내역</option>
                 <option<?=$action[0] == 23 ? ' selected' : ''?> value="23">취소내역</option>
                 <?php endif; ?>
+                <?php if ($pageType == 'buy_admin'): ?>
+                <option<?=$action[0] == 24 ? ' selected' : ''?> value="24">관리자 구매</option>
+                <option<?=$action[0] == 25 ? ' selected' : ''?> value="25">관리자 취소</option>
+                <option<?=$action[0] == 26 ? ' selected' : ''?> value="26">관리자 입금확인</option>
+                <option<?=$action[0] == 27 ? ' selected' : ''?> value="27">관리자 입금취소</option>
+                <option<?=$action[0] == 28 ? ' selected' : ''?> value="28">관리자 판매완료</option>
+                <?php endif; ?>
               </select>
             </div>
             <div class="col-sm-1 pl-0 pr-0">상태로 검색</div>

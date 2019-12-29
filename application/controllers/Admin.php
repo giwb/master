@@ -2130,7 +2130,7 @@ class Admin extends Admin_Controller
 
     foreach ($viewData['listHistory'] as $key => $value) {
       $viewData['listHistory'][$key]['userData']['nickname'] = $value['nickname'];
-      $viewOrder = $this->shop_model->viewOrder($value['fkey']);
+      $viewOrder = $this->shop_model->viewPurchase($value['fkey']);
 
       switch ($value['action']) {
         case LOG_SHOP_BUY: // 용품판매 - 구매
@@ -2195,7 +2195,7 @@ class Admin extends Admin_Controller
 
     foreach ($viewData['listHistory'] as $key => $value) {
       $viewData['listHistory'][$key]['userData']['nickname'] = $value['nickname'];
-      $viewOrder = $this->shop_model->viewOrder($value['fkey']);
+      $viewOrder = $this->shop_model->viewPurchase($value['fkey']);
 
       switch ($value['action']) {
         case LOG_ADMIN_SHOP_BUY: // 용품판매 관리자 - 구매
