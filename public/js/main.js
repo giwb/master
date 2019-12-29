@@ -861,15 +861,23 @@
 
     if (resIdx.length > 0) {
       $('#reserveCancelModal input[name=resIdx]').val(resIdx);
+      $('#reserveCancelModal input[name=resType]').val(1); // 결제 형식은 예약
       $('#reserveCancelModal').modal({backdrop: 'static', keyboard: false});
     } else {
       $.openMsgModal('취소할 예약 내역을 선택해주세요.');
     }
   }).on('click', '.btn-reserve-cancel-confirm', function() {
-    // 예약좌석 취소 처리
+    // 취소 처리
     var $btn = $(this);
+    var resType = $('#reserveCancelModal input[name=resType]').val();
+    var action = '';
+    if (resType == 1) {
+      action = $('input[name=baseUrl]').val() + 'reserve/cancel/' + $('input[name=clubIdx]').val();
+    } else {
+      action = $('input[name=baseUrl]').val() + 'club/shop_cancel/' + $('input[name=clubIdx]').val();
+    }
     $.ajax({
-      url: $('input[name=baseUrl]').val() + 'reserve/cancel/' + $('input[name=clubIdx]').val(),
+      url: action,
       data: 'resIdx=' + $('input[name=resIdx]').val(),
       dataType: 'json',
       type: 'post',

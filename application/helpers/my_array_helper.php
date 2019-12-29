@@ -827,6 +827,19 @@ if (!function_exists('calcStoryTime')) {
   }
 }
 
+// 구매 입금체크
+if (!function_exists('getPurchaseStatus')) {
+  function getPurchaseStatus($status) {
+    switch ($status) {
+      case ORDER_PAY: $result = '<strong class="text-info">[입금완료]</strong>'; break;
+      case ORDER_CANCEL: $result = '<strong class="text-secondary">[구매취소]</strong>'; break;
+      case ORDER_END: $result = '<strong class="text-primary">[구매완료]</strong>'; break;
+      default: $result = '<strong class="text-danger">[입금대기]</strong>';
+    }
+    return $result;
+  }
+}
+
 // 대기자 확인
 if (!function_exists('checkWait')) {
   function checkWait($clubIdx, $noticeIdx, $userIdx) {

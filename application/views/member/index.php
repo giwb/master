@@ -18,9 +18,9 @@
             <dl>
               <dd>
                 <div class="border">
-                  <div class="bg-light p-2"><input type="checkbox" id="cp<?=$key?>" name="checkPurchase[]" class="check-purchase" value="<?=$value['idx']?>" data-reserve-cost="<?=$value['cost_total']?>" data-payment-cost="<?=$value['cost_total']?>" data-status="<?=$value['status']?>"><label for="cp<?=$key?>"></label><?=!empty($value['status']) && $value['status'] == RESERVE_PAY ? '<strong>[입금완료]</strong>' : '<strong class="text-secondary">[입금대기]</strong>'?> 구매일 <?=date('Y-m-d', $value['created_at'])?> (<?=calcWeek(date('Y-m-d', $value['created_at']))?>) <?=date('H:i', $value['created_at'])?></div>
+                  <div class="bg-light p-2"><?php if ($value['status'] != ORDER_END): ?><input type="checkbox" id="cp<?=$key?>" name="checkPurchase[]" class="check-purchase" value="<?=$value['idx']?>" data-reserve-cost="<?=$value['cost_total']?>" data-payment-cost="<?=$value['cost_total']?>" data-using-point="<?=$value['point']?>" data-status="<?=$value['status']?>" data-deposit-name="<?=$value['deposit_name']?>" data-notice-idx="<?=$value['noticeIdx']?>"><label for="cp<?=$key?>"></label><?php endif; ?><?=getPurchaseStatus($value['status'])?> 구매일 <?=date('Y-m-d', $value['created_at'])?> (<?=calcWeek(date('Y-m-d', $value['created_at']))?>) <?=date('H:i', $value['created_at'])?></div>
                   <div class="pt-2 pb-2 pl-3 pr-3 font-weight-normal">
-                    ・구매금액 : <?=number_format($value['cost_total'])?>원 / 사용한 포인트 : <?=number_format($value['point'])?>원<br>
+                    ・구매금액 : <?=number_format($value['cost_total'])?>원<?=!empty($value['point']) ? ' / 사용한 포인트 : ' . number_format($value['point']) . '원' : ''?><?=!empty($value['deposit_name']) ? ' / 입금자명 : ' . $value['deposit_name'] : ''?><br>
                     ・인수산행 : <?php if (!empty($value['startdate'])): ?><a href="<?=base_url()?>reserve/<?=$clubIdx?>?n=<?=$value['noticeIdx']?>"><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['mname']?></a><?php else: ?>미지정<?php endif; ?>
                     <?php foreach ($value['listCart'] as $key => $item): ?>
                     <div class="row align-items-center mt-2">
@@ -246,18 +246,24 @@
           var reserveStatus = 0;
           var reserveCost = 0;
           var paymentCost = 0;
+          var usingPoint = 0;
+          var depositName = '';
+          var noticeIdx = '';
           var message = '';
           $('.check-purchase:checked').each(function() {
             reserveIdx.push( $(this).val() );
             reserveCost += Number($(this).data('reserve-cost'));
             paymentCost += Number($(this).data('payment-cost'));
-            if ($(this).data('status') == 1) {
+            usingPoint += Number($(this).data('using-point'));
+            if ($(this).data('status') == <?=ORDER_CHECK?>) {
               reserveStatus = $(this).data('status');
             }
+            depositName = $(this).data('deposit-name');
+            noticeIdx = $(this).data('notice-idx');
           });
 
-          if (reserveStatus == 1) {
-            $.openMsgModal('이미 입금완료된 좌석이 포함되어 있습니다.');
+          if (reserveStatus == <?=ORDER_CHECK?>) {
+            $.openMsgModal('이미 입금확인된 내역이 포함되어 있습니다.');
             return false;
           }
 
@@ -266,9 +272,12 @@
             $('#reservePaymentModal input[name=paymentType]').val(2); // 결제 형식은 구매
             $('#reservePaymentModal input[name=reserveCost]').val(reserveCost);
             $('#reservePaymentModal .reserveCost').text($.setNumberFormat(reserveCost) + '원');
-            $('#reservePaymentModal input[name=paymentCost]').val(paymentCost);
+            $('#reservePaymentModal input[name=paymentCost]').val(paymentCost - usingPoint);
             $('#reservePaymentModal input[name=originCost]').val(paymentCost);
-            $('#reservePaymentModal .paymentCost').text($.setNumberFormat(paymentCost) + '원' + message);
+            $('#reservePaymentModal .paymentCost').text($.setNumberFormat(paymentCost - usingPoint) + '원' + message);
+            $('#reservePaymentModal input[name=usingPoint]').val(usingPoint);
+            $('#reservePaymentModal input[name=depositName]').val(depositName);
+            $('#reservePaymentModal select[name=noticeIdx]').val(noticeIdx);
             $('#reservePaymentModal').modal({backdrop: 'static', keyboard: false});
           } else {
             $.openMsgModal('결제정보를 입력할 구매 내역을 선택해주세요.');
@@ -353,6 +362,22 @@
             $('#reservePaymentModal input[name=usingPoint]').val('');
             $('#reservePaymentModal input[name=paymentCost]').val(originCost);
             $('#reservePaymentModal .paymentCost').html($.setNumberFormat(originCost) + '원' + message);
+          }
+        }).on('click', '.btn-shop-cancel', function() {
+          // 구매 취소 모달
+          var $dom;
+          var resIdx = new Array();
+          $dom = $('.check-purchase:checked'); // 마이페이지
+          $dom.each(function() {
+            resIdx.push( $(this).val() );
+          });
+
+          if (resIdx.length > 0) {
+            $('#reserveCancelModal input[name=resIdx]').val(resIdx);
+            $('#reserveCancelModal input[name=resType]').val(2); // 결제 형식은 구매
+            $('#reserveCancelModal').modal({backdrop: 'static', keyboard: false});
+          } else {
+            $.openMsgModal('취소할 예약 내역을 선택해주세요.');
           }
         });
       </script>

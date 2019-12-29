@@ -589,7 +589,7 @@ class Club extends MY_Controller
 
     if ($totalCost == $insertValues['point']) {
       // 포인트로 전부 결제했을때는 곧바로 입금완료
-      $insertValues['status'] = RESERVE_PAY;
+      $insertValues['status'] = ORDER_PAY;
     }
 
     // 구매한 상품 저장
@@ -682,21 +682,29 @@ class Club extends MY_Controller
       );
 
       if ($paymentCost > 0) {
-        $updateValues['status'] = RESERVE_ON;
+        $updateValues['status'] = ORDER_ON;
       } else {
-        $updateValues['status'] = RESERVE_PAY;
+        $updateValues['status'] = ORDER_PAY;
       }
 
       foreach ($checkPurchase as $key => $value) {
         $idx = html_escape($value);
+        $point = 0;
+        $viewPurchase = $this->shop_model->viewPurchase($idx); // 구매정보
 
-        // 최초 1회, 포인트를 사용했을때 포인트 차감
-        if ($key == 0 && !empty($updateValues['point'])) {
-          // 포인트 차감
-          $this->member_model->updatePoint($clubIdx, $userData['userid'], ($userData['point'] - $updateValues['point']));
-
-          // 포인트 차감 로그 기록
-          setHistory(LOG_POINTDN, $idx, $userData['userid'], $userData['nickname'], '용품구매', $nowDate, $updateValues['point']);
+        // 최초 1회, 포인트 확인
+        if ($key == 0) {
+          if (empty($viewPurchase['point']) && !empty($updateValues['point']) && $viewPurchase['point'] < $updateValues['point']) {
+            // 포인트 차감
+            $this->member_model->updatePoint($clubIdx, $userData['userid'], ($userData['point'] - $updateValues['point']));
+            // 포인트 차감 로그 기록
+            setHistory(LOG_POINTDN, $idx, $userData['userid'], $userData['nickname'], '구매 포인트 사용', $nowDate, $updateValues['point']);
+          } elseif ($viewPurchase['point'] > $updateValues['point']) {
+            // 포인트 환불
+            $this->member_model->updatePoint($clubIdx, $userData['userid'], ($userData['point'] + ($viewPurchase['point'] - $updateValues['point'])));
+            // 포인트 환불 로그 기록
+            setHistory(LOG_POINTUP, $idx, $userData['userid'], $userData['nickname'], '구매 포인트 환불', $nowDate, ($viewPurchase['point'] - $updateValues['point']));
+          }
         }
 
         $rtn = $this->shop_model->updatePurchase($updateValues, $idx);
@@ -706,6 +714,56 @@ class Club extends MY_Controller
     if (empty($rtn)) {
       $result = array('error' => 1, 'message' => $this->lang->line('error_payment'));
     } else {
+      $result = array('error' => 0, 'message' => '');
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 구매 취소
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function shop_cancel()
+  {
+    $nowDate = time();
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+    $idx = html_escape($this->input->post('resIdx'));
+    $viewPurchase = $this->shop_model->viewPurchase($idx); // 구매정보
+    $arrItem = unserialize($viewPurchase['items']);
+    $subject = '';
+
+    if (!empty($arrItem)) {
+      $maxItem = count($arrItem) - 1;
+      $subject = $arrItem[0]['name'];
+      if ($maxItem > 0) {
+        $subject .= ' 외 ' . $maxItem . '개';
+      }
+    }
+
+    $updateValues = array(
+      'deleted_by' => $userData['idx'],
+      'deleted_at' => $nowDate
+    );
+    $rtn = $this->shop_model->updatePurchase($updateValues, $idx);
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_cancel'));
+    } else {
+      // 구매 취소 로그 기록
+      setHistory(LOG_SHOP_CANCEL, $idx, $userData['userid'], $userData['nickname'], $subject, $nowDate);
+
+      if ($viewPurchase['point'] > 0) {
+        // 사용했던 포인트 환불
+        $this->member_model->updatePoint($clubIdx, $userData['userid'], ($userData['point'] + $viewPurchase['point']));
+
+        // 포인트 환불 로그 기록
+        setHistory(LOG_POINTUP, $idx, $userData['userid'], $userData['nickname'], '구매 취소', $nowDate, $viewPurchase['point']);
+      }
+
       $result = array('error' => 0, 'message' => '');
     }
 

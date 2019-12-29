@@ -140,16 +140,38 @@ class Shop_model extends CI_Model
           ->join(DB_NOTICE . ' c', 'a.notice_idx=c.idx', 'left')
           ->where('a.deleted_at', NULL)
           ->order_by('a.idx', 'desc');
+
+    if (!empty($search['item_name'])) {
+      $this->db->like('a.items', $search['item_name']);
+    }
+    if (!empty($search['nickname'])) {
+      $this->db->like('b.nickname', $search['nickname']);
+    }
+    if (!empty($search['mname'])) {
+      $this->db->like('c.mname', $search['mname']);
+    }
+
     return $this->db->get()->result_array();
+  }
+
+  // 구매 내역 카운트
+  public function cntPurchase($search)
+  {
+    $this->db->select('COUNT(*) AS cnt')
+          ->from(DB_SHOP_PURCHASE)
+          ->where('deleted_at', NULL);
+    return $this->db->get()->row_array(1);
   }
 
   // 구매 내역 보기
   public function viewPurchase($idx)
   {
-    $this->db->select('*')
-          ->from(DB_SHOP_PURCHASE)
-          ->where('deleted_at', NULL)
-          ->where('idx', $idx);
+    $this->db->select('a.*, b.userid, b.nickname, b.point AS userPoint, c.startdate, c.mname')
+          ->from(DB_SHOP_PURCHASE . ' a')
+          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
+          ->join(DB_NOTICE . ' c', 'a.notice_idx=c.idx', 'left')
+          ->where('a.idx', $idx)
+          ->where('a.deleted_at', NULL);
     return $this->db->get()->row_array(1);
   }
 
@@ -166,40 +188,6 @@ class Shop_model extends CI_Model
     $this->db->set($data);
     $this->db->where('idx', $idx);
     return $this->db->update(DB_SHOP_PURCHASE);
-  }
-
-  // 주문 관리
-  public function listOrder($paging, $search)
-  {
-    $this->db->select('a.*, b.nickname, c.startdate, c.mname')
-          ->from(DB_SHOP_PURCHASE . ' a')
-          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
-          ->join(DB_NOTICE . ' c', 'a.notice_idx=c.idx', 'left')
-          ->where('a.deleted_at', NULL)
-          ->order_by('a.idx', 'desc');
-    return $this->db->get()->result_array();
-  }
-
-  // 주문 내역
-  public function viewOrder($idx)
-  {
-    $this->db->select('a.*, b.nickname, c.startdate, c.mname')
-          ->from(DB_SHOP_PURCHASE . ' a')
-          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
-          ->join(DB_NOTICE . ' c', 'a.notice_idx=c.idx', 'left')
-          ->where('a.idx', $idx)
-          ->where('a.deleted_at', NULL)
-          ->order_by('a.idx', 'desc');
-    return $this->db->get()->result_array();
-  }
-
-  // 주문 관리 카운트
-  public function cntOrder($search)
-  {
-    $this->db->select('COUNT(*) AS cnt')
-          ->from(DB_SHOP_PURCHASE)
-          ->where('deleted_at', NULL);
-    return $this->db->get()->row_array(1);
   }
 }
 ?>

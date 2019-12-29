@@ -119,9 +119,15 @@ defined('STATUS_CANCEL')  OR define('STATUS_CANCEL', 8); // 취소
 defined('STATUS_CLOSED')  OR define('STATUS_CLOSED', 9); // 종료
 
 // 예약 상태
-defined('RESERVE_ON')     OR define('RESERVE_ON', 0); // 예약상태
-defined('RESERVE_PAY')    OR define('RESERVE_PAY', 1); // 입금상태
-defined('RESERVE_WAIT')   OR define('RESERVE_WAIT', 9); // 대기상태
+defined('RESERVE_ON')     OR define('RESERVE_ON', 0); // 예약
+defined('RESERVE_PAY')    OR define('RESERVE_PAY', 1); // 입금
+defined('RESERVE_WAIT')   OR define('RESERVE_WAIT', 9); // 대기
+
+// 구매 상태
+defined('ORDER_ON')       OR define('ORDER_ON', 0); // 구매 (미입금)
+defined('ORDER_PAY')      OR define('ORDER_PAY', 1); // 입금완료
+defined('ORDER_CANCEL')   OR define('ORDER_CANCEL', 8); // 구매취소
+defined('ORDER_END')      OR define('ORDER_END', 9); // 판매완료
 
 // 산행 숨김
 defined('VISIBLE_NONE')   OR define('VISIBLE_NONE', 0); // 숨김
@@ -160,6 +166,7 @@ defined('SHARE_TYPE_DAUM') OR define('SHARE_TYPE_DAUM', 5); // 다음
   25 - 용품판매 관리자 - 취소
   26 - 용품판매 관리자 - 입금확인
   27 - 용품판매 관리자 - 입금취소
+  28 - 용품판매 관리자 - 판매완료
 */
 defined('LOG_ENTRY')          OR define('LOG_ENTRY', 1);
 defined('LOG_RESERVE')        OR define('LOG_RESERVE', 2);
@@ -180,6 +187,7 @@ defined('LOG_ADMIN_SHOP_BUY') OR define('LOG_ADMIN_SHOP_BUY', 24);
 defined('LOG_ADMIN_SHOP_CANCEL') OR define('LOG_ADMIN_SHOP_CANCEL', 25);
 defined('LOG_ADMIN_SHOP_DEPOSIT_CONFIRM') OR define('LOG_ADMIN_SHOP_DEPOSIT_CONFIRM', 26);
 defined('LOG_ADMIN_SHOP_DEPOSIT_CANCEL') OR define('LOG_ADMIN_SHOP_DEPOSIT_CANCEL', 27);
+defined('LOG_ADMIN_SHOP_COMPLETE') OR define('LOG_ADMIN_SHOP_COMPLETE', 28);
 
 // 경로 설정
 defined('PATH_FRONT')         OR define('PATH_FRONT', PATH_MAIN . '/public/uploads/front/');
