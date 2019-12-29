@@ -130,7 +130,7 @@
                 if (result.status == <?=ORDER_CANCEL?>) {
                   // 구매취소
                   $('#order-' + result.idx + ' .area-status').html('<strong class="text-secondary">[구매취소]</strong>');
-                  $('#order-' + result.idx + ' .btn-area').empty();
+                  $('#order-' + result.idx + ' .btn-area').empty().append('<button type="button" class="btn btn-sm btn-dark btn-order-delete-modal" data-idx="' + result.idx + '">삭제</button>');
                 } else if (result.status == <?=ORDER_PAY?>) {
                   // 입금완료
                   $('#order-' + result.idx + ' .area-status').html('<strong class="text-info">[입금완료]</strong>');

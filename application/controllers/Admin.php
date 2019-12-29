@@ -2183,7 +2183,7 @@ class Admin extends Admin_Controller
       $viewData['action'] = array($action);
       $viewData['listHistory'] = $this->admin_model->listHistory($paging, $viewData);
     } else {
-      $viewData['action'] = array(LOG_ADMIN_SHOP_BUY, LOG_ADMIN_SHOP_CANCEL, LOG_ADMIN_SHOP_DEPOSIT_CONFIRM, LOG_ADMIN_SHOP_DEPOSIT_CANCEL);
+      $viewData['action'] = array(LOG_ADMIN_SHOP_BUY, LOG_ADMIN_SHOP_CANCEL, LOG_ADMIN_SHOP_DEPOSIT_CONFIRM, LOG_ADMIN_SHOP_DEPOSIT_CANCEL, LOG_ADMIN_SHOP_COMPLETE);
       $viewData['listHistory'] = $this->admin_model->listHistory($paging, $viewData);
       $viewData['action'][0] = ''; // 액션 초기화
     }
@@ -2212,6 +2212,10 @@ class Admin extends Admin_Controller
           break;
         case LOG_ADMIN_SHOP_DEPOSIT_CANCEL: // 용품판매 관리자 - 입금취소
           $viewData['listHistory'][$key]['header'] = '<span class="text-danger">[입금취소]</span>';
+          $viewData['listHistory'][$key]['subject'] = $value['subject'];
+          break;
+        case LOG_ADMIN_SHOP_DEPOSIT_CANCEL: // 용품판매 관리자 - 판매완료
+          $viewData['listHistory'][$key]['header'] = '<span class="text-danger">[판매완료]</span>';
           $viewData['listHistory'][$key]['subject'] = $value['subject'];
           break;
       }
