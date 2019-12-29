@@ -131,6 +131,14 @@
                   // 구매취소
                   $('#order-' + result.idx + ' .area-status').html('<strong class="text-secondary">[구매취소]</strong>');
                   $('#order-' + result.idx + ' .btn-area').empty();
+                } else if (result.status == <?=ORDER_PAY?>) {
+                  // 입금완료
+                  $('#order-' + result.idx + ' .area-status').html('<strong class="text-info">[입금완료]</strong>');
+                  $('#order-' + result.idx + ' .btn-order-status-modal[data-status=' + result.status + ']').hide();
+                } else if (result.status == <?=ORDER_END?>) {
+                  // 판매완료
+                  $('#order-' + result.idx + ' .area-status').html('<strong class="text-primary">[구매완료]</strong>');
+                  $('#order-' + result.idx + ' .btn-area').empty().append('<button type="button" class="btn btn-sm btn-danger">판매완료</button>');
                 }
               } else if (result.type == 2) {
                 $('#order-' + result.idx).hide();
