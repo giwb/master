@@ -45,8 +45,8 @@
       <div class="row align-items-center border-top mt-3 pt-3">
         <div class="col-sm-1 font-weight-bold">출발일시</div>
         <div class="col-sm-11 row align-items-center">
-          <div class="col-sm-2"><input type="text" name="startdate" id="startDatePicker" class="form-control" value="<?=$view['startdate']?>"></div>
-          <div class="col-sm-2">
+          <div class="col col-sm-2"><input type="text" name="startdate" id="startDatePicker" class="form-control" value="<?=$view['startdate']?>"></div>
+          <div class="col col-sm-2">
             <select name="starttime" id="startTime" class="form-control">
             <?php
               $tStart = $tNow = strtotime('06:00');
@@ -65,8 +65,8 @@
       <div class="row align-items-center border-top mt-3 pt-3">
         <div class="col-sm-1 font-weight-bold">도착일자</div>
         <div class="col-sm-11 row align-items-center">
-          <div class="col-sm-2"><input readonly type="text" name="enddate" id="endDatePicker" class="form-control" value="<?=$view['enddate']?>"></div>
-          <div class="col-sm-2"><input readonly type="text" id="calcSchedule" class="form-control"></div>
+          <div class="col col-sm-2"><input readonly type="text" name="enddate" id="endDatePicker" class="form-control" value="<?=$view['enddate']?>"></div>
+          <div class="col col-sm-2"><input readonly type="text" id="calcSchedule" class="form-control"></div>
         </div>
       </div>
       <div class="row align-items-center border-top mt-3 pt-3">
@@ -76,7 +76,7 @@
       <div class="row align-items-center border-top mt-3 pt-3">
         <div class="col-sm-1 font-weight-bold">지역</div>
         <div class="col-sm-11">
-          <button type="button" class="btn btn-primary btn-add-area mb-2">추가</button><br>
+          <button type="button" class="btn btn-sm btn-primary btn-add-area mb-2">추가</button><br>
           <?php if (empty($view['sido'])): ?>
           <div class="row mt-1 pl-1 select-area">
             <div class="ml-2">
@@ -133,7 +133,7 @@
       <div class="row align-items-center border-top mt-3 pt-3">
         <div class="col-sm-1 font-weight-bold">차량</div>
         <div class="col-sm-11">
-          <button type="button" class="btn btn-primary btn-add-bus">추가</button><br>
+          <button type="button" class="btn btn-sm btn-primary btn-add-bus">추가</button><br>
           <div class="form-row mt-2">
             <div class="col-md-4">
               <?php if (!$view['idx']): // 등록 ?>
@@ -184,28 +184,31 @@
       <div class="mt-5">
         <h4>■ 운행거리 및 통행료 산출</h4>
       </div>
-      <div class="row align-items-center font-weight-bold border-top mt-3 pt-3">
-        <div class="col-sm-1">번호</div>
-        <div class="col-sm-3">운행구간</div>
-        <div class="col-sm-3">도착지주소</div>
-        <div class="col-sm-2">거리 (km)</div>
-        <div class="col-sm-1">소요시간</div>
-        <div class="col-sm-2">통행료 (원)</div>
+      <div class="d-none d-sm-block">
+        <div class="row align-items-center font-weight-bold border-top mt-3 pt-3">
+          <div class="col-sm-1">번호</div>
+          <div class="col-sm-3">운행구간</div>
+          <div class="col-sm-3">도착지주소</div>
+          <div class="col-sm-2">거리 (km)</div>
+          <div class="col-sm-1">소요시간</div>
+          <div class="col-sm-2">통행료 (원)</div>
+        </div>
       </div>
-      <?php foreach (range(1, 10) as $key => $value): ?>
-      <div class="row align-items-center font-weight-bold border-top mt-3 pt-3">
-        <div class="col-sm-1"><?=$value?></div>
-        <div class="col-sm-3"><input class="form-control w2x" type="text" size="20" name="road_course[]" value="<?=!empty($view['road_course'][$key]) ? $view['road_course'][$key] : ''?>"></div>
-        <div class="col-sm-3"><input class="form-control w2x" type="text" size="20" name="road_address[]" value="<?=!empty($view['road_address'][$key]) ? $view['road_address'][$key] : ''?>"></div>
-        <div class="col-sm-2"><input class="form-control road-distance" type="text" size="4" name="road_distance[]" value="<?=!empty($view['road_distance'][$key]) ? $view['road_distance'][$key] : ''?>"></div>
-        <div class="col-sm-1"><input class="form-control road-runtime" type="text" size="4" name="road_runtime[]" value="<?=!empty($view['road_runtime'][$key]) ? $view['road_runtime'][$key] : ''?>"></div>
-        <div class="col-sm-2"><input class="form-control road-cost" type="text" size="4" name="road_cost[]" value="<?=array_key_exists($key, $view['road_cost']) ? $view['road_cost'][$key] : ''?>"></div>
+      <?php foreach ($view['road_course'] as $key => $value): ?>
+      <div class="row align-items-center font-weight-bold border-top mt-3 pt-3 row-course">
+        <div class="col-sm-1"><?=$key + 1?></div>
+        <div class="col-sm-3"><input placeholder="운행구간" class="form-control w2x" type="text" size="20" name="road_course[]" value="<?=!empty($view['road_course'][$key]) ? $view['road_course'][$key] : ''?>"></div>
+        <div class="col-sm-3"><input placeholder="도착지주소" class="form-control w2x" type="text" size="20" name="road_address[]" value="<?=!empty($view['road_address'][$key]) ? $view['road_address'][$key] : ''?>"></div>
+        <div class="col-sm-2"><input placeholder="거리 (km)" class="form-control road-distance" type="text" size="4" name="road_distance[]" value="<?=!empty($view['road_distance'][$key]) ? $view['road_distance'][$key] : ''?>"></div>
+        <div class="col-sm-1"><input placeholder="소요시간" class="form-control road-runtime" type="text" size="4" name="road_runtime[]" value="<?=array_key_exists($key, $view['road_runtime']) ? $view['road_runtime'][$key] : ''?>"></div>
+        <div class="col-sm-2"><input placeholder="통행료 (원)" class="form-control road-cost" type="text" size="4" name="road_cost[]" value="<?=array_key_exists($key, $view['road_cost']) ? $view['road_cost'][$key] : ''?>"></div>
       </div>
       <?php endforeach; ?>
+      <div class="added-course"></div>
       <div class="row align-items-center font-weight-bold border-top mt-3 pt-3">
+        <div class="col-sm-1 mb-3"><button type="button" class="btn btn-sm btn-primary btn-course">추가</button></div>
+        <div class="col-sm-5"></div>
         <div class="col-sm-1">합계</div>
-        <div class="col-sm-3"></div>
-        <div class="col-sm-3"></div>
         <div class="col-sm-2"><input class="form-control total-distance" readonly type="text" name="distance" size="4" value="0"></div>
         <div class="col-sm-1"></div>
         <div class="col-sm-2"><input class="form-control total-cost" readonly type="text" size="4" value="0"></div>
@@ -463,6 +466,19 @@
             }
           }
         });
+      }).on('click', '.btn-course', function() {
+        var cnt = 0;
+        $('.row-course').each(function() {
+          cnt++;
+        });
+        var html = '<div class="row align-items-center font-weight-bold border-top mt-3 pt-3 row-course"><div class="col-sm-1">' + (Number(cnt) + 1) + '</div>';
+            html += '<div class="col-sm-3"><input placeholder="운행구간" class="form-control w2x" type="text" size="20" name="road_course[]"></div>';
+            html += '<div class="col-sm-3"><input placeholder="도착지주소" class="form-control w2x" type="text" size="20" name="road_address[]"></div>';
+            html += '<div class="col-sm-2"><input placeholder="거리 (km)" class="form-control road-distance" type="text" size="4" name="road_distance[]"></div>';
+            html += '<div class="col-sm-1"><input placeholder="소요시간" class="form-control road-runtime" type="text" size="4" name="road_runtime[]"></div>';
+            html += '<div class="col-sm-2"><input placeholder="통행료 (원)" class="form-control road-cost" type="text" size="4" name="road_cost[]"></div></div>';
+
+        $('.added-course').append(html);
       });
 
       $.getAreaTemplate = function() {

@@ -12168,6 +12168,10 @@ body.sidebar-toggled footer.sticky-footer {
 .item-category { display: block; }
 .category-input { display: inline-block; vertical-align: middle; }
 
+::-webkit-input-placeholder { color: #d9d9d9!important; }
+:-ms-input-placeholder { color: #d9d9d9!important; }
+::placeholder { color: #d9d9d9!important; }
+
 @media (max-width: 768px) {
   #sidebarToggleTop .fa-bars { margin-left: -2px; }
   .h3 { text-align: center; }
