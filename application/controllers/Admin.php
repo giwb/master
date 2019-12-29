@@ -2214,8 +2214,8 @@ class Admin extends Admin_Controller
           $viewData['listHistory'][$key]['header'] = '<span class="text-danger">[입금취소]</span>';
           $viewData['listHistory'][$key]['subject'] = $value['subject'];
           break;
-        case LOG_ADMIN_SHOP_DEPOSIT_CANCEL: // 용품판매 관리자 - 판매완료
-          $viewData['listHistory'][$key]['header'] = '<span class="text-danger">[판매완료]</span>';
+        case LOG_ADMIN_SHOP_COMPLETE: // 용품판매 관리자 - 판매완료
+          $viewData['listHistory'][$key]['header'] = '<span class="text-primary">[판매완료]</span>';
           $viewData['listHistory'][$key]['subject'] = $value['subject'];
           break;
       }
