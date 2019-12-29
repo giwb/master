@@ -564,11 +564,11 @@ class Reserve extends MY_Controller
         setHistory(LOG_POINTDN, $userReserve['resCode'], $userReserve['userid'], $userReserve['nickname'], $userReserve['subject'] . ' 예약', $nowDate, $processData['point']);
       }
 
-      $rtn = $this->reserve_model->updateReserve($processData, html_escape($value));
+      $rtn = $this->reserve_model->updateReserve($processData, $idx);
     }
 
     if (empty($rtn)) {
-      $result = array('error' => 1, 'message' => '결제정보 입력 중 문제가 발생했습니다. 다시 시도해주세요.');
+      $result = array('error' => 1, 'message' => $this->lang->line('error_payment'));
     } else {
       $result = array('error' => 0, 'message' => '');
     }

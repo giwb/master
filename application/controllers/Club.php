@@ -660,6 +660,59 @@ class Club extends MY_Controller
   }
 
   /**
+   * 결제정보 입력
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function shop_payment()
+  {
+    $nowDate = time();
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+
+    if (!empty($userData['idx'])) {
+      $checkPurchase = $this->input->post('checkPurchase');
+      $paymentCost = html_escape($this->input->post('paymentCost'));
+
+      $updateValues = array(
+        'point' => html_escape($this->input->post('usingPoint')),
+        'deposit_name' => html_escape($this->input->post('depositName')),
+        'notice_idx' => html_escape($this->input->post('noticeIdx'))
+      );
+
+      if ($paymentCost > 0) {
+        $updateValues['status'] = RESERVE_ON;
+      } else {
+        $updateValues['status'] = RESERVE_PAY;
+      }
+
+      foreach ($checkPurchase as $key => $value) {
+        $idx = html_escape($value);
+
+        // 최초 1회, 포인트를 사용했을때 포인트 차감
+        if ($key == 0 && !empty($updateValues['point'])) {
+          // 포인트 차감
+          $this->member_model->updatePoint($clubIdx, $userData['userid'], ($userData['point'] - $updateValues['point']));
+
+          // 포인트 차감 로그 기록
+          setHistory(LOG_POINTDN, $idx, $userData['userid'], $userData['nickname'], '용품구매', $nowDate, $updateValues['point']);
+        }
+
+        $rtn = $this->shop_model->updatePurchase($updateValues, $idx);
+      }
+    }
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_payment'));
+    } else {
+      $result = array('error' => 0, 'message' => '');
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 사진첩
    *
    * @return view

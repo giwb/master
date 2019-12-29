@@ -38,6 +38,9 @@ class Member extends MY_Controller
       // 회원 정보
       $viewData['viewMember'] = $this->member_model->viewMember($clubIdx, $userData['idx']);
 
+      // 용품 인수를 위한 회원 예약 내역
+      $viewData['listMemberReserve'] = $this->shop_model->listMemberReserve($clubIdx, $userData['userid']);
+
       // 구매 내역
       $viewData['listPurchase'] = $this->shop_model->listPurchase($userData['idx']);
 
@@ -46,9 +49,9 @@ class Member extends MY_Controller
         $items = unserialize($value['items']);
         $viewData['listPurchase'][$key]['listCart'] = $items;
 
-        $viewData['listPurchase'][$key]['totalCost'] = 0;
+        $viewData['listPurchase'][$key]['cost_total'] = 0;
         foreach ($items as $item) {
-          $viewData['listPurchase'][$key]['totalCost'] += $item['cost'] * $item['amount'];
+          $viewData['listPurchase'][$key]['cost_total'] += $item['cost'] * $item['amount'];
         }
       }
 

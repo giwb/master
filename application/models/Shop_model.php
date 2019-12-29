@@ -134,7 +134,7 @@ class Shop_model extends CI_Model
   // 구매 목록
   public function listPurchase($userIdx)
   {
-    $this->db->select('a.*, b.nickname, c.startdate, c.mname')
+    $this->db->select('a.*, b.nickname, c.idx AS noticeIdx, c.startdate, c.mname')
           ->from(DB_SHOP_PURCHASE . ' a')
           ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
           ->join(DB_NOTICE . ' c', 'a.notice_idx=c.idx', 'left')
@@ -158,6 +158,14 @@ class Shop_model extends CI_Model
   {
     $this->db->insert(DB_SHOP_PURCHASE, $data);
     return $this->db->insert_id();
+  }
+
+  // 구매 정보 수정
+  public function updatePurchase($data, $idx)
+  {
+    $this->db->set($data);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_SHOP_PURCHASE);
   }
 
   // 주문 관리
