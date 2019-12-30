@@ -26,7 +26,7 @@
           <div class="ti mt-2">
             <strong>・추가비용</strong> : <?=number_format($viewNotice['total_add'])?>원<br>
             추가일정 : <?=!empty($viewNotice['driving_add'][0]) ? number_format($viewNotice['driving_add'][0]) : '0'?>원 (<?=calcTerm($viewNotice['startdate'], $viewNotice['starttime'], $viewNotice['enddate'], $viewNotice['schedule'])?>)<br>
-            여행시기 : <?=!empty($viewNotice['driving_add'][1]) ? number_format($viewNotice['driving_add'][1]) : '0'?>원<br>
+            여행시기 : <?=!empty($viewNotice['driving_add'][1]) ? number_format($viewNotice['driving_add'][1]) . '원 (성수기)' : '0원 (비수기)'?><br>
             승객수당 : <?=number_format($viewNotice['cost_driver'])?>원 (예약인원 <?=cntRes($viewNotice['idx'])?>명)<br>
           </div>
           <div class="mt-2"><strong>・운행견적총액</strong> : <?=number_format($viewNotice['driving_total'])?>원</div>
