@@ -833,7 +833,7 @@ if (!function_exists('getPurchaseStatus')) {
     switch ($status) {
       case ORDER_PAY: $result = '<strong class="text-info">[입금완료]</strong>'; break;
       case ORDER_CANCEL: $result = '<strong class="text-secondary">[구매취소]</strong>'; break;
-      case ORDER_END: $result = '<strong class="text-primary">[구매완료]</strong>'; break;
+      case ORDER_END: $result = '<strong class="text-primary">[인수완료]</strong>'; break;
       default: $result = '<strong class="text-danger">[입금대기]</strong>';
     }
     return $result;
