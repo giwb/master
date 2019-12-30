@@ -49,15 +49,17 @@ class Admin_model extends CI_Model
   }
 
   // 산행 예약자 카운트
-  public function cntReservation($resCode, $bus=NULL)
+  public function cntReservation($resCode, $bus=NULL, $wait=NULL)
   {
     $this->db->select('COUNT(idx) AS CNT')
           ->from(DB_RESERVATION)
           ->where('rescode', $resCode)
           ->where('manager', 0)
-          ->where('priority', 0)
-          ->where('status !=', RESERVE_WAIT);
+          ->where('priority', 0);
 
+    if (is_null($wait)) {
+      $this->db->where('status !=', RESERVE_WAIT);
+    }
     if (!is_null($bus)) {
       $this->db->where('bus', $bus);
     }

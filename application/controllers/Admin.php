@@ -305,7 +305,7 @@ class Admin extends Admin_Controller
     $viewEntry = $this->admin_model->viewEntry($viewReserve['rescode']);
 
     // 해당 산행과 버스의 예약자 수
-    $cntReservation = $this->admin_model->cntReservation($viewReserve['rescode'], $viewReserve['bus']);
+    $cntReservation = $this->admin_model->cntReservation($viewReserve['rescode'], $viewReserve['bus'], 1);
 
     // 대기자 수
     $cntWait = $this->admin_model->cntWait($clubIdx, $viewReserve['rescode']);
