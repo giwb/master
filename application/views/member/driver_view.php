@@ -5,14 +5,15 @@
           <h2>드라이버 페이지</h2>
 
           <h3 class="mb-3">■ 산행개요</h3>
-          <div class="ti"><strong>・제목</strong> : <?=$viewNotice['subject']?></div>
-          <div class="ti"><strong>・일시</strong> : <?=$viewNotice['startdate']?> (<?=calcWeek($viewNotice['startdate'])?>) <?=$viewNotice['starttime']?></div><br>
-          <div class="ti"><strong>・운행견적총액</strong> : <?=number_format(ceil($viewNotice['driving_total'] / 10000) * 10000)?>원</div><br>
-          <table>
+          <div class="ti mb-2"><strong>・제목</strong> : <?=$viewNotice['subject']?></div>
+          <div class="ti mb-2"><strong>・일시</strong> : <?=$viewNotice['startdate']?> (<?=calcWeek($viewNotice['startdate'])?>) <?=$viewNotice['starttime']?></div>
+          <div class="ti mb-2 text-danger"><strong>・운행견적총액</strong> : <?=number_format(ceil($viewNotice['driving_total'] / 10000) * 10000)?>원</div>
           <?php foreach ($viewNotice['road_address'] as $key => $value): if ($key == 0) $title = '만나는 장소'; elseif (count($viewNotice['road_address']) == ($key +1)) $title = '하차지 주소'; else $title = '행선지 ' . $key; ?>
-          <tr><td><strong>・<?=$title?>&nbsp;</strong></td><td>: <?=$value?></td></tr>
+          <div class="row mb-2">
+            <div class="col-2 pr-0"><strong>・<?=$title?>&nbsp;</strong></div>
+            <div class="col-10"><?=$value?></div>
+          </div>
           <?php endforeach; ?>
-          </table>
 
           <h3 class="mb-3">■ 버스비용</h3>
           <strong>・기본요금</strong> : <?=number_format($viewNotice['driving_default'])?>원 (<?=!empty($viewNotice['distance']) ? calcDistance($viewNotice['distance']) : ''?>)<br>
