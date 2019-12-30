@@ -7,6 +7,10 @@
           <h3 class="mb-3">■ 산행개요</h3>
           <div class="ti"><strong>・제목</strong> : <?=$viewNotice['subject']?></div>
           <div class="ti"><strong>・일시</strong> : <?=$viewNotice['startdate']?> (<?=calcWeek($viewNotice['startdate'])?>) <?=$viewNotice['starttime']?></div>
+          <div class="ti"><strong>・운행견적총액</strong> : <?=number_format($viewNotice['driving_total'])?>원</div>
+          <?php foreach ($viewNotice['road_address'] as $key => $value): ?>
+          <div class="ti"><strong>・도착지 주소</strong> : <?=$value?></div>
+          <?php endforeach; ?>
 
           <h3 class="mb-3">■ 버스비용</h3>
           <strong>・기본요금</strong> : <?=number_format($viewNotice['driving_default'])?>원 (<?=!empty($viewNotice['distance']) ? calcDistance($viewNotice['distance']) : ''?>)<br>
