@@ -5,7 +5,7 @@
         <div class="mypage mt-2">
           <h2>드라이버 페이지</h2>
 
-          <h3 class="mb-3">■ 산행개요</h3>
+          <h3 class="mb-3">■ 행사개요</h3>
           <div class="ti mb-2"><strong>・제목</strong> : <?=$viewNotice['subject']?></div>
           <div class="ti mb-2"><strong>・일시</strong> : <?=$viewNotice['startdate']?> (<?=calcWeek($viewNotice['startdate'])?>) <?=$viewNotice['starttime']?></div>
           <div class="ti mb-2"><strong>・<span class="text-danger">운행견적총액</span></strong> : <span class="text-danger"><?=number_format(ceil($viewNotice['driving_total'] / 10000) * 10000)?>원</span> (예약인원 <?=$maxRes?>명 기준)</div>
@@ -13,7 +13,7 @@
           <div class="ti mb-2">・<strong><?=$title?></strong><br><?=$value?></div>
           <?php endforeach; ?>
 
-          <h3 class="mb-3">■ 버스비용</h3>
+          <h3 class="mb-3">■ 버스비용 산출</h3>
           <strong>・기본요금</strong> : <?=number_format($viewNotice['driving_default'])?>원 (<?=!empty($viewNotice['distance']) ? calcDistance($viewNotice['distance']) : ''?>)<br>
           <div class="ti mt-2">
             <strong>・주유비</strong> : <?=!empty($viewNotice['total_fuel']) ? number_format($viewNotice['total_fuel']) : '0'?>원<br>
