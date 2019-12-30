@@ -46,9 +46,9 @@
             <strong>・통행료</strong> : <?=!empty($viewNotice['road_cost'][$key]) ? number_format($viewNotice['road_cost'][$key]) : '0'?>원<br>
           </div>
           <?php endif; endforeach; endif; ?>
-        </div>
-        <div class="text-center border-top pt-4">
-          <a href="<?=base_url()?>member"><button class="btn btn-primary">목록으로</button></a>
+          <div class="text-center mt-4">
+            <a href="<?=base_url()?>member"><button class="btn btn-primary">목록으로</button></a>
+          </div>
         </div>
         <div class="ad-sp">
           <!-- SP_CENTER -->
