@@ -9,10 +9,7 @@
           <div class="ti mb-2"><strong>・일시</strong> : <?=$viewNotice['startdate']?> (<?=calcWeek($viewNotice['startdate'])?>) <?=$viewNotice['starttime']?></div>
           <div class="ti mb-2 text-danger"><strong>・운행견적총액</strong> : <?=number_format(ceil($viewNotice['driving_total'] / 10000) * 10000)?>원</div>
           <?php foreach ($viewNotice['road_address'] as $key => $value): if ($key == 0) $title = '만나는 장소'; elseif (count($viewNotice['road_address']) == ($key +1)) $title = '하차지 주소'; else $title = '행선지 ' . $key; ?>
-          <div class="row mb-2">
-            <div class="col-3 col-sm-2 pr-0"><strong>・<?=$title?>&nbsp;</strong></div>
-            <div class="col-9 col-sm-10">: <?=$value?></div>
-          </div>
+          <div class="ti mb-2">・<strong><?=$title?></strong><br><?=$value?></div>
           <?php endforeach; ?>
 
           <h3 class="mb-3">■ 버스비용</h3>
