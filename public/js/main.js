@@ -1194,7 +1194,7 @@ $(document).on('click', '.btn-reply', function() {
 
   $.ajax({
     url: $('input[name=baseUrl]').val() + 'story/insert/' + $('input[name=clubIdx]').val(),
-    data: 'page=' + $('input[name=page]').val() + '&photo=' + photo + '&content=' + content,
+    data: 'page=' + $('input[name=page]').val() + '&photo=' + photo + '&content=' + encodeURIComponent(content),
     dataType: 'json',
     type: 'post',
     beforeSend: function() {
