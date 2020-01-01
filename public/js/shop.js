@@ -7,8 +7,10 @@ $(document).on('click', '.shop-item', function() {
   var baseUrl = $('input[name=baseUrl]').val();
   var clubIdx = $('input[name=clubIdx]').val();
   var idx = $(this).data('idx');
+  var buy_type = $(this).data('type');
   var item_key = $('.item-option').val();
   var item_cost = $('.item-option option:selected').data('cost');
+
 
   if (typeof item_cost == 'undefined' || item_cost == '') {
     item_cost = $('.item-option').data('cost');
@@ -21,7 +23,7 @@ $(document).on('click', '.shop-item', function() {
 
   $.ajax({
     url: baseUrl + 'club/shop_cart_insert/' + clubIdx,
-    data: 'idx=' + idx + '&item_key=' + item_key + '&item_cost=' + item_cost,
+    data: 'idx=' + idx + '&item_key=' + item_key + '&item_cost=' + item_cost + '&buy_type=' + buy_type,
     dataType: 'json',
     type: 'post',
     beforeSend: function() {

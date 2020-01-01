@@ -23,8 +23,8 @@
                 </select>
                 <?php endif; ?>
               </h4>
-              <button type="button" class="btn btn-cart" data-idx="<?=$viewItem['idx']?>">장바구니에 담기</button>
-              <a href="<?=base_url()?>club/shop/<?=$view['idx']?>"><button type="button" class="btn btn-secondary ml-3">목록으로</button></a>
+              <button type="button" class="btn btn-sm btn-cart" data-type="cart" data-idx="<?=$viewItem['idx']?>">장바구니에 담기</button>
+              <button type="button" class="btn btn-sm btn-cart btn-buy ml-2" data-type="buy" data-idx="<?=$viewItem['idx']?>">바로 구매하기 &gt;</button>
             </div>
           </div>
           <div class="item-content">

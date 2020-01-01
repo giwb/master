@@ -97,7 +97,7 @@
               <input type="hidden" name="userIdx" value="<?=!empty($userData['idx']) ? $userData['idx'] : ''?>">
               <input type="hidden" name="noticeIdx" value="<?=!empty($notice['idx']) ? $notice['idx'] : ''?>">
               <button type="button" class="btn btn-primary btn-reserve-confirm">예약합니다</button>
-              <button type="button" class="btn btn-primary btn-reserve-cancel d-none">취소합니다</button>
+              <button type="button" class="btn btn-secondary btn-reserve-cancel d-none">취소합니다</button>
             </form>
             <?php endif; ?>
           </div>

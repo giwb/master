@@ -138,7 +138,7 @@
           </button>
         </div>
         <div class="modal-body text-center">
-          <p class="modal-message">정말로 취소하시겠습니까?</p>
+          <p class="modal-message"></p>
         </div>
         <div class="modal-footer">
           <input type="hidden" name="resIdx">

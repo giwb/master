@@ -45,7 +45,7 @@
           <form id="reserveForm" method="post" action="<?=base_url()?>reserve/payment/<?=$clubIdx?>">
             <?php foreach ($userReserve as $key => $value): ?>
             <dl>
-              <dt><input type="checkbox" id="cr<?=$key?>" name="checkReserve[]" class="check-reserve" value="<?=$value['idx']?>" data-reserve-cost="<?=$value['cost_total']?>" data-payment-cost="<?=$value['real_cost']?>" data-status="<?=$value['status']?>"><label for="cr<?=$key?>"></label></dt>
+              <dt><input type="checkbox" id="cr<?=$key?>" name="checkReserve[]" class="check-reserve" value="<?=$value['idx']?>" data-reserve-cost="<?=$value['cost_total']?>" data-payment-cost="<?=$value['real_cost']?>" data-status="<?=$value['status']?>" data-penalty="<?=$value['penalty']?>"><label for="cr<?=$key?>"></label></dt>
               <dd>
                 <?=viewStatus($value['notice_status'])?> <a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
                 <small>
@@ -220,7 +220,7 @@
             }
           });
 
-          if (reserveStatus == 1) {
+          if (reserveStatus == <?=RESERVE_PAY?>) {
             $.openMsgModal('이미 입금완료된 좌석이 포함되어 있습니다.');
             return false;
           }
@@ -261,11 +261,12 @@
             depositName = $(this).data('deposit-name');
             noticeIdx = $(this).data('notice-idx');
           });
-
+          /*
           if (reserveStatus == <?=ORDER_PAY?>) {
             $.openMsgModal('이미 입금확인된 내역이 포함되어 있습니다.');
             return false;
           }
+          */
 
           if (reserveIdx.length > 0) {
             $('#reservePaymentModal .area-shop').show();

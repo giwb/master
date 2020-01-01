@@ -428,6 +428,7 @@ class Club extends MY_Controller
     $idx = html_escape($this->input->post('idx'));
     $itemKey = html_escape($this->input->post('item_key'));
     $itemCost = html_escape($this->input->post('item_cost'));
+    $buyType = html_escape($this->input->post('buy_type'));
     $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
 
     if (!empty($idx)) {
@@ -442,8 +443,14 @@ class Club extends MY_Controller
       );
       $rtn = $this->cart->insert($cartItem);
 
+      if ($buyType == 'cart') {
+        $url = base_url() . 'club/shop_cart/' . $clubIdx;
+      } else {
+        $url = base_url() . 'club/shop_checkout/' . $clubIdx;
+      }
+
       if (!empty($rtn)) {
-        $result = array('error' => 0, 'message' => base_url() . 'club/shop_cart/' . $clubIdx);
+        $result = array('error' => 0, 'message' => $url);
       }
     }
 

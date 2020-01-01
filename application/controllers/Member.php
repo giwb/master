@@ -22,6 +22,7 @@ class Member extends MY_Controller
   {
     checkUserLogin();
 
+    $nowDate = time();
     $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
@@ -73,6 +74,19 @@ class Member extends MY_Controller
         } else {
           $viewData['userReserve'][$key]['view_cost'] = number_format($value['cost_total']) . '원';
           $viewData['userReserve'][$key]['real_cost'] = $value['cost_total'];
+        }
+        // 페널티 체크
+        $startTime = explode(':', $value['starttime']);
+        $startDate = explode('-', $value['startdate']);
+        $limitDate = mktime($startTime[0], $startTime[1], 0, $startDate[1], $startDate[2], $startDate[0]);
+
+        // 예약 페널티
+        if ( $limitDate < ($nowDate + 86400) ) {
+          // 1일전 취소시 3점 페널티
+          $viewData['userReserve'][$key]['penalty'] = 3;
+        } elseif ( $limitDate < ($nowDate + 172800) ) {
+          // 2일전 취소시 1점 페널티
+          $viewData['userReserve'][$key]['penalty'] = 1;
         }
       }
 

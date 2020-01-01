@@ -186,6 +186,7 @@ class Reserve extends MY_Controller
    **/
   public function information()
   {
+    $nowDate = time();
     $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
     $noticeIdx = html_escape($this->input->post('idx'));
@@ -226,6 +227,22 @@ class Reserve extends MY_Controller
     $result['breakfast'] = arrBreakfast(); // 아침식사
     $result['nowSeat'] = checkDirection($nowSeat, $nowBus, $notice['bustype'], $notice['bus']);
     $result['userLocation'] = $userData['location'];
+
+    // 페널티 계산
+    $startTime = explode(':', $notice['starttime']);
+    $startDate = explode('-', $notice['startdate']);
+    $limitDate = mktime($startTime[0], $startTime[1], 0, $startDate[1], $startDate[2], $startDate[0]);
+
+    // 예약 페널티
+    if ( $limitDate < ($nowDate + 86400) ) {
+      // 1일전 취소시 3점 페널티
+      $result['penalty'] = 3;
+    } elseif ( $limitDate < ($nowDate + 172800) ) {
+      // 2일전 취소시 1점 페널티
+      $result['penalty'] = 1;
+    } else {
+      $result['penalty'] = 0;
+    }
 
     $this->output->set_output(json_encode($result));
   }

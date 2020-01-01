@@ -2166,8 +2166,9 @@ h1.nav-logo small {
 #shop .item-cost { font-weight: bold; color: #FF6C00; }
 #shop .item-content { margin-top: 30px; }
 #shop .item-content h4 { color: #505050; border: 1px solid #999; border-width: 1px 0 1px 0; background-color: #ddd; padding: 10px; }
-#shop .btn-cart { color: #fff; background-color: #FF6C00; border-color: #FF6C00; }
-#shop .btn-cart:hover { opacity: 0.9; }
+#shop .btn-cart { color: #FF6C00; background-color: #fff; border-color: #FF6C00; }
+#shop .btn-buy { color: #fff; background-color: #FF6C00; border-color: #FF6C00; }
+#shop .btn:hover { opacity: 0.9; }
 
 .btn-page-next { width: 100%; border: 1px solid #d9d9d9; background-color: #fff; margin: 30px 0; padding: 5px; }
 .btn-page-next:hover { box-shadow: #ddd 3px 3px 3px; }
