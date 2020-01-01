@@ -1966,7 +1966,7 @@ h1.nav-logo small {
 #club .club-main .story-profile img { margin: 0 10px 0 0; float: left; }
 #club .club-main .story-profile a.story-date { color: #555; }
 #club .club-main .story-content { width: 100%; padding: 20px 0; }
-#club .club-main .story-content .story-photo { width: 100%; margin-bottom: 10px; cursor: pointer; }
+#club .club-main .story-content .story-photo { max-width: 592px; margin-bottom: 10px; cursor: pointer; }
 #club .club-main .story-reaction { position: relative; border: 1px solid #999; border-width: 1px 0; display: flex; }
 #club .club-main .story-reaction button { font-size: 14px; background-color: #fff; border: 0px; padding: 5px 0; flex: 1; cursor: pointer; }
 #club .club-main .story-reaction button:hover { color: #fff; background-color: #FF6C00; }
