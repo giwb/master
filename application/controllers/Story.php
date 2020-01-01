@@ -54,6 +54,7 @@ class Story extends CI_Controller
   {
     $viewData['clubIdx'] = html_escape($clubIdx);
     $viewData['storyIdx'] = html_escape($this->input->get('n'));
+    $viewData['userData'] = $this->session->userData;
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
@@ -63,6 +64,32 @@ class Story extends CI_Controller
     $viewData['viewStory'] = $this->load->view('story/index', $viewData, true);
 
     $this->_viewPage('story/view', $viewData);
+  }
+
+  /**
+   * 스토리 수정
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function edit($clubIdx)
+  {
+    $viewData['clubIdx'] = html_escape($clubIdx);
+    $viewData['storyIdx'] = html_escape($this->input->get('n'));
+    $viewData['userData'] = $this->session->userData;
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
+
+    // 최초 스토리 출력
+    $viewData['listStory'] = $this->story_model->viewStory($viewData['clubIdx'], $viewData['storyIdx']);
+
+    if ($viewData['userData']['idx'] != $viewData['listStory'][0]['created_by']) {
+      redirect(base_url() . 'story/view/' . $viewData['clubIdx'] . '?n=' . $viewData['storyIdx']);
+    } else {
+      $viewData['viewStory'] = $this->load->view('story/index', $viewData, true);
+      $this->_viewPage('story/edit', $viewData);
+    }
   }
 
   /**
@@ -78,18 +105,29 @@ class Story extends CI_Controller
     $inputData = $this->input->post();
     $inputData['photo'] = html_escape($inputData['photo']);
     $inputData['page'] = html_escape($inputData['page']);
+    $idx = !empty($inputData['idx']) ? html_escape($inputData['idx']) : NULL;
 
     if (empty($userIdx)) {
       $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
     } else {
-      $insertValues = array(
-        'club_idx'    => html_escape($clubIdx),
-        'content'     => html_escape($inputData['content']),
-        'created_by'  => html_escape($userIdx),
-        'created_at'  => $now
-      );
-
-      $idx = $this->story_model->insertStory($insertValues);
+      if (!empty($idx)) {
+        $url = base_url() . 'story/view/' . $clubIdx . '?n=' . $idx;
+        $updateValues = array(
+          'content'     => html_escape($inputData['content']),
+          'updated_by'  => html_escape($userIdx),
+          'updated_at'  => $now
+        );
+        $this->story_model->updateStory($updateValues, $clubIdx, $idx);
+      } else {
+        $url = 'reload';
+        $insertValues = array(
+          'club_idx'    => html_escape($clubIdx),
+          'content'     => html_escape($inputData['content']),
+          'created_by'  => html_escape($userIdx),
+          'created_at'  => $now
+        );
+        $idx = $this->story_model->insertStory($insertValues);
+      }
 
       if (empty($idx)) {
         $result = array('error' => 1, 'message' => $this->lang->line('error_insert'));
@@ -123,7 +161,7 @@ class Story extends CI_Controller
           }
         //}
 
-        $result = array('error' => 0, 'message' => '');
+        $result = array('error' => 0, 'message' => $url);
       }
     }
 
@@ -378,7 +416,7 @@ class Story extends CI_Controller
             $this->file_model->deleteFile($value['filename']);
           }
 
-          $result = array('error' => 0);
+          $result = array('error' => 0, 'message' => base_url() . $clubIdx);
         }
       }
     }
@@ -422,7 +460,7 @@ class Story extends CI_Controller
             'reply_cnt' => $cntStoryReply['cnt']
           );
           $this->story_model->updateStory($updateData, $clubIdx, $viewStoryReply['story_idx']);
-          $result = array('error' => 0, 'message' => $updateData['reply_cnt']);
+          $result = array('error' => 0, 'message' => 'reload');
         }
       }
     }

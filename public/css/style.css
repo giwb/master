@@ -1946,6 +1946,7 @@ h1.nav-logo small {
 
 #club .club-main .your-story { width: 100%!important; clear: both; text-align: justify; overflow: hidden; }
 #club .club-main .your-story #club-story-content { width: 100%!important; height: 105px; padding: 10px; }
+#club .club-main .your-story #club-story-content.edit { width: 100%!important; height: 300px; padding: 10px; }
 #club .club-main .your-story .area-btn { height: 40px; margin: 10px 0; }
 #club .club-main .your-story .area-btn .btn-photo { font-size: 14px; border-radius: 10px; margin: 0 0 0 4px; padding: 3px 15px; float: left; }
 #club .club-main .your-story .area-btn .btn-photo:hover { border: 1px solid #d9d9d9; box-shadow: 1px 1px 3px #ddd; }
