@@ -200,7 +200,7 @@ class Admin extends Admin_Controller
             $priorityIdx[] = $result; // 2인우선석일 경우, 각각의 고유번호를 저장
           }
 
-          if (!empty($result) && empty($nowPriority)) {
+          if (!empty($result) && empty($nowPriority) && empty($nowManager)) {
             // 관리자 예약 기록
             setHistory(LOG_ADMIN_RESERVE, $idx, $nowUserid, $nowNick, $viewEntry['subject'], $now);
           }
@@ -351,7 +351,7 @@ class Admin extends Admin_Controller
       }
     }
 
-    if (!empty($rtn) && empty($viewReserve['priority'])) {
+    if (!empty($rtn) && empty($viewReserve['priority']) && empty($viewReserve['manager'])) {
       $startTime = explode(':', $viewEntry['starttime']);
       $startDate = explode('-', $viewEntry['startdate']);
       $limitDate = mktime($startTime[0], $startTime[1], 0, $startDate[1], $startDate[2], $startDate[0]);
