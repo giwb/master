@@ -1260,6 +1260,7 @@ $(document).on('click', '.btn-reply', function() {
   $.magnificPopup.open({
     items: { src: filename },
     gallery: { enabled: true },
+    fixedContentPos: true,
     type: 'image'
   });
 });
