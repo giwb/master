@@ -10,7 +10,7 @@
             <div class="story-container">
               <div class="story-profile">
                 <img class="img-profile" src="<?=$value['photo']?>"> <strong><?=$value['user_nickname']?></strong><br>
-                <a href="<?=base_url()?>story/view/<?=$view['idx']?>?n=<?=$value['idx']?>" class="story-date"><?=calcDate($value['created_at'])?></a><?=!empty($userData['idx']) && ($userData['idx'] == $value['created_by'] || $userData['admin'] == 1) ? ' <a href="' . base_url() . 'story/edit/' . $view['idx'] . '?n=' . $value['idx'] . '">[수정]</a> <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '" data-action="delete">[삭제]</a>' : ''?>
+                <a href="<?=base_url()?>story/view/<?=$view['idx']?>?n=<?=$value['idx']?>" class="story-date"><?=calcStoryTime($value['created_at'])?> 작성<?=!empty($value['updated_at']) ? ', ' . calcStoryTime($value['updated_at']) . ' 수정' : ''?></a><?=!empty($userData['idx']) && ($userData['idx'] == $value['created_by'] || $userData['admin'] == 1) ? ' <a href="' . base_url() . 'story/edit/' . $view['idx'] . '?n=' . $value['idx'] . '">[수정]</a> <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '" data-action="delete">[삭제]</a>' : ''?>
               </div>
               <div class="story-content">
                 <?php if (!empty($value['filename'])): ?><img class="story-photo" src="<?=base_url()?>public/photos/thumb_<?=$value['filename']?>" data-filename="<?=base_url()?>public/photos/<?=$value['filename']?>"><br><?php endif; ?>

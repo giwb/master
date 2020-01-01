@@ -809,7 +809,7 @@ if (!function_exists('calcStoryTime')) {
     $s = 60;
     $h = $s * 60;
     $d = $h * 24;
-    $y = $d * 10;
+    $y = $d * 30;
 
     if ($diff < $s) {
       $result = gmdate('s', $diff)+0 . '초전';
@@ -820,7 +820,7 @@ if (!function_exists('calcStoryTime')) {
     } elseif ($y > $diff && $diff >= $d) {
       $result = round($diff/$d) . '일전';
     } else {
-      $result = date('Y/m/d', $date);
+      $result = date('Y년 m월 d일', $date);
     }
 
     return $result;
