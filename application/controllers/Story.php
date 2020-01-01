@@ -84,7 +84,7 @@ class Story extends CI_Controller
     // 최초 스토리 출력
     $viewData['listStory'] = $this->story_model->viewStory($viewData['clubIdx'], $viewData['storyIdx']);
 
-    if ($viewData['userData']['idx'] != $viewData['listStory'][0]['created_by']) {
+    if ($viewData['userData']['idx'] != $viewData['listStory'][0]['created_by'] && $viewData['userData']['admin'] != 1) {
       redirect(base_url() . 'story/view/' . $viewData['clubIdx'] . '?n=' . $viewData['storyIdx']);
     } else {
       $viewData['viewStory'] = $this->load->view('story/index', $viewData, true);
