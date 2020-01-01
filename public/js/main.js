@@ -1248,7 +1248,7 @@ $(document).on('click', '.btn-reply', function() {
   });
 }).on('click', '.story-photo', function() {
   // 스토리 사진 확대
-  var filename = $(this).attr('src');
+  var filename = $(this).data('filename');
   $.magnificPopup.open({
     items: { src: filename },
     gallery: { enabled: true },
