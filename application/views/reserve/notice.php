@@ -12,22 +12,22 @@
           </div>
 
           <div class="sub-header">기획의도</div>
-          <div class="sub-content"><?=reset_html_escape($notice['plan'])?></div><br>
+          <div class="sub-content"><?=$notice['plan']?></div><br>
 
           <div class="sub-header">산행개요</div>
-          <div class="sub-content"><?=reset_html_escape($notice['point'])?></div><br>
+          <div class="sub-content"><?=$notice['point']?></div><br>
 
           <div class="sub-header">산행지소개</div>
-          <div class="sub-content"><?=reset_html_escape($notice['intro'])?></div><br>
+          <div class="sub-content"><?=$notice['intro']?></div><br>
 
           <div class="sub-header">일정안내</div>
-          <div class="sub-content"><?=reset_html_escape($notice['timetable'])?></div><br>
+          <div class="sub-content"><?=$notice['timetable']?></div><br>
 
           <div class="sub-header">산행안내</div>
-          <div class="sub-content"><?=reset_html_escape($notice['information'])?></div><br>
+          <div class="sub-content"><?=$notice['information']?></div><br>
 
           <div class="sub-header">코스안내</div>
-          <div class="sub-content"><?=reset_html_escape($notice['course'])?></div>
+          <div class="sub-content"><?=$notice['course']?></div>
 
           <div class="story-reaction">
             <button type="button" data-idx="<?=$notice['idx']?>" data-type="<?=REPLY_TYPE_NOTICE?>"><i class="fa fa-reply" aria-hidden="true"></i> 댓글 <span class="cnt-reply" data-idx="<?=$notice['idx']?>"><?=$notice['reply_cnt']?></span></button>
@@ -79,7 +79,34 @@
       <script type="text/javascript">
         $(document).ready(function() {
           $('.sub-content img').click(function() {
-            window.open($('input[name=baseUrl').val() + $(this).attr('src'));
+            var $dom = $(this);
+            var src = $(this).attr('src');
+            var width = $(this).data('width');
+            var height = $(this).data('height');
+            var pswpElement = document.querySelectorAll('.pswp')[0];
+            var items = [{ src: src, w: width, h: height }];
+
+            $('.sub-content img').each(function() {
+              var pushSrc = $(this).attr('src');
+              if (pushSrc != src) {
+                items.push({ src: pushSrc, w: $(this).data('width'), h: $(this).data('height') });
+              }
+            });
+
+            var items = items;
+            var options = {
+              index: 0,
+              bgOpacity: 0.8,
+              showHideOpacity: true,
+              getThumbBoundsFn: function(index) {
+                var thumbnail = $dom[0],
+                pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
+                rect = thumbnail.getBoundingClientRect(); 
+                return {x:rect.left, y:rect.top + pageYScroll, w:rect.width};
+              }
+            };
+            var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
+            gallery.init();
           });
         });
       </script>
