@@ -2151,11 +2151,13 @@ h1.nav-logo small {
 #setupForm .area-btn { border-top: 1px solid #999; margin: 0 0 20px 0; padding: 20px 0 0 0; text-align: center; }
 
 /* 사진첩 */
-#album .album-item { position: relative; }
+#album .album-item { position: relative; text-align: center; }
+#album .album-photo { border-radius: 10px; }
+#album .album-photo:hover { box-shadow: #ddd 3px 3px 3px; }
 #album .album-item .ajax-loader { position: absolute; top: 45px; left: 80px; z-index: 1000; }
 
 /* 용품판매 */
-#shop .shop-item { border: 1px solid #d9d9d9; padding: 20px 0; cursor: pointer; }
+#shop .shop-item { border: 1px solid #d9d9d9; border-radius: 10px; padding: 20px 0; cursor: pointer; }
 #shop .shop-item:hover { box-shadow: #ddd 3px 3px 3px; }
 #shop .shop-item img { max-height: 150px; }
 #shop .item-photo { font-size: 11px; color: #999; margin: 0 0 20px 0; }
