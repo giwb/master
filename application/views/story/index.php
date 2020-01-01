@@ -5,6 +5,12 @@
     } else {
       $value['photo'] = base_url() . 'public/images/user.png';
     }
+
+    if (file_exists(PHOTO_PATH . $value['filename'])) {
+      $size = getImageSize(PHOTO_PATH . $value['filename']);
+      $value['file_width'] = $size[0];
+      $value['file_height'] = $size[1];
+    }
 ?>
           <article id="post-<?=$value['idx']?>">
             <div class="story-container">
@@ -13,7 +19,7 @@
                 <a href="<?=base_url()?>story/view/<?=$view['idx']?>?n=<?=$value['idx']?>" class="story-date"><?=calcStoryTime($value['created_at'])?> 작성<?=!empty($value['updated_at']) ? ', ' . calcStoryTime($value['updated_at']) . ' 수정' : ''?></a><?=!empty($userData['idx']) && ($userData['idx'] == $value['created_by'] || $userData['admin'] == 1) ? ' <a href="' . base_url() . 'story/edit/' . $view['idx'] . '?n=' . $value['idx'] . '">[수정]</a> <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '" data-action="delete">[삭제]</a>' : ''?>
               </div>
               <div class="story-content">
-                <?php if (!empty($value['filename'])): ?><img class="story-photo" src="<?=base_url()?>public/photos/thumb_<?=$value['filename']?>" data-filename="<?=base_url()?>public/photos/<?=$value['filename']?>"><br><?php endif; ?>
+                <?php if (!empty($value['filename'])): ?><img class="story-photo" src="<?=base_url()?>public/photos/thumb_<?=$value['filename']?>" data-filename="<?=base_url()?>public/photos/<?=$value['filename']?>" data-width="<?=$value['file_width']?>" data-height="<?=$value['file_height']?>"><br><?php endif; ?>
                 <?=nl2br(strip_tags($value['content']))?>
               </div>
               <div class="story-reaction">

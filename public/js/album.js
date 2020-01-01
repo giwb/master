@@ -1,7 +1,6 @@
 $(document).ready(function() {
   $('.btn-album').click(function() {
     var $dom = $(this).parent();
-    var items = [];
     $.ajax({
       url: $('input[name=baseUrl]').val() + 'club/album_view',
       data: 'idx=' + $(this).data('idx'),
@@ -12,23 +11,33 @@ $(document).ready(function() {
         $dom.append('<img class="ajax-loader" src="/public/images/preloader.png">')
       },
       success: function(result) {
+        var items = [];
         $('.album-photo', $dom).css('opacity', '1');
         $('.ajax-loader', $dom).remove();
         $.each(result, function(i, v) {
           items.push({
             src: v.src,
+            w: v.width,
+            h: v.height,
             title: v.title
           });
         });
+        var pswpElement = document.querySelectorAll('.pswp')[0];
+        var items = items;
+        var options = {
+          index: 0,
+          bgOpacity: 0.8,
+          showHideOpacity: true,
+          getThumbBoundsFn: function(index) {
+            var thumbnail = $dom[0],
+            pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
+            rect = thumbnail.getBoundingClientRect(); 
+            return {x:rect.left, y:rect.top + pageYScroll, w:rect.width};
+          }
+        };
+        var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
+        gallery.init();
       },
-      complete: function() {
-        $.magnificPopup.open({
-          items: items,
-          gallery: { enabled: true },
-          type: 'image',
-          image: { titleSrc: 'title' }
-        });
-      }
     });
   });
 }).on('change', '.photo', function() {

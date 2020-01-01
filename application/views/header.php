@@ -31,7 +31,9 @@
   <link href="<?=base_url()?>public/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
   <link href="<?=base_url()?>public/css/fullcalendar.css" rel="stylesheet">
   <link href="<?=base_url()?>public/css/fullcalendar.print.css" rel="stylesheet">
-  <link href="<?=base_url()?>public/css/magnific-popup.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/photoswipe/photoswipe.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/photoswipe/default-skin/default-skin.css" rel="stylesheet">
+  <!--<link href="<?=base_url()?>public/css/magnific-popup.css" rel="stylesheet">-->
   <link href="<?=base_url()?>public/css/style.css?<?=time()?>" rel="stylesheet">
 
   <script src="<?=base_url()?>public/js/jquery-2.1.4.min.js" type="text/javascript"></script>
@@ -50,7 +52,9 @@
   <script src="<?=base_url()?>public/ckeditor/ckeditor.js" type="text/javascript" charset="utf-8"></script>
   <script src="<?=base_url()?>public/js/fullcalendar.js" type="text/javascript"></script>
   <script src="<?=base_url()?>public/js/clipboard.min.js" type="text/javascript"></script>
-  <script src="<?=base_url()?>public/js/jquery.magnific-popup.min.js" type="text/javascript"></script>
+  <script src="<?=base_url()?>public/photoswipe/photoswipe.min.js" type="text/javascript"></script>
+  <script src="<?=base_url()?>public/photoswipe/photoswipe-ui-default.min.js" type="text/javascript"></script>
+  <!--<script src="<?=base_url()?>public/js/jquery.magnific-popup.min.js" type="text/javascript"></script>-->
   <script src="<?=base_url()?>public/js/main.js?<?=time()?>" type="text/javascript"></script>
   <script data-ad-client="ca-pub-2424708381875991" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>

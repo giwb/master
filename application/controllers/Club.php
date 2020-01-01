@@ -846,6 +846,9 @@ class Club extends MY_Controller
     $photos = $this->file_model->getFile('album', $idx);
     foreach ($photos as $value) {
       if (!empty($value['filename'])) {
+        $size = getImageSize(PHOTO_PATH . $value['filename']);
+        $result[$cnt]['width'] = $size[0];
+        $result[$cnt]['height'] = $size[1];
         $result[$cnt]['src'] = base_url() . PHOTO_URL . $value['filename'];
         $result[$cnt]['title'] = $viewData['viewAlbum']['subject'];
         $cnt++;

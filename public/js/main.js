@@ -1256,13 +1256,31 @@ $(document).on('click', '.btn-reply', function() {
   });
 }).on('click', '.story-photo', function() {
   // 스토리 사진 확대
-  var filename = $(this).data('filename');
-  $.magnificPopup.open({
-    items: { src: filename },
-    gallery: { enabled: true },
-    fixedContentPos: true,
-    type: 'image'
-  });
+  var $dom = $(this);
+  var filename = $dom.data('filename');
+  var width = $dom.data('width');
+  var height = $dom.data('height');
+  var pswpElement = document.querySelectorAll('.pswp')[0];
+  var items = [
+    {
+      src: filename,
+      w: width,
+      h: height
+    }
+  ];
+  var options = {
+    index: 0,
+    bgOpacity: 0.8,
+    showHideOpacity: true,
+    getThumbBoundsFn: function(index) {
+      var thumbnail = $dom[0],
+      pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
+      rect = thumbnail.getBoundingClientRect(); 
+      return {x:rect.left, y:rect.top + pageYScroll, w:rect.width};
+    }
+  };
+  var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
+  gallery.init();
 });
 
 $(window).scroll(function() {
