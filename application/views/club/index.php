@@ -77,8 +77,8 @@
               <input type="hidden" name="page" value="story">
             </div>
           </form>
-          <?=$listStory?>
-          <div class="story-article">
+          <div class="club-story-article">
+            <?=$listStory?>
           </div>
           <input type="hidden" name="p" value="1">
           <input type="hidden" name="n" value="<?=!empty($storyIdx) ? $storyIdx : ''?>">

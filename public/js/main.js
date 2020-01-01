@@ -1246,6 +1246,14 @@ $(document).on('click', '.btn-reply', function() {
       }
     }
   });
+}).on('click', '.story-photo', function() {
+  // 스토리 사진 확대
+  var filename = $(this).attr('src');
+  $.magnificPopup.open({
+    items: { src: filename },
+    gallery: { enabled: true },
+    type: 'image'
+  });
 });
 
 $(window).scroll(function() {
@@ -1274,7 +1282,7 @@ $.loadStory = function() {
     dataType: 'json',
     type: 'post',
     success: function(result) {
-      if (result != '') $('.story-article').append(result);
+      if (result != '') $('.club-story-article').append(result);
     }
   });
 }
