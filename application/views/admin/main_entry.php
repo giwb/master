@@ -198,7 +198,7 @@
       <div class="row align-items-center font-weight-bold border-top mt-3 pt-3 row-course">
         <div class="col-sm-1"><?=$key + 1?></div>
         <div class="col-sm-3"><input placeholder="운행구간" class="form-control w2x" type="text" size="20" name="road_course[]" value="<?=!empty($view['road_course'][$key]) ? $view['road_course'][$key] : ''?>"></div>
-        <div class="col-sm-3"><input placeholder="도착지주소" class="form-control w2x" type="text" size="20" name="road_address[]" value="<?=!empty($view['road_address'][$key]) ? $view['road_address'][$key] : ''?>"></div>
+        <div class="col-sm-3"><input placeholder="도착지주소" class="form-control w2x" type="text" size="20" name="road_address[]" value="<?=!empty($view['road_address'][$key]) ? $view['road_address'][$key] : '-'?>"></div>
         <div class="col-sm-2"><input placeholder="거리 (km)" class="form-control road-distance" type="text" size="4" name="road_distance[]" value="<?=!empty($view['road_distance'][$key]) ? $view['road_distance'][$key] : ''?>"></div>
         <div class="col-sm-1"><input placeholder="소요시간" class="form-control road-runtime" type="text" size="4" name="road_runtime[]" value="<?=array_key_exists($key, $view['road_runtime']) ? $view['road_runtime'][$key] : ''?>"></div>
         <div class="col-sm-2"><input placeholder="통행료 (원)" class="form-control road-cost" type="text" size="4" name="road_cost[]" value="<?=array_key_exists($key, $view['road_cost']) ? $view['road_cost'][$key] : ''?>"></div>

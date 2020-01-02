@@ -123,7 +123,7 @@ $(document).on('click', '.shop-item', function() {
   var totalCost = Number($('input[name=totalCost]').val()); // 합계금액
   var paymentCost = Number($('input[name=paymentCost]').val()); // 결제금액
 
-  if (usingPoint <= 0) {
+  if (usingPoint < 0) {
     if (paymentCost > userPoint) {
       // 결제금액이 총 포인트보다 높을때는 남은 포인트만큼만 결제
       usingPoint = paymentCost;
@@ -136,6 +136,7 @@ $(document).on('click', '.shop-item', function() {
       paymentCost = 0;
     }
   } else {
+    $.openMsgModal('보유한 포인트만 사용할 수 있습니다.');
     usingPoint = '';
     paymentCost = totalCost;
   }
