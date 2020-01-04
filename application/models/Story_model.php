@@ -28,6 +28,16 @@ class Story_model extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  // 스토리 카운트
+  public function cntStory($clubIdx)
+  {
+    $this->db->select('COUNT(*) AS cnt')
+          ->from(DB_STORY)
+          ->where('club_idx', $clubIdx)
+          ->where('deleted_at', NULL);
+    return $this->db->get()->row_array(1);
+  }
+
   // 스토리 보기
   public function viewStory($clubIdx, $storyIdx)
   {

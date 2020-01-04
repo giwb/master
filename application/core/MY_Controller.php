@@ -25,6 +25,9 @@ class MY_Controller extends CI_Controller
     if (!empty($this->session->userData['idx'])) {
       $loginData['userData'] = $this->member_model->viewMember($loginData['clubIdx'], html_escape($this->session->userData['idx']));
       $loginData['userLevel'] = memberLevel($loginData['userData']['rescount'], $loginData['userData']['penalty'], $loginData['userData']['level'], $loginData['userData']['admin']);
+    } else {
+      // 로그인을 안했다면 로그인 페이지로 이동
+      redirect('login/' . $loginData['clubIdx'] . '?r=' . $_SERVER['REQUEST_URI']);
     }
 
     $this->load->vars($loginData);

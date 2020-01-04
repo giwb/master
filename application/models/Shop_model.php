@@ -132,7 +132,7 @@ class Shop_model extends CI_Model
   }
 
   // 구매 목록
-  public function listPurchase($userIdx)
+  public function listPurchase($userIdx, $paging)
   {
     $this->db->select('a.*, b.nickname, c.idx AS noticeIdx, c.startdate, c.mname')
           ->from(DB_SHOP_PURCHASE . ' a')
@@ -150,12 +150,15 @@ class Shop_model extends CI_Model
     if (!empty($search['mname'])) {
       $this->db->like('c.mname', $search['mname']);
     }
+    if (!empty($paging)) {
+      $this->db->limit($paging['perPage'], $paging['nowPage']);
+    }
 
     return $this->db->get()->result_array();
   }
 
   // 구매 내역 카운트
-  public function cntPurchase($search)
+  public function cntPurchase()
   {
     $this->db->select('COUNT(*) AS cnt')
           ->from(DB_SHOP_PURCHASE)

@@ -56,8 +56,9 @@ class Club extends MY_Controller
     }
 
     // 최초 스토리 로딩
-    $paging['perPage'] = 5;
+    $paging['perPage'] = $viewData['perPage'] = 5;
     $paging['nowPage'] = (1 * $paging['perPage']) - $paging['perPage'];
+    $viewData['maxStory'] = $this->story_model->cntStory($clubIdx);
     $viewData['listStory'] = $this->story_model->listStory($clubIdx, $paging);
     $viewData['listStory'] = $this->load->view('story/index', $viewData, true);
 

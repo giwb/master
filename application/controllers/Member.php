@@ -20,8 +20,6 @@ class Member extends MY_Controller
    **/
   public function index()
   {
-    checkUserLogin();
-
     $nowDate = time();
     $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
@@ -43,7 +41,8 @@ class Member extends MY_Controller
       $viewData['listMemberReserve'] = $this->shop_model->listMemberReserve($clubIdx, $userData['userid']);
 
       // 구매 내역
-      $viewData['listPurchase'] = $this->shop_model->listPurchase($userData['idx']);
+      $paging['perPage'] = 5; $paging['nowPage'] = 0;
+      $viewData['listPurchase'] = $this->shop_model->listPurchase($userData['idx'], $paging);
 
       foreach ($viewData['listPurchase'] as $key => $value) {
         // 상품 정보
@@ -56,8 +55,12 @@ class Member extends MY_Controller
         }
       }
 
+      // 구매 내역 템플릿 저장
+      $viewData['listPurchase'] = $this->load->view('member/mypage_shop_list', $viewData, true);
+
       // 예약 내역
-      $viewData['userReserve'] = $this->reserve_model->userReserve($clubIdx, $userData['userid']);
+      $paging['perPage'] = 5; $paging['nowPage'] = 0;
+      $viewData['userReserve'] = $this->reserve_model->userReserve($clubIdx, $paging, $userData['userid']);
 
       foreach ($viewData['userReserve'] as $key => $value) {
         if (empty($value['cost_total'])) {
@@ -120,8 +123,6 @@ class Member extends MY_Controller
    **/
   public function driver()
   {
-    checkUserLogin();
-
     $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
     $noticeIdx = html_escape($this->input->get('n'));
@@ -212,6 +213,137 @@ class Member extends MY_Controller
   }
 
   /**
+   * 마이페이지 - 구매 내역 상세 페이지
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function shop()
+  {
+    $nowDate = time();
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    // 페이징
+    $page = html_escape($this->input->post('p'));
+    if (empty($page)) $page = 1; else $page++;
+    $paging['perPage'] = $viewData['perPage'] = 5;
+    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
+
+    // 구매 내역
+    $viewData['maxPurchase'] = $this->shop_model->cntPurchase();
+    $viewData['listPurchase'] = $this->shop_model->listPurchase($userData['idx'], $paging);
+
+    foreach ($viewData['listPurchase'] as $key => $value) {
+      // 상품 정보
+      $items = unserialize($value['items']);
+      $viewData['listPurchase'][$key]['listCart'] = $items;
+
+      $viewData['listPurchase'][$key]['cost_total'] = 0;
+      foreach ($items as $item) {
+        $viewData['listPurchase'][$key]['cost_total'] += $item['cost'] * $item['amount'];
+      }
+    }
+
+    // 회원 정보
+    $viewData['viewMember'] = $this->member_model->viewMember($clubIdx, $userData['idx']);
+
+    // 용품 인수를 위한 회원 예약 내역
+    $viewData['listMemberReserve'] = $this->shop_model->listMemberReserve($clubIdx, $userData['userid']);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '마이페이지 - 구매 내역';
+
+    if ($page >= 2) {
+      // 2페이지 이상일 경우에는 Json으로 전송
+      $result['page'] = $page;
+      $result['html'] = $this->load->view('member/mypage_shop_list', $viewData, true);
+      $this->output->set_output(json_encode($result));
+    } else {
+      // 목록 템플릿
+      $viewData['listPurchase'] = $this->load->view('member/mypage_shop_list', $viewData, true);
+
+      // 1페이지에는 View 페이지로 전송
+      $this->_viewPage('member/mypage_shop.php', $viewData);
+    }
+  }
+
+  /**
+   * 마이페이지 - 예약 내역 상세 페이지
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function reserve()
+  {
+    $nowDate = time();
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    // 페이징
+    $page = html_escape($this->input->post('p'));
+    if (empty($page)) $page = 1; else $page++;
+    $paging['perPage'] = $viewData['perPage'] = 20;
+    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
+
+    // 예약 내역
+    $viewData['maxReserve'] = $this->reserve_model->maxReserve($clubIdx, $userData['userid']);
+    $viewData['userReserve'] = $this->reserve_model->userReserve($clubIdx, $paging, $userData['userid'], $paging);
+
+    foreach ($viewData['userReserve'] as $key => $value) {
+      if (empty($value['cost_total'])) {
+        $value['cost_total'] = $value['cost'];
+      }
+      if ($userData['level'] == LEVEL_LIFETIME) {
+        // 평생회원 할인
+        $viewData['userReserve'][$key]['view_cost'] = '<s class="text-secondary">' . number_format($value['cost_total']) . '원</s> → ' . number_format($value['cost_total'] - 5000) . '원';
+        $viewData['userReserve'][$key]['real_cost'] = $value['cost_total'] - 5000;
+      } elseif ($userData['level'] == LEVEL_FREE) {
+        // 무료회원 할인
+        $viewData['userReserve'][$key]['view_cost'] = '<s class="text-secondary">' . number_format($value['cost_total']) . '원</s> → ' . '0원';
+        $viewData['userReserve'][$key]['real_cost'] = 0;
+      } else {
+        $viewData['userReserve'][$key]['view_cost'] = number_format($value['cost_total']) . '원';
+        $viewData['userReserve'][$key]['real_cost'] = $value['cost_total'];
+      }
+      // 페널티 체크
+      $startTime = explode(':', $value['starttime']);
+      $startDate = explode('-', $value['startdate']);
+      $limitDate = mktime($startTime[0], $startTime[1], 0, $startDate[1], $startDate[2], $startDate[0]);
+
+      // 예약 페널티
+      if ( $limitDate < ($nowDate + 86400) ) {
+        // 1일전 취소시 3점 페널티
+        $viewData['userReserve'][$key]['penalty'] = 3;
+      } elseif ( $limitDate < ($nowDate + 172800) ) {
+        // 2일전 취소시 1점 페널티
+        $viewData['userReserve'][$key]['penalty'] = 1;
+      }
+    }
+
+    // 회원 정보
+    $viewData['viewMember'] = $this->member_model->viewMember($clubIdx, $userData['idx']);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '마이페이지 - 예약 내역';
+
+    if ($page >= 2) {
+      // 2페이지 이상일 경우에는 Json으로 전송
+      $result['page'] = $page;
+      $result['html'] = $this->load->view('member/mypage_reserve_list', $viewData, true);
+      $this->output->set_output(json_encode($result));
+    } else {
+      // 목록 템플릿
+      $viewData['userReserve'] = $this->load->view('member/mypage_reserve_list', $viewData, true);
+
+      // 1페이지에는 View 페이지로 전송
+      $this->_viewPage('member/mypage_reserve', $viewData);
+    }
+  }
+
+  /**
    * 개인정보수정
    *
    * @return view
@@ -219,8 +351,6 @@ class Member extends MY_Controller
    **/
   public function modify()
   {
-    checkUserLogin();
-
     $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
     $viewData['view'] = $this->club_model->viewclub($clubIdx);

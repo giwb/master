@@ -80,6 +80,9 @@
           <div class="club-story-article">
             <?=$listStory?>
           </div>
+          <?php if ($maxStory['cnt'] > $perPage): ?>
+          <button class="btn btn-story-more">더 보기 ▼</button>
+          <?php endif; ?>
           <input type="hidden" name="p" value="1">
           <input type="hidden" name="n" value="<?=!empty($storyIdx) ? $storyIdx : ''?>">
         </div>

@@ -1291,35 +1291,36 @@ $(document).on('click', '.btn-reply', function() {
   };
   var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
   gallery.init();
-});
-
-$(window).scroll(function() {
-  if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 500)) {
-    var paging = $('input[name=p]').val();
-    if (typeof paging != 'undefined') {
-      $('input[name=p]').val(Number(paging) + 1);
-      $.loadStory();
-    }
-  }
-});
-
-$.loadStory = function() {
+}).on('click', '.btn-story-more', function() {
+  // 더보기
+  var $btn = $(this);
   var storyIdx = $('input[name=n]').val();
   var paging = $('input[name=p]').val();
-  var data;
 
-  if (storyIdx != '') {
-    data = 'n=' + storyIdx;
-  } else {
-    data = 'p=' + paging;
-  }
-  $.ajax({
-    url: $('input[name=baseUrl]').val() + 'story/index/' + $('input[name=clubIdx]').val(),
-    data: data,
-    dataType: 'json',
-    type: 'post',
-    success: function(result) {
-      if (result != '') $('.club-story-article').append(result);
+  if (typeof storyIdx != 'undefined' && typeof paging != 'undefined') {
+    $('input[name=p]').val(Number(paging) + 1);
+    if (storyIdx != '') {
+      var data = 'n=' + storyIdx;
+    } else {
+      var data = 'p=' + $('input[name=p]').val();
     }
-  });
-}
+    $.ajax({
+      url: $('input[name=baseUrl]').val() + 'story/index/' + $('input[name=clubIdx]').val(),
+      data: data,
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('불러오는 중.....');
+      },
+      success: function(result) {
+        if (result == '') {
+          $btn.css('opacity', '1').prop('disabled', true).text('마지막 페이지 입니다.');
+        } else {
+          $btn.css('opacity', '1').prop('disabled', false).text('더 보기 ▼');
+          if (result != '') $('.club-story-article').append(result);
+        }
+      }
+    });
+
+  }
+});
