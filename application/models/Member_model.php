@@ -122,29 +122,63 @@ class Member_model extends CI_Model
   }
 
   // 사용자 포인트 기록
-  public function userPointLog($clubIdx, $userId)
+  public function userPointLog($clubIdx, $userId, $paging=NULL)
   {
     $this->db->select('*')
           ->from(DB_HISTORY)
           ->where('club_idx', $clubIdx)
           ->where('userid', $userId)
           ->where_in('action', array(LOG_POINTUP, LOG_POINTDN))
-          ->order_by('regdate', 'desc')
-          ->limit(5);
+          ->order_by('regdate', 'desc');
+
+    if (!empty($paging)) {
+      $this->db->limit($paging['perPage'], $paging['nowPage']);
+    } else {
+      $this->db->limit(5);
+    }
+
     return $this->db->get()->result_array();
   }
 
+  // 사용자 포인트 카운트
+  public function maxPointLog($clubIdx, $userId)
+  {
+    $this->db->select('COUNT(*) AS cnt')
+          ->from(DB_HISTORY)
+          ->where('club_idx', $clubIdx)
+          ->where('userid', $userId)
+          ->where_in('action', array(LOG_POINTUP, LOG_POINTDN));
+    return $this->db->get()->row_array(1);
+  }
+
   // 사용자 페널티 기록
-  public function userPenaltyLog($clubIdx, $userId)
+  public function userPenaltyLog($clubIdx, $userId, $paging=NULL)
   {
     $this->db->select('*')
           ->from(DB_HISTORY)
           ->where('club_idx', $clubIdx)
           ->where('userid', $userId)
           ->where_in('action', array(LOG_PENALTYUP, LOG_PENALTYDN))
-          ->order_by('regdate', 'desc')
-          ->limit(5);
+          ->order_by('regdate', 'desc');
+
+    if (!empty($paging)) {
+      $this->db->limit($paging['perPage'], $paging['nowPage']);
+    } else {
+      $this->db->limit(5);
+    }
+
     return $this->db->get()->result_array();
+  }
+
+  // 사용자 페널티 카운트
+  public function maxPenaltyLog($clubIdx, $userId)
+  {
+    $this->db->select('COUNT(*) AS cnt')
+          ->from(DB_HISTORY)
+          ->where('club_idx', $clubIdx)
+          ->where('userid', $userId)
+          ->where_in('action', array(LOG_PENALTYUP, LOG_PENALTYDN));
+    return $this->db->get()->row_array(1);
   }
 
   // 포인트 수정

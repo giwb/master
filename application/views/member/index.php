@@ -46,7 +46,7 @@
           <h3>
             ■ 예약취소 내역
             <div class="area-btn">
-              <!--<a href="<?=base_url()?>member/reserve_cancel/<?=$clubIdx?>"><button type="button" class="btn btn-secondary">더보기</button></a>-->
+              <a href="<?=base_url()?>member/reserve_cancel/<?=$clubIdx?>"><button type="button" class="btn btn-secondary">더보기</button></a>
             </div>
           </h3>
           <?php foreach ($userReserveCancel as $value): ?>
@@ -63,7 +63,7 @@
           <h3>
             ■ 산행 내역
             <div class="area-btn">
-              <!--<a href="<?=base_url()?>member/reserve_past/<?=$clubIdx?>"><button type="button" class="btn btn-secondary">더보기</button></a>-->
+              <a href="<?=base_url()?>member/reserve_past/<?=$clubIdx?>"><button type="button" class="btn btn-secondary">더보기</button></a>
             </div>
           </h3>
           <?php foreach ($userVisit as $value): ?>
@@ -81,7 +81,7 @@
           <h3>
             ■ 포인트 내역 <small>- 잔액 <?=number_format($viewMember['point'])?> 포인트</small>
             <div class="area-btn">
-              <!--<a href="<?=base_url()?>member/point/<?=$clubIdx?>"><button type="button" class="btn btn-secondary">더보기</button></a>-->
+              <a href="<?=base_url()?>member/point/<?=$clubIdx?>"><button type="button" class="btn btn-secondary">더보기</button></a>
             </div>
           </h3>
           <ul>
@@ -107,7 +107,7 @@
           <h3>
             ■ 페널티 내역
             <div class="area-btn">
-              <!--<a href="<?=base_url()?>member/penalty/<?=$clubIdx?>"><button type="button" class="btn btn-secondary">더보기</button></a>-->
+              <a href="<?=base_url()?>member/penalty/<?=$clubIdx?>"><button type="button" class="btn btn-secondary">더보기</button></a>
             </div>
           </h3>
           <ul>
