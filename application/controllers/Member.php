@@ -20,6 +20,8 @@ class Member extends MY_Controller
    **/
   public function index()
   {
+    checkUserLogin();
+
     $nowDate = time();
     $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
@@ -123,6 +125,8 @@ class Member extends MY_Controller
    **/
   public function driver()
   {
+    checkUserLogin();
+
     $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
     $noticeIdx = html_escape($this->input->get('n'));
@@ -220,6 +224,8 @@ class Member extends MY_Controller
    **/
   public function shop()
   {
+    checkUserLogin();
+
     $nowDate = time();
     $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
@@ -277,6 +283,8 @@ class Member extends MY_Controller
    **/
   public function reserve()
   {
+    checkUserLogin();
+
     $nowDate = time();
     $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
@@ -351,6 +359,8 @@ class Member extends MY_Controller
    **/
   public function modify()
   {
+    checkUserLogin();
+
     $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
     $viewData['view'] = $this->club_model->viewclub($clubIdx);
