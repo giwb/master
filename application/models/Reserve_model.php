@@ -87,15 +87,19 @@ class Reserve_model extends CI_Model
   }
 
   // 마이페이지 사용자 예약 내역
-  public function userReserve($clubIdx, $paging, $userId=NULL, $idx=NULL)
+  public function userReserve($clubIdx, $paging=NULL, $userId=NULL, $idx=NULL)
   {
     $this->db->select('a.*, b.idx as resCode, b.subject, b.startdate, b.starttime, b.cost, b.cost_total, b.bus AS notice_bus, b.bustype AS notice_bustype, b.status AS notice_status')
           ->from(DB_RESERVATION . ' a')
           ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
           ->where('a.club_idx', $clubIdx)
-          ->where('b.visible', VISIBLE_ABLE)
-          ->limit($paging['perPage'], $paging['nowPage']);
+          ->where('b.visible', VISIBLE_ABLE);
 
+    if (!empty($paging)) {
+      $this->db->limit($paging['perPage'], $paging['nowPage']);
+    } else {
+      $this->db->limit(5);
+    }
     if (!empty($userId)) {
       $this->db->where('a.userid', $userId)
             ->where('a.status <=', 7)
