@@ -1532,7 +1532,8 @@ class Admin extends Admin_Controller
     $viewData['viewMember'] = $this->member_model->viewMember($viewData['clubIdx'], $viewData['view']['idx']);
 
     // 예약 내역
-    $viewData['userReserve'] = $this->reserve_model->userReserve($viewData['clubIdx'], $viewData['view']['userid']);
+    $paging['perPage'] = 5; $paging['nowPage'] = 0;
+    $viewData['userReserve'] = $this->reserve_model->userReserve($viewData['clubIdx'], $paging, $viewData['view']['userid']);
 
     // 예약 취소 내역 (로그)
     $viewData['userReserveCancel'] = $this->reserve_model->userReserveCancel($viewData['clubIdx'], $viewData['view']['userid']);
