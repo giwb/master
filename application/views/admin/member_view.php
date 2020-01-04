@@ -5,8 +5,13 @@
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
           <h1 class="h3 mb-0 text-gray-800">회원 정보 수정</h1>
         </div>
-        <div class="border-bottom mt-5 mb-3 pb-3">
-          <h5>■ 기본 정보</h3>
+        <div class="row border-bottom mt-5 mb-3 pb-3">
+          <div class="col col-sm-6">
+            <h5>■ 기본 정보</h5>
+          </div>
+          <div class="col col-sm-6 text-right">
+            <button type="button" class="btn btn-sm btn-danger btn-user-login" data-idx="<?=$view['idx']?>">이 사용자로 로그인</button>
+          </div>
         </div>
         <form id="formMember" method="post" action="<?=base_url()?>admin/member_update">
           <input type="hidden" name="idx" value="<?=$view['idx']?>">

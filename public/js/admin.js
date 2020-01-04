@@ -512,6 +512,22 @@
   }).on('click', '.btn-member-list', function() {
     // 회원 목록 돌아가기
     location.href=($('input[name=base_url]').val() + 'admin/member_list');
+  }).on('click', '.btn-user-login', function() {
+    var $btn = $(this);
+    var baseUrl = $('input[name=base_url]').val();
+    $.ajax({
+      url: baseUrl + 'admin/user_login',
+      data: 'idx=' + $(this).data('idx'),
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+      },
+      success: function(result) {
+        $btn.css('opacity', '1').prop('disabled', false).text('이 사용자로 로그인');
+        window.open(baseUrl);
+      }
+    });
   }).on('click', '.btn-get-attendance', function() {
     // 출석체크 최신 데이터 받기
     var $btn = $(this);

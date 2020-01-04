@@ -7,8 +7,8 @@ class Admin extends Admin_Controller
   function __construct()
   {
     parent::__construct();
-    $this->load->helper(array('url', 'my_array_helper'));
-    $this->load->library(array('image_lib', 'session'));
+    $this->load->helper(array('cookie', 'security', 'url', 'my_array_helper'));
+    $this->load->library(array('image_lib'));
     $this->load->model(array('admin_model', 'area_model', 'club_model', 'file_model', 'member_model', 'shop_model'));
   }
 
@@ -2806,6 +2806,28 @@ class Admin extends Admin_Controller
       $result = array('error' => 1, 'message' => $this->lang->line('error_delete'));
     } else {
       $result = array('error' => 0, 'message' => '');
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 사용자 로그인
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function user_login()
+  {
+    $search['idx'] = html_escape($this->input->post('idx'));
+
+    if (!empty($search['idx'])) {
+      $userData = $this->admin_model->viewMember($search);
+      $this->session->unset_userdata('userData');
+      $this->session->set_userdata('userData', $userData);
+      $result = array('error' => 0);
+    } else {
+      $result = array('error' => 1);
     }
 
     $this->output->set_output(json_encode($result));
