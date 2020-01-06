@@ -144,6 +144,9 @@ class Shop_model extends CI_Model
     if (!empty($search['item_name'])) {
       $this->db->like('a.items', $search['item_name']);
     }
+    if (!empty($search['created_by'])) {
+      $this->db->like('a.created_by', $search['created_by']);
+    }
     if (!empty($search['nickname'])) {
       $this->db->like('b.nickname', $search['nickname']);
     }

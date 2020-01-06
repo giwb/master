@@ -55,20 +55,9 @@ class Shop extends Admin_Controller
 
       // 카테고리명
       $itemCategory = unserialize($value['item_category']);
-      $cnt = 0;
-      foreach ($itemCategory as $category) {
+      foreach ($itemCategory as $cnt => $category) {
         $buf = $this->shop_model->viewCategory($category);
         $viewData['listItem'][$key]['item_category_name'][$cnt] = $buf['name'];
-        $cnt++;
-      }
-
-      // 가격
-      $itemCost = unserialize($value['item_cost']);
-      $cnt = 0;
-      foreach ($itemCost as $cost) {
-        $viewData['listItem'][$key]['item_option'][$cnt] = $cost['item_option'];
-        $viewData['listItem'][$key]['item_option_cost'][$cnt] = $cost['item_cost'];
-        $cnt++;
       }
     }
 
@@ -105,12 +94,13 @@ class Shop extends Admin_Controller
       // 수정
       $viewData['view'] = $this->shop_model->viewItem($idx);
 
-      // 가격
-      $itemCost = unserialize($viewData['view']['item_cost']);
+      // 옵션
+      $itemOptions = unserialize($viewData['view']['item_option']);
       $cnt = 0;
-      foreach ($itemCost as $cost) {
-        $viewData['view']['item_option'][$cnt] = $cost['item_option'];
-        $viewData['view']['item_option_cost'][$cnt] = $cost['item_cost'];
+      foreach ($itemOptions as $cost) {
+        $viewData['view']['added_option'][$cnt] = $cost['item_option'];
+        $viewData['view']['added_price'][$cnt] = !empty($cost['added_price']) ? $cost['added_price'] : 0;
+        $viewData['view']['added_cost'][$cnt] = !empty($cost['added_cost']) ? $cost['added_cost'] : 0;
         $cnt++;
       }
 
@@ -153,7 +143,8 @@ class Shop extends Admin_Controller
     $idx = html_escape($postData['idx']);
     $photo = html_escape($postData['filename']);
     $itemOption = html_escape($postData['item_option']);
-    $itemCost = html_escape($postData['item_cost']);
+    $addedPrice = html_escape($postData['added_price']);
+    $addedCost = html_escape($postData['added_cost']);
     $arrCost = array();
 
     // 카테고리
@@ -163,12 +154,15 @@ class Shop extends Admin_Controller
     );
 
     // 옵션/가격
-    foreach ($itemCost as $key => $value) {
+    $cnt = 0;
+    foreach ($itemOption as $value) {
       if (!empty($value)) {
         $arrCost[] = array(
-          'item_option' => $itemOption[$key],
-          'item_cost' => $value
+          'item_option' => $value,
+          'added_price' => !empty($addedPrice[$cnt]) ? $addedPrice[$cnt] : 0,
+          'added_cost' => !empty($addedCost[$cnt]) ? $addedCost[$cnt] : 0
         );
+        $cnt++;
       }
     }
 
@@ -199,8 +193,10 @@ class Shop extends Admin_Controller
 
     $updateValues = array(
       'item_name'       => html_escape($postData['item_name']),
+      'item_price'      => html_escape($postData['item_price']),
+      'item_cost'       => html_escape($postData['item_cost']),
       'item_category'   => serialize($itemCategory),
-      'item_cost'       => serialize($arrCost),
+      'item_option'     => serialize($arrCost),
       'item_photo'      => serialize($arrPhotoData),
       'item_content'    => html_escape($postData['item_content']),
     );

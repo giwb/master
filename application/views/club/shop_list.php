@@ -5,10 +5,7 @@
       <div class="item-photo"><img src="<?=$value['item_photo']?>"></div>
       <div class="item-category"><?php if (!empty($value['item_category_name'])): foreach ($value['item_category_name'] as $cnt => $cname): ?><?=$cnt != 0 ? ' &gt; ' : ''?><?=$cname?><?php endforeach; endif; ?></div>
       <div class="pt-1 pb-1"><?=$value['item_name']?></div>
-      <div class="item-cost">
-        <?php if (count($value['item_option_cost']) == 1 && empty($value['item_option'][0])): ?><?=number_format($value['item_option_cost'][0])?>원
-        <?php else: ?><?=number_format($value['item_option_cost'][0])?>원 ∼<?php endif; ?>
-      </div>
+      <?=!empty($value['item_price']) ? '<s class="text-danger">' . number_format($value['item_price']) . '원</s> → ' : ''?><?=number_format($value['item_cost'])?>원
     </div>
   </div>
 <?php endforeach; ?>

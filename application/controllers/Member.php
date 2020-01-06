@@ -44,7 +44,8 @@ class Member extends MY_Controller
 
       // 구매 내역
       $paging['perPage'] = 5; $paging['nowPage'] = 0;
-      $viewData['listPurchase'] = $this->shop_model->listPurchase($userData['idx'], $paging);
+      $search['created_by'] = $userData['idx'];
+      $viewData['listPurchase'] = $this->shop_model->listPurchase($paging, $search);
 
       foreach ($viewData['listPurchase'] as $key => $value) {
         // 상품 정보

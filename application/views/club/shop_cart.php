@@ -22,7 +22,10 @@
               </select>
               <button type="button" class="btn btn-sm btn-danger btn-cart-delete mt-1 p-1 w-100" data-rowid="<?=$value['rowid']?>">삭제</button>
             </div>
-            <div class="col-3 col-md-2 p-0 text-right item-cost"><?=number_format($value['subtotal'])?>원</div>
+            <div class="col-3 col-md-2 p-0 text-right item-cost">
+              <?=!empty($value['subtotal_price']) ? '<s class="text-danger small">' . number_format($value['subtotal_price']) . '원</s><br>' : ''?>
+                <?=number_format($value['subtotal_cost'])?>원
+            </div>
           </div>
           <?php endforeach; ?>
           <div class="row border-bottom p-3">

@@ -11,17 +11,14 @@
               <div class="item-category"><?php if (!empty($viewItem['item_category_name'])): foreach ($viewItem['item_category_name'] as $key => $cname): if ($key != 0) { echo ' > '; } ?><?=$cname?><?php endforeach; endif; ?></div>
               <h2 class="item-name"><?=$viewItem['item_name']?></h2>
               <h4 class="mt-4 mb-4">
-                <?php if (count($viewItem['item_option_cost']) == 1 && empty($viewItem['item_option'][0])): ?>
-                <span class="item-cost"><?=number_format($viewItem['item_option_cost'][0])?>원</span>
-                <input type="hidden" value="0" class="item-option" data-cost="<?=$viewItem['item_option_cost'][0]?>">
-                <?php else: ?>
-                <select name="item_option" class="form-control item-option">
+                <?=!empty($viewItem['item_price']) ? '<s class="text-danger small"><span class="item-price">' . number_format($viewItem['item_price']) . '</span>원</s><br>' : ''?><span class="item-cost"><?=number_format($viewItem['item_cost'])?></span>원<br>
+                <select name="item_option" class="form-control item-option mt-3">
                   <option value="">옵션을 선택해주세요</option>
-                  <?php foreach ($viewItem['item_option_cost'] as $key => $cost): ?>
-                  <option value="<?=$key?>" data-cost="<?=$cost?>"><?=!empty($viewItem['item_option'][$key]) ? $viewItem['item_option'][$key] . ' - ' : ''?><?=number_format($cost)?>원</option>
+                  <option value="">---------------</option>
+                  <?php foreach ($viewItem['item_options'] as $key => $value): ?>
+                  <option value="<?=$key?>" data-added-price="<?=$value['added_price']?>" data-added-cost="<?=$value['added_cost']?>"><?=$value['item_option']?></option>
                   <?php endforeach; ?>
                 </select>
-                <?php endif; ?>
               </h4>
               <button type="button" class="btn btn-sm btn-cart" data-type="cart" data-idx="<?=$viewItem['idx']?>">장바구니에 담기</button>
               <button type="button" class="btn btn-sm btn-cart btn-buy ml-2" data-type="buy" data-idx="<?=$viewItem['idx']?>">바로 구매하기 &gt;</button>

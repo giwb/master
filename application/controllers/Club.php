@@ -257,20 +257,9 @@ class Club extends MY_Controller
 
       // 카테고리명
       $itemCategory = unserialize($value['item_category']);
-      $cnt = 0;
-      foreach ($itemCategory as $category) {
+      foreach ($itemCategory as $cnt => $category) {
         $buf = $this->shop_model->viewCategory($category);
         $viewData['listItem'][$key]['item_category_name'][$cnt] = $buf['name'];
-        $cnt++;
-      }
-
-      // 가격
-      $itemCost = unserialize($value['item_cost']);
-      $cnt = 0;
-      foreach ($itemCost as $cost) {
-        $viewData['listItem'][$key]['item_option'][$cnt] = $cost['item_option'];
-        $viewData['listItem'][$key]['item_option_cost'][$cnt] = $cost['item_cost'];
-        $cnt++;
       }
     }
 
@@ -334,20 +323,15 @@ class Club extends MY_Controller
 
     // 카테고리명
     $itemCategory = unserialize($viewData['viewItem']['item_category']);
-    $cnt = 0;
-    foreach ($itemCategory as $category) {
+    foreach ($itemCategory as $cnt => $category) {
       $buf = $this->shop_model->viewCategory($category);
       $viewData['viewItem']['item_category_name'][$cnt] = $buf['name'];
-      $cnt++;
     }
 
     // 가격
-    $itemCost = unserialize($viewData['viewItem']['item_cost']);
-    $cnt = 0;
-    foreach ($itemCost as $cost) {
-      $viewData['viewItem']['item_option'][$cnt] = $cost['item_option'];
-      $viewData['viewItem']['item_option_cost'][$cnt] = $cost['item_cost'];
-      $cnt++;
+    $itemOptions = unserialize($viewData['viewItem']['item_option']);
+    foreach ($itemOptions as $cnt1 => $cost) {
+      $viewData['viewItem']['item_options'][] = $cost;
     }
 
     // 클럽 정보
@@ -376,7 +360,7 @@ class Club extends MY_Controller
 
     // 카트 정보
     $viewData['listCart'] = array();
-    $viewData['total_amount'] = $viewData['total_cost'] = 0;
+    $viewData['total_amount'] = $viewData['total_price'] = $viewData['total_cost'] = 0;
 
     foreach ($this->cart->contents() as $value) {
       $view = $this->shop_model->viewItem($value['id']);
@@ -385,18 +369,12 @@ class Club extends MY_Controller
         $viewData['listCart'][$cnt]['rowid'] = $value['rowid'];
         $viewData['listCart'][$cnt]['item_qty'] = $value['qty'];
         $viewData['listCart'][$cnt]['item_name'] = $view['item_name'];
-        $viewData['listCart'][$cnt]['item_option'] = '';
+        $viewData['listCart'][$cnt]['item_option'] = $value['options']['item_option'];
+        $viewData['listCart'][$cnt]['item_price'] = $value['options']['item_price'];
         $viewData['listCart'][$cnt]['item_cost'] = $value['price'];
-        $viewData['listCart'][$cnt]['subtotal'] = $value['subtotal'];
+        $viewData['listCart'][$cnt]['subtotal_price'] = $value['qty'] * $value['options']['item_price'];
+        $viewData['listCart'][$cnt]['subtotal_cost'] = $value['qty'] * $value['price'];
         $viewData['listCart'][$cnt]['item_photo'] = array();
-
-        // 가격
-        $itemCost = unserialize($view['item_cost']);
-        $key = 0;
-        foreach ($itemCost as $cost) {
-          if ($value['name'] == $key) $viewData['listCart'][$cnt]['item_option'] = $cost['item_option'];
-          $key++;
-        }
 
         // 사진
         $arrPhotos = unserialize($view['item_photo']);
@@ -427,20 +405,29 @@ class Club extends MY_Controller
     $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
     $idx = html_escape($this->input->post('idx'));
-    $itemKey = html_escape($this->input->post('item_key'));
-    $itemCost = html_escape($this->input->post('item_cost'));
+    $itemOption = html_escape($this->input->post('item_option'));
     $buyType = html_escape($this->input->post('buy_type'));
     $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
 
     if (!empty($idx)) {
       $view = $this->shop_model->viewItem($idx);
 
+      $itemOptions = unserialize($view['item_option']);
+      foreach ($itemOptions as $key => $option) {
+        if ($itemOption == $key) {
+          if (!empty($option['item_option'])) $view['item_option'] = $option['item_option'];
+          if (!empty($option['added_price'])) $view['item_price'] = $option['added_price'];
+          if (!empty($option['added_cost'])) $view['item_cost'] = $option['added_cost'];
+        }
+      }
+
       // 장바구니에 담기
       $cartItem = array(
         'id'    => $idx,      // 상품번호
         'qty'   => 1,         // 개수
-        'price' => $itemCost, // 가격
-        'name'  => $itemKey,  // 옵션키
+        'price' => $view['item_cost'], // 가격
+        'name'  => time(),
+        'options' => array('item_option' => $view['item_option'], 'item_price' => $view['item_price']) // 옵션키
       );
       $rtn = $this->cart->insert($cartItem);
 
@@ -511,18 +498,12 @@ class Club extends MY_Controller
         $viewData['listCart'][$cnt]['rowid'] = $value['rowid'];
         $viewData['listCart'][$cnt]['item_qty'] = $value['qty'];
         $viewData['listCart'][$cnt]['item_name'] = $view['item_name'];
-        $viewData['listCart'][$cnt]['item_option'] = '';
+        $viewData['listCart'][$cnt]['item_option'] = $value['options']['item_option'];
+        $viewData['listCart'][$cnt]['item_price'] = $value['options']['item_price'];
         $viewData['listCart'][$cnt]['item_cost'] = $value['price'];
-        $viewData['listCart'][$cnt]['subtotal'] = $value['subtotal'];
+        $viewData['listCart'][$cnt]['subtotal_price'] = $value['qty'] * $value['options']['item_price'];
+        $viewData['listCart'][$cnt]['subtotal_cost'] = $value['qty'] * $value['price'];
         $viewData['listCart'][$cnt]['item_photo'] = array();
-
-        // 가격
-        $itemCost = unserialize($view['item_cost']);
-        $key = 0;
-        foreach ($itemCost as $cost) {
-          if ($value['name'] == $key) $viewData['listCart'][$cnt]['item_option'] = $cost['item_option'];
-          $key++;
-        }
 
         // 사진
         $arrPhotos = unserialize($view['item_photo']);
@@ -577,15 +558,8 @@ class Club extends MY_Controller
       $arrItem[$cnt]['name'] = $viewItem['item_name']; // 상품명
       $arrItem[$cnt]['cost'] = $value['price']; // 가격
       $arrItem[$cnt]['amount']  = $value['qty']; // 수량
+      $arrItem[$cnt]['option']  = $value['options']['item_option']; // 수량
       $totalCost += $value['subtotal']; // 합계
-
-      // 옵션명 추출
-      $itemCost = unserialize($viewItem['item_cost']);
-      $key = 0;
-      foreach ($itemCost as $cost) {
-        if ($value['name'] == $key) $arrItem[$cnt]['option'] = $cost['item_option']; // 옵션명
-        $key++;
-      }
 
       // 사진
       $photo = unserialize($viewItem['item_photo']);

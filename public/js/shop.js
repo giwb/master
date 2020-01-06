@@ -8,22 +8,16 @@ $(document).on('click', '.shop-item', function() {
   var clubIdx = $('input[name=clubIdx]').val();
   var idx = $(this).data('idx');
   var buy_type = $(this).data('type');
-  var item_key = $('.item-option').val();
-  var item_cost = $('.item-option option:selected').data('cost');
+  var item_option = $('.item-option').val();
 
-
-  if (typeof item_cost == 'undefined' || item_cost == '') {
-    item_cost = $('.item-option').data('cost');
-  }
-
-  if (typeof $('.item-option').val() == 'undefined' || $('.item-option').val() == '') {
+  if (typeof $('.item-option').val() != 'undefined' && $('.item-option').val() == '') {
     $.openMsgModal('옵션은 꼭 선택해주세요.');
     return false;
   }
 
   $.ajax({
     url: baseUrl + 'club/shop_cart_insert/' + clubIdx,
-    data: 'idx=' + idx + '&item_key=' + item_key + '&item_cost=' + item_cost + '&buy_type=' + buy_type,
+    data: 'idx=' + idx + '&item_option=' + item_option + '&buy_type=' + buy_type,
     dataType: 'json',
     type: 'post',
     beforeSend: function() {
@@ -38,8 +32,15 @@ $(document).on('click', '.shop-item', function() {
       }
     }
   });
+}).on('change', '.item-option', function() {
+  // 가격 변경
+  var $dom = $(this);
+  var addedPrice = $('option:selected', $dom).data('added-price')
+  var addedCost  = $('option:selected', $dom).data('added-cost')
+  if (typeof addedPrice != 'undefined' && addedPrice != 0) $('.item-price').text($.setNumberFormat(addedPrice));
+  if (typeof addedCost  != 'undefined' && addedCost  != 0) $('.item-cost').text($.setNumberFormat(addedCost));
 }).on('change', '.cart-amount', function() {
-  // 장바구니에 담기
+  // 수량 변경
   var $dom = $(this);
   var baseUrl = $('input[name=baseUrl]').val();
   var clubIdx = $('input[name=clubIdx]').val();
@@ -97,6 +98,9 @@ $(document).on('click', '.shop-item', function() {
   if (usingPoint > userPoint) {
     $.openMsgModal('보유한 포인트만 사용할 수 있습니다.');
     $(this).val('');
+    $('input[name=paymentCost]').val(totalCost);
+    $('.userPoint').text($.setNumberFormat(userPoint));
+    $('.paymentCost').text($.setNumberFormat(totalCost));
     return false;
   }
   if (usingPoint < 0) {
@@ -119,32 +123,28 @@ $(document).on('click', '.shop-item', function() {
   // 포인트 전액 사용
   var result = 0;
   var usingPoint = Number($('.using-point').val()); // 사용한 포인트
-  var userPoint = Number($('input[name=userPoint]').val()); // 총 포인트
+  var userPoint = Number($('input[name=userPoint]').val()); // 사용자 보유 총 포인트
   var totalCost = Number($('input[name=totalCost]').val()); // 합계금액
   var paymentCost = Number($('input[name=paymentCost]').val()); // 결제금액
 
-  if (usingPoint < 0) {
+  if (userPoint > usingPoint) {
     if (paymentCost > userPoint) {
-      // 결제금액이 총 포인트보다 높을때는 남은 포인트만큼만 결제
-      usingPoint = paymentCost;
+      // 결제금액이 사용자 보유 총 포인트보다 높을때는 남은 포인트만큼만 결제
+      usingPoint = userPoint;
+      paymentCost = totalCost - userPoint;
       userPoint = 0;
-      paymentCost = 0;
     } else {
       // 결제금액이 총 포인트보다 낮을때는 결제금액 전액 결제
-      usingPoint = paymentCost;
+      usingPoint = totalCost;
       userPoint = userPoint - usingPoint;
       paymentCost = 0;
     }
-  } else {
-    $.openMsgModal('보유한 포인트만 사용할 수 있습니다.');
-    usingPoint = '';
-    paymentCost = totalCost;
-  }
 
-  $('input[name=usingPoint]').val(usingPoint);
-  $('input[name=paymentCost]').val(paymentCost);
-  $('.userPoint').text($.setNumberFormat(userPoint));
-  $('.paymentCost').text($.setNumberFormat(paymentCost));
+    $('input[name=usingPoint]').val(usingPoint);
+    $('input[name=paymentCost]').val(paymentCost);
+    $('.userPoint').text($.setNumberFormat(userPoint));
+    $('.paymentCost').text($.setNumberFormat(paymentCost));
+  }
 }).on('click', '.btn-checkout', function() {
   // 구매 완료하기
   var $btn = $(this);
