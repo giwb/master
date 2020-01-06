@@ -8,7 +8,13 @@
           <h3 class="mb-3">■ 행사개요</h3>
           <div class="ti mb-2"><strong>・제목</strong> : <?=$viewNotice['subject']?></div>
           <div class="ti mb-2"><strong>・일시</strong> : <?=$viewNotice['startdate']?> (<?=calcWeek($viewNotice['startdate'])?>) <?=$viewNotice['starttime']?></div>
-          <div class="ti mb-2"><strong>・<span class="text-danger">운행견적총액</span></strong> : <span class="text-danger"><?=number_format(ceil($viewNotice['driving_total'] / 10000) * 10000)?>원</span> (예약인원 <?=$maxRes?>명 기준)</div>
+          <div class="ti mb-2">
+            <strong>・<span class="text-danger">운행요금</span></strong> : <span class="text-danger"><?=number_format($viewNotice['total_driving_cost'])?>원</span> (예약인원 <?=$maxRes?>명 기준)<br>
+            기본요금 : <?=number_format($viewNotice['total_driving_cost1'])?>원<?=$viewNotice['total_driving_cost'] == $viewNotice['total_driving_cost1'] ? ' <span class="text-danger">☜ 현재예약인원</span>' : ''?><br>
+            30명이상 : <?=number_format($viewNotice['total_driving_cost2'])?>원<?=$viewNotice['total_driving_cost'] == $viewNotice['total_driving_cost2'] ? ' <span class="text-danger">☜ 현재예약인원</span>' : ''?><br>
+            40명이상 : <?=number_format($viewNotice['total_driving_cost3'])?>원<?=$viewNotice['total_driving_cost'] == $viewNotice['total_driving_cost3'] ? ' <span class="text-danger">☜ 현재예약인원</span>' : ''?><br>
+            만차요금 : <?=number_format($viewNotice['total_driving_cost4'])?>원<?=$viewNotice['total_driving_cost'] == $viewNotice['total_driving_cost4'] ? ' <span class="text-danger">☜ 현재예약인원</span>' : ''?>
+          </div>
           <?php foreach ($viewNotice['road_address'] as $key => $value): if ($key == 0) $title = '만나는 장소 (' . date('H:i', strtotime($viewNotice['starttime']) - (60*30)) . ')'; elseif (count($viewNotice['road_address']) == ($key +1)) $title = '하차지 주소'; else $title = '행선지 ' . $key; ?>
           <div class="ti mb-2">・<strong><?=$title?></strong><br><?=$value?></div>
           <?php endforeach; ?>
@@ -18,11 +24,11 @@
           <div class="ti mt-2">
             <strong>・주유비</strong> : <?=!empty($viewNotice['total_fuel']) ? number_format($viewNotice['total_fuel']) : '0'?>원<br>
             총주행 : <?=!empty($viewNotice['driving_fuel'][0]) ? number_format($viewNotice['driving_fuel'][0]) : '0'?>km<br>
-            연　비 : <?=!empty($viewNotice['driving_fuel'][1]) ? number_format($viewNotice['driving_fuel'][1]) : '0'?>km<br>
-            시　세 : <?=!empty($viewNotice['driving_fuel'][2]) ? number_format($viewNotice['driving_fuel'][2]) : '0'?>원/L<br>
+            연　비 : <?=!empty($viewNotice['driving_fuel'][1]) ? number_format($viewNotice['driving_fuel'][1]) : '0'?>ℓ<br>
+            시　세 : <?=!empty($viewNotice['driving_fuel'][2]) ? number_format($viewNotice['driving_fuel'][2]) : '0'?>원/ℓ<br>
           </div>
           <div class="ti mt-2">
-            <strong>・운행비</strong> : <?=!empty($viewNotice['total_cost']) ? number_format($viewNotice['total_cost']) : '0'?>원<br>
+            <strong>・운행비</strong> : <?=number_format($viewNotice['total_cost'])?>원<br>
             통행료 : <?=!empty($viewNotice['driving_cost'][0]) ? number_format($viewNotice['driving_cost'][0]) : '0'?>원<br>
             주차비 : <?=!empty($viewNotice['driving_cost'][1]) ? number_format($viewNotice['driving_cost'][1]) : '0'?>원<br>
             식　대 : <?=!empty($viewNotice['driving_cost'][2]) ? number_format($viewNotice['driving_cost'][2]) : '0'?>원<br>

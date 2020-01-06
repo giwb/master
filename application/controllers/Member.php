@@ -205,10 +205,17 @@ class Member extends MY_Controller
       $viewData['viewNotice']['driving_add'] = unserialize($viewData['viewNotice']['driving_add']);
 
       // 추가비용 합계
-      $viewData['viewNotice']['total_add'] = $viewData['viewNotice']['cost_driver'];
+      $viewData['viewNotice']['total_add'] = 0;
       foreach ($viewData['viewNotice']['driving_add'] as $value) {
-        if (!empty($value)) $viewData['viewNotice']['total_cost'] += $value;
+        if (!empty($value)) $viewData['viewNotice']['total_add'] += $value;
       }
+
+      // 운행요금 계산
+      $viewData['viewNotice']['total_driving_cost'] = ceil($viewData['viewNotice']['driving_total'] / 10000) * 10000;
+      $viewData['viewNotice']['total_driving_cost1'] = ceil((($viewData['viewNotice']['driving_default'] + $viewData['viewNotice']['total_fuel'] + $viewData['viewNotice']['total_cost'] + $viewData['viewNotice']['driving_add'][0] + $viewData['viewNotice']['driving_add'][1])) / 10000) * 10000;
+      $viewData['viewNotice']['total_driving_cost2'] = ceil((($viewData['viewNotice']['driving_default'] + $viewData['viewNotice']['total_fuel'] + $viewData['viewNotice']['total_cost'] + $viewData['viewNotice']['driving_add'][0] + $viewData['viewNotice']['driving_add'][1]) + 40000) / 10000) * 10000;
+      $viewData['viewNotice']['total_driving_cost3'] = ceil((($viewData['viewNotice']['driving_default'] + $viewData['viewNotice']['total_fuel'] + $viewData['viewNotice']['total_cost'] + $viewData['viewNotice']['driving_add'][0] + $viewData['viewNotice']['driving_add'][1]) + 80000) / 10000) * 10000;
+      $viewData['viewNotice']['total_driving_cost4'] = ceil((($viewData['viewNotice']['driving_default'] + $viewData['viewNotice']['total_fuel'] + $viewData['viewNotice']['total_cost'] + $viewData['viewNotice']['driving_add'][0] + $viewData['viewNotice']['driving_add'][1]) + 120000) / 10000) * 10000;
     }
 
     // 페이지 타이틀
