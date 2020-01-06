@@ -132,7 +132,7 @@ class Shop_model extends CI_Model
   }
 
   // 구매 목록
-  public function listPurchase($userIdx, $paging)
+  public function listPurchase($paging, $search=NULL)
   {
     $this->db->select('a.*, b.nickname, c.idx AS noticeIdx, c.startdate, c.mname')
           ->from(DB_SHOP_PURCHASE . ' a')
