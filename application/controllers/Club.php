@@ -408,6 +408,7 @@ class Club extends MY_Controller
     $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
     $code = $idx = html_escape($this->input->post('idx'));
+    $amount = html_escape($this->input->post('amount'));
     $itemOption = html_escape($this->input->post('item_option'));
     $buyType = html_escape($this->input->post('buy_type'));
     $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
@@ -428,8 +429,8 @@ class Club extends MY_Controller
 
       // 장바구니에 담기
       $cartItem = array(
-        'id'    => $code,      // 상품번호
-        'qty'   => 1,         // 개수
+        'id'    => $code, // 상품번호
+        'qty'   => $amount, // 개수
         'price' => $view['item_cost'], // 가격
         'name'  => time(),
         'options' => array('item_price' => $view['item_price'])

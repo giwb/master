@@ -7,6 +7,7 @@ $(document).on('click', '.shop-item', function() {
   var baseUrl = $('input[name=baseUrl]').val();
   var clubIdx = $('input[name=clubIdx]').val();
   var idx = $(this).data('idx');
+  var amount = $('select[name=amount]').val();
   var buy_type = $(this).data('type');
   var item_option = $('.item-option').val();
 
@@ -15,10 +16,10 @@ $(document).on('click', '.shop-item', function() {
       $.openMsgModal('옵션은 꼭 선택해주세요.');
       return false;
     }
-    var data = 'idx=' + idx + '&item_option=' + item_option + '&buy_type=' + buy_type;
+    var data = 'idx=' + idx + '&amount=' + amount + '&item_option=' + item_option + '&buy_type=' + buy_type;
   } else {
     item_option = '';
-    var data = 'idx=' + idx + '&buy_type=' + buy_type;
+    var data = 'idx=' + idx + '&amount=' + amount + '&buy_type=' + buy_type;
   }
 
   $.ajax({
@@ -27,11 +28,11 @@ $(document).on('click', '.shop-item', function() {
     dataType: 'json',
     type: 'post',
     beforeSend: function() {
-      $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+      $btn.css('opacity', '0.5').prop('disabled', true);
     },
     success: function(result) {
       if (result.error == 1) {
-        $btn.css('opacity', '1').prop('disabled', false).text('장바구니에 담기');
+        $btn.css('opacity', '1').prop('disabled', false);
         $.openMsgModal(result.message);
       } else {
         location.href = (result.message);

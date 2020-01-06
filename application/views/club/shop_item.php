@@ -10,8 +10,8 @@
             <div class="col-sm-7 text-left">
               <div class="item-category"><?php if (!empty($viewItem['item_category_name'])): foreach ($viewItem['item_category_name'] as $key => $cname): if ($key != 0) { echo ' > '; } ?><?=$cname?><?php endforeach; endif; ?></div>
               <h2 class="item-name"><?=$viewItem['item_name']?></h2>
-              <h4 class="mt-4 mb-4">
-                <?=!empty($viewItem['item_price']) ? '<s class="text-danger small"><span class="item-price">' . number_format($viewItem['item_price']) . '</span>원</s><br>' : ''?><span class="item-cost"><?=number_format($viewItem['item_cost'])?></span>원<br>
+              <h4 class="mt-4 mb-4 area-cost">
+                <?=!empty($viewItem['item_price']) ? '<span class="discount"><s class="text-secondary"><span class="item-price">' . number_format($viewItem['item_price']) . '</span>원</s> (' . ($viewItem['item_price'] - $viewItem['item_cost']) / $viewItem['item_price'] * 100 . '%)</span><br>' : ''?><span class="item-cost"><?=number_format($viewItem['item_cost'])?></span>원<br>
                 <?php if (!empty($viewItem['item_options'])): ?>
                 <select name="item_option" class="form-control item-option mt-3">
                   <option value="">옵션을 선택해주세요</option>
@@ -22,8 +22,17 @@
                 </select>
                 <?php endif; ?>
               </h4>
-              <button type="button" class="btn btn-sm btn-cart" data-type="cart" data-idx="<?=$viewItem['idx']?>">장바구니에 담기</button>
-              <button type="button" class="btn btn-sm btn-cart btn-buy ml-2" data-type="buy" data-idx="<?=$viewItem['idx']?>">바로 구매하기 &gt;</button>
+              <div class="row">
+                <div class="col-3">
+                  <select name="amount" class="form-control form-control-sm pl-1 pr-0">
+                    <?php foreach (range(1, 10) as $cnt): ?>
+                    <option value='<?=$cnt?>'><?=$cnt?>개</option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+                <div class="col-4 pl-0 pr-0"><button type="button" class="btn btn-sm btn-cart" data-type="cart" data-idx="<?=$viewItem['idx']?>">장바구니에 담기</button></div>
+                <div class="col-5 pl-0 pr-0"><button type="button" class="btn btn-sm btn-cart btn-buy ml-2" data-type="buy" data-idx="<?=$viewItem['idx']?>">바로 구매하기 &gt;</button></div>
+              </div>
             </div>
           </div>
           <div class="item-content">
