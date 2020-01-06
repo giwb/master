@@ -5,7 +5,7 @@
     ・등록 : <?=date('Y-m-d H:i:s', $value['created_at'])?><br>
     ・분류 : <?php foreach ($value['item_category_name'] as $key => $cname): ?><?=$key != 0 ? ' &gt; ' : ''?><?=$cname?><?php endforeach; ?><br>
     ・품명 : <?=$value['item_name']?><br>
-    ・가격 : <s class="text-danger"><?=number_format($value['item_price'])?>원</s> → <?=number_format($value['item_cost'])?>원
+    ・가격 : <?=!empty($value['item_price']) ? '<s class="text-danger">' . number_format($value['item_price']) . '원</s> → ' : ''?><?=number_format($value['item_cost'])?>원
     <br>
   </div>
 </div>
