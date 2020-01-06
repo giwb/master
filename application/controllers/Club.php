@@ -328,10 +328,12 @@ class Club extends MY_Controller
       $viewData['viewItem']['item_category_name'][$cnt] = $buf['name'];
     }
 
-    // 가격
+    // 옵션
     $itemOptions = unserialize($viewData['viewItem']['item_option']);
-    foreach ($itemOptions as $cnt1 => $cost) {
-      $viewData['viewItem']['item_options'][] = $cost;
+    if (!empty($itemOptions)) {
+      foreach ($itemOptions as $option) {
+        $viewData['viewItem']['item_options'][] = $option;
+      }
     }
 
     // 클럽 정보
@@ -364,12 +366,13 @@ class Club extends MY_Controller
 
     foreach ($this->cart->contents() as $value) {
       $view = $this->shop_model->viewItem($value['id']);
-
       if (!empty($view['idx'])) {
         $viewData['listCart'][$cnt]['rowid'] = $value['rowid'];
         $viewData['listCart'][$cnt]['item_qty'] = $value['qty'];
         $viewData['listCart'][$cnt]['item_name'] = $view['item_name'];
-        $viewData['listCart'][$cnt]['item_option'] = $value['options']['item_option'];
+        if (!empty($value['options']['item_option'])) {
+          $viewData['listCart'][$cnt]['item_option'] = $value['options']['item_option'];
+        }
         $viewData['listCart'][$cnt]['item_price'] = $value['options']['item_price'];
         $viewData['listCart'][$cnt]['item_cost'] = $value['price'];
         $viewData['listCart'][$cnt]['subtotal_price'] = $value['qty'] * $value['options']['item_price'];
@@ -404,7 +407,7 @@ class Club extends MY_Controller
   {
     $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
-    $idx = html_escape($this->input->post('idx'));
+    $code = $idx = html_escape($this->input->post('idx'));
     $itemOption = html_escape($this->input->post('item_option'));
     $buyType = html_escape($this->input->post('buy_type'));
     $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
@@ -415,20 +418,27 @@ class Club extends MY_Controller
       $itemOptions = unserialize($view['item_option']);
       foreach ($itemOptions as $key => $option) {
         if ($itemOption == $key) {
+          $view['item_option_check'] = true;
           if (!empty($option['item_option'])) $view['item_option'] = $option['item_option'];
           if (!empty($option['added_price'])) $view['item_price'] = $option['added_price'];
           if (!empty($option['added_cost'])) $view['item_cost'] = $option['added_cost'];
+          $code .= '_' . $key;
         }
       }
 
       // 장바구니에 담기
       $cartItem = array(
-        'id'    => $idx,      // 상품번호
+        'id'    => $code,      // 상품번호
         'qty'   => 1,         // 개수
         'price' => $view['item_cost'], // 가격
         'name'  => time(),
-        'options' => array('item_option' => $view['item_option'], 'item_price' => $view['item_price']) // 옵션키
+        'options' => array('item_price' => $view['item_price'])
       );
+
+      if (!empty($view['item_option_check'])) {
+        $cartItem['options']['item_option'] = $view['item_option'];
+      }
+
       $rtn = $this->cart->insert($cartItem);
 
       if ($buyType == 'cart') {
@@ -498,7 +508,9 @@ class Club extends MY_Controller
         $viewData['listCart'][$cnt]['rowid'] = $value['rowid'];
         $viewData['listCart'][$cnt]['item_qty'] = $value['qty'];
         $viewData['listCart'][$cnt]['item_name'] = $view['item_name'];
-        $viewData['listCart'][$cnt]['item_option'] = $value['options']['item_option'];
+        if (!empty($value['options']['item_option'])) {
+          $viewData['listCart'][$cnt]['item_option'] = $value['options']['item_option'];
+        }
         $viewData['listCart'][$cnt]['item_price'] = $value['options']['item_price'];
         $viewData['listCart'][$cnt]['item_cost'] = $value['price'];
         $viewData['listCart'][$cnt]['subtotal_price'] = $value['qty'] * $value['options']['item_price'];
@@ -557,8 +569,10 @@ class Club extends MY_Controller
       $arrItem[$cnt]['idx'] = $viewItem['idx']; // 상품 고유번호
       $arrItem[$cnt]['name'] = $viewItem['item_name']; // 상품명
       $arrItem[$cnt]['cost'] = $value['price']; // 가격
-      $arrItem[$cnt]['amount']  = $value['qty']; // 수량
-      $arrItem[$cnt]['option']  = $value['options']['item_option']; // 수량
+      $arrItem[$cnt]['amount'] = $value['qty']; // 수량
+      if (!empty($value['options']['item_option'])) {
+        $arrItem[$cnt]['option'] = $value['options']['item_option']; // 수량
+      }
       $totalCost += $value['subtotal']; // 합계
 
       // 사진

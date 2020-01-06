@@ -10,14 +10,20 @@ $(document).on('click', '.shop-item', function() {
   var buy_type = $(this).data('type');
   var item_option = $('.item-option').val();
 
-  if (typeof $('.item-option').val() != 'undefined' && $('.item-option').val() == '') {
-    $.openMsgModal('옵션은 꼭 선택해주세요.');
-    return false;
+  if (typeof item_option != 'undefined') {
+    if (item_option == '') {
+      $.openMsgModal('옵션은 꼭 선택해주세요.');
+      return false;
+    }
+    var data = 'idx=' + idx + '&item_option=' + item_option + '&buy_type=' + buy_type;
+  } else {
+    item_option = '';
+    var data = 'idx=' + idx + '&buy_type=' + buy_type;
   }
 
   $.ajax({
     url: baseUrl + 'club/shop_cart_insert/' + clubIdx,
-    data: 'idx=' + idx + '&item_option=' + item_option + '&buy_type=' + buy_type,
+    data: data,
     dataType: 'json',
     type: 'post',
     beforeSend: function() {
