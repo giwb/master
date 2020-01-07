@@ -46,7 +46,7 @@
                 </colgroup>
                 <thead>
                   <tr>
-                    <th colspan="10" style="border-right: 0px;"><?=count($busType) >= 2 ? $bus . '호차 - ' : ''?><?=$value['bus_name']?></td>
+                    <th colspan="10"><?=count($busType) >= 2 ? $bus . '호차 - ' : ''?><?=$value['bus_name']?></td>
                   </tr>
                 </thead>
                 <tbody>
