@@ -192,11 +192,16 @@ class Story extends CI_Controller
         $delete = '';
       }
       if (file_exists(PHOTO_PATH . $value['created_by'])) {
+        $size = getImageSize(PHOTO_PATH . $value['created_by']);
         $value['photo'] = base_url() . 'public/photos/' . $value['created_by'];
+        $value['photo_width'] = $size[0];
+        $value['photo_height'] = $size[1];
       } else {
         $value['photo'] = base_url() . 'public/images/user.png';
+        $value['photo_width'] = 64;
+        $value['photo_height'] = 64;
       }
-      $message .= '<dl><dt><img class="img-profile" src="' . $value['photo'] . '"></dt><dd><strong>' . $value['nickname'] . '</strong> · <span class="reply-date">' . calcStoryTime($value['created_at']) . $delete . '</span><br>' . $value['content'] . '</dd></dl>';
+      $message .= '<dl><dt><img class="img-profile photo-zoom" src="' . $value['photo'] . '" data-filename="' . $value['photo'] . '" data-width="' . $value['photo_width'] . '" data-height="' . $value['photo_height'] . '"></dt><dd><strong>' . $value['nickname'] . '</strong> · <span class="reply-date">' . calcStoryTime($value['created_at']) . $delete . '</span><br>' . $value['content'] . '</dd></dl>';
     }
 
     $result = array('error' => 0, 'message' => $message);
