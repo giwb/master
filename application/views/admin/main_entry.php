@@ -141,7 +141,7 @@
                 <select name="bustype[]" class="form-control mb-2">
                   <option value="">버스 종류를 선택해주세요.</option>
                   <?php foreach ($listBustype as $value): ?>
-                  <option value="<?=$value['idx']?>"><?=$value['bus_name']?></option>
+                  <option value="<?=$value['idx']?>"><?=$value['bus_name']?><?=!empty($value['bus_owner']) ? ' / ' . $value['bus_owner'] : ''?></option>
                   <?php endforeach; ?>
                 </select>
               </div>
