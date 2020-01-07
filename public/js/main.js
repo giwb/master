@@ -493,6 +493,10 @@
       $.openMsgModal('전화번호는 꼭 입력해주세요.');
       return false;
     }
+    if ($('select[name=location]').val() == '') {
+      $.openMsgModal('승차위치는 꼭 선택해주세요.');
+      return false;
+    }
 
     var $btn = $(this);
     var formData = new FormData($('#entryForm')[0]);
