@@ -174,6 +174,10 @@
     var $btn = $(this);
     var btnText = $btn.text();
     var formData = new FormData($('#myForm')[0]);
+    if ($('input[name=subject]').val() == '') {
+      $.openMsgModal('산행 제목은 꼭 입력해주세요.');
+      return false;
+    }
     $.ajax({
         url: $('#myForm').attr('action'),
         data: formData,
