@@ -2024,6 +2024,7 @@ h1.nav-logo small {
 #club .list-schedule span { font-size: 14px; }
 #club span.status-confirm { font-weight: bold; color: #000; }
 #club span.status-wait { font-weight: bold; color: #999; }
+#club span.status-plan, #club span.status-closed, #club span.status-cancel { font-weight: bold; color: #CCC; }
 #club .club-main .list-schedule { border: 1px solid #d9d9d9; border-width: 1px 0; }
 #club .club-main .list-schedule a { padding: 10px; }
 #club .club-main .area-schedule { display: none; }

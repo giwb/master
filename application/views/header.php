@@ -87,7 +87,10 @@
             <?php endif; ?>
               <div class="profile-box">
                 <strong><?=$userData['nickname']?></strong> (<?=$userLevel['levelName']?>)<hr>
-                <a href="<?=base_url()?>member/<?=$view['idx']?>"><?=$userData['level'] == LEVEL_DRIVER ? '드라이버 페이지' : '마이페이지'?></a><br>
+                <a href="<?=base_url()?>member/<?=$view['idx']?>">마이페이지</a><br>
+                <?php if ($userData['level'] == LEVEL_DRIVER || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
+                <a href="<?=base_url()?>member/driver/<?=$view['idx']?>">드라이버 페이지</a><br>
+                <?php endif; ?>
                 <a href="<?=base_url()?>member/modify/<?=$view['idx']?>">개인정보수정</a><br>
                 <a href="javascript:;" class="logout">로그아웃</a>
               </div>
@@ -136,7 +139,11 @@
           <?php if (empty($userData['idx'])): ?>
           <br><li><a href="javascript:;" class="login-popup">로그인</a></li>
           <?php else: ?>
-          <br><li><a href="<?=base_url()?>member/<?=$view['idx']?>"><?=$userData['level'] == LEVEL_DRIVER ? '드라이버 페이지' : '마이페이지'?></a></li>
+          <br>
+          <li><a href="<?=base_url()?>member/<?=$view['idx']?>">마이페이지</a></li>
+          <?php if ($userData['level'] == LEVEL_DRIVER || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
+          <li><a href="<?=base_url()?>member/driver/<?=$view['idx']?>">드라이버 페이지</a></li>
+          <?php endif; ?>
           <li><a href="<?=base_url()?>member/modify/<?=$view['idx']?>">개인정보수정</a></li>
           <li><a href="javascript:;" class="logout">로그아웃</a></li>
           <?php endif; ?>
@@ -152,9 +159,9 @@
       <div class="club-left">
         <div class="club-left-layer">
           <div class="club-header">
-            <?php if (!empty($view['photo'][0])): ?>
+            <?php if (!empty($view['main_photo'])): ?>
             <!-- 대표 사진 -->
-            <a href="<?=base_url()?>"><img src="<?=base_url()?><?=PHOTO_URL?><?=$view['photo'][0]?>"></a>
+            <a href="javascript:;" class="photo-zoom" data-filename="<?=$view['main_photo']?>" data-width="<?=$view['main_photo_width']?>" data-height="<?=$view['main_photo_height']?>"><img src="<?=$view['main_photo']?>"></a>
             <?php endif; ?>
             <h3><?=$view['title']?></h3>
           </div>

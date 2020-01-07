@@ -1,9 +1,14 @@
 <?php
   foreach ($listStory as $value):
     if (file_exists(PHOTO_PATH . $value['created_by'])) {
-      $value['photo'] = base_url() . PHOTO_URL . $value['user_idx'];
+      $size = getImageSize(PHOTO_PATH . $value['created_by']);
+      $value['photo'] = base_url() . PHOTO_URL . $value['created_by'];
+      $value['photo_width'] = $size[0];
+      $value['photo_height'] = $size[1];
     } else {
       $value['photo'] = base_url() . 'public/images/user.png';
+      $value['photo_width'] = 64;
+      $value['photo_height'] = 64;
     }
 
     if (file_exists(PHOTO_PATH . $value['filename'])) {
@@ -15,7 +20,7 @@
           <article id="post-<?=$value['idx']?>">
             <div class="story-container">
               <div class="story-profile">
-                <img class="img-profile" src="<?=$value['photo']?>"> <strong><?=$value['user_nickname']?></strong><br>
+                <img class="img-profile photo-zoom" src="<?=$value['photo']?>" data-filename="<?=$value['photo']?>" data-width="<?=$value['photo_width']?>" data-height="<?=$value['photo_height']?>"> <strong><?=$value['user_nickname']?></strong><br>
                 <a href="<?=base_url()?>story/view/<?=$view['idx']?>?n=<?=$value['idx']?>" class="story-date"><?=calcStoryTime($value['created_at'])?><?=!empty($value['updated_at']) ? ' 작성, ' . calcStoryTime($value['updated_at']) . ' 수정' : ''?></a><?=!empty($userData['idx']) && ($userData['idx'] == $value['created_by'] || $userData['admin'] == 1) ? ' <a href="' . base_url() . 'story/edit/' . $view['idx'] . '?n=' . $value['idx'] . '">[수정]</a> <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '" data-action="delete">[삭제]</a>' : ''?>
               </div>
               <div class="story-content">

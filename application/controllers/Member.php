@@ -119,12 +119,49 @@ class Member extends MY_Controller
   }
 
   /**
-   * 드라이버 상세 페이지
+   * 드라이버 페이지
    *
    * @return view
    * @author bjchoi
    **/
   public function driver()
+  {
+    checkUserLogin();
+
+    $now = time();
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+    $sdate = html_escape($this->input->get('sdate'));
+    $edate = html_escape($this->input->get('edate'));
+    $keyword = html_escape($this->input->get('keyword'));
+
+    $viewData['searchData']['keyword'] = !empty($keyword) ? $keyword : NULL;
+    $viewData['searchData']['sdate'] = !empty($sdate) ? $sdate : date('Y-m-01', $now);
+    $viewData['searchData']['edate'] = !empty($edate) ? $edate : date('Y-m-31', $now);
+    $viewData['searchData']['syear'] = !empty($sdate) ? date('Y', strtotime($sdate)) : date('Y');
+    $viewData['searchData']['smonth'] = !empty($sdate) ? date('m', strtotime($sdate)) : date('m');
+    $viewData['searchData']['prev'] = 'sdate=' . date('Y-m-01', strtotime('-1 months', strtotime($viewData['searchData']['sdate']))) . '&edate=' . date('Y-m-t', strtotime('-1 months', strtotime($viewData['searchData']['sdate'])));
+    $viewData['searchData']['next'] = 'sdate=' . date('Y-m-01', strtotime('+1 months', strtotime($viewData['searchData']['sdate']))) . '&edate=' . date('Y-m-t', strtotime('+1 months', strtotime($viewData['searchData']['sdate'])));
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    // 모든 산행
+    $viewData['listNoticeDriver'] = $this->reserve_model->listNotice($clubIdx, NULL, 'asc', $viewData['searchData']);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '드라이버 페이지';
+
+    $this->_viewPage('member/driver', $viewData);
+  }
+
+  /**
+   * 드라이버 상세 페이지
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function driver_view()
   {
     checkUserLogin();
 

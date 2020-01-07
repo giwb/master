@@ -3,11 +3,43 @@
       <div class="club-main">
         <div class="mypage mt-2">
           <h2>드라이버 페이지</h2>
+
+          <form id="formSearch" method="get" action="<?=base_url()?>member/driver/<?=$view['idx']?>" class="row border no-gutters align-items-center text-center pt-2 pb-2 pr-2 mt-3 mb-3">
+            <ul class="box-past-search">
+              <li>기간검색</li>
+              <li><input type="text" id="startDatePicker" name="sdate" class="form-control form-control-sm" value="<?=!empty($searchData['sdate']) ? $searchData['sdate'] : ''?>"></li>
+              <li>～</li>
+              <li><input type="text" id="endDatePicker" name="edate" class="form-control form-control-sm" value="<?=!empty($searchData['edate']) ? $searchData['edate'] : ''?>"></li>
+              <li>산행명 검색</li>
+              <li><input type="text" name="keyword" class="form-control form-control-sm" value="<?=!empty($searchData['keyword']) ? $searchData['keyword'] : ''?>"></li>
+              <li><button class="btn btn-sm btn-primary">검색</button></li>
+            </ul>
+          </form>
+          <ul class="box-past-title">
+            <li><a href="<?=base_url()?>member/driver/<?=$view['idx']?>?<?=$searchData['prev']?>">◀</a></li>
+            <li>
+              <select name="syear" class="form-control">
+                <?php foreach (range($searchData['syear'], 2010) as $value): ?>
+                  <option<?=!empty($searchData['syear']) && $searchData['syear'] == $value ? ' selected' : ''?> value='<?=$value?>'><?=$value?>년</option>
+                <?php endforeach; ?>
+              </select>
+            </li>
+            <li>
+              <select name="smonth" class="form-control btn-search-month">
+                <?php foreach (range(1, 12) as $value): ?>
+                <option<?=!empty($searchData['smonth']) && $searchData['smonth'] == $value ? ' selected' : ''?> value='<?=strlen($value) < 2 ? '0' . $value : $value?>'><?=$value?>월</option>
+                <?php endforeach; ?>
+              </select>
+            </li>
+            <li><a href="<?=base_url()?>member/driver/<?=$view['idx']?>?<?=$searchData['next']?>">▶</a></li>
+          </ul>
+
           <?php foreach ($listNoticeDriver as $value): ?>
-          <div class="border-bottom p-2">
-            <a href="<?=base_url()?>member/driver/<?=$value['club_idx']?>?n=<?=$value['idx']?>"><?=viewStatus($value['status'])?> <strong><?=$value['subject']?></strong></a><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명
+          <div class="border-top p-2">
+            <a href="<?=base_url()?>member/driver_view/<?=$value['club_idx']?>?n=<?=$value['idx']?>"><?=viewStatus($value['status'])?> <strong><?=$value['subject']?></strong></a><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명
           </div>
           <?php endforeach; ?>
+          <div class="border-top p-2"></div>
         </div>
         <div class="ad-sp">
           <!-- SP_CENTER -->
@@ -22,3 +54,38 @@
           </script>
         </div>
       </div>
+
+      <link href="<?=base_url()?>public/css/jquery-ui.css" rel="stylesheet">
+      <script src="<?=base_url()?>public/js/jquery-ui.min.js" type="text/javascript"></script>
+      <script type="text/javascript">
+        $(document).ready(function(){
+          $('#startDatePicker').datepicker({
+            dateFormat: 'yy-mm-dd',
+            prevText: '이전 달',
+            nextText: '다음 달',
+            monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+            monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+            dayNames: ['일','월','화','수','목','금','토'],
+            dayNamesShort: ['일','월','화','수','목','금','토'],
+            dayNamesMin: ['일','월','화','수','목','금','토'],
+            showMonthAfterYear: true,
+            changeMonth: true,
+            changeYear: true,
+            yearSuffix: '년'
+          });
+          $('#endDatePicker').datepicker({
+            dateFormat: 'yy-mm-dd',
+            prevText: '이전 달',
+            nextText: '다음 달',
+            monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+            monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+            dayNames: ['일','월','화','수','목','금','토'],
+            dayNamesShort: ['일','월','화','수','목','금','토'],
+            dayNamesMin: ['일','월','화','수','목','금','토'],
+            showMonthAfterYear: true,
+            changeMonth: true,
+            changeYear: true,
+            yearSuffix: '년'
+          });
+        });
+      </script>
