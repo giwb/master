@@ -726,15 +726,14 @@ class Member extends MY_Controller
       $filename = time() . mt_rand(10000, 99999) . ".jpg";
 
       if (move_uploaded_file($_FILES['file_obj']['tmp_name'], UPLOAD_PATH . $filename)) {
-        // 사진 사이즈 줄이기 (가로가 사이즈가 200보다 클 경우)
+        // 사진 사이즈 줄이기 (가로가 사이즈가 640보다 클 경우)
         $size = getImageSize(UPLOAD_PATH . $filename);
-        if ($size[0] >= 200) {
+        if ($size[0] > 640) {
           $this->image_lib->clear();
           $config['image_library'] = 'gd2';
           $config['source_image'] = UPLOAD_PATH . $filename;
           $config['maintain_ratio'] = FALSE;
-          $config['width'] = 200;
-          $config['height'] = 200;
+          $config['width'] = 640;
           $this->image_lib->initialize($config);
           $this->image_lib->resize();
         }
