@@ -153,7 +153,7 @@ class Member extends MY_Controller
         $viewData['viewNotice']['cost_driver'] = 0;
       } elseif ($viewData['viewNotice']['count'] >= 30 && $viewData['viewNotice']['count'] < 40) {
         $viewData['viewNotice']['cost_driver'] = 40000;
-      } elseif ($viewData['viewNotice']['count'] >= 30 && $viewData['viewNotice']['count'] < $viewData['maxSeat']) {
+      } elseif ($viewData['viewNotice']['count'] >= 40 && $viewData['viewNotice']['count'] < $viewData['maxSeat']) {
         $viewData['viewNotice']['cost_driver'] = 80000;
       } elseif ($viewData['viewNotice']['count'] == $viewData['maxSeat']) {
         $viewData['viewNotice']['cost_driver'] = 120000;
