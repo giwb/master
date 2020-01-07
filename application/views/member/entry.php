@@ -75,6 +75,16 @@
               </dd>
             </dl>
             <dl>
+              <dt>승차위치</dt>
+              <dd>
+                <select name="location" class="form-control">
+                  <?php foreach (arrLocation() as $value): ?>
+                  <option value="<?=$value['no']?>"><?=$value['title']?></option>
+                  <?php endforeach; ?>
+                </select>
+              </dd>
+            </dl>
+            <dl>
               <dt>사진</dt>
               <dd><img class="photo" src="<?=base_url()?>public/images/noimage.png"><input type="file" name="photo" class="file d-none"><button type="button" class="btn btn-sm btn-info btn-upload mt-2 pl-3 pr-3">사진올리기</button><input type="hidden" name="filename"><br><button type="button" class="btn btn-sm btn-danger btn-entry-photo-delete mt-1 pl-3 pr-3 d-none">사진　삭제</button></dd>
             </dl>
