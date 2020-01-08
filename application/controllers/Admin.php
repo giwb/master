@@ -1268,9 +1268,30 @@ class Admin extends Admin_Controller
     $viewData['search']['smonth'] = NULL;
     $viewData['search']['status'] = array(STATUS_PLAN);
 
-    $viewData['listSchedule'] = $this->admin_model->listNotice($viewData['search']);
     $sdate = html_escape($this->input->get('d'));
     if (!empty($sdate)) $viewData['sdate'] = html_escape($sdate); else $viewData['sdate'] = NULL;
+
+    $viewData['listSchedule'] = $this->admin_model->listNotice($viewData['search']);
+
+    // 캘린더 설정
+    $listCalendar = $this->admin_model->listCalendar();
+
+    foreach ($listCalendar as $key => $value) {
+      if ($value['holiday'] == 1) {
+        $class = 'holiday';
+      } else {
+        $class = 'dayname';
+      }
+      $viewData['listSchedule'][] = array(
+        'idx' => 0,
+        'startdate' => $value['nowdate'],
+        'enddate' => $value['nowdate'],
+        'schedule' => 0,
+        'status' => 'schedule',
+        'subject' => $value['dayname'],
+        'class' => $class,
+      );
+    }
 
     $this->_viewPage('admin/main_schedule', $viewData);
   }

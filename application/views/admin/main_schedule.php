@@ -47,10 +47,20 @@
             },
       events: [
         <?php
-          foreach ($listSchedule as $value) {
+          foreach ($listSchedule as $value):
             $sdate = strtotime($value['startdate']);
             $edate = strtotime($value['enddate']);
+
+            if ($value['status'] == 'schedule'):
         ?>
+        {
+          title: '<?=$value['subject']?>',
+          start: new Date('<?=date('Y', $sdate)?>-<?=date('m', $sdate)?>-<?=date('d', $sdate)?>T00:00:00'),
+          end: new Date('<?=date('Y', $edate)?>-<?=date('m', $edate)?>-<?=date('d', $edate)?>T23:59:59'),
+          url: 'javascript:;',
+          className: '<?=$value['class']?>'
+        },
+        <?php else: ?>
         {
           title: '<?=$value['subject']?>',
           start: new Date('<?=date('Y', $sdate)?>-<?=date('m', $sdate)?>-<?=date('d', $sdate)?>T00:00:00'),
@@ -59,7 +69,8 @@
           className: 'scheduled'
         },
         <?php
-          }
+            endif;
+          endforeach;
         ?>
       ]
     });
