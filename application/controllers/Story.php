@@ -206,7 +206,7 @@ class Story extends CI_Controller
         $value['photo_width'] = 64;
         $value['photo_height'] = 64;
       }
-      $message .= '<dl><dt><img class="img-profile photo-zoom" src="' . $value['photo'] . '" data-filename="' . $value['photo'] . '" data-width="' . $value['photo_width'] . '" data-height="' . $value['photo_height'] . '"></dt><dd><strong>' . $value['nickname'] . '</strong> · <span class="reply-date">' . $date . $delete . '</span><div class="reply-content" data-idx="' . $value['idx'] . '">' . $value['content'] . '</div></dd></dl>';
+      $message .= '<dl class="story-reply-item" data-idx="' . $value['idx'] . '"><dt><img class="img-profile photo-zoom" src="' . $value['photo'] . '" data-filename="' . $value['photo'] . '" data-width="' . $value['photo_width'] . '" data-height="' . $value['photo_height'] . '"></dt><dd><strong>' . $value['nickname'] . '</strong> · <span class="reply-date">' . $date . $delete . '</span><div class="reply-content" data-idx="' . $value['idx'] . '">' . $value['content'] . '</div></dd></dl>';
     }
 
     $result = array('error' => 0, 'message' => $message);
@@ -287,7 +287,7 @@ class Story extends CI_Controller
           $photo_height = 64;
         }
 
-        $html = '<dl><dt><img class="img-profile photo-zoom" src="' . $photo . '" data-filename="' . $photo . '" data-width="' . $photo_width . '" data-height="' . $photo_height . '"></dt><dd><strong>' . $userData['nickname'] . '</strong> · <span class="reply-date">(' . calcStoryTime($now) . ') <a href="javascript:;" class="btn-reply-update" data-idx="' . $rtn . '">[수정]</a> <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $rtn . '" data-action="delete_reply">[삭제]</a></span><div class="reply-content" data-idx="' . $rtn . '">' . $content . '</div></dd></dl>';
+        $html = '<dl class="story-reply-item" data-idx="' . $rtn . '"><dt><img class="img-profile photo-zoom" src="' . $photo . '" data-filename="' . $photo . '" data-width="' . $photo_width . '" data-height="' . $photo_height . '"></dt><dd><strong>' . $userData['nickname'] . '</strong> · <span class="reply-date">(' . calcStoryTime($now) . ') <a href="javascript:;" class="btn-reply-update" data-idx="' . $rtn . '">[수정]</a> <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $rtn . '" data-action="delete_reply">[삭제]</a></span><div class="reply-content" data-idx="' . $rtn . '">' . $content . '</div></dd></dl>';
 
         $result = array(
           'error' => 0,
@@ -489,11 +489,9 @@ class Story extends CI_Controller
 
         if (!empty($rtn)) {
           $cntStoryReply = $this->story_model->cntStoryReply($clubIdx, $viewStoryReply['story_idx'], $viewStoryReply['reply_type']);
-          $updateData = array(
-            'reply_cnt' => $cntStoryReply['cnt']
-          );
+          $updateData = array('reply_cnt' => $cntStoryReply['cnt']);
           $this->story_model->updateStory($updateData, $clubIdx, $viewStoryReply['story_idx']);
-          $result = array('error' => 0, 'message' => 'reload');
+          $result = array('error' => 0, 'message' => 'delete_reply', 'story_idx' => $viewStoryReply['story_idx'], 'reply_cnt' => $cntStoryReply['cnt']);
         }
       }
     }

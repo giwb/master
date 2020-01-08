@@ -1210,15 +1210,25 @@ $(document).on('click', '.btn-reply', function() {
       $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
     },
     success: function(result) {
+      $btn.css('opacity', '1').prop('disabled', false).text('삭제합니다');
       if (result.error == 1) {
-        $btn.css('opacity', '1').prop('disabled', false).text('삭제합니다');
         $('#messageModal .btn').hide();
         $('#messageModal .btn-refresh, #messageModal .btn-close').show();
         $('#messageModal .modal-message').text(result.message);
         $('#messageModal').modal();
       } else {
-        if (result.message == 'reload') location.reload();
-        else location.replace(result.message);
+        if (result.message == 'delete_reply') {
+          // 댓글 삭제시에는 해당 댓글만 사라지게
+          $('.story-reply-item[data-idx=' + $('input[name=deleteIdx]').val() + ']').remove();
+          $('.cnt-reply[data-idx=' + result.story_idx + ']').text(result.reply_cnt);
+          $('#messageModal input[name=action]').val('');
+          $('#messageModal input[name=deleteIdx]').val('');
+          $('#messageModal').modal('hide');
+        } else if (result.message == 'reload') {
+          location.reload();
+        } else {
+          location.replace(result.message);
+        }
       }
     }
   });
@@ -1363,6 +1373,5 @@ $(document).on('click', '.btn-reply', function() {
         }
       }
     });
-
   }
 });
