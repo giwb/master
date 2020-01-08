@@ -32,7 +32,7 @@ class Story extends CI_Controller
     if (!empty($storyIdx)) {
       $viewData['listStory'] = $this->story_model->viewStory($clubIdx, $storyIdx);
     } else {
-      $paging['perPage'] = 5;
+      $paging['perPage'] = 10;
       $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
       $viewData['listStory'] = $this->story_model->listStory($clubIdx, $paging);
     }
