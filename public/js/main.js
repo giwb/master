@@ -1157,7 +1157,7 @@ $(document).on('click', '.btn-reply', function() {
           $('.cnt-reply[data-idx=' + storyIdx + ']').text(result.reply_cnt);
         } else {
           // 댓글 수정
-          $('.reply-content[data-idx=' + replyIdx + ']').text($('.club-story-reply').val());
+          $('.reply-content[data-idx=' + replyIdx + ']').text($('.club-story-reply', $form).val());
           $('input[name=replyIdx]').val('');
         }
         $('.club-story-reply').val('');
