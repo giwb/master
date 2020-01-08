@@ -1144,17 +1144,25 @@ $(document).on('click', '.btn-reply', function() {
     dataType: 'json',
     type: 'post',
     beforeSend: function() {
-      $btn.css('opacity', '0.5').prop('disabled', true).text('등록중..');
+      $btn.css('opacity', '0.5').prop('disabled', true).text('처리중..');
     },
     success: function(result) {
-      $btn.css('opacity', '1').prop('disabled', false).text('댓글달기');
       if (result.error == 1) {
         $.openMsgModal('댓글 등록에 실패했습니다. 다시 시도해주세요.');
       } else {
+        var replyIdx = $('input[name=replyIdx]').val();
+        if (typeof replyIdx == 'undefined' || replyIdx == '') {
+          // 댓글 등록
+          $('.story-reply[data-idx=' + storyIdx + '] .story-reply-content').append(result.message);
+          $('.cnt-reply[data-idx=' + storyIdx + ']').text(result.reply_cnt);
+        } else {
+          // 댓글 수정
+          $('.reply-content[data-idx=' + replyIdx + ']').text($('.club-story-reply').val());
+          $('input[name=replyIdx]').val('');
+        }
         $('.club-story-reply').val('');
-        $('.story-reply[data-idx=' + storyIdx + '] .story-reply-content').append(result.message);
-        $('.cnt-reply[data-idx=' + storyIdx + ']').text(result.reply_cnt);
       }
+      $btn.css('opacity', '1').prop('disabled', false).text('댓글등록');
     }
   });
 }).on('click', '.btn-like', function() {
@@ -1260,6 +1268,14 @@ $(document).on('click', '.btn-reply', function() {
       }
     }
   });
+}).on('click', '.btn-reply-update', function() {
+  // 댓글 수정
+  var replyIdx = $(this).data('idx');
+  var $dom = $('.reply-content[data-idx=' + replyIdx + ']');
+  var content = $dom.text();
+  $('input[name=replyIdx]').val(replyIdx);
+  $('.club-story-reply').val(content);
+  $('.btn-post-reply').text('댓글수정');
 }).on('click', '#club-story-content', function() {
   // 스토리 작성 텍스트 박스 클릭
   if ($('input[name=userIdx]').val() == '') {

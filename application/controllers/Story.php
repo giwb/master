@@ -187,9 +187,14 @@ class Story extends CI_Controller
 
     foreach ($reply as $value) {
       if ($userData['idx'] == $value['created_by'] || $userData['admin'] == 1) {
-        $delete = ' | <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '" data-action="delete_reply">삭제</a>';
+        $delete = ' <a href="javascript:;" class="btn-reply-update" data-idx="' . $value['idx'] . '">[수정]</a> <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '" data-action="delete_reply">[삭제]</a>';
       } else {
         $delete = '';
+      }
+      if (!empty($value['updated_at'])) {
+        $date = calcStoryTime($value['created_at']) . ' 작성, ' . calcStoryTime($value['updated_at']) . ' 수정';
+      } else {
+        $date = calcStoryTime($value['created_at']);
       }
       if (file_exists(PHOTO_PATH . $value['created_by'])) {
         $size = getImageSize(PHOTO_PATH . $value['created_by']);
@@ -201,7 +206,7 @@ class Story extends CI_Controller
         $value['photo_width'] = 64;
         $value['photo_height'] = 64;
       }
-      $message .= '<dl><dt><img class="img-profile photo-zoom" src="' . $value['photo'] . '" data-filename="' . $value['photo'] . '" data-width="' . $value['photo_width'] . '" data-height="' . $value['photo_height'] . '"></dt><dd><strong>' . $value['nickname'] . '</strong> · <span class="reply-date">' . calcStoryTime($value['created_at']) . $delete . '</span><br>' . $value['content'] . '</dd></dl>';
+      $message .= '<dl><dt><img class="img-profile photo-zoom" src="' . $value['photo'] . '" data-filename="' . $value['photo'] . '" data-width="' . $value['photo_width'] . '" data-height="' . $value['photo_height'] . '"></dt><dd><strong>' . $value['nickname'] . '</strong> · <span class="reply-date">' . $date . $delete . '</span><div class="reply-content" data-idx="' . $value['idx'] . '">' . $value['content'] . '</div></dd></dl>';
     }
 
     $result = array('error' => 0, 'message' => $message);
@@ -210,7 +215,7 @@ class Story extends CI_Controller
   }
 
   /**
-   * 스토리 댓글 등록
+   * 스토리 댓글 등록/수정
    *
    * @return json
    * @author bjchoi
@@ -223,28 +228,39 @@ class Story extends CI_Controller
     $clubIdx = html_escape($clubIdx);
     $storyIdx = html_escape($this->input->post('storyIdx'));
     $replyType = html_escape($this->input->post('replyType'));
+    $replyIdx = html_escape($this->input->post('replyIdx'));
     $content = html_escape($this->input->post('content'));
 
     if (empty($userData['idx'])) {
       $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
     } else {
-      $insertValues = array(
-        'club_idx' => $clubIdx,
-        'story_idx' => $storyIdx,
-        'reply_type' => $replyType,
-        'content' => $content,
-        'created_by' => $userData['idx'],
-        'created_at' => $now
-      );
-
-      $rtn = $this->story_model->insertStoryReply($insertValues);
-
-      if (empty($rtn)) {
-        $result = array(
-          'error' => 0,
-          'content' => $this->lang->line('error_all')
+      if (!empty($replyIdx)) {
+        $updateValues = array(
+          'content' => $content,
+          'updated_by' => $userData['idx'],
+          'updated_at' => $now
         );
+        $this->story_model->updateStoryReply($updateValues, $clubIdx, $storyIdx, $replyType, $replyIdx);
+
+        // 기존 정보 불러오기
+        $viewStoryReply = $this->story_model->viewStoryReply($clubIdx, $storyIdx);
+        $userData['idx'] = $viewStoryReply['created_by'];
+        $userData['nickname'] = $viewStoryReply['nickname'];
+        $rtn = $replyIdx;
+
+        // 스토리 댓글 개수
+        $cntStoryReply = $this->story_model->cntStoryReply($clubIdx, $storyIdx, $replyType);
       } else {
+        $insertValues = array(
+          'club_idx' => $clubIdx,
+          'story_idx' => $storyIdx,
+          'reply_type' => $replyType,
+          'content' => $content,
+          'created_by' => $userData['idx'],
+          'created_at' => $now
+        );
+        $rtn = $this->story_model->insertStoryReply($insertValues);
+
         // 스토리 댓글 개수 올리기
         $cntStoryReply = $this->story_model->cntStoryReply($clubIdx, $storyIdx, $replyType);
 
@@ -252,14 +268,26 @@ class Story extends CI_Controller
           $updateData['reply_cnt'] = $cntStoryReply['cnt'];
           $this->story_model->updateStory($updateData, $clubIdx, $storyIdx);
         }
+      }
 
+      if (empty($rtn)) {
+        $result = array(
+          'error' => 0,
+          'content' => $this->lang->line('error_all')
+        );
+      } else {
         if (file_exists(PHOTO_PATH . $userData['idx'])) {
-          $value['photo'] = base_url() . 'public/photos/' . $userData['idx'];
+          $size = getImageSize(PHOTO_PATH . $userData['idx']);
+          $photo = base_url() . 'public/photos/' . $userData['idx'];
+          $photo_width = $size[0];
+          $photo_height = $size[1];
         } else {
-          $value['photo'] = base_url() . 'public/images/user.png';
+          $photo = base_url() . 'public/images/user.png';
+          $photo_width = 64;
+          $photo_height = 64;
         }
 
-        $html = '<dl><dt><img class="img-profile" src="' . $value['photo'] . '"></dt><dd><strong>' . $userData['nickname'] . '</strong> · <span class="reply-date">(' . calcStoryTime($now) . ') | <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $rtn . '" data-action="delete_reply">삭제</a></span><br>' . $content . '</dd></dl>';
+        $html = '<dl><dt><img class="img-profile photo-zoom" src="' . $photo . '" data-filename="' . $photo . '" data-width="' . $photo_width . '" data-height="' . $photo_height . '"></dt><dd><strong>' . $userData['nickname'] . '</strong> · <span class="reply-date">(' . calcStoryTime($now) . ') <a href="javascript:;" class="btn-reply-update" data-idx="' . $rtn . '">[수정]</a> <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $rtn . '" data-action="delete_reply">[삭제]</a></span><div class="reply-content" data-idx="' . $rtn . '">' . $content . '</div></dd></dl>';
 
         $result = array(
           'error' => 0,

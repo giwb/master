@@ -70,7 +70,7 @@ class Story_model extends CI_Model
   // 스토리 댓글
   public function listStoryReply($clubIdx, $storyIdx, $replyType)
   {
-    $this->db->select('a.idx, a.content, a.created_by, a.created_at, b.nickname')
+    $this->db->select('a.idx, a.content, a.created_by, a.created_at, a.updated_at, b.nickname')
           ->from(DB_STORY_REPLY . ' a')
           ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
           ->where('a.club_idx', $clubIdx)
@@ -84,10 +84,11 @@ class Story_model extends CI_Model
   // 스토리 댓글 보기 (댓글 삭제 확인용)
   public function viewStoryReply($clubIdx, $idx)
   {
-    $this->db->select('story_idx, reply_type, created_by')
-          ->from(DB_STORY_REPLY)
-          ->where('club_idx', $clubIdx)
-          ->where('idx', $idx);
+    $this->db->select('a.*, b.nickname')
+          ->from(DB_STORY_REPLY . ' a')
+          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
+          ->where('a.club_idx', $clubIdx)
+          ->where('a.idx', $idx);
     return $this->db->get()->row_array(1);
   }
 
