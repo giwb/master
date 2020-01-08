@@ -310,5 +310,16 @@ class Reserve_model extends CI_Model
     $this->db->where('created_by', $userIdx);
     return $this->db->delete(DB_WAIT);
   }
+
+  // 설정 - 차종 목록
+  public function listBustype()
+  {
+    $this->db->select('a.idx, a.bus_name, a.bus_owner, a.created_at, b.name AS bus_seat_name')
+          ->from(DB_BUSTYPE . ' a')
+          ->join(DB_BUSDATA . ' b', 'a.bus_seat=b.idx')
+          ->where('visible', 'Y')
+          ->order_by('idx', 'asc');
+    return $this->db->get()->result_array();
+  }
 }
 ?>

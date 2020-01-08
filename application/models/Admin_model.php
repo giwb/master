@@ -292,7 +292,7 @@ class Admin_model extends CI_Model
   // 문자양식
   public function listSMS($rescode)
   {
-    $this->db->select('a.idx, a.nickname, a.bus AS nowbus, a.seat, a.loc, b.subject, b.bus, b.startdate, b.starttime, b.schedule, b.distance')
+    $this->db->select('a.idx, a.nickname, a.bus AS nowbus, a.seat, a.loc, b.subject, b.bus, b.bustype, b.startdate, b.starttime, b.schedule, b.distance')
           ->from(DB_RESERVATION . ' a')
           ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
           ->where('a.rescode', $rescode)
@@ -625,7 +625,7 @@ class Admin_model extends CI_Model
   // 설정 - 차종 목록
   public function listBustype()
   {
-    $this->db->select('a.idx, a.bus_name, a.bus_owner, a.created_at, b.name AS bus_seat_name')
+    $this->db->select('a.*, b.name AS bus_seat_name')
           ->from(DB_BUSTYPE . ' a')
           ->join(DB_BUSDATA . ' b', 'a.bus_seat=b.idx')
           ->order_by('idx', 'asc');
@@ -635,7 +635,7 @@ class Admin_model extends CI_Model
   // 설정 - 차종 정보
   public function getBustype($idx)
   {
-    $this->db->select('a.idx, a.bus_name, a.bus_owner, a.bus_seat, a.memo, b.seat, b.direction')
+    $this->db->select('a.*, b.seat, b.direction')
           ->from(DB_BUSTYPE . ' a')
           ->join(DB_BUSDATA . ' b', 'a.bus_seat=b.idx', 'left')
           ->where('a.idx', $idx);

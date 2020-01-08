@@ -33,10 +33,26 @@
             </li>
             <li><a href="<?=base_url()?>member/driver/<?=$view['idx']?>?<?=$searchData['next']?>">▶</a></li>
           </ul>
-
-          <?php foreach ($listNoticeDriver as $value): ?>
-          <div class="border-top p-2">
-            <a href="<?=base_url()?>member/driver_view/<?=$value['club_idx']?>?n=<?=$value['idx']?>"><?=viewStatus($value['status'])?> <strong><?=$value['subject']?></strong></a><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명
+          <?php foreach ($listNoticeDriver as $value): $busType = getBusType($value['bustype'], $value['bus']); ?>
+          <div class="border-top m-0 pt-2 pb-2">
+            <div class="">
+              <a href="<?=base_url()?>member/driver_view/<?=$value['club_idx']?>?n=<?=$value['idx']?>"><?=viewStatus($value['status'])?> <strong><?=$value['subject']?></strong></a><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명
+            </div>
+            <div class="">
+            <?php if ($userData['level'] == LEVEL_DRIVER_ADMIN): ?>
+              <?php foreach ($busType as $key => $bus): $busNo = $key + 1; ?>
+              <select class="form-control form-control-sm selectBus" data-bus="<?=$busNo?>"<?=$value['status'] >= STATUS_CANCEL ? ' disabled' : ''?>>
+                <?php foreach ($listBustype as $busInfo): ?>
+                <option<?=$busInfo['idx'] == $bus['idx'] ? ' selected' : ''?> value="<?=$busInfo['idx']?>"><?=$busInfo['bus_name']?> <?=$busInfo['bus_owner']?></option>
+                <?php endforeach; ?>
+              </select>
+              <?php endforeach; ?>
+            <?php else: ?>
+              <?php foreach ($busType as $key => $bus): $busNo = $key + 1; ?>
+                <?=$busNo?>호차 : <?=$bus['bus_name']?> <?=$bus['bus_owner']?><br>
+              <?php endforeach; ?>
+            <?php endif; ?>
+            </div>
           </div>
           <?php endforeach; ?>
           <div class="border-top p-2"></div>

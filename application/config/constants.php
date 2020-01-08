@@ -198,6 +198,7 @@ defined('LEVEL_NORMAL')       OR define('LEVEL_NORMAL', 0);   // 일반회원
 defined('LEVEL_LIFETIME')     OR define('LEVEL_LIFETIME', 1); // 평생회원
 defined('LEVEL_FREE')         OR define('LEVEL_FREE', 2);     // 무료회원
 defined('LEVEL_DRIVER')       OR define('LEVEL_DRIVER', 3);   // 드라이버
+defined('LEVEL_DRIVER_ADMIN') OR define('LEVEL_DRIVER_ADMIN', 4);   // 드라이버 관리자
 
 // 댓글 형태
 defined('REPLY_TYPE_STORY')   OR define('REPLY_TYPE_STORY', 1);

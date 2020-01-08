@@ -771,27 +771,48 @@
     var $btn = $(this);
     var formData = new FormData($('#changeSeatForm')[0]);
     $.ajax({
-        url: $('#changeSeatForm').attr('action'),
-        data: formData,
-        processData: false,
-        contentType: false,
-        dataType: 'json',
-        type: 'post',
-        beforeSend: function() {
-          $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
-        },
-        success: function(result) {
-          $btn.css('opacity', '1').prop('disabled', false).text('좌석 변경 완료');
-          if (result.error == 1) {
-            $('#messageModal .modal-footer .btn').hide();
-            $('#messageModal .modal-footer .btn-close').show();
-            $('#messageModal .modal-message').text(result.message);
-            $('#messageModal').modal('show');
-          } else {
-            location.replace($('input[name=base_url]').val() + 'admin/main_view_progress/' + $('input[name=idx]').val());
-          }
+      url: $('#changeSeatForm').attr('action'),
+      data: formData,
+      processData: false,
+      contentType: false,
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+      },
+      success: function(result) {
+        $btn.css('opacity', '1').prop('disabled', false).text('좌석 변경 완료');
+        if (result.error == 1) {
+          $('#messageModal .modal-footer .btn').hide();
+          $('#messageModal .modal-footer .btn-close').show();
+          $('#messageModal .modal-message').text(result.message);
+          $('#messageModal').modal('show');
+        } else {
+          location.replace($('input[name=base_url]').val() + 'admin/main_view_progress/' + $('input[name=idx]').val());
         }
-      });
+      }
+    });
+  }).on('click', '.btn-bus-hide', function() {
+    // 버스 숨기기
+    var $btn = $(this);
+    $.ajax({
+      url: $('input[name=base_url]').val() + 'admin/setup_bustype_hide',
+      data: 'idx=' + $(this).data('idx'),
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true);
+      },
+      success: function(result) {
+        $btn.css('opacity', '1').prop('disabled', false);
+        if (result.error == 1) {
+          $.openMsgModal(result.message);
+        } else {
+          if (result.message == 'Y') var msg = '숨김'; else msg = '보임';
+          $btn.text(msg);
+        }
+      }
+    });
   }).on('change', '#startDatePicker, #endDatePicker, #startTime', function() {
     // 산행일자 계산
     var startDate = $('#startDatePicker').val();

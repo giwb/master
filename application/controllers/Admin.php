@@ -661,6 +661,7 @@ class Admin extends Admin_Controller
     } else {
       $viewData['view']['busTotal'] = 0;
     }
+    $busType = getBusType($viewData['view']['bustype'], $viewData['view']['bus']);
 
     // 문자양식 만들기
     $list = $this->admin_model->listSMS($idx);
@@ -680,6 +681,14 @@ class Admin extends Admin_Controller
       } else {
         $viewData['list'][$key]['time'] = '';
         $viewData['list'][$key]['title'] = '';
+      }
+
+      foreach ($busType as $key => $bus) {
+        $busNo = $key + 1;
+        if ($busNo == $value['nowbus']) {
+          $viewData['list'][$key]['bus_name'] = $bus['bus_name'];
+          if (!empty($bus['bus_color'])) $viewData['list'][$key]['bus_name'] .= '(' . $bus['bus_color'] . ')';
+        }
       }
     }
 
@@ -2684,14 +2693,18 @@ class Admin extends Admin_Controller
   public function setup_bustype_insert()
   {
     $now = time();
-    $bus_name   = $this->input->post('bus_name') != '' ? html_escape($this->input->post('bus_name')) : NULL;
-    $bus_owner  = $this->input->post('bus_owner') != '' ? html_escape($this->input->post('bus_owner')) : NULL;
-    $bus_seat   = $this->input->post('bus_seat') != '' ? html_escape($this->input->post('bus_seat')) : NULL;
-    $memo       = $this->input->post('memo') != '' ? html_escape($this->input->post('memo')) : NULL;
+    $bus_name     = $this->input->post('bus_name') != '' ? html_escape($this->input->post('bus_name')) : NULL;
+    $bus_owner    = $this->input->post('bus_owner') != '' ? html_escape($this->input->post('bus_owner')) : NULL;
+    $bus_license  = $this->input->post('bus_license') != '' ? html_escape($this->input->post('bus_license')) : NULL;
+    $bus_color    = $this->input->post('bus_color') != '' ? html_escape($this->input->post('bus_color')) : NULL;
+    $bus_seat     = $this->input->post('bus_seat') != '' ? html_escape($this->input->post('bus_seat')) : NULL;
+    $memo         = $this->input->post('memo') != '' ? html_escape($this->input->post('memo')) : NULL;
 
     $insertData = array(
       'bus_name'    => $bus_name,
       'bus_owner'   => $bus_owner,
+      'bus_license' => $bus_license,
+      'bus_color'   => $bus_color,
       'bus_seat'    => $bus_seat,
       'memo'        => $memo,
       'created_at'  => $now,
@@ -2712,6 +2725,8 @@ class Admin extends Admin_Controller
     $idx        = $this->input->post('idx') != '' ? html_escape($this->input->post('idx')) : NULL;
     $bus_name   = $this->input->post('bus_name') != '' ? html_escape($this->input->post('bus_name')) : NULL;
     $bus_owner  = $this->input->post('bus_owner') != '' ? html_escape($this->input->post('bus_owner')) : NULL;
+    $bus_license  = $this->input->post('bus_license') != '' ? html_escape($this->input->post('bus_license')) : NULL;
+    $bus_color  = $this->input->post('bus_color') != '' ? html_escape($this->input->post('bus_color')) : NULL;
     $bus_seat   = $this->input->post('bus_seat') != '' ? html_escape($this->input->post('bus_seat')) : NULL;
     $memo       = $this->input->post('memo') != '' ? html_escape($this->input->post('memo')) : NULL;
     $result     = 0;
@@ -2720,11 +2735,37 @@ class Admin extends Admin_Controller
       $updateData = array(
         'bus_name' => $bus_name,
         'bus_owner' => $bus_owner,
+        'bus_license' => $bus_license,
+        'bus_color' => $bus_color,
         'bus_seat' => $bus_seat,
         'memo' => $memo,
       );
 
       $result = $this->admin_model->updateBustype($updateData, $idx);
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 설정 - 차종 숨기기
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function setup_bustype_hide()
+  {
+    $idx = $this->input->post('idx') != '' ? html_escape($this->input->post('idx')) : NULL;
+    $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+
+    if (!is_null($idx)) {
+      $getBusType = $this->admin_model->getBustype($idx);
+      if ($getBusType['visible'] == 'Y') $visible = 'N'; else $visible = 'Y';
+
+      $updateData = array('visible' => $visible);
+      $this->admin_model->updateBustype($updateData, $idx);
+
+      $result = array('error' => 0, 'message' => $visible);
     }
 
     $this->output->set_output(json_encode($result));

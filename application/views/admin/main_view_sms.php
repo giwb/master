@@ -33,7 +33,7 @@
           <?php if ($view['busTotal'] > 1): ?><?=$value['bus']?>번차<?php endif; ?>
           <?=$value['seat']?>번 좌석<br>
           <?=$value['time']?> <?=$value['title']?><br>
-          경인웰빙산악회<br><br>
+          <?=!empty($value['bus_name']) ? $value['bus_name'] : ''?><br><br>
         <?php endforeach; endif; ?>
       </div>
     </div>

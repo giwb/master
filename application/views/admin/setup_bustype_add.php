@@ -15,6 +15,18 @@
             <div class="col-sm-11"><input type="text" name="bus_name" class="form-control" value="<?=$viewBustype['bus_name']?>"></div>
           </div>
           <div class="row align-items-center pt-2 pb-2">
+            <div class="col-sm-1"><strong>기사명</strong></div>
+            <div class="col-sm-11"><input type="text" name="bus_owner" class="form-control" value="<?=$viewBustype['bus_owner']?>"></div>
+          </div>
+          <div class="row align-items-center pt-2 pb-2">
+            <div class="col-sm-1"><strong>번호판</strong></div>
+            <div class="col-sm-11"><input type="text" name="bus_license" class="form-control" value="<?=$viewBustype['bus_license']?>"></div>
+          </div>
+          <div class="row align-items-center pt-2 pb-2">
+            <div class="col-sm-1"><strong>색상</strong></div>
+            <div class="col-sm-11"><input type="text" name="bus_color" class="form-control" value="<?=$viewBustype['bus_color']?>"></div>
+          </div>
+          <div class="row align-items-center pt-2 pb-2">
             <div class="col-sm-1"><strong>인원수</strong> <span class="required">(*)</span></div>
             <div class="col-sm-11">
               <select name="bus_seat" class="form-control">
@@ -24,10 +36,6 @@
                 <?php endforeach; ?>
               </select>
             </div>
-          </div>
-          <div class="row align-items-center pt-2 pb-2">
-            <div class="col-sm-1"><strong>기사명</strong></div>
-            <div class="col-sm-11"><input type="text" name="bus_owner" class="form-control" value="<?=$viewBustype['bus_owner']?>"></div>
           </div>
           <div class="row align-items-center pt-2 pb-2">
             <div class="col-sm-1"><strong>메모</strong></div>

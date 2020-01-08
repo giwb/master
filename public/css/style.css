@@ -1994,8 +1994,8 @@ h1.nav-logo small {
 #club .club-main .sub-photo { text-align: center; }
 #club .club-main .sub-photo img { max-width: 600px; margin: 20px auto; }
 
-#club .club-main .box-past-title, #club .club-main .box-past-search { width: 100%; display: table; text-align: center; }
-#club .club-main .box-past-title li, #club .club-main .box-past-search li { display: table-cell; vertical-align: middle; }
+#club .club-main .box-past-title, #club .club-main .box-past-search { width: 100%; display: table; text-align: center; margin: 0px; padding: 0px; }
+#club .club-main .box-past-title li, #club .club-main .box-past-search li { display: table-cell; vertical-align: middle; margin: 0px; padding: 0px; }
 
 #club .club-main .box-past-search li:nth-child(1) { width: 15%; }
 #club .club-main .box-past-search li:nth-child(2) { width: 16%; }

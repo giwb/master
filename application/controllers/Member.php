@@ -149,6 +149,9 @@ class Member extends MY_Controller
     // 모든 산행
     $viewData['listNoticeDriver'] = $this->reserve_model->listNotice($clubIdx, NULL, 'asc', $viewData['searchData']);
 
+    // 버스 형태
+    $viewData['listBustype'] = $this->reserve_model->listBustype();
+
     // 페이지 타이틀
     $viewData['pageTitle'] = '드라이버 페이지';
 
