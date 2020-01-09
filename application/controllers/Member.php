@@ -791,17 +791,11 @@ class Member extends MY_Controller
 
     // 클럽 대표이미지
     $files = $this->file_model->getFile('club', $viewData['view']['idx']);
-
-    if (empty($files)) {
-      $viewData['view']['photo'][0] = 'noimage.png';
-    } else {
-      foreach ($files as $key => $value) {
-        if (!empty($value['filename'])) {
-          $viewData['view']['photo'][$key] = $value['filename'];
-        } else {
-          $viewData['view']['photo'][$key] = 'noimage.png';
-        }
-      }
+    if (!empty($files[0]['filename']) && file_exists(PHOTO_PATH . $files[0]['filename'])) {
+      $size = getImageSize(PHOTO_PATH . $files[0]['filename']);
+      $viewData['view']['main_photo'] = base_url() . PHOTO_URL . $files[0]['filename'];
+      $viewData['view']['main_photo_width'] = $size[0];
+      $viewData['view']['main_photo_height'] = $size[1];
     }
 
     // 로그인 쿠키 처리

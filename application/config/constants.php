@@ -167,6 +167,7 @@ defined('SHARE_TYPE_DAUM') OR define('SHARE_TYPE_DAUM', 5); // 다음
   26 - 용품판매 관리자 - 입금확인
   27 - 용품판매 관리자 - 입금취소
   28 - 용품판매 관리자 - 판매완료
+  51 - 드라이버 변경
 */
 defined('LOG_ENTRY')          OR define('LOG_ENTRY', 1);
 defined('LOG_RESERVE')        OR define('LOG_RESERVE', 2);
@@ -188,6 +189,7 @@ defined('LOG_ADMIN_SHOP_CANCEL') OR define('LOG_ADMIN_SHOP_CANCEL', 25);
 defined('LOG_ADMIN_SHOP_DEPOSIT_CONFIRM') OR define('LOG_ADMIN_SHOP_DEPOSIT_CONFIRM', 26);
 defined('LOG_ADMIN_SHOP_DEPOSIT_CANCEL') OR define('LOG_ADMIN_SHOP_DEPOSIT_CANCEL', 27);
 defined('LOG_ADMIN_SHOP_COMPLETE') OR define('LOG_ADMIN_SHOP_COMPLETE', 28);
+defined('LOG_DRIVER_CHANGE')  OR define('LOG_DRIVER_CHANGE', 51);
 
 // 경로 설정
 defined('PATH_FRONT')         OR define('PATH_FRONT', PATH_MAIN . '/public/uploads/front/');
