@@ -13,7 +13,7 @@ class Admin_model extends CI_Model
   // 현재 회원수
   public function cntTotalMember()
   {
-    $this->db->select('COUNT(idx) AS CNT')->from(DB_MEMBER)->where('quitdate', NULL);
+    $this->db->select('COUNT(idx) AS CNT')->from(DB_MEMBER)->where('club_idx', 1)->where('quitdate', NULL);
     return $this->db->get()->row_array(1);
   }
 
