@@ -792,11 +792,11 @@ class Admin extends Admin_Controller
           $addedReserve = $this->admin_model->viewReserveClosedAdded($search['rescode'], $userData['userid']);
           if ($addedReserve['cnt'] > 1) {
             $addedPoint = ($addedReserve['cnt'] - 1) * 1000;
+            $userData = $this->admin_model->viewMember($search); // 갱신된 정보를 다시 불러옴
             $this->member_model->updatePoint($clubIdx, $userData['userid'], ($userData['point'] + $addedPoint));
             setHistory(LOG_POINTUP, $search['rescode'], $userData['userid'], $userData['nickname'], $viewEntry['subject'] . ' 일행 예약 포인트', $now, $addedPoint);
           }
         }
-
       }
     } elseif ($updateValues['status'] == STATUS_CANCEL) { // 취소 처리
       $viewEntry = $this->admin_model->viewEntry($search['rescode']);
