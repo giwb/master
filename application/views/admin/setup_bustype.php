@@ -3,7 +3,7 @@
     <h1 class="h3 mb-0 text-gray-800">차종등록</h1>
     <div class="text-right pt-3 pb-3"><a href="<?=base_url()?>admin/setup_bustype_add"><button class="btn btn-primary">등록하기</button></a></div>
     <input type="hidden" name="back_url" value="setup_bustype">
-    <div class="ml-3 mr-3">
+    <div class="ml-4 mr-4">
       <div class="row align-items-center font-weight-bold border-top mt-3 pt-3">
         <div class="col-6 col-sm-4">차량명</div>
         <div class="col-sm-1 d-none d-sm-block">기사명</div>
