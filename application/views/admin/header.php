@@ -21,6 +21,7 @@
   <script type="text/javascript" src="<?=base_url()?>public/js/jquery-1.11.1.min.js"></script>
   <script type="text/javascript" src="<?=base_url()?>public/js/jquery-ui.custom.min.js"></script>
   <script type="text/javascript" src="<?=base_url()?>public/js/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="<?=base_url()?>public/js/jquery.ui.touch-punch.min.js"></script>
   <script type="text/javascript" src="<?=base_url()?>public/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script type="text/javascript" src="<?=base_url()?>public/js/fullcalendar.js"></script>
   <script type="text/javascript" src="<?=base_url()?>public/ckeditor/ckeditor.js" charset="utf-8"></script>

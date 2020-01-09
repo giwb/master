@@ -12173,6 +12173,7 @@ body.sidebar-toggled footer.sticky-footer {
 ::placeholder { color: #d9d9d9!important; }
 
 #calendar { width: 700px; }
+#sortable { cursor: pointer; }
 
 @media (max-width: 768px) {
   #calendar { width: 100%; }
@@ -12207,4 +12208,7 @@ body.sidebar-toggled footer.sticky-footer {
   .visitor-header button { font-size: 12px; }
   .visitor-row { display: none; }
   .visitor-data .col-sm-1:first-child { padding: 0 0 0 13px!important; }
+
+  #sortable { font-size: 12px; }
+  #sortable .btn { font-size: 12px; }
 }

@@ -628,7 +628,7 @@ class Admin_model extends CI_Model
     $this->db->select('a.*, b.name AS bus_seat_name')
           ->from(DB_BUSTYPE . ' a')
           ->join(DB_BUSDATA . ' b', 'a.bus_seat=b.idx')
-          ->order_by('idx', 'asc');
+          ->order_by('sort', 'asc');
     return $this->db->get()->result_array();
   }
 

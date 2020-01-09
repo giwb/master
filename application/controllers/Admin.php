@@ -2825,6 +2825,25 @@ class Admin extends Admin_Controller
   }
 
   /**
+   * 설정 - 차종등록 순서 변경
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function setup_bustype_sort()
+  {
+    $sort = html_escape($this->input->post('sort'));
+    $arrSort = explode(',', $sort);
+
+    foreach ($arrSort as $key => $value) {
+      if (!empty($value)) {
+        $updateValues['sort'] = $key + 1;
+        $this->admin_model->updateBustype($updateValues, $value);
+      }
+    }
+  }
+
+  /**
    * 설정 - 차종 숨기기
    *
    * @return view
