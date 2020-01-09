@@ -41,7 +41,7 @@
             <div class="">
             <?php if ($userData['level'] == LEVEL_DRIVER_ADMIN): ?>
               <?php foreach ($busType as $key => $bus): $busNo = $key + 1; ?>
-              <select class="form-control form-control-sm selectBus" data-bus="<?=$busNo?>"<?=$value['status'] >= STATUS_CANCEL ? ' disabled' : ''?>>
+              <select class="form-control form-control-sm selectBus" data-idx="<?=$value['idx']?>" data-bus="<?=$busNo?>"<?=$value['status'] >= STATUS_CANCEL ? ' disabled' : ''?>>
                 <?php foreach ($listBustype as $busInfo): ?>
                 <option<?=$busInfo['idx'] == $bus['idx'] ? ' selected' : ''?> value="<?=$busInfo['idx']?>"><?=$busInfo['bus_name']?> <?=$busInfo['bus_owner']?></option>
                 <?php endforeach; ?>
@@ -102,6 +102,17 @@
             changeMonth: true,
             changeYear: true,
             yearSuffix: '년'
+          });
+          $('.selectBus').change(function() {
+            $.ajax({
+              url: $('input[name=baseUrl]').val() + 'member/driver_change',
+              data: 'noticeIdx=' + $(this).data('idx') + '&bus=' + $(this).data('bus') + '&busType=' + $(this).val(),
+              dataType: 'json',
+              type: 'post',
+              success: function(result) {
+                $.openMsgModal(result.message);
+              }
+            });
           });
         });
       </script>

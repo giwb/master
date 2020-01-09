@@ -2127,6 +2127,62 @@ class Admin extends Admin_Controller
   }
 
   /**
+   * 활동관리 - 버스 변경기록
+   *
+   * @return view
+   * @return json
+   * @author bjchoi
+   **/
+  public function log_bus()
+  {
+    $action = html_escape($this->input->post('action'));
+    $viewData['subject'] = html_escape($this->input->post('subject'));
+    $viewData['nickname'] = html_escape($this->input->post('nickname'));
+    $viewData['status'] = !empty($this->input->post('status')) ? html_escape($this->input->post('status')) : 0;
+    $page = html_escape($this->input->post('p'));
+    if (empty($page)) $page = 1; else $page++;
+
+    $paging['perPage'] = $viewData['perPage'] = 30;
+    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
+
+    if (!empty($action)) {
+      $viewData['action'] = array($action);
+      $viewData['listHistory'] = $this->admin_model->listHistory($paging, $viewData);
+    } else {
+      $viewData['action'] = array(LOG_DRIVER_CHANGE);
+      $viewData['listHistory'] = $this->admin_model->listHistory($paging, $viewData);
+      $viewData['action'][0] = ''; // 액션 초기화
+    }
+
+    $viewData['maxLog'] = $this->admin_model->cntHistory($viewData);
+    $viewData['pageType'] = 'bus';
+    $viewData['pageUrl'] = base_url() . 'admin/log_bus';
+    $viewData['pageTitle'] = '버스 변경기록';
+
+    foreach ($viewData['listHistory'] as $key => $value) {
+      $viewEntry = $this->admin_model->viewEntry($value['fkey']);
+
+      switch ($value['action']) {
+        case LOG_DRIVER_CHANGE: // 차량 변경
+          $viewData['listHistory'][$key]['header'] = '<span class="text-danger">[차량변경]</span>';
+          $viewData['listHistory'][$key]['subject'] = '<a href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '">' . $viewEntry['subject'] . '</a> - ' . $value['subject'];
+          break;
+      }
+    }
+
+    if ($page >= 2) {
+      // 2페이지 이상일 경우에는 Json으로 전송
+      $result['page'] = $page;
+      $result['html'] = $this->load->view('admin/log_user_append', $viewData, true);
+      $this->output->set_output(json_encode($result));
+    } else {
+      // 1페이지에는 View 페이지로 전송
+      $viewData['listHistory'] = $this->load->view('admin/log_user_append', $viewData, true);
+      $this->_viewPage('admin/log_user', $viewData);
+    }
+  }
+
+  /**
    * 활동관리 - 회원 구매기록
    *
    * @return view

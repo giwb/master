@@ -30,6 +30,9 @@
                 <?php if ($pageType == 'refund'): ?>
                 <option<?=$action[0] == 12 ? ' selected' : ''?> value="12">비회원 환불기록</option>
                 <?php endif; ?>
+                <?php if ($pageType == 'bus'): ?>
+                <option<?=$action[0] == 51 ? ' selected' : ''?> value="51">버스 변경기록</option>
+                <?php endif; ?>
                 <?php if ($pageType == 'buy'): ?>
                 <option<?=$action[0] == 21 ? ' selected' : ''?> value="21">구매내역</option>
                 <option<?=$action[0] == 22 ? ' selected' : ''?> value="22">결제내역</option>

@@ -265,6 +265,51 @@ class Member extends MY_Controller
   }
 
   /**
+   * 드라이버 변경
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function driver_change()
+  {
+    checkUserLogin();
+
+    $now = time();
+    $clubIdx = $this->load->get_var('clubIdx');
+    $userData = $this->load->get_var('userData');
+    $noticeIdx = html_escape($this->input->post('noticeIdx'));
+    $bus = html_escape($this->input->post('bus'));
+    $busType = html_escape($this->input->post('busType'));
+
+    $viewNotice = $this->reserve_model->viewNotice($clubIdx, $noticeIdx);
+    $arrBusType = unserialize($viewNotice['bustype']);
+
+    foreach ($arrBusType as $key => $value) {
+      $busNo = $key + 1;
+      if ($bus == $busNo) {
+        $newBusType[$key] = $busType;
+        $oldBus = $this->reserve_model->viewBustype($value);
+        $newBus = $this->reserve_model->viewBustype($busType);
+      } else {
+        $newBusType[$key] = $value;
+      }
+    }
+    $updateValues['bustype'] = serialize($newBusType);
+
+    $rtn = $this->reserve_model->updateNotice($updateValues, $clubIdx, $noticeIdx);
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+    } else {
+      // 로그 남기기
+      setHistory(LOG_DRIVER_CHANGE, $noticeIdx, $userData['userid'], $userData['nickname'], $oldBus['bus_name'] . ' → ' . $newBus['bus_name'], $now);
+      $result = array('error' => 0, 'message' => $this->lang->line('msg_change_complete'));
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 마이페이지 - 구매 내역 상세 페이지
    *
    * @return view
