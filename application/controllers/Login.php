@@ -43,13 +43,19 @@ class Login extends CI_Controller
       $this->_viewPage('login', $viewData);
     } else {
       // 아이디와 패스워드를 입력하면 로그인 처리를 실행한다.
-      $userData = $this->member_model->checkLogin($clubIdx, $userid, md5($password));
+      $userData = $this->member_model->checkLogin($clubIdx, $userid);
 
       if (empty($userData['idx'])) {
         // 정보가 없으면 로그인 실패
         $result = array(
           'error' => 1,
-          'message' => '로그인에 실패했습니다. 다시 로그인 해주세요.'
+          'message' => '등록되지 않은 아이디입니다.'
+        );
+      } elseif ($userData['password'] != md5($password)) {
+        // 비밀번호가 다르면 로그인 실패
+        $result = array(
+          'error' => 1,
+          'message' => '비밀번호가 일치하지 않습니다.'
         );
       } else {
         // 로그인에 성공하면 회원정보 업데이트

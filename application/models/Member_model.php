@@ -11,12 +11,11 @@ class Member_model extends CI_Model
   }
 
   // 로그인 확인
-  public function checkLogin($clubIdx, $userid, $password)
+  public function checkLogin($clubIdx, $userid)
   {
-    $this->db->select('idx, club_idx, userid, nickname, realname, gender, birthday, birthday_type, phone, rescount, point, penalty, level, admin, connect')
+    $this->db->select('idx, club_idx, userid, password, nickname, realname, gender, birthday, birthday_type, phone, rescount, point, penalty, level, admin, connect')
           ->from(DB_MEMBER)
           ->where('userid', $userid)
-          ->where('password', $password)
           ->where('club_idx', $clubIdx)
           ->where('quitdate', NULL);
     return $this->db->get()->row_array(1);

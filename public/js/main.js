@@ -359,6 +359,11 @@
     var clubIdx = $('input[name=clubIdx]').val();
     var redirectUrl = $('input[name=redirectUrl]').val();
 
+    if ($('input[name=userid]').val() == '' || $('input[name=password]').val() == '') {
+      $('.error-message').slideDown().text('아이디와 비밀번호는 꼭 입력해주세요.');
+      return false;
+    }
+
     $.ajax({
       url: baseUrl + 'login/' + clubIdx + '?r=' + redirectUrl,
       data: formData,
