@@ -394,7 +394,7 @@ h4, .h4 {
 }
 
 h5, .h5 {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
 }
 
 h6, .h6 {
@@ -4905,7 +4905,7 @@ input[type="button"].btn-block {
   -webkit-box-flex: 1;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
-  padding: 1.25rem;
+  padding: 0.25rem 1.25rem;
 }
 
 .card-title {
@@ -10789,11 +10789,11 @@ a:focus {
 }
 
 .text-xs {
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .text-lg {
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .text-gray-100 {
@@ -12108,6 +12108,7 @@ body.sidebar-toggled footer.sticky-footer {
 .fc-event.notice-status9 { background-color: #EFEFEF!important; }
 .fc-event.holiday { color: #fff!important; background-color: #dc3545!important; }
 .fc-event.dayname { color: #fff!important; background-color: #999!important; }
+.admin-main { width: 700px; }
 
 .status-wait { color: #000; }
 .status-confirm { color: #FF6C00; }
@@ -12172,11 +12173,10 @@ body.sidebar-toggled footer.sticky-footer {
 :-ms-input-placeholder { color: #d9d9d9!important; }
 ::placeholder { color: #d9d9d9!important; }
 
-#calendar { width: 700px; }
 #sortable { cursor: pointer; }
 
 @media (max-width: 768px) {
-  #calendar { width: 100%; }
+  .admin-main { width: 100%; }
   #sidebarToggleTop .fa-bars { margin-left: -2px; }
   .h3 { text-align: center; }
   .container, .container-fluid { padding: 10px; }

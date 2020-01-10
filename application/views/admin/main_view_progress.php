@@ -10,8 +10,8 @@
 
     <div class="sub-contents">
       <h2><b><?=viewStatus($view['status'])?></b> <?=$view['subject']?></h2>
-      산행분담금 : <?=number_format($view['cost_total'] == 0 ? $view['cost'] : $view['cost_total'])?>원 (<?=calcTerm($view['startdate'], $view['starttime'], $view['enddate'], $view['schedule'])?>)<br>
       산행일시 : <?=$view['startdate']?> (<?=calcWeek($view['startdate'])?>) <?=$view['starttime']?><br>
+      참가비용 : <?=number_format($view['cost_total'] == 0 ? $view['cost'] : $view['cost_total'])?>원 (<?=calcTerm($view['startdate'], $view['starttime'], $view['enddate'], $view['schedule'])?>)<br>
       예약인원 : <?=cntRes($view['idx'])?>명<br>
 
       <div class="area-reservation">

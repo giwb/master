@@ -138,7 +138,7 @@
   <?php foreach ($listNotice as $value): if ($value['status'] >= STATUS_ABLE && $value['status'] <= STATUS_CONFIRM): ?>
   <div style="font-size: 14px;">
     <strong><?=viewStatus($value['status'])?></strong> <a target="_blank" href="<?=base_url()?>reserve/?n=<?=$value['idx']?>"><strong><?=$value['subject']?></strong></a><br>
-    <span class="small">일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 분담금 : <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / 예약인원 : <?=cntRes($value['idx'])?>명</span><hr style="margin: 9px 0 10px 0;">
+    <span class="small">일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 참가비용 : <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / 예약인원 : <?=cntRes($value['idx'])?>명</span><hr style="margin: 9px 0 10px 0;">
   </div>
   <?php endif; endforeach; ?>
 </div><br><br>

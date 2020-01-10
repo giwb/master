@@ -10,8 +10,8 @@
 
     <div class="sub-contents">
       <h2><b><?=viewStatus($view['status'])?></b> <?=$view['subject']?></h2>
-      산행분담금 : <?=number_format($view['cost_total'] == 0 ? $view['cost'] : $view['cost_total'])?>원 (<?=calcTerm($view['startdate'], $view['starttime'], $view['enddate'], $view['schedule'])?>)<br>
       산행일시 : <?=$view['startdate']?> (<?=calcWeek($view['startdate'])?>) <?=$view['starttime']?><br>
+      참가비용 : <?=number_format($view['cost_total'] == 0 ? $view['cost'] : $view['cost_total'])?>원 (<?=calcTerm($view['startdate'], $view['starttime'], $view['enddate'], $view['schedule'])?>)<br>
       예약인원 : <?=cntRes($view['idx'])?>명<br>
 
       <div class="area-reservation">
@@ -54,14 +54,14 @@
             </colgroup>
             <thead>
               <tr>
-                <th colspan="10"><?=$bus?>호차 - <?=$value['bus_name']?> (<?=$value['bus_owner']?>)</td>
+                <th colspan="10"><?=$bus?>호차 - <?=$value['bus_name']?> <?=!empty($value['bus_license']) ? '(' . $value['bus_license'] . ')' : ''?></td>
               </tr>
             </thead>
             <tbody>
               <?php if ($value['seat'] > 12): ?>
               <tr>
-                <th colspan="4" align="left">운전석</th>
-                <th colspan="6" style="text-align: right;">출입구</th>
+                <th colspan="4" class="text-left">운전석<?=!empty($value['bus_owner']) ? ' (' . $value['bus_owner'] . ' 기사님)' : ''?></th>
+                <th colspan="6" class="text-right">출입구 (예약 : <?=cntRes($view['idx'], $bus)?>명)</th>
               </tr>
               <?php endif; ?>
               <?php

@@ -306,18 +306,18 @@
       </div>
 
       <div class="mt-5">
-        <h4>■ 산행 분담금</h4>
+        <h4>■ 참가비용</h4>
       </div>
       <div class="row align-items-center border-top mt-3 pt-3">
-        <div class="col-sm-1 font-weight-bold">기본 비용</div>
+        <div class="col-sm-1 font-weight-bold">기본비용</div>
         <div class="col-sm-11"><input readonly type="text" name="cost" class="form-control cost-default" value="<?=$view['cost'] != '' ? $view['cost'] : '0'?>"></div>
       </div>
       <div class="row align-items-center border-top mt-3 pt-3">
-        <div class="col-sm-1 font-weight-bold">추가 비용</div>
+        <div class="col-sm-1 font-weight-bold">추가비용</div>
         <div class="col-sm-11"><input type="text" name="cost_added" class="form-control cost-added" value="<?=$view['cost_added'] != '' ? $view['cost_added'] : '0'?>"></div>
       </div>
       <div class="row align-items-center border-top mt-3 pt-3">
-        <div class="col-sm-1 font-weight-bold">산행 분담금</div>
+        <div class="col-sm-1 font-weight-bold">참가비용</div>
         <div class="col-sm-11"><input type="text" name="cost_total" class="form-control cost-total" value="<?=$view['cost_total'] != '' ? $view['cost_total'] : '0'?>"></div>
       </div>
       <div class="row align-items-center border-top mt-3 mb-5 pt-3 pb-5">
@@ -343,12 +343,12 @@
         $.calcSchedule($('#startDatePicker').val(), $('#startTime').val(), $('#endDatePicker').val()) // 여행기간 계산
         $.calcRoadCost(); // 통행료 계산
         $.calcFuel(); // 연비 계산 (총주행 / 3.5)
-        $.calcBusCost(totalDistance); // 버스비용/산행분담 기본비용 계산
+        $.calcBusCost(totalDistance); // 버스비용/요금 기본비용 계산
         $.calcTotalDriving(); // 운행비 합계
         $.calcTotalFuel(); // 주유비 합계
         $.calcAdd(); // 추가비용 합계
         $.calcTotalBus(); // 추가비용 합계
-        $.calcCost(); // 산행 분담금 계산
+        $.calcCost(); // 요금 계산
         <?php if (empty($view['idx']) || $view['status'] == STATUS_PLAN): ?>
         // 통행료 계산
         $('.road-cost').each(function(n) {

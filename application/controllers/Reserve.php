@@ -563,7 +563,7 @@ class Reserve extends MY_Controller
         }
 
         if ($userReserve['status'] == RESERVE_PAY) {
-          // 분담금 합계 (기존 버젼 호환용)
+          // 요금 합계 (기존 버젼 호환용)
           $userReserve['cost'] = $userReserve['cost_total'] == 0 ? $userReserve['cost'] : $userReserve['cost_total'];
 
           // 이미 입금을 마친 상태라면, 전액 포인트로 환불 (무료회원은 환불 안함)

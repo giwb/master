@@ -373,7 +373,7 @@ class Admin extends Admin_Controller
       }
 
       if ($viewReserve['status'] == RESERVE_PAY) {
-        // 분담금 합계 (기존 버젼 호환용)
+        // 요금 합계 (기존 버젼 호환용)
         $viewEntry['cost'] = $viewEntry['cost_total'] == 0 ? $viewEntry['cost'] : $viewEntry['cost_total'];
 
         // 비회원 입금취소의 경우, 환불내역 기록
@@ -807,7 +807,7 @@ class Admin extends Admin_Controller
         $userData = $this->admin_model->viewMember($search);
 
         if ($value['status'] == RESERVE_PAY) {
-          // 분담금 합계 (기존 버젼 호환용)
+          // 요금 합계 (기존 버젼 호환용)
           $viewEntry['cost'] = $viewEntry['cost_total'] == 0 ? $viewEntry['cost'] : $viewEntry['cost_total'];
 
           // 이미 입금을 마친 상태라면, 전액 포인트로 환불 (무료회원은 환불 안함)
@@ -1089,9 +1089,9 @@ class Admin extends Admin_Controller
         'driving_cost'    => make_serialize($this->input->post('driving_cost')),  // 운행비
         'driving_add'     => make_serialize($this->input->post('driving_add')),   // 추가비용
         'driving_total'   => html_escape($this->input->post('driving_total')),    // 운행견적총액
-        'cost'            => html_escape($this->input->post('cost')),             // 산행분담금 기본비용
-        'cost_added'      => html_escape($this->input->post('cost_added')),       // 산행분담금 추가비용
-        'cost_total'      => html_escape($this->input->post('cost_total')),       // 산행분담금 합계
+        'cost'            => html_escape($this->input->post('cost')),             // 기본비용
+        'cost_added'      => html_escape($this->input->post('cost_added')),       // 추가비용
+        'cost_total'      => html_escape($this->input->post('cost_total')),       // 합계
         'costmemo'        => html_escape($this->input->post('cost_memo')),        // 포함사항
       );
 

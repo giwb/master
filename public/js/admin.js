@@ -838,7 +838,7 @@
     var totalDistance = $.calcTotalDistance(); // 총 거리 계산
     $.calcFuel(); // 연비 계산 (총주행 / 3.5)
     $.calcBusCost(totalDistance); // 버스비용/산행분담 기본비용 계산
-    $.calcCost(); // 최종 분담금 계산
+    $.calcCost(); // 최종 요금 계산
     $.calcTotalBus(); // 운행견적총액
   }).on('change', '.cost-gas', function() {
     $.calcTotalFuel(); // 주유비 합계
@@ -903,7 +903,7 @@
     if ( (sDate >= sPeak1 && eDate <= ePeak1) || (sDate >= sPeak2 && eDate <= ePeak2) || (sDate >= sPeak3 && eDate <= ePeak3) ) {
       $('.cost-peak').val(40000); // 성수기 버스비용 추가
       if ($('.cost-added').val() == '0') {
-        $('.cost-added').val(Number($('.cost-added').val()) + 2000); // 성수기 분담금 추가
+        $('.cost-added').val(Number($('.cost-added').val()) + 2000); // 성수기 요금 추가
       }
       $('.peak').val('1');
       $('.winter').val('');
@@ -912,7 +912,7 @@
     } else if ( (sDate >= sPeak5 && eDate <= ePeak5) ) {
       $('.cost-peak').val('0'); // 동계예비비 버스비용 추가는 없음
       if ($('.cost-added').val() == '0') {
-        $('.cost-added').val(Number($('.cost-added').val()) + 2000); // 동계예비비 분담금 추가
+        $('.cost-added').val(Number($('.cost-added').val()) + 2000); // 동계예비비 요금 추가
       }
       $('.peak').val('');
       $('.winter').val('1');
@@ -926,7 +926,7 @@
       $('.winter').val('');
     }
 
-    // 최종 분담금 계산
+    // 최종 요금 계산
     if ($('.cost-added').val() == '0') {
       $('.cost-total').val(Number($('.cost-default').val()) + Number($('.cost-added').val()));
     }
@@ -1034,7 +1034,7 @@
     $('.total-bus-cost').val(parseInt(Number(def) + Number(fuel) + Number(cost) + Number(add)));
   }
 
-  // 최종 분담금 계산
+  // 최종 요금 계산
   $.calcCost = function() {
     $('.cost-total').val(Number($('.cost-default').val()) + Number($('.cost-added').val()));
   }

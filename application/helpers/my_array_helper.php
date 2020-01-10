@@ -234,7 +234,7 @@ if (!function_exists('calcEndDate')) {
   }
 }
 
-// 거리, 산행분담금
+// 거리, 요금
 if (!function_exists('calcSchedule')) {
   function calcSchedule($schedule) {
     switch ($schedule) {
@@ -252,7 +252,7 @@ if (!function_exists('calcSchedule')) {
   }
 }
 
-// 거리, 산행분담금
+// 거리, 요금
 if (!function_exists('calcDistance')) {
   function calcDistance($distance) {
     /*

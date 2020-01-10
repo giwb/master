@@ -5,7 +5,7 @@
     <?=viewStatus($value['notice_status'])?> <a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
     <small>
       일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 
-      분담금 : <?=$value['view_cost']?> /
+      요금 : <?=$value['view_cost']?> /
       <?=!empty($value['status']) && $value['status'] == STATUS_ABLE ? '입금완료' : '입금대기'?>
       <?=!empty($value['depositname']) ? ' / 입금자 : ' . $value['depositname'] : ''?>
     </small>
