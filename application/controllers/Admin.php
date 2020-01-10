@@ -931,6 +931,7 @@ class Admin extends Admin_Controller
       $viewData['view']['area_gugun'] = '';
       $viewData['view']['subject'] = '';
       $viewData['view']['content'] = '';
+      $viewData['view']['kilometer'] = '';
       $viewData['view']['bustype'] = '';
       $viewData['view']['article'] = '';
       $viewData['view']['peak'] = '';
@@ -1076,6 +1077,7 @@ class Admin extends Admin_Controller
         'mname'           => html_escape($this->input->post('mname')),            // 산 이름
         'subject'         => html_escape($this->input->post('subject')),          // 산행제목
         'content'         => html_escape($this->input->post('content')),          // 산행코스
+        'kilometer'       => html_escape($this->input->post('kilometer')),        // 정상까지의 거리 (km)
         'bustype'         => make_serialize($this->input->post('bustype')),       // 차량
         'article'         => html_escape($this->input->post('article')),          // 메모
         'distance'        => html_escape($this->input->post('distance')),         // 운행거리

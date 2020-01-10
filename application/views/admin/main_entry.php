@@ -131,6 +131,10 @@
         <div class="col-sm-11"><textarea name="content" rows="5" class="form-control w-100"><?=$view['content']?></textarea></div>
       </div>
       <div class="row align-items-center border-top mt-3 pt-3">
+        <div class="col-sm-1 font-weight-bold">거리</div>
+        <div class="col-sm-11"><input type="text" name="kilometer" class="form-control" value="<?=!empty($view['kilometer']) ? $view['kilometer'] : ''?>"></div>
+      </div>
+      <div class="row align-items-center border-top mt-3 pt-3">
         <div class="col-sm-1 font-weight-bold">차량</div>
         <div class="col-sm-11">
           <button type="button" class="btn btn-sm btn-primary btn-add-bus">추가</button><br>

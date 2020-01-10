@@ -19,9 +19,10 @@
           <div class="ti"><strong>・지역</strong> : <?php foreach ($notice['sido'] as $key => $value): if ($key != 0): ?>, <?php endif; ?><?=$value?> <?=!empty($notice['gugun'][$key]) ? $notice['gugun'][$key] : ''?><?php endforeach; ?></div>
           <?php endif; ?>
           <div class="ti"><strong>・요금</strong> : <?=number_format($notice['cost_total'] == 0 ? $notice['cost'] : $notice['cost_total'])?>원 (<?=calcTerm($notice['startdate'], $notice['starttime'], $notice['enddate'], $notice['schedule'])?><?=!empty($notice['distance']) ? ', ' . calcDistance($notice['distance']) : ''?><?=!empty($notice['costmemo']) ? ', ' . $notice['costmemo'] : ''?>)</div>
-          <div class="ti"><strong>・예약</strong> : <?=cntRes($notice['idx'])?>명</div>
           <?php endif; ?>
           <?=!empty($notice['content']) ? '<div class="ti"><strong>・코스</strong> : ' . nl2br($notice['content']) . '</div>' : ''?>
+          <?=!empty($notice['kilometer']) ? '<div class="ti"><strong>・거리</strong> : ' . $notice['kilometer'] . '</div>' : ''?>
+          <div class="ti"><strong>・예약</strong> : <?=cntRes($notice['idx'])?>명</div>
 
           <div class="area-reservation">
             <?php
