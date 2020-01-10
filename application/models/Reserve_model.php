@@ -77,7 +77,9 @@ class Reserve_model extends CI_Model
     $this->db->select('COUNT(*) AS cnt')
           ->from(DB_RESERVATION)
           ->where('club_idx', $clubIdx)
-          ->where('rescode', $noticeIdx);
+          ->where('rescode', $noticeIdx)
+          ->where('manager', 0)
+          ->where('priority', 0);
 
     if (!empty($bus)) {
       $this->db->where('bus', $bus);
