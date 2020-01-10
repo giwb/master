@@ -359,7 +359,10 @@ class Admin extends Admin_Controller
       // 예약 페널티
       $penalty = 0;
       if ( !empty($viewReserve['regdate']) && ($viewReserve['regdate'] + 43200) < $now ) {
-        if ( $limitDate < ($now + 86400) ) {
+        if ( $limitDate < $now ) {
+          // 출발 이후 취소했다면 5점 페널티
+          $penalty = 5;
+        } elseif ( $limitDate < ($now + 86400) ) {
           // 1일전 취소시 3점 페널티
           $penalty = 3;
         } elseif ( $limitDate < ($now + 172800) ) {

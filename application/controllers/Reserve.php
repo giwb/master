@@ -237,7 +237,10 @@ class Reserve extends MY_Controller
     $result['penalty'] = 0;
     if ( !empty($result['reserve']['regdate']) && ($result['reserve']['regdate'] + 43200) < $nowDate ) {
       // 예약 후 12시간 이후인 경우에만 페널티 부과
-      if ( $limitDate < ($nowDate + 86400) ) {
+      if ( $limitDate < $nowDate ) {
+        // 출발 이후 취소했다면 5점 페널티
+        $result['penalty'] = 5;
+      } elseif ( $limitDate < ($nowDate + 86400) ) {
         // 1일전 취소시 3점 페널티
         $result['penalty'] = 3;
       } elseif ( $limitDate < ($nowDate + 172800) ) {
@@ -552,7 +555,10 @@ class Reserve extends MY_Controller
         // 예약 페널티
         if ( !empty($userReserve['regdate']) && ($userReserve['regdate'] + 43200) < $nowDate ) {
           // 예약 후 12시간 이후인 경우에만 페널티 부과
-          if ( $limitDate < ($nowDate + 86400) ) {
+          if ( $limitDate < $nowDate ) {
+            // 출발 이후 취소했다면 5점 페널티
+            $penalty = 5;
+          } elseif ( $limitDate < ($nowDate + 86400) ) {
             // 1일전 취소시 3점 페널티
             $penalty = 3;
           } elseif ( $limitDate < ($nowDate + 172800) ) {
