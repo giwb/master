@@ -678,7 +678,7 @@ class Admin extends Admin_Controller
     $list = $this->admin_model->listSMS($idx);
 
     foreach ($list as $key => $value) {
-      $location = arrLocation($value['startdate']);
+      $location = arrLocation($value['starttime']);
       $viewData['list'][$key]['date'] = date('m/d', strtotime($value['startdate']));
       $viewData['list'][$key]['week'] = calcWeek($value['startdate']);
       $viewData['list'][$key]['dist'] = calcSchedule($value['schedule']);
@@ -694,8 +694,8 @@ class Admin extends Admin_Controller
         $viewData['list'][$key]['title'] = '';
       }
 
-      foreach ($busType as $key => $bus) {
-        $busNo = $key + 1;
+      foreach ($busType as $cnt => $bus) {
+        $busNo = $cnt + 1;
         if ($busNo == $value['nowbus']) {
           $viewData['list'][$key]['bus_name'] = $bus['bus_name'];
           if (!empty($bus['bus_color'])) $viewData['list'][$key]['bus_name'] .= '(' . $bus['bus_color'] . ')';
