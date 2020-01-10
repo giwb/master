@@ -234,14 +234,16 @@ class Reserve extends MY_Controller
     $limitDate = mktime($startTime[0], $startTime[1], 0, $startDate[1], $startDate[2], $startDate[0]);
 
     // 예약 페널티
-    if ( $limitDate < ($nowDate + 86400) ) {
-      // 1일전 취소시 3점 페널티
-      $result['penalty'] = 3;
-    } elseif ( $limitDate < ($nowDate + 172800) ) {
-      // 2일전 취소시 1점 페널티
-      $result['penalty'] = 1;
-    } else {
-      $result['penalty'] = 0;
+    $result['penalty'] = 0;
+    if ( !empty($result['reserve']['regdate']) && ($result['reserve']['regdate'] + 43200) < $nowDate ) {
+      // 예약 후 12시간 이후인 경우에만 페널티 부과
+      if ( $limitDate < ($nowDate + 86400) ) {
+        // 1일전 취소시 3점 페널티
+        $result['penalty'] = 3;
+      } elseif ( $limitDate < ($nowDate + 172800) ) {
+        // 2일전 취소시 1점 페널티
+        $result['penalty'] = 1;
+      }
     }
 
     $this->output->set_output(json_encode($result));
@@ -548,13 +550,17 @@ class Reserve extends MY_Controller
         $limitDate = mktime($startTime[0], $startTime[1], 0, $startDate[1], $startDate[2], $startDate[0]);
 
         // 예약 페널티
-        if ( $limitDate < ($nowDate + 86400) ) {
-          // 1일전 취소시 3점 페널티
-          $penalty = 3;
-        } elseif ( $limitDate < ($nowDate + 172800) ) {
-          // 2일전 취소시 1점 페널티
-          $penalty = 1;
+        if ( !empty($userReserve['regdate']) && ($userReserve['regdate'] + 43200) < $nowDate ) {
+          // 예약 후 12시간 이후인 경우에만 페널티 부과
+          if ( $limitDate < ($nowDate + 86400) ) {
+            // 1일전 취소시 3점 페널티
+            $penalty = 3;
+          } elseif ( $limitDate < ($nowDate + 172800) ) {
+            // 2일전 취소시 1점 페널티
+            $penalty = 1;
+          }
         }
+
         $this->member_model->updatePenalty($clubIdx, $userReserve['userid'], ($userData['penalty'] + $penalty));
 
         // 예약 페널티 로그 기록

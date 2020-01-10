@@ -358,12 +358,14 @@ class Admin extends Admin_Controller
 
       // 예약 페널티
       $penalty = 0;
-      if ( $limitDate < ($now + 86400) ) {
-        // 1일전 취소시 3점 페널티
-        $penalty = 3;
-      } elseif ( $limitDate < ($now + 172800) ) {
-        // 2일전 취소시 1점 페널티
-        $penalty = 1;
+      if ( !empty($viewReserve['regdate']) && ($viewReserve['regdate'] + 43200) < $now ) {
+        if ( $limitDate < ($now + 86400) ) {
+          // 1일전 취소시 3점 페널티
+          $penalty = 3;
+        } elseif ( $limitDate < ($now + 172800) ) {
+          // 2일전 취소시 1점 페널티
+          $penalty = 1;
+        }
       }
       $this->member_model->updatePenalty($clubIdx, $viewReserve['userid'], ($userData['penalty'] + $penalty));
 
