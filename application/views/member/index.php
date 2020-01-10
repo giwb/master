@@ -21,7 +21,9 @@
           <h3>
             ■ 예약 내역
             <div class="area-btn">
+              <?php if ($userData['level'] != LEVEL_FREE): ?>
               <button type="button" class="btn btn-primary btn-mypage-payment">결제정보</button>
+              <?php endif; ?>
               <button type="button" class="btn btn-danger btn-reserve-cancel">예약취소</button>
               <a href="<?=base_url()?>member/reserve/<?=$clubIdx?>"><button type="button" class="btn btn-secondary">더보기</button></a>
             </div>

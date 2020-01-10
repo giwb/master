@@ -323,6 +323,11 @@ class Reserve extends MY_Controller
         'regdate'   => $now,
       );
 
+      // 무료회원은 곧바로 입금 완료
+      if ($userData['level'] == LEVEL_FREE) {
+        $processData['status'] = RESERVE_PAY;
+      }
+
       if (empty($resIdxNow)) {
         // 등록
         $result = $this->reserve_model->insertReserve($processData);

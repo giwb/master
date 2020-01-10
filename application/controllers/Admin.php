@@ -182,7 +182,13 @@ class Admin extends Admin_Controller
         'regdate' => $now
       );
 
-      if ($nowManager == 1) { // 운영진우선석
+      if (!empty($nowUserid)) {
+        $search['userid'] = $nowUserid;
+        $nowUserInfo = $this->admin_model->viewMember($search);
+      }
+
+      if ($nowManager == 1 || (!empty($nowUserInfo['level']) && $nowUserInfo['level'] == LEVEL_FREE)) {
+        // 운영진우선석, 무료회원의 경우에는 입금확인 상태로
         $postData['status'] = RESERVE_PAY;
       }
 
