@@ -141,7 +141,7 @@
           <?php else: ?>
           <br>
           <li><a href="<?=base_url()?>member/<?=$view['idx']?>">마이페이지</a></li>
-          <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
+          <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
           <li><a href="<?=base_url()?>member/driver/<?=$view['idx']?>">드라이버 페이지</a></li>
           <?php endif; ?>
           <li><a href="<?=base_url()?>member/modify/<?=$view['idx']?>">개인정보수정</a></li>
