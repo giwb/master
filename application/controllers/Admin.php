@@ -1523,7 +1523,13 @@ class Admin extends Admin_Controller
         case '7': // 무료회원
           $viewData['search']['level'] = 2;
           break;
-        case '8': // 관리자
+        case '8': // 드라이버
+          $viewData['search']['level'] = 3;
+          break;
+        case '9': // 드라이버 관리자
+          $viewData['search']['level'] = 4;
+          break;
+        case '10': // 관리자
           $viewData['search']['admin'] = 1;
           break;
       }

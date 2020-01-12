@@ -23,7 +23,9 @@
                 <option<?=$search['levelType'] == 5 ? ' selected' : ''?> value="5">다섯그루 회원</option>
                 <option<?=$search['levelType'] == 6 ? ' selected' : ''?> value="6">평생회원</option>
                 <option<?=$search['levelType'] == 7 ? ' selected' : ''?> value="7">무료회원</option>
-                <option<?=$search['levelType'] == 8 ? ' selected' : ''?> value="8">관리자</option>
+                <option<?=$search['levelType'] == 8 ? ' selected' : ''?> value="8">드라이버</option>
+                <option<?=$search['levelType'] == 9 ? ' selected' : ''?> value="9">드라이버 관리자</option>
+                <option<?=$search['levelType'] == 10 ? ' selected' : ''?> value="10">관리자</option>
               </select>
             </div>
             <div class="col-sm-3 text-left"><button type="button" class="btn btn-primary btn-member-search">검색</button></div>
