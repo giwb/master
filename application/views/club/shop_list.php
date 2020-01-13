@@ -1,5 +1,5 @@
 <?php foreach ($listItem as $key => $value): ?>
-  <?php if ($key == 0): ?><div class="row d-flex justify-content-between"><?php elseif ($key%3 == 0): ?></div><div class="row d-flex justify-content-between"><?php endif; ?>
+  <?php if ($key == 0): ?><div class="row d-flex justify-content-left"><?php elseif ($key%3 == 0): ?></div><div class="row d-flex justify-content-left"><?php endif; ?>
   <div class="col-sm-4 text-center mb-4 pl-2 pr-2">
     <div class="shop-item p-3 h-100" data-idx="<?=$value['idx']?>">
       <div class="item-photo"><img src="<?=$value['item_photo']?>"></div>
