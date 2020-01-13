@@ -189,14 +189,14 @@ class Member extends MY_Controller
       $viewData['viewNotice']['count'] = cntRes($viewData['viewNotice']['idx']);
 
       // 승객수당
-      if ($viewData['viewNotice']['count'] < 30) {
+      if ($viewData['viewNotice']['count'] == $viewData['maxSeat']) {
+        $viewData['viewNotice']['cost_driver'] = 120000;
+      } elseif ($viewData['viewNotice']['count'] < 30) {
         $viewData['viewNotice']['cost_driver'] = 0;
       } elseif ($viewData['viewNotice']['count'] >= 30 && $viewData['viewNotice']['count'] < 40) {
         $viewData['viewNotice']['cost_driver'] = 40000;
       } elseif ($viewData['viewNotice']['count'] >= 40 && $viewData['viewNotice']['count'] < $viewData['maxSeat']) {
         $viewData['viewNotice']['cost_driver'] = 80000;
-      } elseif ($viewData['viewNotice']['count'] == $viewData['maxSeat']) {
-        $viewData['viewNotice']['cost_driver'] = 120000;
       }
 
       // 운행구간
