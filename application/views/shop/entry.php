@@ -267,7 +267,7 @@
             $('.item-category-loader').html('<img src="/public/images/ajax-loader-sm.gif">');
           },
           success: function(result) {
-            $('.item-category-loader').empty();
+            $('.item-category-child, .item-category-loader').empty();
             $.each(result, function(i, v) {
               $('.item-category-child').append('<option value="' + v.idx + '">' + v.name + '</option>');
             });
