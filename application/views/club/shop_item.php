@@ -17,7 +17,7 @@
                   <option value="">옵션을 선택해주세요</option>
                   <option value="">---------------</option>
                   <?php foreach ($viewItem['item_options'] as $key => $value): ?>
-                  <option value="<?=$key?>" data-added-price="<?=$value['added_price']?>" data-added-cost="<?=$value['added_cost']?>"><?=$value['item_option']?></option>
+                  <option value="<?=$key?>" data-added-price="<?=$value['added_price']?>" data-added-cost="<?=$value['added_cost']?>"><?=$value['item_option']?><?=!empty($value['added_cost']) ? ' : ' . $value['added_cost'] . '원' : ''?></option>
                   <?php endforeach; ?>
                 </select>
                 <?php endif; ?>
