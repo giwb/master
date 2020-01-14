@@ -185,12 +185,6 @@
             <li><a href="<?=base_url()?>admin"><i class="fa fa-cog" aria-hidden="true"></i> 설정</a></li>
             <?php endif; ?>
           </ul>
-          <div class="desc">
-          ・개설일 : <?=$view['establish']?>년<br>
-          ・관리자 : <?=$view['nickname']?><br>
-          ・회원수 : <?=number_format($view['cntMember']['cnt'])?>명 / 오늘 <?=number_format($view['cntMemberToday']['cnt'])?>명<br>
-          ・방문수 : <?=number_format($view['cntVisitor']['cnt'])?>회 / 오늘 <?=number_format($view['cntVisitorToday']['cnt'])?>명<br>
-          </div>
           <div class="text-center border-top mt-3 pt-3">
             <a target="_blank" title="페이스북 링크" href="https://facebook.com/giwb.kr"><img src="<?=base_url()?>public/images/icon_facebook.png"></a>
             <a target="_blank" title="트위터 링크" href="https://twitter.com/giwb_alpine"><img class="ml-2 mr-2" src="<?=base_url()?>public/images/icon_twitter.png"></a>
