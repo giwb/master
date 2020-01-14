@@ -194,6 +194,7 @@
             <a target="_blank" title="페이스북 링크" href="https://facebook.com/giwb.kr"><img src="<?=base_url()?>public/images/icon_facebook.png"></a>
             <a target="_blank" title="트위터 링크" href="https://twitter.com/giwb_alpine"><img class="ml-2 mr-2" src="<?=base_url()?>public/images/icon_twitter.png"></a>
             <a target="_blank" title="카카오채널 링크" href="https://pf.kakao.com/_BxaPRxb"><img src="<?=base_url()?>public/images/icon_kakaotalk.png"></a>
+            <a target="_blank" title="경인웰빙 카페 링크" href="http://cafe.daum.net/giwb"><img width="32" height="32" src="<?=base_url()?>public/images/logo.png"></a>
           </div>
         </div>
       </div>
