@@ -31,6 +31,7 @@
           <div class="sub-header">산행안내</div>
           <div class="sub-content"><?=$notice['information']?></div><br>
           <?php else: ?>
+          <div class="sub-header">산행안내</div>
           <div class="sub-content">▶ 준비중입니다.</div><br>
           <?php endif; ?>
           <?php if (!empty($notice['course'])): ?>
