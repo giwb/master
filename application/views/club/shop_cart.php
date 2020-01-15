@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
       <div id="shop" class="club-main">
-        <div class="border-bottom"><h3>구매대행</h3></div>
+        <div class="border-bottom"><h3>구매대행 상품</h3></div>
         <div class="sub-content">
           <?php if (empty($listCart)): ?>
           <div class="text-center border-bottom mt-5 pb-5">현재 장바구니에 담긴 상품이 없습니다.</div>

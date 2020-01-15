@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
       <div id="shop" class="club-main">
-        <div class="border-bottom"><h3>구매대행</h3></div>
+        <div class="border-bottom"><h3>구매대행 상품</h3></div>
         <div class="sub-content">
           <form id="formCheckout" method="post" action="<?=base_url()?>club/shop_insert">
             <input type="hidden" name="userPoint" value="<?=!empty($userData['point']) ? $userData['point'] : 0?>">
