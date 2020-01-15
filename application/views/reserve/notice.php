@@ -11,23 +11,30 @@
             <div class="area-btn"><a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$notice['idx']?>"><button type="button" class="btn btn-primary">좌석보기</button></a></div>
           </div>
 
+          <?php if (!empty($notice['plan'])): ?>
           <div class="sub-header">기획의도</div>
           <div class="sub-content"><?=$notice['plan']?></div><br>
-
+          <?php endif; ?>
+          <?php if (!empty($notice['point'])): ?>
           <div class="sub-header">산행개요</div>
           <div class="sub-content"><?=$notice['point']?></div><br>
-
+          <?php endif; ?>
+          <?php if (!empty($notice['intro'])): ?>
           <div class="sub-header">산행지소개</div>
           <div class="sub-content"><?=$notice['intro']?></div><br>
-
+          <?php endif; ?>
+          <?php if (!empty($notice['timetable'])): ?>
           <div class="sub-header">일정안내</div>
           <div class="sub-content"><?=$notice['timetable']?></div><br>
-
+          <?php endif; ?>
+          <?php if (!empty($notice['information'])): ?>
           <div class="sub-header">산행안내</div>
           <div class="sub-content"><?=$notice['information']?></div><br>
-
+          <?php endif; ?>
+          <?php if (!empty($notice['course'])): ?>
           <div class="sub-header">코스안내</div>
           <div class="sub-content"><?=$notice['course']?></div>
+          <?php endif; ?>
 
           <div class="story-reaction">
             <button type="button" data-idx="<?=$notice['idx']?>" data-type="<?=REPLY_TYPE_NOTICE?>"><i class="fa fa-reply" aria-hidden="true"></i> 댓글 <span class="cnt-reply" data-idx="<?=$notice['idx']?>"><?=$notice['reply_cnt']?></span></button>
