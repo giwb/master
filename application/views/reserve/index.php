@@ -157,4 +157,9 @@
         <?php foreach ($arrLocation as $value): ?>
           arrLocation.push('<?=$value['stitle']?>');
         <?php endforeach; ?>
+        <?php if ($userData['level'] == LEVEL_BLACKLIST): ?>
+          $('.seat').click(function() {
+            return false;
+          });
+        <?php endif; ?>
       </script>

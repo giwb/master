@@ -93,6 +93,7 @@
               <label><input<?=$view['level'] == LEVEL_FREE ? ' checked' : ''?> type="checkbox" name="level" value="<?=LEVEL_FREE?>"> 무료회원</label><br>
               <label><input<?=$view['level'] == LEVEL_DRIVER ? ' checked' : ''?> type="checkbox" name="level" value="<?=LEVEL_DRIVER?>"> 드라이버</label><br>
               <label><input<?=$view['level'] == LEVEL_DRIVER_ADMIN ? ' checked' : ''?> type="checkbox" name="level" value="<?=LEVEL_DRIVER_ADMIN?>"> 드라이버 관리자<br>
+              <label><input<?=$view['level'] == LEVEL_BLACKLIST ? ' checked' : ''?> type="checkbox" name="level" value="<?=LEVEL_BLACKLIST?>"> 블랙리스트<br>
               <label><input<?=$view['admin'] == 1 ? ' checked' : ''?> type="checkbox" name="admin" value="1"> 관리자</label><br>
             </div>
           </div>
