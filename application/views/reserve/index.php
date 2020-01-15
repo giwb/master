@@ -117,20 +117,12 @@
           </div>
           <div class="story-reply mt-3 reply-type-<?=REPLY_TYPE_NOTICE?>" data-idx="<?=$notice['idx']?>">
             <div class="story-reply-content">
-              <?php
-              foreach ($listReply as $value):
-                if (file_exists(PHOTO_PATH . $value['created_by'])) {
-                  $value['photo'] = base_url() . PHOTO_URL . $value['created_by'];
-                } else {
-                  $value['photo'] = base_url() . 'public/images/user.png';
-                }
-              ?>
-              <dl><dt><img class="img-profile" src="<?=$value['photo']?>"></dt><dd><strong><?=$value['nickname']?></strong> · <span class="reply-date">(<?=calcStoryTime($value['created_at'])?>)</span><?=$userData['idx'] == $value['created_by'] || $userData['admin'] == 1 ? ' | <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '" data-action="delete_reply">삭제</a>' : ''?><br><?=$value['content']?></dd></dl>
-              <?php endforeach; ?>
+              <?=$listReply?>
             </div>
             <form method="post" action="<?=base_url()?>story/insert_reply/<?=$view['idx']?>" class="story-reply-input" data-idx="<?=$notice['idx']?>">
               <input type="hidden" name="storyIdx" value="<?=$notice['idx']?>">
               <input type="hidden" name="replyType" value="<?=REPLY_TYPE_NOTICE?>">
+              <input type="hidden" name="replyIdx" value="">
               <textarea name="content" class="club-story-reply"></textarea>
               <button type="button" class="btn btn-primary btn-post-reply" data-idx="<?=$notice['idx']?>">댓글달기</button>
             </form>

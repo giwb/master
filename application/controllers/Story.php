@@ -243,7 +243,7 @@ class Story extends CI_Controller
         $this->story_model->updateStoryReply($updateValues, $clubIdx, $storyIdx, $replyType, $replyIdx);
 
         // 기존 정보 불러오기
-        $viewStoryReply = $this->story_model->viewStoryReply($clubIdx, $storyIdx);
+        $viewStoryReply = $this->story_model->viewStoryReply($clubIdx, $replyIdx);
         $userData['idx'] = $viewStoryReply['created_by'];
         $userData['nickname'] = $viewStoryReply['nickname'];
         $rtn = $replyIdx;

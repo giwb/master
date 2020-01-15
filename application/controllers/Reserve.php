@@ -76,6 +76,7 @@ class Reserve extends MY_Controller
 
     // 댓글
     $viewData['listReply'] = $this->story_model->listStoryReply($clubIdx, $noticeIdx, REPLY_TYPE_NOTICE);
+    $viewData['listReply'] = $this->load->view('story/reply', $viewData, true);
 
     // 페이지 타이틀
     $viewData['pageTitle'] = '산행 예약';
@@ -161,8 +162,8 @@ class Reserve extends MY_Controller
     $viewData['notice']['like_cnt'] = $cntLike['cnt'];
     $viewData['notice']['share_cnt'] = $cntShare['cnt'];
 
-    // 공지 댓글
     $viewData['listReply'] = $this->story_model->listStoryReply($clubIdx, $noticeIdx, REPLY_TYPE_NOTICE);
+    $viewData['listReply'] = $this->load->view('story/reply', $viewData, true);
 
     if (!empty($viewData['notice']['photo']) && file_exists(PHOTO_PATH . $viewData['notice']['photo'])) {
       $viewData['notice']['photo'] = base_url() . '/' . PHOTO_URL . $viewData['notice']['photo'];
