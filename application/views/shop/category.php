@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-          <h1 class="h3 mb-5 text-gray-800">용품 분류 관리</h1>
+          <h1 class="h3 mb-5 text-gray-800">분류 관리</h1>
 
           <div class="row w-100 align-items-top mt-5 ml-0">
             <div class="col-sm-2 border bg-white p-2 mt-2 category-parent">

@@ -9,7 +9,7 @@ class Reserve extends MY_Controller
     parent::__construct();
     $this->load->helper(array('cookie', 'security', 'url', 'my_array_helper'));
     $this->load->library('session');
-    $this->load->model(array('area_model', 'club_model', 'file_model', 'notice_model', 'member_model', 'reserve_model', 'story_model'));
+    $this->load->model(array('area_model', 'club_model', 'file_model', 'notice_model', 'member_model', 'reserve_model', 'shop_model', 'story_model'));
   }
 
   /**
@@ -474,6 +474,27 @@ class Reserve extends MY_Controller
         $viewData['listReserve'][$key]['real_cost'] = $value['cost_total'];
       }
     }
+
+    // 추천상품
+    $search['item_recommend'] = 'Y';
+    $viewData['listItem'] = $this->shop_model->listItem(NULL, $search);
+    foreach ($viewData['listItem'] as $key => $value) {
+      // 대표 사진 추출
+      $photo = unserialize($value['item_photo']);
+      if (!empty($photo[0]) && file_exists(PHOTO_PATH . $photo[0])) {
+        $viewData['listItem'][$key]['item_photo'] = base_url() . PHOTO_URL . $photo[0];
+      } else {
+        $viewData['listItem'][$key]['item_photo'] = base_url() . 'public/images/noimage.png';
+      }
+
+      // 카테고리명
+      $itemCategory = unserialize($value['item_category']);
+      foreach ($itemCategory as $cnt => $category) {
+        $buf = $this->shop_model->viewCategory($category);
+        $viewData['listItem'][$key]['item_category_name'][$cnt] = $buf['name'];
+      }
+    }
+    $viewData['listItem'] = $this->load->view('club/shop_list', $viewData, true);
 
     // 페이지 타이틀
     $viewData['pageTitle'] = '산행 예약확인';

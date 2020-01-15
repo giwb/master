@@ -83,13 +83,13 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseShop" aria-expanded="true" aria-controls="collapseShop">
           <i class="fas fa-fw fa-store"></i>
-          <span>용품관리</span>
+          <span>쇼핑몰 관리</span>
         </a>
         <div id="collapseShop" class="collapse<?=strstr($uri, 'shop') ? " show" : ""?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="<?=base_url()?>shop/index"> <i class="menu-icon fas fa-list-alt"></i> 등록된 용품 관리</a>
-            <a class="collapse-item" href="<?=base_url()?>shop/category"> <i class="menu-icon fas fa-th-list"></i> 용품 분류 관리</a>
-            <a class="collapse-item" href="<?=base_url()?>shop/entry"> <i class="menu-icon fas fa-cart-plus"></i> 신규 용품 등록</a>
+            <a class="collapse-item" href="<?=base_url()?>shop/index"> <i class="menu-icon fas fa-list-alt"></i> 등록된 상품 관리</a>
+            <a class="collapse-item" href="<?=base_url()?>shop/entry"> <i class="menu-icon fas fa-cart-plus"></i> 신규 상품 등록</a>
+            <a class="collapse-item" href="<?=base_url()?>shop/category"> <i class="menu-icon fas fa-th-list"></i> 분류 관리</a>
             <a class="collapse-item" href="<?=base_url()?>shop/order"> <i class="menu-icon fas fa-shipping-fast"></i> 주문 관리</a>
           </div>
         </div>

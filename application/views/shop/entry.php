@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-          <h1 class="h3 mb-5 text-gray-800">신규 용품 등록</h1>
+          <h1 class="h3 mb-5 text-gray-800">신규 상품 등록</h1>
 
           <form id="formShop" method="post" action="<?=base_url()?>shop/update" enctype="multipart/form-data">
             <input type="hidden" name="idx" value="<?=!empty($view['idx']) ? $view['idx'] : ''?>">
@@ -82,6 +82,10 @@
                 <?php endforeach; ?>
                 </div>
               </div>
+            </div>
+            <div class="row align-items-center mb-2">
+              <div class="col-sm-1 font-weight-bold">추천</div>
+              <div class="col-sm-11"><label><input type="checkbox" name="item_recommend" value="Y"<?=!empty($view['item_recommend']) && $view['item_recommend'] == 'Y' ? ' checked' : ''?>> 추천 상품으로 등록</label></div>
             </div>
             <div class="text-center mt-5 mb-5 pb-5">
               <button type="button" class="btn btn-primary btn-item-entry"><?=empty($view['idx']) ? '등록합니다' : '수정합니다'?></button>

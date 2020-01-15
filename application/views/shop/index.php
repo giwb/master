@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-          <h1 class="h3 mb-4 text-gray-800">등록된 용품 관리</h1>
+          <h1 class="h3 mb-4 text-gray-800">등록된 상품 관리</h1>
 
           <div class="w-100 border mt-2 mb-3 p-3">
             <form id="formList" method="post" action="<?=base_url()?>shop/index" class="row align-items-center text-center">

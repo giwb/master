@@ -145,6 +145,7 @@ class Shop extends Admin_Controller
     $itemOption = html_escape($postData['item_option']);
     $addedPrice = html_escape($postData['added_price']);
     $addedCost = html_escape($postData['added_cost']);
+    $postData['item_recommend'] = !empty($postData['item_recommend']) ? html_escape($postData['item_recommend']) : 'N';
     $arrCost = array();
 
     // 카테고리
@@ -192,6 +193,7 @@ class Shop extends Admin_Controller
     }
 
     $updateValues = array(
+      'item_recommend'  => html_escape($postData['item_recommend']),
       'item_name'       => html_escape($postData['item_name']),
       'item_price'      => html_escape($postData['item_price']),
       'item_cost'       => html_escape($postData['item_cost']),
