@@ -70,10 +70,6 @@
         </div>
       </div>
       <div class="row align-items-center border-top mt-3 pt-3">
-        <div class="col-sm-1 font-weight-bold">산 이름</div>
-        <div class="col-sm-11"><input type="text" name="mname" class="form-control" value="<?=$view['mname']?>"></div>
-      </div>
-      <div class="row align-items-center border-top mt-3 pt-3">
         <div class="col-sm-1 font-weight-bold">지역</div>
         <div class="col-sm-11">
           <button type="button" class="btn btn-sm btn-primary btn-add-area mb-2">추가</button><br>
@@ -121,6 +117,21 @@
           <div class="added-area">
           </div>
         </div>
+      </div>
+      <div class="row align-items-center border-top mt-3 pt-3">
+        <div class="col-sm-1 font-weight-bold">행사 유형</div>
+        <div class="col-sm-11">
+          <select name="type" class="form-control">
+            <option value="">행사 유형을 선택해주세요</option>
+            <option<?=$view['type'] == TYPE_ALPINE ? ' selected' : ''?> value="<?=TYPE_ALPINE?>">산행</option>
+            <option<?=$view['type'] == TYPE_WALKING ? ' selected' : ''?> value="<?=TYPE_WALKING?>">도보</option>
+            <option<?=$view['type'] == TYPE_TOUR ? ' selected' : ''?> value="<?=TYPE_TOUR?>">여행</option>
+          </select>
+        </div>
+      </div>
+      <div class="row align-items-center border-top mt-3 pt-3">
+        <div class="col-sm-1 font-weight-bold">산 이름</div>
+        <div class="col-sm-11"><input type="text" name="mname" class="form-control" value="<?=$view['mname']?>"></div>
       </div>
       <div class="row align-items-center border-top mt-3 pt-3">
         <div class="col-sm-1 font-weight-bold">산행 제목</div>
@@ -178,6 +189,18 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div class="row align-items-center border-top mt-3 pt-3">
+        <div class="col-sm-1 font-weight-bold">옵션</div>
+        <div class="col-sm-11 row align-items-center small">
+          <label class="col-sm-1"><input type="checkbox" name="options[]" value="조식&amp;하산주"<?=strstr($view['options'], '"조식&amp;하산주"') ? ' checked' : ''?>> 조식&amp;하산주</label>
+          <label class="col-sm-1"><input type="checkbox" name="options[]" value="조식"<?=strstr($view['options'], '"조식"') ? ' checked' : ''?>> 조식</label>
+          <label class="col-sm-1"><input type="checkbox" name="options[]" value="중식"<?=strstr($view['options'], '"중식"') ? ' checked' : ''?>> 중식</label>
+          <label class="col-sm-1"><input type="checkbox" name="options[]" value="석식"<?=strstr($view['options'], '"석식"') ? ' checked' : ''?>> 석식</label>
+          <label class="col-sm-1"><input type="checkbox" name="options[]" value="하산주"<?=strstr($view['options'], '"하산주"') ? ' checked' : ''?>> 하산주</label>
+          <label class="col-sm-1"><input type="checkbox" name="options[]" value="숙박"<?=strstr($view['options'], '"숙박"') ? ' checked' : ''?>> 숙박</label>
+          <label class="col-sm-6"><input type="text" name="options_etc" class="form-control" placeholder="기타" value="<?=!empty($view['options_etc']) ? $view['options_etc'] : ''?>"></label>
         </div>
       </div>
       <div class="row align-items-center border-top mt-3 pt-3">

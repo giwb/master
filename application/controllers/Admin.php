@@ -937,6 +937,7 @@ class Admin extends Admin_Controller
       $viewData['view']['startdate'] = '';
       $viewData['view']['starttime'] = '';
       $viewData['view']['enddate'] = '';
+      $viewData['view']['type'] = '';
       $viewData['view']['mname'] = '';
       $viewData['view']['area_sido'] = '';
       $viewData['view']['area_gugun'] = '';
@@ -944,6 +945,8 @@ class Admin extends Admin_Controller
       $viewData['view']['content'] = '';
       $viewData['view']['kilometer'] = '';
       $viewData['view']['bustype'] = '';
+      $viewData['view']['options'] = '';
+      $viewData['view']['options_etc'] = '';
       $viewData['view']['article'] = '';
       $viewData['view']['peak'] = '';
       $viewData['view']['winter'] = '';
@@ -990,7 +993,7 @@ class Admin extends Admin_Controller
       $viewData['area_gugun'] = array();
     }
 
-    if (empty($viewData['view']['driving_fuel'][2])) {
+    if (empty($viewData['view']['driving_fuel'][2]) && ENVIRONMENT != 'development') {
       // 전국 유가 정보 (오피넷 Key : F657191209)
       $url = 'http://www.opinet.co.kr/api/avgSidoPrice.do?out=xml&code=F657191209';
       $ch = cURL_init();
@@ -1085,11 +1088,14 @@ class Admin extends Admin_Controller
         'startdate'       => html_escape($this->input->post('startdate')),        // 출발일시
         'starttime'       => html_escape($this->input->post('starttime')),        // 출발시간
         'enddate'         => html_escape($this->input->post('enddate')),          // 도착일자
+        'type'            => html_escape($this->input->post('type')),             // 행사유형
         'mname'           => html_escape($this->input->post('mname')),            // 산 이름
         'subject'         => html_escape($this->input->post('subject')),          // 산행제목
         'content'         => html_escape($this->input->post('content')),          // 산행코스
         'kilometer'       => html_escape($this->input->post('kilometer')),        // 정상까지의 거리 (km)
         'bustype'         => make_serialize($this->input->post('bustype')),       // 차량
+        'options'         => make_serialize($this->input->post('options')),       // 옵션
+        'options_etc'     => html_escape($this->input->post('options_etc')),      // 옵션 기타
         'article'         => html_escape($this->input->post('article')),          // 메모
         'distance'        => html_escape($this->input->post('distance')),         // 운행거리
         'road_course'     => make_serialize($this->input->post('road_course')),   // 운행구간

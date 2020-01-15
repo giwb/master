@@ -13,12 +13,13 @@
             <div class="area-title"><h2><b><?=viewStatus($notice['status'])?></b> <?=$notice['subject']?></h2></div>
             <div class="area-btn"><a href="<?=base_url()?>reserve/notice/<?=$view['idx']?>?n=<?=$notice['idx']?>"><button type="button" class="btn btn-primary">산행공지</button></a></div>
           </div>
+          <?php if (!empty($notice['type'])): ?><div class="ti"><strong>・유형</strong> : <?=getNoticeType($notice['type'])?></div><?php endif; ?>
           <div class="ti"><strong>・일시</strong> : <?=$notice['startdate']?> (<?=calcWeek($notice['startdate'])?>) <?=$notice['starttime']?></div>
           <?php $notice['cost'] = $notice['cost_total'] == 0 ? $notice['cost'] : $notice['cost_total']; if (!empty($notice['cost'])): ?>
           <?php if (!empty($notice['sido'])): ?>
           <div class="ti"><strong>・지역</strong> : <?php foreach ($notice['sido'] as $key => $value): if ($key != 0): ?>, <?php endif; ?><?=$value?> <?=!empty($notice['gugun'][$key]) ? $notice['gugun'][$key] : ''?><?php endforeach; ?></div>
           <?php endif; ?>
-          <div class="ti"><strong>・요금</strong> : <?=number_format($notice['cost_total'] == 0 ? $notice['cost'] : $notice['cost_total'])?>원 (<?=calcTerm($notice['startdate'], $notice['starttime'], $notice['enddate'], $notice['schedule'])?><?=!empty($notice['distance']) ? ', ' . calcDistance($notice['distance']) : ''?><?=!empty($notice['costmemo']) ? ', ' . $notice['costmemo'] : ''?>)</div>
+          <div class="ti"><strong>・요금</strong> : <?=number_format($notice['cost_total'] == 0 ? $notice['cost'] : $notice['cost_total'])?>원 (<?=calcTerm($notice['startdate'], $notice['starttime'], $notice['enddate'], $notice['schedule'])?><?=!empty($notice['distance']) ? ', ' . calcDistance($notice['distance']) : ''?><?=!empty($notice['options']) ? ', ' . getOptions($notice['options']) : ''?><?=!empty($notice['options_etc']) ? ', ' . $notice['options_etc'] : ''?><?=!empty($notice['costmemo']) ? ', ' . $notice['costmemo'] : ''?>)</div>
           <?php endif; ?>
           <?=!empty($notice['content']) ? '<div class="ti"><strong>・코스</strong> : ' . nl2br($notice['content']) . '</div>' : ''?>
           <?=!empty($notice['kilometer']) ? '<div class="ti"><strong>・거리</strong> : ' . $notice['kilometer'] . '</div>' : ''?>

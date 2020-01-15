@@ -16,9 +16,9 @@ if (!function_exists('reset_html_escape')) {
 
 // serialize
 if (!function_exists('make_serialize')) {
-  function make_serialize($data) {
+  function make_serialize($data, $blank=FALSE) {
     foreach ($data as $value) {
-      if ($value != '') {
+      if ($value != '' && $blank == FALSE) {
         $result[] = $value;
       }
     }
@@ -346,6 +346,31 @@ if (!function_exists('arrBreakfast')) {
       '고기왕만두',
       '찐빵',
     );
+  }
+}
+
+// 행사 유형
+if (!function_exists('getNoticeType')) {
+  function getNoticeType($type) {
+    switch ($type) {
+      case TYPE_WALKING: $result = '도보'; break;
+      case TYPE_TOUR: $result = '여행'; break;
+      default: $result = '산행';
+    }
+    return $result;
+  }
+}
+
+// 산행 옵션
+if (!function_exists('getOptions')) {
+  function getOptions($options) {
+    $arr = unserialize($options);
+    $result = '';
+    foreach ($arr as $key => $value) {
+      if ($key != 0) $result .= ', ';
+      $result .= $value;
+    }
+    return $result;
   }
 }
 
