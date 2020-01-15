@@ -304,6 +304,7 @@ class Club extends MY_Controller
       exit;
     }
 
+    // 상품 정보
     $viewData['viewItem'] = $this->shop_model->viewItem($idx);
 
     // 사진이 실제로 업로드 되어 있는지 확인
@@ -322,6 +323,11 @@ class Club extends MY_Controller
       $buf = $this->shop_model->viewCategory($category);
       $viewData['viewItem']['item_category_name'][$cnt] = $buf['name'];
     }
+    if (!empty($itemCategory[0])) {
+      $viewData['search']['item_category1'] = $itemCategory[0];
+    } else {
+      $viewData['search']['item_category1'] = 0;
+    }
 
     // 옵션
     $itemOptions = unserialize($viewData['viewItem']['item_option']);
@@ -330,6 +336,9 @@ class Club extends MY_Controller
         $viewData['viewItem']['item_options'][] = $option;
       }
     }
+
+    // 검색 분류
+    $viewData['listCategory'] = $this->shop_model->listCategory();
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
