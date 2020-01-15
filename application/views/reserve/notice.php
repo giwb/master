@@ -11,6 +11,10 @@
             <div class="area-btn"><a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$notice['idx']?>"><button type="button" class="btn btn-primary">좌석보기</button></a></div>
           </div>
 
+          <?php if (empty($notice['plan']) && empty($notice['point']) && empty($notice['intro']) && empty($notice['timetable']) && empty($notice['information']) && empty($notice['course'])): ?>
+          <div class="mt-5 mb-5 text-center">준비중</div>
+          <?php endif; ?>
+
           <?php if (!empty($notice['plan'])): ?>
           <div class="sub-header">기획의도</div>
           <div class="sub-content"><?=$notice['plan']?></div><br>
