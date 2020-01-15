@@ -11,7 +11,7 @@
               <div class="item-category"><?php if (!empty($viewItem['item_category_name'])): foreach ($viewItem['item_category_name'] as $key => $cname): if ($key != 0) { echo ' > '; } ?><?=$cname?><?php endforeach; endif; ?></div>
               <h2 class="item-name"><?=$viewItem['item_name']?></h2>
               <h4 class="mt-4 mb-4 area-cost">
-                <?=!empty($viewItem['item_price']) ? '<span class="discount"><s class="text-secondary"><span class="item-price">' . number_format($viewItem['item_price']) . '</span>원</s> (' . ($viewItem['item_price'] - $viewItem['item_cost']) / $viewItem['item_price'] * 100 . '%)</span><br>' : ''?><span class="item-cost"><?=number_format($viewItem['item_cost'])?></span>원<br>
+                <?=!empty($viewItem['item_price']) ? '<span class="discount"><s class="text-secondary"><span class="item-price">' . number_format($viewItem['item_price']) . '</span>원</s> (' . round(($viewItem['item_price'] - $viewItem['item_cost']) / $viewItem['item_price'] * 100) . '%)</span><br>' : ''?><span class="item-cost"><?=number_format($viewItem['item_cost'])?></span>원<br>
                 <?php if (!empty($viewItem['item_options'])): ?>
                 <select name="item_option" class="form-control item-option mt-3">
                   <option value="">옵션을 선택해주세요</option>
