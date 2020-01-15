@@ -32,7 +32,7 @@
           <div class="sub-content"><?=$notice['information']?></div><br>
           <?php else: ?>
           <div class="sub-header">산행안내</div>
-          <div class="sub-content">▶ 준비중입니다.</div><br>
+          <div class="sub-content p-4">▶ 준비중입니다.</div><br>
           <?php endif; ?>
           <?php if (!empty($notice['course'])): ?>
           <div class="sub-header">코스안내</div>
