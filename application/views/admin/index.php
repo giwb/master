@@ -137,8 +137,17 @@
           </div>
 
           <!-- Content Row -->
-          <div id="calendar" class="mb-5"></div>
+          <div id="calendar"></div>
+
+          <div class="row align-items-center border-top border-bottom mb-3 pt-4 pb-3">
+            <div class="col-6">■ 최신 댓글</div>
+            <div class="col-6 text-right small"><a href="<?=base_url()?>admin/log_reply">[더보기]</a></div>
+          </div>
+          <div class="story-reply mb-5">
+            <?=$listReply?>
+          </div>
         </div>
+
       </div>
     </div>
 

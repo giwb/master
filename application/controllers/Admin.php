@@ -54,6 +54,11 @@ class Admin extends Admin_Controller
     // 오늘 방문자수
     $viewData['cntTodayVisitor'] = $this->admin_model->cntTodayVisitor($clubIdx);
 
+    // 댓글
+    $paging['perPage'] = 10; $paging['nowPage'] = 0;
+    $viewData['listReply'] = $this->admin_model->listReply($paging);
+    $viewData['listReply'] = $this->load->view('admin/log_reply_append', $viewData, true);
+
     $this->_viewPage('admin/index', $viewData);
   }
 
@@ -2380,9 +2385,22 @@ class Admin extends Admin_Controller
    **/
   public function log_reply()
   {
-    $viewData['listReply'] = $this->admin_model->listReply();
+    $page = html_escape($this->input->post('p'));
+    if (empty($page)) $page = 1; else $page++;
+    $paging['perPage'] = 30;
+    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
+    $viewData['listReply'] = $this->admin_model->listReply($paging);
 
-    $this->_viewPage('admin/log_reply', $viewData);
+    if ($page >= 2) {
+      // 2페이지 이상일 경우에는 Json으로 전송
+      $result['page'] = $page;
+      $result['html'] = $this->load->view('admin/log_reply_append', $viewData, true);
+      $this->output->set_output(json_encode($result));
+    } else {
+      $viewData['listReply'] = $this->load->view('admin/log_reply_append', $viewData, true);
+      // 1페이지에는 View 페이지로 전송
+      $this->_viewPage('admin/log_reply', $viewData);
+    }
   }
 
   /**
