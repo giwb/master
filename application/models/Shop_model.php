@@ -44,11 +44,11 @@ class Shop_model extends CI_Model
     if (!empty($search['item_name'])) {
       $this->db->like('item_name', $search['item_name']);
     }
-    if (!empty($search['item_category1'])) {
-      $this->db->where('item_category1', $search['item_category1']);
+    if (!empty($search['item_category1']) && empty($search['item_category2'])) {
+      $this->db->like('item_category', '"' . $search['item_category1'] . '"');
     }
     if (!empty($search['item_category2'])) {
-      $this->db->where('item_category2', $search['item_category2']);
+      $this->db->like('item_category', '"' . $search['item_category2'] . '"');
     }
 
     return $this->db->get()->row_array(1);

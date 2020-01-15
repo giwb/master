@@ -180,7 +180,7 @@
             <?php endif; ?><br>
             <li><a href="<?=base_url()?>club/album/<?=$view['idx']?>"><i class="fa fa-photo" aria-hidden="true"></i> 사진첩</a></li>
             <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
-            <li><a href="<?=base_url()?>club/shop/<?=$view['idx']?>"><i class="fa fa-shopping-basket" aria-hidden="true"></i> 용품판매</a></li>
+            <li><a href="<?=base_url()?>club/shop/<?=$view['idx']?>"><i class="fa fa-shopping-basket" aria-hidden="true"></i> 쇼핑몰</a></li>
             <br>
             <li><a href="<?=base_url()?>admin"><i class="fa fa-cog" aria-hidden="true"></i> 설정</a></li>
             <?php endif; ?>

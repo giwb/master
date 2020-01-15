@@ -231,9 +231,9 @@ class Club extends MY_Controller
     $userData = $this->load->get_var('userData');
 
     $viewData['search'] = array(
-      'item_name' => !empty($this->input->post('item_name')) ? html_escape($this->input->post('item_name')) : NULL,
-      'item_category1' => !empty($this->input->post('item_category1')) ? html_escape($this->input->post('item_category1')) : NULL,
-      'item_category2' => !empty($this->input->post('item_category2')) ? html_escape($this->input->post('item_category2')) : NULL,
+      'item_name' => !empty($this->input->get('k')) ? html_escape($this->input->get('k')) : NULL,
+      'item_category1' => !empty($this->input->get('c')) ? html_escape($this->input->get('c')) : NULL,
+      //'item_category2' => !empty($this->input->get('item_category2')) ? html_escape($this->input->get('item_category2')) : NULL,
     );
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
@@ -264,12 +264,7 @@ class Club extends MY_Controller
     }
 
     // 검색 분류
-    $viewData['listCategory1'] = $this->shop_model->listCategory();
-
-    if (!empty($viewData['search']['item_category1'])) {
-      // 하위 분류
-      $viewData['listCategory2'] = $this->shop_model->listCategory($viewData['search']['item_category1']);
-    }
+    $viewData['listCategory'] = $this->shop_model->listCategory();
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);

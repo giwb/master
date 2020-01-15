@@ -2173,6 +2173,9 @@ h1.nav-logo small {
 #shop .btn-cart { color: #FF6C00; background-color: #fff; border-color: #FF6C00; }
 #shop .btn-buy { color: #fff; background-color: #FF6C00; border-color: #FF6C00; }
 #shop .btn:hover { opacity: 0.9; }
+#shop .row-category { border-top: 3px solid #FF6C00; }
+#shop .row-category a { color: #333; display: block; }
+#shop .row-category a:hover, #shop .row-category a.active { color: #000; background-color: #F0AA94; }
 
 .btn-page-next, .btn-story-more { width: 100%; border: 1px solid #d9d9d9; background-color: #fff; margin: 10px 0; padding: 5px; }
 .btn-page-next:hover, .btn-story-more:hover { box-shadow: #ddd 3px 3px 3px; }
