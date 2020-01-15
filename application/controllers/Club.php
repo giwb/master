@@ -233,7 +233,7 @@ class Club extends MY_Controller
     $viewData['search'] = array(
       'item_name' => !empty($this->input->get('k')) ? html_escape($this->input->get('k')) : NULL,
       'item_category1' => !empty($this->input->get('c')) ? html_escape($this->input->get('c')) : NULL,
-      //'item_category2' => !empty($this->input->get('item_category2')) ? html_escape($this->input->get('item_category2')) : NULL,
+      'item_recommend' => 'Y',
     );
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;

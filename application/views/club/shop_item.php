@@ -3,7 +3,7 @@
       <div id="shop" class="club-main">
         <div class="mb-3"><h3>구매대행 상품</h3></div>
         <div class="row-category row m-0 p-0 border-bottom border-right">
-          <a href="<?=base_url()?>club/shop/<?=$clubIdx?>" class="col border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=empty($search['item_category1']) ? ' active' : ''?>">전체</a>
+          <a href="<?=base_url()?>club/shop/<?=$clubIdx?>" class="col border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=empty($search['item_category1']) ? ' active' : ''?>">인기상품</a>
           <?php foreach ($listCategory as $value): ?>
           <a href="<?=base_url()?>club/shop/<?=$clubIdx?>?c=<?=$value['idx']?>" class="col border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=$value['idx'] == $search['item_category1'] ? ' active' : ''?>"><?=$value['name']?></a>
           <?php endforeach; ?>
