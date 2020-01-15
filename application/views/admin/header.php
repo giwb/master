@@ -83,7 +83,7 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseShop" aria-expanded="true" aria-controls="collapseShop">
           <i class="fas fa-fw fa-store"></i>
-          <span>쇼핑몰 관리</span>
+          <span>구매대행 관리</span>
         </a>
         <div id="collapseShop" class="collapse<?=strstr($uri, 'shop') ? " show" : ""?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">

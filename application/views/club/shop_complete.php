@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
       <div id="shop" class="club-main">
-        <div class="border-bottom"><h3>쇼핑몰</h3></div>
+        <div class="border-bottom"><h3>구매대행</h3></div>
         <div class="sub-content">
           <div class="m-3 p-5 text-center">
             <h2 class="text-info">구매해 주셔서 감사합니다!</h2>
