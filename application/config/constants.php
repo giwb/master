@@ -129,11 +129,6 @@ defined('ORDER_PAY')      OR define('ORDER_PAY', 1); // 입금완료
 defined('ORDER_CANCEL')   OR define('ORDER_CANCEL', 8); // 구매취소
 defined('ORDER_END')      OR define('ORDER_END', 9); // 판매완료
 
-// 행사 유형
-defined('TYPE_ALPINE')    OR define('TYPE_ALPINE', 1); // 산행
-defined('TYPE_WALKING')   OR define('TYPE_WALKING', 2); // 도보
-defined('TYPE_TOUR')      OR define('TYPE_TOUR', 3); // 여행
-
 // 산행 숨김
 defined('VISIBLE_NONE')   OR define('VISIBLE_NONE', 0); // 숨김
 defined('VISIBLE_ABLE')   OR define('VISIBLE_ABLE', 1); // 공개
