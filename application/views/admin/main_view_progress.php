@@ -94,7 +94,8 @@
 
       <?php if ($view['status'] == STATUS_ABLE || $view['status'] == STATUS_CONFIRM): ?>
       <div class="area-wait">
-        ■ <strong>대기자 목록</strong><br>
+        <?php if (!empty($wait)): ?>
+        <div class="text-dark">■ <strong>대기자 목록</strong></div>
         <?php foreach ($wait as $key => $value): ?>
         <div class="mt-1">
           <a href="javascript:;" class="btn-wait-delete-modal" data-idx="<?=$value['idx']?>">[<?=$key + 1?>] <?=$value['nickname']?> (<?=getGender($value['gender'])?>) <?=!empty($value['location']) ? arrLocation(NULL, $value['location'], 1) : '미정'?>
@@ -103,8 +104,9 @@
         <?php endforeach; ?>
 
         <div class="mt-4"></div>
+        <?php endif; ?>
 
-        ■ <strong>대기자 추가</strong><br>
+        <div class="text-dark">■ <strong>대기자 추가</strong></div>
         <div class="wait">
           <input type="text" name="nickname" class="search-userid" placeholder="닉네임 입력" data-placement="bottom"><input type="hidden" name="userid">
           <select name="gender" class="gender pl-0 pr-0">
@@ -121,6 +123,11 @@
         </div>
       </div>
       <?php endif; ?>
+
+      <div class="text-dark mt-4">■ <strong>댓글</strong></div>
+      <div class="story-reply">
+        <?=$listReply?>
+      </div>
 
       <div class="border-top mt-5 mb-5">
         <h3 class="pt-4 pb-3">진행중 산행 목록</h3>

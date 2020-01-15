@@ -529,7 +529,7 @@ class Admin_model extends CI_Model
   }
 
   // 활동관리 - 댓글 기록
-  public function listReply($paging)
+  public function listReply($paging=NULL, $rescode=NULL)
   {
     $this->db->select('a.idx, a.club_idx, a.story_idx, a.reply_type, a.content, a.created_by, a.created_at, b.nickname')
           ->from(DB_STORY_REPLY . ' a')
@@ -537,6 +537,10 @@ class Admin_model extends CI_Model
           ->where('deleted_at', NULL)
           ->order_by('a.idx', 'desc');
 
+    if (!is_null($rescode)) {
+      $this->db->where('reply_type', REPLY_TYPE_NOTICE);
+      $this->db->where('story_idx', $rescode);
+    }
     if (!is_null($paging)) {
       $this->db->limit($paging['perPage'], $paging['nowPage']);
     }

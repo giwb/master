@@ -579,6 +579,10 @@ class Admin extends Admin_Controller
     $search['status'] = array(STATUS_ABLE, STATUS_CONFIRM);
     $viewData['list'] = $this->admin_model->listNotice($search);
 
+    // 댓글
+    $viewData['listReply'] = $this->admin_model->listReply(NULL, $viewData['rescode']);
+    $viewData['listReply'] = $this->load->view('admin/log_reply_append', $viewData, true);
+
     $this->_viewPage('admin/main_view_progress', $viewData);
   }
 
