@@ -134,7 +134,7 @@
           <?php endif; ?>
           <li><a href="<?=base_url()?>club/album/<?=$view['idx']?>"> 사진첩</a></li>
           <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
-          <li><a href="<?=base_url()?>club/shop/<?=$view['idx']?>"> 구매대행</a></li>
+          <li><a href="<?=base_url()?>club/shop/<?=$view['idx']?>"> 구매대행 상품</a></li>
           <br><li><a href="<?=base_url()?>admin"> 설정</a></li>
           <?php endif; ?>
           <?php if (empty($userData['idx'])): ?>
@@ -180,7 +180,7 @@
             <?php endif; ?><br>
             <li><a href="<?=base_url()?>club/album/<?=$view['idx']?>"><i class="fa fa-photo" aria-hidden="true"></i> 사진첩</a></li>
             <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
-            <li><a href="<?=base_url()?>club/shop/<?=$view['idx']?>"><i class="fa fa-shopping-basket" aria-hidden="true"></i> 구매대행</a></li>
+            <li><a href="<?=base_url()?>club/shop/<?=$view['idx']?>"><i class="fa fa-shopping-basket" aria-hidden="true"></i> 구매대행 상품</a></li>
             <br>
             <li><a href="<?=base_url()?>admin"><i class="fa fa-cog" aria-hidden="true"></i> 설정</a></li>
             <?php endif; ?>
