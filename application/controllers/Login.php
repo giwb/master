@@ -395,7 +395,7 @@ class Login extends CI_Controller
 
     switch ($provider) {
       case 'kakao':
-        $url = 'https://kauth.kakao.com/oauth/authorize?client_id=' . API_KAKAO . '&redirect_uri=' . base_url() . 'login/kakao&response_type=code&state=' . $state;
+        $url = 'https://kauth.kakao.com/oauth/authorize?client_id=' . API_KAKAO . '&redirect_uri=' . API_KAKAO_URL . '&response_type=code&state=' . $state;
         break;
     }
 
@@ -415,12 +415,26 @@ class Login extends CI_Controller
 
     // 세션 불러오기
     $OAuthState = $this->session->userdata('OAuthState');
-echo "CODE : " . $code . "<br>";
-echo "STATE : " . $state . "<br>";
-echo "OAuthState : " . $OAuthState . "<br>";
-    if (!empty($code) && $state == $OAuthState) {
 
+    // 리턴값이 정상이고 세션값이 일치하면 통과
+    if (empty($code) || $state != $OAuthState) {
+      echo '로그인에 실패했습니다.';
+      exit;
     }
+
+    // POST 형식으로 토큰값 받아오기
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'https://kauth.kakao.com/oauth/token');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_POST, TRUE);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, 'grant_type=authorization_code&client_id=' . API_KAKAO . '&redirect_uri=' . API_KAKAO_URL . 'code=' . $code);
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    // 세션 제거
+    $this->session->unset_userdata('OAuthState');
+
+    print_r($response);
   }
 
   /**
