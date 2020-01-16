@@ -414,6 +414,7 @@ class Login extends CI_Controller
    **/
   public function kakao()
   {
+    $now = time();
     $clubIdx = 1;
     $code = html_escape($this->input->get('code'));
     $state = html_escape($this->input->get('state'));
@@ -442,7 +443,7 @@ class Login extends CI_Controller
     // OAuth Access Token 세션 저장
     $accessToken = array(
       'response' => json_decode($response, TRUE),
-      'created' => time()
+      'created' => $now
     );
     $this->session->set_userdata('OAuthAccessToken', $accessToken);
 
@@ -467,7 +468,7 @@ class Login extends CI_Controller
         'email'         => $response['kakao_account']['email'],
         'nickname'      => $response['kakao_account']['profile']['nickname'],
         'realname'      => $response['kakao_account']['profile']['nickname'],
-        'password'      => md5($response['id'] . time()),
+        'password'      => md5($response['id'] . $now),
         'gender'        => !empty($response['kakao_account']['gender']) && $response['kakao_account']['gender'] == 'male' ? 'M' : 'F',
         'birthday'      => !empty($response['kakao_account']['birthday']) ? $response['kakao_account']['birthday'] : NULL,
         'birthday_type' => !empty($response['kakao_account']['birthday_type']) && $response['kakao_account']['birthday_type'] == 'SOLAR' ? '1' : '2',
@@ -487,7 +488,7 @@ class Login extends CI_Controller
       $rescount = $this->admin_model->cntMemberReservation($userData['userid']);
       $updateValues['rescount'] = $rescount['cnt']; // 예약 횟수 갱신 (회원 레벨 체크를 위해)
       $updateValues['connect'] = $userData['connect'] + 1;
-      $updateValues['lastdate'] = time();
+      $updateValues['lastdate'] = $now;
 
       $this->member_model->updateMember($updateValues, $userData['clubIdx'], $userData['idx']);
 
