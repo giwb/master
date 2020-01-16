@@ -380,6 +380,18 @@ class Login extends CI_Controller
   }
 
   /**
+   * OAuth : 카카오 로그인
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function kakao()
+  {
+print_r($_GET);
+print_r($_POST);
+  }
+
+  /**
    * 페이지 표시
    *
    * @param $viewPage
