@@ -82,6 +82,8 @@
             <li>
             <?php if (file_exists(PHOTO_PATH . $userData['idx'])): ?>
             <img class="img-profile" src="<?=base_url()?>public/photos/<?=$userData['idx']?>">
+            <?php elseif (!empty($userData['icon_thumbnail'])): ?>
+            <img class="img-profile" src="<?=$userData['icon_thumbnail']?>">
             <?php else: ?>
             <img class="img-profile" src="<?=base_url()?>public/images/user.png">
             <?php endif; ?>
@@ -109,6 +111,8 @@
           <li>
             <?php if (file_exists(PHOTO_PATH . $userData['idx'])): ?>
             <img class="img-profile" src="<?=base_url()?>public/photos/<?=$userData['idx']?>">
+            <?php elseif (!empty($userData['icon_thumbnail'])): ?>
+            <img class="img-profile" src="<?=$userData['icon_thumbnail']?>">
             <?php else: ?>
             <img class="img-profile" src="<?=base_url()?>public/images/user.png">
             <?php endif; ?>
