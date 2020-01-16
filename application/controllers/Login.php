@@ -395,7 +395,7 @@ class Login extends CI_Controller
 
     switch ($provider) {
       case 'kakao':
-        $url = 'https://kauth.kakao.com/oauth/authorize?client_id=' . API_KAKAO . '&redirect_uri=' . API_KAKAO_URL . '&response_type=code&state=' . $state;
+        $url = 'https://kauth.kakao.com/oauth/authorize?client_id=' . API_KAKAO . '&redirect_uri=' . base_url() . API_KAKAO_URL . '&response_type=code&state=' . $state;
         break;
     }
 
@@ -427,7 +427,7 @@ class Login extends CI_Controller
     curl_setopt($ch, CURLOPT_URL, 'https://kauth.kakao.com/oauth/token');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($ch, CURLOPT_POST, TRUE);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, 'grant_type=authorization_code&client_id=' . API_KAKAO . '&redirect_uri=' . API_KAKAO_URL . 'code=' . $code);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, 'grant_type=authorization_code&client_id=' . API_KAKAO . '&redirect_uri=' . base_url() . API_KAKAO_URL . 'code=' . $code);
     $response = curl_exec($ch);
     curl_close($ch);
 
