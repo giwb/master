@@ -32,7 +32,7 @@
           </form>
           <?php if ($_SERVER['REMOTE_ADDR'] == '49.166.0.82'): ?>
           <div class="text-center mt-5">
-            <a href="https://kauth.kakao.com/oauth/authorize?client_id=ac8c155b86aa3885c643ba50a7cd4442&redirect_uri=https://giwb.kr/login/kakao&response_type=code"><img src="https://developers.kakao.com/assets/img/about/logos/kakaologin/kr/kakao_account_login_btn_medium_narrow.png"></a>
+            <a target="_blank" href="<?=base_url()?>login/oauth/?provider=kakao"><img src="https://developers.kakao.com/assets/img/about/logos/kakaologin/kr/kakao_account_login_btn_medium_narrow.png"></a>
           </div>
           <?php endif; ?>
         </div>

@@ -380,6 +380,29 @@ class Login extends CI_Controller
   }
 
   /**
+   * OAuth 로그인
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function oauth()
+  {
+    $provider = html_escape($this->input->get('provider'));
+    $state = md5('TRIPKOREA_' . time());
+
+    // 세션 저장
+    $this->session->set_userdata('OAuthState', $state);
+
+    switch ($provider) {
+      case 'kakao':
+        $url = 'https://kauth.kakao.com/oauth/authorize?client_id=' . API_KAKAO . '&redirect_uri=' . base_url() . 'login/kakao&response_type=code&state=' . $state;
+        break;
+    }
+
+    redirect($url);
+  }
+
+  /**
    * OAuth : 카카오 로그인
    *
    * @return json
@@ -388,8 +411,14 @@ class Login extends CI_Controller
   public function kakao()
   {
     $code = html_escape($this->input->get('code'));
-print_r($_SESSION)
-    if (!empty($code)) {
+    $state = html_escape($this->input->get('state'));
+
+    // 세션 불러오기
+    $OAuthState = $this->session->userdata('OAuthState');
+echo "CODE : " . $code . "<br>";
+echo "STATE : " . $state . "<br>";
+echo "OAuthState : " . $OAuthState . "<br>";
+    if (!empty($code) && $state == $OAuthState) {
 
     }
   }
