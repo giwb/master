@@ -454,10 +454,11 @@ class Login extends CI_Controller
     $response = curl_exec($ch);
     curl_close($ch);
     $response = json_decode($response, TRUE);
+echo "<pre>";
 print_r($response);
 exit;
     // 신규 사용자인지 확인
-    $userData = $this->member_model->checkOAuthUser(PROVIDER_KAKAO, $response['kaccount_email']);
+    $userData = $this->member_model->checkOAuthUser(PROVIDER_KAKAO, $response['email']);
 
     if (empty($userData)) {
       // 신규 사용자는 가입
