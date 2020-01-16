@@ -657,6 +657,8 @@ class Member extends MY_Controller
     // 아이콘
     if (file_exists(PHOTO_PATH . $viewData['viewMember']['idx'])) {
       $viewData['viewMember']['photo'] = base_url() . PHOTO_URL . $viewData['viewMember']['idx'];
+    } elseif (!empty($viewData['viewMember']['icon_thumbnail'])) {
+      $viewData['viewMember']['photo'] = $viewData['viewMember']['icon_thumbnail'];
     } else {
       $viewData['viewMember']['photo'] = base_url() . 'public/images/noimage.png';
     }
