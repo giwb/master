@@ -423,7 +423,6 @@ class Login extends CI_Controller
     }
 
     // POST 형식으로 토큰값 받아오기
-/*
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, 'https://kauth.kakao.com/oauth/token');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -431,7 +430,7 @@ class Login extends CI_Controller
     curl_setopt($ch, CURLOPT_POSTFIELDS, 'grant_type=authorization_code&client_id=' . API_KAKAO . '&redirect_uri=' . API_KAKAO_URL . 'code=' . $code);
     $response = curl_exec($ch);
     curl_close($ch);
-*/
+
     // 세션 제거
     $this->session->unset_userdata('OAuthState');
 

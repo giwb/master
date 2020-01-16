@@ -216,4 +216,4 @@ define('COOKIE_STRAGE_PERIOD', 60 * 60 * 24 * 30 * 12);
 
 // API
 defined('API_KAKAO') OR define('API_KAKAO', 'ac8c155b86aa3885c643ba50a7cd4442');
-defined('API_KAKAO_URL') OR define('API_KAKAO_URL', base_url() . 'login/kakao');
+defined('API_KAKAO_URL') OR define('API_KAKAO_URL', 'login/kakao');
