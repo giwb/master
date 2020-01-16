@@ -390,7 +390,7 @@ class Login extends CI_Controller
     $provider = html_escape($this->input->get('provider'));
     $state = md5('TRIPKOREA_' . time());
 
-    // 세션 저장
+    // OAuth State 세션 저장
     $this->session->set_userdata('OAuthState', $state);
 
     switch ($provider) {
@@ -413,7 +413,7 @@ class Login extends CI_Controller
     $code = html_escape($this->input->get('code'));
     $state = html_escape($this->input->get('state'));
 
-    // 세션 불러오기
+    // OAuth State 세션 불러오기
     $OAuthState = $this->session->userdata('OAuthState');
 
     // 리턴값이 정상이고 세션값이 일치하면 통과
@@ -431,10 +431,26 @@ class Login extends CI_Controller
     $response = curl_exec($ch);
     curl_close($ch);
 
-    // 세션 제거
+    // OAuth State 세션 제거
     $this->session->unset_userdata('OAuthState');
 
-    print_r($response);
+    // OAuth Access Token 세션 저장
+    $accessToken = array(
+      'response' => json_decode($response, TRUE),
+      'created' => time()
+    );
+    $this->session->set_userdata('OAuthAccessToken', $accessToken);
+
+    // 사용자 정보 받아오기
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'https://kapi.kakao.com/v1/user/me');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_POST, TRUE);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: Bearer ' . $accessToken['response']['access_token']));
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    print_r(json_decode($response, TRUE));
   }
 
   /**
