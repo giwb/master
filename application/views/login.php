@@ -32,7 +32,7 @@
           </form>
           <?php if ($_SERVER['REMOTE_ADDR'] == '49.166.0.82'): ?>
           <div class="text-center mt-5">
-            <a target="_blank" href="<?=base_url()?>login/oauth/?provider=kakao"><img src="https://developers.kakao.com/assets/img/about/logos/kakaologin/kr/kakao_account_login_btn_medium_narrow.png"></a>
+            <a href="<?=base_url()?>login/oauth/?provider=kakao&redirectUrl=<?=$redirect_url?>"><img src="https://developers.kakao.com/assets/img/about/logos/kakaologin/kr/kakao_account_login_btn_medium_narrow.png"></a>
           </div>
           <?php endif; ?>
         </div>

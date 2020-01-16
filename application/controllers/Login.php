@@ -388,10 +388,14 @@ class Login extends CI_Controller
   public function oauth()
   {
     $provider = html_escape($this->input->get('provider'));
+    $redirectUrl = html_escape($this->input->get('redirectUrl'));
     $state = md5('TRIPKOREA_' . time());
 
     // OAuth State 세션 저장
     $this->session->set_userdata('OAuthState', $state);
+
+    // Redirect Url 세션 저장
+    $this->session->set_userdata('redirectUrl', $redirectUrl);
 
     switch ($provider) {
       case 'kakao':
@@ -443,14 +447,77 @@ class Login extends CI_Controller
 
     // 사용자 정보 받아오기
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'https://kapi.kakao.com/v1/user/me');
+    curl_setopt($ch, CURLOPT_URL, 'https://kapi.kakao.com/v2/user/me');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($ch, CURLOPT_POST, TRUE);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: Bearer ' . $accessToken['response']['access_token']));
     $response = curl_exec($ch);
     curl_close($ch);
+    $response = json_decode($response, TRUE);
+print_r($response);
+exit;
+    // 신규 사용자인지 확인
+    $userData = $this->member_model->checkOAuthUser(PROVIDER_KAKAO, $response['kaccount_email']);
 
-    print_r(json_decode($response, TRUE));
+    if (empty($userData)) {
+      // 신규 사용자는 가입
+      $insertValues = array(
+        'provider'      => PROVIDER_KAKAO,
+        'userid'        => $response['kaccount_email'],
+        'email'         => $response['kaccount_email'],
+        'nickname'      => $response['nickname'],
+        'realname'      => $response['nickname'],
+        'password'      => md5($response['kaccount_email'] . $response['nickname'] . time()),
+        //'gender'        => html_escape($inputData['gender']),
+        //'birthday'      => html_escape($inputData['birthday_year']) . '/' . html_escape($inputData['birthday_month']) . '/' . html_escape($inputData['birthday_day']),
+        //'birthday_type' => html_escape($inputData['birthday_type']),
+        //'phone'         => html_escape($inputData['phone1']) . '-' . html_escape($inputData['phone2']) . '-' . html_escape($inputData['phone3']),
+        //'location'      => html_escape($inputData['location']),
+        'connect'       => 1,
+        'regdate'       => $now
+      );
+
+      $idx = $this->member_model->insertMember($insertValues);
+
+      if (empty($idx)) {
+        $result = array(
+          'error' => 1,
+          'message' => '등록에 실패했습니다.'
+        );
+      } else {
+        // 사진 등록
+        if (!empty($inputData['filename']) && file_exists(UPLOAD_PATH . $inputData['filename'])) {
+          // 파일 이동
+          rename(UPLOAD_PATH . html_escape($inputData['filename']), PHOTO_PATH . $idx);
+        }
+
+        // 회원 가입 기록
+        setHistory(LOG_ENTRY, $idx, $userid, $nickname, '', $now);
+
+        $result = array('error' => 0, 'message' => '');
+      }
+    } else {
+      // 기존 사용자는 로그인
+      $rescount = $this->admin_model->cntMemberReservation($userData['userid']);
+      $updateValues['rescount'] = $rescount['cnt']; // 예약 횟수 갱신 (회원 레벨 체크를 위해)
+      $updateValues['connect'] = $userData['connect'] + 1;
+      $updateValues['lastdate'] = time();
+
+      $this->member_model->updateMember($updateValues, $userData['clubIdx'], $userData['idx']);
+
+      // 세션 저장
+      $this->session->set_userdata('userData', $userData);
+    }
+
+    // Redirect Url
+    $redirectUrl = $this->session->userdata('redirectUrl');
+
+    if (!empty($redirectUrl)) {
+      $this->session->unset_userdata('redirectUrl');
+      redirect($redirectUrl);
+    } else {
+      redirect(base_url());
+    }
   }
 
   /**

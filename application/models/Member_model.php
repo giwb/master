@@ -269,5 +269,16 @@ class Member_model extends CI_Model
     $this->db->where('idx', $idx);
     return $this->db->update(DB_VISITOR);
   }
+
+  // OAuth User Check
+  public function checkOAuthUser($provider, $email)
+  {
+    $this->db->select('*')
+          ->from(DB_MEMBER)
+          ->where('provider', $provider)
+          ->where('email', $email)
+          ->where('quitdate', NULL);
+    return $this->db->get()->row_array(1);
+  }
 }
 ?>

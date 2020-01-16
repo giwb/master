@@ -214,6 +214,12 @@ defined('REACTION_TYPE_NOTICE')  OR define('REACTION_TYPE_NOTICE', 2);
 // 쿠키 시간 (1년)
 define('COOKIE_STRAGE_PERIOD', 60 * 60 * 24 * 30 * 12);
 
+// Providr
+defined('PROVIDER_NONE') OR define('PROVIDER_NONE', 0);
+defined('PROVIDER_KAKAO') OR define('PROVIDER_KAKAO', 1);
+defined('PROVIDER_NAVER') OR define('PROVIDER_NAVER', 2);
+defined('PROVIDER_GMAIL') OR define('PROVIDER_GMAIL', 3);
+
 // API
 defined('API_KAKAO') OR define('API_KAKAO', 'ac8c155b86aa3885c643ba50a7cd4442');
 defined('API_KAKAO_URL') OR define('API_KAKAO_URL', 'login/kakao');
