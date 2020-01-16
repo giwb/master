@@ -1,8 +1,11 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
       <div id="shop" class="club-main">
-        <div class="border-bottom"><h3>구매대행 상품</h3></div>
-        <div class="sub-content">
+        <div class="row align-items-center pb-3">
+          <div class="col-6 col-sm-9"><h3 class="m-0 p-0">구매대행 상품 - 구매완료</h3></div>
+          <div class="col-6 col-sm-3 text-right"><a href="<?=base_url()?>club/shop/<?=$clubIdx?>"><button type="button" class="btn btn-sm btn-cart">상품 보기</button></a></div>
+        </div>
+        <div class="sub-content border-top">
           <div class="m-3 p-5 text-center">
             <h2 class="text-info">구매해 주셔서 감사합니다!</h2>
           </div>

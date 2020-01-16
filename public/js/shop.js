@@ -1,30 +1,26 @@
 $(document).on('click', '.shop-item', function() {
   // 용품 상세 페이지
   location.href = ( $('input[name=baseUrl]').val() + 'club/shop_item/' + $('input[name=clubIdx]').val() + '?n=' + $(this).data('idx') );
-}).on('click', '.btn-cart', function() {
+}).on('click', '.btn-cart-insert', function() {
   // 장바구니에 담기
   var $btn = $(this);
-  var baseUrl = $('input[name=baseUrl]').val();
-  var clubIdx = $('input[name=clubIdx]').val();
-  var idx = $(this).data('idx');
-  var amount = $('select[name=amount]').val();
-  var buy_type = $(this).data('type');
-  var item_option = $('.item-option').val();
+  var $dom = $('#shopForm');
+  var formData = new FormData($dom[0]);
+  var amount = $('.area-option .item-amount').val();
+  var type = $(this).data('type');
 
-  if (typeof item_option != 'undefined') {
-    if (item_option == '') {
-      $.openMsgModal('옵션은 꼭 선택해주세요.');
-      return false;
-    }
-    var data = 'idx=' + idx + '&amount=' + amount + '&item_option=' + item_option + '&buy_type=' + buy_type;
-  } else {
-    item_option = '';
-    var data = 'idx=' + idx + '&amount=' + amount + '&buy_type=' + buy_type;
+  if (typeof amount == 'undefined') {
+    $.openMsgModal('옵션은 꼭 선택해주세요.');
+    return false;
   }
 
+  formData.append('type', type);
+
   $.ajax({
-    url: baseUrl + 'club/shop_cart_insert/' + clubIdx,
-    data: data,
+    url: $dom.attr('action'),
+    processData: false,
+    contentType: false,
+    data: formData,
     dataType: 'json',
     type: 'post',
     beforeSend: function() {
@@ -40,12 +36,13 @@ $(document).on('click', '.shop-item', function() {
     }
   });
 }).on('change', '.item-option', function() {
-  // 가격 변경
+  // 옵션 선택
   var $dom = $(this);
-  var addedPrice = $('option:selected', $dom).data('added-price')
-  var addedCost  = $('option:selected', $dom).data('added-cost')
-  if (typeof addedPrice != 'undefined' && addedPrice != 0) $('.item-price').text($.setNumberFormat(addedPrice));
-  if (typeof addedCost  != 'undefined' && addedCost  != 0) $('.item-cost').text($.setNumberFormat(addedCost));
+  var option = '<div class="row align-items-center border ml-0 mr-0 mb-2 pt-2 pb-2"><div class="col-3"><select name="amount[]" class="item-amount form-control form-control-sm pl-1 pr-0"><option value="1">1개</option><option value="2">2개</option><option value="3">3개</option><option value="4">4개</option><option value="5">5개</option><option value="6">6개</option><option value="7">7개</option><option value="8">8개</option><option value="9">9개</option><option value="10">10개</option></select></div><div class="col-9">';
+  option += $('option:selected', $dom).text() + '<input type="hidden" name="option[]" value="' + $('option:selected', $dom).val() + '"></div></div>';
+  $('.area-option').append(option);
+  $('option:selected', $dom).remove();
+  $dom.val('');
 }).on('change', '.cart-amount', function() {
   // 수량 변경
   var $dom = $(this);

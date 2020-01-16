@@ -2160,6 +2160,7 @@ h1.nav-logo small {
 #album .album-item .ajax-loader { position: absolute; top: 45px; left: 80px; z-index: 1000; }
 
 /* 용품판매 */
+#shop .area-notice { display: none; }
 #shop .shop-item { border: 1px solid #d9d9d9; border-radius: 10px; padding: 20px 0; cursor: pointer; }
 #shop .shop-item:hover { box-shadow: #ddd 3px 3px 3px; }
 #shop .shop-item img { max-height: 150px; }
@@ -2170,9 +2171,10 @@ h1.nav-logo small {
 #shop .item-content h4 { color: #505050; border: 1px solid #999; border-width: 1px 0 1px 0; background-color: #ddd; padding: 10px; }
 #shop .area-cost { font-size: 23px; color: #FF6C00; }
 #shop .area-cost .discount { font-size: 12px; font-weight: normal; color: brown; }
-#shop .btn-cart { color: #FF6C00; background-color: #fff; border-color: #FF6C00; }
+#shop .btn-cart, #shop .btn-cart-insert { color: #FF6C00; background-color: #fff; border-color: #FF6C00; }
+#shop .btn-cart:hover, #shop .btn-cart-insert:hover { color: #ED1B24; border-color: #ED1B24; }
 #shop .btn-buy { color: #fff; background-color: #FF6C00; border-color: #FF6C00; }
-#shop .btn:hover { opacity: 0.9; }
+#shop .btn-buy:hover { color: #fff; background-color: #FF9140; border-color: #FF9140; }
 #shop .row-category { border-top: 3px solid #FF6C00; }
 #shop .row-category a { color: #333; display: block; }
 #shop .row-category a:hover, #shop .row-category a.active { color: #000; background-color: #F0AA94; }
@@ -2186,7 +2188,7 @@ h1.nav-logo small {
 @media only screen and (max-width: 800px) {
   /*.ad-sp { display: block; margin: 0 0 20px 0; }*/
 
-  #club { padding-top: 70px; }
+  #club { padding-top: 75px; }
   #club .club-left, #club .club-right { display: none; }
   #club .club-main { width: 100%; flex: auto; -webkit-flex: auto; display: block; margin: 0px; }
   #club .sub-contents h2 { font-size: 18px; padding: 10px 0 20px; }
@@ -2259,4 +2261,7 @@ h1.nav-logo small {
   #club .club-main .story-reply .btn-post-reply { font-size: 12px; white-space: nowrap; }
 
   #album .album-item .ajax-loader { position: absolute; top: 38%; left: 43%; z-index: 1000; }
+
+  #shop .btn-cart { font-size: 12px; }
+  #shop .btn-buy { font-size: 12px; }
 }

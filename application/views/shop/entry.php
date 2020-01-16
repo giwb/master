@@ -84,8 +84,8 @@
               </div>
             </div>
             <div class="row align-items-center mb-2">
-              <div class="col-sm-1 font-weight-bold">추천</div>
-              <div class="col-sm-11"><label><input type="checkbox" name="item_recommend" value="Y"<?=!empty($view['item_recommend']) && $view['item_recommend'] == 'Y' ? ' checked' : ''?>> 추천 상품으로 등록</label></div>
+              <div class="col-sm-1 font-weight-bold">인기상품</div>
+              <div class="col-sm-11"><label><input type="checkbox" name="item_recommend" value="Y"<?=!empty($view['item_recommend']) && $view['item_recommend'] == 'Y' ? ' checked' : ''?>> 인기상품으로 등록</label></div>
             </div>
             <div class="text-center mt-5 mb-5 pb-5">
               <button type="button" class="btn btn-primary btn-item-entry"><?=empty($view['idx']) ? '등록합니다' : '수정합니다'?></button>

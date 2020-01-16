@@ -233,8 +233,13 @@ class Club extends MY_Controller
     $viewData['search'] = array(
       'item_name' => !empty($this->input->get('k')) ? html_escape($this->input->get('k')) : NULL,
       'item_category1' => !empty($this->input->get('c')) ? html_escape($this->input->get('c')) : NULL,
-      'item_recommend' => 'Y',
     );
+
+    if (empty($viewData['search']['item_category1'])) {
+      // 카테고리 지정을 안했다면 인기상품만 보여주기
+      $viewData['search']['item_recommend'] = 'Y';
+    }
+
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
     $paging['perPage'] = $viewData['perPage'] = 20;
@@ -411,42 +416,49 @@ class Club extends MY_Controller
   {
     $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
-    $code = $idx = html_escape($this->input->post('idx'));
-    $amount = html_escape($this->input->post('amount'));
-    $itemOption = html_escape($this->input->post('item_option'));
-    $buyType = html_escape($this->input->post('buy_type'));
+    $postData = $this->input->post();
     $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
 
+    $idx = $code = html_escape($postData['idx']);
+    $amount = html_escape($postData['amount']);
+    $option = !empty($postData['option']) ? html_escape($postData['option']) : NULL;
+    $type = html_escape($postData['type']);
+
     if (!empty($idx)) {
+      // 상품 정보
       $view = $this->shop_model->viewItem($idx);
 
+      // 옵션
       $itemOptions = unserialize($view['item_option']);
-      foreach ($itemOptions as $key => $option) {
-        if ($itemOption == $key) {
-          $view['item_option_check'] = true;
-          if (!empty($option['item_option'])) $view['item_option'] = $option['item_option'];
-          if (!empty($option['added_price'])) $view['item_price'] = $option['added_price'];
-          if (!empty($option['added_cost'])) $view['item_cost'] = $option['added_cost'];
-          $code .= '_' . $key;
-        }
-      }
 
       // 장바구니에 담기
-      $cartItem = array(
-        'id'    => $code, // 상품번호
-        'qty'   => $amount, // 개수
-        'price' => $view['item_cost'], // 가격
-        'name'  => time(),
-        'options' => array('item_price' => $view['item_price'])
-      );
+      foreach ($amount as $key => $value) {
+        foreach ($itemOptions as $cnt => $op) {
+          if ($option[$key] == $cnt) {
+            $view['item_option_check'] = true;
+            if (!empty($op['item_option'])) $view['item_option'] = $op['item_option'];
+            if (!empty($op['added_price'])) $view['item_price'] = $op['added_price'];
+            if (!empty($op['added_cost']))  $view['item_cost'] = $op['added_cost'];
+            $code .= '_' . $cnt;
+          }
+        }
 
-      if (!empty($view['item_option_check'])) {
-        $cartItem['options']['item_option'] = $view['item_option'];
+        $cartItem = array(
+          'id'    => $code, // 상품번호
+          'qty'   => $value, // 개수
+          'price' => $view['item_cost'], // 가격
+          'name'  => time(),
+          'options' => array('item_price' => $view['item_price'])
+        );
+
+        if (!empty($view['item_option_check'])) {
+          $cartItem['options']['item_option'] = $view['item_option'];
+        }
+
+        $rtn = $this->cart->insert($cartItem);
       }
 
-      $rtn = $this->cart->insert($cartItem);
-
-      if ($buyType == 'cart') {
+      if ($type == 'cart') {
         $url = base_url() . 'club/shop_cart/' . $clubIdx;
       } else {
         $url = base_url() . 'club/shop_checkout/' . $clubIdx;

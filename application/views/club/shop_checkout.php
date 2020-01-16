@@ -1,8 +1,11 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
       <div id="shop" class="club-main">
-        <div class="border-bottom"><h3>구매대행 상품</h3></div>
-        <div class="sub-content">
+        <div class="row align-items-center pb-3">
+          <div class="col-6 col-sm-9"><h3 class="m-0 p-0">구매대행 상품 - 구매진행</h3></div>
+          <div class="col-6 col-sm-3 text-right"><a href="<?=base_url()?>club/shop_cart/<?=$clubIdx?>"><button type="button" class="btn btn-sm btn-cart">장바구니 보기</button></a></div>
+        </div>
+        <div class="sub-content border-top">
           <form id="formCheckout" method="post" action="<?=base_url()?>club/shop_insert">
             <input type="hidden" name="userPoint" value="<?=!empty($userData['point']) ? $userData['point'] : 0?>">
             <input type="hidden" name="totalCost" value="<?=!empty($total_cost) ? $total_cost : 0?>">
