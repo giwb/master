@@ -387,8 +387,11 @@ class Login extends CI_Controller
    **/
   public function kakao()
   {
-print_r($_GET);
-print_r($_POST);
+    $code = html_escape($this->input->get('code'));
+print_r($_SESSION)
+    if (!empty($code)) {
+
+    }
   }
 
   /**
