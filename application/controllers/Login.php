@@ -414,6 +414,7 @@ class Login extends CI_Controller
    **/
   public function kakao()
   {
+    $clubIdx = 1;
     $code = html_escape($this->input->get('code'));
     $state = html_escape($this->input->get('state'));
 
@@ -454,49 +455,33 @@ class Login extends CI_Controller
     $response = curl_exec($ch);
     curl_close($ch);
     $response = json_decode($response, TRUE);
-echo "<pre>";
-print_r($response);
-exit;
+
     // 신규 사용자인지 확인
-    $userData = $this->member_model->checkOAuthUser(PROVIDER_KAKAO, $response['email']);
+    $userData = $this->member_model->checkOAuthUser(PROVIDER_KAKAO, $response['kakao_account']['email']);
 
     if (empty($userData)) {
       // 신규 사용자는 가입
       $insertValues = array(
         'provider'      => PROVIDER_KAKAO,
-        'userid'        => $response['kaccount_email'],
-        'email'         => $response['kaccount_email'],
-        'nickname'      => $response['nickname'],
-        'realname'      => $response['nickname'],
-        'password'      => md5($response['kaccount_email'] . $response['nickname'] . time()),
-        //'gender'        => html_escape($inputData['gender']),
-        //'birthday'      => html_escape($inputData['birthday_year']) . '/' . html_escape($inputData['birthday_month']) . '/' . html_escape($inputData['birthday_day']),
-        //'birthday_type' => html_escape($inputData['birthday_type']),
-        //'phone'         => html_escape($inputData['phone1']) . '-' . html_escape($inputData['phone2']) . '-' . html_escape($inputData['phone3']),
-        //'location'      => html_escape($inputData['location']),
+        'userid'        => $response['kakao_account']['email'],
+        'email'         => $response['kakao_account']['email'],
+        'nickname'      => $response['kakao_account']['profile']['nickname'],
+        'realname'      => $response['kakao_account']['profile']['nickname'],
+        'password'      => md5($response['id'] . time()),
+        'gender'        => !empty($response['kakao_account']['gender']) && $response['kakao_account']['gender'] == 'male' ? 'M' : 'F',
+        'birthday'      => !empty($response['kakao_account']['birthday']) ? $response['kakao_account']['birthday'] : NULL,
+        'birthday_type' => !empty($response['kakao_account']['birthday_type']) && $response['kakao_account']['birthday_type'] == 'SOLAR' ? '1' : '2',
+        'icon'          => !empty($response['kakao_account']['profile']['profile_image_url']) ? $response['kakao_account']['profile']['profile_image_url'] : NULL,
+        'icon_thumbnail' => !empty($response['kakao_account']['profile']['thumbnail_image_url']) ? $response['kakao_account']['profile']['thumbnail_image_url'] : NULL,
         'connect'       => 1,
         'regdate'       => $now
       );
 
       $idx = $this->member_model->insertMember($insertValues);
 
-      if (empty($idx)) {
-        $result = array(
-          'error' => 1,
-          'message' => '등록에 실패했습니다.'
-        );
-      } else {
-        // 사진 등록
-        if (!empty($inputData['filename']) && file_exists(UPLOAD_PATH . $inputData['filename'])) {
-          // 파일 이동
-          rename(UPLOAD_PATH . html_escape($inputData['filename']), PHOTO_PATH . $idx);
-        }
-
-        // 회원 가입 기록
-        setHistory(LOG_ENTRY, $idx, $userid, $nickname, '', $now);
-
-        $result = array('error' => 0, 'message' => '');
-      }
+      // 세션 저장
+      $userData = $this->member_model->viewMember($clubIdx, $idx);
+      $this->session->set_userdata('userData', $userData);
     } else {
       // 기존 사용자는 로그인
       $rescount = $this->admin_model->cntMemberReservation($userData['userid']);
