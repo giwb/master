@@ -116,6 +116,31 @@ class Admin_model extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  // 산행 공지사항 목록
+  public function listNoticeDetail($idx)
+  {
+    $this->db->select('idx, title, content')
+          ->from(DB_NOTICE_DETAIL)
+          ->where('notice_idx', $idx)
+          ->order_by('sort_idx', 'asc');
+    return $this->db->get()->result_array();
+  }
+
+  // 산행 공지사항 등록
+  public function insertNoticeDetail($data)
+  {
+    $this->db->insert(DB_NOTICE_DETAIL, $data);
+    return $this->db->insert_id();
+  }
+
+  // 산행 공지사항 수정
+  public function updateNoticeDetail($data, $idx)
+  {
+    $this->db->set($data);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_NOTICE_DETAIL);
+  }
+
   // 회원 예약 목록
   public function listReserve($paging, $nickname)
   {

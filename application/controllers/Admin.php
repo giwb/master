@@ -1149,13 +1149,51 @@ class Admin extends Admin_Controller
    **/
   public function main_notice($idx=NULL)
   {
-    if (is_null($idx)) exit;
-
-    // 산행 정보
-    $viewData['view'] = $this->admin_model->viewEntry(html_escape($idx));
+    if (is_null($idx)) exit; else $idx = html_escape($idx);
 
     // 산행 목록
     $viewData['listNotice'] = $this->admin_model->listNotice(NULL, 'desc');
+
+foreach ($viewData['listNotice'] as $value) {
+  echo $value['idx'] . "<br>";
+  $sort = 1;
+  if (!empty($value['plan'])) {
+    $insertValues = array('notice_idx' => $value['idx'], 'sort_idx' => $sort, 'title' => '기획의도', 'content' => $value['plan'], 'created_by' => 1, 'created_at' => $value['regdate']);
+    $this->admin_model->insertNoticeDetail($insertValues);
+    $sort++;
+  }
+  if (!empty($value['point'])) {
+    $insertValues = array('notice_idx' => $value['idx'], 'sort_idx' => $sort, 'title' => '산행개요', 'content' => $value['point'], 'created_by' => 1, 'created_at' => $value['regdate']);
+    $this->admin_model->insertNoticeDetail($insertValues);
+    $sort++;
+  }
+  if (!empty($value['intro'])) {
+    $insertValues = array('notice_idx' => $value['idx'], 'sort_idx' => $sort, 'title' => '산행지 소개', 'content' => $value['intro'], 'created_by' => 1, 'created_at' => $value['regdate']);
+    $this->admin_model->insertNoticeDetail($insertValues);
+    $sort++;
+  }
+  if (!empty($value['timetable'])) {
+    $insertValues = array('notice_idx' => $value['idx'], 'sort_idx' => $sort, 'title' => '일정안내', 'content' => $value['timetable'], 'created_by' => 1, 'created_at' => $value['regdate']);
+    $this->admin_model->insertNoticeDetail($insertValues);
+    $sort++;
+  }
+  if (!empty($value['information'])) {
+    $insertValues = array('notice_idx' => $value['idx'], 'sort_idx' => $sort, 'title' => '산행안내', 'content' => $value['information'], 'created_by' => 1, 'created_at' => $value['regdate']);
+    $this->admin_model->insertNoticeDetail($insertValues);
+    $sort++;
+  }
+  if (!empty($value['course'])) {
+    $insertValues = array('notice_idx' => $value['idx'], 'sort_idx' => $sort, 'title' => '코스안내', 'content' => $value['course'], 'created_by' => 1, 'created_at' => $value['regdate']);
+    $this->admin_model->insertNoticeDetail($insertValues);
+    $sort++;
+  }
+}
+exit;
+    // 산행 정보 (구버젼)
+    $viewData['view'] = $this->admin_model->viewEntry($idx);
+
+    // 산행 정보 (신버젼)
+    $viewData['listNoticeDetail'] = $this->admin_model->listNoticeDetail($idx);
 
     $this->_viewPage('admin/main_notice', $viewData);
   }

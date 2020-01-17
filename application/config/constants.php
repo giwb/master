@@ -103,6 +103,7 @@ defined('DB_HISTORY')     OR define('DB_HISTORY', 'giwb_history');
 defined('DB_MEMBER')      OR define('DB_MEMBER', 'giwb_member');
 defined('DB_MTDB')        OR define('DB_MTDB', 'giwb_mtdb');
 defined('DB_NOTICE')      OR define('DB_NOTICE', 'giwb_notice');
+defined('DB_NOTICE_DETAIL') OR define('DB_NOTICE_DETAIL', 'giwb_notice_detail');
 defined('DB_RESERVATION') OR define('DB_RESERVATION', 'giwb_reservation');
 defined('DB_SCHEDULE')    OR define('DB_SCHEDULE', 'giwb_schedule');
 defined('DB_SHOP')        OR define('DB_SHOP', 'giwb_shop');
