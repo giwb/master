@@ -117,13 +117,24 @@ class Admin_model extends CI_Model
   }
 
   // 산행 공지사항 목록
-  public function listNoticeDetail($idx)
+  public function listNoticeDetail($noticeIdx)
   {
     $this->db->select('idx, title, content')
           ->from(DB_NOTICE_DETAIL)
-          ->where('notice_idx', $idx)
+          ->where('notice_idx', $noticeIdx)
+          ->where('deleted_at', NULL)
           ->order_by('sort_idx', 'asc');
     return $this->db->get()->result_array();
+  }
+
+  // 산행 공지사항 보기
+  public function viewNoticeDetail($idx)
+  {
+    $this->db->select('idx, title, content')
+          ->from(DB_NOTICE_DETAIL)
+          ->where('idx', $idx)
+          ->where('deleted_at', NULL);
+    return $this->db->get()->row_array(1);
   }
 
   // 산행 공지사항 등록

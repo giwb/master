@@ -1190,10 +1190,10 @@ foreach ($viewData['listNotice'] as $value) {
 }
 exit;
 */
-    // 산행 정보 (구버젼)
+    // 산행 정보 상세
     $viewData['view'] = $this->admin_model->viewEntry($idx);
 
-    // 산행 정보 (신버젼)
+    // 산행 공지사항
     $viewData['listNoticeDetail'] = $this->admin_model->listNoticeDetail($idx);
 
     $this->_viewPage('admin/main_notice', $viewData);
@@ -1208,40 +1208,51 @@ exit;
   public function main_notice_update()
   {
     $now = time();
-    $postData = array();
-    $idx = html_escape($this->input->post('idx'));
+    $userIdx = html_escape($this->session->userData['idx']);
+    $inputData = $this->input->post();
+    $noticeIdx = html_escape($inputData['noticeIdx']);
 
-    if (!empty($idx)) {
-/*
-      if (!empty($_FILES['photo']['tmp_name']) && $_FILES['photo']['type'] == 'image/jpeg') {
-        $postData['photo'] = $now . mt_rand(10000, 99999) . ".jpg";
-        move_uploaded_file($_FILES['photo']['tmp_name'], PHOTO_PATH . $postData['photo']);
+    if (!empty($noticeIdx)) {
+      foreach ($inputData['title'] as $key => $value) {
+        $idx = html_escape($inputData['idx'][$key]);
+        if (!empty($idx)) {
+          // 수정
+          $updateValues = array(
+            'sort_idx' => $key + 1,
+            'title' => $value,
+            'content' => html_escape($inputData['content'][$key]),
+            'updated_by' => $userIdx,
+            'updated_at' => $now
+          );
+          $this->admin_model->updateNoticeDetail($updateValues, $idx);
+        } else {
+          // 등록
+          $insertValues = array(
+            'notice_idx' => $noticeIdx,
+            'sort_idx' => $key + 1,
+            'title' => html_escape($value),
+            'content' => html_escape($inputData['content'][$key]),
+            'created_by' => $userIdx,
+            'created_at' => $now
+          );
+          $this->admin_model->insertNoticeDetail($insertValues);
+        }
       }
 
-      if (!empty($_FILES['map']['tmp_name']) && $_FILES['map']['type'] == 'image/jpeg') {
-        $postData['map'] = $now . mt_rand(10000, 99999) . ".jpg";
-        move_uploaded_file($_FILES['map']['tmp_name'], PHOTO_PATH . $postData['map']);
+      // 삭제
+      $listNoticeDetail = $this->admin_model->listNoticeDetail($noticeIdx);
+      foreach ($listNoticeDetail as $value) {
+        if (!in_array($value['idx'], $inputData['idx'])) {
+          $updateValues = array(
+            'deleted_by' => $userIdx,
+            'deleted_at' => $now
+          );
+          $this->admin_model->updateNoticeDetail($updateValues, $value['idx']);
+        }
       }
-*/
-      $postData = array(
-        'plan'        => html_escape($this->input->post('plan')),         // 기획의도
-        'point'       => html_escape($this->input->post('point')),        // 핵심안내
-        'timetable'   => html_escape($this->input->post('timetable')),    // 타임테이블
-        'information' => html_escape($this->input->post('information')),  // 산행안내
-        'course'      => html_escape($this->input->post('course')),       // 산행코스안내
-        'intro'       => html_escape($this->input->post('intro')),        // 산행지 소개
-      );
+    }
 
-      $rtn = $this->admin_model->updateEntry($postData, $idx);
-    }
-/*
-    if (!$rtn) {
-      $result = array('error' => 1, 'message' => '에러가 발생했습니다.');
-    } else {
-      $result = array('error' => 0, 'message' => '');
-    }
-*/
-    redirect('/admin/main_notice/' . $idx);
+    redirect('/admin/main_notice/' . $noticeIdx);
   }
 
   /**

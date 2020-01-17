@@ -24,63 +24,45 @@
         <?php endif;?>
       </div>
     </div>
-    <form id="myForm" method="post" action="<?=base_url()?>admin/main_notice_update" enctype="multipart/form-data">
-      <input type="hidden" name="idx" value="<?=$view['idx']?>">
-      <input type="hidden" name="notice" value="1">
+    <form id="myForm" method="post" action="<?=base_url()?>admin/main_notice_update" enctype="multipart/form-data" class="mb-5 pb-5">
+      <input type="hidden" name="noticeIdx" value="<?=$view['idx']?>">
       <div class="row align-items-center">
         <div class="col-sm-9">
           <h4>■ 산행 공지</h4>
         </div>
         <div class="col-sm-3 pb-2 text-right">
+          <!--
           <select class="form-control form-control-sm search-notice">
             <option value="">▼ 다른 산행 공지 불러오기</option>
             <?php foreach ($listNotice as $value): ?>
             <option value='<?=$value['idx']?>'><?=$value['subject']?></option>
             <?php endforeach; ?>
           </select>
+          -->
         </div>
       </div>
       <div class="row align-items-center border-top mt-3 pt-3">
         <div class="col-sm-1 font-weight-bold">산행 제목</div>
         <div class="col-sm-11"><?=$view['subject']?></div>
       </div>
-      <div class="row align-items-center border-top mt-3 pt-3">
-        <div class="col-sm-1 font-weight-bold">기획의도</div>
-        <div class="col-sm-11"><textarea name="plan" id="plan" rows="10" cols="100"><?=$view['plan']?></textarea></div>
-      </div>
-      <div class="row align-items-center border-top mt-3 pt-3">
-        <div class="col-sm-1 font-weight-bold">산행개요</div>
-        <div class="col-sm-11"><textarea name="point" id="point" rows="10" cols="100"><?=$view['point']?></textarea></div>
-      </div>
-      <div class="row align-items-center border-top mt-3 pt-3">
-        <div class="col-sm-1 font-weight-bold">산행지 소개</div>
-        <div class="col-sm-11"><textarea name="intro" id="intro" rows="10" cols="100"><?=$view['intro']?></textarea></div>
-      </div>
-      <div class="row align-items-center border-top mt-3 pt-3">
-        <div class="col-sm-1 font-weight-bold">일정안내</div>
-        <div class="col-sm-11"><textarea name="timetable" id="timetable" rows="10" cols="100"><?=$view['timetable']?></textarea></div>
-      </div>
-      <div class="row align-items-center border-top mt-3 pt-3">
-        <div class="col-sm-1 font-weight-bold">산행안내</div>
-        <div class="col-sm-11"><textarea name="information" id="information" rows="10" cols="100"><?=$view['information']?></textarea></div>
-      </div>
-      <div class="row align-items-center border-top mt-3 pt-3 mb-5 pb-5">
-        <div class="col-sm-1 font-weight-bold">코스안내</div>
-        <div class="col-sm-11"><textarea name="course" id="course" rows="10" cols="100"><?=$view['course']?></textarea></div>
+      <div id="sortable" class="area-notice">
+        <?php foreach ($listNoticeDetail as $key => $value): ?>
+        <div class="item-notice row align-items-center border-top mt-3 pt-3">
+          <div class="col-sm-2"><input type="hidden" name="idx[]" value="<?=$value['idx']?>"><input type="text" name="title[]" value="<?=$value['title']?>" class="form-control"></div>
+          <div class="col-sm-9"><textarea name="content[]" rows="10" cols="100" id="content_<?=$key?>" class="content"><?=$value['content']?></textarea></div>
+          <div class="col-sm-1"><button type="button" class="btn btn-danger btn-delete-notice pl-2 pr-2">삭제</button></div>
+        </div>
+        <?php endforeach; ?>
       </div>
       <div class="area-button">
-        <button type="submit" class="btn btn-primary">확인합니다</button>
+        <button type="button" class="btn btn-secondary btn-add-notice mr-2">항목 추가</button>
+        <button type="submit" class="btn btn-primary ml-2 mr-4">공지 저장</button>
       </div>
     </form>
 
     <script type="text/javascript">
-      CKEDITOR.replace('plan');
-      CKEDITOR.replace('point');
-      CKEDITOR.replace('intro');
-      CKEDITOR.replace('timetable');
-      CKEDITOR.replace('information');
-      CKEDITOR.replace('course');
-
+      CKEDITOR.replaceAll();
+      $('#sortable').disableSelection().sortable();
       $(document).on('change', '.search-notice', function() {
         $.ajax({
           url: $('input[name=base_url]').val() + 'admin/main_entry_notice',
@@ -88,7 +70,6 @@
           dataType: 'json',
           type: 'post',
           success: function(result) {
-            console.log(result);
             CKEDITOR.instances.plan.setData(result.plan);
             CKEDITOR.instances.point.setData(result.point);
             CKEDITOR.instances.intro.setData(result.intro);
@@ -97,5 +78,17 @@
             CKEDITOR.instances.course.setData(result.course);
           }
         });
+      }).on('click', '.btn-add-notice', function() {
+        // 항목 추가
+        var cnt = 0;
+        $('.content').each(function() { cnt++; });
+        var content = '<div class="item-notice row align-items-center border-top mt-3 pt-3"><div class="col-sm-1 font-weight-bold"><input type="text" name="title[]" class="form-control"></div><div class="col-sm-11"><textarea name="content[]" rows="10" cols="100" id="content_' + cnt + '" class="content"></textarea></div></div>';
+        $('.area-notice').append(content);
+        CKEDITOR.replace('content_' + cnt);
+        $('html, body').animate({ scrollTop: $(document).height() }, 800);
+      }).on('click', '.btn-delete-notice', function() {
+        // 항목 삭제
+        var html = '<div class="w-100 text-center">저장 후 삭제됩니다.</div>';
+        $(this).closest('.item-notice').animate({ height: 50 }, 'slow').html(html);
       });
     </script>

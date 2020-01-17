@@ -98,63 +98,24 @@ class Reserve extends MY_Controller
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
-    // 공지 정보
+    // 산행 공지
     $viewData['notice'] = $this->reserve_model->viewNotice($clubIdx, $noticeIdx);
 
-    $viewData['notice']['plan'] = reset_html_escape($viewData['notice']['plan']);
-    preg_match_all("/<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i", $viewData['notice']['plan'], $matches);
-    foreach ($matches[1] as $value) {
-      if (file_exists(BASE_PATH . $value)) {
-        $size = getImageSize(BASE_PATH . $value);
-        $viewData['notice']['plan'] = str_replace('src="' . $value, 'data-width="' . $size[0] . '" data-height="' . $size[1] . '" src="'. $value, $viewData['notice']['intro']);
+    // 산행 공지 상세
+    $viewData['listNoticeDetail'] = $this->reserve_model->listNoticeDetail($clubIdx, $noticeIdx);
+
+    foreach ($viewData['listNoticeDetail'] as $key => $notice) {
+      $viewData['listNoticeDetail'][$key]['content'] = reset_html_escape($notice['content']);
+      preg_match_all("/<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i", $notice['content'], $matches);
+      foreach ($matches[1] as $value) {
+        if (file_exists(BASE_PATH . $value)) {
+          $size = getImageSize(BASE_PATH . $value);
+          $viewData['listNoticeDetail'][$key]['content'] = str_replace('src="' . $value, 'data-width="' . $size[0] . '" data-height="' . $size[1] . '" src="'. $value, $notice['content']);
+        }
       }
     }
 
-    $viewData['notice']['point'] = reset_html_escape($viewData['notice']['point']);
-    preg_match_all("/<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i", $viewData['notice']['point'], $matches);
-    foreach ($matches[1] as $value) {
-      if (file_exists(BASE_PATH . $value)) {
-        $size = getImageSize(BASE_PATH . $value);
-        $viewData['notice']['point'] = str_replace('src="' . $value, 'data-width="' . $size[0] . '" data-height="' . $size[1] . '" src="'. $value, $viewData['notice']['intro']);
-      }
-    }
-
-    $viewData['notice']['intro'] = reset_html_escape($viewData['notice']['intro']);
-    preg_match_all("/<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i", $viewData['notice']['intro'], $matches);
-    foreach ($matches[1] as $value) {
-      if (file_exists(BASE_PATH . $value)) {
-        $size = getImageSize(BASE_PATH . $value);
-        $viewData['notice']['intro'] = str_replace('src="' . $value, 'data-width="' . $size[0] . '" data-height="' . $size[1] . '" src="'. $value, $viewData['notice']['intro']);
-      }
-    }
-
-    $viewData['notice']['timetable'] = reset_html_escape($viewData['notice']['timetable']);
-    preg_match_all("/<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i", $viewData['notice']['timetable'], $matches);
-    foreach ($matches[1] as $value) {
-      if (file_exists(BASE_PATH . $value)) {
-        $size = getImageSize(BASE_PATH . $value);
-        $viewData['notice']['timetable'] = str_replace('src="' . $value, 'data-width="' . $size[0] . '" data-height="' . $size[1] . '" src="'. $value, $viewData['notice']['timetable']);
-      }
-    }
-
-    $viewData['notice']['information'] = reset_html_escape($viewData['notice']['information']);
-    preg_match_all("/<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i", $viewData['notice']['information'], $matches);
-    foreach ($matches[1] as $value) {
-      if (file_exists(BASE_PATH . $value)) {
-        $size = getImageSize(BASE_PATH . $value);
-        $viewData['notice']['information'] = str_replace('src="' . $value, 'data-width="' . $size[0] . '" data-height="' . $size[1] . '" src="'. $value, $viewData['notice']['information']);
-      }
-    }
-
-    $viewData['notice']['course'] = reset_html_escape($viewData['notice']['course']);
-    preg_match_all("/<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i", $viewData['notice']['course'], $matches);
-    foreach ($matches[1] as $value) {
-      if (file_exists(BASE_PATH . $value)) {
-        $size = getImageSize(BASE_PATH . $value);
-        $viewData['notice']['course'] = str_replace('src="' . $value, 'data-width="' . $size[0] . '" data-height="' . $size[1] . '" src="'. $value, $viewData['notice']['course']);
-      }
-    }
-
+    // 댓글
     $cntReply = $this->story_model->cntStoryReply($clubIdx, $noticeIdx, REPLY_TYPE_NOTICE);
     $cntLike = $this->story_model->cntStoryReaction($clubIdx, $noticeIdx, REPLY_TYPE_NOTICE, REACTION_KIND_LIKE);
     $cntShare = $this->story_model->cntStoryReaction($clubIdx, $noticeIdx, REPLY_TYPE_NOTICE, REACTION_KIND_SHARE);

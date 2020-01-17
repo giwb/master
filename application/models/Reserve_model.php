@@ -333,5 +333,17 @@ class Reserve_model extends CI_Model
           ->where('a.idx', $idx);
     return $this->db->get()->row_array(1);
   }
+
+  // 산행 공지사항 목록
+  public function listNoticeDetail($clubIdx, $noticeIdx)
+  {
+    $this->db->select('idx, title, content')
+          ->from(DB_NOTICE_DETAIL)
+          ->where('club_idx', $clubIdx)
+          ->where('notice_idx', $noticeIdx)
+          ->where('deleted_at', NULL)
+          ->order_by('sort_idx', 'asc');
+    return $this->db->get()->result_array();
+  }
 }
 ?>
