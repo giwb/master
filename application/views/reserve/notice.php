@@ -11,10 +11,15 @@
             <div class="area-btn"><a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$notice['idx']?>"><button type="button" class="btn btn-primary">좌석보기</button></a></div>
           </div>
 
+          <?php if (empty($listNoticeDetail)): ?>
+          <div class="sub-header">산행안내</div>
+          <div class="sub-content pt-4 pb-4">▶ 산행 공지를 준비중에 있습니다.</div>
+          <?php else: ?>
           <?php foreach ($listNoticeDetail as $value): ?>
           <div class="sub-header"><?=$value['title']?></div>
           <div class="sub-content"><?=$value['content']?></div><br>
           <?php endforeach; ?>
+          <?php endif; ?>
 
           <div class="story-reaction">
             <button type="button" data-idx="<?=$notice['idx']?>" data-type="<?=REPLY_TYPE_NOTICE?>"><i class="fa fa-reply" aria-hidden="true"></i> 댓글 <span class="cnt-reply" data-idx="<?=$notice['idx']?>"><?=$notice['reply_cnt']?></span></button>
