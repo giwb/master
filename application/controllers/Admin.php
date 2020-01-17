@@ -1153,7 +1153,7 @@ class Admin extends Admin_Controller
 
     // 산행 목록
     $viewData['listNotice'] = $this->admin_model->listNotice(NULL, 'desc');
-
+/*
 foreach ($viewData['listNotice'] as $value) {
   echo $value['idx'] . "<br>";
   $sort = 1;
@@ -1189,6 +1189,7 @@ foreach ($viewData['listNotice'] as $value) {
   }
 }
 exit;
+*/
     // 산행 정보 (구버젼)
     $viewData['view'] = $this->admin_model->viewEntry($idx);
 
