@@ -105,12 +105,12 @@ class Reserve extends MY_Controller
     $viewData['listNoticeDetail'] = $this->reserve_model->listNoticeDetail($clubIdx, $noticeIdx);
 
     foreach ($viewData['listNoticeDetail'] as $key => $notice) {
-      $viewData['listNoticeDetail'][$key]['content'] = reset_html_escape($notice['content']);
-      preg_match_all("/<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i", $notice['content'], $matches);
+      $viewData['listNoticeDetail'][$key]['content'] = reset_html_escape($viewData['listNoticeDetail'][$key]['content']);
+      preg_match_all("/<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i", $viewData['listNoticeDetail'][$key]['content'], $matches);
       foreach ($matches[1] as $value) {
         if (file_exists(BASE_PATH . $value)) {
           $size = getImageSize(BASE_PATH . $value);
-          $viewData['listNoticeDetail'][$key]['content'] = str_replace('src="' . $value, 'data-width="' . $size[0] . '" data-height="' . $size[1] . '" src="'. $value, $notice['content']);
+          $viewData['listNoticeDetail'][$key]['content'] = str_replace('src="' . $value, 'data-width="' . $size[0] . '" data-height="' . $size[1] . '" src="'. $value, $viewData['listNoticeDetail'][$key]['content']);
         }
       }
     }
