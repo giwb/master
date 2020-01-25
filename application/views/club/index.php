@@ -58,7 +58,7 @@
 
       <div id="fb-root"></div>
       <div class="club-main">
-        <img style="width: 100%; margin-bottom: 20px;" src="/public/images/newyear.jpg">
+        <img style="width: 100%; margin-bottom: 10px;" src="/public/images/newyear.jpg">
         <div id="calendar"></div>
         <div class="ad-sp">
           <!-- SP_CENTER -->
