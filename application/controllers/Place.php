@@ -402,9 +402,9 @@ class Place extends CI_Controller
   {
     $headerData['uri'] = 'place';
 
-    $this->load->view('header', $headerData);
+    $this->load->view('/header', $headerData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view('footer');
+    $this->load->view('/footer');
   }
 }
 ?>
