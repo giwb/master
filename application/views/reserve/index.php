@@ -74,7 +74,7 @@
             </div>
             <?php endforeach; ?>
             <?php if ($notice['status'] != STATUS_CLOSED): ?>
-            <?php $cntWait = cntWait($view['idx'], $notice['idx']); if ($maxRes == $value['seat'] || $cntWait > 0): ?>
+            <?php $cntWait = cntWait($notice['idx']); if ($maxRes == $value['seat'] || $cntWait > 0): ?>
             <div class="area-wait text-center mt-3 mb-4">
               현재 예약 대기자로 <span class="cnt-wait"><?=$cntWait?></span>명이 등록되어 있습니다.<br>
               <form id="waitForm" method="post" action="/reserve/wait_insert" class="mt-3">

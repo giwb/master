@@ -896,8 +896,8 @@ if (!function_exists('checkWait')) {
 
 // 대기자 카운트
 if (!function_exists('cntWait')) {
-  function cntWait($clubIdx, $noticeIdx) {
-    $result = $GLOBALS['CI']->reserve_model->cntReserveWait($clubIdx, $noticeIdx);
+  function cntWait($noticeIdx) {
+    $result = $GLOBALS['CI']->reserve_model->cntReserveWait($noticeIdx);
     return $result['cnt'];
   }
 }

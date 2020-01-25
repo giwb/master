@@ -319,7 +319,7 @@ class Admin extends Admin_Controller
     $cntReservation = $this->admin_model->cntReservation($viewReserve['rescode'], $viewReserve['bus'], 1);
 
     // 대기자 수
-    $cntWait = $this->admin_model->cntWait($clubIdx, $viewReserve['rescode']);
+    $cntWait = $this->admin_model->cntWait($viewReserve['rescode']);
 
     $busType = getBusType($viewEntry['bustype'], $viewEntry['bus']);
     $maxSeat = array();
