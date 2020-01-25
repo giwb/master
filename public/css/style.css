@@ -334,10 +334,10 @@ textarea.input {
 .scroll-to-top {
   position: fixed;
   right: 1rem;
-  bottom: 1rem;
+  bottom: 4rem;
   display: none;
-  width: 2.75rem;
-  height: 2.75rem;
+  width: 2rem;
+  height: 2rem;
   text-align: center;
   color: #fff;
   background: rgba(90, 92, 105, 0.5);
@@ -354,7 +354,7 @@ textarea.input {
 }
 
 .scroll-to-top i {
-  font-size: 40px;
+  font-size: 28px;
   font-weight: 800;
 }
 
@@ -1558,8 +1558,8 @@ h1.nav-logo small {
   .nav-btns {
     display: block;
     position: absolute;
-    top: 5px;
-    right: 10px;
+    top: 2px;
+    right: 0px;
   }
   .nav-btns>button {
     font-size: 20px;
@@ -1589,11 +1589,11 @@ h1.nav-logo small {
     margin-bottom: 3px;
   }
   #nav-top {
-    height: 60px;
+    height: 53px;
   }
   h1.nav-logo {
     font-size: 24px;
-    margin: 15px 0 0 15px;
+    margin: 12px 0 0 5px;
   }
   .page-header h1 {
     font-size: 32.437px;
@@ -1949,6 +1949,7 @@ h1.nav-logo small {
 #club .club-left .desc { font-size: 13px; text-align: justify; }
 #club .club-left .banner { width: 100%; border: 1px solid #999; margin: 10px 0; padding: 10px 0; text-align: center; cursor: pointer; }
 
+#club .club-main .main-image { width: 100%; margin-bottom: 10px; }
 #club .club-main .your-story { width: 100%!important; clear: both; text-align: justify; overflow: hidden; }
 #club .club-main .your-story #club-story-content { width: 100%!important; height: 105px; padding: 10px; }
 #club .club-main .your-story #club-story-content.edit { width: 100%!important; height: 300px; padding: 10px; }
@@ -2184,6 +2185,8 @@ h1.nav-logo small {
 #shop .row-category a { color: #333; display: block; }
 #shop .row-category a:hover, #shop .row-category a.active { color: #000; background-color: #F0AA94; }
 
+#nav-footer { display: none; }
+
 .btn-page-next, .btn-story-more { width: 100%; border: 1px solid #d9d9d9; background-color: #fff; margin: 10px 0; padding: 5px; }
 .btn-page-next:hover, .btn-story-more:hover { box-shadow: #ddd 3px 3px 3px; }
 
@@ -2195,6 +2198,9 @@ h1.nav-logo small {
   /*.ad-sp { display: block; margin: 0 0 20px 0; }*/
 
   #header { height: 68px; }
+  #nav-footer { position: fixed; bottom: 0px; width: 100%; border-top: 2px solid #000; background-color: #fff; padding: 10px 0 7px 0; display: table; z-index: 1000; }
+  #nav-footer li { width: 20%; font-size: 12px; display: table-cell; vertical-align: middle; text-align: center; }
+  #nav-footer li i { font-size: 20px; }
 
   #club .club-left, #club .club-right { display: none; }
   #club .club-main { width: 100%; flex: auto; -webkit-flex: auto; display: block; margin: 0px; }
