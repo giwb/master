@@ -15,12 +15,11 @@ class MY_Controller extends CI_Controller
     if (!empty($_SERVER['REDIRECT_URL'])) {
       $arrUrl = explode('/', $_SERVER['REDIRECT_URL']);
       $domain = html_escape($arrUrl[1]);
-      if (!empty($domain)) {
+      if (empty($domain)) {
+        define('BASE_URL', $header . $_SERVER['HTTP_HOST']);
+      } else {
         define('BASE_URL', $header . $_SERVER['HTTP_HOST'] . '/' . $domain);
       }
-    }
-    if (empty(BASE_URL)) {
-      define('BASE_URL', $header . $_SERVER['HTTP_HOST']);
     }
 
     // 회원 로그인 설정
