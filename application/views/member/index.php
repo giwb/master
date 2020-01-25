@@ -4,8 +4,8 @@
         <div class="mypage mt-2">
           <h2>마이페이지</h2>
           <b><?=$viewMember['nickname']?></b>님은 현재 <strong><?=$userLevel['levelName']?></strong> 이십니다.<br>
-          다녀온 산행 횟수 <?=number_format(count($userVisitCount))?>회, 취소 페널티 <?=number_format($viewMember['penalty'])?>점으로, 현재 레벨은 <?=number_format($viewMember['rescount'] - $viewMember['penalty'])?>점 입니다.<br>
-          현재 <?=number_format($viewMember['rescount'])?>건의 예약이 진행중에 있습니다. 
+          다녀온 산행 횟수 <span class="text-primary"><?=number_format(count($userVisitCount))?>회</span>, 취소 페널티 <span class="text-danger"><?=number_format($viewMember['penalty'])?>점</span>으로, 현재 레벨은 <strong><?=number_format($viewMember['rescount'] - $viewMember['penalty'])?>점</strong> 입니다.<br>
+          현재 <strong><?=number_format($viewMember['rescount'])?>건</strong>의 예약이 진행중에 있습니다. 
 <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
           <h3>
             ■ 구매 내역
