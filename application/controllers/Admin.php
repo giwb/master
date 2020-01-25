@@ -1252,7 +1252,7 @@ exit;
       }
     }
 
-    redirect('/admin/main_notice/' . $noticeIdx);
+    redirect(BASE_URL . '/admin/main_notice/' . $noticeIdx);
   }
 
   /**
