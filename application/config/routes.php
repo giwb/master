@@ -62,8 +62,7 @@ $query = $db->query("SELECT idx FROM tripkorea.clubs WHERE domain='$domain'");
 $result = $query->row_array(1);
 
 if (!empty($result)) {
-  $result = $query->result();
-  $result = $result[0]->idx;
+  $result = $result['idx'];
 } elseif (!empty($_SERVER['REDIRECT_URL'])) {
   $arrUrl = explode('/', $_SERVER['REDIRECT_URL']);
   $domain = html_escape($arrUrl[1]);
@@ -71,7 +70,7 @@ if (!empty($result)) {
   $result = $query->row_array(1);
 
   if (!empty($result)) {
-    $result = $result[0]->idx;
+    $result = $result['idx'];
   }
 }
 
