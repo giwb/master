@@ -77,6 +77,7 @@ if (!empty($result)) {
 
 if (!empty($result)) {
   // 도메인이 있을 경우
+  $route['default_controller']                = 'club/index/' . $result;
   $route[$domain]                             = 'club/index/' . $result;
   $route[$domain . '/club/about']             = 'club/about/' . $result;
   $route[$domain . '/club/guide']             = 'club/guide/' . $result;
