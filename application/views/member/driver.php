@@ -4,7 +4,7 @@
         <div class="mypage mt-2">
           <h2>드라이버 페이지</h2>
 
-          <form id="formSearch" method="get" action="<?=base_url()?>member/driver/<?=$view['idx']?>" class="row border no-gutters align-items-center text-center pt-2 pb-2 pr-2 mt-3 mb-3">
+          <form id="formSearch" method="get" action="/member/driver" class="row border no-gutters align-items-center text-center pt-2 pb-2 pr-2 mt-3 mb-3">
             <ul class="box-past-search">
               <li>기간검색</li>
               <li><input type="text" id="startDatePicker" name="sdate" class="form-control form-control-sm" value="<?=!empty($searchData['sdate']) ? $searchData['sdate'] : ''?>"></li>
@@ -16,7 +16,7 @@
             </ul>
           </form>
           <ul class="box-past-title">
-            <li><a href="<?=base_url()?>member/driver/<?=$view['idx']?>?<?=$searchData['prev']?>">◀</a></li>
+            <li><a href="/member/driver/?<?=$searchData['prev']?>">◀</a></li>
             <li>
               <select name="syear" class="form-control">
                 <?php foreach (range($searchData['syear'], 2010) as $value): ?>
@@ -31,12 +31,12 @@
                 <?php endforeach; ?>
               </select>
             </li>
-            <li><a href="<?=base_url()?>member/driver/<?=$view['idx']?>?<?=$searchData['next']?>">▶</a></li>
+            <li><a href="/member/driver/?<?=$searchData['next']?>">▶</a></li>
           </ul>
           <?php foreach ($listNoticeDriver as $value): $busType = getBusType($value['bustype'], $value['bus']); ?>
           <div class="border-top m-0 pt-2 pb-2">
             <div class="">
-              <a href="<?=base_url()?>member/driver_view/<?=$value['club_idx']?>?n=<?=$value['idx']?>"><?=viewStatus($value['status'])?> <strong><?=$value['subject']?></strong></a><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명
+              <a href="/member/driver_view/?n=<?=$value['idx']?>"><?=viewStatus($value['status'])?> <strong><?=$value['subject']?></strong></a><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명
             </div>
             <div class="">
             <?php if ($userData['level'] == LEVEL_DRIVER_ADMIN): ?>
@@ -71,8 +71,8 @@
         </div>
       </div>
 
-      <link href="<?=base_url()?>public/css/jquery-ui.css" rel="stylesheet">
-      <script src="<?=base_url()?>public/js/jquery-ui.min.js" type="text/javascript"></script>
+      <link href="/public/css/jquery-ui.css" rel="stylesheet">
+      <script src="/public/js/jquery-ui.min.js" type="text/javascript"></script>
       <script type="text/javascript">
         $(document).ready(function(){
           $('#startDatePicker').datepicker({
@@ -105,7 +105,7 @@
           });
           $('.selectBus').change(function() {
             $.ajax({
-              url: $('input[name=baseUrl]').val() + 'member/driver_change',
+              url: '/member/driver_change',
               data: 'noticeIdx=' + $(this).data('idx') + '&bus=' + $(this).data('bus') + '&busType=' + $(this).val(),
               dataType: 'json',
               type: 'post',

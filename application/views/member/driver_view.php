@@ -53,7 +53,7 @@
           </div>
           <?php endif; endforeach; endif; ?>
           <div class="text-center mt-4">
-            <a href="<?=base_url()?>member"><button class="btn btn-primary">목록으로</button></a>
+            <a href="/member"><button class="btn btn-primary">목록으로</button></a>
           </div>
         </div>
         <div class="ad-sp">

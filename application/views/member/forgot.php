@@ -4,7 +4,7 @@
       <div class="row memberForm">
         <div class="col-sm-3"></div>
         <div class="col-sm-6">
-          <form id="forgotIdForm" action="<?=base_url()?>login/search_id">
+          <form id="forgotIdForm" action="/login/search_id">
             <h2>아이디 찾기</h2>
             <dl>
               <dt>실명</dt>
@@ -60,7 +60,7 @@
 
           <p><br></p>
 
-          <form id="forgotPwForm" action="<?=base_url()?>login/change_pw">
+          <form id="forgotPwForm" action="/login/change_pw">
             <h2>비밀번호 변경</h2>
             <dl>
               <dt>아이디</dt>

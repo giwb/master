@@ -10,7 +10,7 @@
               <button type="button" class="btn btn-danger btn-shop-cancel">구매취소</button>
             </div>
           </h3>
-          <form id="formList" method="post" action="<?=base_url()?>member/shop/<?=$clubIdx?>">
+          <form id="formList" method="post" action="/member/shop">
             <input type="hidden" name="p" value="1">
             <?=$listPurchase?>
             <div class="area-append"></div>
@@ -149,7 +149,7 @@
           }
 
           $.ajax({
-            url: $('input[name=baseUrl]').val() + 'club/shop_payment/' + $('input[name=clubIdx]').val(),
+            url: '/shop/payment',
             data: formData,
             processData: false,
             contentType: false,
