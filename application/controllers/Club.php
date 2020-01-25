@@ -48,7 +48,7 @@ class Club extends MY_Controller
 
 
 if ($_SERVER['REMOTE_ADDR'] != '49.166.0.82') {
-  echo "<div align='center' style='margin: 50px;'><img src='/public/images/newyear.jpg'><br><br><h1 style='font-size: 22px;'>새해를 맞이하여 리뉴얼 작업을 진행합니다.<br>오픈까지 잠시만 기다려주세요!</h1><h2 style='font-size: 15px;'>점검 예정시간 11시 ~ 12시</h2></div>";
+  echo "<div align='center' style='margin: 50px;'><img src='/public/images/newyear.jpg'><br><br><h1 style='font-size: 22px;'>새해를 맞이하여 리뉴얼 작업을 진행합니다.<br>오픈까지 잠시만 기다려주세요!</h1><h2 style='font-size: 15px;'>점검 예정시간 12시 ~ 13시</h2></div>";
   exit;
 }
 
