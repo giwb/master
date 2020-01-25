@@ -8,7 +8,7 @@ class MY_Controller extends CI_Controller
     parent::__construct();
     $this->load->helper(array('cookie', 'security', 'url', 'my_array_helper'));
     $this->load->library('session');
-    $this->load->model('club_model', 'member_model');
+    $this->load->model(array('club_model', 'member_model'));
 
     // 클럽 도메인 설정
     if ($_SERVER['SERVER_PORT'] == '80') $header = 'http://'; else $header = 'https://';
