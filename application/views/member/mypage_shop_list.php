@@ -9,7 +9,7 @@
         <?php foreach ($value['listCart'] as $item): ?>
         <div class="row align-items-center mt-2">
           <div class="col col-sm-2"><img class="w-100" src="<?=PHOTO_URL . $item['photo']?>"></div>
-          <div class="col col-sm-10"><a href="<?=BASE_URL?>/club/shop_item/?n=<?=$item['idx']?>"><?=$item['name']?></a><br><small><?=!empty($item['option']) ? $item['option'] . ' - ' : ''?><?=number_format($item['amount'])?>개, <?=number_format($item['cost'] * $item['amount'])?>원</small></div>
+          <div class="col col-sm-10"><a href="<?=BASE_URL?>/shop/item/?n=<?=$item['idx']?>"><?=$item['name']?></a><br><small><?=!empty($item['option']) ? $item['option'] . ' - ' : ''?><?=number_format($item['amount'])?>개, <?=number_format($item['cost'] * $item['amount'])?>원</small></div>
         </div>
         <?php endforeach; ?>
       </div>
