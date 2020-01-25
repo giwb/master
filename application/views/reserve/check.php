@@ -32,6 +32,7 @@
           <?php endif; ?>
           </div>
         </div>
+        <!--
         <?php if (!empty($listItem)): ?>
         <div class="border-top mt-5 pt-3 pl-2"><h4>■ 추천상품</h4></div>
         <div id="shop" class="sub-content pl-3 pr-3 pb-3">
@@ -40,6 +41,7 @@
           </form>
         </div>
         <?php endif; ?>
+        -->
         <div class="ad-sp mt-5">
           <!-- SP_CENTER -->
           <ins class="adsbygoogle"
