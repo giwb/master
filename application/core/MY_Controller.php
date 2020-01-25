@@ -18,7 +18,7 @@ class MY_Controller extends CI_Controller
       if (!empty($domain)) {
         define('BASE_URL', $header . $_SERVER['HTTP_HOST'] . '/' . $domain);
       } else {
-        define('BASE_URL', $header . $domain);
+        define('BASE_URL', $header . $_SERVER['HTTP_HOST']);
       }
     }
 
