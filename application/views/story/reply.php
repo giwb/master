@@ -12,11 +12,11 @@ foreach ($listReply as $value):
   }
   if (file_exists(PHOTO_PATH . $value['created_by'])) {
     $size = getImageSize(PHOTO_PATH . $value['created_by']);
-    $value['photo'] = base_url() . 'public/photos/' . $value['created_by'];
+    $value['photo'] = PHOTO_URL . $value['created_by'];
     $value['photo_width'] = $size[0];
     $value['photo_height'] = $size[1];
   } else {
-    $value['photo'] = base_url() . 'public/images/user.png';
+    $value['photo'] = '/public/images/user.png';
     $value['photo_width'] = 64;
     $value['photo_height'] = 64;
   }
