@@ -11,11 +11,11 @@ class MY_Controller extends CI_Controller
     $this->load->model('member_model');
 
     // 클럽 도메인 설정
+    if ($_SERVER['SERVER_PORT'] == '80') $header = 'http://'; else $header = 'https://';
     define('BASE_URL', $header . $_SERVER['HTTP_HOST']);
     if (!empty($_SERVER['REDIRECT_URL'])) {
       $arrUrl = explode('/', $_SERVER['REDIRECT_URL']);
       $domain = html_escape($arrUrl[1]);
-      if ($_SERVER['SERVER_PORT'] == '80') $header = 'http://'; else $header = 'https://';
       if (!empty($domain)) {
         define('BASE_URL', $header . $_SERVER['HTTP_HOST'] . '/' . $domain);
       }
