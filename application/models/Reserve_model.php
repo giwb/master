@@ -169,7 +169,6 @@ class Reserve_model extends CI_Model
           ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
           ->where('a.club_idx', $clubIdx)
           ->where('a.userid', $userId)
-          ->where('a.status', STATUS_ABLE)
           ->where('b.status', STATUS_CLOSED)
           ->order_by('b.startdate', 'desc');
 
@@ -190,7 +189,6 @@ class Reserve_model extends CI_Model
           ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
           ->where('a.club_idx', $clubIdx)
           ->where('a.userid', $userId)
-          ->where('a.status', STATUS_ABLE)
           ->where('b.status', STATUS_CLOSED);
     return $this->db->get()->row_array(1);
   }
@@ -203,7 +201,6 @@ class Reserve_model extends CI_Model
           ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
           ->where('a.club_idx', $clubIdx)
           ->where('a.userid', $userId)
-          ->where('a.status', STATUS_ABLE)
           ->where('b.status', STATUS_CLOSED)
           ->group_by('b.idx');
     return $this->db->get()->result_array();
