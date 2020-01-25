@@ -125,9 +125,9 @@ class Reserve extends MY_Controller
         // 대표 사진 추출
         $photo = unserialize($value['item_photo']);
         if (!empty($photo[0]) && file_exists(PHOTO_PATH . $photo[0])) {
-          $viewData['listItem'][$key]['item_photo'] = base_url() . PHOTO_URL . $photo[0];
+          $viewData['listItem'][$key]['item_photo'] = PHOTO_URL . $photo[0];
         } else {
-          $viewData['listItem'][$key]['item_photo'] = base_url() . 'public/images/noimage.png';
+          $viewData['listItem'][$key]['item_photo'] = '/public/images/noimage.png';
         }
 
         // 카테고리명
@@ -186,11 +186,11 @@ class Reserve extends MY_Controller
     $viewData['listReply'] = $this->load->view('story/reply', $viewData, true);
 
     if (!empty($viewData['notice']['photo']) && file_exists(PHOTO_PATH . $viewData['notice']['photo'])) {
-      $viewData['notice']['photo'] = base_url() . '/' . PHOTO_URL . $viewData['notice']['photo'];
+      $viewData['notice']['photo'] = PHOTO_URL . $viewData['notice']['photo'];
     }
 
     if (!empty($viewData['notice']['map']) && file_exists(PHOTO_PATH . $viewData['notice']['map'])) {
-      $viewData['notice']['map'] = base_url() . '/' . PHOTO_URL . $viewData['notice']['map'];
+      $viewData['notice']['map'] = PHOTO_URL . $viewData['notice']['map'];
     }
 
     // 페이지 타이틀
@@ -667,7 +667,7 @@ class Reserve extends MY_Controller
     $files = $this->file_model->getFile('club', $viewData['view']['idx']);
     if (!empty($files[0]['filename']) && file_exists(PHOTO_PATH . $files[0]['filename'])) {
       $size = getImageSize(PHOTO_PATH . $files[0]['filename']);
-      $viewData['view']['main_photo'] = base_url() . PHOTO_URL . $files[0]['filename'];
+      $viewData['view']['main_photo'] = PHOTO_URL . $files[0]['filename'];
       $viewData['view']['main_photo_width'] = $size[0];
       $viewData['view']['main_photo_height'] = $size[1];
     }

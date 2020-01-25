@@ -47,9 +47,9 @@ class Shop extends MY_Controller
       // 대표 사진 추출
       $photo = unserialize($value['item_photo']);
       if (!empty($photo[0]) && file_exists(PHOTO_PATH . $photo[0])) {
-        $viewData['listItem'][$key]['item_photo'] = base_url() . PHOTO_URL . $photo[0];
+        $viewData['listItem'][$key]['item_photo'] = PHOTO_URL . $photo[0];
       } else {
-        $viewData['listItem'][$key]['item_photo'] = base_url() . 'public/images/noimage.png';
+        $viewData['listItem'][$key]['item_photo'] = 'public/images/noimage.png';
       }
 
       // 카테고리명
@@ -97,7 +97,7 @@ class Shop extends MY_Controller
 
     // 상품이 없을때는 목록으로
     if (empty($idx)) {
-      redirect(base_url() . 'club/shop/' . $clubIdx);
+      redirect(BASE_URL . '/shop');
       exit;
     }
 
@@ -109,7 +109,7 @@ class Shop extends MY_Controller
     $arr = array();
     foreach ($arrPhotos as $value) {
       if (!empty($value) && file_exists(PHOTO_PATH . $value)) {
-        $arr[] = base_url() . PHOTO_URL . $value;
+        $arr[] = PHOTO_URL . $value;
       }
     }
     $viewData['viewItem']['item_photo'] = $arr;
@@ -183,7 +183,7 @@ class Shop extends MY_Controller
         // 사진
         $arrPhotos = unserialize($view['item_photo']);
         if (!empty($arrPhotos[0]) && file_exists(PHOTO_PATH . $arrPhotos[0])) {
-          $viewData['listCart'][$cnt]['item_photo'] = base_url() . PHOTO_URL . $arrPhotos[0];
+          $viewData['listCart'][$cnt]['item_photo'] = PHOTO_URL . $arrPhotos[0];
         }
 
         $viewData['total_amount'] += $value['qty'];
@@ -322,7 +322,7 @@ class Shop extends MY_Controller
         // 사진
         $arrPhotos = unserialize($view['item_photo']);
         if (!empty($arrPhotos[0]) && file_exists(PHOTO_PATH . $arrPhotos[0])) {
-          $viewData['listCart'][$cnt]['item_photo'] = base_url() . PHOTO_URL . $arrPhotos[0];
+          $viewData['listCart'][$cnt]['item_photo'] = PHOTO_URL . $arrPhotos[0];
         }
 
         $viewData['total_amount'] += $value['qty'];
@@ -439,7 +439,7 @@ class Shop extends MY_Controller
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
     if (empty($idx)) {
-      redirect(base_url() . 'club/shop/' . $clubIdx);
+      redirect(BASE_URL '/shop');
     } else {
       // 구매 정보
       $viewData['viewPurchase'] = $this->shop_model->viewPurchase($idx);
@@ -598,7 +598,7 @@ class Shop extends MY_Controller
     $files = $this->file_model->getFile('club', $viewData['view']['idx']);
     if (!empty($files[0]['filename']) && file_exists(PHOTO_PATH . $files[0]['filename'])) {
       $size = getImageSize(PHOTO_PATH . $files[0]['filename']);
-      $viewData['view']['main_photo'] = base_url() . PHOTO_URL . $files[0]['filename'];
+      $viewData['view']['main_photo'] = PHOTO_URL . $files[0]['filename'];
       $viewData['view']['main_photo_width'] = $size[0];
       $viewData['view']['main_photo_height'] = $size[1];
     }

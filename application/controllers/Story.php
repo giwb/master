@@ -85,7 +85,7 @@ class Story extends MY_Controller
     $viewData['listStory'] = $this->story_model->viewStory($viewData['storyIdx']);
 
     if ($viewData['userData']['idx'] != $viewData['listStory'][0]['created_by'] && $viewData['userData']['admin'] != 1) {
-      redirect(base_url() . 'story/view/' . $viewData['clubIdx'] . '?n=' . $viewData['storyIdx']);
+      redirect(BASE_URL . '/story/view/' . $viewData['clubIdx'] . '?n=' . $viewData['storyIdx']);
     } else {
       $viewData['viewStory'] = $this->load->view('story/index', $viewData, true);
       $this->_viewPage('story/edit', $viewData);
@@ -196,11 +196,11 @@ class Story extends MY_Controller
       }
       if (file_exists(PHOTO_PATH . $value['created_by'])) {
         $size = getImageSize(PHOTO_PATH . $value['created_by']);
-        $value['photo'] = base_url() . 'public/photos/' . $value['created_by'];
+        $value['photo'] = PHOTO_URL . $value['created_by'];
         $value['photo_width'] = $size[0];
         $value['photo_height'] = $size[1];
       } else {
-        $value['photo'] = base_url() . 'public/images/user.png';
+        $value['photo'] = '/public/images/user.png';
         $value['photo_width'] = 64;
         $value['photo_height'] = 64;
       }
@@ -276,11 +276,11 @@ class Story extends MY_Controller
       } else {
         if (file_exists(PHOTO_PATH . $userData['idx'])) {
           $size = getImageSize(PHOTO_PATH . $userData['idx']);
-          $photo = base_url() . 'public/photos/' . $userData['idx'];
+          $photo = PHOTO_URL . $userData['idx'];
           $photo_width = $size[0];
           $photo_height = $size[1];
         } else {
-          $photo = base_url() . 'public/images/user.png';
+          $photo = '/public/images/user.png';
           $photo_width = 64;
           $photo_height = 64;
         }
@@ -556,7 +556,7 @@ class Story extends MY_Controller
 
         $result = array(
           'error' => 0,
-          'message' => base_url() . UPLOAD_URL . $filename,
+          'message' => UPLOAD_URL . $filename,
           'filename' => $filename
         );
       } else {
@@ -606,7 +606,7 @@ class Story extends MY_Controller
     $files = $this->file_model->getFile('club', $viewData['view']['idx']);
     if (!empty($files[0]['filename']) && file_exists(PHOTO_PATH . $files[0]['filename'])) {
       $size = getImageSize(PHOTO_PATH . $files[0]['filename']);
-      $viewData['view']['main_photo'] = base_url() . PHOTO_URL . $files[0]['filename'];
+      $viewData['view']['main_photo'] = PHOTO_URL . $files[0]['filename'];
       $viewData['view']['main_photo_width'] = $size[0];
       $viewData['view']['main_photo_height'] = $size[1];
     }
