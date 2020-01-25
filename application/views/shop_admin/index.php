@@ -56,7 +56,7 @@
         var categoryIdx = $(this).val();
         if (categoryIdx != '') {
           $.ajax({
-            url: '/shop/category/' + categoryIdx,
+            url: '/ShopAdmin/category/' + categoryIdx,
             dataType: 'json',
             type: 'post',
             beforeSend: function() {
