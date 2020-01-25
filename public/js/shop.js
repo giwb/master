@@ -1,6 +1,6 @@
 $(document).on('click', '.shop-item', function() {
   // 용품 상세 페이지
-  location.href = ( '/shop/item/?n=' + $(this).data('idx') );
+  location.href = ( $('input[name=baseUrl]').val() + '/shop/item/?n=' + $(this).data('idx') );
 }).on('click', '.btn-cart-insert', function() {
   // 장바구니에 담기
   var $btn = $(this);
@@ -33,9 +33,9 @@ $(document).on('click', '.shop-item', function() {
         $.openMsgModal(result.message);
       } else {
         if (type == 'buy') {
-          location.href = ('/shop/checkout');
+          location.href = (baseUrl + '/shop/checkout');
         } else {
-          location.href = ('/shop/cart');
+          location.href = (baseUrl + '/shop/cart');
         }
       }
     }
@@ -171,7 +171,7 @@ $(document).on('click', '.shop-item', function() {
         $btn.css('opacity', '1').prop('disabled', false).text('구매 완료하기');
         $.openMsgModal(result.message);
       } else {
-        location.href = ('/shop/complete/?n=' + result.message);
+        location.href = (baseUrl + '/shop/complete/?n=' + result.message);
       }
     }
   });

@@ -5,7 +5,7 @@
           <h2>마이페이지</h2>
           <b><?=$viewMember['nickname']?></b>님은 현재 <strong><?=$userLevel['levelName']?></strong> 이십니다.<br>
           다녀온 산행 횟수 <span class="text-primary"><?=number_format(count($userVisitCount))?>회</span>, 취소 페널티 <span class="text-danger"><?=number_format($viewMember['penalty'])?>점</span>으로, 현재 레벨은 <strong><?=number_format($viewMember['rescount'] - $viewMember['penalty'])?>점</strong> 입니다.<br>
-          현재 <strong><?=number_format($viewMember['rescount'])?>건</strong>의 예약이 진행중에 있습니다. 
+          현재 <strong class="text-success"><?=number_format($viewMember['rescount'])?>건</strong>의 예약이 진행중에 있습니다. 
 <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
           <h3>
             ■ 구매 내역
@@ -20,7 +20,7 @@
           </form>
 <?php endif; ?>
           <h3>
-            ■ 진행중 예약 내역 - <?=$maxReserve['cnt']?>건
+            ■ 진행중 예약 내역 - <span class="text-success"><?=$maxReserve['cnt']?>건</span>
             <div class="area-btn">
               <?php if ($userData['level'] != LEVEL_FREE): ?>
               <button type="button" class="btn btn-primary btn-mypage-payment">결제정보</button>
@@ -47,7 +47,7 @@
           </form>
 
           <h3>
-            ■ 취소한 예약 내역 - <?=$maxReserveCancel['cnt']?>건
+            ■ 취소한 예약 내역 - <span class="text-danger"><?=$maxReserveCancel['cnt']?>건</span>
             <div class="area-btn">
               <a href="<?=BASE_URL?>/member/reserve_cancel"><button type="button" class="btn btn-secondary">더보기</button></a>
             </div>
@@ -64,7 +64,7 @@
           <?php endforeach; ?>
 
           <h3>
-            ■ 다녀온 산행 내역 - <?=$maxVisit['cnt']?>회
+            ■ 다녀온 산행 내역 - <span class="text-primary"><?=$maxVisit['cnt']?>회</span>
             <div class="area-btn">
               <a href="<?=BASE_URL?>/member/reserve_past"><button type="button" class="btn btn-secondary">더보기</button></a>
             </div>
@@ -82,7 +82,7 @@
           <?php endforeach; ?>
 
           <h3>
-            ■ 누적 포인트 : <?=number_format($viewMember['point'])?> 포인트
+            ■ 누적 포인트 : <span class="text-primary"><?=number_format($viewMember['point'])?> 포인트</span>
             <div class="area-btn">
               <a href="<?=BASE_URL?>/member/point"><button type="button" class="btn btn-secondary">더보기</button></a>
             </div>
@@ -108,7 +108,7 @@
           </ul>
 
           <h3>
-            ■ 누적 페널티 : <?=number_format($viewMember['penalty'])?> 페널티
+            ■ 누적 페널티 : <span class="text-danger"><?=number_format($viewMember['penalty'])?> 페널티</span>
             <div class="area-btn">
               <a href="<?=BASE_URL?>/member/penalty"><button type="button" class="btn btn-secondary">더보기</button></a>
             </div>

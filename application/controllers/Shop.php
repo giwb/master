@@ -390,7 +390,9 @@ class Shop extends MY_Controller
     }
 
     // 구매한 상품 저장
-    $rtn = $this->shop_model->insertPurchase($insertValues);
+    if ($cnt > 0) {
+      $rtn = $this->shop_model->insertPurchase($insertValues);
+    }
 
     if (empty($rtn)) {
       $result = array('error' => 1, 'message' => $this->lang->line('error_purchase'));
