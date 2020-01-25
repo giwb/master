@@ -56,7 +56,7 @@ if (!function_exists('ksubstr'))
 if (!function_exists('setVisitor')) {
   function setVisitor() {
     $CI =& get_instance();
-    $clubIdx = $CI->load->get_var('clubIdx');
+    $clubIdx = $_COOKIE['COOKIE_CLUBIDX'];
     $userData = $CI->load->get_var('userData');
     $ipAddress = $_SERVER['REMOTE_ADDR'];
 
