@@ -388,7 +388,7 @@
       url: '/login/logout',
       dataType: 'json',
       success: function() {
-        location.reload();
+        location.replace($('input[name=baseUrl]').val());
       }
     });
   }).on('blur', '.check-userid', function() {
