@@ -15,7 +15,7 @@ class MY_Controller extends CI_Controller
       $arrUrl = explode('/', $_SERVER['REDIRECT_URL']);
       $domain = html_escape($arrUrl[1]);
       if (!empty($domain)) {
-        define('BASE_URL', base_url() . $domain);
+        define('BASE_URL', $_SERVER['HTTP_HOST'] . $domain);
       }
     }
 
