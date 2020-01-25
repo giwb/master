@@ -105,6 +105,7 @@ if (!empty($result)) {
   $route[$domain . '/shop/complete']          = 'shop/complete';
 } else {
   $route['default_controller']  = 'welcome';
+  $route['top']                 = 'welcome';
   $route['login']               = 'login/index';
   $route['logout']              = 'login/logout';
   $route['member']              = 'member/index';
