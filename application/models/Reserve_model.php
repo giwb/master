@@ -135,7 +135,7 @@ class Reserve_model extends CI_Model
           ->join(DB_NOTICE . ' b', 'a.fkey=b.idx', 'left')
           ->where('a.club_idx', $clubIdx)
           ->where('a.userid', $userId)
-          ->where('a.action', LOG_CANCEL)
+          ->where_in('a.action', array(LOG_CANCEL, LOG_ADMIN_CANCEL))
           ->where('b.visible', VISIBLE_ABLE)
           ->order_by('a.idx', 'desc');
 
