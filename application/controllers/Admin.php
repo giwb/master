@@ -2024,7 +2024,7 @@ exit;
 
     $viewData['maxLog'] = $this->admin_model->cntHistory($viewData);
     $viewData['pageType'] = 'member';
-    $viewData['pageUrl'] = base_url() . 'admin/log_user';
+    $viewData['pageUrl'] = '/admin/log_user';
     $viewData['pageTitle'] = '회원 활동기록';
 
     foreach ($viewData['listHistory'] as $key => $value) {
@@ -2109,7 +2109,7 @@ exit;
 
     $viewData['maxLog'] = $this->admin_model->cntHistory($viewData);
     $viewData['pageType'] = 'admin';
-    $viewData['pageUrl'] = base_url() . 'admin/log_admin';
+    $viewData['pageUrl'] = '/admin/log_admin';
     $viewData['pageTitle'] = '관리자 활동기록';
 
     foreach ($viewData['listHistory'] as $key => $value) {
@@ -2187,7 +2187,7 @@ exit;
 
     $viewData['maxLog'] = $this->admin_model->cntHistory($viewData);
     $viewData['pageType'] = 'refund';
-    $viewData['pageUrl'] = base_url() . 'admin/log_refund';
+    $viewData['pageUrl'] = '/admin/log_refund';
     $viewData['pageTitle'] = '비회원 환불기록';
 
     foreach ($viewData['listHistory'] as $key => $value) {
@@ -2240,7 +2240,7 @@ exit;
 
     $viewData['maxLog'] = $this->admin_model->cntHistory($viewData);
     $viewData['pageType'] = 'bus';
-    $viewData['pageUrl'] = base_url() . 'admin/log_bus';
+    $viewData['pageUrl'] = '/admin/log_bus';
     $viewData['pageTitle'] = '버스 변경기록';
 
     foreach ($viewData['listHistory'] as $key => $value) {
@@ -2249,7 +2249,7 @@ exit;
       switch ($value['action']) {
         case LOG_DRIVER_CHANGE: // 차량 변경
           $viewData['listHistory'][$key]['header'] = '<span class="text-danger">[차량변경]</span>';
-          $viewData['listHistory'][$key]['subject'] = '<a href="' . base_url() . 'admin/main_view_progress/' . $value['fkey'] . '">' . $viewEntry['subject'] . '</a> - ' . $value['subject'];
+          $viewData['listHistory'][$key]['subject'] = '<a href="/admin/main_view_progress/' . $value['fkey'] . '">' . $viewEntry['subject'] . '</a> - ' . $value['subject'];
           break;
       }
     }
@@ -2296,7 +2296,7 @@ exit;
 
     $viewData['maxLog'] = $this->admin_model->cntHistory($viewData);
     $viewData['pageType'] = 'buy';
-    $viewData['pageUrl'] = base_url() . 'admin/log_buy';
+    $viewData['pageUrl'] = '/admin/log_buy';
     $viewData['pageTitle'] = '회원 구매기록';
 
     foreach ($viewData['listHistory'] as $key => $value) {
@@ -2361,7 +2361,7 @@ exit;
 
     $viewData['maxLog'] = $this->admin_model->cntHistory($viewData);
     $viewData['pageType'] = 'buy_admin';
-    $viewData['pageUrl'] = base_url() . 'admin/log_buy_admin';
+    $viewData['pageUrl'] = '/admin/log_buy_admin';
     $viewData['pageTitle'] = '관리자 구매기록';
 
     foreach ($viewData['listHistory'] as $key => $value) {
@@ -2658,7 +2658,7 @@ exit;
       }
     }
 
-    redirect(base_url() . 'admin/setup_information');
+    redirect('/admin/setup_information');
   }
 
   /**
@@ -2700,7 +2700,7 @@ exit;
 
     $this->club_model->updateClub($updateValues, $clubIdx);
 
-    redirect(base_url() . 'admin/setup_pages');
+    redirect('/admin/setup_pages');
   }
 
   /**
@@ -2737,7 +2737,7 @@ exit;
 
         $result = array(
           'error' => 0,
-          'message' => base_url() . URL_FRONT . $filename,
+          'message' => URL_FRONT . $filename,
           'filename' => $filename
         );
       } else {
