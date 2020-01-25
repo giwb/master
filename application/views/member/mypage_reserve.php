@@ -4,7 +4,7 @@
         <div class="mypage mt-2">
           <h2><?=$pageTitle?></h2>
           <h3>
-            ■ 예약 내역
+            ■ 진행중 예약 내역 : <?=$maxReserve['cnt']?>건
             <div class="area-btn">
               <?php if ($userData['level'] != LEVEL_FREE): ?>
               <button type="button" class="btn btn-primary btn-mypage-payment">결제정보</button>

@@ -3,7 +3,7 @@
       <div class="club-main">
         <div class="mypage mt-2">
           <h2><?=$pageTitle?></h2>
-          <h3>■ 산행 내역</h3>
+          <h3>■ 다녀온 산행 내역 : <?=$maxVisit['cnt']?>건</h3>
           <form id="formList" method="post" action="<?=BASE_URL?>/member/reserve_past">
             <input type="hidden" name="p" value="1">
             <?=$userVisit?>

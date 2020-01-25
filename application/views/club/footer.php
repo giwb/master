@@ -27,7 +27,7 @@
   <input type="hidden" name="baseUrl" value="<?=BASE_URL?>">
   <input type="hidden" name="clubIdx" value="<?=!empty($view['idx']) ? $view['idx'] : ''?>">
   <input type="hidden" name="userIdx" value="<?=!empty($userData['idx']) ? $userData['idx'] : ''?>">
-  <input type="hidden" name="redirectUrl" value="<?=!empty($_SERVER['REQUEST_URI']) ? BASE_URL . substr($_SERVER['REQUEST_URI'], 1) : ''?>">
+  <input type="hidden" name="redirectUrl" value="<?=!empty($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] != '/' . substr($_SERVER['REQUEST_URI'], 1) ? BASE_URL . substr($_SERVER['REQUEST_URI'], 1) : BASE_URL?>">
 
   <?php if (empty($userData['idx'])): ?>
   <!-- Login Modal -->

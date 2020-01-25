@@ -19,7 +19,7 @@
           </form>
 <?php endif; ?>
           <h3>
-            ■ 예약 내역
+            ■ 진행중 예약 내역 - <?=$maxReserve['cnt']?>건
             <div class="area-btn">
               <?php if ($userData['level'] != LEVEL_FREE): ?>
               <button type="button" class="btn btn-primary btn-mypage-payment">결제정보</button>
@@ -46,7 +46,7 @@
           </form>
 
           <h3>
-            ■ 예약취소 내역
+            ■ 취소한 예약 내역 - <?=$maxReserveCancel['cnt']?>건
             <div class="area-btn">
               <a href="<?=BASE_URL?>/member/reserve_cancel"><button type="button" class="btn btn-secondary">더보기</button></a>
             </div>
@@ -63,7 +63,7 @@
           <?php endforeach; ?>
 
           <h3>
-            ■ 산행 내역
+            ■ 다녀온 산행 내역 - <?=$maxVisit['cnt']?>회
             <div class="area-btn">
               <a href="<?=BASE_URL?>/member/reserve_past"><button type="button" class="btn btn-secondary">더보기</button></a>
             </div>
@@ -81,7 +81,7 @@
           <?php endforeach; ?>
 
           <h3>
-            ■ 포인트 내역 <small>- 잔액 <?=number_format($viewMember['point'])?> 포인트</small>
+            ■ 누적 포인트 : <?=number_format($viewMember['point'])?> 포인트
             <div class="area-btn">
               <a href="<?=BASE_URL?>/member/point"><button type="button" class="btn btn-secondary">더보기</button></a>
             </div>
@@ -107,7 +107,7 @@
           </ul>
 
           <h3>
-            ■ 페널티 내역
+            ■ 누적 페널티 : <?=number_format($viewMember['penalty'])?> 페널티
             <div class="area-btn">
               <a href="<?=BASE_URL?>/member/penalty"><button type="button" class="btn btn-secondary">더보기</button></a>
             </div>

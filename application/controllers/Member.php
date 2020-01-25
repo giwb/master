@@ -63,6 +63,7 @@ class Member extends MY_Controller
 
       // 예약 내역
       $paging['perPage'] = 5; $paging['nowPage'] = 0;
+      $viewData['maxReserve'] = $this->reserve_model->maxReserve($clubIdx, $userData['userid']);
       $viewData['userReserve'] = $this->reserve_model->userReserve($clubIdx, $userData['userid'], NULL, $paging);
 
       foreach ($viewData['userReserve'] as $key => $value) {
@@ -97,9 +98,11 @@ class Member extends MY_Controller
       }
 
       // 예약 취소 내역 (로그)
+      $viewData['maxReserveCancel'] = $this->reserve_model->maxReserveCancel($clubIdx, $userData['userid']);
       $viewData['userReserveCancel'] = $this->reserve_model->userReserveCancel($clubIdx, $userData['userid']);
 
       // 산행 내역
+      $viewData['maxVisit'] = $this->reserve_model->maxVisit($clubIdx, $userData['userid']);
       $viewData['userVisit'] = $this->reserve_model->userVisit($clubIdx, $userData['userid']);
 
       // 산행 횟수

@@ -3,7 +3,7 @@
       <div class="club-main">
         <div class="mypage mt-2">
           <h2><?=$pageTitle?></h2>
-          <h3>■ 예약취소 내역</h3>
+          <h3>■ 취소한 예약 내역 : <?=$maxReserveCancel['cnt']?>건</h3>
           <form id="formList" method="post" action="<?=BASE_URL?>/member/reserve_cancel">
             <input type="hidden" name="p" value="1">
             <?=$userReserveCancel?>

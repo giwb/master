@@ -79,7 +79,7 @@
               <li><a href="javascript:;" class="login-popup">로그인</a></li>
               <?php else: ?>
               <li>
-              <?php if (file_exists(PHOTO_PATH . $userData['idx'])): ?>
+              <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
               <img class="img-profile" src="<?=PHOTO_URL . $userData['idx']?>">
               <?php elseif (!empty($userData['icon_thumbnail'])): ?>
               <img class="img-profile" src="<?=$userData['icon_thumbnail']?>">
@@ -104,7 +104,7 @@
       <div class="nav-btns">
         <!--<a href="<?=BASE_URL?>"><button type="button" class="search-btn"><i class="fa fa-search"></i></button></a>-->
         <a href="<?=BASE_URL?>"><button type="button" class="search-btn"><i class="fa fa-pencil-square-o"></i></button></a>
-        <?php if (file_exists(PHOTO_PATH . $userData['idx'])): ?>
+        <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
         <button type="button"><img class="img-profile" src="<?=PHOTO_URL . $userData['idx']?>"></button>
         <?php elseif (!empty($userData['icon_thumbnail'])): ?>
         <button type="button"><img class="img-profile" src="<?=$userData['icon_thumbnail']?>"></button>
