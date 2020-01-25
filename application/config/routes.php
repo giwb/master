@@ -58,8 +58,8 @@ $db =& DB();
 
 // 각 클럽 도메인별 이동
 $domain = $_SERVER['HTTP_HOST'];
-$query = $db->query("SELECT idx FROM clubs WHERE domain='$domain'");
-$result = $query->result();
+$query = $db->query("SELECT idx FROM tripkorea.clubs WHERE domain='$domain'");
+$result = $query->row_array(1);
 
 if (!empty($result)) {
   $result = $query->result();
@@ -67,8 +67,8 @@ if (!empty($result)) {
 } elseif (!empty($_SERVER['REDIRECT_URL'])) {
   $arrUrl = explode('/', $_SERVER['REDIRECT_URL']);
   $domain = html_escape($arrUrl[1]);
-  $query = $db->query("SELECT idx FROM clubs WHERE domain='$domain'");
-  $result = $query->result();
+  $query = $db->query("SELECT idx FROM tripkorea.clubs WHERE domain='$domain'");
+  $result = $query->row_array(1);
 
   if (!empty($result)) {
     $result = $result[0]->idx;
