@@ -3,12 +3,12 @@
     <h1 class="h3 mb-0 text-gray-800">신규 산행 등록</h1>
     <div class="border-top border-bottom mt-4 mb-4 pt-3 pb-3 row align-items-center">
       <div class="col-sm-9 area-btn">
-        <a href="<?=base_url()?>admin/main_entry/<?=$view['idx']?>"><button type="button" class="btn btn-primary">수정</button></a>
-        <a href="<?=base_url()?>admin/main_notice/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">공지</button></a>
-        <a href="<?=base_url()?>admin/main_view_progress/<?=$view['idx']?>"><button type="button" class="btn btn-primary">예약</button></a>
-        <a href="<?=base_url()?>admin/main_view_boarding/<?=$view['idx']?>"><button type="button" class="btn btn-primary">승차</button></a>
-        <a href="<?=base_url()?>admin/main_view_sms/<?=$view['idx']?>"><button type="button" class="btn btn-primary">문자</button></a>
-        <a href="<?=base_url()?>admin/main_view_adjust/<?=$view['idx']?>"><button type="button" class="btn btn-primary">정산</button></a>
+        <a href="/admin/main_entry/<?=$view['idx']?>"><button type="button" class="btn btn-primary">수정</button></a>
+        <a href="/admin/main_notice/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">공지</button></a>
+        <a href="/admin/main_view_progress/<?=$view['idx']?>"><button type="button" class="btn btn-primary">예약</button></a>
+        <a href="/admin/main_view_boarding/<?=$view['idx']?>"><button type="button" class="btn btn-primary">승차</button></a>
+        <a href="/admin/main_view_sms/<?=$view['idx']?>"><button type="button" class="btn btn-primary">문자</button></a>
+        <a href="/admin/main_view_adjust/<?=$view['idx']?>"><button type="button" class="btn btn-primary">정산</button></a>
       </div>
       <div class="col-sm-3">
         <?php if (!empty($view['status'])): ?>
@@ -24,7 +24,7 @@
         <?php endif;?>
       </div>
     </div>
-    <form id="myForm" method="post" action="<?=base_url()?>admin/main_notice_update" enctype="multipart/form-data" class="mb-5 pb-5">
+    <form id="myForm" method="post" action="/admin/main_notice_update" enctype="multipart/form-data" class="mb-5 pb-5">
       <input type="hidden" name="noticeIdx" value="<?=$view['idx']?>">
       <div class="row align-items-center">
         <div class="col-sm-9">
@@ -65,7 +65,7 @@
       $('#sortable').disableSelection().sortable();
       $(document).on('change', '.search-notice', function() {
         $.ajax({
-          url: $('input[name=base_url]').val() + 'admin/main_entry_notice',
+          url: '/admin/main_entry_notice',
           data: 'idx=' + $(this).val(),
           dataType: 'json',
           type: 'post',
