@@ -18,12 +18,13 @@ class Club extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function index($clubIdx=NULL)
+  public function index()
   {
     $userData = $this->load->get_var('userData');
     if (empty($userData['idx'])) $userData['idx'] = NULL;
 
-    if (is_null($clubIdx)) {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
+    if (empty($clubIdx)) {
       // 각 클럽 도메인별 이동
       $domain = $_SERVER['HTTP_HOST'];
       $result = $this->club_model->getDomain($domain);
@@ -85,9 +86,10 @@ class Club extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function past($clubIdx)
+  public function past()
   {
     $now = time();
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $sdate = html_escape($this->input->get('sdate'));
     $edate = html_escape($this->input->get('edate'));
@@ -119,8 +121,9 @@ class Club extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function about($clubIdx)
+  public function about()
   {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
 
     // 클럽 정보
@@ -138,8 +141,9 @@ class Club extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function guide($clubIdx)
+  public function guide()
   {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
 
     // 클럽 정보
@@ -157,8 +161,9 @@ class Club extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function howto($clubIdx)
+  public function howto()
   {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
 
     // 클럽 정보
@@ -176,8 +181,9 @@ class Club extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function auth_about($clubIdx)
+  public function auth_about()
   {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
 
     // 클럽 정보
@@ -195,8 +201,9 @@ class Club extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function auth($clubIdx)
+  public function auth()
   {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $sDate = '2019-04-06';
     $nDate = date('Y-m-d');

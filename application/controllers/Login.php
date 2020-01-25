@@ -166,8 +166,9 @@ class Login extends MY_Controller
    * @return json
    * @author bjchoi
    **/
-  public function check_phone($clubIdx)
+  public function check_phone()
   {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $phone = html_escape($this->input->post('phone'));
     $check = $this->member_model->checkPhone($clubIdx, $phone);
 
@@ -186,8 +187,9 @@ class Login extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function entry($clubIdx=NULL)
+  public function entry()
   {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     checkUserLoginRedirect($clubIdx); // 로그인 상태의 회원은 메인 페이지로
 
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
@@ -383,9 +385,10 @@ class Login extends MY_Controller
    * @return json
    * @author bjchoi
    **/
-  public function kakao($clubIdx)
+  public function kakao()
   {
     $now = time();
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $code = html_escape($this->input->get('code'));
     $state = html_escape($this->input->get('state'));
 

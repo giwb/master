@@ -17,8 +17,9 @@ class Shop extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function index($clubIdx)
+  public function index()
   {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
 
     $viewData['search'] = array(
@@ -88,8 +89,9 @@ class Shop extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function item($clubIdx)
+  public function item()
   {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $idx = html_escape($this->input->get('n'));
 
@@ -150,8 +152,9 @@ class Shop extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function cart($clubIdx)
+  public function cart()
   {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $cnt = 0;
 
@@ -287,8 +290,9 @@ class Shop extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function checkout($clubIdx)
+  public function checkout()
   {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $cnt = 0;
 
@@ -425,8 +429,9 @@ class Shop extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function complete($clubIdx)
+  public function complete()
   {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $idx = !empty($this->input->get('n')) ? html_escape($this->input->get('n')) : NULL;
 
@@ -457,9 +462,10 @@ class Shop extends MY_Controller
    * @return json
    * @author bjchoi
    **/
-  public function payment($clubIdx)
+  public function payment()
   {
     $nowDate = time();
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
 
     if (!empty($userData['idx'])) {
@@ -517,9 +523,10 @@ class Shop extends MY_Controller
    * @return json
    * @author bjchoi
    **/
-  public function cancel($clubIdx)
+  public function cancel()
   {
     $nowDate = time();
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $idx = html_escape($this->input->post('resIdx'));
     $viewPurchase = $this->shop_model->viewPurchase($idx); // 구매정보

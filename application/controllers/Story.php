@@ -18,9 +18,9 @@ class Story extends MY_Controller
    * @return json
    * @author bjchoi
    **/
-  public function index($clubIdx)
+  public function index()
   {
-    $clubIdx = html_escape($clubIdx);
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $storyIdx = html_escape($this->input->post('n'));
     $page = html_escape($this->input->post('p'));
     $viewData['userData'] = $this->session->userData;
@@ -50,9 +50,9 @@ class Story extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function view($clubIdx)
+  public function view()
   {
-    $viewData['clubIdx'] = html_escape($clubIdx);
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
     $viewData['storyIdx'] = html_escape($this->input->get('n'));
     $viewData['userData'] = $this->session->userData;
 
@@ -72,9 +72,9 @@ class Story extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function edit($clubIdx)
+  public function edit()
   {
-    $viewData['clubIdx'] = html_escape($clubIdx);
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
     $viewData['storyIdx'] = html_escape($this->input->get('n'));
     $viewData['userData'] = $this->session->userData;
 
@@ -501,8 +501,9 @@ class Story extends MY_Controller
    * @return json
    * @author bjchoi
    **/
-  public function delete_photo($clubIdx)
+  public function delete_photo()
   {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $filename = html_escape($this->input->post('photo'));
     $result = $this->file_model->deleteFile($filename);
 

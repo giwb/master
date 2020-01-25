@@ -18,8 +18,9 @@ class Album extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function index($clubIdx)
+  public function index()
   {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $viewData['userIdx'] = $userData['idx'];
     $viewData['adminCheck'] = $userData['admin'];
@@ -101,10 +102,11 @@ class Album extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function entry($clubIdx)
+  public function entry()
   {
     checkUserLogin();
 
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $idx = html_escape($this->input->get('n'));
 

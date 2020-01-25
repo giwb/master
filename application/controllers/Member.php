@@ -18,11 +18,12 @@ class Member extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function index($clubIdx)
+  public function index()
   {
     checkUserLogin();
 
     $nowDate = time();
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
@@ -128,7 +129,7 @@ class Member extends MY_Controller
     checkUserLogin();
 
     $now = time();
-    $clubIdx = $this->load->get_var('clubIdx');
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $sdate = html_escape($this->input->get('sdate'));
     $edate = html_escape($this->input->get('edate'));
@@ -167,7 +168,7 @@ class Member extends MY_Controller
   {
     checkUserLogin();
 
-    $clubIdx = $this->load->get_var('clubIdx');
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $noticeIdx = html_escape($this->input->get('n'));
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
@@ -274,7 +275,7 @@ class Member extends MY_Controller
     checkUserLogin();
 
     $now = time();
-    $clubIdx = $this->load->get_var('clubIdx');
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $noticeIdx = html_escape($this->input->post('noticeIdx'));
     $bus = html_escape($this->input->post('bus'));
@@ -319,7 +320,7 @@ class Member extends MY_Controller
     checkUserLogin();
 
     $nowDate = time();
-    $clubIdx = $this->load->get_var('clubIdx');
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
@@ -374,11 +375,12 @@ class Member extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function reserve($clubIdx)
+  public function reserve()
   {
     checkUserLogin();
 
     $nowDate = time();
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
@@ -454,6 +456,7 @@ class Member extends MY_Controller
     checkUserLogin();
 
     $nowDate = time();
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
@@ -493,11 +496,12 @@ class Member extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function reserve_past($clubIdx)
+  public function reserve_past()
   {
     checkUserLogin();
 
     $nowDate = time();
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
@@ -537,11 +541,12 @@ class Member extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function point($clubIdx)
+  public function point()
   {
     checkUserLogin();
 
     $nowDate = time();
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
@@ -581,11 +586,12 @@ class Member extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function penalty($clubIdx)
+  public function penalty()
   {
     checkUserLogin();
 
     $nowDate = time();
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
@@ -625,10 +631,11 @@ class Member extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function modify($clubIdx)
+  public function modify()
   {
     checkUserLogin();
 
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
@@ -688,7 +695,7 @@ class Member extends MY_Controller
    **/
   public function update()
   {
-    $clubIdx = $this->load->get_var('clubIdx');
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $inputData = $this->input->post();
 

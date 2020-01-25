@@ -18,8 +18,9 @@ class Reserve extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function index($clubIdx)
+  public function index()
   {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $noticeIdx = html_escape($this->input->get('n'));
     $checkIdx = html_escape($this->input->get('c'));
@@ -148,8 +149,9 @@ class Reserve extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function notice($clubIdx)
+  public function notice()
   {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $noticeIdx = html_escape($this->input->get('n'));
 
     // 클럽 정보
@@ -277,8 +279,9 @@ class Reserve extends MY_Controller
    * @return json
    * @author bjchoi
    **/
-  public function information_bus($clubIdx)
+  public function information_bus()
   {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $noticeIdx = html_escape($this->input->post('idx'));
     $viewData['view'] = $this->reserve_model->viewNotice($noticeIdx);
 

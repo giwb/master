@@ -62,7 +62,7 @@ $query = $db->query("SELECT idx FROM clubs WHERE domain='$domain'");
 $result = $query->row_array(1);
 
 if (!empty($result)) {
-  $result = $result['idx'];
+  setcookie('COOKIE_CLUBIDX', $result['idx']);
 } elseif (!empty($_SERVER['REDIRECT_URL'])) {
   $arrUrl = explode('/', $_SERVER['REDIRECT_URL']);
   $domain = html_escape($arrUrl[1]);
@@ -70,39 +70,39 @@ if (!empty($result)) {
   $result = $query->row_array(1);
 
   if (!empty($result)) {
-    $result = $result['idx'];
+    setcookie('COOKIE_CLUBIDX', $result['idx']);
   }
 }
 
 if (!empty($result)) {
   // 도메인이 있을 경우
   $route['default_controller']                = 'club/index';
-  $route[$domain]                             = 'club/index/' . $result;
-  $route[$domain . '/club/about']             = 'club/about/' . $result;
-  $route[$domain . '/club/guide']             = 'club/guide/' . $result;
-  $route[$domain . '/club/howto']             = 'club/howto/' . $result;
-  $route[$domain . '/club/past']              = 'club/past/' . $result;
-  $route[$domain . '/club/auth_about']        = 'club/auth_about/' . $result;
-  $route[$domain . '/club/auth']              = 'club/auth/' . $result;
-  $route[$domain . '/club/upload']            = 'club/upload/' . $result;
-  $route[$domain . '/story/view']             = 'story/view/' . $result;
-  $route[$domain . '/story/edit']             = 'story/edit/' . $result;
-  $route[$domain . '/album']                  = 'album/index/' . $result;
-  $route[$domain . '/album/entry']            = 'album/entry/' . $result;
-  $route[$domain . '/reserve']                = 'reserve/index/' . $result;
-  $route[$domain . '/reserve/notice']         = 'reserve/notice/' . $result;
-  $route[$domain . '/member']                 = 'member/index/' . $result;
-  $route[$domain . '/member/modify']          = 'member/modify/' . $result;
-  $route[$domain . '/member/reserve']         = 'member/reserve/' . $result;
-  $route[$domain . '/member/reserve_cancel']  = 'member/reserve_cancel/' . $result;
-  $route[$domain . '/member/reserve_past']    = 'member/reserve_past/' . $result;
-  $route[$domain . '/member/point']           = 'member/point/' . $result;
-  $route[$domain . '/member/penalty']         = 'member/penalty/' . $result;
-  $route[$domain . '/shop']                   = 'shop/index/' . $result;
-  $route[$domain . '/shop/item']              = 'shop/item/' . $result;
-  $route[$domain . '/shop/cart']              = 'shop/cart/' . $result;
-  $route[$domain . '/shop/checkout']          = 'shop/checkout/' . $result;
-  $route[$domain . '/shop/complete']          = 'shop/complete/' . $result;
+  $route[$domain]                             = 'club/index';
+  $route[$domain . '/club/about']             = 'club/about';
+  $route[$domain . '/club/guide']             = 'club/guide';
+  $route[$domain . '/club/howto']             = 'club/howto';
+  $route[$domain . '/club/past']              = 'club/past';
+  $route[$domain . '/club/auth_about']        = 'club/auth_about';
+  $route[$domain . '/club/auth']              = 'club/auth';
+  $route[$domain . '/club/upload']            = 'club/upload';
+  $route[$domain . '/story/view']             = 'story/view';
+  $route[$domain . '/story/edit']             = 'story/edit';
+  $route[$domain . '/album']                  = 'album/index';
+  $route[$domain . '/album/entry']            = 'album/entry';
+  $route[$domain . '/reserve']                = 'reserve/index';
+  $route[$domain . '/reserve/notice']         = 'reserve/notice';
+  $route[$domain . '/member']                 = 'member/index';
+  $route[$domain . '/member/modify']          = 'member/modify';
+  $route[$domain . '/member/reserve']         = 'member/reserve';
+  $route[$domain . '/member/reserve_cancel']  = 'member/reserve_cancel';
+  $route[$domain . '/member/reserve_past']    = 'member/reserve_past';
+  $route[$domain . '/member/point']           = 'member/point';
+  $route[$domain . '/member/penalty']         = 'member/penalty';
+  $route[$domain . '/shop']                   = 'shop/index';
+  $route[$domain . '/shop/item']              = 'shop/item';
+  $route[$domain . '/shop/cart']              = 'shop/cart';
+  $route[$domain . '/shop/checkout']          = 'shop/checkout';
+  $route[$domain . '/shop/complete']          = 'shop/complete';
 } else {
   $route['default_controller']  = 'welcome';
   $route['login']               = 'login/index';
