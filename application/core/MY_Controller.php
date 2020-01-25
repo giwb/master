@@ -83,7 +83,7 @@ class Admin_Controller extends CI_Controller
     if (!empty($adminCheck) && ($clubIdx == 1 && $adminCheck == 1)) {
       $loginData['userData'] = $this->member_model->viewMember($userIdx);
     } else {
-      redirect(base_url() . 'login/?r=/admin');
+      redirect(BASE_URL . '/login/?r=/admin');
     }
 
     $this->load->vars($loginData);
