@@ -451,7 +451,7 @@ class Member extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function reserve_cancel($clubIdx)
+  public function reserve_cancel()
   {
     checkUserLogin();
 
