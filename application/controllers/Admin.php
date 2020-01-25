@@ -1643,7 +1643,7 @@ exit;
     $viewData['view']['memberLevel'] = memberLevel($viewData['view']['rescount'], $viewData['view']['penalty'], $viewData['view']['level'], $viewData['view']['admin']);
 
     // 회원 정보
-    $viewData['viewMember'] = $this->member_model->viewMember($viewData['clubIdx'], $viewData['view']['idx']);
+    $viewData['viewMember'] = $this->member_model->viewMember($viewData['view']['idx']);
 
     // 예약 내역
     $paging['perPage'] = 5; $paging['nowPage'] = 0;
