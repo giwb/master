@@ -118,7 +118,7 @@
         formData.append('file_obj', $dom[0].files[0]);
 
         $.ajax({
-          url: baseUrl + 'shop/upload',
+          url: '/shop/upload',
           processData: false,
           contentType: false,
           data: formData,
@@ -157,7 +157,7 @@
         var baseUrl = $('input[name=base_url]').val();
         var filename = $('input[name=delete_filename]').val();
         $.ajax({
-          url: baseUrl + 'shop/photo_delete',
+          url: '/shop/photo_delete',
           data: 'filename=' + filename,
           dataType: 'json',
           type: 'post',
@@ -240,7 +240,7 @@
         var $btn = $(this);
         var baseUrl = $('input[name=base_url]').val();
         $.ajax({
-          url: baseUrl + 'shop/delete',
+          url: '/shop/delete',
           data: 'idx=' + $('input[name=idx]').val(),
           dataType: 'json',
           type: 'post',
@@ -264,7 +264,7 @@
         var baseUrl = $('input[name=base_url]').val();
         var categoryIdx = $(this).val();
         $.ajax({
-          url: baseUrl + 'shop/category/' + categoryIdx,
+          url: '/shop/category/' + categoryIdx,
           dataType: 'json',
           type: 'post',
           beforeSend: function() {

@@ -43,7 +43,7 @@
           return false;
         }
         $.ajax({
-          url: baseUrl + 'shop/category_update',
+          url: '/shop/category_update',
           data: 'category_name=' + categoryName + '&category_idx=' + categoryIdx + '&category_parent=' + categoryParent,
           dataType: 'json',
           type: 'post',
@@ -102,7 +102,7 @@
           $('.category-child').removeClass('d-none');
 
           $.ajax({
-            url: baseUrl + 'shop/category/' + categoryIdx,
+            url: '/shop/category/' + categoryIdx,
             dataType: 'json',
             type: 'post',
             beforeSend: function() {
@@ -123,7 +123,7 @@
         var categoryType = $(this).data('type');
         var categoryIdx = $('.category-' + categoryType + ' input[name=category_idx]').val();
         $.ajax({
-          url: baseUrl + 'shop/category_delete',
+          url: '/shop/category_delete',
           data: 'category_idx=' + categoryIdx,
           dataType: 'json',
           type: 'post',

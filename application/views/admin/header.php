@@ -79,7 +79,7 @@
           <i class="fas fa-fw fa-store"></i>
           <span>구매대행 관리</span>
         </a>
-        <div id="collapseShop" class="collapse<?=strstr($uri, 'shop') ? " show" : ""?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseShop" class="collapse<?=strstr($uri, 'ShopAdmin') ? " show" : ""?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="/ShopAdmin/index"> <i class="menu-icon fas fa-list-alt"></i> 등록된 상품 관리</a>
             <a class="collapse-item" href="/ShopAdmin/entry"> <i class="menu-icon fas fa-cart-plus"></i> 신규 상품 등록</a>
