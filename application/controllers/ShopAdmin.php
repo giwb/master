@@ -64,14 +64,14 @@ class ShopAdmin extends Admin_Controller
     if ($page >= 2) {
       // 2페이지 이상일 경우에는 Json으로 전송
       $result['page'] = $page;
-      $result['html'] = $this->load->view('shop/list', $viewData, true);
+      $result['html'] = $this->load->view('shop_admin/list', $viewData, true);
       $this->output->set_output(json_encode($result));
     } else {
       // 아이템 목록 템플릿
-      $viewData['listItem'] = $this->load->view('shop/list', $viewData, true);
+      $viewData['listItem'] = $this->load->view('shop_admin/list', $viewData, true);
 
       // 1페이지에는 View 페이지로 전송
-      $this->_viewPage('shop/index', $viewData);
+      $this->_viewPage('shop_admin/index', $viewData);
     }
   }
 
@@ -126,7 +126,7 @@ class ShopAdmin extends Admin_Controller
       }
     }
 
-    $this->_viewPage('shop/entry', $viewData);
+    $this->_viewPage('shop_admin/entry', $viewData);
   }
 
   /**
@@ -264,7 +264,7 @@ class ShopAdmin extends Admin_Controller
     if (empty($parent)) {
       // 부모가 없으면 뷰로 출력
       $viewData['listCategory'] = $this->shop_model->listCategory();
-      $this->_viewPage('shop/category', $viewData);
+      $this->_viewPage('shop_admin/category', $viewData);
     } else {
       // 부모가 있으면 Json으로 출력
       $result = $this->shop_model->listCategory(html_escape($parent));
@@ -380,14 +380,14 @@ class ShopAdmin extends Admin_Controller
     if ($page >= 2) {
       // 2페이지 이상일 경우에는 Json으로 전송
       $result['page'] = $page;
-      $result['html'] = $this->load->view('shop/order_list', $viewData, true);
+      $result['html'] = $this->load->view('shop_admin/order_list', $viewData, true);
       $this->output->set_output(json_encode($result));
     } else {
       // 아이템 목록 템플릿
-      $viewData['listPurchase'] = $this->load->view('shop/order_list', $viewData, true);
+      $viewData['listPurchase'] = $this->load->view('shop_admin/order_list', $viewData, true);
 
       // 1페이지에는 View 페이지로 전송
-      $this->_viewPage('shop/order', $viewData);
+      $this->_viewPage('shop_admin/order', $viewData);
     }
   }
 
