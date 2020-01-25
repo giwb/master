@@ -59,17 +59,18 @@ $db =& DB();
 // 각 클럽 도메인별 이동
 $domain = $_SERVER['HTTP_HOST'];
 $query = $db->query("SELECT idx FROM clubs WHERE domain='$domain'");
+$result = $query->result();
 
-if ($query->num_rows() > 0) {
+if (!empty($result)) {
   $result = $query->result();
   $result = $result[0]->idx;
 } elseif (!empty($_SERVER['REDIRECT_URL'])) {
   $arrUrl = explode('/', $_SERVER['REDIRECT_URL']);
   $domain = html_escape($arrUrl[1]);
   $query = $db->query("SELECT idx FROM clubs WHERE domain='$domain'");
+  $result = $query->result();
 
-  if ($query->num_rows() > 0) {
-    $result = $query->result();
+  if (!empty($result)) {
     $result = $result[0]->idx;
   }
 }
