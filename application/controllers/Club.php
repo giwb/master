@@ -18,10 +18,25 @@ class Club extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function index($clubIdx)
+  public function index($clubIdx=NULL)
   {
     $userData = $this->load->get_var('userData');
     if (empty($userData['idx'])) $userData['idx'] = NULL;
+
+    if (is_null($clubIdx)) {
+      // 각 클럽 도메인별 이동
+      $domain = $_SERVER['HTTP_HOST'];
+      $result = $this->club_model->getDomain($domain);
+
+      if (!empty($result)) {
+        $clubIdx = $result['idx'];
+      } elseif (!empty($_SERVER['REDIRECT_URL'])) {
+        $arrUrl = explode('/', $_SERVER['REDIRECT_URL']);
+        $domain = html_escape($arrUrl[1]);
+        $result = $this->club_model->getDomain($domain);
+        $clubIdx = $result['idx'];
+      }
+    }
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
