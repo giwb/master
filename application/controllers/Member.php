@@ -37,7 +37,7 @@ class Member extends MY_Controller
       $this->_viewPage('member/driver', $viewData);
     } else {
       // 회원 정보
-      $viewData['viewMember'] = $this->member_model->viewMember($clubIdx, $userData['idx']);
+      $viewData['viewMember'] = $this->member_model->viewMember($userData['idx']);
 
       // 용품 인수를 위한 회원 예약 내역
       $viewData['listMemberReserve'] = $this->shop_model->listMemberReserve($clubIdx, $userData['userid']);
@@ -347,7 +347,7 @@ class Member extends MY_Controller
     }
 
     // 회원 정보
-    $viewData['viewMember'] = $this->member_model->viewMember($clubIdx, $userData['idx']);
+    $viewData['viewMember'] = $this->member_model->viewMember($userData['idx']);
 
     // 용품 인수를 위한 회원 예약 내역
     $viewData['listMemberReserve'] = $this->shop_model->listMemberReserve($clubIdx, $userData['userid']);
@@ -426,7 +426,7 @@ class Member extends MY_Controller
     }
 
     // 회원 정보
-    $viewData['viewMember'] = $this->member_model->viewMember($clubIdx, $userData['idx']);
+    $viewData['viewMember'] = $this->member_model->viewMember($userData['idx']);
 
     // 페이지 타이틀
     $viewData['pageTitle'] = '마이페이지 - 예약 내역';
@@ -471,7 +471,7 @@ class Member extends MY_Controller
     $viewData['userReserveCancel'] = $this->reserve_model->userReserveCancel($clubIdx, $userData['userid'], $paging);
 
     // 회원 정보
-    $viewData['viewMember'] = $this->member_model->viewMember($clubIdx, $userData['idx']);
+    $viewData['viewMember'] = $this->member_model->viewMember($userData['idx']);
 
     // 페이지 타이틀
     $viewData['pageTitle'] = '마이페이지 - 예약취소 내역';
@@ -516,7 +516,7 @@ class Member extends MY_Controller
     $viewData['userVisit'] = $this->reserve_model->userVisit($clubIdx, $userData['userid'], $paging);
 
     // 회원 정보
-    $viewData['viewMember'] = $this->member_model->viewMember($clubIdx, $userData['idx']);
+    $viewData['viewMember'] = $this->member_model->viewMember($userData['idx']);
 
     // 페이지 타이틀
     $viewData['pageTitle'] = '마이페이지 - 산행 내역';
@@ -561,7 +561,7 @@ class Member extends MY_Controller
     $viewData['userPoint'] = $this->member_model->userPointLog($clubIdx, $userData['userid'], $paging);
 
     // 회원 정보
-    $viewData['viewMember'] = $this->member_model->viewMember($clubIdx, $userData['idx']);
+    $viewData['viewMember'] = $this->member_model->viewMember($userData['idx']);
 
     // 페이지 타이틀
     $viewData['pageTitle'] = '마이페이지 - 포인트 내역';
@@ -606,7 +606,7 @@ class Member extends MY_Controller
     $viewData['userPenalty'] = $this->member_model->userPenaltyLog($clubIdx, $userData['userid'], $paging);
 
     // 회원 정보
-    $viewData['viewMember'] = $this->member_model->viewMember($clubIdx, $userData['idx']);
+    $viewData['viewMember'] = $this->member_model->viewMember($userData['idx']);
 
     // 페이지 타이틀
     $viewData['pageTitle'] = '마이페이지 - 페널티 내역';
