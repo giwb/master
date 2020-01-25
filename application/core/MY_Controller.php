@@ -20,6 +20,8 @@ class MY_Controller extends CI_Controller
       } else {
         define('BASE_URL', $header . $_SERVER['HTTP_HOST'] . '/' . $domain);
       }
+    } else {
+      define('BASE_URL', $header . $_SERVER['HTTP_HOST']);
     }
 
     // 회원 로그인 설정
