@@ -18,4 +18,4 @@
           </form>
         </div>
       </div>
-      <script src="<?=base_url()?>public/js/album.js" type="text/javascript"></script>
+      <script src="/public/js/album.js" type="text/javascript"></script>
