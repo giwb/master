@@ -137,7 +137,7 @@ class Reserve extends MY_Controller
           $viewData['listItem'][$key]['item_category_name'][$cnt] = $buf['name'];
         }
       }
-      $viewData['listItem'] = $this->load->view('club/shop_list', $viewData, true);
+      $viewData['listItem'] = $this->load->view('/shop/list', $viewData, true);
 
       $this->_viewPage('reserve/check', $viewData);
     }

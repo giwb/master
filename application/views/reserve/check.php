@@ -28,7 +28,7 @@
             <?php if ($userData['level'] != LEVEL_FREE): ?>
             <button type="button" class="btn btn-primary btn-mypage-payment">결제정보입력</button></a>
             <?php endif; ?>
-            <a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$view['noticeIdx']?>"><button type="button" class="btn btn-secondary">좌석현황보기</button></a>
+            <a href="/reserve/?n=<?=$view['noticeIdx']?>"><button type="button" class="btn btn-secondary">좌석현황보기</button></a>
           <?php endif; ?>
           </div>
         </div>
@@ -206,4 +206,4 @@
           }
         });
       </script>
-      <script type="text/javascript" src="<?=base_url()?>public/js/shop.js"></script>
+      <script type="text/javascript" src="/public/js/shop.js"></script>
