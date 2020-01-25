@@ -7,7 +7,7 @@
         </div>
       </div>
 
-      <form id="formList" method="post" action="<?=base_url()?>admin/log_reply">
+      <form id="formList" method="post" action="/admin/log_reply">
         <input type="hidden" name="p" value="1">
       </form>
 

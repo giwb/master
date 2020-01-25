@@ -1,8 +1,8 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-<link href="<?=base_url()?>/public/css/fullcalendar.css" rel="stylesheet">
-<link href="<?=base_url()?>/public/css/fullcalendar.print.css" rel="stylesheet">
-<script src="<?=base_url()?>/public/js/fullcalendar.js" type="text/javascript"></script>
+<link href="/public/css/fullcalendar.css" rel="stylesheet">
+<link href="/public/css/fullcalendar.print.css" rel="stylesheet">
+<script src="/public/js/fullcalendar.js" type="text/javascript"></script>
 <script src='//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js'></script>
 <script>
   $(document).ready(function() {
@@ -59,7 +59,7 @@
     $('.error-message').hide();
 
     $.ajax({
-      url: '<?=base_url()?>admin/setup_calendar_update',
+      url: '/admin/setup_calendar_update',
       data: 'nowdate=' + nowdate + '&dayname=' + dayname + '&holiday=' + holiday + '&idx=' + idx,
       dataType: 'json',
       type: 'post',
@@ -67,7 +67,7 @@
         if (result.error == 1) {
           $('.error-message').text(result.message).slideDown();
         } else {
-          location.replace('<?=base_url()?>admin/setup_calendar?d=' + nowdate);
+          location.replace('/admin/setup_calendar?d=' + nowdate);
         }
       }
     });
@@ -75,7 +75,7 @@
     var nowdate = $('input[name=nowdate]').val();
 
     $.ajax({
-      url: '<?=base_url()?>admin/setup_calendar_delete',
+      url: '/admin/setup_calendar_delete',
       data: 'idx=' + $('input[name=idx]').val(),
       dataType: 'json',
       type: 'post',
@@ -83,7 +83,7 @@
         if (result.error == 1) {
           $('.error-message').text(result.message).slideDown();
         } else {
-          location.replace('<?=base_url()?>admin/setup_calendar?d=' + nowdate);
+          location.replace('/admin/setup_calendar?d=' + nowdate);
         }
       }
     });

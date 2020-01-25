@@ -10,8 +10,8 @@
       <div class="story-reply">
       <?php
         foreach ($listReaction as $value):
-          if ($value['reaction_type'] == REACTION_TYPE_STORY) $value['reaction_type'] = '<a target="_blank" href="' . base_url() . 'story/view/' . $value['club_idx'] . '?n=' . $value['story_idx'] . '">이야기</a>';
-          elseif ($value['reaction_type'] == REACTION_TYPE_NOTICE) $value['reaction_type'] = '<a target="_blank" href="' . base_url() . 'reserve/notice/' . $value['club_idx'] . '?n=' . $value['story_idx'] . '">공지</a>';
+          if ($value['reaction_type'] == REACTION_TYPE_STORY) $value['reaction_type'] = '<a target="_blank" href="/story/view/' . $value['club_idx'] . '?n=' . $value['story_idx'] . '">이야기</a>';
+          elseif ($value['reaction_type'] == REACTION_TYPE_NOTICE) $value['reaction_type'] = '<a target="_blank" href="/reserve/notice/' . $value['club_idx'] . '?n=' . $value['story_idx'] . '">공지</a>';
 
           if ($value['reaction_kind'] == REACTION_KIND_LIKE) $value['reaction_kind'] = '좋아요';
           elseif ($value['reaction_kind'] == REACTION_KIND_SHARE) {
@@ -20,8 +20,8 @@
             elseif ($value['share_type'] == SHARE_TYPE_TWITTER) $value['reaction_kind'] = '트위터 공유';
           }
 
-          if (file_exists(PHOTO_PATH . $value['created_by'])) $value['photo'] = base_url() . 'public/photos/' . $value['created_by'];
-          else $value['photo'] = base_url() . 'public/images/user.png';
+          if (file_exists(PHOTO_PATH . $value['created_by'])) $value['photo'] = PHOTO_URL . $value['created_by'];
+          else $value['photo'] = '/public/images/user.png';
       ?>
         <div class="mb-2">
           <img class="img-profile" src="<?=$value['photo']?>"> <?=$value['nickname']?>님이
@@ -65,7 +65,7 @@
         // 삭제
         var $btn = $(this);
         $.ajax({
-          url: $('input[name=base_url]').val() + 'admin/log_reaction_delete',
+          url: '/admin/log_reaction_delete',
           data: 'created_by=' + $('input[name=created_by]').val() + '&created_at=' + $('input[name=created_at]').val(),
           dataType: 'json',
           type: 'post',

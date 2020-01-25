@@ -10,7 +10,7 @@
         </div>
       </div>
 
-      <form id="formFront" method="post" action="<?=base_url()?>admin/setup_front_insert" enctype="multipart/form-data">
+      <form id="formFront" method="post" action="/admin/setup_front_insert" enctype="multipart/form-data">
         <table class="table">
           <tbody>
             <tr>
@@ -23,7 +23,7 @@
         </table>
       </form>
 
-      <form id="formSort" method="post" action="<?=base_url()?>admin/setup_front_sort">
+      <form id="formSort" method="post" action="/admin/setup_front_sort">
         <table class="table">
           <colgroup>
             <col width="90">
@@ -38,7 +38,7 @@
 <?php foreach ($listFront as $value): ?>
             <tr>
               <td><input type="text" size="5" name="sort_idx[]" value="<?=$value['sort_idx']?>" class="sort-idx"><br><button type="button" class="btn btn-secondary btn-front-delete-modal" data-filename="<?=$value['filename']?>">삭제</button></td>
-              <td><img width="200" src="<?=base_url()?><?=URL_FRONT?><?=$value['filename']?>"></td>
+              <td><img width="200" src="<?=URL_FRONT?><?=$value['filename']?>"></td>
             </tr>
 <?php endforeach; ?>
             <tr><td colspan="2" style="padding: 0px;"></td></tr>

@@ -9,7 +9,7 @@
     </div>
 
     <div class="sub-contents">
-      <form id="setupForm" method="post" action="<?=base_url()?>admin/setup_information_update" enctype="multipart/form-data">
+      <form id="setupForm" method="post" action="/admin/setup_information_update" enctype="multipart/form-data">
         <h2>■ 기본정보</h2>
         <dl class="row align-items-center">
           <dt class="col-sm-1">산악회/단체명</dt>
@@ -88,7 +88,7 @@
               if ($view['photo'][0] != ''):
                 foreach ($view['photo'] as $value):
             ?>
-              <img src="<?=base_url()?><?=PHOTO_URL?><?=$value?>" class="btn-photo-modal" data-photo="<?=$value?>">
+              <img src="<?=PHOTO_URL?><?=$value?>" class="btn-photo-modal" data-photo="<?=$value?>">
             <?php
                 endforeach;
               endif;
@@ -197,7 +197,7 @@
         var parent = $dom.val();
 
         $.ajax({
-          url: $('input[name=base_url]').val() + 'club/list_gugun',
+          url: '/club/list_gugun',
           data: 'parent=' + parent,
           dataType: 'json',
           type: 'post',
@@ -251,7 +251,6 @@
       }).on('change', '.file', function() {
         // 파일 업로드
         var $dom = $(this);
-        var baseUrl = $('input[name=base_url]').val();
         var formData = new FormData($('form')[0]);
         var maxSize = 20480000;
         var size = $dom[0].files[0].size;
@@ -267,7 +266,7 @@
         formData.append('file_obj', $dom[0].files[0]);
 
         $.ajax({
-          url: baseUrl + 'club/upload',
+          url: '/club/upload',
           processData: false,
           contentType: false,
           data: formData,

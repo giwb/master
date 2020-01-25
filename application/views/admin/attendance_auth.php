@@ -5,7 +5,7 @@
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
           <h1 class="h3 mb-0 text-gray-800">백산백소 인증현황 등록</h1>
         </div>
-        <form id="formAuth" method="post" action="<?=base_url()?>admin/attendance_auth_insert">
+        <form id="formAuth" method="post" action="/admin/attendance_auth_insert">
           <div class="row align-items-center mb-2">
             <div class="col-sm-1">산행 선택 <span class="required">(*)</span></div>
             <div class="col-sm-11">

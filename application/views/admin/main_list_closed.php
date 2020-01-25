@@ -6,7 +6,7 @@
           <h1 class="h3 mb-0 text-gray-800">다녀온 산행 목록</h1>
         </div>
         <div class="w-100 border mt-2 mb-3 p-3">
-          <form id="formSearch" method="get" action="<?=base_url()?>admin/main_list_closed" class="row align-items-center text-center">
+          <form id="formSearch" method="get" action="/admin/main_list_closed" class="row align-items-center text-center">
             <div class="col-sm-1 pl-0 pr-0">검색 시작일</div>
             <div class="col-sm-2 pl-0 pr-0"><input id="startDatePicker" type="text" name="sdate" class="form-control" value="<?=!empty($search['sdate']) ? $search['sdate'] : ''?>"></div>
             <div class="col-sm-1 pl-0 pr-0">검색 종료일</div>
@@ -18,7 +18,7 @@
         </div>
         <div class="row align-items-center border-bottom mb-3 pb-3">
           <div class="col-lg-4"></div>
-          <div class="col-lg-1 text-right"><a href="<?=base_url()?>admin/main_list_closed?<?=$search['prev']?>">◀</a></div>
+          <div class="col-lg-1 text-right"><a href="/admin/main_list_closed?<?=$search['prev']?>">◀</a></div>
           <div class="col-lg-1">
             <select name="syear" class="form-control">
               <?php foreach (range($search['syear'], 2010) as $value): ?>
@@ -33,14 +33,14 @@
               <?php endforeach; ?>
             </select>
           </div>
-          <div class="col-lg-1"><a href="<?=base_url()?>admin/main_list_closed?<?=$search['next']?>">▶</a></div>
+          <div class="col-lg-1"><a href="/admin/main_list_closed?<?=$search['next']?>">▶</a></div>
           <div class="col-lg-4"></div>
         </div>
 <?php
   foreach ($listClosed as $value) {
 ?>
         <div class="row mb-3">
-          <div class="col-lg-11"><b><?=viewStatus($value['status'])?></b> <a target="_blank" href="<?=base_url()?>admin/main_view_progress/<?=$value['idx']?>"><?=$value['subject']?></a><br>산행일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 참가비용 : <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원</div>
+          <div class="col-lg-11"><b><?=viewStatus($value['status'])?></b> <a target="_blank" href="/admin/main_view_progress/<?=$value['idx']?>"><?=$value['subject']?></a><br>산행일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 참가비용 : <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원</div>
           <div class="col-lg-1 text-right">0원<br><?=cntRes($value['idx'])?>명</div>
         </div>
 <?php
@@ -49,8 +49,8 @@
       </div>
     </div>
 
-    <link href="<?=base_url()?>public/css/jquery-ui.css" rel="stylesheet">
-    <script src="<?=base_url()?>public/js/jquery-ui.min.js" type="text/javascript"></script>
+    <link href="/public/css/jquery-ui.css" rel="stylesheet">
+    <script src="/public/js/jquery-ui.min.js" type="text/javascript"></script>
     <script type="text/javascript">
       $(document).ready(function(){
         $('#startDatePicker').datepicker({

@@ -56,6 +56,25 @@ class Admin_Controller extends CI_Controller
     $this->load->library('session');
     $this->load->model('member_model');
 
+    // 클럽 도메인 설정
+    if ($_SERVER['SERVER_PORT'] == '80') $header = 'http://'; else $header = 'https://';
+    if (!empty($_SERVER['REDIRECT_URL'])) {
+      $arrUri = explode('/', $_SERVER['REDIRECT_URL']);
+      $uri = html_escape($arrUri[1]);
+      if (empty($uri)) {
+        define('BASE_URL', $header . $_SERVER['HTTP_HOST']);
+      } else {
+        $result = $this->club_model->getDomain($_SERVER['HTTP_HOST']);
+        if (empty($result)) {
+          define('BASE_URL', $header . $_SERVER['HTTP_HOST'] . '/' . $uri);
+        } else {
+          define('BASE_URL', $header . $_SERVER['HTTP_HOST']);
+        }
+      }
+    } else {
+      define('BASE_URL', $header . $_SERVER['HTTP_HOST']);
+    }
+
     $clubIdx = html_escape($this->session->userData['club_idx']);
     $userIdx = html_escape($this->session->userData['idx']);
     $adminCheck = html_escape($this->session->userData['admin']);

@@ -34,7 +34,7 @@
                   title: '<?=$value['status'] != STATUS_PLAN ? $value['starttime'] . "\\n" : "[계획]\\n"?><?=$value['mname']?>',
                   start: new Date('<?=date('Y', $startDate)?>/<?=date('m', $startDate)?>/<?=date('d', $startDate)?>/00:00:01'),
                   end: new Date('<?=date('Y', $endDate)?>/<?=date('m', $endDate)?>/<?=date('d', $endDate)?>/23:59:59'),
-                  url: '<?=base_url()?>admin/main_view_progress/<?=$value['idx']?>',
+                  url: '/admin/main_view_progress/<?=$value['idx']?>',
                   className: 'notice-status<?=$value['status']?>'
                 },
                 <?php
@@ -141,7 +141,7 @@
 
           <div class="row align-items-center border-top border-bottom mb-3 pt-4 pb-3">
             <div class="col-6">■ 최신 댓글</div>
-            <div class="col-6 text-right small"><a href="<?=base_url()?>admin/log_reply">[더보기]</a></div>
+            <div class="col-6 text-right small"><a href="/admin/log_reply">[더보기]</a></div>
           </div>
           <div class="story-reply mb-5">
             <?=$listReply?>
@@ -151,4 +151,4 @@
       </div>
     </div>
 
-    <script type="text/javascript" src="<?=base_url()?>public/vendors/chart.js/dist/Chart.bundle.min.js"></script>
+    <script type="text/javascript" src="/public/vendors/chart.js/dist/Chart.bundle.min.js"></script>

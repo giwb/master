@@ -1,8 +1,8 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-<link href="<?=base_url()?>/public/css/fullcalendar.css" rel="stylesheet">
-<link href="<?=base_url()?>/public/css/fullcalendar.print.css" rel="stylesheet">
-<script src="<?=base_url()?>/public/js/fullcalendar.js" type="text/javascript"></script>
+<link href="/public/css/fullcalendar.css" rel="stylesheet">
+<link href="/public/css/fullcalendar.print.css" rel="stylesheet">
+<script src="/public/js/fullcalendar.js" type="text/javascript"></script>
 <script src='//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js'></script>
 <script>
   $(document).ready(function() {
@@ -95,7 +95,7 @@
     }
 
     $.ajax({
-      url: '<?=base_url()?>admin/main_schedule_update',
+      url: '/admin/main_schedule_update',
       data: data,
       dataType: 'json',
       type: 'post',
@@ -103,7 +103,7 @@
         if (result.error == 1) {
           $('.error-message').text(result.message).slideDown();
         } else {
-          location.replace('<?=base_url()?>admin/main_schedule?d=' + sdate);
+          location.replace('/admin/main_schedule?d=' + sdate);
         }
       }
     });
@@ -111,7 +111,7 @@
     var sdate = $('input[name=sdate]').val();
 
     $.ajax({
-      url: '<?=base_url()?>admin/main_schedule_delete',
+      url: '/admin/main_schedule_delete',
       data: 'idx=' + $('input[name=idx]').val(),
       dataType: 'json',
       type: 'post',
@@ -119,7 +119,7 @@
         if (result.error == 1) {
           $('.error-message').text(result.message).slideDown();
         } else {
-          location.replace('<?=base_url()?>admin/main_schedule?d=' + sdate);
+          location.replace('/admin/main_schedule?d=' + sdate);
         }
       }
     });

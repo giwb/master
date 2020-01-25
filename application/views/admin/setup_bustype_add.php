@@ -9,7 +9,7 @@
           <h1 class="h3 mb-0 text-gray-800">차종등록</h1>
         </div>
 
-        <form id="formBustype" method="post" action="<?=base_url()?>admin/<?=$action?>">
+        <form id="formBustype" method="post" action="/admin/<?=$action?>">
           <div class="row align-items-center pt-2 pb-2">
             <div class="col-sm-1"><strong>차량명</strong> <span class="required">(*)</span></div>
             <div class="col-sm-11"><input type="text" name="bus_name" class="form-control" value="<?=$viewBustype['bus_name']?>"></div>

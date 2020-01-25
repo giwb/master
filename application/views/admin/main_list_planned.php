@@ -16,7 +16,7 @@
 ?>
             <tr>
               <td>
-                <b><?=viewStatus($value['status'])?></b> <a target="_blank" href="<?=base_url()?>admin/main_view_progress/<?=$value['idx']?>"><?=$value['subject']?></a><br>
+                <b><?=viewStatus($value['status'])?></b> <a target="_blank" href="/admin/main_view_progress/<?=$value['idx']?>"><?=$value['subject']?></a><br>
                 <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / 예약인원 <?=cntRes($value['idx'])?>명
               </td>
               <td align="right">
@@ -25,8 +25,8 @@
                 <?php else: ?>
                 <button type="button" class="btn btn-primary btn-change-visible" data-idx="<?=$value['idx']?>" data-visible="<?=VISIBLE_ABLE?>">공개</button>
                 <?php endif; ?>
-                <a href="<?=base_url()?>admin/main_entry/<?=$value['idx']?>"><button type="button" class="btn btn-primary">수정</button></a>
-                <a href="<?=base_url()?>admin/main_notice/<?=$value['idx']?>"><button type="button" class="btn btn-primary">공지</button></a>
+                <a href="/admin/main_entry/<?=$value['idx']?>"><button type="button" class="btn btn-primary">수정</button></a>
+                <a href="/admin/main_notice/<?=$value['idx']?>"><button type="button" class="btn btn-primary">공지</button></a>
                 <button type="button" class="btn btn-primary btn-seat">승차</button>
                 <button type="button" class="btn btn-primary btn-adjust">정산</button>
               </td>

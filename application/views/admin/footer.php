@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
   </div>
-  <input type="hidden" name="base_url" value="<?=base_url()?>">
+  <input type="hidden" name="base_url" value="<?=BASE_URL?>">
 
   <!-- Message Modal -->
   <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
@@ -34,7 +34,7 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <script src="<?=base_url()?>public/js/admin.js?<?=time()?>" type="text/javascript"></script>
+  <script src="/public/js/admin.js?<?=time()?>" type="text/javascript"></script>
 
   <?php if (ENVIRONMENT == 'production'): ?>
   <script>

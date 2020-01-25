@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
     <h1 class="h3 mb-0 text-gray-800">차종등록</h1>
-    <div class="text-right pt-3 pb-3"><a href="<?=base_url()?>admin/setup_bustype_add"><button class="btn btn-primary">등록하기</button></a></div>
+    <div class="text-right pt-3 pb-3"><a href="/admin/setup_bustype_add"><button class="btn btn-primary">등록하기</button></a></div>
     <input type="hidden" name="back_url" value="setup_bustype">
     <div class="ml-4 mr-4">
       <div class="row align-items-center font-weight-bold border-top mt-3 pt-3">
@@ -23,7 +23,7 @@
           <div class="col-4 col-sm-1"><?=$value['bus_seat_name']?></div>
           <div class="col-sm-1 d-none d-sm-block"><?=date('Y-m-d', $value['created_at'])?></div>
           <div class="col-2 col-sm-2 pl-0 pr-0">
-            <a href="<?=base_url()?>admin/setup_bustype_add/<?=$value['idx']?>"><button class="btn btn-sm btn-primary">수정</button></a>
+            <a href="/admin/setup_bustype_add/<?=$value['idx']?>"><button class="btn btn-sm btn-primary">수정</button></a>
             <button class="btn btn-sm btn-secondary btn-bus-hide" data-idx="<?=$value['idx']?>"><?=$value['visible'] == 'Y' ? '숨김' : '보임'?></button>
             <button class="btn btn-sm btn-danger btn-bustype-delete-modal" data-idx="<?=$value['idx']?>">삭제</button>
           </div>
@@ -44,7 +44,7 @@
             })
 
             $.ajax({
-              url: $('input[name=base_url]').val() + 'admin/setup_bustype_sort',
+              url: '/admin/setup_bustype_sort',
               data: 'sort=' + arrSort,
               dataType: 'json',
               type: 'post',

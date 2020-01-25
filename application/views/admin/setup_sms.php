@@ -48,7 +48,7 @@
         <button class="btn btn-secondary btn-copy mb-5" data-trigger="click" data-placement="top" data-clipboard-text="<?=$str?>">복사하기</button>
       </div>
 
-      <script src="<?=base_url()?>public/js/clipboard.min.js" type="text/javascript"></script>
+      <script src="/public/js/clipboard.min.js" type="text/javascript"></script>
       <script type="text/javascript">
         $(document).ready(function() {
           new ClipboardJS('.btn-copy');
