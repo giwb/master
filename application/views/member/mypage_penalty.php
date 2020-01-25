@@ -5,7 +5,7 @@
           <h2><?=$pageTitle?></h2>
           <h3>■ 페널티 내역</h3>
           <ul>
-            <form id="formList" method="post" action="<?=base_url()?>member/penalty/<?=$clubIdx?>">
+            <form id="formList" method="post" action="<?=BASE_URL?>/member/penalty">
             <input type="hidden" name="p" value="1">
             <?=$userPenalty?>
             <div class="area-append"></div>

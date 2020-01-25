@@ -103,7 +103,7 @@ class Club_model extends CI_Model
   }
 
   // 앨범 상세
-  public function viewAlbum($clubIdx, $idx)
+  public function viewAlbum($idx)
   {
     $this->db->select('*')
           ->from(DB_ALBUM)

@@ -3,7 +3,7 @@
       <div id="shop" class="club-main">
         <div class="row align-items-center pb-3">
           <div class="col-6 col-sm-9"><h3 class="m-0 p-0">구매대행 상품 - 구매완료</h3></div>
-          <div class="col-6 col-sm-3 text-right"><a href="<?=base_url()?>club/shop/<?=$clubIdx?>"><button type="button" class="btn btn-sm btn-cart">상품 보기</button></a></div>
+          <div class="col-6 col-sm-3 text-right"><a href="<?=BASE_URL?>/shop"><button type="button" class="btn btn-sm btn-cart">상품 보기</button></a></div>
         </div>
         <div class="sub-content border-top">
           <div class="m-3 p-5 text-center">
@@ -15,7 +15,7 @@
             <div class="col"><strong><?=$value['item_name']?></strong></div>
           </div>
           <div class="row align-items-center border-bottom p-3">
-            <div class="col-5 col-md-2 p-0 text-center"><img src="<?=base_url() . PHOTO_URL . $value['photo']?>"></div>
+            <div class="col-5 col-md-2 p-0 text-center"><img src="<?=PHOTO_URL . $value['photo']?>"></div>
             <div class="col-1 col-md-7 p-0 pl-3"><div class="d-none d-sm-block"><strong><?=$value['name']?></strong><br><?=!empty($value['option']) ? $value['option'] . ' - ' : ''?><?=number_format($value['cost'])?>원</div></div>
             <div class="col-2 col-md-1 p-0 text-center"><?=number_format($value['amount'])?>개</div>
             <div class="col-3 col-md-2 p-0 text-right item-cost"><?=number_format($value['cost'] * $value['amount'])?>원</div>
@@ -64,9 +64,9 @@
           </div>
           <?php endif; ?>
           <div class="text-center pt-4">
-            <a href="<?=base_url()?><?=$clubIdx?>"><button type="button" class="btn btn-primary">메인 화면으로</button></a>
-            <a href="<?=base_url()?>club/shop/<?=$clubIdx?>"><button type="button" class="btn btn-secondary ml-3">계속 쇼핑하기</button></a>
+            <a href="<?=BASE_URL?>"><button type="button" class="btn btn-primary">메인 화면으로</button></a>
+            <a href="<?=BASE_URL?>/shop"><button type="button" class="btn btn-secondary ml-3">계속 쇼핑하기</button></a>
           </div>
         </div>
       </div>
-      <script type="text/javascript" src="<?=base_url()?>public/js/shop.js"></script>
+      <script type="text/javascript" src="/public/js/shop.js"></script>

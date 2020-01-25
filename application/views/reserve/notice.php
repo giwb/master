@@ -8,7 +8,7 @@
         <div class="sub-contents">
           <div class="sub-title">
             <div class="area-title"><h2><b><?=viewStatus($notice['status'])?></b> <?=$notice['subject']?></h2></div>
-            <div class="area-btn"><a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$notice['idx']?>"><button type="button" class="btn btn-primary">좌석보기</button></a></div>
+            <div class="area-btn"><a href="<?=BASE_URL?>/reserve/?n=<?=$notice['idx']?>"><button type="button" class="btn btn-primary">좌석보기</button></a></div>
           </div>
 
           <?php if (empty($listNoticeDetail)): ?>
@@ -37,7 +37,8 @@
             <div class="story-reply-content">
               <?=$listReply?>
             </div>
-            <form method="post" action="<?=base_url()?>story/insert_reply/<?=$view['idx']?>" class="story-reply-input" data-idx="<?=$notice['idx']?>">
+            <form method="post" action="/story/insert_reply" class="story-reply-input" data-idx="<?=$notice['idx']?>">
+              <input type="hidden" name="clubIdx" value="<?=$view['idx']?>">
               <input type="hidden" name="storyIdx" value="<?=$notice['idx']?>">
               <input type="hidden" name="replyType" value="<?=REPLY_TYPE_NOTICE?>">
               <input type="hidden" name="replyIdx" value="">

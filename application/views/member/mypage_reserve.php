@@ -12,7 +12,7 @@
               <button type="button" class="btn btn-danger btn-reserve-cancel">예약취소</button>
             </div>
           </h3>
-          <form id="formList" method="post" action="<?=base_url()?>member/reserve/<?=$clubIdx?>">
+          <form id="formList" method="post" action="<?=BASE_URL?>/member/reserve">
             <input type="hidden" name="p" value="1">
             <?=$userReserve?>
             <div class="area-append"></div>
@@ -138,9 +138,10 @@
         }).on('click', '.btn-reserve-payment', function() {
           // 결제정보 입력 처리
           var $btn = $(this);
-          var paymentType = $('input[name=paymentType]').val();
           var $dom = $('#formList');
           var formData = new FormData($dom[0]);
+          var paymentType = $('input[name=paymentType]').val();
+          formData.append('clubIdx', $('input[name=clubIdx]').val());
           formData.append('paymentType', $('input[name=paymentType]').val());
           formData.append('depositName', $('input[name=depositName]').val());
           formData.append('usingPoint', $('input[name=usingPoint]').val());
@@ -150,7 +151,7 @@
           }
 
           $.ajax({
-            url: $('input[name=baseUrl]').val() + 'reserve/payment/' + $('input[name=clubIdx]').val(),
+            url: '/reserve/payment',
             data: formData,
             processData: false,
             contentType: false,

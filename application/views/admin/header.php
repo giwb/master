@@ -3,28 +3,22 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <title>경인웰빙 관리페이지</title>
+  <title>한국여행 관리페이지</title>
   <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
   <meta name="robots" content="noindex">
-  <meta property="og:title" content="경인웰빙" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="<?=base_url()?>" />
-  <meta property="og:image" content="<?=base_url()?>public/images/logo.png" />
-  <meta property="og:description" content="매주 토, 일. 차내 음주가무 없으며, 초보자도 함께할 수 있는 여유있는 산행.">
-  <meta name="description" content="매주 토, 일. 차내 음주가무 없으며, 초보자도 함께할 수 있는 여유있는 산행.">
-  <link rel="stylesheet" type="text/css" href="<?=base_url()?>public/lib/bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="<?=base_url()?>public/css/jquery-ui.css">
-  <link rel="stylesheet" type="text/css" href="<?=base_url()?>public/css/fontawesome/css/all.min.css">
-  <link rel="stylesheet" type="text/css" href="<?=base_url()?>public/css/fullcalendar.css">
-  <link rel="stylesheet" type="text/css" href="<?=base_url()?>public/css/fullcalendar.print.css">
-  <link rel="stylesheet" type="text/css" href="<?=base_url()?>public/css/admin.css?<?=time()?>">
-  <script type="text/javascript" src="<?=base_url()?>public/js/jquery-1.11.1.min.js"></script>
-  <script type="text/javascript" src="<?=base_url()?>public/js/jquery-ui.custom.min.js"></script>
-  <script type="text/javascript" src="<?=base_url()?>public/js/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="<?=base_url()?>public/js/jquery.ui.touch-punch.min.js"></script>
-  <script type="text/javascript" src="<?=base_url()?>public/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script type="text/javascript" src="<?=base_url()?>public/js/fullcalendar.js"></script>
-  <script type="text/javascript" src="<?=base_url()?>public/ckeditor/ckeditor.js" charset="utf-8"></script>
+  <link rel="stylesheet" type="text/css" href="/public/lib/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/public/css/jquery-ui.css">
+  <link rel="stylesheet" type="text/css" href="/public/css/fontawesome/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="/public/css/fullcalendar.css">
+  <link rel="stylesheet" type="text/css" href="/public/css/fullcalendar.print.css">
+  <link rel="stylesheet" type="text/css" href="/public/css/admin.css?<?=time()?>">
+  <script type="text/javascript" src="/public/js/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="/public/js/jquery-ui.custom.min.js"></script>
+  <script type="text/javascript" src="/public/js/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="/public/js/jquery.ui.touch-punch.min.js"></script>
+  <script type="text/javascript" src="/public/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="/public/js/fullcalendar.js"></script>
+  <script type="text/javascript" src="/public/ckeditor/ckeditor.js" charset="utf-8"></script>
 </head>
 
 <body id="page-top">
@@ -37,7 +31,7 @@
 
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center">
-        <div class="sidebar-brand-text mx-3">경인웰빙 관리자</div>
+        <div class="sidebar-brand-text mx-3">한국여행 관리</div>
       </a>
 
       <!-- Divider -->
@@ -45,7 +39,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="<?=base_url()?>admin">
+        <a class="nav-link" href="/admin">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>대시보드</span></a>
       </li>
@@ -68,13 +62,13 @@
         </a>
         <div id="collapseItem" class="collapse<?=strstr($uri, 'main') ? " show" : ""?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="<?=base_url()?>admin/main_list_progress"> <i class="menu-icon fas fa-calendar"></i> 진행중 산행 목록</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/main_list_closed"> <i class="menu-icon fas fa-calendar-check"></i> 다녀온 산행 목록</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/main_list_canceled"> <i class="menu-icon fas fa-calendar-times"></i> 취소된 산행 목록</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/main_list_planned"> <i class="menu-icon fas fa-calendar-alt"></i> 계획중 산행 목록</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/main_entry"> <i class="menu-icon fas fa-calendar-plus"></i> 신규 산행 등록</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/main_schedule"> <i class="menu-icon fas fa-calendar-week"></i> 산행계획</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/main_list_copy"> <i class="menu-icon fas fa-copy"></i> 산행일정 복사하기</a>
+            <a class="collapse-item" href="/admin/main_list_progress"> <i class="menu-icon fas fa-calendar"></i> 진행중 산행 목록</a>
+            <a class="collapse-item" href="/admin/main_list_closed"> <i class="menu-icon fas fa-calendar-check"></i> 다녀온 산행 목록</a>
+            <a class="collapse-item" href="/admin/main_list_canceled"> <i class="menu-icon fas fa-calendar-times"></i> 취소된 산행 목록</a>
+            <a class="collapse-item" href="/admin/main_list_planned"> <i class="menu-icon fas fa-calendar-alt"></i> 계획중 산행 목록</a>
+            <a class="collapse-item" href="/admin/main_entry"> <i class="menu-icon fas fa-calendar-plus"></i> 신규 산행 등록</a>
+            <a class="collapse-item" href="/admin/main_schedule"> <i class="menu-icon fas fa-calendar-week"></i> 산행계획</a>
+            <a class="collapse-item" href="/admin/main_list_copy"> <i class="menu-icon fas fa-copy"></i> 산행일정 복사하기</a>
           </div>
         </div>
       </li>
@@ -87,23 +81,23 @@
         </a>
         <div id="collapseShop" class="collapse<?=strstr($uri, 'shop') ? " show" : ""?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="<?=base_url()?>shop/index"> <i class="menu-icon fas fa-list-alt"></i> 등록된 상품 관리</a>
-            <a class="collapse-item" href="<?=base_url()?>shop/entry"> <i class="menu-icon fas fa-cart-plus"></i> 신규 상품 등록</a>
-            <a class="collapse-item" href="<?=base_url()?>shop/category"> <i class="menu-icon fas fa-th-list"></i> 분류 관리</a>
-            <a class="collapse-item" href="<?=base_url()?>shop/order"> <i class="menu-icon fas fa-shipping-fast"></i> 주문 관리</a>
+            <a class="collapse-item" href="/shop/index"> <i class="menu-icon fas fa-list-alt"></i> 등록된 상품 관리</a>
+            <a class="collapse-item" href="/shop/entry"> <i class="menu-icon fas fa-cart-plus"></i> 신규 상품 등록</a>
+            <a class="collapse-item" href="/shop/category"> <i class="menu-icon fas fa-th-list"></i> 분류 관리</a>
+            <a class="collapse-item" href="/shop/order"> <i class="menu-icon fas fa-shipping-fast"></i> 주문 관리</a>
           </div>
         </div>
       </li>
 
       <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="<?=base_url()?>admin/member_list">
+        <a class="nav-link collapsed" href="/admin/member_list">
           <i class="fas fa-fw fa-users"></i>
           <span>회원관리</span>
         </a><!--
         <div id="collapseMember" class="collapse<?=strstr($uri, 'member') ? " show" : ""?>" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="<?=base_url()?>admin/member_list"> <i class="menu-icon fas fa-user"></i> 전체 회원 목록</a>
+            <a class="collapse-item" href="/admin/member_list"> <i class="menu-icon fas fa-user"></i> 전체 회원 목록</a>
           </div>
         </div>-->
       </li>
@@ -116,9 +110,9 @@
         </a>
         <div id="collapseAttendance" class="collapse<?=strstr($uri, 'attendance') ? " show" : ""?>" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="<?=base_url()?>admin/attendance_list"> <i class="menu-icon fas fa-check-square"></i> 출석체크 보기</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/attendance_mountain"> <i class="menu-icon fas fa-child"></i> 산행지로 보기</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/attendance_auth"> <i class="menu-icon fas fa-camera-retro"></i> 인증현황 등록</a>
+            <a class="collapse-item" href="/admin/attendance_list"> <i class="menu-icon fas fa-check-square"></i> 출석체크 보기</a>
+            <a class="collapse-item" href="/admin/attendance_mountain"> <i class="menu-icon fas fa-child"></i> 산행지로 보기</a>
+            <a class="collapse-item" href="/admin/attendance_auth"> <i class="menu-icon fas fa-camera-retro"></i> 인증현황 등록</a>
           </div>
         </div>
       </li>
@@ -131,16 +125,16 @@
         </a>
         <div id="collapseLog" class="collapse<?=strstr($uri, 'log') ? " show" : ""?>" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="<?=base_url()?>admin/log_reserve"> <i class="menu-icon fas fa-history"></i> 예약기록</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/log_user"> <i class="menu-icon fas fa-th-list"></i> 회원 활동기록</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/log_admin"> <i class="menu-icon fas fa-list-alt"></i> 관리자 활동기록</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/log_refund"> <i class="menu-icon fas fa-won-sign"></i> 비회원 환불기록</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/log_bus"> <i class="menu-icon fas fa-bus"></i> 차량 변경기록</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/log_buy"> <i class="menu-icon fas fa-cart-plus"></i> 회원 구매기록</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/log_buy_admin"> <i class="menu-icon fas fa-luggage-cart"></i> 관리자 구매기록</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/log_reply"> <i class="menu-icon fas fa-reply"></i> 댓글 기록</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/log_reaction"> <i class="menu-icon fas fa-heart"></i> 좋아요/공유 기록</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/log_visitor"> <i class="menu-icon fas fa-user-check"></i> 방문자 기록</a>
+            <a class="collapse-item" href="/admin/log_reserve"> <i class="menu-icon fas fa-history"></i> 예약기록</a>
+            <a class="collapse-item" href="/admin/log_user"> <i class="menu-icon fas fa-th-list"></i> 회원 활동기록</a>
+            <a class="collapse-item" href="/admin/log_admin"> <i class="menu-icon fas fa-list-alt"></i> 관리자 활동기록</a>
+            <a class="collapse-item" href="/admin/log_refund"> <i class="menu-icon fas fa-won-sign"></i> 비회원 환불기록</a>
+            <a class="collapse-item" href="/admin/log_bus"> <i class="menu-icon fas fa-bus"></i> 차량 변경기록</a>
+            <a class="collapse-item" href="/admin/log_buy"> <i class="menu-icon fas fa-cart-plus"></i> 회원 구매기록</a>
+            <a class="collapse-item" href="/admin/log_buy_admin"> <i class="menu-icon fas fa-luggage-cart"></i> 관리자 구매기록</a>
+            <a class="collapse-item" href="/admin/log_reply"> <i class="menu-icon fas fa-reply"></i> 댓글 기록</a>
+            <a class="collapse-item" href="/admin/log_reaction"> <i class="menu-icon fas fa-heart"></i> 좋아요/공유 기록</a>
+            <a class="collapse-item" href="/admin/log_visitor"> <i class="menu-icon fas fa-user-check"></i> 방문자 기록</a>
             <a class="collapse-item" href="https://analytics.google.com/analytics/web/" target="_blank"> <i class="menu-icon fab fa-google"></i> Google Analytics</a>
           </div>
         </div>
@@ -157,12 +151,12 @@
         </a>
         <div id="collapseSetup" class="collapse<?=strstr($uri, 'setup') ? " show" : ""?>" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="<?=base_url()?>admin/setup_information"> <i class="menu-icon fas fa-tools"></i> 클럽 정보</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/setup_pages"> <i class="menu-icon fas fa-scroll"></i> 소개 페이지</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/setup_sms"> <i class="menu-icon fas fa-sms"></i> 문자양식보기</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/setup_bustype"> <i class="menu-icon fas fa-bus"></i> 차종등록</a>
-            <a class="collapse-item" href="<?=base_url()?>admin/setup_calendar"> <i class="menu-icon fas fa-calendar"></i> 달력관리</a>
-            <!--<a class="collapse-item" href="<?=base_url()?>admin/setup_front"> <i class="menu-icon fas fa-square"></i> 대문관리</a>-->
+            <a class="collapse-item" href="/admin/setup_information"> <i class="menu-icon fas fa-tools"></i> 클럽 정보</a>
+            <a class="collapse-item" href="/admin/setup_pages"> <i class="menu-icon fas fa-scroll"></i> 소개 페이지</a>
+            <a class="collapse-item" href="/admin/setup_sms"> <i class="menu-icon fas fa-sms"></i> 문자양식보기</a>
+            <a class="collapse-item" href="/admin/setup_bustype"> <i class="menu-icon fas fa-bus"></i> 차종등록</a>
+            <a class="collapse-item" href="/admin/setup_calendar"> <i class="menu-icon fas fa-calendar"></i> 달력관리</a>
+            <!--<a class="collapse-item" href="/admin/setup_front"> <i class="menu-icon fas fa-square"></i> 대문관리</a>-->
           </div>
         </div>
       </li>
@@ -193,7 +187,7 @@
           </button>
 
           <!-- Topbar Search -->
-          <form method="post" action="<?=base_url()?>admin/log_reserve" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+          <form method="post" action="/admin/log_reserve" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
             <div class="input-group">
               <input type="text" name="k" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" value="<?=!empty($keyword) ? $keyword : ''?>">
               <div class="input-group-append">
@@ -214,7 +208,7 @@
               </a>
               <!-- Dropdown - Messages -->
               <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
-                <form method="post" action="<?=base_url()?>admin/log_reserve" class="form-inline mr-auto w-100 navbar-search">
+                <form method="post" action="/admin/log_reserve" class="form-inline mr-auto w-100 navbar-search">
                   <div class="input-group">
                     <input type="text" name="k" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" value="<?=!empty($keyword) ? $keyword : ''?>">
                     <div class="input-group-append">
@@ -231,7 +225,7 @@
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?=$userData['nickname']?></span>
-                <img class="img-profile rounded-circle" src="<?=base_url()?>public/photos/<?=$userData['idx']?>">
+                <img class="img-profile rounded-circle" src="/public/photos/<?=$userData['idx']?>">
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -255,7 +249,7 @@
               </div>
             </li>
 
-            <li class="nav-item"><a class="nav-link" href="<?=base_url()?>"><i class="fa fa-home text-primary" aria-hidden="true"></i></a></li>
+            <li class="nav-item"><a class="nav-link" href="/"><i class="fa fa-home text-primary" aria-hidden="true"></i></a></li>
 
           </ul>
 

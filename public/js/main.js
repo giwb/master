@@ -217,7 +217,6 @@
   $(document).on('change', '.file', function() {
     // 파일 업로드
     var $dom = $(this);
-    var baseUrl = $('input[name=baseUrl]').val();
     var page = $('input[name=page]').val();
     var fileType = $dom.data('type');
     var formData = new FormData($('form')[0]);
@@ -236,7 +235,7 @@
     formData.append('file_obj', $dom[0].files[0]);
 
     $.ajax({
-      url: baseUrl + page + '/upload',
+      url: '/file/upload',
       processData: false,
       contentType: false,
       data: formData,
@@ -286,7 +285,7 @@
     var baseUrl = $('input[name=baseUrl]').val();
 
     $.ajax({
-      url: baseUrl + 'login/photo_delete',
+      url: baseUrl + '/login/photo_delete',
       data: 'filename=' + $('input[name=filename]').val(),
       dataType: 'json',
       type: 'post',
@@ -299,16 +298,14 @@
   }).on('click', '.btn-modify-photo-delete', function() {
     // 개인정보수정 사진 삭제
     var $btn = $(this);
-    var baseUrl = $('input[name=baseUrl]').val();
-
     $.ajax({
-      url: baseUrl + 'member/photo_delete',
+      url: '/member/photo_delete',
       data: 'userIdx=' + $('input[name=userIdx]').val() + '&filename=' + $('input[name=filename]').val(),
       dataType: 'json',
       type: 'post',
       success: function() {
         $('input[name=filename]').val('');
-        $('.photo').attr('src', baseUrl + 'public/images/noimage.png');
+        $('.photo').attr('src', '/public/images/noimage.png');
         $btn.addClass('d-none');
       }
     });
@@ -318,7 +315,7 @@
     var baseUrl = $('input[name=baseUrl]').val();
     var photoName = $('#photoModal input[name=photo_name]').val();
     $.ajax({
-      url: baseUrl + 'club/photo_delete',
+      url: baseUrl + '/club/photo_delete',
       data: 'filename=' + photoName,
       dataType: 'json',
       type: 'post',
@@ -355,17 +352,16 @@
     e.preventDefault();
     var $dom = $(this);
     var formData = new FormData($('.loginForm')[0]);
-    var baseUrl = $('input[name=baseUrl]').val();
-    var clubIdx = $('input[name=clubIdx]').val();
     var redirectUrl = $('input[name=redirectUrl]').val();
 
     if ($('input[name=userid]').val() == '' || $('input[name=password]').val() == '') {
       $('.error-message').slideDown().text('아이디와 비밀번호는 꼭 입력해주세요.');
       return false;
     }
+    if (typeof redirectUrl == 'undefined') redirectUrl = '';
 
     $.ajax({
-      url: baseUrl + 'login/' + clubIdx + '?r=' + redirectUrl,
+      url: '/login/?r=' + redirectUrl,
       data: formData,
       processData: false,
       contentType: false,
@@ -379,7 +375,7 @@
           $dom.css('opacity', '1').prop('disabled', false).text('로그인');
           $('.error-message').slideDown().text(result.message);
         } else {
-          location.replace(result.url)
+          location.replace(result.message)
         }
       }
     });
@@ -389,7 +385,7 @@
   }).on('click', '.logout', function() {
     // 로그아웃
     $.ajax({
-      url: $('input[name=baseUrl]').val() + 'logout',
+      url: '/login/logout',
       dataType: 'json',
       success: function() {
         location.reload();
@@ -409,7 +405,7 @@
         return false;
       }
       $.ajax({
-        url: $('input[name=baseUrl]').val() + 'login/check_userid/' + clubIdx,
+        url: '/login/check_userid',
         data: 'userid=' + userid,
         dataType: 'json',
         type: 'post',
@@ -447,7 +443,7 @@
     var clubIdx = $('input[name=clubIdx]').val();
     var phone = $('input[name=phone1]').val() + '-' + $('input[name=phone2]').val() + '-' + $('input[name=phone3]').val();
     $.ajax({
-      url: $('input[name=baseUrl]').val() + 'login/check_phone/' + clubIdx,
+      url: $('input[name=baseUrl]').val() + '/login/check_phone',
       data: 'phone=' + phone,
       dataType: 'json',
       type: 'post',
@@ -505,11 +501,9 @@
 
     var $btn = $(this);
     var formData = new FormData($('#entryForm')[0]);
-    var baseUrl = $('input[name=baseUrl]').val();
-    var clubIdx = $('input[name=clubIdx]').val();
 
     $.ajax({
-      url: baseUrl + 'login/insert/' + clubIdx,
+      url: '/login/insert',
       data: formData,
       processData: false,
       contentType: false,
@@ -582,13 +576,9 @@
     });
   }).on('click', '.btn-quit', function() {
     // 회원 탈퇴
-    var baseUrl = $('input[name=baseUrl]').val();
-    var clubIdx = $('input[name=clubIdx]').val();
-    var userIdx = $('input[name=userIdx]').val();
-
     $.ajax({
-      url: $('input[name=baseUrl]').val() + 'member/quit/' + clubIdx,
-      data: 'userIdx=' + userIdx,
+      url: '/member/quit',
+      data: 'userIdx=' + $('input[name=userIdx]').val(),
       dataType: 'json',
       type: 'post',
       success: function(result) {
@@ -769,7 +759,7 @@
     var selectSeat = '';
     var selected = '';
     $.ajax({
-      url: $('input[name=baseUrl]').val() + 'reserve/information_bus',
+      url: '/reserve/information_bus',
       data: 'idx=' + $('input[name=noticeIdx]').val(),
       dataType: 'json',
       type: 'post',
@@ -836,6 +826,7 @@
   }).on('click', '.btn-reserve-confirm', function() {
     // 좌석 예약
     var $btn = $(this);
+    var baseUrl = $('input[name=baseUrl]').val();
     var formCheck = true;
     var formData = new FormData($('#reserveForm')[0]);
     var cnt = 0;
@@ -869,7 +860,7 @@
             $('#messageModal .modal-message').text(result.message);
             $('#messageModal').modal({backdrop: 'static', keyboard: false});
           } else {
-            location.replace(result.message);
+            location.replace(baseUrl + result.message);
           }
         }
       });
@@ -912,13 +903,13 @@
     var resType = $('#reserveCancelModal input[name=resType]').val();
     var action = '';
     if (resType == 1) {
-      action = $('input[name=baseUrl]').val() + 'reserve/cancel/' + $('input[name=clubIdx]').val();
+      action = '/reserve/cancel';
     } else {
-      action = $('input[name=baseUrl]').val() + 'club/shop_cancel/' + $('input[name=clubIdx]').val();
+      action = '/club/shop_cancel';
     }
     $.ajax({
       url: action,
-      data: 'resIdx=' + $('input[name=resIdx]').val(),
+      data: 'clubIdx=' + $('input[name=clubIdx]').val() + '&resIdx=' + $('input[name=resIdx]').val(),
       dataType: 'json',
       type: 'post',
       beforeSend: function() {
@@ -941,8 +932,8 @@
   // 예약 정보
   $.viewReserveInfo = function(resIdx, bus, seat, priorityIdx) {
     $.ajax({
-      url: $('input[name=baseUrl]').val() + 'reserve/information/' + $('input[name=clubIdx]').val(),
-      data: 'idx=' + $('input[name=noticeIdx]').val() + '&bus=' + bus + '&seat=' + seat + '&resIdx=' + resIdx,
+      url: '/reserve/information',
+      data: 'clubIdx=' + $('input[name=clubIdx]').val() + '&idx=' + $('input[name=noticeIdx]').val() + '&bus=' + bus + '&seat=' + seat + '&resIdx=' + resIdx,
       dataType: 'json',
       type: 'post',
       beforeSend: function() {
@@ -1013,7 +1004,7 @@
         return false;
       }
       $.ajax({
-        url: $('input[name=baseUrl]').val() + 'login/check_nickname/' + clubIdx,
+        url: '/login/check_nickname',
         data: 'userid=' + userid + '&nickname=' + nickname,
         dataType: 'json',
         type: 'post',
@@ -1040,7 +1031,7 @@ $(document).on('click', '.btn-reply', function() {
 
   if ($dom.css('display') == 'none') {
     $.ajax({
-      url: $('input[name=baseUrl]').val() + 'story/reply/' + $('input[name=clubIdx]').val(),
+      url: '/story/reply',
       data: 'storyIdx=' + storyIdx + '&replyType=' + replyType,
       dataType: 'json',
       type: 'post',
@@ -1080,8 +1071,8 @@ $(document).on('click', '.btn-reply', function() {
   var shareType = $dom.data('type');
   window.open(url, 'share-window', 'width=626, height=436');
   $.ajax({
-    url: $('input[name=baseUrl]').val() + 'story/share/' + $('input[name=clubIdx]').val(),
-    data: 'storyIdx=' + storyIdx + '&reactionType=' + reactionType + '&shareType=' + shareType,
+    url: '/story/share',
+    data: 'clubIdx=' + $('input[name=clubIdx]').val() + '&storyIdx=' + storyIdx + '&reactionType=' + reactionType + '&shareType=' + shareType,
     dataType: 'json',
     type: 'post',
     success: function(result) {
@@ -1103,8 +1094,8 @@ $(document).on('click', '.btn-reply', function() {
   $dom.tooltip('hide').attr('data-original-title', '복사했습니다!').tooltip('show');
   setTimeout(function() { $dom.tooltip('hide'); }, 2000);
   $.ajax({
-    url: $('input[name=baseUrl]').val() + 'story/share/' + $('input[name=clubIdx]').val(),
-    data: 'storyIdx=' + storyIdx + '&reactionType=' + reactionType + '&shareType=' + shareType,
+    url: '/story/share',
+    data: 'clubIdx=' + $('input[name=clubIdx]').val() + '&storyIdx=' + storyIdx + '&reactionType=' + reactionType + '&shareType=' + shareType,
     dataType: 'json',
     type: 'post',
     success: function(result) {
@@ -1181,8 +1172,8 @@ $(document).on('click', '.btn-reply', function() {
   }
   
   $.ajax({
-    url: $('input[name=baseUrl]').val() + 'story/like/' + $('input[name=clubIdx]').val(),
-    data: 'storyIdx=' + $(this).data('idx') + '&reactionType=' + $(this).data('type'),
+    url: '/story/like',
+    data: 'clubIdx=' + $('input[name=clubIdx]').val() + '&storyIdx=' + $(this).data('idx') + '&reactionType=' + $(this).data('type'),
     dataType: 'json',
     type: 'post',
     success: function(result) {
@@ -1205,9 +1196,8 @@ $(document).on('click', '.btn-reply', function() {
 }).on('click', '.btn-delete', function() {
   // 삭제하기
   var $btn = $(this);
-  var baseUrl = $('input[name=baseUrl]').val();
   $.ajax({
-    url: baseUrl + 'story/' + $('#messageModal input[name=action]').val() + '/' + $('input[name=clubIdx]').val(),
+    url: '/story/' + $('#messageModal input[name=action]').val(),
     data: 'idx=' + $('input[name=deleteIdx]').val(),
     dataType: 'json',
     type: 'post',
@@ -1215,8 +1205,8 @@ $(document).on('click', '.btn-reply', function() {
       $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
     },
     success: function(result) {
-      $btn.css('opacity', '1').prop('disabled', false).text('삭제합니다');
       if (result.error == 1) {
+        $btn.css('opacity', '1').prop('disabled', false).text('삭제합니다');
         $('#messageModal .btn').hide();
         $('#messageModal .btn-refresh, #messageModal .btn-close').show();
         $('#messageModal .modal-message').text(result.message);
@@ -1224,6 +1214,7 @@ $(document).on('click', '.btn-reply', function() {
       } else {
         if (result.message == 'delete_reply') {
           // 댓글 삭제시에는 해당 댓글만 사라지게
+          $btn.css('opacity', '1').prop('disabled', false).text('삭제합니다');
           $('.story-reply-item[data-idx=' + $('input[name=deleteIdx]').val() + ']').remove();
           $('.cnt-reply[data-idx=' + result.story_idx + ']').text(result.reply_cnt);
           $('#messageModal input[name=action]').val('');
@@ -1232,7 +1223,7 @@ $(document).on('click', '.btn-reply', function() {
         } else if (result.message == 'reload') {
           location.reload();
         } else {
-          location.replace(result.message);
+          location.replace($('input[name=baseUrl]').val());
         }
       }
     }
@@ -1255,13 +1246,13 @@ $(document).on('click', '.btn-reply', function() {
   if (typeof(photo) == 'undefined') { photo = ''; }
 
   if (typeof(idx) != 'undefined') {
-    var data = 'page=' + $('input[name=page]').val() + '&idx=' + idx + '&photo=' + photo + '&content=' + encodeURIComponent(content)
+    var data = 'clubIdx=' + $('input[name=clubIdx]').val() + '&page=' + $('input[name=page]').val() + '&idx=' + idx + '&photo=' + photo + '&content=' + encodeURIComponent(content)
   } else {
-    var data = 'page=' + $('input[name=page]').val() + '&photo=' + photo + '&content=' + encodeURIComponent(content)
+    var data = 'clubIdx=' + $('input[name=clubIdx]').val() + '&page=' + $('input[name=page]').val() + '&photo=' + photo + '&content=' + encodeURIComponent(content)
   }
 
   $.ajax({
-    url: $('input[name=baseUrl]').val() + 'story/insert/' + $('input[name=clubIdx]').val(),
+    url: '/story/insert',
     data: data,
     dataType: 'json',
     type: 'post',
@@ -1278,8 +1269,11 @@ $(document).on('click', '.btn-reply', function() {
         $('#messageModal .modal-message').text(result.message);
         $('#messageModal').modal();
       } else {
-        if (result.message == 'reload') location.reload();
-        else location.replace(result.message);
+        if (typeof(idx) != 'undefined') {
+          location.replace($('input[name=baseUrl]').val() + '/story/view/?n=' + idx);
+        } else {
+          location.reload();
+        }
       }
     }
   });
@@ -1310,7 +1304,7 @@ $(document).on('click', '.btn-reply', function() {
   var page = $('input[name=page]').val();
 
   $.ajax({
-    url: $('input[name=baseUrl]').val() + 'story/delete_photo/' + $('input[name=clubIdx]').val(),
+    url: $('input[name=baseUrl]').val() + '/story/delete_photo',
     data: 'page=' + $('input[name=page]').val() + '&photo=' + $(this).data('filename'),
     dataType: 'json',
     type: 'post',
@@ -1362,7 +1356,7 @@ $(document).on('click', '.btn-reply', function() {
       var data = 'p=' + $('input[name=p]').val();
     }
     $.ajax({
-      url: $('input[name=baseUrl]').val() + 'story/index/' + $('input[name=clubIdx]').val(),
+      url: $('input[name=baseUrl]').val() + '/story/index',
       data: data,
       dataType: 'json',
       type: 'post',

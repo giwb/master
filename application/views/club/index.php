@@ -32,7 +32,7 @@
               <?php
                   else:
                     if ($value['status'] >= 1):
-                      $url = base_url() . 'reserve/' . $view['idx'] . '?n=' . $value['idx'];
+                      $url = BASE_URL . '/reserve/?n=' . $value['idx'];
                     else:
                       $url = 'javascript:;';
                     endif;
@@ -65,7 +65,7 @@
           <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
         </div>
         <div class="your-story">
-          <form id="your-story-form" method="post" action="<?=base_url()?>club/upload">
+          <form id="your-story-form" method="post" action="/story/insert">
             <textarea id="club-story-content" placeholder="회원들에게 안부를 남겨주세요~"></textarea>
             <div class="area-photo"></div>
             <div class="area-btn">

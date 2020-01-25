@@ -2,46 +2,44 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 // 쇼핑몰 페이지 클래스
-class Shop extends Admin_Controller
+class Shop extends MY_Controller
 {
   function __construct()
   {
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
-    $this->load->library(array('image_lib', 'session'));
-    $this->load->model(array('member_model', 'shop_model'));
+    $this->load->library(array('cart', 'image_lib', 'session'));
+    $this->load->model(array('club_model', 'file_model', 'member_model', 'shop_model'));
   }
-
   /**
-   * 쇼핑몰 : 등록된 용품 목록
+   * 용품 목록
    *
    * @return view
-   * @return json
    * @author bjchoi
    **/
-  public function index()
+  public function index($clubIdx)
   {
+    $userData = $this->load->get_var('userData');
+
     $viewData['search'] = array(
-      'item_name' => !empty($this->input->post('item_name')) ? html_escape($this->input->post('item_name')) : NULL,
-      'item_category1' => !empty($this->input->post('item_category1')) ? html_escape($this->input->post('item_category1')) : NULL,
-      'item_category2' => !empty($this->input->post('item_category2')) ? html_escape($this->input->post('item_category2')) : NULL
+      'item_name' => !empty($this->input->get('k')) ? html_escape($this->input->get('k')) : NULL,
+      'item_category1' => !empty($this->input->get('c')) ? html_escape($this->input->get('c')) : NULL,
     );
 
-    // 검색 분류
-    $viewData['listCategory1'] = $this->shop_model->listCategory();
-
-    if (!empty($viewData['search']['item_category1'])) {
-      // 하위 분류
-      $viewData['listCategory2'] = $this->shop_model->listCategory($viewData['search']['item_category1']);
+    if (empty($viewData['search']['item_category1'])) {
+      // 카테고리 지정을 안했다면 인기상품만 보여주기
+      $viewData['search']['item_recommend'] = 'Y';
     }
 
-    // 페이징
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
-    $paging['perPage'] = 20;
+    $paging['perPage'] = $viewData['perPage'] = 20;
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
 
-    // 등록된 용품 목록
+    // 용품 카운트
+    $viewData['cntItem'] = $this->shop_model->cntItem($viewData['search']);
+
+    // 용품 목록
     $viewData['listItem'] = $this->shop_model->listItem($paging, $viewData['search']);
 
     foreach ($viewData['listItem'] as $key => $value) {
@@ -61,6 +59,15 @@ class Shop extends Admin_Controller
       }
     }
 
+    // 검색 분류
+    $viewData['listCategory'] = $this->shop_model->listCategory();
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '용품판매';
+
     if ($page >= 2) {
       // 2페이지 이상일 경우에는 Json으로 전송
       $result['page'] = $page;
@@ -76,339 +83,446 @@ class Shop extends Admin_Controller
   }
 
   /**
-   * 쇼핑몰 : 신규 용품 등록폼
+   * 용품 상세
    *
    * @return view
    * @author bjchoi
    **/
-  public function entry($idx = NULL)
+  public function item($clubIdx)
   {
-    $viewData = array();
-    $viewData['item_photo'] = array();
-    $idx = html_escape($idx);
+    $userData = $this->load->get_var('userData');
+    $idx = html_escape($this->input->get('n'));
 
-    // 분류
-    $viewData['listCategory1'] = $this->shop_model->listCategory();
+    // 상품이 없을때는 목록으로
+    if (empty($idx)) {
+      redirect(base_url() . 'club/shop/' . $clubIdx);
+      exit;
+    }
+
+    // 상품 정보
+    $viewData['viewItem'] = $this->shop_model->viewItem($idx);
+
+    // 사진이 실제로 업로드 되어 있는지 확인
+    $arrPhotos = unserialize($viewData['viewItem']['item_photo']);
+    $arr = array();
+    foreach ($arrPhotos as $value) {
+      if (!empty($value) && file_exists(PHOTO_PATH . $value)) {
+        $arr[] = base_url() . PHOTO_URL . $value;
+      }
+    }
+    $viewData['viewItem']['item_photo'] = $arr;
+
+    // 카테고리명
+    $itemCategory = unserialize($viewData['viewItem']['item_category']);
+    foreach ($itemCategory as $cnt => $category) {
+      $buf = $this->shop_model->viewCategory($category);
+      $viewData['viewItem']['item_category_name'][$cnt] = $buf['name'];
+    }
+    if (!empty($itemCategory[0])) {
+      $viewData['search']['item_category1'] = $itemCategory[0];
+    } else {
+      $viewData['search']['item_category1'] = 0;
+    }
+
+    // 옵션
+    $itemOptions = unserialize($viewData['viewItem']['item_option']);
+    if (!empty($itemOptions)) {
+      foreach ($itemOptions as $option) {
+        $viewData['viewItem']['item_options'][] = $option;
+      }
+    }
+
+    // 검색 분류
+    $viewData['listCategory'] = $this->shop_model->listCategory();
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '용품판매';
+
+    $this->_viewPage('shop/item', $viewData);
+  }
+
+  /**
+   * 장바구니
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function cart($clubIdx)
+  {
+    $userData = $this->load->get_var('userData');
+    $cnt = 0;
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    // 카트 정보
+    $viewData['listCart'] = array();
+    $viewData['total_amount'] = $viewData['total_price'] = $viewData['total_cost'] = 0;
+
+    foreach ($this->cart->contents() as $value) {
+      $view = $this->shop_model->viewItem($value['id']);
+      if (!empty($view['idx'])) {
+        $viewData['listCart'][$cnt]['rowid'] = $value['rowid'];
+        $viewData['listCart'][$cnt]['item_qty'] = $value['qty'];
+        $viewData['listCart'][$cnt]['item_name'] = $view['item_name'];
+        if (!empty($value['options']['item_option'])) {
+          $viewData['listCart'][$cnt]['item_option'] = $value['options']['item_option'];
+        }
+        $viewData['listCart'][$cnt]['item_price'] = $value['options']['item_price'];
+        $viewData['listCart'][$cnt]['item_cost'] = $value['price'];
+        $viewData['listCart'][$cnt]['subtotal_price'] = $value['qty'] * $value['options']['item_price'];
+        $viewData['listCart'][$cnt]['subtotal_cost'] = $value['qty'] * $value['price'];
+        $viewData['listCart'][$cnt]['item_photo'] = array();
+
+        // 사진
+        $arrPhotos = unserialize($view['item_photo']);
+        if (!empty($arrPhotos[0]) && file_exists(PHOTO_PATH . $arrPhotos[0])) {
+          $viewData['listCart'][$cnt]['item_photo'] = base_url() . PHOTO_URL . $arrPhotos[0];
+        }
+
+        $viewData['total_amount'] += $value['qty'];
+        $viewData['total_cost'] += $value['subtotal'];
+        $cnt++;
+      }
+    }
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '용품판매';
+
+    $this->_viewPage('shop/cart', $viewData);
+  }
+
+  /**
+   * 장바구니에 담기
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function cart_insert()
+  {
+    $userData = $this->load->get_var('userData');
+    $postData = $this->input->post();
+    $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+
+    $idx = $code = html_escape($postData['idx']);
+    $amount = html_escape($postData['amount']);
+    $option = !empty($postData['option']) ? html_escape($postData['option']) : NULL;
+    $type = html_escape($postData['type']);
 
     if (!empty($idx)) {
-      // 수정
-      $viewData['view'] = $this->shop_model->viewItem($idx);
+      // 상품 정보
+      $view = $this->shop_model->viewItem($idx);
 
       // 옵션
-      $itemOptions = unserialize($viewData['view']['item_option']);
-      $cnt = 0;
-      foreach ($itemOptions as $cost) {
-        $viewData['view']['added_option'][$cnt] = $cost['item_option'];
-        $viewData['view']['added_price'][$cnt] = !empty($cost['added_price']) ? $cost['added_price'] : 0;
-        $viewData['view']['added_cost'][$cnt] = !empty($cost['added_cost']) ? $cost['added_cost'] : 0;
+      $itemOptions = unserialize($view['item_option']);
+
+      // 장바구니에 담기
+      foreach ($amount as $key => $value) {
+        foreach ($itemOptions as $cnt => $op) {
+          if ($option[$key] == $cnt) {
+            $view['item_option_check'] = true;
+            if (!empty($op['item_option'])) $view['item_option'] = $op['item_option'];
+            if (!empty($op['added_price'])) $view['item_price'] = $op['added_price'];
+            if (!empty($op['added_cost']))  $view['item_cost'] = $op['added_cost'];
+            $code .= '_' . $cnt;
+          }
+        }
+
+        $cartItem = array(
+          'id'    => $code, // 상품번호
+          'qty'   => $value, // 개수
+          'price' => $view['item_cost'], // 가격
+          'name'  => time(),
+          'options' => array('item_price' => $view['item_price'])
+        );
+
+        if (!empty($view['item_option_check'])) {
+          $cartItem['options']['item_option'] = $view['item_option'];
+        }
+
+        $rtn = $this->cart->insert($cartItem);
+      }
+
+      if (!empty($rtn)) {
+        $result = array('error' => 0, 'message' => '');
+      }
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 장바구니 수정/삭제
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function cart_update()
+  {
+    $userData = $this->load->get_var('userData');
+    $clubIdx = html_escape($this->input->post('clubIdx'));
+    $rowid = html_escape($this->input->post('rowid'));
+    $amount = html_escape($this->input->post('amount')); // 수량이 0이면 삭제
+    $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+
+    if (!empty($rowid)) {
+      // 장바구니 수정
+      $cartItem = array(
+        'rowid' => $rowid,
+        'qty'   => $amount,
+      );
+      $this->cart->update($cartItem);
+      $result = array('error' => 0, 'message' => '');
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 구매진행
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function checkout($clubIdx)
+  {
+    $userData = $this->load->get_var('userData');
+    $cnt = 0;
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    // 카트 정보
+    $viewData['listCart'] = array();
+    $viewData['total_amount'] = $viewData['total_cost'] = 0;
+
+    foreach ($this->cart->contents() as $value) {
+      $view = $this->shop_model->viewItem($value['id']);
+
+      if (!empty($view['idx'])) {
+        $viewData['listCart'][$cnt]['rowid'] = $value['rowid'];
+        $viewData['listCart'][$cnt]['item_qty'] = $value['qty'];
+        $viewData['listCart'][$cnt]['item_name'] = $view['item_name'];
+        if (!empty($value['options']['item_option'])) {
+          $viewData['listCart'][$cnt]['item_option'] = $value['options']['item_option'];
+        }
+        $viewData['listCart'][$cnt]['item_price'] = $value['options']['item_price'];
+        $viewData['listCart'][$cnt]['item_cost'] = $value['price'];
+        $viewData['listCart'][$cnt]['subtotal_price'] = $value['qty'] * $value['options']['item_price'];
+        $viewData['listCart'][$cnt]['subtotal_cost'] = $value['qty'] * $value['price'];
+        $viewData['listCart'][$cnt]['item_photo'] = array();
+
+        // 사진
+        $arrPhotos = unserialize($view['item_photo']);
+        if (!empty($arrPhotos[0]) && file_exists(PHOTO_PATH . $arrPhotos[0])) {
+          $viewData['listCart'][$cnt]['item_photo'] = base_url() . PHOTO_URL . $arrPhotos[0];
+        }
+
+        $viewData['total_amount'] += $value['qty'];
+        $viewData['total_cost'] += $value['subtotal'];
         $cnt++;
       }
+    }
+
+    // 용품 인수를 위한 회원 예약 내역
+    $viewData['listMemberReserve'] = $this->shop_model->listMemberReserve($clubIdx, $userData['userid']);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '용품판매 - 구매진행';
+
+    $this->_viewPage('shop/checkout', $viewData);
+  }
+
+  /**
+   * 구매 완료하기
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function insert()
+  {
+    $now = time();
+    $userData = $this->load->get_var('userData');
+    $postData = $this->input->post();
+
+    $insertValues = array(
+      'notice_idx'    => !empty($postData['reserveIdx']) ? html_escape($postData['reserveIdx']) : NULL, // 인수받을 산행
+      'point'         => !empty($postData['usingPoint']) ? html_escape($postData['usingPoint']) : 0,    // 사용한 포인트
+      'deposit_name'  => !empty($postData['depositName']) ? html_escape($postData['depositName']) : '', // 입금자명
+      'created_by'    => $userData['idx'],
+      'created_at'    => $now
+    );
+
+    // 카트에 담긴 상품 입력
+    $arrItem = array();
+    $totalCost = 0;
+    $cnt = 0;
+    foreach ($this->cart->contents() as $value) {
+      $viewItem = $this->shop_model->viewItem($value['id']);
+
+      $arrItem[$cnt]['idx'] = $viewItem['idx']; // 상품 고유번호
+      $arrItem[$cnt]['name'] = $viewItem['item_name']; // 상품명
+      $arrItem[$cnt]['cost'] = $value['price']; // 가격
+      $arrItem[$cnt]['amount'] = $value['qty']; // 수량
+      if (!empty($value['options']['item_option'])) {
+        $arrItem[$cnt]['option'] = $value['options']['item_option']; // 수량
+      }
+      $totalCost += $value['subtotal']; // 합계
 
       // 사진
-      $itemPhoto = unserialize($viewData['view']['item_photo']);
-      foreach ($itemPhoto as $value) {
-        if (!empty($value) && file_exists(PHOTO_PATH . $value)) {
-          $viewData['item_photo'][] = $value;
-        }
-      }
+      $photo = unserialize($viewItem['item_photo']);
+      $arrItem[$cnt]['photo'] = $photo[0];
 
-      // 분류
-      $itemCategory = unserialize($viewData['view']['item_category']);
-      $cnt = 0;
-      foreach ($itemCategory as $category) {
-        $viewData['view']['item_category_name'][$cnt] = $category;
-        $cnt++;
-      }
+      $cnt++;
+    }
+    $insertValues['items'] = serialize($arrItem);
 
-      if (!empty($viewData['view']['item_category_name'][0])) {
-        // 하위 분류
-        $viewData['listCategory2'] = $this->shop_model->listCategory($viewData['view']['item_category_name'][0]);
-      }
+    if ($totalCost == $insertValues['point']) {
+      // 포인트로 전부 결제했을때는 곧바로 입금완료
+      $insertValues['status'] = ORDER_PAY;
     }
 
-    $this->_viewPage('shop/entry', $viewData);
+    // 구매한 상품 저장
+    $rtn = $this->shop_model->insertPurchase($insertValues);
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_purchase'));
+    } else {
+      // 카트 초기화
+      $this->cart->destroy();
+
+      // 포인트 차감
+      if ($insertValues['point'] > 0) {
+        $this->member_model->updatePoint($userData['userid'], ($userData['point'] - $insertValues['point']));
+      }
+
+      // 구매 기록
+      $cntItem = count($arrItem);
+      $subject = $arrItem[0]['name'];
+      if ($cntItem > 1) $subject .= ' 외 ' . ($cntItem - 1) . '개';
+      setHistory(LOG_SHOP_BUY, $rtn, $userData['userid'], $userData['nickname'], $subject, $now);
+
+      if ($totalCost == $insertValues['point']) {
+        // 포인트로 전부 결제했을때 결제 기록
+        setHistory(LOG_SHOP_CHECKOUT, $rtn, $userData['userid'], $userData['nickname'], '전액 포인트 결제 완료', $now, $insertValues['point']);
+      } elseif (!empty($insertValues['deposit_name'])) {
+        // 은행 입금을 위한 입금자명을 입력했을 경우 결제 기록
+        setHistory(LOG_SHOP_CHECKOUT, $rtn, $userData['userid'], $userData['nickname'], '입금자명 입력 - ' . $insertValues['deposit_name'], $now);
+      }
+
+      $result = array('error' => 0, 'message' => $rtn);
+    }
+
+    $this->output->set_output(json_encode($result));
   }
 
   /**
-   * 쇼핑몰 : 신규 용품 등록/수정
+   * 구매 완료 페이지
    *
-   * @return json
+   * @return view
    * @author bjchoi
    **/
-  public function update()
+  public function complete($clubIdx)
   {
-    $now = time();
-    $adminIdx = html_escape($this->session->userData['idx']);
-    $postData = $this->input->post();
-    $idx = html_escape($postData['idx']);
-    $photo = html_escape($postData['filename']);
-    $itemOption = html_escape($postData['item_option']);
-    $addedPrice = html_escape($postData['added_price']);
-    $addedCost = html_escape($postData['added_cost']);
-    $postData['item_recommend'] = !empty($postData['item_recommend']) ? html_escape($postData['item_recommend']) : 'N';
-    $arrCost = array();
+    $userData = $this->load->get_var('userData');
+    $idx = !empty($this->input->get('n')) ? html_escape($this->input->get('n')) : NULL;
 
-    // 카테고리
-    $itemCategory = array(
-      html_escape($postData['item_category1']),
-      html_escape($postData['item_category2'])
-    );
-
-    // 옵션/가격
-    $cnt = 0;
-    foreach ($itemOption as $value) {
-      if (!empty($value)) {
-        $arrCost[] = array(
-          'item_option' => $value,
-          'added_price' => !empty($addedPrice[$cnt]) ? $addedPrice[$cnt] : 0,
-          'added_cost' => !empty($addedCost[$cnt]) ? $addedCost[$cnt] : 0
-        );
-        $cnt++;
-      }
-    }
-
-    // 사진 처리
-    if (!empty($photo)) {
-      $arrPhoto = explode(',', $photo);
-      foreach ($arrPhoto as $value) {
-        if (!empty($value) && file_exists(UPLOAD_PATH . $value)) {
-          // 파일 이동
-          rename(UPLOAD_PATH . $value, PHOTO_PATH . $value);
-    
-          // 썸네일 만들기
-          $this->image_lib->clear();
-          $config['image_library'] = 'gd2';
-          $config['source_image'] = PHOTO_PATH . $value;
-          $config['new_image'] = PHOTO_PATH . 'thumb_' . $value;
-          $config['create_thumb'] = TRUE;
-          $config['maintain_ratio'] = FALSE;
-          $config['thumb_marker'] = '';
-          $config['width'] = 200;
-          $config['height'] = 200;
-          $this->image_lib->initialize($config);
-          $this->image_lib->resize();
-        }
-        $arrPhotoData[] = $value;
-      }
-    }
-
-    $updateValues = array(
-      'item_recommend'  => html_escape($postData['item_recommend']),
-      'item_name'       => html_escape($postData['item_name']),
-      'item_price'      => html_escape($postData['item_price']),
-      'item_cost'       => html_escape($postData['item_cost']),
-      'item_category'   => serialize($itemCategory),
-      'item_option'     => serialize($arrCost),
-      'item_photo'      => serialize($arrPhotoData),
-      'item_content'    => html_escape($postData['item_content']),
-    );
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
     if (empty($idx)) {
-      // 등록
-      $message = $this->lang->line('msg_insert_complete');
-      $updateValues['created_by'] = $adminIdx;
-      $updateValues['created_at'] = $now;
-      $rtn = $this->shop_model->insertItem($updateValues);
+      redirect(base_url() . 'club/shop/' . $clubIdx);
     } else {
-      // 수정
-      $message = $this->lang->line('msg_update_complete');
-      $updateValues['updated_by'] = $adminIdx;
-      $updateValues['updated_at'] = $now;
-      $rtn = $this->shop_model->updateItem($updateValues, $idx);
-    }
+      // 구매 정보
+      $viewData['viewPurchase'] = $this->shop_model->viewPurchase($idx);
 
-    if (empty($rtn)) {
-      $result = array('error' => 1, 'message' => $this->lang->line('error_insert'));
-    } else {
-      $result = array('error' => 0, 'message' => $message);
-    }
+      // 상품 정보
+      $viewData['listCart'] = unserialize($viewData['viewPurchase']['items']);
 
-    $this->output->set_output(json_encode($result));
-  }
-
-  /**
-   * 쇼핑몰 : 용품 삭제
-   *
-   * @return json
-   * @author bjchoi
-   **/
-  public function delete()
-  {
-    $now = time();
-    $adminIdx = html_escape($this->session->userData['idx']);
-    $idx = html_escape($this->input->post('idx'));
-
-    if (!empty($idx)) {
-      $updateValues['deleted_by'] = $adminIdx;
-      $updateValues['deleted_at'] = $now;
-      $rtn = $this->shop_model->updateItem($updateValues, $idx);
-    }
-
-    if (empty($rtn)) {
-      $result = array('error' => 1, 'message' => $this->lang->line('error_delete'));
-    } else {
-      $result = array('error' => 0, 'message' => $this->lang->line('msg_delete_complete'));
-    }
-
-    $this->output->set_output(json_encode($result));
-  }
-
-  /**
-   * 쇼핑몰 : 카테고리 관리
-   *
-   * @return view
-   * @author bjchoi
-   **/
-  public function category($parent = NULL)
-  {
-    if (empty($parent)) {
-      // 부모가 없으면 뷰로 출력
-      $viewData['listCategory'] = $this->shop_model->listCategory();
-      $this->_viewPage('shop/category', $viewData);
-    } else {
-      // 부모가 있으면 Json으로 출력
-      $result = $this->shop_model->listCategory(html_escape($parent));
-      $this->output->set_output(json_encode($result));
-    }
-  }
-
-  /**
-   * 쇼핑몰 : 카테고리 등록/수정
-   *
-   * @return json
-   * @author bjchoi
-   **/
-  public function category_update()
-  {
-    $now = time();
-    $adminIdx = html_escape($this->session->userData['idx']);
-    $categoryIdx = html_escape($this->input->post('category_idx'));
-    $categoryParent = html_escape($this->input->post('category_parent'));
-    $updateValues['name'] = html_escape($this->input->post('category_name'));
-
-    if (!empty($categoryParent)) {
-      // 2차 카테고리의 경우
-      $updateValues['parent'] = $categoryParent;
-    }
-
-    if (empty($categoryIdx)) {
-      // 등록
-      $message = $this->lang->line('msg_insert_complete');
-      $updateValues['created_by'] = $adminIdx;
-      $updateValues['created_at'] = $now;
-      $categoryIdx = $rtn = $this->shop_model->insertCategory($updateValues);
-    } else {
-      // 수정
-      $message = $this->lang->line('msg_update_complete');
-      $updateValues['updated_by'] = $adminIdx;
-      $updateValues['updated_at'] = $now;
-      $rtn = $this->shop_model->updateCategory($updateValues, $categoryIdx);
-    }
-
-    if (empty($rtn)) {
-      $result = array('error' => 1, 'message' => $this->lang->line('error_insert'));
-    } else {
-      $result = array('error' => 0, 'message' => $categoryIdx);
-    }
-
-    $this->output->set_output(json_encode($result));
-  }
-
-  /**
-   * 쇼핑몰 : 카테고리 삭제
-   *
-   * @return json
-   * @author bjchoi
-   **/
-  public function category_delete()
-  {
-    $now = time();
-    $adminIdx = html_escape($this->session->userData['idx']);
-    $categoryIdx = html_escape($this->input->post('category_idx'));
-
-    if (!empty($categoryIdx)) {
-      $updateValues['deleted_by'] = $adminIdx;
-      $updateValues['deleted_at'] = $now;
-      $rtn = $this->shop_model->updateCategory($updateValues, $categoryIdx);
-    }
-
-    if (empty($rtn)) {
-      $result = array('error' => 1, 'message' => $this->lang->line('error_delete'));
-    } else {
-      $result = array('error' => 0, 'message' => $this->lang->line('msg_delete_complete'));
-    }
-
-    $this->output->set_output(json_encode($result));
-  }
-
-  /**
-   * 쇼핑몰 : 주문 관리
-   *
-   * @return view
-   * @return json
-   * @author bjchoi
-   **/
-  public function order()
-  {
-    $clubIdx = 1;
-    $viewData['search'] = array(
-      'item_name' => !empty($this->input->post('item_name')) ? html_escape($this->input->post('item_name')) : NULL,
-      'nickname' => !empty($this->input->post('nickname')) ? html_escape($this->input->post('nickname')) : NULL,
-      'mname' => !empty($this->input->post('mname')) ? html_escape($this->input->post('mname')) : NULL,
-    );
-    $page = html_escape($this->input->post('p'));
-    if (empty($page)) $page = 1; else $page++;
-    $paging['perPage'] = $viewData['perPage'] = 30;
-    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
-
-    $viewData['maxPurchase'] = $this->shop_model->cntPurchase($viewData['search']);
-    $viewData['listPurchase'] = $this->shop_model->listPurchase($paging, $viewData['search']);
-
-    foreach ($viewData['listPurchase'] as $key => $value) {
-      $items = unserialize($value['items']);
-      $viewData['listPurchase'][$key]['listCart'] = $items;
-
-      $viewData['listPurchase'][$key]['totalCost'] = 0;
-      foreach ($items as $item) {
-        $viewData['listPurchase'][$key]['totalCost'] += $item['cost'] * $item['amount'];
+      // 인수할 산행
+      if (!empty($viewData['viewPurchase']['notice_idx'])) {
+        $viewData['viewNotice'] = $this->reserve_model->viewNotice($clubIdx, $viewData['viewPurchase']['notice_idx']);
       }
     }
 
-    // 진행중 산행목록
-    $viewData['listNotice'] = $this->reserve_model->listNotice($clubIdx, array(STATUS_ABLE, STATUS_CONFIRM));
-
-    if ($page >= 2) {
-      // 2페이지 이상일 경우에는 Json으로 전송
-      $result['page'] = $page;
-      $result['html'] = $this->load->view('shop/order_list', $viewData, true);
-      $this->output->set_output(json_encode($result));
-    } else {
-      // 아이템 목록 템플릿
-      $viewData['listPurchase'] = $this->load->view('shop/order_list', $viewData, true);
-
-      // 1페이지에는 View 페이지로 전송
-      $this->_viewPage('shop/order', $viewData);
-    }
+    $this->_viewPage('shop/complete', $viewData);
   }
 
   /**
-   * 쇼핑몰 : 상태 변경
+   * 결제정보 입력
    *
    * @return json
    * @author bjchoi
    **/
-  public function change_status()
+  public function payment($clubIdx)
   {
-    $now = time();
-    $adminIdx = html_escape($this->session->userData['idx']);
-    $idx = html_escape($this->input->post('idx'));
-    $status = html_escape($this->input->post('status'));
+    $nowDate = time();
+    $userData = $this->load->get_var('userData');
 
-    // 상태 수정
-    $updateValues = array('status' => $status);
-    $rtn = $this->shop_model->updatePurchase($updateValues, $idx);
+    if (!empty($userData['idx'])) {
+      $checkPurchase = $this->input->post('checkPurchase');
+      $paymentCost = html_escape($this->input->post('paymentCost'));
 
-    $viewPurchase = $this->shop_model->viewPurchase($idx);
+      $updateValues = array(
+        'point' => html_escape($this->input->post('usingPoint')),
+        'deposit_name' => html_escape($this->input->post('depositName')),
+        'notice_idx' => html_escape($this->input->post('noticeIdx'))
+      );
+
+      if ($paymentCost > 0) {
+        $updateValues['status'] = ORDER_ON;
+      } else {
+        $updateValues['status'] = ORDER_PAY;
+      }
+
+      foreach ($checkPurchase as $key => $value) {
+        $idx = html_escape($value);
+        $point = 0;
+        $viewPurchase = $this->shop_model->viewPurchase($idx); // 구매정보
+
+        // 최초 1회, 포인트 확인
+        if ($key == 0) {
+          if (empty($viewPurchase['point']) && !empty($updateValues['point']) && $viewPurchase['point'] < $updateValues['point']) {
+            // 포인트 차감
+            $this->member_model->updatePoint($clubIdx, $userData['userid'], ($userData['point'] - $updateValues['point']));
+            // 포인트 차감 로그 기록
+            setHistory(LOG_POINTDN, $idx, $userData['userid'], $userData['nickname'], '구매 포인트 사용', $nowDate, $updateValues['point']);
+          } elseif ($viewPurchase['point'] > $updateValues['point']) {
+            // 포인트 환불
+            $this->member_model->updatePoint($clubIdx, $userData['userid'], ($userData['point'] + ($viewPurchase['point'] - $updateValues['point'])));
+            // 포인트 환불 로그 기록
+            setHistory(LOG_POINTUP, $idx, $userData['userid'], $userData['nickname'], '구매 포인트 환불', $nowDate, ($viewPurchase['point'] - $updateValues['point']));
+          }
+        }
+
+        $rtn = $this->shop_model->updatePurchase($updateValues, $idx);
+      }
+    }
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_payment'));
+    } else {
+      $result = array('error' => 0, 'message' => '');
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 구매 취소
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function cancel($clubIdx)
+  {
+    $nowDate = time();
+    $userData = $this->load->get_var('userData');
+    $idx = html_escape($this->input->post('resIdx'));
+    $viewPurchase = $this->shop_model->viewPurchase($idx); // 구매정보
     $arrItem = unserialize($viewPurchase['items']);
     $subject = '';
 
@@ -420,134 +534,26 @@ class Shop extends Admin_Controller
       }
     }
 
-    // 로그 기록
-    switch ($status) {
-      case ORDER_PAY: // 입금확인
-        // 관리자 입금확인 로그 기록
-        setHistory(LOG_ADMIN_SHOP_DEPOSIT_CONFIRM, $idx, $viewPurchase['userid'], $viewPurchase['nickname'], $subject, $now);
-        break;
-
-      case ORDER_CANCEL: // 구매취소
-        // 관리자 구매 취소 로그 기록
-        setHistory(LOG_ADMIN_SHOP_CANCEL, $idx, $viewPurchase['userid'], $viewPurchase['nickname'], $subject, $now);
-
-        if ($viewPurchase['point'] > 0) {
-          // 사용했던 포인트 환불
-          $this->member_model->updatePoint(1, $viewPurchase['userid'], ($viewPurchase['userPoint'] + $viewPurchase['point']));
-
-          // 포인트 환불 로그 기록
-          setHistory(LOG_POINTUP, $idx, $viewPurchase['userid'], $viewPurchase['nickname'], '관리자 구매 취소', $now, $viewPurchase['point']);
-        }
-        break;
-
-      case ORDER_END: // 판매완료
-        // 관리자 판매완료 로그 기록
-        setHistory(LOG_ADMIN_SHOP_COMPLETE, $idx, $viewPurchase['userid'], $viewPurchase['nickname'], $subject, $now);
-        break;
-    }
+    $updateValues = array(
+      'deleted_by' => $userData['idx'],
+      'deleted_at' => $nowDate
+    );
+    $rtn = $this->shop_model->updatePurchase($updateValues, $idx);
 
     if (empty($rtn)) {
-      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+      $result = array('error' => 1, 'message' => $this->lang->line('error_cancel'));
     } else {
-      $result = array('error' => 0, 'message' => $this->lang->line('msg_complete'), 'type' => 1, 'idx' => $idx, 'status' => $status);
-    }
+      // 구매 취소 로그 기록
+      setHistory(LOG_SHOP_CANCEL, $idx, $userData['userid'], $userData['nickname'], $subject, $nowDate);
 
-    $this->output->set_output(json_encode($result));
-  }
+      if ($viewPurchase['point'] > 0) {
+        // 사용했던 포인트 환불
+        $this->member_model->updatePoint($clubIdx, $userData['userid'], ($userData['point'] + $viewPurchase['point']));
 
-  /**
-   * 쇼핑몰 : 구매 정보 삭제
-   *
-   * @return json
-   * @author bjchoi
-   **/
-  public function delete_purchase()
-  {
-    $now = time();
-    $adminIdx = html_escape($this->session->userData['idx']);
-    $idx = html_escape($this->input->post('idx'));
-
-    if (!empty($idx)) {
-      $updateValues = array(
-        'deleted_by' => $adminIdx,
-        'deleted_at' => $now
-      );
-      $rtn = $this->shop_model->updatePurchase($updateValues, $idx);
-    }
-
-    if (empty($rtn)) {
-      $result = array('error' => 1, 'message' => $this->lang->line('error_delete'));
-    } else {
-      $result = array('error' => 0, 'message' => $this->lang->line('msg_delete_complete'), 'type' => 2, 'idx' => $idx);
-    }
-
-    $this->output->set_output(json_encode($result));
-  }
-
-  /**
-   * 파일 업로드
-   *
-   * @return json
-   * @author bjchoi
-   **/
-  public function upload()
-  {
-    $file = $_FILES['file_obj'];
-    $arr = explode('.', $file['name']);
-    $ext = array_pop($arr);
-
-    if ($ext == 'png' || $ext == 'jpg' || $ext == 'jpeg') {
-      $filename = time() . mt_rand(10000, 99999) . '.' . $ext;
-
-      if (move_uploaded_file($_FILES['file_obj']['tmp_name'], UPLOAD_PATH . $filename)) {
-        // 사진 사이즈 줄이기 (가로 사이즈가 800보다 클 경우)
-        $size = getImageSize(UPLOAD_PATH . $filename);
-        if ($size[0] >= 800) {
-          $this->image_lib->clear();
-          $config['image_library'] = 'gd2';
-          $config['source_image'] = UPLOAD_PATH . $filename;
-          $config['maintain_ratio'] = TRUE;
-          $config['width'] = 800;
-          $this->image_lib->initialize($config);
-          $this->image_lib->resize();
-        }
-
-        $result = array('error' => 0, 'message' => base_url() . UPLOAD_URL . $filename, 'filename' => $filename);
-      } else {
-        $result = array('error' => 1, 'message' => $this->lang->line('error_photo_delete'));
+        // 포인트 환불 로그 기록
+        setHistory(LOG_POINTUP, $idx, $userData['userid'], $userData['nickname'], '구매 취소', $nowDate, $viewPurchase['point']);
       }
-    } else {
-      $result = array('error' => 1, 'message' => $this->lang->line('error_photo_ext'));
-    }
 
-    $this->output->set_output(json_encode($result));
-  }
-
-  /**
-   * 사진 삭제
-   *
-   * @return json
-   * @author bjchoi
-   **/
-  public function photo_delete()
-  {
-    $filename = html_escape($this->input->post('filename'));
-
-    if (!empty($filename)) {
-      if (file_exists(UPLOAD_PATH . $filename)) {
-        $rtn = unlink(UPLOAD_PATH . $filename);
-      }
-      if (file_exists(PHOTO_PATH . $filename)) {
-        $rtn = unlink(PHOTO_PATH . $filename);
-      }
-      if (file_exists(PHOTO_PATH . 'thumb_' . $filename)) {
-        $rtn = unlink(PHOTO_PATH . 'thumb_' . $filename);
-      }
-    }
-
-    if (empty($rtn)) {
-      $result = array('error' => 1, 'message' => $this->lang->line('error_photo_delete'));
-    } else {
       $result = array('error' => 0, 'message' => '');
     }
 
@@ -564,11 +570,50 @@ class Shop extends Admin_Controller
    **/
   private function _viewPage($viewPage, $viewData=NULL)
   {
-    $headerData['uri'] = $_SERVER['REQUEST_URI'];
-    $headerData['keyword'] = html_escape($this->input->post('k'));
-    $this->load->view('admin/header', $headerData);
+    $viewData['uri'] = 'club';
+
+    // 회원 정보
+    $viewData['userData'] = $this->load->get_var('userData');
+    $viewData['userLevel'] = $this->load->get_var('userLevel');
+
+    // 진행 중 산행
+    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
+
+    // 회원수
+    $viewData['view']['cntMember'] = $this->member_model->cntMember($viewData['view']['idx']);
+    $viewData['view']['cntMemberToday'] = $this->member_model->cntMemberToday($viewData['view']['idx']);
+
+    // 방문자수
+    $viewData['view']['cntVisitor'] = $this->member_model->cntVisitor($viewData['view']['idx']);
+    $viewData['view']['cntVisitorToday'] = $this->member_model->cntVisitorToday($viewData['view']['idx']);
+
+    // 클럽 대표이미지
+    $files = $this->file_model->getFile('club', $viewData['view']['idx']);
+    if (!empty($files[0]['filename']) && file_exists(PHOTO_PATH . $files[0]['filename'])) {
+      $size = getImageSize(PHOTO_PATH . $files[0]['filename']);
+      $viewData['view']['main_photo'] = base_url() . PHOTO_URL . $files[0]['filename'];
+      $viewData['view']['main_photo_width'] = $size[0];
+      $viewData['view']['main_photo_height'] = $size[1];
+    }
+
+    // 로그인 쿠키 처리
+    if (!empty(get_cookie('cookie_userid'))) {
+      $viewData['cookieUserid'] = get_cookie('cookie_userid');
+    } else {
+      $viewData['cookieUserid'] = '';
+    }
+    if (!empty(get_cookie('cookie_passwd'))) {
+      $viewData['cookiePasswd'] = get_cookie('cookie_passwd');
+    } else {
+      $viewData['cookiePasswd'] = '';
+    }
+
+    // 방문자 기록
+    setVisitor();
+
+    $this->load->view('club/header', $viewData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view('admin/footer');
+    $this->load->view('club/footer', $viewData);
   }
 }
 ?>

@@ -49,13 +49,63 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples: my-controller/index -> my_controller/index
 |       my-controller/my-method -> my_controller/my_method
 */
-$route['default_controller']    = 'club';
 $route['404_override']          = '';
 $route['translate_uri_dashes']  = FALSE;
 
-$route['(:num)']                = 'club/index';
-$route['club/(:num)']           = 'club/index';
-$route['reserve/(:num)']        = 'reserve/index';
-$route['login/(:num)']          = 'login/index';
-$route['logout']                = 'login/logout';
-$route['member/(:num)']         = 'member/index';
+// route에서 데이터베이스 사용
+require_once (BASEPATH."database/DB.php");
+$db =& DB();
+
+// 각 클럽 도메인별 이동
+$domain = $_SERVER['HTTP_HOST'];
+$query = $db->query("SELECT idx FROM clubs WHERE domain='$domain'");
+
+if ($query->num_rows() > 0) {
+  $result = $query->result();
+  $result = $result[0]->idx;
+} elseif (!empty($_SERVER['REDIRECT_URL'])) {
+  $arrUrl = explode('/', $_SERVER['REDIRECT_URL']);
+  $domain = html_escape($arrUrl[1]);
+  $query = $db->query("SELECT idx FROM clubs WHERE domain='$domain'");
+
+  if ($query->num_rows() > 0) {
+    $result = $query->result();
+    $result = $result[0]->idx;
+  }
+}
+
+if (!empty($result)) {
+  // 도메인이 있을 경우
+  $route[$domain]                             = 'club/index/' . $result;
+  $route[$domain . '/club/about']             = 'club/about/' . $result;
+  $route[$domain . '/club/guide']             = 'club/guide/' . $result;
+  $route[$domain . '/club/howto']             = 'club/howto/' . $result;
+  $route[$domain . '/club/past']              = 'club/past/' . $result;
+  $route[$domain . '/club/auth_about']        = 'club/auth_about/' . $result;
+  $route[$domain . '/club/auth']              = 'club/auth/' . $result;
+  $route[$domain . '/club/upload']            = 'club/upload/' . $result;
+  $route[$domain . '/story/view']             = 'story/view/' . $result;
+  $route[$domain . '/story/edit']             = 'story/edit/' . $result;
+  $route[$domain . '/album']                  = 'album/index/' . $result;
+  $route[$domain . '/album/entry']            = 'album/entry/' . $result;
+  $route[$domain . '/reserve']                = 'reserve/index/' . $result;
+  $route[$domain . '/reserve/notice']         = 'reserve/notice/' . $result;
+  $route[$domain . '/member']                 = 'member/index/' . $result;
+  $route[$domain . '/member/modify']          = 'member/modify/' . $result;
+  $route[$domain . '/member/reserve']         = 'member/reserve/' . $result;
+  $route[$domain . '/member/reserve_cancel']  = 'member/reserve_cancel/' . $result;
+  $route[$domain . '/member/reserve_past']    = 'member/reserve_past/' . $result;
+  $route[$domain . '/member/point']           = 'member/point/' . $result;
+  $route[$domain . '/member/penalty']         = 'member/penalty/' . $result;
+  $route[$domain . '/shop']                   = 'shop/index/' . $result;
+  $route[$domain . '/shop/item']              = 'shop/item/' . $result;
+  $route[$domain . '/shop/cart']              = 'shop/cart/' . $result;
+  $route[$domain . '/shop/checkout']          = 'shop/checkout/' . $result;
+  $route[$domain . '/shop/complete']          = 'shop/complete/' . $result;
+} else {
+  $route['default_controller']  = 'welcome';
+  $route['login']               = 'login/index';
+  $route['logout']              = 'login/logout';
+  $route['member']              = 'member/index';
+  $route['club']                = 'welcome/listing';
+}

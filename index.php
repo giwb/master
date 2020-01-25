@@ -55,11 +55,13 @@
  */
 
 //define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+if ($_SERVER['REMOTE_ADDR'] != '49.166.0.82') {
+	echo "<div align='center' style='margin: 50px;'><img src='/public/images/newyear.jpg'><br><br><h1 style='font-size: 22px;'>새해를 맞이하여 리뉴얼 작업을 진행합니다.<br>오픈까지 잠시만 기다려주세요!</h1><h2 style='font-size: 15px;'>점검 예정시간 10시 ~ 11시</h2></div>";
+	exit;
+}
 
-if (strstr($_SERVER['HTTP_HOST'], 'giwb.localhost') == true) {
+if (strstr($_SERVER['HTTP_HOST'], 'tripkorea.localhost') == true) {
 	define('ENVIRONMENT', 'development');
-} elseif (strstr($_SERVER['HTTP_HOST'], 'testing.giwb.kr') == true) {
-	define('ENVIRONMENT', 'testing');
 } else {
 	define('ENVIRONMENT', 'production');
 }

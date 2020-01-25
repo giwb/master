@@ -39,22 +39,20 @@ class Reserve_model extends CI_Model
   }
 
   // 등록된 산행 상세 정보
-  public function viewNotice($clubIdx, $noticeIdx)
+  public function viewNotice($noticeIdx)
   {
     $this->db->select('*')
           ->from(DB_NOTICE)
-          ->where('club_idx', $clubIdx)
-          ->where('visible', VISIBLE_ABLE)
-          ->where('idx', $noticeIdx);
+          ->where('idx', $noticeIdx)
+          ->where('visible', VISIBLE_ABLE);
     return $this->db->get()->row_array(1);
   }
 
   // 선택된 산행 예약 목록
-  public function viewProgress($clubIdx, $noticeIdx)
+  public function viewProgress($noticeIdx)
   {
     $this->db->select('*')
           ->from(DB_RESERVATION)
-          ->where('club_idx', $clubIdx)
           ->where('rescode', $noticeIdx);
     return $this->db->get()->result_array();
   }
@@ -72,11 +70,10 @@ class Reserve_model extends CI_Model
   }
 
   // 산행 예약자 카운트
-  public function cntReserve($clubIdx, $noticeIdx, $bus=NULL)
+  public function cntReserve($noticeIdx, $bus=NULL)
   {
     $this->db->select('COUNT(*) AS cnt')
           ->from(DB_RESERVATION)
-          ->where('club_idx', $clubIdx)
           ->where('rescode', $noticeIdx)
           ->where('manager', 0)
           ->where('priority', 0);
@@ -213,10 +210,9 @@ class Reserve_model extends CI_Model
   }
 
   // 산행 정보 수정
-  public function updateNotice($data, $clubIdx, $noticeIdx)
+  public function updateNotice($data, $noticeIdx)
   {
     $this->db->set($data);
-    $this->db->where('club_idx', $clubIdx);
     $this->db->where('idx', $noticeIdx);
     return $this->db->update(DB_NOTICE);
   }
@@ -266,11 +262,10 @@ class Reserve_model extends CI_Model
   }
 
   // 좌석 예약 확인
-  public function checkReserve($clubIdx, $noticeIdx, $bus, $seat)
+  public function checkReserve($noticeIdx, $bus, $seat)
   {
     $this->db->select('idx, userid, nickname, priority')
           ->from(DB_RESERVATION)
-          ->where('club_idx', $clubIdx)
           ->where('rescode', $noticeIdx)
           ->where('bus', $bus)
           ->where('seat', $seat);
@@ -278,11 +273,10 @@ class Reserve_model extends CI_Model
   }
 
   // 대기자 카운트
-  public function cntReserveWait($clubIdx, $noticeIdx)
+  public function cntReserveWait($noticeIdx)
   {
     $this->db->select('COUNT(created_at) as cnt')
           ->from(DB_WAIT)
-          ->where('club_idx', $clubIdx)
           ->where('notice_idx', $noticeIdx);
     return $this->db->get()->row_array(1);
   }
@@ -335,11 +329,10 @@ class Reserve_model extends CI_Model
   }
 
   // 산행 공지사항 목록
-  public function listNoticeDetail($clubIdx, $noticeIdx)
+  public function listNoticeDetail($noticeIdx)
   {
     $this->db->select('idx, title, content')
           ->from(DB_NOTICE_DETAIL)
-          ->where('club_idx', $clubIdx)
           ->where('notice_idx', $noticeIdx)
           ->where('deleted_at', NULL)
           ->order_by('sort_idx', 'asc');

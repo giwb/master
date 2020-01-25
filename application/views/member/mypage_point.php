@@ -5,7 +5,7 @@
           <h2><?=$pageTitle?></h2>
           <h3>■ 포인트 내역 <small>- 잔액 <?=number_format($viewMember['point'])?> 포인트</small></h3>
           <ul>
-            <form id="formList" method="post" action="<?=base_url()?>member/point/<?=$clubIdx?>">
+            <form id="formList" method="post" action="<?=BASE_URL?>/member/point">
             <input type="hidden" name="p" value="1">
             <?=$userPoint?>
             <div class="area-append"></div>

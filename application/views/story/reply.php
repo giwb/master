@@ -1,6 +1,6 @@
 <?php
 foreach ($listReply as $value):
-  if ($userData['idx'] == $value['created_by'] || $userData['admin'] == 1) {
+  if (!empty($userData['idx']) && ($userData['idx'] == $value['created_by'] || $userData['admin'] == 1)) {
     $delete = ' <a href="javascript:;" class="btn-reply-update" data-idx="' . $value['idx'] . '">[수정]</a> <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '" data-action="delete_reply">[삭제]</a>';
   } else {
     $delete = '';

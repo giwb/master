@@ -10,24 +10,30 @@ class MY_Controller extends CI_Controller
     $this->load->library('session');
     $this->load->model('member_model');
 
-    // 클럽 설정
-    $loginData['clubIdx'] = 1; // 최초는 경인웰빙
+    // 클럽 도메인 설정
     if (!empty($_SERVER['REDIRECT_URL'])) {
       $arrUrl = explode('/', $_SERVER['REDIRECT_URL']);
-      $clubIdx = array_pop($arrUrl);
-
-      if (is_numeric($clubIdx)) {
-        $loginData['clubIdx'] = html_escape($clubIdx);
+      $domain = html_escape($arrUrl[1]);
+      if (!empty($domain)) {
+        define('BASE_URL', base_url() . $domain);
       }
     }
 
     // 회원 로그인 설정
     if (!empty($this->session->userData['idx'])) {
-      $loginData['userData'] = $this->member_model->viewMember($loginData['clubIdx'], html_escape($this->session->userData['idx']));
+      $loginData['userData'] = $this->member_model->viewMember(html_escape($this->session->userData['idx']));
       $loginData['userLevel'] = memberLevel($loginData['userData']['rescount'], $loginData['userData']['penalty'], $loginData['userData']['level'], $loginData['userData']['admin']);
+
+      if (!empty($loginData['userData']['icon'])) {
+        $loginData['userData']['icon'] = $loginData['userData']['icon_thumbnail'];
+      } else {
+        $loginData['userData']['icon'] = base_url() . PHOTO_URL . $loginData['userData']['idx'];
+      }
     }
 
-    $this->load->vars($loginData);
+    if (!empty($loginData)) {
+      $this->load->vars($loginData);
+    }
   }
 }
 
@@ -46,7 +52,7 @@ class Admin_Controller extends CI_Controller
 
     // 모든 페이지에 로그인 체크
     if (!empty($adminCheck) && ($clubIdx == 1 && $adminCheck == 1)) {
-      $loginData['userData'] = $this->member_model->viewMember($clubIdx, $userIdx);
+      $loginData['userData'] = $this->member_model->viewMember($userIdx);
     } else {
       redirect(base_url() . 'login/?r=/admin');
     }

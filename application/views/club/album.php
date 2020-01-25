@@ -5,7 +5,7 @@
         <div class="sub-content">
           <div class="text-right mt-3 mb-3">
             <?php if (!empty($userIdx)): ?>
-            <a href="<?=base_url()?>club/album_upload/<?=$view['idx']?>"><button class="btn btn-sm btn-primary">사진 등록</button></a>
+            <a href="<?=BASE_URL?>/album/entry"><button class="btn btn-sm btn-primary">사진 등록</button></a>
             <?php endif; ?>
           </div>
           <form id="formList">

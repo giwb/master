@@ -11,7 +11,7 @@
         <div class="sub-contents">
           <div class="sub-title">
             <div class="area-title"><h2><b><?=viewStatus($notice['status'])?></b> <?=$notice['subject']?></h2></div>
-            <div class="area-btn"><a href="<?=base_url()?>reserve/notice/<?=$view['idx']?>?n=<?=$notice['idx']?>"><button type="button" class="btn btn-primary">산행공지</button></a></div>
+            <div class="area-btn"><a href="<?=BASE_URL?>/reserve/notice/?n=<?=$notice['idx']?>"><button type="button" class="btn btn-primary">산행공지</button></a></div>
           </div>
           <?php if (!empty($notice['type'])): ?><div class="ti"><strong>・유형</strong> : <?=$notice['type']?></div><?php endif; ?>
           <div class="ti"><strong>・일시</strong> : <?=$notice['startdate']?> (<?=calcWeek($notice['startdate'])?>) <?=$notice['starttime']?></div>
@@ -77,7 +77,7 @@
             <?php if ($maxRes == $value['seat']): $cntWait = cntWait($view['idx'], $notice['idx']); ?>
             <div class="area-wait text-center mt-3 mb-4">
               현재 예약 대기자로 <span class="cnt-wait"><?=$cntWait?></span>명이 등록되어 있습니다.<br>
-              <form id="waitForm" method="post" action="<?=base_url()?>reserve/wait_insert" class="mt-3">
+              <form id="waitForm" method="post" action="/reserve/wait_insert" class="mt-3">
                 <div id="addedWait"></div>
                 <input type="hidden" name="clubIdx" value="<?=!empty($view['idx']) ? $view['idx'] : ''?>">
                 <input type="hidden" name="noticeIdx" value="<?=!empty($notice['idx']) ? $notice['idx'] : ''?>">
@@ -93,7 +93,7 @@
               </form>
             </div>
             <?php endif; ?>
-            <form id="reserveForm" method="post" action="<?=base_url()?>reserve/insert">
+            <form id="reserveForm" method="post" action="/reserve/insert">
               <div id="addedInfo"></div>
               <input type="hidden" name="clubIdx" value="<?=!empty($view['idx']) ? $view['idx'] : ''?>">
               <input type="hidden" name="userIdx" value="<?=!empty($userData['idx']) ? $userData['idx'] : ''?>">
@@ -109,9 +109,9 @@
             <button type="button" class="btn-share" data-idx="<?=$notice['idx']?>"><i class="fa fa-share-alt" aria-hidden="true"></i> 공유하기 <span class="cnt-share"><?=$notice['share_cnt']?></span></button>
             <div class="area-share" data-idx="<?=$notice['idx']?>">
               <ul>
-                <li><a href="javascript:;" class="btn-share-sns" data-idx="<?=$notice['idx']?>" data-reaction-type="<?=REACTION_TYPE_NOTICE?>" data-type="<?=SHARE_TYPE_FACEBOOK?>" data-url="https://facebook.com/sharer/sharer.php?u=<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$notice['idx']?>"><img src="<?=base_url()?>public/images/icon_facebook.png"><br>페이스북</a></li>
-                <li><a href="javascript:;" class="btn-share-sns" data-idx="<?=$notice['idx']?>" data-reaction-type="<?=REACTION_TYPE_NOTICE?>" data-type="<?=SHARE_TYPE_TWITTER?>" data-url="https://twitter.com/intent/tweet?url=<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$notice['idx']?>"><img src="<?=base_url()?>public/images/icon_twitter.png"><br>트위터</a></li>
-                <li><a href="javascript:;" class="btn-share-url" data-idx="<?=$notice['idx']?>" data-reaction-type="<?=REACTION_TYPE_NOTICE?>" data-type="<?=SHARE_TYPE_URL?>" data-trigger="click" data-placement="bottom" data-clipboard-text="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$notice['idx']?>"><img src="<?=base_url()?>public/images/icon_url.png"><br>URL</a></li>
+                <li><a href="javascript:;" class="btn-share-sns" data-idx="<?=$notice['idx']?>" data-reaction-type="<?=REACTION_TYPE_NOTICE?>" data-type="<?=SHARE_TYPE_FACEBOOK?>" data-url="https://facebook.com/sharer/sharer.php?u=<?=BASE_URL?>/reserve/?n=<?=$notice['idx']?>"><img src="/public/images/icon_facebook.png"><br>페이스북</a></li>
+                <li><a href="javascript:;" class="btn-share-sns" data-idx="<?=$notice['idx']?>" data-reaction-type="<?=REACTION_TYPE_NOTICE?>" data-type="<?=SHARE_TYPE_TWITTER?>" data-url="https://twitter.com/intent/tweet?url=<?=BASE_URL?>/reserve/?n=<?=$notice['idx']?>"><img src="/public/images/icon_twitter.png"><br>트위터</a></li>
+                <li><a href="javascript:;" class="btn-share-url" data-idx="<?=$notice['idx']?>" data-reaction-type="<?=REACTION_TYPE_NOTICE?>" data-type="<?=SHARE_TYPE_URL?>" data-trigger="click" data-placement="bottom" data-clipboard-text="<?=BASE_URL?>/reserve/?n=<?=$notice['idx']?>"><img src="/public/images/icon_url.png"><br>URL</a></li>
               </ul>
             </div>
           </div>
@@ -119,7 +119,8 @@
             <div class="story-reply-content">
               <?=$listReply?>
             </div>
-            <form method="post" action="<?=base_url()?>story/insert_reply/<?=$view['idx']?>" class="story-reply-input" data-idx="<?=$notice['idx']?>">
+            <form method="post" action="/story/insert_reply" class="story-reply-input" data-idx="<?=$notice['idx']?>">
+              <input type="hidden" name="clubIdx" value="<?=$view['idx']?>">
               <input type="hidden" name="storyIdx" value="<?=$notice['idx']?>">
               <input type="hidden" name="replyType" value="<?=REPLY_TYPE_NOTICE?>">
               <input type="hidden" name="replyIdx" value="">
@@ -134,7 +135,7 @@
           <h3><i class="fa fa-calendar" aria-hidden="true"></i> 현재 진행중인 산행</h3>
           <div class="list-schedule">
             <?php foreach ($listNotice as $value): ?>
-            <a href="<?=base_url()?>reserve/<?=$value['club_idx']?>?n=<?=$value['idx']?>"><?=viewStatus($value['status'])?> <strong><?=$value['subject']?></strong><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명</a>
+            <a href="<?=BASE_URL?>/reserve/?n=<?=$value['idx']?>"><?=viewStatus($value['status'])?> <strong><?=$value['subject']?></strong><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명</a>
             <?php endforeach; ?>
           </div>
           <div class="ad-sp">

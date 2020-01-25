@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 // 첫 페이지 클래스
-class Story extends CI_Controller
+class Story extends MY_Controller
 {
   function __construct()
   {
@@ -30,7 +30,7 @@ class Story extends CI_Controller
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
     if (!empty($storyIdx)) {
-      $viewData['listStory'] = $this->story_model->viewStory($clubIdx, $storyIdx);
+      $viewData['listStory'] = $this->story_model->viewStory($storyIdx);
     } else {
       $paging['perPage'] = 10;
       $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
@@ -60,7 +60,7 @@ class Story extends CI_Controller
     $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
 
     // 최초 스토리 출력
-    $viewData['listStory'] = $this->story_model->viewStory($viewData['clubIdx'], $viewData['storyIdx']);
+    $viewData['listStory'] = $this->story_model->viewStory($viewData['storyIdx']);
     $viewData['viewStory'] = $this->load->view('story/index', $viewData, true);
 
     $this->_viewPage('story/view', $viewData);
@@ -82,7 +82,7 @@ class Story extends CI_Controller
     $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
 
     // 최초 스토리 출력
-    $viewData['listStory'] = $this->story_model->viewStory($viewData['clubIdx'], $viewData['storyIdx']);
+    $viewData['listStory'] = $this->story_model->viewStory($viewData['storyIdx']);
 
     if ($viewData['userData']['idx'] != $viewData['listStory'][0]['created_by'] && $viewData['userData']['admin'] != 1) {
       redirect(base_url() . 'story/view/' . $viewData['clubIdx'] . '?n=' . $viewData['storyIdx']);
@@ -98,11 +98,12 @@ class Story extends CI_Controller
    * @return json
    * @author bjchoi
    **/
-  public function insert($clubIdx)
+  public function insert()
   {
     $now = time();
     $userIdx = $this->session->userData['idx'];
     $inputData = $this->input->post();
+    $clubIdx = html_escape($inputData['clubIdx']);
     $inputData['photo'] = html_escape($inputData['photo']);
     $inputData['page'] = html_escape($inputData['page']);
     $idx = !empty($inputData['idx']) ? html_escape($inputData['idx']) : NULL;
@@ -111,15 +112,13 @@ class Story extends CI_Controller
       $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
     } else {
       if (!empty($idx)) {
-        $url = base_url() . 'story/view/' . $clubIdx . '?n=' . $idx;
         $updateValues = array(
           'content'     => html_escape($inputData['content']),
           'updated_by'  => html_escape($userIdx),
           'updated_at'  => $now
         );
-        $this->story_model->updateStory($updateValues, $clubIdx, $idx);
+        $this->story_model->updateStory($updateValues, $idx);
       } else {
-        $url = 'reload';
         $insertValues = array(
           'club_idx'    => html_escape($clubIdx),
           'content'     => html_escape($inputData['content']),
@@ -161,7 +160,7 @@ class Story extends CI_Controller
           }
         //}
 
-        $result = array('error' => 0, 'message' => $url);
+        $result = array('error' => 0, 'message' => '');
       }
     }
 
@@ -174,16 +173,15 @@ class Story extends CI_Controller
    * @return json
    * @author bjchoi
    **/
-  public function reply($clubIdx)
+  public function reply()
   {
-    $clubIdx = html_escape($clubIdx);
     $storyIdx = html_escape($this->input->post('storyIdx'));
     $replyType = html_escape($this->input->post('replyType'));
     $userData = $this->session->userData;
     $message = '';
 
     // 댓글 목록
-    $reply = $this->story_model->listStoryReply($clubIdx, $storyIdx, $replyType);
+    $reply = $this->story_model->listStoryReply($storyIdx, $replyType);
 
     foreach ($reply as $value) {
       if ($userData['idx'] == $value['created_by'] || $userData['admin'] == 1) {
@@ -220,12 +218,12 @@ class Story extends CI_Controller
    * @return json
    * @author bjchoi
    **/
-  public function insert_reply($clubIdx)
+  public function insert_reply()
   {
     $now = time();
     $result = array('error' => 0);
     $userData = $this->session->userData;
-    $clubIdx = html_escape($clubIdx);
+    $clubIdx = html_escape($this->input->post('clubIdx'));
     $storyIdx = html_escape($this->input->post('storyIdx'));
     $replyType = html_escape($this->input->post('replyType'));
     $replyIdx = html_escape($this->input->post('replyIdx'));
@@ -240,16 +238,16 @@ class Story extends CI_Controller
           'updated_by' => $userData['idx'],
           'updated_at' => $now
         );
-        $this->story_model->updateStoryReply($updateValues, $clubIdx, $storyIdx, $replyType, $replyIdx);
+        $this->story_model->updateStoryReply($updateValues, $storyIdx, $replyType, $replyIdx);
 
         // 기존 정보 불러오기
-        $viewStoryReply = $this->story_model->viewStoryReply($clubIdx, $replyIdx);
+        $viewStoryReply = $this->story_model->viewStoryReply($replyIdx);
         $userData['idx'] = $viewStoryReply['created_by'];
         $userData['nickname'] = $viewStoryReply['nickname'];
         $rtn = $replyIdx;
 
         // 스토리 댓글 개수
-        $cntStoryReply = $this->story_model->cntStoryReply($clubIdx, $storyIdx, $replyType);
+        $cntStoryReply = $this->story_model->cntStoryReply($storyIdx, $replyType);
       } else {
         $insertValues = array(
           'club_idx' => $clubIdx,
@@ -262,11 +260,11 @@ class Story extends CI_Controller
         $rtn = $this->story_model->insertStoryReply($insertValues);
 
         // 스토리 댓글 개수 올리기
-        $cntStoryReply = $this->story_model->cntStoryReply($clubIdx, $storyIdx, $replyType);
+        $cntStoryReply = $this->story_model->cntStoryReply($storyIdx, $replyType);
 
         if ($replyType == REPLY_TYPE_STORY) {
           $updateData['reply_cnt'] = $cntStoryReply['cnt'];
-          $this->story_model->updateStory($updateData, $clubIdx, $storyIdx);
+          $this->story_model->updateStory($updateData, $storyIdx);
         }
       }
 
@@ -306,24 +304,24 @@ class Story extends CI_Controller
    * @return json
    * @author bjchoi
    **/
-  public function like($clubIdx)
+  public function like()
   {
     $now = time();
     $userIdx = $this->session->userData['idx'];
-    $clubIdx = html_escape($clubIdx);
+    $clubIdx = html_escape($this->input->post('clubIdx'));
     $storyIdx = html_escape($this->input->post('storyIdx'));
     $reactionType = html_escape($this->input->post('reactionType'));
 
     if (empty($userIdx)) {
       $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
     } else {
-      $cntStoryReaction = $this->story_model->cntStoryReaction($clubIdx, $storyIdx, $reactionType, REACTION_KIND_LIKE);
-      $viewStoryReaction = $this->story_model->viewStoryReaction($clubIdx, $storyIdx, $reactionType, $userIdx);
+      $cntStoryReaction = $this->story_model->cntStoryReaction($storyIdx, $reactionType, REACTION_KIND_LIKE);
+      $viewStoryReaction = $this->story_model->viewStoryReaction($storyIdx, $reactionType, $userIdx);
       $result = array();
 
       if (!empty($viewStoryReaction['reaction_kind']) && $viewStoryReaction['reaction_kind'] == REACTION_KIND_LIKE) {
         // 데이터가 있으면 삭제
-        $rtn = $this->story_model->deleteStoryReaction($clubIdx, $storyIdx, $userIdx, $reactionType);
+        $rtn = $this->story_model->deleteStoryReaction($storyIdx, $userIdx, $reactionType);
 
         if (!empty($rtn)) {
           $updateData['like_cnt'] = $cntStoryReaction['cnt'] - 1;
@@ -348,7 +346,7 @@ class Story extends CI_Controller
       }
 
       if (!empty($rtn) && $reactionType == REACTION_TYPE_STORY) {
-        $this->story_model->updateStory($updateData, $clubIdx, $storyIdx);
+        $this->story_model->updateStory($updateData, $storyIdx);
       }
     }
 
@@ -361,18 +359,18 @@ class Story extends CI_Controller
    * @return json
    * @author bjchoi
    **/
-  public function share($clubIdx)
+  public function share()
   {
     $now = time();
     $userIdx = $this->session->userData['idx'];
-    $clubIdx = html_escape($clubIdx);
+    $clubIdx = html_escape($this->input->post('clubIdx'));
     $storyIdx = html_escape($this->input->post('storyIdx'));
     $reactionType = html_escape($this->input->post('reactionType'));
     $shareType = html_escape($this->input->post('shareType'));
     $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
 
     if (!empty($userIdx)) {
-      $viewStoryReaction = $this->story_model->viewStoryReaction($clubIdx, $storyIdx, $reactionType, $userIdx, $shareType);
+      $viewStoryReaction = $this->story_model->viewStoryReaction($storyIdx, $reactionType, $userIdx, $shareType);
 
       if (!empty($viewStoryReaction)) {
         $result = array('error' => 1, 'message' => '');
@@ -389,11 +387,11 @@ class Story extends CI_Controller
         $rtn = $this->story_model->insertStoryReaction($insertData);
 
         if (!empty($rtn)) {
-          $cntStoryReaction = $this->story_model->cntStoryReaction($clubIdx, $storyIdx, $reactionType, REACTION_KIND_SHARE);
+          $cntStoryReaction = $this->story_model->cntStoryReaction($storyIdx, $reactionType, REACTION_KIND_SHARE);
 
           if ($reactionType == REACTION_TYPE_STORY) {
             $updateData['share_cnt'] = $cntStoryReaction['cnt'];
-            $this->story_model->updateStory($updateData, $clubIdx, $storyIdx);
+            $this->story_model->updateStory($updateData, $storyIdx);
           }
 
           $result = array('type' => 1, 'count' => $cntStoryReaction['cnt']);
@@ -410,11 +408,10 @@ class Story extends CI_Controller
    * @return json
    * @author bjchoi
    **/
-  public function delete($clubIdx)
+  public function delete()
   {
     $now = time();
     $userIdx = $this->session->userData['idx'];
-    $clubIdx = html_escape($clubIdx);
     $storyIdx = html_escape($this->input->post('idx'));
     $result = array('error' => 1, 'message' => $this->lang->line('error_delete'));
 
@@ -422,8 +419,8 @@ class Story extends CI_Controller
       $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
     } else {
       // 해당 글을 작성한 사람이 맞는치 확인 (관리자는 모두 삭제 가능)
-      $viewStory = $this->story_model->viewStory($clubIdx, $storyIdx);
-      $viewMember = $this->member_model->viewMember($clubIdx, $userIdx);
+      $viewStory = $this->story_model->viewStory($storyIdx);
+      $viewMember = $this->member_model->viewMember($userIdx);
 
       if (!empty($viewStory[0]['user_idx']) && ($viewStory[0]['user_idx'] == $userIdx || $viewMember['admin'] == 1)) {
         // DB는 삭제 플래그만 세워줌
@@ -432,14 +429,14 @@ class Story extends CI_Controller
           'deleted_at' => $now
         );
 
-        $rtn = $this->story_model->updateStory($updateData, $clubIdx, $storyIdx);
+        $rtn = $this->story_model->updateStory($updateData, $storyIdx);
 
         if (!empty($rtn)) {
           // 댓글 삭제 플래그 세우기
-          $this->story_model->updateStoryReply($updateData, $clubIdx, $storyIdx, REPLY_TYPE_STORY);
+          $this->story_model->updateStoryReply($updateData, $storyIdx, REPLY_TYPE_STORY);
 
           // 리액션 삭제
-          $this->story_model->deleteStoryReaction($clubIdx, $storyIdx, $userIdx);
+          $this->story_model->deleteStoryReaction($storyIdx, $userIdx);
 
           // 화상 데이터는 삭제
           $files = $this->file_model->getFile('story', $storyIdx);
@@ -449,7 +446,7 @@ class Story extends CI_Controller
             $this->file_model->deleteFile($value['filename']);
           }
 
-          $result = array('error' => 0, 'message' => base_url() . $clubIdx);
+          $result = array('error' => 0, 'message' => '');
         }
       }
     }
@@ -463,11 +460,10 @@ class Story extends CI_Controller
    * @return json
    * @author bjchoi
    **/
-  public function delete_reply($clubIdx)
+  public function delete_reply()
   {
     $now = time();
     $userIdx = $this->session->userData['idx'];
-    $clubIdx = html_escape($clubIdx);
     $storyReplyIdx = html_escape($this->input->post('idx'));
     $result = array('error' => 1, 'message' => $this->lang->line('error_delete'));
 
@@ -475,8 +471,8 @@ class Story extends CI_Controller
       $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
     } else {
       // 해당 글을 작성한 사람이 맞는치 확인 (관리자는 모두 삭제 가능)
-      $viewStoryReply = $this->story_model->viewStoryReply($clubIdx, $storyReplyIdx);
-      $viewMember = $this->member_model->viewMember($clubIdx, $userIdx);
+      $viewStoryReply = $this->story_model->viewStoryReply($storyReplyIdx);
+      $viewMember = $this->member_model->viewMember($userIdx);
 
       if (!empty($viewStoryReply['created_by']) && ($viewStoryReply['created_by'] == $userIdx || $viewMember['admin'] == 1)) {
         // 삭제는 삭제 플래그만 세워줌
@@ -485,12 +481,12 @@ class Story extends CI_Controller
           'deleted_at' => $now
         );
 
-        $rtn = $this->story_model->updateStoryReply($updateData, $clubIdx, $viewStoryReply['story_idx'], $viewStoryReply['reply_type'], $storyReplyIdx);
+        $rtn = $this->story_model->updateStoryReply($updateData, $viewStoryReply['story_idx'], $viewStoryReply['reply_type'], $storyReplyIdx);
 
         if (!empty($rtn)) {
-          $cntStoryReply = $this->story_model->cntStoryReply($clubIdx, $viewStoryReply['story_idx'], $viewStoryReply['reply_type']);
+          $cntStoryReply = $this->story_model->cntStoryReply($viewStoryReply['story_idx'], $viewStoryReply['reply_type']);
           $updateData = array('reply_cnt' => $cntStoryReply['cnt']);
-          $this->story_model->updateStory($updateData, $clubIdx, $viewStoryReply['story_idx']);
+          $this->story_model->updateStory($updateData, $viewStoryReply['story_idx']);
           $result = array('error' => 0, 'message' => 'delete_reply', 'story_idx' => $viewStoryReply['story_idx'], 'reply_cnt' => $cntStoryReply['cnt']);
         }
       }
@@ -629,9 +625,9 @@ class Story extends CI_Controller
     // 방문자 기록
     setVisitor();
 
-    $this->load->view('header', $viewData);
+    $this->load->view('club/header', $viewData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view('footer', $viewData);
+    $this->load->view('club/footer', $viewData);
   }
 }
 ?>

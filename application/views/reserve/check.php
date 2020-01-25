@@ -3,8 +3,10 @@
       <div class="club-main">
         <div class="sub-contents">
           <div class="area-reservation text-center"><br>
+          <?php if (empty($listReserve)): ?>
+            <h2>예약 정보가 없습니다.</h2>
+          <?php else: ?>
             <h2>예약이 완료되었습니다!</h2>
-
             <form id="reserveForm" method="post" class="border-top border-bottom text-left mt-4 mb-4 pt-3 pl-5 pr-5">
               <?php foreach ($listReserve as $key => $value): ?>
               <dl>
@@ -27,6 +29,7 @@
             <button type="button" class="btn btn-primary btn-mypage-payment">결제정보입력</button></a>
             <?php endif; ?>
             <a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$view['noticeIdx']?>"><button type="button" class="btn btn-secondary">좌석현황보기</button></a>
+          <?php endif; ?>
           </div>
         </div>
         <?php if (!empty($listItem)): ?>
@@ -128,14 +131,14 @@
           // 결제정보 입력 처리
           var $btn = $(this);
           var baseUrl = $('input[name=baseUrl]').val();
-          var clubIdx = $('input[name=clubIdx]').val();
           var formData = new FormData($('#reserveForm')[0]);
+          formData.append('clubIdx', $('input[name=clubIdx]').val());
           formData.append('depositName', $('input[name=depositName]').val());
           formData.append('usingPoint', $('input[name=usingPoint]').val());
           formData.append('paymentCost', $('input[name=paymentCost]').val());
 
           $.ajax({
-            url: baseUrl + 'reserve/payment/' + clubIdx,
+            url: '/reserve/payment',
             data: formData,
             processData: false,
             contentType: false,
@@ -148,7 +151,7 @@
               if (result.error == 1) {
                 $('.error-message').text(result.message);
               } else {
-                location.href = (baseUrl + 'member/' + clubIdx);
+                location.href = (baseUrl + '/member');
               }
             }
           });

@@ -3,12 +3,12 @@
       <div id="shop" class="club-main">
         <div class="row align-items-center mb-3">
           <div class="col-6 col-sm-9"><h3 class="m-0 p-0">구매대행 상품</h3></div>
-          <div class="col-6 col-sm-3 text-right"><a href="<?=base_url()?>club/shop_cart/<?=$clubIdx?>"><button type="button" class="btn btn-sm btn-cart">장바구니 보기</button></a></div>
+          <div class="col-6 col-sm-3 text-right"><a href="<?=BASE_URL?>/shop/cart"><button type="button" class="btn btn-sm btn-cart">장바구니 보기</button></a></div>
         </div>
         <div class="row-category row m-0 p-0 border-bottom border-right">
-          <a href="<?=base_url()?>club/shop/<?=$clubIdx?>" class="col border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=empty($search['item_category1']) ? ' active' : ''?>">인기상품</a>
+          <a href="<?=BASE_URL?>/shop" class="col border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=empty($search['item_category1']) ? ' active' : ''?>">인기상품</a>
           <?php foreach ($listCategory as $value): ?>
-          <a href="<?=base_url()?>club/shop/<?=$clubIdx?>?c=<?=$value['idx']?>" class="col border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=$value['idx'] == $search['item_category1'] ? ' active' : ''?>"><?=$value['name']?></a>
+          <a href="<?=BASE_URL?>/shop/?c=<?=$value['idx']?>" class="col border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=$value['idx'] == $search['item_category1'] ? ' active' : ''?>"><?=$value['name']?></a>
           <?php endforeach; ?>
         </div>
         <div class="sub-content mt-2">
@@ -17,7 +17,7 @@
               <img src="<?=$viewItem['item_photo'][0]?>">
             </div>
             <div class="col-sm-7 text-left">
-              <form id="shopForm" method="post" action="<?=base_url()?>club/shop_cart_insert/<?=$clubIdx?>">
+              <form id="shopForm" method="post" action="/shop/cart_insert">
                 <div class="item-category"><?php if (!empty($viewItem['item_category_name'])): foreach ($viewItem['item_category_name'] as $key => $cname): if ($key != 0) { echo ' > '; } ?><?=$cname?><?php endforeach; endif; ?></div>
                 <h2 class="item-name"><?=$viewItem['item_name']?></h2>
                 <h4 class="mt-4 mb-4 area-cost">
@@ -60,4 +60,4 @@
           </div>
         </div>
       </div>
-      <script type="text/javascript" src="<?=base_url()?>public/js/shop.js"></script>
+      <script type="text/javascript" src="/public/js/shop.js"></script>

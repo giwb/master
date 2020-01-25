@@ -1,11 +1,12 @@
 $(document).on('click', '.shop-item', function() {
   // 용품 상세 페이지
-  location.href = ( $('input[name=baseUrl]').val() + 'club/shop_item/' + $('input[name=clubIdx]').val() + '?n=' + $(this).data('idx') );
+  location.href = ( $('input[name=baseUrl]').val() + '/shop/item/?n=' + $(this).data('idx') );
 }).on('click', '.btn-cart-insert', function() {
   // 장바구니에 담기
   var $btn = $(this);
   var $dom = $('#shopForm');
   var formData = new FormData($dom[0]);
+  var baseUrl = $('input[name=baseUrl]').val();
   var amount = $('.area-option .item-amount').val();
   var type = $(this).data('type');
 
@@ -31,7 +32,11 @@ $(document).on('click', '.shop-item', function() {
         $btn.css('opacity', '1').prop('disabled', false);
         $.openMsgModal(result.message);
       } else {
-        location.href = (result.message);
+        if (type == 'buy') {
+          location.href = (baseUrl + '/shop/checkout');
+        } else {
+          location.href = (baseUrl + '/shop/cart');
+        }
       }
     }
   });
@@ -46,12 +51,10 @@ $(document).on('click', '.shop-item', function() {
 }).on('change', '.cart-amount', function() {
   // 수량 변경
   var $dom = $(this);
-  var baseUrl = $('input[name=baseUrl]').val();
-  var clubIdx = $('input[name=clubIdx]').val();
   var rowid = $(this).data('rowid');
   var amount = $(this).val();
   $.ajax({
-    url: baseUrl + 'club/shop_cart_update/' + clubIdx,
+    url: '/shop/cart_update',
     data: 'rowid=' + rowid + '&amount=' + amount,
     dataType: 'json',
     type: 'post',
@@ -63,19 +66,17 @@ $(document).on('click', '.shop-item', function() {
         $dom.css('opacity', '1').prop('disabled', false);
         $.openMsgModal(result.message);
       } else {
-        location.href = (result.message);
+        location.reload();
       }
     }
   });
 }).on('click', '.btn-cart-delete', function() {
   // 장바구니 삭제
   var $btn = $(this);
-  var baseUrl = $('input[name=baseUrl]').val();
-  var clubIdx = $('input[name=clubIdx]').val();
   var rowid = $(this).data('rowid');
   var amount = 0;
   $.ajax({
-    url: baseUrl + 'club/shop_cart_update/' + clubIdx,
+    url: '/shop/cart_update',
     data: 'rowid=' + rowid + '&amount=' + amount,
     dataType: 'json',
     type: 'post',
@@ -87,7 +88,7 @@ $(document).on('click', '.shop-item', function() {
         $btn.css('opacity', '1').prop('disabled', false);
         $.openMsgModal(result.message);
       } else {
-        location.href = (result.message);
+        location.reload();
       }
     }
   });
@@ -153,6 +154,7 @@ $(document).on('click', '.shop-item', function() {
   // 구매 완료하기
   var $btn = $(this);
   var $dom = $('#formCheckout');
+  var baseUrl = $('input[name=baseUrl]').val();
   var formData = new FormData($dom[0]);
   $.ajax({
     url: $dom.attr('action'),
@@ -169,7 +171,7 @@ $(document).on('click', '.shop-item', function() {
         $btn.css('opacity', '1').prop('disabled', false).text('구매 완료하기');
         $.openMsgModal(result.message);
       } else {
-        location.href = (result.message);
+        location.href = (baseUrl + '/shop/complete/?n=' + result.message);
       }
     }
   });

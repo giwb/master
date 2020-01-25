@@ -18,12 +18,11 @@ class Member extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function index()
+  public function index($clubIdx)
   {
     checkUserLogin();
 
     $nowDate = time();
-    $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
@@ -375,12 +374,11 @@ class Member extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function reserve()
+  public function reserve($clubIdx)
   {
     checkUserLogin();
 
     $nowDate = time();
-    $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
@@ -451,12 +449,11 @@ class Member extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function reserve_cancel()
+  public function reserve_cancel($clubIdx)
   {
     checkUserLogin();
 
     $nowDate = time();
-    $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
@@ -496,12 +493,11 @@ class Member extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function reserve_past()
+  public function reserve_past($clubIdx)
   {
     checkUserLogin();
 
     $nowDate = time();
-    $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
@@ -541,12 +537,11 @@ class Member extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function point()
+  public function point($clubIdx)
   {
     checkUserLogin();
 
     $nowDate = time();
-    $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
@@ -586,12 +581,11 @@ class Member extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function penalty()
+  public function penalty($clubIdx)
   {
     checkUserLogin();
 
     $nowDate = time();
-    $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
@@ -631,16 +625,15 @@ class Member extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function modify()
+  public function modify($clubIdx)
   {
     checkUserLogin();
 
-    $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
-    $viewData['view'] = $this->club_model->viewclub($clubIdx);
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
     // 회원정보
-    $viewData['viewMember'] = $this->member_model->viewMember($clubIdx, $userData['idx']);
+    $viewData['viewMember'] = $this->member_model->viewMember($userData['idx']);
 
     // 생년월일 나누기
     $buf = explode('/', $viewData['viewMember']['birthday']);
@@ -743,67 +736,19 @@ class Member extends MY_Controller
    **/
   public function quit()
   {
-    $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
     $userIdx = $this->input->post('userIdx');
+    $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
 
-    if ($userData['idx'] != $userIdx) {
-      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
-    } else {
+    if ($userData['idx'] == $userIdx) {
       $updateValues['quitdate'] = time();
-      $rtn = $this->member_model->updateMember($updateValues, $clubIdx, $userIdx);
+      $rtn = $this->member_model->updateMember($updateValues, $userIdx);
 
       if (!empty($rtn)) {
         // 세션 삭제
         $this->session->unset_userdata('userData');
-
         $result = array('error' => 0, 'message' => '');
       }
-    }
-
-    $this->output->set_output(json_encode($result));
-  }
-
-  /**
-   * 파일 업로드
-   *
-   * @return json
-   * @author bjchoi
-   **/
-  public function upload()
-  {
-    if ($_FILES['file_obj']['type'] == 'image/jpeg') {
-      $filename = time() . mt_rand(10000, 99999) . ".jpg";
-
-      if (move_uploaded_file($_FILES['file_obj']['tmp_name'], UPLOAD_PATH . $filename)) {
-        // 사진 사이즈 줄이기 (가로가 사이즈가 640보다 클 경우)
-        $size = getImageSize(UPLOAD_PATH . $filename);
-        if ($size[0] > 640) {
-          $this->image_lib->clear();
-          $config['image_library'] = 'gd2';
-          $config['source_image'] = UPLOAD_PATH . $filename;
-          $config['maintain_ratio'] = FALSE;
-          $config['width'] = 640;
-          $this->image_lib->initialize($config);
-          $this->image_lib->resize();
-        }
-
-        $result = array(
-          'error' => 0,
-          'message' => base_url() . UPLOAD_URL . $filename,
-          'filename' => $filename
-        );
-      } else {
-        $result = array(
-          'error' => 1,
-          'message' => '사진 업로드에 실패했습니다.'
-        );
-      }
-    } else {
-      $result = array(
-        'error' => 1,
-        'message' => 'jpg 형식의 사진만 업로드 할 수 있습니다.'
-      );
     }
 
     $this->output->set_output(json_encode($result));
@@ -860,9 +805,9 @@ class Member extends MY_Controller
     // 방문자 기록
     setVisitor();
 
-    $this->load->view('header', $viewData);
+    $this->load->view('club/header', $viewData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view('footer', $viewData);
+    $this->load->view('club/footer', $viewData);
   }
 }
 ?>

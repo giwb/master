@@ -2,7 +2,7 @@ $(document).ready(function() {
   $('.btn-album').click(function() {
     var $dom = $(this).parent();
     $.ajax({
-      url: $('input[name=baseUrl]').val() + 'club/album_view',
+      url: '/album/view',
       data: 'idx=' + $(this).data('idx'),
       dataType: 'json',
       type: 'post',
@@ -43,7 +43,6 @@ $(document).ready(function() {
 }).on('change', '.photo', function() {
   // 사진 업로드
   var $dom = $(this);
-  var baseUrl = $('input[name=baseUrl]').val();
   var formData = new FormData($('form')[0]);
   var maxSize = 20480000;
   var size = $dom[0].files[0].size;
@@ -59,7 +58,7 @@ $(document).ready(function() {
   formData.append('file_obj', $dom[0].files[0]);
 
   $.ajax({
-    url: baseUrl + 'club/upload',
+    url: '/album/upload',
     processData: false,
     contentType: false,
     data: formData,
@@ -72,7 +71,7 @@ $(document).ready(function() {
     success: function(result) {
       $('.btn-upload-photo').css('opacity', '1').prop('disabled', false).text('사진 선택');
       if (result.error == 1) {
-        $.openMsgModel(result.message);
+        $.openMsgModal(result.message);
       } else {
         var $domFiles = $('input[name=photos]');
         $('.added-files').append('<img src="' + result.message + '" class="btn-photo-modal" data-photo="' + result.filename + '">');
@@ -108,9 +107,8 @@ $(document).ready(function() {
 }).on('click', '.btn-album-delete', function() {
   // 삭제
   var $btn = $(this);
-  var baseUrl = $('input[name=baseUrl]').val();
   $.ajax({
-    url: baseUrl + 'club/album_delete',
+    url: '/album/delete',
     data: 'idx=' + $('input[name=idx]').val(),
     dataType: 'json',
     type: 'post',

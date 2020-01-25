@@ -3,10 +3,10 @@
       <div id="shop" class="club-main">
         <div class="row align-items-center pb-3">
           <div class="col-6 col-sm-9"><h3 class="m-0 p-0">구매대행 상품 - 구매진행</h3></div>
-          <div class="col-6 col-sm-3 text-right"><a href="<?=base_url()?>club/shop_cart/<?=$clubIdx?>"><button type="button" class="btn btn-sm btn-cart">장바구니 보기</button></a></div>
+          <div class="col-6 col-sm-3 text-right"><a href="<?=BASE_URL?>/shop/cart"><button type="button" class="btn btn-sm btn-cart">장바구니 보기</button></a></div>
         </div>
         <div class="sub-content border-top">
-          <form id="formCheckout" method="post" action="<?=base_url()?>club/shop_insert">
+          <form id="formCheckout" method="post" action="/shop/insert">
             <input type="hidden" name="userPoint" value="<?=!empty($userData['point']) ? $userData['point'] : 0?>">
             <input type="hidden" name="totalCost" value="<?=!empty($total_cost) ? $total_cost : 0?>">
             <input type="hidden" name="paymentCost" value="<?=!empty($total_cost) ? $total_cost : 0?>">
@@ -74,10 +74,10 @@
               ※ 현재는 차량 인수만 가능합니다.<br>
             </div>
             <div class="text-center mt-4">
-              <a href="<?=base_url()?>club/shop/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">계속 쇼핑하기</button></a>
+              <a href="<?=BASE_URL?>/shop"><button type="button" class="btn btn-secondary">계속 쇼핑하기</button></a>
               <button type="button" class="btn btn-danger ml-4 btn-checkout">구매 완료하기</button>
             </div>
           </form>
         </div>
       </div>
-      <script type="text/javascript" src="<?=base_url()?>public/js/shop.js"></script>
+      <script type="text/javascript" src="/public/js/shop.js"></script>

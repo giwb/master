@@ -3,7 +3,7 @@
       <div id="shop" class="club-main">
         <div class="row align-items-center pb-3">
           <div class="col-6 col-sm-9"><h3 class="m-0 p-0">구매대행 상품 - 장바구니</h3></div>
-          <div class="col-6 col-sm-3 text-right"><a href="<?=base_url()?>club/shop/<?=$clubIdx?>"><button type="button" class="btn btn-sm btn-cart">상품 보기</button></a></div>
+          <div class="col-6 col-sm-3 text-right"><a href="<?=BASE_URL?>/shop"><button type="button" class="btn btn-sm btn-cart">상품 보기</button></a></div>
         </div>
         <div class="sub-content border-top">
           <?php if (empty($listCart)): ?>
@@ -37,11 +37,11 @@
             <div class="col-3 col-md-2 p-0 text-right item-cost"><span class="total-cost"><?=number_format($total_cost)?></span>원</div>
           </div>
           <div class="text-center mt-4">
-            <a href="<?=base_url()?>club/shop/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">계속 쇼핑하기</button></a>
+            <a href="<?=BASE_URL?>/shop"><button type="button" class="btn btn-secondary">계속 쇼핑하기</button></a>
             <?php if (!empty($listCart)): ?>
-            <a href="<?=base_url()?>club/shop_checkout/<?=$view['idx']?>"><button type="button" class="btn btn-primary ml-4">용품 구매진행</button></a>
+            <a href="<?=BASE_URL?>/shop/checkout"><button type="button" class="btn btn-primary ml-4">용품 구매진행</button></a>
             <?php endif; ?>
           </div>
         </div>
       </div>
-      <script type="text/javascript" src="<?=base_url()?>public/js/shop.js"></script>
+      <script type="text/javascript" src="/public/js/shop.js"></script>

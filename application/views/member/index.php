@@ -11,10 +11,10 @@
             <div class="area-btn">
               <button type="button" class="btn btn-primary btn-shop-payment">결제정보</button>
               <button type="button" class="btn btn-danger btn-shop-cancel">구매취소</button>
-              <a href="<?=base_url()?>member/shop/<?=$clubIdx?>"><button type="button" class="btn btn-secondary">더보기</button></a>
+              <a href="<?=base_url()?>member/shop/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">더보기</button></a>
             </div>
           </h3>
-          <form id="shopForm" method="post" action="<?=base_url()?>club/shop_payment/<?=$clubIdx?>">
+          <form id="shopForm" method="post" action="<?=base_url()?>club/shop_payment/<?=$view['idx']?>">
             <?=$listPurchase?>
           </form>
 <?php endif; ?>
@@ -25,15 +25,15 @@
               <button type="button" class="btn btn-primary btn-mypage-payment">결제정보</button>
               <?php endif; ?>
               <button type="button" class="btn btn-danger btn-reserve-cancel">예약취소</button>
-              <a href="<?=base_url()?>member/reserve/<?=$clubIdx?>"><button type="button" class="btn btn-secondary">더보기</button></a>
+              <a href="<?=BASE_URL?>/member/reserve"><button type="button" class="btn btn-secondary">더보기</button></a>
             </div>
           </h3>
-          <form id="reserveForm" method="post" action="<?=base_url()?>reserve/payment/<?=$clubIdx?>">
+          <form id="reserveForm" method="post" action="/reserve/payment">
             <?php foreach ($userReserve as $key => $value): ?>
             <dl>
               <dt><input type="checkbox" id="cr<?=$key?>" name="checkReserve[]" class="check-reserve" value="<?=$value['idx']?>" data-reserve-cost="<?=$value['cost_total']?>" data-payment-cost="<?=$value['real_cost']?>" data-status="<?=$value['status']?>" data-penalty="<?=$value['penalty']?>"><label for="cr<?=$key?>"></label></dt>
               <dd>
-                <?=viewStatus($value['notice_status'])?> <a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
+                <?=viewStatus($value['notice_status'])?> <a href="<?=BASE_URL?>/reserve/?n=<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
                 <small>
                   일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 
                   요금 : <?=$value['view_cost']?> /
@@ -48,13 +48,13 @@
           <h3>
             ■ 예약취소 내역
             <div class="area-btn">
-              <a href="<?=base_url()?>member/reserve_cancel/<?=$clubIdx?>"><button type="button" class="btn btn-secondary">더보기</button></a>
+              <a href="<?=BASE_URL?>/member/reserve_cancel"><button type="button" class="btn btn-secondary">더보기</button></a>
             </div>
           </h3>
           <?php foreach ($userReserveCancel as $value): ?>
           <dl>
             <dd>
-              <?=viewStatus($value['notice_status'])?> <a href="<?=base_url()?>reserve/<?=$clubIdx?>?n=<?=$value['resCode']?>"><?=$value['subject']?></a><br>
+              <?=viewStatus($value['notice_status'])?> <a href="<?=BASE_URL?>/reserve/?n=<?=$value['resCode']?>"><?=$value['subject']?></a><br>
               <small>
                 취소일시 : <?=date('Y-m-d', $value['regdate'])?> (<?=calcWeek(date('Y-m-d', $value['regdate']))?>) <?=date('H:i', $value['regdate'])?>
               </small>
@@ -65,13 +65,13 @@
           <h3>
             ■ 산행 내역
             <div class="area-btn">
-              <a href="<?=base_url()?>member/reserve_past/<?=$clubIdx?>"><button type="button" class="btn btn-secondary">더보기</button></a>
+              <a href="<?=BASE_URL?>/member/reserve_past"><button type="button" class="btn btn-secondary">더보기</button></a>
             </div>
           </h3>
           <?php foreach ($userVisit as $value): ?>
           <dl>
             <dd>
-              <?=viewStatus($value['notice_status'])?> <a href="<?=base_url()?>reserve/<?=$clubIdx?>?n=<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
+              <?=viewStatus($value['notice_status'])?> <a href="<?=BASE_URL?>/reserve/?n=<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
               <small>
                 일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 
                 요금 : <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원
@@ -83,7 +83,7 @@
           <h3>
             ■ 포인트 내역 <small>- 잔액 <?=number_format($viewMember['point'])?> 포인트</small>
             <div class="area-btn">
-              <a href="<?=base_url()?>member/point/<?=$clubIdx?>"><button type="button" class="btn btn-secondary">더보기</button></a>
+              <a href="<?=BASE_URL?>/member/point"><button type="button" class="btn btn-secondary">더보기</button></a>
             </div>
           </h3>
           <ul>
@@ -109,7 +109,7 @@
           <h3>
             ■ 페널티 내역
             <div class="area-btn">
-              <a href="<?=base_url()?>member/penalty/<?=$clubIdx?>"><button type="button" class="btn btn-secondary">더보기</button></a>
+              <a href="<?=BASE_URL?>/member/penalty"><button type="button" class="btn btn-secondary">더보기</button></a>
             </div>
           </h3>
           <ul>
@@ -295,6 +295,7 @@
           var paymentType = $('input[name=paymentType]').val();
           if (paymentType == 1) $dom = $('#reserveForm'); else $dom = $('#shopForm');
           var formData = new FormData($dom[0]);
+          formData.append('clubIdx', $('input[name=clubIdx]').val());
           formData.append('paymentType', $('input[name=paymentType]').val());
           formData.append('depositName', $('input[name=depositName]').val());
           formData.append('usingPoint', $('input[name=usingPoint]').val());

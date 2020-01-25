@@ -2,7 +2,7 @@
 
     <div class="club-main">
       <div class="sub-header">지난 산행보기</div>
-      <form id="formSearch" method="get" action="<?=base_url()?>club/past/<?=$view['idx']?>" class="row border no-gutters align-items-center text-center pt-2 pb-2 pr-2 mt-3 mb-3">
+      <form id="formSearch" method="get" action="<?=BASE_URL?>/club/past" class="row border no-gutters align-items-center text-center pt-2 pb-2 pr-2 mt-3 mb-3">
         <ul class="box-past-search">
           <li>기간검색</li>
           <li><input type="text" id="startDatePicker" name="sdate" class="form-control form-control-sm" value="<?=!empty($searchData['sdate']) ? $searchData['sdate'] : ''?>"></li>
@@ -14,7 +14,7 @@
         </ul>
       </form>
       <ul class="box-past-title">
-        <li><a href="<?=base_url()?>club/past/<?=$view['idx']?>?<?=$searchData['prev']?>">◀</a></li>
+        <li><a href="<?=BASE_URL?>/club/past/?<?=$searchData['prev']?>">◀</a></li>
         <li>
           <select name="syear" class="form-control">
             <?php foreach (range($searchData['syear'], 2010) as $value): ?>
@@ -29,14 +29,14 @@
             <?php endforeach; ?>
           </select>
         </li>
-        <li><a href="<?=base_url()?>club/past/<?=$view['idx']?>?<?=$searchData['next']?>">▶</a></li>
+        <li><a href="<?=BASE_URL?>/club/past/?<?=$searchData['next']?>">▶</a></li>
       </ul>
       <div class="list-schedule">
         <?php if (empty($listPastNotice)): ?>
           <div class="text-center m-5">검색된 정보가 없습니다.</div>
         <?php else : ?>
         <?php foreach ($listPastNotice as $value): ?>
-        <a href="<?=base_url()?>reserve/<?=$value['club_idx']?>?n=<?=$value['idx']?>"><strong><?=$value['subject']?></strong><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명</a>
+        <a href="<?=BASE_URL?>/reserve/?n=<?=$value['idx']?>"><strong><?=$value['subject']?></strong><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명</a>
         <?php endforeach; ?>
         <?php endif; ?>
       </div>
@@ -54,8 +54,8 @@
       </div>
     </div>
 
-    <link href="<?=base_url()?>public/css/jquery-ui.css" rel="stylesheet">
-    <script src="<?=base_url()?>public/js/jquery-ui.min.js" type="text/javascript"></script>
+    <link href="/public/css/jquery-ui.css" rel="stylesheet">
+    <script src="/public/js/jquery-ui.min.js" type="text/javascript"></script>
     <script type="text/javascript">
       $(document).ready(function(){
         $('#startDatePicker').datepicker({

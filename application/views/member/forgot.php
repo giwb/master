@@ -1,7 +1,9 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-      <div class="club-main">
-        <div class="memberForm">
+    <div class="container">
+      <div class="row memberForm">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
           <form id="forgotIdForm" action="<?=base_url()?>login/search_id">
             <h2>아이디 찾기</h2>
             <dl>
@@ -112,75 +114,77 @@
               </dd>
             </dl>
             <dl>
-              <dt>새로운 비밀번호</dt>
+              <dt>신규 비밀번호</dt>
               <dd><input type="password" name="password" class="form-control" autocomplete="new-password"></dd>
             </dl>
             <div class="area-btn">
               <button type="button" class="btn btn-primary btn-change-password">비밀번호 변경</button>
             </div>
           </form>
+          <div class="ad-sp">
+            <!-- SP_CENTER -->
+            <ins class="adsbygoogle"
+              style="display:block"
+              data-ad-client="ca-pub-2424708381875991"
+              data-ad-slot="4319659782"
+              data-ad-format="auto"
+              data-full-width-responsive="true"></ins>
+            <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+          </div>
         </div>
-        <div class="ad-sp">
-          <!-- SP_CENTER -->
-          <ins class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-pub-2424708381875991"
-            data-ad-slot="4319659782"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-          <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-          </script>
-        </div>
+        <div class="col-sm-3"></div>
       </div>
+    </div>
 
-      <script type="text/javascript">
-        $(document).on('click', '.btn-search-id', function() {
-          var $btn = $(this);
-          var $dom = $('#forgotIdForm');
-          var formData = new FormData($dom[0]);
-          formData.append('clubIdx', $('input[name=clubIdx]').val());
+    <script type="text/javascript">
+      $(document).on('click', '.btn-search-id', function() {
+        var $btn = $(this);
+        var $dom = $('#forgotIdForm');
+        var formData = new FormData($dom[0]);
+        formData.append('clubIdx', $('input[name=clubIdx]').val());
 
-          $.ajax({
-            url: $dom.attr('action'),
-            processData: false,
-            contentType: false,
-            data: formData,
-            dataType: 'json',
-            type: 'post',
-            beforeSend: function(result) {
-              $btn.css('opacity', '0.5').prop('disabled', true).text('검색중..');
-            },
-            success: function(result) {
-              $btn.css('opacity', '1').prop('disabled', false).text('아이디 찾기');
-              $.openMsgModal(result.message);
-            }
-          });
-        }).on('click', '.btn-change-password', function() {
-          var $btn = $(this);
-          var $dom = $('#forgotPwForm');
-          var formData = new FormData($dom[0]);
-          formData.append('clubIdx', $('input[name=clubIdx]').val());
-
-          if ($('input[name=password]').val() == '') {
-            $.openMsgModal('새로운 비밀번호를 입력해주세요.');
-            return false;
+        $.ajax({
+          url: $dom.attr('action'),
+          processData: false,
+          contentType: false,
+          data: formData,
+          dataType: 'json',
+          type: 'post',
+          beforeSend: function(result) {
+            $btn.css('opacity', '0.5').prop('disabled', true).text('검색중..');
+          },
+          success: function(result) {
+            $btn.css('opacity', '1').prop('disabled', false).text('아이디 찾기');
+            $.openMsgModal(result.message);
           }
-
-          $.ajax({
-            url: $dom.attr('action'),
-            processData: false,
-            contentType: false,
-            data: formData,
-            dataType: 'json',
-            type: 'post',
-            beforeSend: function(result) {
-              $btn.css('opacity', '0.5').prop('disabled', true).text('처리중..');
-            },
-            success: function(result) {
-              $btn.css('opacity', '1').prop('disabled', false).text('비밀번호 변경');
-              $.openMsgModal(result.message);
-            }
-          });
         });
-      </script>
+      }).on('click', '.btn-change-password', function() {
+        var $btn = $(this);
+        var $dom = $('#forgotPwForm');
+        var formData = new FormData($dom[0]);
+        formData.append('clubIdx', $('input[name=clubIdx]').val());
+
+        if ($('input[name=password]').val() == '') {
+          $.openMsgModal('새로운 비밀번호를 입력해주세요.');
+          return false;
+        }
+
+        $.ajax({
+          url: $dom.attr('action'),
+          processData: false,
+          contentType: false,
+          data: formData,
+          dataType: 'json',
+          type: 'post',
+          beforeSend: function(result) {
+            $btn.css('opacity', '0.5').prop('disabled', true).text('처리중..');
+          },
+          success: function(result) {
+            $btn.css('opacity', '1').prop('disabled', false).text('비밀번호 변경');
+            $.openMsgModal(result.message);
+          }
+        });
+      });
+    </script>

@@ -287,6 +287,10 @@ textarea.input {
   NAVIGATION
 ===========================================================*/
 
+#header {
+  height: 90px;
+}
+
 #nav {
   width: 100%;
   position: fixed;
@@ -363,7 +367,7 @@ h1.nav-logo {
   font-weight: bold;
   font-family: "Noto Sans KR", "Malgun Gothic";
   margin: 12px 0 0 0;
-  padding: 0px;
+  padding: 0 0 0 12px;
   float: left;
 }
 
@@ -438,18 +442,20 @@ h1.nav-logo small {
 \*----------------------------*/
 
 .nav-menu {
-  float: right;
+  display: table;
+  padding-top: 15px;
 }
 
 .nav-menu>li {
   position: relative;
   display: inline-block;
+  vertical-align: middle;
+  margin: 0 5px;
 }
 
 .nav-menu>li>a {
   display: block;
-  padding: 20px 15px;
-  line-height: 20px;
+  padding: 0 15px;
   font-weight: 700;
   text-transform: uppercase;
   color: #fff;
@@ -468,7 +474,6 @@ h1.nav-logo small {
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
-  margin: 0 0 10px 10px;
   cursor: pointer;
 }
 
@@ -927,7 +932,7 @@ h1.nav-logo small {
   position: absolute;
   margin: 0px;
   padding: 0px 5%;
-  z-index: 20;
+  z-index: 9;
   bottom: 5%;
   background-color: transparent;
 }
@@ -1559,8 +1564,8 @@ h1.nav-logo small {
   .nav-btns>button {
     font-size: 20px;
     color: #fff;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     display: inline-block;
     padding: 0;
   }
@@ -1588,7 +1593,7 @@ h1.nav-logo small {
   }
   h1.nav-logo {
     font-size: 24px;
-    margin: 15px 0 0 0;
+    margin: 15px 0 0 15px;
   }
   .page-header h1 {
     font-size: 32.437px;
@@ -1922,11 +1927,11 @@ h1.nav-logo small {
 .club-list .list ul li .text { font-size: 14px; display: table-cell; vertical-align: top; line-height: 1.4em; }
 .club-list .list ul li .text a { font-size: 16px; display: block; padding-bottom: 3px; }
 
-.profile-box { width: 170px; font-size: 14px; position: absolute; top: 53px; right: -1px; border: 1px solid #d9d9d9; background-color: #fff; padding: 10px; display: none; z-index: 9999; }
+.profile-box { width: 170px; font-size: 14px; position: absolute; top: 55px; right: -1px; border: 1px solid #d9d9d9; background-color: #fff; padding: 10px; text-align: left; display: none; z-index: 99; }
 .profile-box hr { margin: 10px 0; }
 
 /* Club Main */
-#club { width: 100%; margin: 0 0 30px 0; padding-top: 90px; }
+#club { width: 100%; margin: 0 0 30px 0; }
 #club a:link, #club a:active, #club a:visited { color: #FF6C00; }
 #club a:hover { color: #0AB031; }
 #club .container { display: flex; display: -webkit-flex; }
@@ -2157,7 +2162,7 @@ h1.nav-logo small {
 #album .album-item { position: relative; text-align: center; }
 #album .album-photo { border-radius: 10px; }
 #album .album-photo:hover { box-shadow: #ddd 3px 3px 3px; }
-#album .album-item .ajax-loader { position: absolute; top: 45px; left: 80px; z-index: 1000; }
+#album .album-item .ajax-loader { position: absolute; top: 45px; left: 80px; z-index: 90; }
 
 /* 용품판매 */
 #shop .area-notice { display: none; }
@@ -2182,13 +2187,14 @@ h1.nav-logo small {
 .btn-page-next, .btn-story-more { width: 100%; border: 1px solid #d9d9d9; background-color: #fff; margin: 10px 0; padding: 5px; }
 .btn-page-next:hover, .btn-story-more:hover { box-shadow: #ddd 3px 3px 3px; }
 
-.ad-pc, .ad-sp { display: none; }
+.ad-sp { display: none; }
 
 /* Responsive */
 @media only screen and (max-width: 800px) {
-  /*.ad-sp { display: block; margin: 0 0 20px 0; }*/
+  .ad-sp { display: block; margin: 0 0 20px 0; }
 
-  #club { padding-top: 75px; }
+  #header { height: 68px; }
+
   #club .club-left, #club .club-right { display: none; }
   #club .club-main { width: 100%; flex: auto; -webkit-flex: auto; display: block; margin: 0px; }
   #club .sub-contents h2 { font-size: 18px; padding: 10px 0 20px; }
@@ -2260,7 +2266,7 @@ h1.nav-logo small {
   #club .club-main .story-content .story-photo { width: 100%; }
   #club .club-main .story-reply .btn-post-reply { font-size: 12px; white-space: nowrap; }
 
-  #album .album-item .ajax-loader { position: absolute; top: 38%; left: 43%; z-index: 1000; }
+  #album .album-item .ajax-loader { position: absolute; top: 38%; left: 43%; z-index: 90; }
 
   #shop .btn-cart { font-size: 12px; }
   #shop .btn-buy { font-size: 12px; }

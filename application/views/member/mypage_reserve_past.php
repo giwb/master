@@ -4,7 +4,7 @@
         <div class="mypage mt-2">
           <h2><?=$pageTitle?></h2>
           <h3>■ 산행 내역</h3>
-          <form id="formList" method="post" action="<?=base_url()?>member/reserve_past/<?=$clubIdx?>">
+          <form id="formList" method="post" action="<?=BASE_URL?>/member/reserve_past">
             <input type="hidden" name="p" value="1">
             <?=$userVisit?>
             <div class="area-append"></div>
