@@ -175,7 +175,7 @@ class Member extends MY_Controller
 
     if (!empty($noticeIdx)) {
       // 진행 중 산행
-      $viewData['viewNotice'] = $this->reserve_model->viewNotice($clubIdx, $noticeIdx);
+      $viewData['viewNotice'] = $this->reserve_model->viewNotice($noticeIdx);
 
       // 버스 종류 확인
       $bus_type = getBusType($viewData['viewNotice']['bustype'], $viewData['viewNotice']['bus']);
@@ -281,7 +281,7 @@ class Member extends MY_Controller
     $bus = html_escape($this->input->post('bus'));
     $busType = html_escape($this->input->post('busType'));
 
-    $viewNotice = $this->reserve_model->viewNotice($clubIdx, $noticeIdx);
+    $viewNotice = $this->reserve_model->viewNotice($noticeIdx);
     $arrBusType = unserialize($viewNotice['bustype']);
 
     foreach ($arrBusType as $key => $value) {
