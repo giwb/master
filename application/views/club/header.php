@@ -80,7 +80,7 @@
               <?php else: ?>
               <li>
               <?php if (file_exists(PHOTO_PATH . $userData['idx'])): ?>
-              <img class="img-profile" src="/public/photos/<?=$userData['idx']?>">
+              <img class="img-profile" src="<?=PHOTO_URL . $userData['idx']?>">
               <?php elseif (!empty($userData['icon_thumbnail'])): ?>
               <img class="img-profile" src="<?=$userData['icon_thumbnail']?>">
               <?php else: ?>
@@ -103,14 +103,22 @@
       </div>
       <div class="nav-btns">
         <!--<a href="<?=BASE_URL?>"><button type="button" class="search-btn"><i class="fa fa-search"></i></button></a>-->
-        <!--<a href="<?=BASE_URL?>"><button type="button" class="search-btn"><i class="fa fa-pencil-square-o"></i></button></a>-->
+        <a href="<?=BASE_URL?>"><button type="button" class="search-btn"><i class="fa fa-pencil-square-o"></i></button></a>
+        <?php if (file_exists(PHOTO_PATH . $userData['idx'])): ?>
+        <button type="button"><img class="img-profile" src="<?=PHOTO_URL . $userData['idx']?>"></button>
+        <?php elseif (!empty($userData['icon_thumbnail'])): ?>
+        <button type="button"><img class="img-profile" src="<?=$userData['icon_thumbnail']?>"></button>
+        <?php else: ?>
+        <button type="button" class="login-popup"><i class="fa fa-user-circle" aria-hidden="true"></i></button>
+        <?php endif; ?>
+        
       </div>
       <div id="nav-aside">
         <ul class="nav-aside-menu">
           <?php if (!empty($userData['idx'])): ?>
           <li>
             <?php if (file_exists(PHOTO_PATH . $userData['idx'])): ?>
-            <img class="img-profile" src="/public/photos/<?=$userData['idx']?>">
+            <img class="img-profile" src="<?=PHOTO_URL . $userData['idx']?>">
             <?php elseif (!empty($userData['icon_thumbnail'])): ?>
             <img class="img-profile" src="<?=$userData['icon_thumbnail']?>">
             <?php else: ?>
