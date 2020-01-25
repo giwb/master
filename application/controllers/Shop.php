@@ -449,7 +449,7 @@ class Shop extends MY_Controller
 
       // 인수할 산행
       if (!empty($viewData['viewPurchase']['notice_idx'])) {
-        $viewData['viewNotice'] = $this->reserve_model->viewNotice($clubIdx, $viewData['viewPurchase']['notice_idx']);
+        $viewData['viewNotice'] = $this->reserve_model->viewNotice($viewData['viewPurchase']['notice_idx']);
       }
     }
 
