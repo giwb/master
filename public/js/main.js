@@ -905,7 +905,7 @@
     if (resType == 1) {
       action = '/reserve/cancel';
     } else {
-      action = '/club/shop_cancel';
+      action = '/shop/cancel';
     }
     $.ajax({
       url: action,
