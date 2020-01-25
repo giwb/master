@@ -439,7 +439,7 @@ class Shop extends MY_Controller
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
     if (empty($idx)) {
-      redirect(BASE_URL '/shop');
+      redirect(BASE_URL . '/shop');
     } else {
       // 구매 정보
       $viewData['viewPurchase'] = $this->shop_model->viewPurchase($idx);
