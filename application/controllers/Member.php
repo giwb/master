@@ -656,11 +656,11 @@ class Member extends MY_Controller
 
     // 아이콘
     if (file_exists(PHOTO_PATH . $viewData['viewMember']['idx'])) {
-      $viewData['viewMember']['photo'] = base_url() . PHOTO_URL . $viewData['viewMember']['idx'];
+      $viewData['viewMember']['photo'] = PHOTO_URL . $viewData['viewMember']['idx'];
     } elseif (!empty($viewData['viewMember']['icon_thumbnail'])) {
       $viewData['viewMember']['photo'] = $viewData['viewMember']['icon_thumbnail'];
     } else {
-      $viewData['viewMember']['photo'] = base_url() . 'public/images/noimage.png';
+      $viewData['viewMember']['photo'] = '/public/images/noimage.png';
     }
 
     // 페이지 타이틀
@@ -792,7 +792,7 @@ class Member extends MY_Controller
     $files = $this->file_model->getFile('club', $viewData['view']['idx']);
     if (!empty($files[0]['filename']) && file_exists(PHOTO_PATH . $files[0]['filename'])) {
       $size = getImageSize(PHOTO_PATH . $files[0]['filename']);
-      $viewData['view']['main_photo'] = base_url() . PHOTO_URL . $files[0]['filename'];
+      $viewData['view']['main_photo'] = PHOTO_URL . $files[0]['filename'];
       $viewData['view']['main_photo_width'] = $size[0];
       $viewData['view']['main_photo_height'] = $size[1];
     }
