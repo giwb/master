@@ -496,25 +496,29 @@ class Login extends MY_Controller
     $viewData['userData'] = $this->load->get_var('userData');
     $viewData['userLevel'] = $this->load->get_var('userLevel');
 
-    // 진행 중 산행
-    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
+    if (!empty($viewData['view'])) {
+      // 진행 중 산행
+      $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
 
-    // 회원수
-    $viewData['view']['cntMember'] = $this->member_model->cntMember($viewData['view']['idx']);
-    $viewData['view']['cntMemberToday'] = $this->member_model->cntMemberToday($viewData['view']['idx']);
+      // 회원수
+      $viewData['view']['cntMember'] = $this->member_model->cntMember($viewData['view']['idx']);
+      $viewData['view']['cntMemberToday'] = $this->member_model->cntMemberToday($viewData['view']['idx']);
 
-    // 방문자수
-    $viewData['view']['cntVisitor'] = $this->member_model->cntVisitor($viewData['view']['idx']);
-    $viewData['view']['cntVisitorToday'] = $this->member_model->cntVisitorToday($viewData['view']['idx']);
+      // 방문자수
+      $viewData['view']['cntVisitor'] = $this->member_model->cntVisitor($viewData['view']['idx']);
+      $viewData['view']['cntVisitorToday'] = $this->member_model->cntVisitorToday($viewData['view']['idx']);
 
-    // 클럽 대표이미지
-    $files = $this->file_model->getFile('club', $viewData['view']['idx']);
-    if (!empty($files[0]['filename']) && file_exists(PHOTO_PATH . $files[0]['filename'])) {
-      $size = getImageSize(PHOTO_PATH . $files[0]['filename']);
-      $viewData['view']['main_photo'] = PHOTO_URL . $files[0]['filename'];
-      $viewData['view']['main_photo_width'] = $size[0];
-      $viewData['view']['main_photo_height'] = $size[1];
-    }
+      // 클럽 대표이미지
+      $files = $this->file_model->getFile('club', $viewData['view']['idx']);
+      if (!empty($files[0]['filename']) && file_exists(PHOTO_PATH . $files[0]['filename'])) {
+        $size = getImageSize(PHOTO_PATH . $files[0]['filename']);
+        $viewData['view']['main_photo'] = PHOTO_URL . $files[0]['filename'];
+        $viewData['view']['main_photo_width'] = $size[0];
+        $viewData['view']['main_photo_height'] = $size[1];
+      }
+
+      $dir = '/club/';
+    } else $dir = '';
 
     // 로그인 쿠키 처리
     if (!empty(get_cookie('cookie_userid'))) {
@@ -535,9 +539,9 @@ class Login extends MY_Controller
     // 방문자 기록
     setVisitor();
 
-    $this->load->view('club/header', $viewData);
+    $this->load->view($dir . 'header', $viewData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view('club/footer', $viewData);
+    $this->load->view($dir . 'footer', $viewData);
   }
 }
 ?>

@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-    <div class="container">
+    <div class="club-main container">
       <div class="row mb-5 pb-5">
         <div class="col-sm-3"></div>
         <form class="col-sm-6 loginForm" method="post">
@@ -26,9 +26,11 @@
           <div class="text-center mt-3">
             <button type="button" class="btn btn-primary btn-login pl-5 pr-5 pt-2 pb-2">한국여행 로그인</button>
           </div>
+          <!--
           <div class="text-center mt-3">
             <a href="<?=base_url()?>login/oauth/?provider=kakao&redirectUrl=<?=$redirect_url?>"><img src="https://developers.kakao.com/assets/img/about/logos/kakaologin/kr/kakao_account_login_btn_medium_narrow.png"></a>
           </div>
+          -->
         </form>
         <div class="col-sm-3"></div>
       </div>

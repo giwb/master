@@ -1,9 +1,11 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
       <div id="shop" class="club-main">
-        <div class="row align-items-center mb-3">
-          <div class="col-6 col-sm-9"><h3 class="m-0 p-0">구매대행 상품</h3></div>
-          <div class="col-6 col-sm-3 text-right"><a href="<?=BASE_URL?>/shop/cart"><button type="button" class="btn btn-sm btn-cart">장바구니 보기</button></a></div>
+        <div class="d-none d-sm-block">
+          <div class="row align-items-center mb-3">
+            <div class="col-6 col-sm-9"><h3 class="m-0 p-0"><?=$pageTitle?></h3></div>
+            <div class="col-6 col-sm-3 text-right"><a href="<?=BASE_URL?>/shop/cart"><button type="button" class="btn btn-sm btn-cart">장바구니 보기</button></a></div>
+          </div>
         </div>
         <div class="row-category row m-0 p-0 border-bottom border-right">
           <a href="<?=BASE_URL?>/shop" class="col border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=empty($search['item_category1']) ? ' active' : ''?>">인기상품</a>

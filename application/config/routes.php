@@ -105,8 +105,9 @@ if (!empty($result)) {
   $route[$domain . '/shop/cart']              = 'shop/cart';
   $route[$domain . '/shop/checkout']          = 'shop/checkout';
   $route[$domain . '/shop/complete']          = 'shop/complete';
+  $route[$domain . '/login']                  = 'login';
   $route[$domain . '/login/entry']            = 'login/entry';
-  $route[$domain . '/login/forgot']            = 'login/forgot';
+  $route[$domain . '/login/forgot']           = 'login/forgot';
 } else {
   $route['default_controller']  = 'welcome';
   $route['top']                 = 'welcome';

@@ -90,21 +90,6 @@
       </div>
       <!-- /Top Nav -->
 
-      <!-- Aside Nav -->
-      <div class="nav-btns">
-        <button class="aside-btn"><i class="fa fa-bars"></i></button>
-      </div>
-      <div id="nav-aside">
-        <ul class="nav-aside-menu">
-          <li><img class="img-profile" src="/public/images/user.png"></li>
-          <li<?=$uri == 'top' ? ' class="active"' : ''?>><a href="/">TOP</a></li>
-          <li<?=$uri == 'place' ? ' class="active"' : ''?>><a href="/place">여행정보</a></li>
-          <li<?=$uri == 'club' ? ' class="active"' : ''?>><a href="/club">산악회정보</a></li>
-        </ul>
-        <button class="nav-close nav-aside-close"><span></span></button>
-      </div>
-      <!-- /Aside Nav -->
-
       <!-- /Nav Search -->
       <div id="nav-search">
         <form>
