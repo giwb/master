@@ -1251,8 +1251,12 @@ $(document).on('click', '.btn-reply', function() {
     return false;
   }
 
-  if (content == '') { return false; }
   if (typeof(photo) == 'undefined') { photo = ''; }
+  if (content == '' && photo == '') { 
+    $('#storyModal .error-message').text('내용을 입력해주세요.').slideDown();
+    setTimeout(function() { $('#storyModal .error-message').text('').slideUp(); }, 2000);
+    return false;
+  }
 
   if (typeof(idx) != 'undefined') {
     var data = 'clubIdx=' + $('input[name=clubIdx]').val() + '&page=' + $('input[name=page]').val() + '&idx=' + idx + '&photo=' + photo + '&content=' + encodeURIComponent(content)
