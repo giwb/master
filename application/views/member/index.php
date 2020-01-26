@@ -4,7 +4,7 @@
         <div class="mypage mt-2">
           <h2>마이페이지</h2>
           <div class="row">
-            <div class="col-4 pr-0">
+            <div class="col-3 pr-0">
               <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
               <img class="w-100" src="<?=PHOTO_URL . $userData['idx']?>">
               <?php elseif (!empty($userData['icon_thumbnail'])): ?>
@@ -13,7 +13,7 @@
               <img class="w-100" src="/public/images/user.png">
               <?php endif; ?>
             </div>
-            <div class="col-8">
+            <div class="col-9">
               <div class="mb-2"><b><?=$viewMember['nickname']?></b>님 (<?=$userLevel['levelName']?>)</div>
               ・진행중 예약 : <span class="text-success"><?=number_format($maxReserve['cnt'])?>건</span><br>
               ・레벨 : <span class="text-primary"><?=number_format($viewMember['rescount'] - $viewMember['penalty'])?>점</span><br>
