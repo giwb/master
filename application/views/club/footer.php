@@ -1,12 +1,14 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
       <div class="club-right">
+        <?php if (!empty($listNotice)): ?>
         <h3><i class="fa fa-calendar" aria-hidden="true"></i> 현재 진행중인 산행</h3>
         <div class="list-schedule">
           <?php foreach ($listNotice as $value): ?>
           <a href="<?=BASE_URL?>/reserve/?n=<?=$value['idx']?>"><?=viewStatus($value['status'])?> <strong><?=$value['subject']?></strong><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명</a>
           <?php endforeach; ?>
         </div>
+        <?php endif; ?>
         <!-- PC_RIGHT -->
         <div class="ad-pc">
           <!-- RIGHT -->
@@ -45,11 +47,11 @@
           <form class="loginForm" method="post">
             <dl>
               <dt>아이디</dt>
-              <dd><input type="text" name="userid" class="form-control input-login" value="<?=$cookieUserid?>"></dd>
+              <dd><input type="text" name="userid" class="form-control input-login" value="<?=!empty($cookieUserid) ? $cookieUserid : ''?>"></dd>
             </dl>
             <dl>
               <dt>비밀번호</dt>
-              <dd><input type="password" name="password" class="form-control input-login" value="<?=$cookiePasswd?>"></dd>
+              <dd><input type="password" name="password" class="form-control input-login" value="<?=!empty($cookiePasswd) ? $cookiePasswd : ''?>"></dd>
             </dl>
             <label class="small pl-5"><input type="checkbox" name="save"> 아이디/비밀번호 저장</label>
           </form>
