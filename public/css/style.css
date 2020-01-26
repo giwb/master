@@ -2126,6 +2126,7 @@ h1.nav-logo small {
 .mypage ul li small { font-size: 12px; font-weight: normal; display: block; }
 .mypage .row .col-2 { white-space: nowrap; }
 .mypage .ti { text-indent: -1em; margin-left: 1em; }
+.mypage .profile-icon img { width: 100%; border-radius: 5px; }
 
 #reservePaymentModal dl { width: 100%; font-size: 13px; display: table; border-top: 1px solid #bbb; margin: 0px; padding: 0px; }
 #reservePaymentModal dl:last-child { border-bottom: 1px solid #bbb; }

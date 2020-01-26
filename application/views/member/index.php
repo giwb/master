@@ -4,13 +4,13 @@
         <div class="mypage mt-2">
           <h2>마이페이지</h2>
           <div class="row">
-            <div class="col-3 pr-0">
+            <div class="col-3 pr-0 profile-icon">
               <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
-              <img class="w-100" src="<?=PHOTO_URL . $userData['idx']?>">
+              <img src="<?=PHOTO_URL . $userData['idx']?>">
               <?php elseif (!empty($userData['icon_thumbnail'])): ?>
-              <img class="w-100" src="<?=$userData['icon_thumbnail']?>">
+              <img src="<?=$userData['icon_thumbnail']?>">
               <?php else: ?>
-              <img class="w-100" src="/public/images/user.png">
+              <img src="/public/images/user.png">
               <?php endif; ?>
             </div>
             <div class="col-9">
