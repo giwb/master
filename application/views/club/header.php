@@ -107,13 +107,14 @@
           <li><h1><?=!empty($pageTitle) ? $pageTitle : $view['title'] ?></h1></li>
           <li>
             <?php if (strstr($_SERVER['REQUEST_URI'], 'member')): ?>
-            <a href="javascript:;" class="logout"><i class="fa fa-sign-out btn-header"></i></a>
+            <a href="javascript:;" class="logout" title="로그아웃"><i class="fa fa-sign-out btn-header"></i></a>
             <?php elseif (strstr($_SERVER['REQUEST_URI'], 'shop')): ?>
-            <a href="<?=BASE_URL?>/shop/cart"><i class="fa fa-shopping-cart btn-header"></i></a>
+            <a href="<?=BASE_URL?>/shop/cart" title="장바구니"><i class="fa fa-shopping-cart btn-header"></i></a>
             <?php elseif (strstr($_SERVER['REQUEST_URI'], 'album')): ?>
-            <a href="<?=BASE_URL?>/album/entry"><i class="fa fa-cloud-upload btn-header"></i></a>
+            <a href="<?=BASE_URL?>/album/entry" title="사진 업로드"><i class="fa fa-cloud-upload btn-header"></i></a>
+            <?php elseif (strstr($_SERVER['REQUEST_URI'], 'login')): ?>
             <?php else: ?>
-            <a href="javascript:;" class="btn-post-modal"><i class="fa fa-pencil-square-o btn-header"></i></a>
+            <a href="javascript:;" class="btn-post-modal" title="글쓰기"><i class="fa fa-pencil-square-o btn-header"></i></a>
             <?php endif; ?>            
           </li>
         </ul>

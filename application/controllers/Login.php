@@ -492,12 +492,16 @@ class Login extends MY_Controller
   {
     $viewData['uri'] = 'login';
 
+    // 리다이렉트 URL 추출
+    if ($_SERVER['SERVER_PORT'] == '80') $HTTP_HEADER = 'http://'; else $HTTP_HEADER = 'https://';
+    $viewData['redirectUrl'] = $HTTP_HEADER . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
     // 방문자 기록
     setVisitor();
 
-    $this->load->view('header', $viewData);
+    $this->load->view('club/header', $viewData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view('footer', $viewData);
+    $this->load->view('club/footer', $viewData);
   }
 }
 ?>
