@@ -2277,7 +2277,7 @@ h1.nav-logo small {
   #shop .btn-cart { font-size: 12px; }
   #shop .btn-buy { font-size: 12px; }
 
-  .row-category { border-top: 3px solid #FF6C00; border-bottom: 1px solid #dee2e6; }
+  .row-category { border-top: 3px solid #FF6C00; border-bottom: 1px solid #dee2e6; display: block; }
   .row-category a { color: #333; display: block; }
   .row-category a:hover, .row-category a.active { color: #000!important; background-color: #F0AA94; }
   .row-category a:nth-child(5) { border-bottom: 0px; }
