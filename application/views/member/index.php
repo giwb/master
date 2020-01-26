@@ -16,8 +16,8 @@
             <div class="col-9">
               <div class="mb-2"><b><?=$viewMember['nickname']?></b>님 (<?=$userLevel['levelName']?>)</div>
               ・진행중 예약 : <span class="text-success"><?=number_format($maxReserve['cnt'])?>건</span><br>
-              ・레벨 : <span class="text-primary"><?=number_format($viewMember['rescount'] - $viewMember['penalty'])?>점</span><br>
-              ・포인트 : <span class="text-danger"><?=number_format($viewMember['point'])?>점</span><br>
+              ・현재의 레벨 : <span class="text-primary"><?=number_format($viewMember['rescount'] - $viewMember['penalty'])?>점</span><br>
+              ・잔여 포인트 : <span class="text-danger"><?=number_format($viewMember['point'])?>점</span><br>
             </div>
           </div>
 <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
@@ -34,7 +34,7 @@
           </form>
 <?php endif; ?>
           <h3>
-            ■ 진행중 예약 내역 - <span class="text-success"><?=$maxReserve['cnt']?>건</span>
+            ■ 진행중 예약 내역 : <span class="text-success"><?=$maxReserve['cnt']?>건</span>
             <div class="area-btn">
               <?php if ($userData['level'] != LEVEL_FREE): ?>
               <button type="button" class="btn btn-primary btn-mypage-payment">결제정보</button>
@@ -61,7 +61,7 @@
           </form>
 
           <h3>
-            ■ 취소한 예약 내역 - <span class="text-danger"><?=$maxReserveCancel['cnt']?>건</span>
+            ■ 취소한 예약 내역 : <span class="text-danger"><?=$maxReserveCancel['cnt']?>건</span>
             <div class="area-btn">
               <a href="<?=BASE_URL?>/member/reserve_cancel"><button type="button" class="btn btn-secondary">더보기</button></a>
             </div>
@@ -78,7 +78,7 @@
           <?php endforeach; ?>
 
           <h3>
-            ■ 다녀온 산행 내역 - <span class="text-primary"><?=$maxVisit['cnt']?>회</span>
+            ■ 다녀온 산행 내역 : <span class="text-primary"><?=$maxVisit['cnt']?>회</span>
             <div class="area-btn">
               <a href="<?=BASE_URL?>/member/reserve_past"><button type="button" class="btn btn-secondary">더보기</button></a>
             </div>
