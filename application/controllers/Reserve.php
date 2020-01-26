@@ -182,6 +182,9 @@ class Reserve extends MY_Controller
     // 진행 중 산행
     $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
 
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '산행 일정';
+
     $this->_viewPage('reserve/list', $viewData);
   }
 

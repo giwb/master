@@ -12,7 +12,7 @@
             <div class="area-btn">
               <button type="button" class="btn btn-primary btn-shop-payment">결제정보</button>
               <button type="button" class="btn btn-danger btn-shop-cancel">구매취소</button>
-              <a href="/member/shop"><button type="button" class="btn btn-secondary">더보기</button></a>
+              <a href="<?=BASE_URL?>/member/shop"><button type="button" class="btn btn-secondary">더보기</button></a>
             </div>
           </h3>
           <form id="shopForm" method="post" action="/shop/payment">

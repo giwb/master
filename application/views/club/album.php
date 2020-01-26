@@ -1,9 +1,9 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
       <div id="album" class="club-main">
-        <div class="sub-header">사진첩</div>
+        <h2 class="sub-header">사진첩</h2>
         <div class="sub-content">
-          <div class="text-right mt-3 mb-3">
+          <div class="text-right mt-1 mb-3">
             <?php if (!empty($userIdx)): ?>
             <a href="<?=BASE_URL?>/album/entry"><button class="btn btn-sm btn-primary">사진 등록</button></a>
             <?php endif; ?>

@@ -356,7 +356,7 @@ class Member extends MY_Controller
     $viewData['listMemberReserve'] = $this->shop_model->listMemberReserve($clubIdx, $userData['userid']);
 
     // 페이지 타이틀
-    $viewData['pageTitle'] = '마이페이지 - 구매 내역';
+    $viewData['pageTitle'] = '구매 내역';
 
     if ($page >= 2) {
       // 2페이지 이상일 경우에는 Json으로 전송
@@ -432,7 +432,7 @@ class Member extends MY_Controller
     $viewData['viewMember'] = $this->member_model->viewMember($userData['idx']);
 
     // 페이지 타이틀
-    $viewData['pageTitle'] = '마이페이지 - 예약 내역';
+    $viewData['pageTitle'] = '예약 내역';
 
     if ($page >= 2) {
       // 2페이지 이상일 경우에는 Json으로 전송
@@ -477,7 +477,7 @@ class Member extends MY_Controller
     $viewData['viewMember'] = $this->member_model->viewMember($userData['idx']);
 
     // 페이지 타이틀
-    $viewData['pageTitle'] = '마이페이지 - 예약취소 내역';
+    $viewData['pageTitle'] = '예약취소 내역';
 
     if ($page >= 2) {
       // 2페이지 이상일 경우에는 Json으로 전송
@@ -522,7 +522,7 @@ class Member extends MY_Controller
     $viewData['viewMember'] = $this->member_model->viewMember($userData['idx']);
 
     // 페이지 타이틀
-    $viewData['pageTitle'] = '마이페이지 - 산행 내역';
+    $viewData['pageTitle'] = '산행 내역';
 
     if ($page >= 2) {
       // 2페이지 이상일 경우에는 Json으로 전송
@@ -567,7 +567,7 @@ class Member extends MY_Controller
     $viewData['viewMember'] = $this->member_model->viewMember($userData['idx']);
 
     // 페이지 타이틀
-    $viewData['pageTitle'] = '마이페이지 - 포인트 내역';
+    $viewData['pageTitle'] = '포인트 내역';
 
     if ($page >= 2) {
       // 2페이지 이상일 경우에는 Json으로 전송
@@ -612,7 +612,7 @@ class Member extends MY_Controller
     $viewData['viewMember'] = $this->member_model->viewMember($userData['idx']);
 
     // 페이지 타이틀
-    $viewData['pageTitle'] = '마이페이지 - 페널티 내역';
+    $viewData['pageTitle'] = '페널티 내역';
 
     if ($page >= 2) {
       // 2페이지 이상일 경우에는 Json으로 전송

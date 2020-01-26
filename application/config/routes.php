@@ -99,6 +99,7 @@ if (!empty($result)) {
   $route[$domain . '/member/reserve_past']    = 'member/reserve_past';
   $route[$domain . '/member/point']           = 'member/point';
   $route[$domain . '/member/penalty']         = 'member/penalty';
+  $route[$domain . '/member/shop']            = 'member/shop';
   $route[$domain . '/shop']                   = 'shop/index';
   $route[$domain . '/shop/item']              = 'shop/item';
   $route[$domain . '/shop/cart']              = 'shop/cart';

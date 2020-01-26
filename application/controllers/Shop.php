@@ -67,7 +67,7 @@ class Shop extends MY_Controller
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
     // 페이지 타이틀
-    $viewData['pageTitle'] = '용품판매';
+    $viewData['pageTitle'] = '구매대행 상품';
 
     if ($page >= 2) {
       // 2페이지 이상일 경우에는 Json으로 전송
@@ -141,7 +141,7 @@ class Shop extends MY_Controller
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
     // 페이지 타이틀
-    $viewData['pageTitle'] = '용품판매';
+    $viewData['pageTitle'] = '구매대행 상품';
 
     $this->_viewPage('shop/item', $viewData);
   }
@@ -193,7 +193,7 @@ class Shop extends MY_Controller
     }
 
     // 페이지 타이틀
-    $viewData['pageTitle'] = '용품판매';
+    $viewData['pageTitle'] = '구매대행 상품';
 
     $this->_viewPage('shop/cart', $viewData);
   }

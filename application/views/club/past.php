@@ -11,7 +11,7 @@
           <a href="<?=BASE_URL?>/club/auth" class="col-6 col-sm-2 border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=strstr($_SERVER['REQUEST_URI'], '/auth') && !strstr($_SERVER['REQUEST_URI'], 'auth_about') ? ' active' : ''?>">인증현황</a>
         </div>
       </div>
-      <div class="sub-header"><?=$pageTitle?></div>
+      <h2 class="sub-header"><?=$pageTitle?></h2>
       <form id="formSearch" method="get" action="<?=BASE_URL?>/club/past" class="row border no-gutters align-items-center text-center pt-2 pb-2 pr-2 mt-3 mb-3">
         <ul class="box-past-search">
           <li>기간검색</li>

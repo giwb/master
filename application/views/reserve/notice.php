@@ -12,11 +12,11 @@
           </div>
 
           <?php if (empty($listNoticeDetail)): ?>
-          <div class="sub-header">산행안내</div>
+          <div class="sub-notice-header">산행안내</div>
           <div class="sub-content pt-4 pb-4">▶ 산행 공지를 준비중에 있습니다.</div>
           <?php else: ?>
           <?php foreach ($listNoticeDetail as $value): ?>
-          <div class="sub-header"><?=$value['title']?></div>
+          <div class="sub-notice-header"><?=$value['title']?></div>
           <div class="sub-content"><?=$value['content']?></div><br>
           <?php endforeach; ?>
           <?php endif; ?>

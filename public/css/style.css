@@ -317,6 +317,7 @@ textarea.input {
   visibility: visible;
 }
 
+#nav-sp { display: none; }
 #nav-top {
   background-color: #E0552A;
   height: 70px;
@@ -383,22 +384,8 @@ h1.nav-logo small {
   search
 \*----------------------------*/
 
-.nav-btns {
-  display: none;
-}
-
-.nav-btns>button, .search-btn {
-  width: 50px;
-  height: 50px;
-  line-height: 40px;
-  text-align: center;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-}
-
-.search-btn {
-  font-size: 20px;
+.btn-header {
+  font-size: 25px;
   color: #fff;
 }
 
@@ -1585,16 +1572,12 @@ h1.nav-logo small {
 }
 
 @media only screen and (max-width: 767px) {
-  #nav {
-    margin-bottom: 3px;
-  }
-  #nav-top {
-    height: 53px;
-  }
-  h1.nav-logo {
-    font-size: 24px;
-    margin: 12px 0 0 5px;
-  }
+  #nav-top { display: none; }
+  #nav-sp { background-color: #E0552A; display: block; padding: 15px 10px; }
+  #nav-sp h1 { font-size: 22px; color: #fff; margin: 0px; padding: 0px; }
+  #nav-sp ul { width: 100%; margin: 0px; padding: 0px; display: table; text-align: center; }
+  #nav-sp ul li { width: 80%; display: table-cell; }
+  #nav-sp ul li:first-child, #nav-sp ul li:last-child { width: 10%; }
   .page-header h1 {
     font-size: 32.437px;
   }
@@ -1996,7 +1979,8 @@ h1.nav-logo small {
 #club .club-main .story-reply .story-reply-input button { width: 19%; height: 50px; display: table-cell; vertical-align: middle; float: right; }
 #club .club-main .story-reply .btn-post-delete-modal { font-size: 12px; }
 
-#club .club-main .sub-header { width: 100%; font-weight: bold; background-color: #d9d9d9; border: 1px solid #999; border-width: 1px 0; margin: 0px; padding: 7px 15px; cursor: pointer; }
+#club .club-main .sub-header { text-align: center; border-bottom: 1px solid #999; margin-top: .5rem; padding: 0 0 20px; }
+#club .club-main .sub-notice-header { width: 100%; font-weight: bold; background-color: #d9d9d9; border: 1px solid #999; border-width: 1px 0; margin: 0px; padding: 7px 15px; cursor: pointer; }
 #club .club-main .sub-header-row { color: #fff; margin: 0px; padding: 5px; }
 #club .club-main .sub-header-row div a { color: #fff; }
 #club .club-main .sub-header-row div { padding: 8px 0; border-right: 1px solid #fff; }
@@ -2295,4 +2279,6 @@ h1.nav-logo small {
   .club-main .row-category a { border-bottom: 1px solid #dee2e6; }
   .club-main .row-category a:nth-child(5) { border-bottom: 0px; }
   .club-main .row-category a:nth-child(6) { border-bottom: 0px; }
+
+  #club .club-main .sub-header, .mypage h2 { display: none; }
 }

@@ -101,18 +101,14 @@
           </div>
         </div>
       </div>
-      <div class="nav-btns">
-        <!--<a href="<?=BASE_URL?>"><button type="button" class="search-btn"><i class="fa fa-search"></i></button></a>-->
-        <a href="javascript:;" class="btn-post-modal"><button type="button" class="search-btn"><i class="fa fa-pencil-square-o"></i></button></a>
-        <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
-        <button type="button"><img class="img-profile" src="<?=PHOTO_URL . $userData['idx']?>"></button>
-        <?php elseif (!empty($userData['icon_thumbnail'])): ?>
-        <button type="button"><img class="img-profile" src="<?=$userData['icon_thumbnail']?>"></button>
-        <?php else: ?>
-        <button type="button" class="login-popup"><i class="fa fa-user-circle" aria-hidden="true"></i></button>
-        <?php endif; ?>
-        
+      <div id="nav-sp">
+        <ul>
+          <li><a href="<?=BASE_URL?>"><i class="fa fa-home btn-header"></i></a></li>
+          <li><h1><?=!empty($pageTitle) ? $pageTitle : $view['title'] ?></h1></li>
+          <li><a href="javascript:;" class="btn-post-modal"><i class="fa fa-pencil-square-o btn-header"></i></a></li>
+        </ul>
       </div>
+<!--
       <div id="nav-aside">
         <ul class="nav-aside-menu">
           <?php if (!empty($userData['idx'])): ?>
@@ -163,6 +159,7 @@
         </ul>
         <button class="nav-close nav-aside-close"><span></span></button>
       </div>
+-->
     </div>
   </header>
   <!-- /HEADER -->
