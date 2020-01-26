@@ -2176,9 +2176,7 @@ h1.nav-logo small {
 #shop .btn-cart:hover, #shop .btn-cart-insert:hover { color: #ED1B24; border-color: #ED1B24; }
 #shop .btn-buy { color: #fff; background-color: #FF6C00; border-color: #FF6C00; }
 #shop .btn-buy:hover { color: #fff; background-color: #FF9140; border-color: #FF9140; }
-.row-category { border-top: 3px solid #FF6C00; }
-.row-category a { color: #333; display: block; }
-.row-category a:hover, .row-category a.active { color: #000!important; background-color: #F0AA94; }
+.row-category { display: none; }
 
 #nav-footer { display: none; }
 
@@ -2279,9 +2277,11 @@ h1.nav-logo small {
   #shop .btn-cart { font-size: 12px; }
   #shop .btn-buy { font-size: 12px; }
 
-  .club-main .row-category a { border-bottom: 1px solid #dee2e6; }
-  .club-main .row-category a:nth-child(5) { border-bottom: 0px; }
-  .club-main .row-category a:nth-child(6) { border-bottom: 0px; }
+  .row-category { border-top: 3px solid #FF6C00; border-bottom: 1px solid #dee2e6; }
+  .row-category a { color: #333; display: block; }
+  .row-category a:hover, .row-category a.active { color: #000!important; background-color: #F0AA94; }
+  .row-category a:nth-child(5) { border-bottom: 0px; }
+  .row-category a:nth-child(6) { border-bottom: 0px; }
 
   #club .club-main .sub-header, .mypage h2 { display: none; }
 }
