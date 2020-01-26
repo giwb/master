@@ -38,7 +38,7 @@ class Welcome extends MY_Controller
     foreach ($viewData['list'] as $key => $value) {
       // 도메인
       if (strstr($value['domain'], '.')) {
-        $viewData['list'][$key]['domain'] = $value['domain'];
+        $viewData['list'][$key]['domain'] = 'http://' . $value['domain'];
       } else {
         $viewData['list'][$key]['domain'] = base_url() . $value['domain'];
       }
