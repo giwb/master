@@ -1,11 +1,13 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
       <div id="shop" class="club-main">
-        <div class="row align-items-center mb-3">
-          <div class="col-6 col-sm-9"><h3 class="m-0 p-0">구매대행 상품</h3></div>
-          <div class="col-6 col-sm-3 text-right"><a href="<?=BASE_URL?>/shop/cart"><button type="button" class="btn btn-sm btn-cart">장바구니 보기</button></a></div>
+        <div class="d-none d-sm-block">
+          <div class="row align-items-center mb-3">
+            <div class="col-6 col-sm-9"><h3 class="m-0 p-0">구매대행 상품</h3></div>
+            <div class="col-6 col-sm-3 text-right"><a href="<?=BASE_URL?>/shop/cart"><button type="button" class="btn btn-sm btn-cart">장바구니 보기</button></a></div>
+          </div>
         </div>
-        <div class="border mb-4 p-3">
+        <div class="border mb-3 p-3">
           <a href="javascript:;" class="btn-notice" data-idx="1"><strong>구매대행 상품이란..?</strong></a>
           <div class="area-notice text-justify small" data-idx="1"><br>본 상품은 경인웰빙이 유통하는 상품이 아니고, 소비자 입장에서 박스로 구입하여 낱개로 전달해 드리는 상품입니다.<br><br>
             박스단위로 택배비 부담이 없이 비교적 저렴하게 구입하여 회원분들께 낱개 단위로 저렴하게 전해 드리는 상품으로 산행시 꼭 필요로 하는 품목을 산행 신청하신 분들을 대상으로 버스에서 전달해 드리는 서비스로 이해해 주시면 감사하겠습니다. <br><br>
