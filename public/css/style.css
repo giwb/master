@@ -1997,6 +1997,14 @@ h1.nav-logo small {
 #club .club-main .story-reply .btn-post-delete-modal { font-size: 12px; }
 
 #club .club-main .sub-header { width: 100%; font-weight: bold; background-color: #d9d9d9; border: 1px solid #999; border-width: 1px 0; margin: 0px; padding: 7px 15px; cursor: pointer; }
+#club .club-main .sub-header-row { color: #fff; margin: 0px; padding: 5px; }
+#club .club-main .sub-header-row div a { color: #fff; }
+#club .club-main .sub-header-row div { padding: 8px 0; border-right: 1px solid #fff; }
+#club .club-main .sub-header-row div:last-child { border-right: 0px; }
+#club .club-main .sub-header-row div:hover { color: #000; background-color: #fff; cursor: pointer; }
+#club .club-main .sub-header-row div:hover a { color: #000; }
+#club .club-main .sub-header-row .active { background-color: #fff; }
+#club .club-main .sub-header-row .active a { color: #000; }
 #club .club-main .sub-content { width: 100%; font-size: 14px; text-align: justify; overflow: hidden; }
 #club .club-main .sub-content img { max-width: 100%; cursor: pointer; }
 #club .club-main .sub-photo { text-align: center; }
@@ -2271,6 +2279,10 @@ h1.nav-logo small {
   #club .club-main .box-past-search li:nth-child(5) { width: 26%; padding-left: 7px; }
   #club .club-main .box-past-search li:nth-child(6) { width: 49%; }
   #club .club-main .box-past-search li:nth-child(7) { width: 20%; }
+
+  #club .club-main .sub-header-row div { border-right: 0px; border-bottom: 1px solid #fff; }
+  #club .club-main .sub-header-row div:nth-child(5) { border: 0px; }
+  #club .club-main .sub-header-row div:nth-child(6) { border: 0px; }
 
   #club .club-main .story-content .story-photo { width: 100%; }
   #club .club-main .story-reply .btn-post-reply { font-size: 12px; white-space: nowrap; }
