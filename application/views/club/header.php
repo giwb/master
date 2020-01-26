@@ -104,7 +104,7 @@
       <div id="nav-sp">
         <ul>
           <li><a href="<?=BASE_URL?>"><i class="fa fa-home btn-header"></i></a></li>
-          <li><h1><?=!empty($pageTitle) ? $pageTitle : $view['title'] ?></h1></li>
+          <li><a href="<?=BASE_URL?>"><h1><?=!empty($pageTitle) ? $pageTitle : $view['title'] ?></h1></a></li>
           <li>
             <?php if (strstr($_SERVER['REQUEST_URI'], 'member')): ?>
             <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?><a href="<?=BASE_URL?>/admin" title="관리"><i class="fa fa-cog btn-header"></i></a>
