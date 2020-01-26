@@ -16,7 +16,7 @@
             </ul>
           </form>
           <ul class="box-past-title">
-            <li><a href="/member/driver/?<?=$searchData['prev']?>">◀</a></li>
+            <li><a href="<?=BASE_URL?>/member/driver/?<?=$searchData['prev']?>">◀</a></li>
             <li>
               <select name="syear" class="form-control">
                 <?php foreach (range($searchData['syear'], 2010) as $value): ?>
@@ -31,12 +31,12 @@
                 <?php endforeach; ?>
               </select>
             </li>
-            <li><a href="/member/driver/?<?=$searchData['next']?>">▶</a></li>
+            <li><a href="<?=BASE_URL?>/member/driver/?<?=$searchData['next']?>">▶</a></li>
           </ul>
           <?php foreach ($listNoticeDriver as $value): $busType = getBusType($value['bustype'], $value['bus']); ?>
           <div class="border-top m-0 pt-2 pb-2">
             <div class="">
-              <a href="/member/driver_view/?n=<?=$value['idx']?>"><?=viewStatus($value['status'])?> <strong><?=$value['subject']?></strong></a><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명
+              <a href="<?=BASE_URL?>/member/driver_view/?n=<?=$value['idx']?>"><?=viewStatus($value['status'])?> <strong><?=$value['subject']?></strong></a><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명
             </div>
             <div class="">
             <?php if ($userData['level'] == LEVEL_DRIVER_ADMIN): ?>
@@ -56,11 +56,6 @@
           </div>
           <?php endforeach; ?>
           <div class="border-top p-2"></div>
-        </div>
-        <div class="ad-sp">
-          <!-- CENTER -->
-          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2424708381875991" data-ad-slot="7579588805" data-ad-format="auto" data-full-width-responsive="true"></ins>
-          <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
         </div>
       </div>
 

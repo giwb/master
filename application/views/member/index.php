@@ -133,11 +133,6 @@
             <?php endforeach; ?>
           </ul>
         </div>
-        <div class="ad-sp">
-          <!-- CENTER -->
-          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2424708381875991" data-ad-slot="7579588805" data-ad-format="auto" data-full-width-responsive="true"></ins>
-          <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
-        </div>
       </div>
 
       <!-- 결제정보 작성 -->

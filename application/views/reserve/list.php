@@ -55,13 +55,6 @@
 
       <div class="club-main">
         <div id="calendar"></div>
-
-        <div class="ad-sp">
-          <!-- CENTER -->
-          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2424708381875991" data-ad-slot="7579588805" data-ad-format="auto" data-full-width-responsive="true"></ins>
-          <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
-        </div>
-
         <h3><i class="fa fa-calendar" aria-hidden="true"></i> 현재 진행중인 산행</h3>
         <div class="list-schedule">
           <?php foreach ($listNotice as $value): ?>

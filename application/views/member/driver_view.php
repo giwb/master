@@ -53,12 +53,7 @@
           </div>
           <?php endif; endforeach; endif; ?>
           <div class="text-center mt-4">
-            <a href="/member"><button class="btn btn-primary">목록으로</button></a>
+            <a href="<?=BASE_URL?>/member"><button class="btn btn-primary">목록으로</button></a>
           </div>
-        </div>
-        <div class="ad-sp">
-          <!-- CENTER -->
-          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2424708381875991" data-ad-slot="7579588805" data-ad-format="auto" data-full-width-responsive="true"></ins>
-          <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
         </div>
       </div>
