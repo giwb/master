@@ -2697,7 +2697,7 @@ exit;
 
     $this->club_model->updateClub($updateValues, $clubIdx);
 
-    redirect('/admin/setup_pages');
+    redirect($input_data['base_url'] . '/admin/setup_pages');
   }
 
   /**

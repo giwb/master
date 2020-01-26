@@ -19,6 +19,7 @@
         <div class="col-sm-10"><textarea name="auth" id="auth" rows="10" cols="100"><?=!empty($view['auth']) ? reset_html_escape($view['auth']) : ''?></textarea></div>
       </div>
       <div class="area-button">
+        <input type="hidden" name="base_url" value="<?=BASE_URL?>">
         <button type="submit" class="btn btn-primary">확인합니다</button>
       </div>
     </form>
