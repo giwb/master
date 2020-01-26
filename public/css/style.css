@@ -2195,8 +2195,10 @@ h1.nav-logo small {
   #nav-footer li { width: 20%; font-size: 12px; display: table-cell; vertical-align: middle; text-align: center; }
   #nav-footer li i { font-size: 20px; }
 
-  #club .club-left, #club .club-right { display: none; }
+  #club .container { flex: auto; display: block; }
+  #club .club-left { display: none; }
   #club .club-main { width: 100%; flex: auto; -webkit-flex: auto; display: block; margin: 0px; }
+  #club .club-right { width: 100%; flex: auto; -webkit-flex: auto; display: block; margin: 0px; }
   #club .sub-contents h2 { font-size: 18px; padding: 10px 0 20px; }
   #club .sub-contents .sub-title h2 { font-size: 18px; }
 

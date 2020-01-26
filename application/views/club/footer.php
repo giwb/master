@@ -9,12 +9,9 @@
           <?php endforeach; ?>
         </div>
         <?php endif; ?>
-        <!-- PC_RIGHT -->
-        <div class="ad-pc">
-          <!-- RIGHT -->
-          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2424708381875991" data-ad-slot="1285643193" data-ad-format="auto" data-full-width-responsive="true"></ins>
-          <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
-        </div>
+        <!-- GOOGLE ADSENSE -->
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2424708381875991" data-ad-slot="1285643193" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
       </div>
     </div>
   </section>
