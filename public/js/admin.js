@@ -51,7 +51,7 @@
     var base_url = $('input[name=base_url]').val();
 
     $.ajax({
-      url: '/logout',
+      url: '/login/logout',
       dataType: 'json',
       success: function() {
         location.href = (base_url);
