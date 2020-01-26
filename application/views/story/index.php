@@ -24,7 +24,7 @@
                 <a href="<?=BASE_URL?>/story/view/?n=<?=$value['idx']?>" class="story-date"><?=calcStoryTime($value['created_at'])?><?=!empty($value['updated_at']) ? ' 작성, ' . calcStoryTime($value['updated_at']) . ' 수정' : ''?></a><?=!empty($userData['idx']) && ($userData['idx'] == $value['created_by'] || $userData['admin'] == 1) ? ' <a href="' . BASE_URL . '/story/edit/?n=' . $value['idx'] . '">[수정]</a> <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '" data-action="delete">[삭제]</a>' : ''?>
               </div>
               <div class="story-content">
-                <?php if (!empty($value['filename'])): ?><img class="story-photo" src="<?=PHOTO_URL?>/thumb_<?=$value['filename']?>" data-filename="<?=PHOTO_URL?>public/photos/<?=$value['filename']?>" data-width="<?=$value['file_width']?>" data-height="<?=$value['file_height']?>"><br><?php endif; ?>
+                <?php if (!empty($value['filename'])): ?><img class="story-photo" src="<?=PHOTO_URL?>thumb_<?=$value['filename']?>" data-filename="<?=PHOTO_URL?><?=$value['filename']?>" data-width="<?=$value['file_width']?>" data-height="<?=$value['file_height']?>"><br><?php endif; ?>
                 <?=nl2br(strip_tags($value['content']))?>
               </div>
               <div class="story-reaction">
