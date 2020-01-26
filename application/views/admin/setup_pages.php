@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
     <h1 class="h3 mb-0 text-gray-800">소개 페이지 수정</h1>
-    <form id="setupForm" method="post" action="<?=base_url()?>admin/setup_pages_update">
+    <form id="setupForm" method="post" action="/admin/setup_pages_update">
       <div class="row align-items-center border-top mt-3 pt-3">
         <div class="col-sm-2 font-weight-bold">산악회 소개</div>
         <div class="col-sm-10"><textarea name="about" id="about" rows="10" cols="100"><?=!empty($view['about']) ? reset_html_escape($view['about']) : ''?></textarea></div>
