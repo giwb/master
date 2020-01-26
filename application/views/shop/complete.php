@@ -68,5 +68,10 @@
             <a href="<?=BASE_URL?>/shop"><button type="button" class="btn btn-secondary ml-3">계속 쇼핑하기</button></a>
           </div>
         </div>
+        <div class="ad-sp">
+          <!-- CENTER -->
+          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2424708381875991" data-ad-slot="7579588805" data-ad-format="auto" data-full-width-responsive="true"></ins>
+          <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
+        </div>
       </div>
       <script type="text/javascript" src="/public/js/shop.js"></script>

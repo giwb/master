@@ -93,16 +93,9 @@
             <button type="button" class="btn btn-primary btn-entry">등록합니다</button>
           </div>
           <div class="ad-sp">
-            <!-- SP_CENTER -->
-            <ins class="adsbygoogle"
-              style="display:block"
-              data-ad-client="ca-pub-2424708381875991"
-              data-ad-slot="4319659782"
-              data-ad-format="auto"
-              data-full-width-responsive="true"></ins>
-            <script>
-              (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
+            <!-- CENTER -->
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2424708381875991" data-ad-slot="7579588805" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
           </div>
         </form>
         <div class="col-sm-3"></div>

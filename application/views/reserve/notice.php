@@ -48,16 +48,9 @@
           </div>
         </div>
         <div class="ad-sp mt-5">
-          <!-- SP_CENTER -->
-          <ins class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-pub-2424708381875991"
-            data-ad-slot="4319659782"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-          <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-          </script>
+          <!-- CENTER -->
+          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2424708381875991" data-ad-slot="7579588805" data-ad-format="auto" data-full-width-responsive="true"></ins>
+          <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
         </div>
       </div>
 
