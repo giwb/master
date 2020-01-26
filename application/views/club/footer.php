@@ -174,6 +174,7 @@
         <input type="hidden" name="page" value="story">
         <div class="modal-body text-center">
           <textarea id="club-story-content" rows="10" class="form-control" placeholder="당신의 이야기를 들려주세요~"></textarea>
+          <div class="error-message"></div>
         </div>
         <div class="area-photo"></div>
         <div class="row align-items-center pl-3 pr-3">

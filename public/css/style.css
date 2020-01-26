@@ -2086,11 +2086,11 @@ h1.nav-logo small {
 #loginModal dl dt { width: 50%; margin: 0px; padding: 5px 10px 5px 0; display: table-cell; vertical-align: middle; text-align: right; }
 #loginModal dl dd { width: 50%; margin: 0px; padding: 5px 0; display: table-cell; vertical-align: middle; }
 #loginModal dl dd input { font-size: 14px; width: 90%; border: 1px solid #999; padding: 2px 5px; }
-#loginModal .error-message { font-size: 12px; color: #E0552a; padding: 10px 0; display: none; }
 #loginModal .modal-footer { justify-content: space-between; }
 #loginModal .modal-footer .modal-footer-left { float: left; }
 #loginModal .modal-footer .modal-footer-right { float: right; }
 #loginModal .modal-footer div button { font-size: 14px!important; }
+.error-message { font-size: 12px; color: #E0552a; padding: 10px 0; display: none; }
 
 /* Member Entry Page */
 .memberForm { width: 100%; margin: 0 auto 50px; font-size: 14px; }

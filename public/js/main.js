@@ -225,9 +225,9 @@
 
     if (size > maxSize) {
       $dom.val('');
-      $('#messageModal .modal-message').text('파일의 용량은 20MB를 넘을 수 없습니다.');
-      $('#messageModal').modal('show');
-      return;
+      $('#storyModal .error-message').text('파일의 용량은 20MB를 넘을 수 없습니다.').slideDown();
+      setTimeout(function() { $('#storyModal .error-message').text('').slideUp(); }, 2000);
+      return false;
     }
 
     // 사진 형태 추가
@@ -1229,6 +1229,10 @@ $(document).on('click', '.btn-reply', function() {
     }
   });
 }).on('click', '.btn-post-modal', function() {
+  if ($('input[name=userIdx]').val() == '') {
+    $('#loginModal').modal('show'); // 로그인
+    return false;
+  }
   $('#storyModal').modal('show');
 }).on('click', '.btn-post', function() {
   // 스토리 작성
