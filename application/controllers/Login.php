@@ -492,6 +492,42 @@ class Login extends MY_Controller
   {
     $viewData['uri'] = 'login';
 
+    // 회원 정보
+    $viewData['userData'] = $this->load->get_var('userData');
+    $viewData['userLevel'] = $this->load->get_var('userLevel');
+
+    // 진행 중 산행
+    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
+
+    // 회원수
+    $viewData['view']['cntMember'] = $this->member_model->cntMember($viewData['view']['idx']);
+    $viewData['view']['cntMemberToday'] = $this->member_model->cntMemberToday($viewData['view']['idx']);
+
+    // 방문자수
+    $viewData['view']['cntVisitor'] = $this->member_model->cntVisitor($viewData['view']['idx']);
+    $viewData['view']['cntVisitorToday'] = $this->member_model->cntVisitorToday($viewData['view']['idx']);
+
+    // 클럽 대표이미지
+    $files = $this->file_model->getFile('club', $viewData['view']['idx']);
+    if (!empty($files[0]['filename']) && file_exists(PHOTO_PATH . $files[0]['filename'])) {
+      $size = getImageSize(PHOTO_PATH . $files[0]['filename']);
+      $viewData['view']['main_photo'] = PHOTO_URL . $files[0]['filename'];
+      $viewData['view']['main_photo_width'] = $size[0];
+      $viewData['view']['main_photo_height'] = $size[1];
+    }
+
+    // 로그인 쿠키 처리
+    if (!empty(get_cookie('cookie_userid'))) {
+      $viewData['cookieUserid'] = get_cookie('cookie_userid');
+    } else {
+      $viewData['cookieUserid'] = '';
+    }
+    if (!empty(get_cookie('cookie_passwd'))) {
+      $viewData['cookiePasswd'] = get_cookie('cookie_passwd');
+    } else {
+      $viewData['cookiePasswd'] = '';
+    }
+
     // 리다이렉트 URL 추출
     if ($_SERVER['SERVER_PORT'] == '80') $HTTP_HEADER = 'http://'; else $HTTP_HEADER = 'https://';
     $viewData['redirectUrl'] = $HTTP_HEADER . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];

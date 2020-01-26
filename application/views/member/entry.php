@@ -1,9 +1,8 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-    <div class="container">
-      <div class="row memberForm">
-        <div class="col-sm-3"></div>
-        <form class="col-sm-6" id="entryForm" method="post" action="<?=BASE_URL?>/login/insert">
+    <div class="club-main">
+      <div class="memberForm">
+        <form id="entryForm" method="post" action="<?=BASE_URL?>/login/insert">
         <input type="hidden" name="club_idx" value="<?=$view['idx']?>">
         <input type="hidden" name="page" value="member">
           <h2>회원가입</h2>
@@ -93,6 +92,5 @@
             <button type="button" class="btn btn-primary btn-entry">등록합니다</button>
           </div>
         </form>
-        <div class="col-sm-3"></div>
       </div>
     </div>
