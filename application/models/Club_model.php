@@ -85,6 +85,9 @@ class Club_model extends CI_Model
           ->where('a.deleted_at', NULL)
           ->order_by('a.idx', 'desc');
 
+    if (!empty($paging['keyword'])) {
+      $this->db->like('a.subject', $paging['keyword']);
+    }
     if (!empty($paging)) {
       $this->db->limit($paging['perPage'], $paging['nowPage']);
     }

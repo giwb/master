@@ -3,11 +3,10 @@
       <div id="album" class="club-main">
         <h2 class="sub-header">사진첩</h2>
         <div class="sub-content">
-          <div class="text-right mt-1 mb-3">
-            <?php if (!empty($userIdx)): ?>
-            <a href="<?=BASE_URL?>/album/entry"><button class="btn btn-sm btn-primary">사진 등록</button></a>
-            <?php endif; ?>
-          </div>
+          <form method="post" action="<?=BASE_URL?>/album" class="row align-items-center m-0 mb-3">
+            <div class="col-9 col-sm-10 p-0"><input type="text" name="k" class="form-control"></div>
+            <div class="col-3 col-sm-2 p-0 pl-2"><button class="btn btn-primary w-100">검색</button></div>
+          </form>
           <form id="formList">
             <input type="hidden" name="p" value="1">
             <?=$listAlbum?>

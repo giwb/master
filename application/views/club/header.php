@@ -105,7 +105,17 @@
         <ul>
           <li><a href="<?=BASE_URL?>"><i class="fa fa-home btn-header"></i></a></li>
           <li><h1><?=!empty($pageTitle) ? $pageTitle : $view['title'] ?></h1></li>
-          <li><a href="javascript:;" class="btn-post-modal"><i class="fa fa-pencil-square-o btn-header"></i></a></li>
+          <li>
+            <?php if (strstr($_SERVER['REQUEST_URI'], 'member')): ?>
+            <a href="javascript:;" class="logout"><i class="fa fa-sign-out btn-header"></i></a>
+            <?php elseif (strstr($_SERVER['REQUEST_URI'], 'shop')): ?>
+            <a href="<?=BASE_URL?>/shop/cart"><i class="fa fa-shopping-cart btn-header"></i></a>
+            <?php elseif (strstr($_SERVER['REQUEST_URI'], 'album')): ?>
+            <a href="<?=BASE_URL?>/album/entry"><i class="fa fa-cloud-upload btn-header"></i></a>
+            <?php else: ?>
+            <a href="javascript:;" class="btn-post-modal"><i class="fa fa-pencil-square-o btn-header"></i></a>
+            <?php endif; ?>            
+          </li>
         </ul>
       </div>
 <!--

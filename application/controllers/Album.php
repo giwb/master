@@ -25,6 +25,7 @@ class Album extends MY_Controller
     $viewData['userIdx'] = $userData['idx'];
     $viewData['adminCheck'] = $userData['admin'];
 
+    $paging['keyword'] = html_escape($this->input->post('k'));
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
     $paging['perPage'] = $viewData['perPage'] = 30;
