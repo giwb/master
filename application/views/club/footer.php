@@ -22,7 +22,7 @@
     <li><a href="<?=BASE_URL?>/shop"><i class="fa fa-shopping-cart" aria-hidden="true"></i><br>구매</a></li>
     <li><a href="<?=BASE_URL?>/album"><i class="fa fa-camera-retro" aria-hidden="true"></i><br>사진</a></li>
     <li><a href="<?=BASE_URL?>/club/about"><i class="fa fa-sitemap" aria-hidden="true"></i><br>소개</a></li>
-    <li><a href="<?=BASE_URL?>/member"><i class="fa fa-cog" aria-hidden="true"></i><br>설정</a></li>
+    <li><?php if (!empty($userData['idx'])): ?><a href="<?=BASE_URL?>/member"><?php else: ?><a href="javascript:;" class="login-popup"><?php endif; ?><i class="fa fa-cog" aria-hidden="true"></i><br>설정</a></li>
   </ul>
 
   <input type="hidden" name="baseUrl" value="<?=BASE_URL?>">
