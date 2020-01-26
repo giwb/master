@@ -107,7 +107,8 @@
           <li><h1><?=!empty($pageTitle) ? $pageTitle : $view['title'] ?></h1></li>
           <li>
             <?php if (strstr($_SERVER['REQUEST_URI'], 'member')): ?>
-            <a href="javascript:;" class="logout" title="로그아웃"><i class="fa fa-sign-out btn-header"></i></a>
+            <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?><a href="javascript:;" title="관리"><i class="fa fa-cog btn-header"></i></a>
+            <?php else: ?><a href="javascript:;" class="logout" title="로그아웃"><i class="fa fa-sign-out btn-header"></i></a><?php endif; ?>
             <?php elseif (strstr($_SERVER['REQUEST_URI'], 'shop')): ?>
             <a href="<?=BASE_URL?>/shop/cart" title="장바구니"><i class="fa fa-shopping-cart btn-header"></i></a>
             <?php elseif (strstr($_SERVER['REQUEST_URI'], 'album')): ?>
