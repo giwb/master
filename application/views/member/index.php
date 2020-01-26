@@ -20,19 +20,6 @@
               ・잔여 포인트 : <span class="text-danger"><?=number_format($viewMember['point'])?>점</span><br>
             </div>
           </div>
-<?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
-          <h3>
-            ■ 구매 내역
-            <div class="area-btn">
-              <button type="button" class="btn btn-primary btn-shop-payment">결제정보</button>
-              <button type="button" class="btn btn-danger btn-shop-cancel">구매취소</button>
-              <a href="<?=BASE_URL?>/member/shop"><button type="button" class="btn btn-secondary">더보기</button></a>
-            </div>
-          </h3>
-          <form id="shopForm" method="post" action="/shop/payment">
-            <?=$listPurchase?>
-          </form>
-<?php endif; ?>
           <h3>
             ■ 진행중 예약 내역 : <span class="text-success"><?=$maxReserve['cnt']?>건</span>
             <div class="area-btn">
@@ -59,23 +46,19 @@
             </dl>
             <?php endforeach; ?>
           </form>
-
+<?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
           <h3>
-            ■ 취소한 예약 내역 : <span class="text-danger"><?=$maxReserveCancel['cnt']?>건</span>
+            ■ 구매 내역
             <div class="area-btn">
-              <a href="<?=BASE_URL?>/member/reserve_cancel"><button type="button" class="btn btn-secondary">더보기</button></a>
+              <button type="button" class="btn btn-primary btn-shop-payment">결제정보</button>
+              <button type="button" class="btn btn-danger btn-shop-cancel">구매취소</button>
+              <a href="<?=BASE_URL?>/member/shop"><button type="button" class="btn btn-secondary">더보기</button></a>
             </div>
           </h3>
-          <?php foreach ($userReserveCancel as $value): ?>
-          <dl>
-            <dd>
-              <?=viewStatus($value['notice_status'])?> <a href="<?=BASE_URL?>/reserve/?n=<?=$value['resCode']?>"><?=$value['subject']?></a><br>
-              <small>
-                취소일시 : <?=date('Y-m-d', $value['regdate'])?> (<?=calcWeek(date('Y-m-d', $value['regdate']))?>) <?=date('H:i', $value['regdate'])?>
-              </small>
-            </dd>
-          </dl>
-          <?php endforeach; ?>
+          <form id="shopForm" method="post" action="/shop/payment">
+            <?=$listPurchase?>
+          </form>
+<?php endif; ?>
 
           <h3>
             ■ 다녀온 산행 내역 : <span class="text-primary"><?=$maxVisit['cnt']?>회</span>
@@ -90,6 +73,23 @@
               <small>
                 일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 
                 요금 : <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원
+              </small>
+            </dd>
+          </dl>
+          <?php endforeach; ?>
+
+          <h3>
+            ■ 취소한 예약 내역 : <span class="text-danger"><?=$maxReserveCancel['cnt']?>건</span>
+            <div class="area-btn">
+              <a href="<?=BASE_URL?>/member/reserve_cancel"><button type="button" class="btn btn-secondary">더보기</button></a>
+            </div>
+          </h3>
+          <?php foreach ($userReserveCancel as $value): ?>
+          <dl>
+            <dd>
+              <?=viewStatus($value['notice_status'])?> <a href="<?=BASE_URL?>/reserve/?n=<?=$value['resCode']?>"><?=$value['subject']?></a><br>
+              <small>
+                취소일시 : <?=date('Y-m-d', $value['regdate'])?> (<?=calcWeek(date('Y-m-d', $value['regdate']))?>) <?=date('H:i', $value['regdate'])?>
               </small>
             </dd>
           </dl>
