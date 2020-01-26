@@ -2181,7 +2181,7 @@ h1.nav-logo small {
 
 #nav-footer { display: none; }
 
-.btn-page-next, .btn-story-more { width: 100%; border: 1px solid #d9d9d9; background-color: #fff; margin: 10px 0; padding: 5px; }
+.btn-page-next, .btn-story-more { width: 100%; border: 1px solid #d9d9d9; background-color: #fff; margin: 10px 0 30px 0; padding: 5px; }
 .btn-page-next:hover, .btn-story-more:hover { box-shadow: #ddd 3px 3px 3px; }
 
 .ad-sp { display: none; }
