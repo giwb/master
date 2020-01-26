@@ -1228,9 +1228,12 @@ $(document).on('click', '.btn-reply', function() {
       }
     }
   });
+}).on('click', '.btn-post-modal', function() {
+  $('#storyModal').modal('show');
 }).on('click', '.btn-post', function() {
   // 스토리 작성
   var $dom = $(this);
+  var baseUrl = $('input[name=baseUrl]').val();
   var content = $('#club-story-content').val();
   var photo = $('.icon-photo-delete').data('filename');
   var page = $('input[name=page]').val();
@@ -1257,12 +1260,12 @@ $(document).on('click', '.btn-reply', function() {
     dataType: 'json',
     type: 'post',
     beforeSend: function() {
-      $dom.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+      $dom.css('opacity', '0.5').prop('disabled', true).text('전송중..');
       $('#club-story-content').prop('disabled', true);
     },
     success: function(result) {
       if (result.error == 1) {
-        $dom.css('opacity', '1').prop('disabled', false).text('등록합니다');
+        $dom.css('opacity', '1').prop('disabled', false).text('전송');
         $('#club-story-content').prop('disabled', false).val('');
         $('#messageModal .btn').hide();
         $('#messageModal .btn-refresh, #messageModal .btn-close').show();
@@ -1270,9 +1273,9 @@ $(document).on('click', '.btn-reply', function() {
         $('#messageModal').modal();
       } else {
         if (typeof(idx) != 'undefined') {
-          location.replace($('input[name=baseUrl]').val() + '/story/view/?n=' + idx);
+          location.replace(baseUrl + '/story/view/?n=' + idx);
         } else {
-          location.reload();
+          location.replace(baseUrl);
         }
       }
     }

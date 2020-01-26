@@ -74,7 +74,7 @@
           <div class="row align-items-center">
             <h1 class="col-sm-6 nav-logo"><a href="<?=BASE_URL?>" class="logo"><?=$view['title']?></a></h1>
             <ul class="col-sm-6 text-right nav-menu">
-              <li<?=$uri == 'top' ? ' class="active"' : ''?>><a href="<?=BASE_URL?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></li>
+              <li><a href="javascript:;" class="btn-post-modal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></li>
               <?php if (empty($userData['idx'])): ?>
               <li><a href="javascript:;" class="login-popup">로그인</a></li>
               <?php else: ?>
@@ -103,7 +103,7 @@
       </div>
       <div class="nav-btns">
         <!--<a href="<?=BASE_URL?>"><button type="button" class="search-btn"><i class="fa fa-search"></i></button></a>-->
-        <a href="<?=BASE_URL?>"><button type="button" class="search-btn"><i class="fa fa-pencil-square-o"></i></button></a>
+        <a href="javascript:;" class="btn-post-modal"><button type="button" class="search-btn"><i class="fa fa-pencil-square-o"></i></button></a>
         <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
         <button type="button"><img class="img-profile" src="<?=PHOTO_URL . $userData['idx']?>"></button>
         <?php elseif (!empty($userData['icon_thumbnail'])): ?>

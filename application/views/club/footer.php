@@ -17,7 +17,7 @@
   </section>
 
   <ul id="nav-footer">
-    <li><a href="<?=BASE_URL?>"><i class="fa fa-calendar" aria-hidden="true"></i><br>일정</a></li>
+    <li><a href="<?=BASE_URL?>/reserve/list"><i class="fa fa-calendar" aria-hidden="true"></i><br>일정</a></li>
     <li><a href="<?=BASE_URL?>/shop"><i class="fa fa-shopping-cart" aria-hidden="true"></i><br>구매</a></li>
     <li><a href="<?=BASE_URL?>/album"><i class="fa fa-camera-retro" aria-hidden="true"></i><br>사진</a></li>
     <li><a href="<?=BASE_URL?>/club/about"><i class="fa fa-sitemap" aria-hidden="true"></i><br>소개</a></li>
@@ -135,7 +135,7 @@
     </div>
   </div>
 
-  <!-- 취소 -->
+  <!-- Cancel -->
   <div class="modal fade" id="reserveCancelModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -154,6 +154,39 @@
           <button type="button" class="btn btn-primary btn-reserve-cancel-confirm">승인</button>
           <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Story -->
+  <div class="modal fade" id="storyModal" tabindex="-1" role="dialog" aria-labelledby="storyModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="smallmodalLabel">글쓰기</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form id="your-story-form" method="post" action="/story/insert">
+        <input type="hidden" name="clubIdx" value="<?=$view['idx']?>">
+        <input type="hidden" name="userIdx" value="<?=$userData['idx']?>">
+        <input type="hidden" name="page" value="story">
+        <div class="modal-body text-center">
+          <textarea id="club-story-content" rows="10" class="form-control" placeholder="당신의 이야기를 들려주세요~"></textarea>
+        </div>
+        <div class="area-photo"></div>
+        <div class="row align-items-center pl-3 pr-3">
+          <div class="col-5 pr-0">
+            <input type="file" class="file d-none">
+            <button type="button" class="btn btn-photo"><i class="fa fa-camera" aria-hidden="true"></i> 사진추가</button>
+          </div>
+          <div class="col-7 text-right">
+            <button type="button" class="btn btn-primary btn-post">전송</button>
+            <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
+          </div>
+        </div>
+        </form>
       </div>
     </div>
   </div>

@@ -144,6 +144,48 @@ class Reserve extends MY_Controller
   }
 
   /**
+   * 목록 페이지
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function list()
+  {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    // 등록된 산행 목록
+    $viewData['listNoticeCalendar'] = $this->reserve_model->listNotice($clubIdx);
+
+    // 캘린더 설정
+    $listCalendar = $this->admin_model->listCalendar();
+
+    foreach ($listCalendar as $key => $value) {
+      if ($value['holiday'] == 1) {
+        $class = 'holiday';
+      } else {
+        $class = 'dayname';
+      }
+      $viewData['listNoticeCalendar'][] = array(
+        'idx' => 0,
+        'startdate' => $value['nowdate'],
+        'enddate' => $value['nowdate'],
+        'schedule' => 0,
+        'status' => 'schedule',
+        'mname' => $value['dayname'],
+        'class' => $class,
+      );
+    }
+
+    // 진행 중 산행
+    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
+
+    $this->_viewPage('reserve/list', $viewData);
+  }
+
+  /**
    * 공지 페이지
    *
    * @return view

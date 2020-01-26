@@ -50,29 +50,22 @@
               ?>
             ]
           });
-
-          new ClipboardJS('.btn-share-url');
         });
       </script>
-      <script type="text/javascript">(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0"; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));</script>
 
-      <div id="fb-root"></div>
       <div class="club-main">
-        <img src="/public/images/newyear.jpg" class="main-image">
         <div id="calendar"></div>
+
         <div class="ad-sp">
           <!-- SP_CENTER -->
           <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2424708381875991" data-ad-slot="4319659782" data-ad-format="auto" data-full-width-responsive="true"></ins>
           <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
         </div>
-        <div class="your-story">
-          <div class="club-story-article">
-            <?=$listStory?>
-          </div>
-          <?php if ($maxStory['cnt'] > $perPage): ?>
-          <button class="btn btn-story-more">더 보기 ▼</button>
-          <?php endif; ?>
-          <input type="hidden" name="p" value="1">
-          <input type="hidden" name="n" value="<?=!empty($storyIdx) ? $storyIdx : ''?>">
+
+        <h3><i class="fa fa-calendar" aria-hidden="true"></i> 현재 진행중인 산행</h3>
+        <div class="list-schedule">
+          <?php foreach ($listNotice as $value): ?>
+          <a href="<?=BASE_URL?>/reserve/?n=<?=$value['idx']?>"><?=viewStatus($value['status'])?> <strong><?=$value['subject']?></strong><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명</a>
+          <?php endforeach; ?>
         </div>
       </div>

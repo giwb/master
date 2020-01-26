@@ -90,6 +90,7 @@ if (!empty($result)) {
   $route[$domain . '/album']                  = 'album/index';
   $route[$domain . '/album/entry']            = 'album/entry';
   $route[$domain . '/reserve']                = 'reserve/index';
+  $route[$domain . '/reserve/list']           = 'reserve/list';
   $route[$domain . '/reserve/notice']         = 'reserve/notice';
   $route[$domain . '/member']                 = 'member/index';
   $route[$domain . '/member/modify']          = 'member/modify';
