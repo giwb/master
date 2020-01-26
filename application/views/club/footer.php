@@ -180,7 +180,7 @@
         <div class="row align-items-center pl-3 pr-3">
           <div class="col-5 pr-0">
             <input type="file" class="file d-none">
-            <button type="button" class="btn btn-photo"><i class="fa fa-camera" aria-hidden="true"></i> 사진추가</button>
+            <button type="button" class="btn btn-photo"><i class="fa fa-camera" aria-hidden="true"></i> <span class="text">사진추가</span></button>
           </div>
           <div class="col-7 text-right">
             <button type="button" class="btn btn-primary btn-post">전송</button>

@@ -243,10 +243,12 @@
       type: 'post',
       beforeSend: function() {
         $('.btn-upload').css('opacity', '0.5').prop('disabled', true).text('업로드중.....');
+        $('.btn-photo').css('opacity', '0.5').prop('disabled', true).find('.text').text('업로드중..');
         $dom.val('');
       },
       success: function(result) {
         $('.btn-upload').css('opacity', '1').prop('disabled', false).text('사진올리기');
+        $('.btn-photo').css('opacity', '1').prop('disabled', false).find('.text').text('사진추가');
         if (result.error == 1) {
           $('.btn-list, .btn-refresh, .btn-delete').hide();
           $('#messageModal .modal-message').text(result.message);
@@ -1311,7 +1313,7 @@ $(document).on('click', '.btn-reply', function() {
   var page = $('input[name=page]').val();
 
   $.ajax({
-    url: $('input[name=baseUrl]').val() + '/story/delete_photo',
+    url: '/story/delete_photo',
     data: 'page=' + $('input[name=page]').val() + '&photo=' + $(this).data('filename'),
     dataType: 'json',
     type: 'post',
