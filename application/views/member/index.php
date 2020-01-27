@@ -14,13 +14,19 @@
               <?php endif; ?>
             </div>
             <div class="col-9">
-              <div class="mb-2"><b><?=$viewMember['nickname']?></b>님 (<?=$userLevel['levelName']?>)</div>
+              <div class="row">
+                <div class="col-7">
+                  <div class="mb-2"><b><?=$viewMember['nickname']?></b>님 (<?=$userLevel['levelName']?>)</div>
+                </div>
+                <div class="col-5 text-right">
+                  <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
+                  <a href="<?=BASE_URL?>/member/driver"><button class="btn btn-sm btn-primary btn-driver">드라이버</button></a>
+                  <?php endif; ?>
+                </div>
+              </div>
               ・진행중 예약 : <span class="text-success"><?=number_format($maxReserve['cnt'])?>건</span><br>
               ・현재의 레벨 : <span class="text-primary"><?=number_format($viewMember['rescount'] - $viewMember['penalty'])?>점</span><br>
               ・잔여 포인트 : <span class="text-danger"><?=number_format($viewMember['point'])?>점</span><br>
-              <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
-              <a href="<?=BASE_URL?>/member/driver"><button class="btn btn-sm btn-primary mt-3 btn-driver">드라이버 페이지</button></a>
-              <?php endif; ?>
             </div>
           </div>
           <h3>
