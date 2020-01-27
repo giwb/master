@@ -51,7 +51,7 @@
     var base_url = $('input[name=base_url]').val();
 
     $.ajax({
-      url: $('input[name=base_url]').val() + '/login/logout',
+      url: '/login/logout',
       dataType: 'json',
       success: function() {
         location.href = (base_url);
@@ -83,7 +83,7 @@
     // 포인트/페널티 추가/감소
     var $btn = $(this);
     $.ajax({
-      url: $('input[name=base_url]').val() + 'admin/member_update_point/' + $('input[name=idx]').val(),
+      url: '/admin/member_update_point/' + $('input[name=idx]').val(),
       data: 'action=' + $('input[name=action]').val() + '&type=' + $('input[name=type]').val() + '&point=' + $('input[name=point]').val() + '&penalty=' + $('input[name=penalty]').val() + '&subject=' + $('input[name=subject]').val(),
       dataType: 'json',
       type: 'post',
@@ -151,7 +151,7 @@
     // 삭제
     var $btn = $(this);
     $.ajax({
-      url: $('input[name=base_url]').val() + 'admin/' + $('#messageModal input[name=action]').val(),
+      url: '/admin/' + $('#messageModal input[name=action]').val(),
       data: 'idx=' + $('#messageModal input[name=delete_idx]').val(),
       dataType: 'json',
       type: 'post',
@@ -250,7 +250,7 @@
     var $btn = $(this);
     var idx = $(this).data('idx');
     $.ajax({
-      url: $('input[name=base_url]').val() + 'admin/log_check',
+      url: '/admin/log_check',
       data: 'idx=' + idx + '&status=' + status,
       dataType: 'json',
       type: 'post',
@@ -342,7 +342,7 @@
           $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
         },
         success: function() {
-          location.href=('admin/setup_front');
+          location.href=('/admin/setup_front');
         }
       });
     }
@@ -377,7 +377,7 @@
           $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
         },
         success: function() {
-          location.href=('admin/setup_bustype');
+          location.href=('/admin/setup_bustype');
         }
       });
     }
@@ -398,7 +398,7 @@
     // 상태 변경
     var status = $('#statusModal input[name=selectStatus]').val();
     $.ajax({
-      url: $('input[name=base_url]').val() + 'admin/change_status',
+      url: '/admin/change_status',
       data: 'idx=' + $('input[name=idx]').val() + '&status=' + status,
       dataType: 'json',
       type: 'post',
@@ -419,7 +419,7 @@
   }).on('click', '.btn-change-visible', function() {
     // 숨김/공개
     $.ajax({
-      url: $('input[name=base_url]').val() + 'admin/change_visible',
+      url: '/admin/change_visible',
       data: 'idx=' + $(this).data('idx') + '&visible=' + $(this).data('visible'),
       dataType: 'json',
       type: 'post',
@@ -439,7 +439,7 @@
     // 대기자 삭제
     var $btn = $(this);
     $.ajax({
-      url: $('input[name=base_url]').val() + 'admin/main_wait_delete',
+      url: '/admin/main_wait_delete',
       data: 'idx=' + $('input[name=waitIdx]').val(),
       dataType: 'json',
       type: 'post',
@@ -464,7 +464,7 @@
     }
 
     $.ajax({
-      url: $('input[name=base_url]').val() + 'admin/search_by_nickname',
+      url: '/admin/search_by_nickname',
       data: 'nickname=' + nickname,
       dataType: 'json',
       type: 'post',
@@ -493,7 +493,7 @@
     if (nickname == '') return false;
 
     $.ajax({
-      url: $('input[name=base_url]').val() + 'admin/main_wait_insert',
+      url: '/admin/main_wait_insert',
       data: data,
       dataType: 'json',
       type: 'post',
@@ -515,12 +515,12 @@
     location.replace($('input[name=base_url]').val() + '/' + $(this).data('action'));
   }).on('click', '.btn-member-list', function() {
     // 회원 목록 돌아가기
-    location.href=('admin/member_list');
+    location.href=('/admin/member_list');
   }).on('click', '.btn-user-login', function() {
     var $btn = $(this);
     var baseUrl = $('input[name=base_url]').val();
     $.ajax({
-      url: $('input[name=base_url]').val() + 'admin/user_login',
+      url: '/admin/user_login',
       data: 'idx=' + $(this).data('idx'),
       dataType: 'json',
       type: 'post',
@@ -536,7 +536,7 @@
     // 출석체크 최신 데이터 받기
     var $btn = $(this);
     $.ajax({
-      url: $('input[name=base_url]').val() + 'admin/attendance_make',
+      url: '/admin/attendance_make',
       dataType: 'json',
       type: 'post',
       beforeSend: function() {
@@ -635,7 +635,7 @@
     var selectSeat = '';
     var selected = '';
     $.ajax({
-      url: $('input[name=base_url]').val() + 'admin/reserve_information_bus',
+      url: '/admin/reserve_information_bus',
       data: 'idx=' + $('input[name=idx]').val(),
       dataType: 'json',
       type: 'post',
@@ -755,7 +755,7 @@
     // 예약 취소
     var $btn = $(this);
     $.ajax({
-      url: $('input[name=base_url]').val() + 'admin/reserve_cancel',
+      url: '/admin/reserve_cancel',
       data: 'idx=' + $('#cancelModal input[name=delete_idx]').val() + '&subject=' + $('#cancelModal input[name=subject]').val(),
       dataType: 'json',
       type: 'post',
@@ -788,7 +788,7 @@
           $('#messageModal .modal-message').text(result.message);
           $('#messageModal').modal('show');
         } else {
-          location.replace('admin/main_view_progress/' + $('input[name=idx]').val());
+          location.replace('/admin/main_view_progress/' + $('input[name=idx]').val());
         }
       }
     });
@@ -796,7 +796,7 @@
     // 버스 숨기기
     var $btn = $(this);
     $.ajax({
-      url: $('input[name=base_url]').val() + 'admin/setup_bustype_hide',
+      url: '/admin/setup_bustype_hide',
       data: 'idx=' + $(this).data('idx'),
       dataType: 'json',
       type: 'post',
@@ -1044,7 +1044,7 @@
     var cnt = 0;
     var selected = '';
     $.ajax({
-      url: $('input[name=base_url]').val() + 'admin/reserve_information',
+      url: '/admin/reserve_information',
       data: 'idx=' + $('input[name=idx]').val() + '&resIdx=' + resIdx,
       dataType: 'json',
       type: 'post',
