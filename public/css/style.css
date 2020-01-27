@@ -1892,6 +1892,7 @@ h1.nav-logo small {
 }
 
 .btn-delete-complete { display: none; }
+.btn-driver { font-size: 12px; }
 .require { font-size: 10px; font-family: "GulimChe"; color: #E0552A; }
 
 /* Custom CSS */
