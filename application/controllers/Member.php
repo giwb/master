@@ -721,7 +721,7 @@ class Member extends MY_Controller
         $updateValues['password'] = md5(html_escape($inputData['password']));
       }
 
-      $rtn = $this->member_model->updateMember($updateValues, $clubIdx, $userData['idx']);
+      $rtn = $this->member_model->updateMember($updateValues, $userData['idx']);
 
       if (!empty($rtn)) {
         // 사진 등록
