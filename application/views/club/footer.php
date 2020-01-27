@@ -10,7 +10,7 @@
         </div>
         <?php endif; ?>
         <!-- GOOGLE ADSENSE -->
-        <?php if ($_SERVER['REMOTE_ADDR'] != '49.166.0.82'): ?>
+        <?php if (ENVIRONMENT == 'production' && $_SERVER['REMOTE_ADDR'] != '49.166.0.82'): ?>
         <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2424708381875991" data-ad-slot="1285643193" data-ad-format="auto" data-full-width-responsive="true"></ins>
         <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
         <?php endif; ?>
