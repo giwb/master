@@ -299,7 +299,7 @@ class Member extends MY_Controller
     }
     $updateValues['bustype'] = serialize($newBusType);
 
-    $rtn = $this->reserve_model->updateNotice($updateValues, $clubIdx, $noticeIdx);
+    $rtn = $this->reserve_model->updateNotice($updateValues, $noticeIdx);
 
     if (empty($rtn)) {
       $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
