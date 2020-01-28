@@ -190,7 +190,7 @@ class Login extends MY_Controller
   public function entry()
   {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
-    checkUserLoginRedirect($clubIdx); // 로그인 상태의 회원은 메인 페이지로
+    checkUserLoginRedirect(BASE_URL); // 로그인 상태의 회원은 메인 페이지로
 
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
@@ -276,7 +276,7 @@ class Login extends MY_Controller
   public function forgot()
   {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
-    checkUserLoginRedirect(); // 로그인 상태의 회원은 메인 페이지로
+    checkUserLoginRedirect(BASE_URL); // 로그인 상태의 회원은 메인 페이지로
 
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
