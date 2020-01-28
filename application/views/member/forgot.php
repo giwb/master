@@ -129,11 +129,11 @@
         var formData = new FormData($dom[0]);
         formData.append('clubIdx', $('input[name=clubIdx]').val());
 
-        if ($('input[name=realname]').val() == '') {
+        if ($('input[name=realname]', $dom).val() == '') {
           $.openMsgModal('실명은 꼭 입력해주세요.');
           return false;
         }
-        if ($('input[name=phone1]').val() == '' || $('input[name=phone2]').val() == '' || $('input[name=phone3]').val() == '') {
+        if ($('input[name=phone1]', $dom).val() == '' || $('input[name=phone2]', $dom).val() == '' || $('input[name=phone3]', $dom).val() == '') {
           $.openMsgModal('전화번호는 꼭 입력해주세요.');
           return false;
         }
@@ -151,7 +151,7 @@
           success: function(result) {
             $btn.css('opacity', '1').prop('disabled', false).text('아이디 찾기');
             $('#messageModal .btn').hide();
-            $('#messageModal .btn-top').show();
+            $('#messageModal .btn-top, #messageModal .btn-refresh').show();
             $('#messageModal .modal-message').text(result.message);
             $('#messageModal').modal({backdrop: 'static', keyboard: false});
           }
@@ -162,19 +162,19 @@
         var formData = new FormData($dom[0]);
         formData.append('clubIdx', $('input[name=clubIdx]').val());
 
-        if ($('input[name=uid]').val() == '') {
+        if ($('input[name=uid]', $dom).val() == '') {
           $.openMsgModal('아이디는 꼭 입력해주세요.');
           return false;
         }
-        if ($('input[name=realname]').val() == '') {
+        if ($('input[name=realname]', $dom).val() == '') {
           $.openMsgModal('실명은 꼭 입력해주세요.');
           return false;
         }
-        if ($('input[name=phone1]').val() == '' || $('input[name=phone2]').val() == '' || $('input[name=phone3]').val() == '') {
+        if ($('input[name=phone1]', $dom).val() == '' || $('input[name=phone2]', $dom).val() == '' || $('input[name=phone3]', $dom).val() == '') {
           $.openMsgModal('전화번호는 꼭 입력해주세요.');
           return false;
         }
-        if ($('input[name=new_password]').val() == '') {
+        if ($('input[name=new_password]', $dom).val() == '') {
           $.openMsgModal('새로운 비밀번호를 입력해주세요.');
           return false;
         }
@@ -192,7 +192,7 @@
           success: function(result) {
             $btn.css('opacity', '1').prop('disabled', false).text('비밀번호 변경');
             $('#messageModal .btn').hide();
-            $('#messageModal .btn-top').show();
+            $('#messageModal .btn-top, #messageModal .btn-refresh').show();
             $('#messageModal .modal-message').text(result.message);
             $('#messageModal').modal({backdrop: 'static', keyboard: false});
           }
