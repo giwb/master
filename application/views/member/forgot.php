@@ -11,7 +11,7 @@
           <dl>
             <dt>성별</dt>
             <dd>
-              <label><input type="radio" name="gender" value="M"> 남성</label>
+              <label><input type="radio" name="gender" value="M" checked> 남성</label>
               <label><input type="radio" name="gender" value="F"> 여성</label>
             </dd>
           </dl>
@@ -62,7 +62,7 @@
           <h2>비밀번호 변경</h2>
           <dl>
             <dt>아이디</dt>
-            <dd><input type="text" name="userid" class="form-control"></dd>
+            <dd><input type="text" name="uid" class="form-control"></dd>
           </dl>
           <dl>
             <dt>실명</dt>
@@ -71,7 +71,7 @@
           <dl>
             <dt>성별</dt>
             <dd>
-              <label><input type="radio" name="gender" value="M"> 남성</label>
+              <label><input type="radio" name="gender" value="M" checked> 남성</label>
               <label><input type="radio" name="gender" value="F"> 여성</label>
             </dd>
           </dl>
@@ -113,7 +113,7 @@
           </dl>
           <dl>
             <dt>신규 비밀번호</dt>
-            <dd><input type="password" name="password" class="form-control" autocomplete="new-password"></dd>
+            <dd><input type="password" name="new_password" class="form-control" autocomplete="new-password"></dd>
           </dl>
           <div class="area-btn">
             <button type="button" class="btn btn-primary btn-change-password">비밀번호 변경</button>
@@ -129,6 +129,15 @@
         var formData = new FormData($dom[0]);
         formData.append('clubIdx', $('input[name=clubIdx]').val());
 
+        if ($('input[name=realname]').val() == '') {
+          $.openMsgModal('실명은 꼭 입력해주세요.');
+          return false;
+        }
+        if ($('input[name=phone1]').val() == '' || $('input[name=phone2]').val() == '' || $('input[name=phone3]').val() == '') {
+          $.openMsgModal('전화번호는 꼭 입력해주세요.');
+          return false;
+        }
+
         $.ajax({
           url: $dom.attr('action'),
           processData: false,
@@ -141,7 +150,10 @@
           },
           success: function(result) {
             $btn.css('opacity', '1').prop('disabled', false).text('아이디 찾기');
-            $.openMsgModal(result.message);
+            $('#messageModal .btn').hide();
+            $('#messageModal .btn-top').show();
+            $('#messageModal .modal-message').text(result.message);
+            $('#messageModal').modal({backdrop: 'static', keyboard: false});
           }
         });
       }).on('click', '.btn-change-password', function() {
@@ -150,7 +162,19 @@
         var formData = new FormData($dom[0]);
         formData.append('clubIdx', $('input[name=clubIdx]').val());
 
-        if ($('input[name=password]').val() == '') {
+        if ($('input[name=uid]').val() == '') {
+          $.openMsgModal('아이디는 꼭 입력해주세요.');
+          return false;
+        }
+        if ($('input[name=realname]').val() == '') {
+          $.openMsgModal('실명은 꼭 입력해주세요.');
+          return false;
+        }
+        if ($('input[name=phone1]').val() == '' || $('input[name=phone2]').val() == '' || $('input[name=phone3]').val() == '') {
+          $.openMsgModal('전화번호는 꼭 입력해주세요.');
+          return false;
+        }
+        if ($('input[name=new_password]').val() == '') {
           $.openMsgModal('새로운 비밀번호를 입력해주세요.');
           return false;
         }
@@ -167,7 +191,10 @@
           },
           success: function(result) {
             $btn.css('opacity', '1').prop('disabled', false).text('비밀번호 변경');
-            $.openMsgModal(result.message);
+            $('#messageModal .btn').hide();
+            $('#messageModal .btn-top').show();
+            $('#messageModal .modal-message').text(result.message);
+            $('#messageModal').modal({backdrop: 'static', keyboard: false});
           }
         });
       });

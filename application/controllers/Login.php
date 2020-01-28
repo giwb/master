@@ -326,7 +326,7 @@ class Login extends MY_Controller
   public function change_pw()
   {
     $clubIdx        = html_escape($this->input->post('clubIdx'));
-    $userid         = html_escape($this->input->post('userid'));
+    $userid         = html_escape($this->input->post('uid'));
     $realname       = html_escape($this->input->post('realname'));
     $gender         = html_escape($this->input->post('gender'));
     $birthday_year  = html_escape($this->input->post('birthday_year'));
@@ -335,7 +335,7 @@ class Login extends MY_Controller
     $phone1         = html_escape($this->input->post('phone1'));
     $phone2         = html_escape($this->input->post('phone2'));
     $phone3         = html_escape($this->input->post('phone3'));
-    $updateValues['password'] = md5(html_escape($this->input->post('password')));
+    $updateValues['password'] = md5(html_escape($this->input->post('new_password')));
 
     // 에러 메세지
     $result = array('error' => 1, 'message' => $this->lang->line('error_search_id'));
