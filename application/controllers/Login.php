@@ -89,8 +89,7 @@ class Login extends MY_Controller
 
         $result = array('error' => 0, 'message' => !empty($viewData['redirect_url']) ? $viewData['redirect_url'] : BASE_URL);
       }
-print_r($result);
-exit;
+
       $this->output->set_output(json_encode($result));
     }
   }
