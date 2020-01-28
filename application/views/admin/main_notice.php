@@ -82,7 +82,7 @@
         // 항목 추가
         var cnt = 0;
         $('.content').each(function() { cnt++; });
-        var content = '<div class="item-notice row align-items-center border-top mt-3 pt-3"><div class="col-sm-1 font-weight-bold"><input type="text" name="title[]" class="form-control"></div><div class="col-sm-11"><textarea name="content[]" rows="10" cols="100" id="content_' + cnt + '" class="content"></textarea></div></div>';
+        var content = '<div class="item-notice row align-items-center border-top mt-3 pt-3"><div class="col-sm-2"><input type="text" name="title[]" class="form-control"></div><div class="col-sm-9"><textarea name="content[]" rows="10" cols="100" id="content_' + cnt + '" class="content"></textarea></div><div class="col-sm-1"><button type="button" class="btn btn-danger btn-delete-notice pl-2 pr-2">삭제</button></div></div>';
         $('.area-notice').append(content);
         CKEDITOR.replace('content_' + cnt);
         $('html, body').animate({ scrollTop: $(document).height() }, 800);

@@ -1213,6 +1213,18 @@ exit;
     $noticeIdx = html_escape($inputData['noticeIdx']);
 
     if (!empty($noticeIdx)) {
+      // 삭제
+      $listNoticeDetail = $this->admin_model->listNoticeDetail($noticeIdx);
+      foreach ($listNoticeDetail as $value) {
+        if (!in_array($value['idx'], $inputData['idx'])) {
+          $updateValues = array(
+            'deleted_by' => $userIdx,
+            'deleted_at' => $now
+          );
+          $this->admin_model->updateNoticeDetail($updateValues, $value['idx']);
+        }
+      }
+
       foreach ($inputData['title'] as $key => $value) {
         $idx = html_escape($inputData['idx'][$key]);
         if (!empty($idx)) {
@@ -1238,21 +1250,9 @@ exit;
           $this->admin_model->insertNoticeDetail($insertValues);
         }
       }
-
-      // 삭제
-      $listNoticeDetail = $this->admin_model->listNoticeDetail($noticeIdx);
-      foreach ($listNoticeDetail as $value) {
-        if (!in_array($value['idx'], $inputData['idx'])) {
-          $updateValues = array(
-            'deleted_by' => $userIdx,
-            'deleted_at' => $now
-          );
-          $this->admin_model->updateNoticeDetail($updateValues, $value['idx']);
-        }
-      }
     }
 
-    redirect(BASE_URL . '/admin/main_notice/' . $noticeIdx);
+    redirect('/admin/main_notice/' . $noticeIdx);
   }
 
   /**
