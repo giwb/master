@@ -2,7 +2,7 @@
 
           <h1 class="h3 mb-5 text-gray-800">신규 상품 등록</h1>
 
-          <form id="formShop" method="post" action="<?=base_url()?>shop/update" enctype="multipart/form-data">
+          <form id="formShop" method="post" action="<?=BASE_URL?>/ShopAdmin/update" enctype="multipart/form-data">
             <input type="hidden" name="idx" value="<?=!empty($view['idx']) ? $view['idx'] : ''?>">
             <div class="row align-items-center mb-3">
               <div class="col-sm-1 font-weight-bold">품명 <span class="required">(*)</span></div>
@@ -229,7 +229,7 @@
             } else {
               $('#messageModal .modal-footer .btn').hide();
               $('#messageModal .modal-footer .btn-close, #messageModal .modal-footer .btn-list').show();
-              $('#messageModal .modal-footer .btn-list').data('action', 'shop/index');
+              $('#messageModal .modal-footer .btn-list').data('action', '<?=BASE_URL?>/ShopAdmin/index');
               $('#messageModal .modal-message').text(result.message);
               $('#messageModal').modal('show');
             }
@@ -253,7 +253,7 @@
               $.openMsgModal(result.message);
             } else {
               $('#messageModal .modal-footer .btn').hide();
-              $('#messageModal .modal-footer .btn-list').data('action', 'shop/index').show();
+              $('#messageModal .modal-footer .btn-list').data('action', '<?=BASE_URL?>/ShopAdmin/index').show();
               $('#messageModal .modal-message').text(result.message);
               $('#messageModal').modal({backdrop: 'static', keyboard: false});
             }

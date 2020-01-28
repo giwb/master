@@ -3,7 +3,7 @@
           <h1 class="h3 mb-4 text-gray-800">주문 관리</h1>
 
           <div class="w-100 border mt-2 mb-3 p-3">
-            <form id="formList" method="post" action="<?=base_url()?>shop/order" class="row align-items-center text-center">
+            <form id="formList" method="post" action="<?=BASE_URL?>/ShopAdmin/order" class="row align-items-center text-center">
               <input type="hidden" name="p" value="1">
               <div class="col-sm-1 pl-0 pr-0">품명 검색</div>
               <div class="col-sm-2 pl-0 pr-0"><input type="text" name="item_name" class="form-control form-item-search" value="<?=!empty($search['item_name']) ? $search['item_name'] : ''?>"></div>
@@ -105,7 +105,7 @@
 
         $('input[name=idx]', $dom).val(idx);
         $('input[name=status]', $dom).val(status);
-        $('input[name=action]', $dom).val($('input[name=base_url]').val() + 'shop/change_status');
+        $('input[name=action]', $dom).val('<?=BASE_URL?>/ShopAdmin/change_status');
         $('.btn-order-status', $dom).show();
         $dom.modal('show');
       }).on('click', '.btn-order-status', function() {
@@ -153,12 +153,12 @@
         var idx = $(this).data('idx');
 
         $('input[name=idx]', $dom).val(idx);
-        $('input[name=action]', $dom).val($('input[name=base_url]').val() + 'shop/delete_purchase');
+        $('input[name=action]', $dom).val('<?=BASE_URL?>/ShopAdmin/delete_purchase');
         $('.modal-message', $dom).text('정말로 삭제하시겠습니까?');
         $('.btn-order-status', $dom).show();
         $dom.modal('show');
       }).on('click', '.item-list', function() {
         // 상세보기
-        location.href = $('input[name=base_url]').val() + 'shop/entry/' + $(this).data('idx');
+        location.href = '<?=BASE_URL?>/ShopAdmin/entry/' + $(this).data('idx');
       });
     </script>
