@@ -108,8 +108,7 @@
           <li><a href="<?=BASE_URL?>"><h1><?=!empty($pageTitle) ? $pageTitle : $view['title'] ?></h1></a></li>
           <li>
             <?php if (strstr($_SERVER['REQUEST_URI'], 'member')): ?>
-            <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?><a href="<?=BASE_URL?>/admin" title="관리"><i class="fa fa-cog btn-header"></i></a>
-            <?php else: ?><a href="javascript:;" class="logout" title="로그아웃"><i class="fa fa-sign-out btn-header"></i></a><?php endif; ?>
+            <a href="javascript:;" class="btn-mypage"><i class="fa fa-cog btn-header"></i></a>
             <?php elseif (strstr($_SERVER['REQUEST_URI'], 'shop')): ?>
             <a href="<?=BASE_URL?>/shop/cart" title="장바구니"><i class="fa fa-shopping-cart btn-header"></i></a>
             <?php elseif (strstr($_SERVER['REQUEST_URI'], 'album')): ?>
@@ -120,59 +119,18 @@
             <?php endif; ?>            
           </li>
         </ul>
-      </div>
-<!--
-      <div id="nav-aside">
-        <ul class="nav-aside-menu">
-          <?php if (!empty($userData['idx'])): ?>
-          <li>
-            <?php if (file_exists(PHOTO_PATH . $userData['idx'])): ?>
-            <img class="img-profile" src="<?=PHOTO_URL . $userData['idx']?>">
-            <?php elseif (!empty($userData['icon_thumbnail'])): ?>
-            <img class="img-profile" src="<?=$userData['icon_thumbnail']?>">
-            <?php else: ?>
-            <img class="img-profile" src="/public/images/user.png">
-            <?php endif; ?>
-            <span class="header-nickname"><?=$userData['nickname']?> (<?=$userLevel['levelName']?>)</span></li>
-          <?php else: ?>
-          <li><p>&nbsp;</p></li>
-          <?php endif; ?>
-          <li class="row">
-            <div class="pl-3"><a target="_blank" title="페이스북 링크" href="https://facebook.com/giwb.kr"><img src="/public/images/icon_facebook.png"></a></div>
-            <div class="pl-3"><a target="_blank" title="트위터 링크" href="https://twitter.com/giwb_alpine"><img src="/public/images/icon_twitter.png"></a></div>
-            <div class="pl-3"><a target="_blank" title="카카오채널 링크" href="https://pf.kakao.com/_BxaPRxb"><img src="/public/images/icon_kakaotalk.png"></a></div>
-            <div class="pl-3"><a target="_blank" title="경인웰빙 카페 링크" href="http://cafe.daum.net/giwb"><img src="/public/images/icon_cafe.png"></a></div>
-          </li>
-          <li><a href="<?=BASE_URL?>/club/about"> 산악회 소개</a></li>
-          <li><a href="<?=BASE_URL?>/club/guide"> 등산 안내인 소개</a></li>
-          <?php if ($userLevel['levelType'] >= 2): ?>
-          <li><a href="<?=BASE_URL?>/club/past"> 지난 산행보기</a></li>
-          <?php endif; ?>
-          <li><a href="<?=BASE_URL?>/club/howto"> 이용안내</a></li>
-          <?php if ($view['idx'] == 1): ?>
-          <br><li><a href="<?=BASE_URL?>club/auth_about"> 백산백소 소개</a></li>
-          <li><a href="<?=BASE_URL?>/club/auth"> 백산백소 인증현황</a></li>
-          <?php endif; ?>
-          <li><a href="<?=BASE_URL?>/album"> 사진첩</a></li>
-          <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
-          <li><a href="<?=BASE_URL?>/shop"> 구매대행 상품</a></li>
-          <br><li><a href="/admin"> 설정</a></li>
-          <?php endif; ?>
-          <?php if (empty($userData['idx'])): ?>
-          <br><li><a href="javascript:;" class="login-popup">로그인</a></li>
-          <?php else: ?>
-          <br>
-          <li><a href="<?=BASE_URL?>/member">마이페이지</a></li>
+        <div class="nav-sp-mypage">
+          ・<a href="<?=BASE_URL?>/member">마이페이지</a><br>
+          ・<a href="<?=BASE_URL?>/member/modify">개인정보수정</a><br>
           <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
-          <li><a href="<?=BASE_URL?>/member/driver">드라이버 페이지</a></li>
+          ・<a href="<?=BASE_URL?>/member/driver">드라이버 페이지</a><br>
           <?php endif; ?>
-          <li><a href="<?=BASE_URL?>/member/modify">개인정보수정</a></li>
-          <li><a href="javascript:;" class="logout">로그아웃</a></li>
+          <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
+          ・<a href="<?=BASE_URL?>/admin">설정</a><br>
           <?php endif; ?>
-        </ul>
-        <button class="nav-close nav-aside-close"><span></span></button>
+          ・<a href="javascript:;" class="logout" title="로그아웃">로그아웃</a>
+        </div>
       </div>
--->
     </div>
   </header>
   <!-- /HEADER -->

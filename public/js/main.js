@@ -346,6 +346,13 @@
     $('#photoModal .modal-message').empty().append('<img class="w-100" src="' + $(this).attr('src') + '">');
     $('#photoModal input[name=photo_name]').val($(this).data('photo'))
     $('#photoModal').modal('show');
+  }).on('click', '.btn-mypage', function() {
+    var $dom = $('.nav-sp-mypage');
+    if ($dom.css('display') == 'none') {
+      $('.nav-sp-mypage').slideDown();
+    } else {
+      $('.nav-sp-mypage').slideUp();
+    }
   }).on('click', '.login-popup', function() {
     // 로그인 모달
     $('#loginModal').modal('show');
