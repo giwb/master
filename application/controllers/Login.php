@@ -345,7 +345,7 @@ class Login extends MY_Controller
 
     if (!empty($userData['idx']) && !empty($updateValues['password'])) {
       // 비밀번호 변경
-      $rtn = $this->member_model->updateMember($updateValues, $clubIdx, $userData['idx']);
+      $rtn = $this->member_model->updateMember($updateValues, $userData['idx']);
 
       if (!empty($rtn)) {
         $result = array('error' => 0, 'message' => $this->lang->line('msg_change_password'));
