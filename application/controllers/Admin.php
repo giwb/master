@@ -2655,7 +2655,7 @@ exit;
       }
     }
 
-    redirect('/admin/setup_information');
+    redirect(BASE_URL . '/admin/setup_information');
   }
 
   /**
@@ -2697,7 +2697,7 @@ exit;
 
     $this->club_model->updateClub($updateValues, $clubIdx);
 
-    redirect($input_data['base_url'] . '/admin/setup_pages');
+    redirect(BASE_URL . '/admin/setup_pages');
   }
 
   /**
