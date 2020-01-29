@@ -20,7 +20,7 @@
               <div class="col-sm-2 font-weight-bold">사진</div>
               <div class="col-sm-10">
                 <input type="hidden" name="photos" value="<?php foreach ($photos as $value): ?><?=$value['filename']?>,<?php endforeach; ?>"><input type="file" class="photo d-none"><button type="button" class="btn btn-secondary btn-upload-photo">사진 선택</button>
-                <div class="added-files"><?php foreach ($photos as $value): ?><img src="<?=base_url()?><?=PHOTO_URL?><?=$value['filename']?>" class="btn-photo-modal" data-photo="<?=$value['filename']?>"><?php endforeach; ?></div>
+                <div class="added-files"><?php foreach ($photos as $value): ?><img src="<?=PHOTO_URL?><?=$value['filename']?>" class="btn-photo-modal" data-photo="<?=$value['filename']?>"><?php endforeach; ?></div>
               </div>
             </div>
             <div class="border-top mt-2 pt-4 text-center">
