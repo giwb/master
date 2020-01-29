@@ -329,7 +329,7 @@ class Admin extends Admin_Controller
     }
 
     // 예약자가 초과됐을 경우, 대기자수가 1명 이상일 경우
-    if ($cntReservation['CNT'] >= $maxSeat[$viewReserve['bus']] && $cntWait['cnt'] >= 1) {
+    if ($cntReservation['CNT'] >= $maxSeat[$viewReserve['bus']] || $cntWait['cnt'] >= 1) {
       // 예약 삭제 처리
       $updateValues = array(
         'userid' => NULL,

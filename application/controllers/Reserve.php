@@ -536,7 +536,7 @@ class Reserve extends MY_Controller
       }
 
       // 예약자가 초과됐을 경우, 대기자수가 1명이라도 있을 경우
-      if ($cntReserve['cnt'] >= $maxSeat[$userBus] && $cntReserveWait['cnt'] >= 1) {
+      if ($cntReserve['cnt'] >= $maxSeat[$userBus] || $cntReserveWait['cnt'] >= 1) {
         // 예약 삭제 처리
         $updateValues = array(
           'userid' => NULL,
