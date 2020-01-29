@@ -88,7 +88,6 @@ $(document).ready(function() {
   $(this).prev().click();
 }).on('click', '.btn-album-update', function() {
   // 등록/수정
-  $(this).css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요......');
   if ($('input[name=subject]').val() == '') {
     $.openMsgModal('제목은 꼭 입력해주세요.');
     return false;
@@ -101,6 +100,7 @@ $(document).ready(function() {
     $.openMsgModal('사진은 꼭 선택해주세요.');
     return false;
   }
+  $(this).css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요...');
   $('#formAlbum').submit();
 }).on('click', '.btn-album-delete-modal', function() {
   $('#albumDeleteModal').modal({backdrop: 'static', keyboard: false});
