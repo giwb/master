@@ -684,6 +684,7 @@ class Member extends MY_Controller
     $filename = html_escape($this->input->post('filename'));
 
     if (!empty($filename) && file_exists(UPLOAD_PATH . $filename)) unlink(UPLOAD_PATH . $filename);
+    if (!empty($filename) && file_exists(PHOTO_PATH . $filename)) unlink(PHOTO_PATH . $filename);
     if (!empty($userIdx) && file_exists(PHOTO_PATH . $userIdx)) unlink(PHOTO_PATH . $userIdx);
 
     $result = array('error' => 0);
