@@ -94,7 +94,7 @@ if (!function_exists('checkUserLogin')) {
     $clubIdx = $_COOKIE['COOKIE_CLUBIDX'];
     $userData = $CI->load->get_var('userData');
     if (empty($userData['idx'])) {
-      redirect('/login/?r=' . $_SERVER['REQUEST_URI']);
+      redirect(BASE_URL . '/login/?r=' . $_SERVER['REQUEST_URI']);
     }
   }
 }
@@ -105,7 +105,7 @@ if (!function_exists('checkUserLoginRedirect')) {
     $CI =& get_instance();
     $idx = $CI->session->userData['idx'];
     if (!empty($idx)) {
-      redirect(!empty($redirectUrl) ? $redirectUrl : base_url());
+      redirect(!empty($redirectUrl) ? $redirectUrl : BASE_URL);
     }
   }
 }
@@ -117,7 +117,7 @@ if (!function_exists('checkAdminLogin')) {
     $clubIdx = $_COOKIE['COOKIE_CLUBIDX'];
     $userData = $CI->load->get_var('userData');
     if (empty($userData['idx']) || empty($userData['admin']) || $clubIdx != $userData['club_idx']) {
-      redirect('/login/?r=' . $_SERVER['REQUEST_URI']);
+      redirect(BASE_URL . '/login/?r=' . $_SERVER['REQUEST_URI']);
     }
   }
 }
