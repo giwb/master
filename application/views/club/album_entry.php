@@ -3,7 +3,7 @@
       <div class="club-main">
         <div class="sub-header">사진 등록</div>
         <div class="sub-content">
-          <form id="formAlbum" method="post" action="<?=base_url()?>album/update" enctype="multipart/form-data">
+          <form id="formAlbum" method="post" action="/album/update" enctype="multipart/form-data">
             <input type="hidden" name="page" value="album">
             <input type="hidden" name="idx" value="<?=!empty($viewAlbum['idx']) ? $viewAlbum['idx'] : ''?>">
             <input type="hidden" name="clubIdx" value="<?=$view['idx']?>">
