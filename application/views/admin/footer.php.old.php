@@ -1,21 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-      </div>
-    </div>
-  </section>
-
-  <ul id="nav-footer">
-    <li><a href="/admin/main_list_progress"><i class="fas fa-mountain" aria-hidden="true"></i><br>산행</a></li>
-    <li><a href="/ShopAdmin/index"><i class="fas fa-shopping-cart" aria-hidden="true"></i><br>구매</a></li>
-    <li><a href="/admin/member_list"><i class="fas fa-users" aria-hidden="true"></i><br>회원</a></li>
-    <li><a href="/admin/log_user"><i class="fas fa-exchange-alt" aria-hidden="true"></i><br>활동</a></li>
-    <li><a href="/admin/setup_information"><i class="fas fa-cog" aria-hidden="true"></i><br>설정</a></li>
-  </ul>
-
-  <input type="hidden" name="baseUrl" value="<?=BASE_URL?>">
-  <input type="hidden" name="clubIdx" value="<?=!empty($viewClub['idx']) ? $viewClub['idx'] : ''?>">
-  <input type="hidden" name="userIdx" value="<?=!empty($userData['idx']) ? $userData['idx'] : ''?>">
-  <input type="hidden" name="redirectUrl" value="<?=$redirectUrl?>">
+  </div>
+  <input type="hidden" name="base_url" value="<?=BASE_URL?>">
 
   <!-- Message Modal -->
   <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
@@ -43,22 +29,14 @@
   </div>
   <!-- End of Page Wrapper -->
 
-  <!-- FOOTER -->
-  <footer id="footer">
-    <div class="text-center">
-      Copyright &copy; <script>document.write(new Date().getFullYear());</script> <strong>SayHome</strong>. All Rights Reserved.
-    </div>
-  </footer>
-  <!-- /FOOTER -->
-
-  <!-- Back to Top -->
-  <a class="scroll-to-top rounded" href="javascript:;">
-    <i class="fa fa-angle-up"></i>
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
   </a>
 
-  <script src="/public/vendors/chart.js/dist/Chart.bundle.min.js" type="text/javascript"></script>
+  <script src="/public/js/admin.js?<?=time()?>" type="text/javascript"></script>
 
-  <?php if (ENVIRONMENT == 'production' && $_SERVER['REMOTE_ADDR'] != '49.166.0.82'): ?>
+  <?php if (ENVIRONMENT == 'production'): ?>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -67,6 +45,7 @@
 
     ga('create', 'UA-80490919-1', 'auto');
     ga('send', 'pageview');
+
   </script>
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-141316550-1"></script>

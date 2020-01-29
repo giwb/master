@@ -564,12 +564,13 @@ class Admin_model extends CI_Model
   }
 
   // 활동관리 - 댓글 기록
-  public function listReply($paging=NULL, $rescode=NULL)
+  public function listReply($clubIdx, $paging=NULL, $rescode=NULL)
   {
     $this->db->select('a.idx, a.club_idx, a.story_idx, a.reply_type, a.content, a.created_by, a.created_at, b.nickname')
           ->from(DB_STORY_REPLY . ' a')
           ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
-          ->where('deleted_at', NULL)
+          ->where('a.club_idx', $clubIdx)
+          ->where('a.deleted_at', NULL)
           ->order_by('a.idx', 'desc');
 
     if (!is_null($rescode)) {

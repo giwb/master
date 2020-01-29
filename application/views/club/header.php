@@ -162,7 +162,7 @@
             <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
             <li><a href="<?=BASE_URL?>/shop"><i class="fa fa-shopping-basket" aria-hidden="true"></i> 구매대행 상품</a></li>
             <br>
-            <li><a href="/admin"><i class="fa fa-cog" aria-hidden="true"></i> 설정</a></li>
+            <li><a href="<?=BASE_URL?>/admin"><i class="fa fa-cog" aria-hidden="true"></i> 설정</a></li>
             <?php endif; ?>
           </ul>
           <div class="text-center">

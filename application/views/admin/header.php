@@ -1,260 +1,160 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<!DOCTYPE html>
+<!DOCTYPE html5>
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <title>한국여행 관리페이지</title>
+  <title>경인웰빙산악회<?=!empty($pageTitle) ? ' - ' . $pageTitle : ''?></title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-  <meta name="robots" content="noindex">
-  <link rel="stylesheet" type="text/css" href="/public/lib/bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="/public/css/jquery-ui.css">
-  <link rel="stylesheet" type="text/css" href="/public/css/fontawesome/css/all.min.css">
-  <link rel="stylesheet" type="text/css" href="/public/css/fullcalendar.css">
-  <link rel="stylesheet" type="text/css" href="/public/css/fullcalendar.print.css">
-  <link rel="stylesheet" type="text/css" href="/public/css/admin.css?<?=time()?>">
-  <script type="text/javascript" src="/public/js/jquery-1.11.1.min.js"></script>
-  <script type="text/javascript" src="/public/js/jquery-ui.custom.min.js"></script>
-  <script type="text/javascript" src="/public/js/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="/public/js/jquery.ui.touch-punch.min.js"></script>
-  <script type="text/javascript" src="/public/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script type="text/javascript" src="/public/js/fullcalendar.js"></script>
-  <script type="text/javascript" src="/public/ckeditor/ckeditor.js" charset="utf-8"></script>
-</head>
 
+  <meta property="og:title" content="경인웰빙산악회" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="<?=BASE_URL?>" />
+  <meta property="og:image" content="/public/images/logo.png" />
+  <meta property="og:description" content="인천과 부천 지역을 기반으로 토요산행과 일요산행을 매주 운행하는 안내산악회입니다. 차내 음주가무 없으며 초보자도 함께할 수 있도록 여유롭게 산행을 진행합니다.">
+  <meta name="description" content="인천과 부천 지역을 기반으로 토요산행과 일요산행을 매주 운행하는 안내산악회입니다. 차내 음주가무 없으며 초보자도 함께할 수 있도록 여유롭게 산행을 진행합니다.">
+
+  <link rel="icon" type="image/png" href="/public/images/favicon.png">
+  <link rel="shortcut icon" type="image/png" href="/public/images/favicon.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/public/images/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/public/images/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/public/images/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/public/images/apple-touch-icon-180x180.png">
+  <link rel="apple-touch-icon" sizes="256x256" href="/public/images/apple-touch-icon-256x256.png">
+
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+  <link href="/public/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/public/css/fontawesome/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="/public/lib/animate/animate.min.css" rel="stylesheet">
+  <link href="/public/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+  <link href="/public/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="/public/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+  <link href="/public/css/fullcalendar.css" rel="stylesheet">
+  <link href="/public/css/fullcalendar.print.css" rel="stylesheet">
+  <link href="/public/photoswipe/photoswipe.css" rel="stylesheet">
+  <link href="/public/photoswipe/default-skin/default-skin.css" rel="stylesheet">
+  <!--<link href="/public/css/magnific-popup.css" rel="stylesheet">-->
+  <link href="/public/css/style.css?<?=time()?>" rel="stylesheet">
+
+  <script src="/public/js/jquery-2.1.4.min.js" type="text/javascript"></script>
+  <script src="/public/js/jquery-ui.custom.min.js" type="text/javascript"></script>
+  <script src="/public/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/public/lib/easing/easing.min.js"></script>
+  <script src="/public/lib/superfish/hoverIntent.js"></script>
+  <script src="/public/lib/superfish/superfish.min.js"></script>
+  <script src="/public/lib/wow/wow.min.js"></script>
+  <script src="/public/lib/waypoints/waypoints.min.js"></script>
+  <script src="/public/lib/counterup/counterup.min.js"></script>
+  <script src="/public/lib/owlcarousel/owl.carousel.min.js"></script>
+  <script src="/public/lib/isotope/isotope.pkgd.min.js"></script>
+  <script src="/public/lib/lightbox/js/lightbox.min.js"></script>
+  <script src="/public/lib/touchSwipe/jquery.touchSwipe.min.js"></script>
+  <script src="/public/ckeditor/ckeditor.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/public/js/fullcalendar.js" type="text/javascript"></script>
+  <script src="/public/js/clipboard.min.js" type="text/javascript"></script>
+  <script src="/public/photoswipe/photoswipe.min.js" type="text/javascript"></script>
+  <script src="/public/photoswipe/photoswipe-ui-default.min.js" type="text/javascript"></script>
+  <!--<script src="/public/js/jquery.magnific-popup.min.js" type="text/javascript"></script>-->
+  <script src="/public/js/main.js?<?=time()?>" type="text/javascript"></script>
+  <?php if (ENVIRONMENT == 'production' && $_SERVER['REMOTE_ADDR'] != '49.166.0.82'): ?>
+  <script data-ad-client="ca-pub-2424708381875991" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <?php endif; ?>
+
+  <!--[if lt IE 9]>
+  <script src="/public/js/html5shiv.js"></script>
+  <script src="/public/js/respond.min.js"></script>
+  <![endif]-->
+
+</head>
 <body id="page-top">
 
-  <!-- Page Wrapper -->
-  <div id="wrapper">
-
-    <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-      <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center">
-        <div class="sidebar-brand-text mx-3">한국여행 관리</div>
-      </a>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider my-0">
-
-      <!-- Nav Item - Dashboard -->
-      <li class="nav-item active">
-        <a class="nav-link" href="/admin">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>대시보드</span></a>
-      </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-
-      <!-- Heading -->
-      <!--
-      <div class="sidebar-heading">
-        Interface
+  <header id="header">
+    <div id="nav">
+      <div id="nav-top">
+        <div class="container">
+          <div class="row align-items-center">
+            <h1 class="col-sm-6 nav-logo"><a href="<?=BASE_URL?>" class="logo"><?=!empty($viewClub['title']) ? $viewClub['title'] : ''?></a></h1>
+            <ul class="col-sm-6 text-right nav-menu">
+              <?php if (strstr($_SERVER['REQUEST_URI'], 'admin')): ?>
+                <li><a href="<?=BASE_URL?>"><i class="fa fa-home" aria-hidden="true"></i></a></li>
+              <?php else: ?>
+              <li><a href="javascript:;" class="btn-post-modal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></li>
+              <?php endif; ?>
+              <?php if (empty($userData['idx'])): ?>
+              <li><a href="javascript:;" class="login-popup">로그인</a></li>
+              <?php else: ?>
+              <li>
+              <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
+              <img class="img-profile" src="<?=PHOTO_URL . $userData['idx']?>">
+              <?php elseif (!empty($userData['icon_thumbnail'])): ?>
+              <img class="img-profile" src="<?=$userData['icon_thumbnail']?>">
+              <?php else: ?>
+              <img class="img-profile" src="/public/images/user.png">
+              <?php endif; ?>
+                <div class="profile-box">
+                  <strong><?=$userData['nickname']?></strong> (<?=$userLevel['levelName']?>)<hr>
+                  <a href="<?=BASE_URL?>/member">마이페이지</a><br>
+                  <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
+                  <a href="<?=BASE_URL?>/member/driver">드라이버 페이지</a><br>
+                  <?php endif; ?>
+                  <a href="<?=BASE_URL?>/member/modify">개인정보수정</a><br>
+                  <a href="javascript:;" class="logout">로그아웃</a>
+                </div>
+              </li>
+              <?php endif; ?>
+            </ul>
+          </div>
+        </div>
       </div>
-      -->
-
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseItem" aria-expanded="true" aria-controls="collapseItem">
-          <i class="fas fa-fw fa-mountain"></i>
-          <span>산행관리</span>
-        </a>
-        <div id="collapseItem" class="collapse<?=strstr($uri, 'main') ? " show" : ""?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="/admin/main_list_progress"> <i class="menu-icon fas fa-calendar"></i> 진행중 산행 목록</a>
-            <a class="collapse-item" href="/admin/main_list_closed"> <i class="menu-icon fas fa-calendar-check"></i> 다녀온 산행 목록</a>
-            <a class="collapse-item" href="/admin/main_list_canceled"> <i class="menu-icon fas fa-calendar-times"></i> 취소된 산행 목록</a>
-            <a class="collapse-item" href="/admin/main_list_planned"> <i class="menu-icon fas fa-calendar-alt"></i> 계획중 산행 목록</a>
-            <a class="collapse-item" href="/admin/main_entry"> <i class="menu-icon fas fa-calendar-plus"></i> 신규 산행 등록</a>
-            <a class="collapse-item" href="/admin/main_schedule"> <i class="menu-icon fas fa-calendar-week"></i> 산행계획</a>
-            <a class="collapse-item" href="/admin/main_list_copy"> <i class="menu-icon fas fa-copy"></i> 산행일정 복사하기</a>
-          </div>
+      <div id="nav-sp">
+        <ul>
+          <li><a href="<?=BASE_URL?>"><i class="fas fa-home btn-header"></i></a></li>
+          <li><a href="<?=BASE_URL?>"><h1><?=!empty($pageTitle) ? $pageTitle : $viewClub['title'] ?></h1></a></li>
+          <li class="btn-mypage">
+            <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
+            <img class="img-profile" src="<?=PHOTO_URL . $userData['idx']?>">
+            <?php elseif (!empty($userData['icon_thumbnail'])): ?>
+            <img class="img-profile" src="<?=$userData['icon_thumbnail']?>">
+            <?php else: ?>
+            <img class="img-profile" src="/public/images/user.png">
+            <?php endif; ?>
+          </li>
+        </ul>
+        <div class="nav-sp-mypage">
+          <a href="<?=BASE_URL?>/member">・마이페이지</a><br>
+          <a href="<?=BASE_URL?>/member/modify">・개인정보수정</a><br>
+          <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
+          <a href="<?=BASE_URL?>/member/driver">・드라이버 페이지</a><br>
+          <?php endif; ?>
+          <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
+          <a href="<?=BASE_URL?>/admin">・설정</a><br>
+          <?php endif; ?>
+          <a href="javascript:;" class="logout" title="로그아웃">・로그아웃</a>
         </div>
-      </li>
-
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseShop" aria-expanded="true" aria-controls="collapseShop">
-          <i class="fas fa-fw fa-store"></i>
-          <span>구매대행 관리</span>
-        </a>
-        <div id="collapseShop" class="collapse<?=strstr($uri, 'ShopAdmin') ? " show" : ""?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="/ShopAdmin/index"> <i class="menu-icon fas fa-list-alt"></i> 등록된 상품 관리</a>
-            <a class="collapse-item" href="/ShopAdmin/entry"> <i class="menu-icon fas fa-cart-plus"></i> 신규 상품 등록</a>
-            <a class="collapse-item" href="/ShopAdmin/category"> <i class="menu-icon fas fa-th-list"></i> 분류 관리</a>
-            <a class="collapse-item" href="/ShopAdmin/order"> <i class="menu-icon fas fa-shipping-fast"></i> 주문 관리</a>
-          </div>
-        </div>
-      </li>
-
-      <!-- Nav Item - Utilities Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="/admin/member_list">
-          <i class="fas fa-fw fa-users"></i>
-          <span>회원관리</span>
-        </a><!--
-        <div id="collapseMember" class="collapse<?=strstr($uri, 'member') ? " show" : ""?>" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="/admin/member_list"> <i class="menu-icon fas fa-user"></i> 전체 회원 목록</a>
-          </div>
-        </div>-->
-      </li>
-
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAttendance" aria-expanded="true" aria-controls="collapseAttendance">
-          <i class="fas fa-fw fa-user-check"></i>
-          <span>출석현황</span>
-        </a>
-        <div id="collapseAttendance" class="collapse<?=strstr($uri, 'attendance') ? " show" : ""?>" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="/admin/attendance_list"> <i class="menu-icon fas fa-check-square"></i> 출석체크 보기</a>
-            <a class="collapse-item" href="/admin/attendance_mountain"> <i class="menu-icon fas fa-child"></i> 산행지로 보기</a>
-            <a class="collapse-item" href="/admin/attendance_auth"> <i class="menu-icon fas fa-camera-retro"></i> 인증현황 등록</a>
-          </div>
-        </div>
-      </li>
-
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLog" aria-expanded="true" aria-controls="collapseLog">
-          <i class="fas fa-fw fa-list"></i>
-          <span>활동관리</span>
-        </a>
-        <div id="collapseLog" class="collapse<?=strstr($uri, 'log') ? " show" : ""?>" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="/admin/log_reserve"> <i class="menu-icon fas fa-history"></i> 예약기록</a>
-            <a class="collapse-item" href="/admin/log_user"> <i class="menu-icon fas fa-th-list"></i> 회원 활동기록</a>
-            <a class="collapse-item" href="/admin/log_admin"> <i class="menu-icon fas fa-list-alt"></i> 관리자 활동기록</a>
-            <a class="collapse-item" href="/admin/log_refund"> <i class="menu-icon fas fa-won-sign"></i> 비회원 환불기록</a>
-            <a class="collapse-item" href="/admin/log_bus"> <i class="menu-icon fas fa-bus"></i> 차량 변경기록</a>
-            <a class="collapse-item" href="/admin/log_buy"> <i class="menu-icon fas fa-cart-plus"></i> 회원 구매기록</a>
-            <a class="collapse-item" href="/admin/log_buy_admin"> <i class="menu-icon fas fa-luggage-cart"></i> 관리자 구매기록</a>
-            <a class="collapse-item" href="/admin/log_reply"> <i class="menu-icon fas fa-reply"></i> 댓글 기록</a>
-            <a class="collapse-item" href="/admin/log_reaction"> <i class="menu-icon fas fa-heart"></i> 좋아요/공유 기록</a>
-            <a class="collapse-item" href="/admin/log_visitor"> <i class="menu-icon fas fa-user-check"></i> 방문자 기록</a>
-            <a class="collapse-item" href="https://analytics.google.com/analytics/web/" target="_blank"> <i class="menu-icon fab fa-google"></i> Google Analytics</a>
-          </div>
-        </div>
-      </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSetup" aria-expanded="true" aria-controls="collapseSetup">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>설정</span>
-        </a>
-        <div id="collapseSetup" class="collapse<?=strstr($uri, 'setup') ? " show" : ""?>" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="/admin/setup_information"> <i class="menu-icon fas fa-tools"></i> 클럽 정보</a>
-            <a class="collapse-item" href="/admin/setup_pages"> <i class="menu-icon fas fa-scroll"></i> 소개 페이지</a>
-            <a class="collapse-item" href="/admin/setup_sms"> <i class="menu-icon fas fa-sms"></i> 문자양식보기</a>
-            <a class="collapse-item" href="/admin/setup_bustype"> <i class="menu-icon fas fa-bus"></i> 차종등록</a>
-            <a class="collapse-item" href="/admin/setup_calendar"> <i class="menu-icon fas fa-calendar"></i> 달력관리</a>
-            <!--<a class="collapse-item" href="/admin/setup_front"> <i class="menu-icon fas fa-square"></i> 대문관리</a>-->
-          </div>
-        </div>
-      </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider d-none d-md-block">
-
-      <!-- Sidebar Toggler (Sidebar) -->
-      <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
       </div>
+    </div>
+  </header>
+  <!-- /HEADER -->
 
-    </ul>
-    <!-- End of Sidebar -->
-
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
-
-      <!-- Main Content -->
-      <div id="content">
-
-        <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-          <!-- Sidebar Toggle (Topbar) -->
-          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-            <i class="fa fa-bars"></i>
-          </button>
-
-          <!-- Topbar Search -->
-          <form method="post" action="/admin/log_reserve" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" name="k" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" value="<?=!empty($keyword) ? $keyword : ''?>">
-              <div class="input-group-append">
-                <button class="btn btn-primary">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-
-          <!-- Topbar Navbar -->
-          <ul class="navbar-nav ml-auto">
-
-            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-            <li class="nav-item dropdown no-arrow d-sm-none">
-              <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-search fa-fw"></i>
-              </a>
-              <!-- Dropdown - Messages -->
-              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
-                <form method="post" action="/admin/log_reserve" class="form-inline mr-auto w-100 navbar-search">
-                  <div class="input-group">
-                    <input type="text" name="k" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" value="<?=!empty($keyword) ? $keyword : ''?>">
-                    <div class="input-group-append">
-                      <button class="btn btn-primary">
-                        <i class="fas fa-search fa-sm"></i>
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </li>
-
-            <!-- Nav Item - User Information -->
-            <li class="nav-item dropdown no-arrow">
-              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?=$userData['nickname']?></span>
-                <img class="img-profile rounded-circle" src="/public/photos/<?=$userData['idx']?>">
-              </a>
-              <!-- Dropdown - User Information -->
-              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  관리자 정보
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                  정보 수정
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                  접속 기록
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item logout" href="javascript;" class="logout">
-                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                  로그아웃
-                </a>
-              </div>
-            </li>
-
-            <li class="nav-item"><a class="nav-link" href="/"><i class="fa fa-home text-primary" aria-hidden="true"></i></a></li>
-
+  <section id="club">
+    <div class="container">
+      <div class="club-left">
+        <div class="club-left-layer">
+          <div class="club-header">
+            <?php if (!empty($viewClub['main_photo'])): ?>
+            <!-- 대표 사진 -->
+            <a href="javascript:;" class="photo-zoom" data-filename="<?=$viewClub['main_photo']?>" data-width="<?=$viewClub['main_photo_width']?>" data-height="<?=$viewClub['main_photo_height']?>"><img src="<?=$viewClub['main_photo']?>"></a>
+            <?php endif; ?>
+            <h3><?=!empty($viewClub['title']) ? $viewClub['title'] : ''?></h3>
+          </div>
+          <?=!empty($viewClub['homepage']) ? '<a href="' . $viewClub['homepage'] . '" class="url">' . $viewClub['homepage'] . '</a>' : ''?>
+          <ul class="navi">
+            <li><a href="/admin/main_list_progress"><i class="fas fa-mountain" aria-hidden="true"></i> 산행관리</a></li>
+            <li><a href="/ShopAdmin/index"><i class="fas fa-shopping-cart" aria-hidden="true"></i> 구매대행관리</a></li>
+            <li><a href="/admin/member_list"><i class="fas fa-users" aria-hidden="true"></i> 회원관리</a></li>
+            <li><a href="/admin/log_user"><i class="fas fa-exchange-alt" aria-hidden="true"></i> 활동관리</a></li>
+            <li><a href="/admin/setup_information"><i class="fas fa-cog" aria-hidden="true"></i> 설정</a></li>
           </ul>
-
-        </nav>
-        <!-- End of Topbar -->
-
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
+        </div>
+      </div>
+      <div class="club-main club-admin">

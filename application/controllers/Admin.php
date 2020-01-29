@@ -20,7 +20,12 @@ class Admin extends Admin_Controller
    **/
   public function index()
   {
-    $clubIdx = 1; // 최초는 경인웰빙
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
+    // 회원 정보
+    $viewData['userData'] = $this->load->get_var('userData');
+    $viewData['userLevel'] = $this->load->get_var('userLevel');
 
     // 등록된 산행 목록
     $viewData['listNotice'] = $this->admin_model->listNotice();
@@ -52,12 +57,15 @@ class Admin extends Admin_Controller
     // 다녀온 산행 인원수
     $viewData['cntTotalCustomer'] = $this->admin_model->cntTotalCustomer();
     // 오늘 방문자수
-    $viewData['cntTodayVisitor'] = $this->admin_model->cntTodayVisitor($clubIdx);
+    $viewData['cntTodayVisitor'] = $this->admin_model->cntTodayVisitor($viewData['clubIdx']);
 
     // 댓글
     $paging['perPage'] = 10; $paging['nowPage'] = 0;
-    $viewData['listReply'] = $this->admin_model->listReply($paging);
+    $viewData['listReply'] = $this->admin_model->listReply($viewData['clubIdx'], $paging);
     $viewData['listReply'] = $this->load->view('admin/log_reply_append', $viewData, true);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '대시보드';
 
     $this->_viewPage('admin/index', $viewData);
   }
@@ -517,6 +525,9 @@ class Admin extends Admin_Controller
    **/
   public function main_list_progress()
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     $search['status'] = array(STATUS_ABLE, STATUS_CONFIRM);
     $viewData['list'] = $this->admin_model->listNotice($search);
 
@@ -560,7 +571,13 @@ class Admin extends Admin_Controller
    **/
   public function main_view_progress($idx)
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
+    // 예약ID
     $viewData['rescode'] = html_escape($idx);
+
+    // 공지 정보
     $viewData['view'] = $this->admin_model->viewEntry($viewData['rescode']);
 
     // 버스 형태별 좌석 배치
@@ -580,7 +597,7 @@ class Admin extends Admin_Controller
     $viewData['list'] = $this->admin_model->listNotice($search);
 
     // 댓글
-    $viewData['listReply'] = $this->admin_model->listReply(NULL, $viewData['rescode']);
+    $viewData['listReply'] = $this->admin_model->listReply($viewData['clubIdx'], NULL, $viewData['rescode']);
     $viewData['listReply'] = $this->load->view('admin/log_reply_append', $viewData, true);
 
     $this->_viewPage('admin/main_view_progress', $viewData);
@@ -2436,11 +2453,14 @@ exit;
    **/
   public function log_reply()
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
     $paging['perPage'] = 30;
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
-    $viewData['listReply'] = $this->admin_model->listReply($paging);
+    $viewData['listReply'] = $this->admin_model->listReply($viewData['clubIdx'], $paging);
 
     if ($page >= 2) {
       // 2페이지 이상일 경우에는 Json으로 전송
@@ -3107,9 +3127,26 @@ exit;
    **/
   private function _viewPage($viewPage, $viewData=NULL)
   {
-    $headerData['uri'] = $_SERVER['REQUEST_URI'];
-    $headerData['keyword'] = html_escape($this->input->post('k'));
-    $this->load->view('admin/header', $headerData);
+    $viewData['uri'] = $_SERVER['REQUEST_URI'];
+    $viewData['keyword'] = html_escape($this->input->post('k'));
+
+    // 클럽 정보
+    $viewData['viewClub'] = $this->club_model->viewClub($viewData['clubIdx']);
+
+    // 클럽 대표이미지
+    $files = $this->file_model->getFile('club', $viewData['clubIdx']);
+    if (!empty($files[0]['filename']) && file_exists(PHOTO_PATH . $files[0]['filename'])) {
+      $size = getImageSize(PHOTO_PATH . $files[0]['filename']);
+      $viewData['viewClub']['main_photo'] = PHOTO_URL . $files[0]['filename'];
+      $viewData['viewClub']['main_photo_width'] = $size[0];
+      $viewData['viewClub']['main_photo_height'] = $size[1];
+    }
+
+    // 리다이렉트 URL 추출
+    if ($_SERVER['SERVER_PORT'] == '80') $HTTP_HEADER = 'http://'; else $HTTP_HEADER = 'https://';
+    $viewData['redirectUrl'] = $HTTP_HEADER . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+    $this->load->view('admin/header', $viewData);
     $this->load->view($viewPage, $viewData);
     $this->load->view('admin/footer');
   }

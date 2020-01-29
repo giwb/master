@@ -75,6 +75,18 @@ class Admin_Controller extends CI_Controller
       define('BASE_URL', $header . $_SERVER['HTTP_HOST']);
     }
 
+    // 회원 로그인 설정
+    if (!empty($this->session->userData['idx'])) {
+      $loginData['userData'] = $this->member_model->viewMember(html_escape($this->session->userData['idx']));
+      $loginData['userLevel'] = memberLevel($loginData['userData']['rescount'], $loginData['userData']['penalty'], $loginData['userData']['level'], $loginData['userData']['admin']);
+
+      if (!empty($loginData['userData']['icon'])) {
+        $loginData['userData']['icon'] = $loginData['userData']['icon_thumbnail'];
+      } else {
+        $loginData['userData']['icon'] = base_url() . PHOTO_URL . $loginData['userData']['idx'];
+      }
+    }
+
     $clubIdx = html_escape($this->session->userData['club_idx']);
     $userIdx = html_escape($this->session->userData['idx']);
     $adminCheck = html_escape($this->session->userData['admin']);

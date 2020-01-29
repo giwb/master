@@ -108,6 +108,7 @@ if (!empty($result)) {
   $route[$domain . '/login']                  = 'login';
   $route[$domain . '/login/entry']            = 'login/entry';
   $route[$domain . '/login/forgot']           = 'login/forgot';
+  $route[$domain . '/admin']                  = 'admin/index';
 } else {
   $route['default_controller']  = 'welcome';
   $route['top']                 = 'welcome';

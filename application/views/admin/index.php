@@ -47,15 +47,11 @@
         </script>
 
         <div class="admin-main">
-          <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">대시보드</h1>
+          <div class="d-sm-flex align-items-center justify-content-between mb-3 d-none d-sm-block">
+            <h1 class="h3 mb-0 text-gray-800 font-weight-bold">대시보드</h1>
           </div>
 
-          <!-- Content Row -->
           <div class="row">
-
-            <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-6 col-md-6 mb-4">
               <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
@@ -65,14 +61,12 @@
                       <div class="h5 mb-0 font-weight-bold text-gray-800"><?=$cntTotalMember['CNT']?>명</div>
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-user fa-2x text-gray-300"></i>
+                      <i class="fas fa-user fa-2x text-gray-300 text-primary"></i>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
-            <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-6 col-md-6 mb-4">
               <div class="card border-left-success shadow h-100 py-2">
                 <div class="card-body">
@@ -82,17 +76,14 @@
                       <div class="h5 mb-0 font-weight-bold text-gray-800"><?=$cntTotalTour['CNT']?>회</div>
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-mountain fa-2x text-gray-300"></i>
+                      <i class="fas fa-mountain fa-2x text-gray-300 text-success"></i>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
           </div>
           <div class="row">
-
-            <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-6 col-md-6 mb-4">
               <div class="card border-left-info shadow h-100 py-2">
                 <div class="card-body">
@@ -103,32 +94,25 @@
                         <div class="col-auto">
                           <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?=$cntTotalCustomer['CNT']?>명</div>
                         </div>
-                        <div class="col">
-                          <div class="progress progress-sm mr-2">
-                            <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-users fa-2x text-gray-300"></i>
+                      <i class="fas fa-users fa-2x text-gray-300 text-info"></i>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
-            <!-- Pending Requests Card Example -->
             <div class="col-xl-6 col-md-6 mb-4">
               <div class="card border-left-warning shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">오늘 방문자수</div>
+                      <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">오늘 방문자수</div>
                       <div class="h5 mb-0 font-weight-bold text-gray-800"><?=$cntTodayVisitor['CNT']?>명</div>
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-walking fa-2x text-gray-300"></i>
+                      <i class="fas fa-walking fa-2x text-gray-300 text-danger"></i>
                     </div>
                   </div>
                 </div>
@@ -136,15 +120,18 @@
             </div>
           </div>
 
-          <!-- Content Row -->
           <div id="calendar"></div>
 
-          <div class="row align-items-center border-top border-bottom mb-3 pt-4 pb-3">
-            <div class="col-6">■ 최신 댓글</div>
-            <div class="col-6 text-right small"><a href="/admin/log_reply">[더보기]</a></div>
+          <div class="border-bottom mb-3 pt-2 pb-3">
+            <div class="row align-items-center">
+              <div class="col-6">■ 최신 댓글</div>
+              <div class="col-6 text-right small"><a href="/admin/log_reply">[더보기]</a></div>
+            </div>
           </div>
-          <div class="story-reply mb-5">
-            <?=$listReply?>
+          <div class="admin-reply story-reply">
+            <div class="mb-5">
+              <?=$listReply?>
+            </div>
           </div>
         </div>
 
