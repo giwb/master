@@ -317,7 +317,7 @@
     var baseUrl = $('input[name=baseUrl]').val();
     var photoName = $('#photoModal input[name=photo_name]').val();
     $.ajax({
-      url: baseUrl + '/club/photo_delete',
+      url: '/member/photo_delete',
       data: 'filename=' + photoName,
       dataType: 'json',
       type: 'post',
