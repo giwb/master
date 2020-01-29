@@ -457,7 +457,7 @@ class Login extends MY_Controller
       $idx = $this->member_model->insertMember($insertValues);
 
       // 세션 저장
-      $userData = $this->member_model->viewMember($clubIdx, $idx);
+      $userData = $this->member_model->viewMember($idx);
       $this->session->set_userdata('userData', $userData);
     } else {
       // 기존 사용자는 로그인
