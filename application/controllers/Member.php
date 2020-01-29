@@ -687,6 +687,10 @@ class Member extends MY_Controller
     if (!empty($filename) && file_exists(PHOTO_PATH . $filename)) unlink(PHOTO_PATH . $filename);
     if (!empty($userIdx) && file_exists(PHOTO_PATH . $userIdx)) unlink(PHOTO_PATH . $userIdx);
 
+    if (!empty($filename)) {
+      $this->file_model->deleteFile($filename);
+    }
+
     $result = array('error' => 0);
     $this->output->set_output(json_encode($result));
   }
