@@ -30,7 +30,7 @@
           </form>
         </div>
       </div>
-      <script src="<?=base_url()?>public/js/album.js" type="text/javascript"></script>
+      <script src="/public/js/album.js" type="text/javascript"></script>
       <!-- Album Delete Modal -->
       <div class="modal fade" id="albumDeleteModal" tabindex="-1" role="dialog" aria-labelledby="albumDeleteModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
