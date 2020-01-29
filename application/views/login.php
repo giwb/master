@@ -24,7 +24,7 @@
             <a href="/login/forgot"><button type="button" class="btn btn-secondary"><span class="small">아이디/비밀번호 찾기</span></button></a>
           </div>
           <div class="text-center mt-3">
-            <button type="button" class="btn btn-primary btn-login pl-5 pr-5 pt-2 pb-2">한국여행 로그인</button>
+            <button type="button" class="btn btn-primary btn-login pl-5 pr-5 pt-2 pb-2">로그인</button>
           </div>
           <!--
           <div class="text-center mt-3">

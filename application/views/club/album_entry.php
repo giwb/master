@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-      <div class="club-main">
+      <div id="album" class="club-main">
         <div class="sub-header">사진 등록</div>
         <div class="sub-content">
           <form id="formAlbum" method="post" action="/album/update" enctype="multipart/form-data">
