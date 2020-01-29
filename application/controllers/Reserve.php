@@ -92,7 +92,7 @@ class Reserve extends MY_Controller
       $viewData['view']['noticeIdx'] = $noticeIdx;
 
       // 회원 정보
-      $viewData['viewMember'] = $this->member_model->viewMember($clubIdx, $userData['idx']);
+      $viewData['viewMember'] = $this->member_model->viewMember($userData['idx']);
 
       // 예약 번호
       $reserveIdx = explode(',', $checkIdx);
