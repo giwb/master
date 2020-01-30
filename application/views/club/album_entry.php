@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-      <div class="club-main">
-        <div class="sub-header">사진 등록</div>
+      <div id="album" class="club-main">
+        <h2 class="sub-header">사진 등록</h2>
         <div class="sub-content">
           <form id="formAlbum" method="post" action="/album/update" enctype="multipart/form-data">
             <input type="hidden" name="page" value="album">

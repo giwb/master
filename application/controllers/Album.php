@@ -123,7 +123,7 @@ class Album extends MY_Controller
     }
 
     // 페이지 타이틀
-    $viewData['pageTitle'] = '사진첩';
+    $viewData['pageTitle'] = '사진 등록';
 
     $this->_viewPage('club/album_entry', $viewData);
   }
