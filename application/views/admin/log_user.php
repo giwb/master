@@ -2,8 +2,16 @@
 
     <div id="content-wrapper" class="d-flex flex-column">
       <div id="content">
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-          <h1 class="h3 mb-0 text-gray-800"><?=$pageTitle?></h1>
+        <h2 class="d-none d-sm-block border-bottom mb-2 pb-3"><?=$pageTitle?></h2>
+        <div class="container">
+          <div class="row align-items-center text-center header-menu">
+            <div class="col-2 active">회원</div>
+            <div class="col-2">예약</div>
+            <div class="col-2">차량</div>
+            <div class="col-2">구매</div>
+            <div class="col-2">댓글</div>
+            <div class="col-2">방문자</div>
+          </div>
         </div>
         <div class="w-100 border mt-2 mb-3 p-3">
           <form id="formList" method="post" action="<?=$pageUrl?>" class="row align-items-center text-center">

@@ -2197,7 +2197,7 @@ h1.nav-logo small {
 @media only screen and (max-width: 800px) {
   .ad-sp { display: block; margin: 0 0 20px 0; }
 
-  #header { height: 68px; }
+  #header { height: 60px; }
   #nav-footer { position: fixed; bottom: 0px; width: 100%; border-top: 2px solid #666; background-color: #fff; padding: 10px 0 7px 0; display: table; z-index: 1000; }
   #nav-footer li { width: 20%; font-size: 12px; display: table-cell; vertical-align: middle; text-align: center; }
   #nav-footer li i { font-size: 20px; color: #666; }
@@ -2292,4 +2292,8 @@ h1.nav-logo small {
   .row-category a:nth-child(6) { border-bottom: 0px; }
 
   #club .club-main .sub-header, .mypage h2 { display: none; }
+
+  .header-menu { border-bottom: 5px solid #ddd; }
+  .header-menu div { border-bottom: 2px solid #fff; padding: 0 0 5px 0; }
+  .header-menu .active { border-bottom: 2px solid red; }
 }
