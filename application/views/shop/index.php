@@ -54,13 +54,3 @@
       </div>
 
       <script type="text/javascript" src="/public/js/shop.js"></script>
-      <script type="text/javascript">
-        $('.btn-notice').click(function() {
-          var $dom = $('.area-notice[data-idx=' + $(this).data('idx') + ']');
-          if ($dom.css('display') == 'none') {
-            $dom.slideDown();
-          } else {
-            $dom.slideUp();
-          }
-        });
-      </script>

@@ -1,12 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
       <div id="shop" class="club-main">
-        <div class="d-none d-sm-block">
-          <div class="row align-items-center mb-3 border-bottom">
-            <div class="col-6 col-sm-9"><h3 class="m-0 p-0"><?=$pageTitle?></h3></div>
-            <div class="col-6 col-sm-3 text-right"><a href="<?=BASE_URL?>/shop/cart"><button type="button" class="btn btn-sm btn-cart">장바구니 보기</button></a></div>
-          </div>
-        </div>
+        <h2 class="sub-header"><?=$pageTitle?></h2>
         <div class="sub-content">
           <div class="m-3 p-5 text-center">
             <h2 class="text-info">구매해 주셔서<br class="d-block d-sm-none"> 감사합니다!</h2>
