@@ -1,20 +1,15 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
       <div id="shop" class="club-main">
-        <div class="d-none d-sm-block">
-          <div class="row align-items-center mb-3">
-            <div class="col-6 col-sm-9"><h3 class="m-0 p-0"><?=$pageTitle?></h3></div>
-            <div class="col-6 col-sm-3 text-right"><a href="<?=BASE_URL?>/shop/cart"><button type="button" class="btn btn-sm btn-cart">장바구니 보기</button></a></div>
-          </div>
-        </div>
-        <div class="sub-content border-top">
+        <h2 class="sub-header"><?=$pageTitle?></h2>
+        <div class="sub-content">
           <div class="m-3 p-5 text-center">
-            <h2 class="text-info">구매해 주셔서 감사합니다!</h2>
+            <h2 class="text-info">구매해 주셔서<br class="d-block d-sm-none"> 감사합니다!</h2>
           </div>
           <h4 class="border-bottom m-0 pb-3">■ 구매한 상품</h4>
           <?php $totalAmount = 0; $totalCost = 0; foreach ($listCart as $value): $totalAmount += $value['amount']; $totalCost += $value['cost'] * $value['amount']; ?>
           <div class="row align-items-center pt-3 d-md-none">
-            <div class="col"><strong><?=$value['item_name']?></strong></div>
+            <div class="col"><strong><?=$value['name']?></strong></div>
           </div>
           <div class="row align-items-center border-bottom p-3">
             <div class="col-5 col-md-2 p-0 text-center"><img src="<?=PHOTO_URL . $value['photo']?>"></div>
@@ -65,7 +60,7 @@
             현재 인수방법이 정해지지 않았습니다. 마이페이지에서 선택하실 수 있습니다.
           </div>
           <?php endif; ?>
-          <div class="text-center pt-4">
+          <div class="text-center mb-5 pt-4">
             <a href="<?=BASE_URL?>"><button type="button" class="btn btn-primary">메인 화면으로</button></a>
             <a href="<?=BASE_URL?>/shop"><button type="button" class="btn btn-secondary ml-3">계속 쇼핑하기</button></a>
           </div>

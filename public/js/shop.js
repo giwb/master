@@ -1,6 +1,14 @@
 $(document).on('click', '.shop-item', function() {
   // 용품 상세 페이지
   location.href = ( $('input[name=baseUrl]').val() + '/shop/item/?n=' + $(this).data('idx') );
+}).on('click', '.btn-notice', function() {
+  // 구매대행 상품이란?
+  var $dom = $('.area-notice[data-idx=' + $(this).data('idx') + ']');
+  if ($dom.css('display') == 'none') {
+    $dom.slideDown();
+  } else {
+    $dom.slideUp();
+  }
 }).on('click', '.btn-cart-insert', function() {
   // 장바구니에 담기
   var $btn = $(this);
