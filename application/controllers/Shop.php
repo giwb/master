@@ -455,6 +455,9 @@ class Shop extends MY_Controller
       }
     }
 
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '구매대행 상품';
+
     $this->_viewPage('shop/complete', $viewData);
   }
 

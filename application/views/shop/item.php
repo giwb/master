@@ -7,11 +7,26 @@
             <div class="col-6 col-sm-3 text-right"><a href="<?=BASE_URL?>/shop/cart"><button type="button" class="btn btn-sm btn-cart">장바구니 보기</button></a></div>
           </div>
         </div>
-        <div class="row-category row m-0 p-0 border-bottom border-right">
-          <a href="<?=BASE_URL?>/shop" class="col border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=empty($search['item_category1']) ? ' active' : ''?>">인기상품</a>
-          <?php foreach ($listCategory as $value): ?>
-          <a href="<?=BASE_URL?>/shop/?c=<?=$value['idx']?>" class="col border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=$value['idx'] == $search['item_category1'] ? ' active' : ''?>"><?=$value['name']?></a>
-          <?php endforeach; ?>
+        <div class="d-none d-sm-block">
+          <div class="row-category row m-0 p-0 border-bottom border-right">
+            <a href="<?=BASE_URL?>/shop" class="col border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=empty($search['item_category1']) ? ' active' : ''?>">인기상품</a>
+            <?php foreach ($listCategory as $value): ?>
+            <a href="<?=BASE_URL?>/shop/?c=<?=$value['idx']?>" class="col border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=$value['idx'] == $search['item_category1'] ? ' active' : ''?>"><?=$value['name']?></a>
+            <?php endforeach; ?>
+          </div>
+        </div>
+        <div class="d-sm-none">
+          <div class="row-category">
+            <div class="row m-0 p-0 border-right">
+              <?php foreach ($listCategory as $key => $value): ?>
+              <?php if ($key == 0): ?><a href="<?=BASE_URL?>/shop" class="col border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=empty($search['item_category1']) ? ' active' : ''?>">인기상품</a>
+              <?php elseif ($key == 1): ?></div><div class='row m-0 p-0 border-right'>
+              <?php elseif ($key >= 2 && $key%2 == 1): ?></div><div class='row m-0 p-0 border-right'>
+              <?php endif; ?>
+              <a href="<?=BASE_URL?>/shop/?c=<?=$value['idx']?>" class="col border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=$value['idx'] == $search['item_category1'] ? ' active' : ''?>"><?=$value['name']?></a>
+              <?php endforeach; ?>
+            </div>
+          </div>
         </div>
         <div class="sub-content mt-2">
           <div class="row mt-4">

@@ -2286,7 +2286,7 @@ h1.nav-logo small {
 
   #album .album-item .ajax-loader { position: absolute; top: 38%; left: 43%; z-index: 90; }
 
-  #shop .btn-cart { font-size: 12px; }
+  #shop .btn-cart-insert { font-size: 12px; }
   #shop .btn-buy { font-size: 12px; }
 
   .row-category { border-top: 3px solid #FF6C00; display: block; }

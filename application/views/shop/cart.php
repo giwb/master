@@ -1,11 +1,13 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
       <div id="shop" class="club-main">
-        <div class="row align-items-center pb-3">
-          <div class="col-6 col-sm-9"><h3 class="m-0 p-0">구매대행 상품 - 장바구니</h3></div>
-          <div class="col-6 col-sm-3 text-right"><a href="<?=BASE_URL?>/shop"><button type="button" class="btn btn-sm btn-cart">상품 보기</button></a></div>
+        <div class="d-none d-sm-block">
+          <div class="row align-items-center pb-3 border-bottom">
+            <div class="col-6 col-sm-9"><h3 class="m-0 p-0"><?=$pageTitle?></h3></div>
+            <div class="col-6 col-sm-3 text-right"><a href="<?=BASE_URL?>/shop"><button type="button" class="btn btn-sm btn-cart">상품 보기</button></a></div>
+          </div>
         </div>
-        <div class="sub-content border-top">
+        <div class="sub-content">
           <?php if (empty($listCart)): ?>
           <div class="text-center border-bottom mt-5 pb-5">현재 장바구니에 담긴 상품이 없습니다.</div>
           <?php endif; ?>
@@ -36,7 +38,7 @@
             <div class="col-2 col-md-1 p-0 text-center"><span class="total-amount"><?=number_format($total_amount)?></span>개</div>
             <div class="col-3 col-md-2 p-0 text-right item-cost"><span class="total-cost"><?=number_format($total_cost)?></span>원</div>
           </div>
-          <div class="text-center mt-4">
+          <div class="text-center mt-4 mb-5">
             <a href="<?=BASE_URL?>/shop"><button type="button" class="btn btn-secondary">계속 쇼핑하기</button></a>
             <?php if (!empty($listCart)): ?>
             <a href="<?=BASE_URL?>/shop/checkout"><button type="button" class="btn btn-primary ml-4">용품 구매진행</button></a>
