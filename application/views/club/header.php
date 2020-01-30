@@ -75,7 +75,7 @@
           <div class="row align-items-center">
             <h1 class="col-sm-6 nav-logo"><a href="<?=BASE_URL?>" class="logo"><?=!empty($view['title']) ? $view['title'] : ''?></a></h1>
             <ul class="col-sm-6 text-right nav-menu">
-              <li><a target="_blank" href="https://m.cafe.daum.net/giwb"><img src="//m1.daumcdn.net/cafeimg/mobile/m640/tit_cafe_s_161214.png" width="50"></a></li>
+              <li><a target="_blank" href="http://giwb.co.kr"><img src="//m1.daumcdn.net/cafeimg/mobile/m640/tit_cafe_s_161214.png" width="50"></a></li>
               <?php if (empty($userData['idx'])): ?>
               <li><a href="javascript:;" class="login-popup">로그인</a></li>
               <?php else: ?>
@@ -115,7 +115,7 @@
             <a href="<?=BASE_URL?>/album/entry" title="사진 업로드"><i class="fa fa-cloud-upload btn-header"></i></a>
             <?php elseif (strstr($_SERVER['REQUEST_URI'], 'login')): ?>
             <?php else: ?>
-            <a target="_blank" href="https://m.cafe.daum.net/giwb"><img src="//m1.daumcdn.net/cafeimg/mobile/m640/tit_cafe_s_161214.png" width="50"></a>
+            <a target="_blank" href="http://giwb.co.kr"><img src="//m1.daumcdn.net/cafeimg/mobile/m640/tit_cafe_s_161214.png" width="50"></a>
             <?php endif; ?>
           </li>
         </ul>
@@ -169,7 +169,7 @@
             <a target="_blank" title="페이스북 링크" href="https://facebook.com/giwb.kr"><img src="/public/images/icon_facebook.png"></a>
             <a target="_blank" title="트위터 링크" href="https://twitter.com/giwb_alpine"><img class="ml-2 mr-2" src="/public/images/icon_twitter.png"></a>
             <a target="_blank" title="카카오채널 링크" href="https://pf.kakao.com/_BxaPRxb"><img class="mr-2" src="/public/images/icon_kakaotalk.png"></a>
-            <a target="_blank" title="경인웰빙 카페 링크" href="http://cafe.daum.net/giwb"><img src="/public/images/icon_cafe.png"></a>
+            <a target="_blank" title="경인웰빙 카페 링크" href="http://giwb.co.kr"><img src="/public/images/icon_cafe.png"></a>
           </div>
         </div>
       </div>
