@@ -137,24 +137,23 @@
   <!-- /HEADER -->
 
   <section id="club">
-    <div class="container">
-      <div class="club-left">
-        <div class="club-left-layer">
-          <div class="club-header">
-            <?php if (!empty($viewClub['main_photo'])): ?>
-            <!-- 대표 사진 -->
-            <a href="javascript:;" class="photo-zoom" data-filename="<?=$viewClub['main_photo']?>" data-width="<?=$viewClub['main_photo_width']?>" data-height="<?=$viewClub['main_photo_height']?>"><img src="<?=$viewClub['main_photo']?>"></a>
-            <?php endif; ?>
-            <h3><?=!empty($viewClub['title']) ? $viewClub['title'] : ''?></h3>
-          </div>
-          <?=!empty($viewClub['homepage']) ? '<a href="' . $viewClub['homepage'] . '" class="url">' . $viewClub['homepage'] . '</a>' : ''?>
-          <ul class="navi">
-            <li><a href="/admin/main_list_progress"><i class="fas fa-mountain" aria-hidden="true"></i> 산행관리</a></li>
-            <li><a href="/ShopAdmin/index"><i class="fas fa-shopping-cart" aria-hidden="true"></i> 구매대행관리</a></li>
-            <li><a href="/admin/member_list"><i class="fas fa-users" aria-hidden="true"></i> 회원관리</a></li>
-            <li><a href="/admin/log_user"><i class="fas fa-exchange-alt" aria-hidden="true"></i> 활동관리</a></li>
-            <li><a href="/admin/setup_information"><i class="fas fa-cog" aria-hidden="true"></i> 설정</a></li>
-          </ul>
+    <div class="club-left">
+      <div class="club-left-layer">
+        <div class="club-header">
+          <?php if (!empty($viewClub['main_photo'])): ?>
+          <!-- 대표 사진 -->
+          <a href="javascript:;" class="photo-zoom" data-filename="<?=$viewClub['main_photo']?>" data-width="<?=$viewClub['main_photo_width']?>" data-height="<?=$viewClub['main_photo_height']?>"><img src="<?=$viewClub['main_photo']?>"></a>
+          <?php endif; ?>
+          <h3><?=!empty($viewClub['title']) ? $viewClub['title'] : ''?></h3>
         </div>
+        <?=!empty($viewClub['homepage']) ? '<a href="' . $viewClub['homepage'] . '" class="url">' . $viewClub['homepage'] . '</a>' : ''?>
+        <ul class="navi">
+          <li><a href="/admin/main_list_progress"><i class="fas fa-mountain" aria-hidden="true"></i> 산행관리</a></li>
+          <li><a href="/ShopAdmin/index"><i class="fas fa-shopping-cart" aria-hidden="true"></i> 구매대행관리</a></li>
+          <li><a href="/admin/member_list"><i class="fas fa-users" aria-hidden="true"></i> 회원관리</a></li>
+          <li><a href="/admin/log_user"><i class="fas fa-exchange-alt" aria-hidden="true"></i> 활동관리</a></li>
+          <li><a href="/admin/setup_information"><i class="fas fa-cog" aria-hidden="true"></i> 설정</a></li>
+        </ul>
       </div>
-      <div class="club-main club-admin">
+    </div>
+    <div class="club-admin">
