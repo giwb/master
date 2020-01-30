@@ -73,10 +73,10 @@
       <div id="nav-top">
         <div class="container">
           <div class="row align-items-center">
-            <h1 class="col-sm-6 nav-logo"><a href="<?=BASE_URL?>" class="logo"><?=!empty($viewClub['title']) ? $viewClub['title'] : ''?></a></h1>
+            <h1 class="col-sm-6 nav-logo"><a href="<?=goHome($viewClub['domain'])?>" class="logo"><?=!empty($viewClub['title']) ? $viewClub['title'] : ''?></a></h1>
             <ul class="col-sm-6 text-right nav-menu">
               <?php if (strstr($_SERVER['REQUEST_URI'], 'admin')): ?>
-                <li><a href="<?=BASE_URL?>"><i class="fa fa-home" aria-hidden="true"></i></a></li>
+                <li><a href="<?=goHome($viewClub['domain'])?>"><i class="fa fa-home" aria-hidden="true"></i></a></li>
               <?php else: ?>
               <li><a href="javascript:;" class="btn-post-modal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></li>
               <?php endif; ?>
@@ -108,7 +108,7 @@
       </div>
       <div id="nav-sp">
         <ul>
-          <li><a href="<?=BASE_URL?>"><i class="fas fa-home btn-header"></i></a></li>
+          <li><a href="<?=goHome($viewClub['domain'])?>"><i class="fas fa-home btn-header"></i></a></li>
           <li><a href="<?=BASE_URL?>"><h1><?=!empty($pageTitle) ? $pageTitle : $viewClub['title'] ?></h1></a></li>
           <li class="btn-mypage">
             <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>

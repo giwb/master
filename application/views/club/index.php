@@ -58,7 +58,7 @@
 
       <div id="fb-root"></div>
       <div class="club-main">
-        <img src="/public/images/newyear.jpg" class="main-image">
+        <img src="/public/images/giwb_20200130.jpg" class="main-image">
         <div id="calendar"></div>
         <div class="your-story">
           <div class="club-story-article">

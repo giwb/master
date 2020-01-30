@@ -3,7 +3,7 @@
           <h1 class="h3 mb-4 text-gray-800">등록된 상품 관리</h1>
 
           <div class="w-100 border mt-2 mb-3 p-3">
-            <form id="formList" method="post" action="<?=BASE_URL?>/ShopAdmin/index" class="row align-items-center text-center">
+            <form id="formList" method="post" action="/ShopAdmin/index" class="row align-items-center text-center">
               <input type="hidden" name="p" value="1">
               <div class="col-sm-1 pl-0 pr-0">품명 검색</div>
               <div class="col-sm-2 pl-0 pr-0"><input type="text" name="item_name" class="form-control form-item-search" value="<?=!empty($search['item_name']) ? $search['item_name'] : ''?>"></div>
@@ -52,7 +52,6 @@
         }
       }).on('change', '.item-category', function() {
         // 카테고리 검색
-        var baseUrl = $('input[name=base_url]').val();
         var categoryIdx = $(this).val();
         if (categoryIdx != '') {
           $.ajax({
@@ -73,6 +72,6 @@
         }
       }).on('click', '.item-list', function() {
         // 상세보기
-        location.href = '<?=BASE_URL?>/ShopAdmin/entry/' + $(this).data('idx');
+        location.href = '/ShopAdmin/entry/' + $(this).data('idx');
       });
     </script>

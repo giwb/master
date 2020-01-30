@@ -9,7 +9,7 @@ class ShopAdmin extends Admin_Controller
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
     $this->load->library(array('image_lib', 'session'));
-    $this->load->model(array('member_model', 'shop_model'));
+    $this->load->model(array('file_model', 'member_model', 'shop_model'));
   }
 
   /**
@@ -21,6 +21,9 @@ class ShopAdmin extends Admin_Controller
    **/
   public function index()
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     $viewData['search'] = array(
       'item_name' => !empty($this->input->post('item_name')) ? html_escape($this->input->post('item_name')) : NULL,
       'item_category1' => !empty($this->input->post('item_category1')) ? html_escape($this->input->post('item_category1')) : NULL,
@@ -83,7 +86,9 @@ class ShopAdmin extends Admin_Controller
    **/
   public function entry($idx = NULL)
   {
-    $viewData = array();
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     $viewData['item_photo'] = array();
     $idx = html_escape($idx);
 
@@ -564,9 +569,26 @@ class ShopAdmin extends Admin_Controller
    **/
   private function _viewPage($viewPage, $viewData=NULL)
   {
-    $headerData['uri'] = $_SERVER['REQUEST_URI'];
-    $headerData['keyword'] = html_escape($this->input->post('k'));
-    $this->load->view('admin/header', $headerData);
+    $viewData['uri'] = $_SERVER['REQUEST_URI'];
+    $viewData['keyword'] = html_escape($this->input->post('k'));
+
+    // 클럽 정보
+    $viewData['viewClub'] = $this->club_model->viewClub($viewData['clubIdx']);
+
+    // 클럽 대표이미지
+    $files = $this->file_model->getFile('club', $viewData['clubIdx']);
+    if (!empty($files[0]['filename']) && file_exists(PHOTO_PATH . $files[0]['filename'])) {
+      $size = getImageSize(PHOTO_PATH . $files[0]['filename']);
+      $viewData['viewClub']['main_photo'] = PHOTO_URL . $files[0]['filename'];
+      $viewData['viewClub']['main_photo_width'] = $size[0];
+      $viewData['viewClub']['main_photo_height'] = $size[1];
+    }
+
+    // 리다이렉트 URL 추출
+    if ($_SERVER['SERVER_PORT'] == '80') $HTTP_HEADER = 'http://'; else $HTTP_HEADER = 'https://';
+    $viewData['redirectUrl'] = $HTTP_HEADER . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+    $this->load->view('admin/header', $viewData);
     $this->load->view($viewPage, $viewData);
     $this->load->view('admin/footer');
   }

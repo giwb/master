@@ -546,6 +546,9 @@ class Admin extends Admin_Controller
       }
     }
 
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '진행중 산행';
+
     $this->_viewPage('admin/main_list_progress', $viewData);
   }
 
@@ -611,6 +614,9 @@ class Admin extends Admin_Controller
    **/
   public function main_view_boarding($idx)
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     $viewData['rescode'] = html_escape($idx);
     $viewData['view'] = $this->admin_model->viewEntry($viewData['rescode']);
 
@@ -675,6 +681,9 @@ class Admin extends Admin_Controller
    **/
   public function main_view_adjust($idx)
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     $idx = html_escape($idx);
     $viewData['view'] = $this->admin_model->viewEntry($idx);
 
@@ -689,6 +698,9 @@ class Admin extends Admin_Controller
    **/
   public function main_view_sms($idx)
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     $idx = html_escape($idx);
     $viewData['view'] = $this->admin_model->viewEntry($idx);
 
@@ -916,6 +928,9 @@ class Admin extends Admin_Controller
    **/
   public function main_entry($idx=NULL)
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     if (!is_null($idx)) {
       $viewData['btn'] = '수정';
       $viewData['view'] = $this->admin_model->viewEntry(html_escape($idx));
@@ -1166,6 +1181,9 @@ class Admin extends Admin_Controller
    **/
   public function main_notice($idx=NULL)
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     if (is_null($idx)) exit; else $idx = html_escape($idx);
 
     // 산행 목록
@@ -1574,6 +1592,9 @@ exit;
    **/
   public function member_list()
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     $viewData['search']['realname'] = html_escape($this->input->post('realname'));
     $viewData['search']['nickname'] = html_escape($this->input->post('nickname'));
     $viewData['search']['levelType'] = html_escape($this->input->post('levelType'));
@@ -1644,39 +1665,40 @@ exit;
    **/
   public function member_view($keyword)
   {
-    $viewData['clubIdx'] = 1;
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     $keyword = html_escape($keyword);
-
     $search = array('idx' => $keyword);
-    $viewData['view'] = $this->admin_model->viewMember($search);
+    $viewData['viewMember'] = $this->admin_model->viewMember($search);
 
-    if (empty($viewData['view'])) {
+    if (empty($viewData['viewMember'])) {
       $search = array('userid' => $keyword);
-      $viewData['view'] = $this->admin_model->viewMember($search);
+      $viewData['viewMember'] = $this->admin_model->viewMember($search);
     }
 
-    $viewData['view']['birthday'] = explode('/', $viewData['view']['birthday']);
-    $viewData['view']['phone'] = explode('-', $viewData['view']['phone']);
-    $viewData['view']['memberLevel'] = memberLevel($viewData['view']['rescount'], $viewData['view']['penalty'], $viewData['view']['level'], $viewData['view']['admin']);
+    $viewData['viewMember']['birthday'] = explode('/', $viewData['viewMember']['birthday']);
+    $viewData['viewMember']['phone'] = explode('-', $viewData['viewMember']['phone']);
+    $viewData['viewMember']['memberLevel'] = memberLevel($viewData['viewMember']['rescount'], $viewData['viewMember']['penalty'], $viewData['viewMember']['level'], $viewData['viewMember']['admin']);
 
     // 예약 내역
     $paging['perPage'] = 5; $paging['nowPage'] = 0;
-    $viewData['userReserve'] = $this->reserve_model->userReserve($viewData['clubIdx'], $viewData['view']['userid'], NULL, $paging);
+    $viewData['userReserve'] = $this->reserve_model->userReserve($viewData['clubIdx'], $viewData['viewMember']['userid'], NULL, $paging);
 
     // 예약 취소 내역 (로그)
-    $viewData['userReserveCancel'] = $this->reserve_model->userReserveCancel($viewData['clubIdx'], $viewData['view']['userid']);
+    $viewData['userReserveCancel'] = $this->reserve_model->userReserveCancel($viewData['clubIdx'], $viewData['viewMember']['userid']);
 
     // 산행 내역
-    $viewData['userVisit'] = $this->reserve_model->userVisit($viewData['clubIdx'], $viewData['view']['userid']);
+    $viewData['userVisit'] = $this->reserve_model->userVisit($viewData['clubIdx'], $viewData['viewMember']['userid']);
 
     // 산행 횟수
-    $viewData['userVisitCount'] = $this->reserve_model->userVisitCount($viewData['clubIdx'], $viewData['view']['userid']);
+    $viewData['userVisitCount'] = $this->reserve_model->userVisitCount($viewData['clubIdx'], $viewData['viewMember']['userid']);
 
     // 포인트 내역
-    $viewData['userPoint'] = $this->member_model->userPointLog($viewData['clubIdx'], $viewData['view']['userid']);
+    $viewData['userPoint'] = $this->member_model->userPointLog($viewData['clubIdx'], $viewData['viewMember']['userid']);
 
     // 페널티 내역
-    $viewData['userPenalty'] = $this->member_model->userPenaltyLog($viewData['clubIdx'], $viewData['view']['userid']);
+    $viewData['userPenalty'] = $this->member_model->userPenaltyLog($viewData['clubIdx'], $viewData['viewMember']['userid']);
 
     $this->_viewPage('admin/member_view', $viewData);
   }
@@ -2017,6 +2039,9 @@ exit;
    **/
   public function log_user()
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     $action = html_escape($this->input->post('action'));
     $viewData['subject'] = html_escape($this->input->post('subject'));
     $viewData['nickname'] = html_escape($this->input->post('nickname'));
@@ -2557,16 +2582,18 @@ exit;
    **/
   public function setup_information()
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     // 클럽 정보
-    $clubIdx = 1; // 경인웰빙
-    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+    $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
     $viewData['view']['club_type'] = is_null($viewData['view']['club_type']) || strlen($viewData['view']['club_type']) <= 3 ? array() : unserialize($viewData['view']['club_type']);
     $viewData['view']['club_option'] = is_null($viewData['view']['club_option']) || strlen($viewData['view']['club_option']) <= 3 ? array() : unserialize($viewData['view']['club_option']);
     $viewData['view']['club_cycle'] = is_null($viewData['view']['club_cycle']) || strlen($viewData['view']['club_cycle']) <= 3 ? array() : unserialize($viewData['view']['club_cycle']);
     $viewData['view']['club_week'] = is_null($viewData['view']['club_week']) || strlen($viewData['view']['club_week']) <= 3 ? array() : unserialize($viewData['view']['club_week']);
     $viewData['view']['club_geton'] = is_null($viewData['view']['club_geton']) || strlen($viewData['view']['club_geton']) <= 3 ? array() : unserialize($viewData['view']['club_geton']);
     $viewData['view']['club_getoff'] = is_null($viewData['view']['club_getoff']) || strlen($viewData['view']['club_getoff']) <= 3 ? array() : unserialize($viewData['view']['club_getoff']);
-    $files = $this->file_model->getFile('club', $clubIdx);
+    $files = $this->file_model->getFile('club', $viewData['clubIdx']);
 
     if (empty($files)) {
       $viewData['view']['photo'][0] = '';
@@ -2611,8 +2638,10 @@ exit;
    **/
   public function setup_information_update()
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     $now = time();
-    $clubIdx = 1; // 경인웰빙
     $page = 'club';
     $userIdx = $this->session->userData['idx'];
     $input_data = $this->input->post();
@@ -2636,12 +2665,12 @@ exit;
       'updated_at'        => $now
     );
 
-    $rtn = $this->club_model->updateClub($updateValues, $clubIdx);
+    $rtn = $this->club_model->updateClub($updateValues, $viewData['clubIdx']);
 
     // 로고 파일 등록
     if (!empty($file)) {
       // 기존 로고 파일이 있는 경우 삭제
-      $files = $this->file_model->getFile($page, $clubIdx);
+      $files = $this->file_model->getFile($page, $viewData['clubIdx']);
       foreach ($files as $value) {
         $this->file_model->deleteFile($value['filename']);
         if (file_exists(PHOTO_PATH . $value['filename'])) unlink(PHOTO_PATH . $value['filename']);
@@ -2651,7 +2680,7 @@ exit;
       if (file_exists(UPLOAD_PATH . $file)) {
         $file_values = array(
           'page' => $page,
-          'page_idx' => $clubIdx,
+          'page_idx' => $viewData['clubIdx'],
           'filename' => $file,
           'created_at' => $now
         );

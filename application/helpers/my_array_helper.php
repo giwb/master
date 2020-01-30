@@ -52,6 +52,18 @@ if (!function_exists('ksubstr'))
   }
 }
 
+// 클럽 홈 URL
+if (!function_exists('goHome')) {
+  function goHome($domain) {
+    if (strstr($domain, '.')) {
+      $result = 'http://' . $domain;
+    } else {
+      $result = base_url() . $domain;
+    }
+    return $result;
+  }
+}
+
 // 방문자 기록
 if (!function_exists('setVisitor')) {
   function setVisitor() {
