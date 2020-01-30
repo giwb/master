@@ -58,7 +58,12 @@
 
       <div id="fb-root"></div>
       <div class="club-main">
-        <img src="/public/images/giwb_20200130.jpg" class="main-image">
+        <?php if (!empty($view['main_photo'])): ?>
+        <!-- 모바일 대표 사진 -->
+        <div class="d-block d-sm-none">
+          <a href="javascript:;" class="photo-zoom" data-filename="<?=$view['main_photo']?>" data-width="<?=$view['main_photo_width']?>" data-height="<?=$view['main_photo_height']?>"><img src="<?=$view['main_photo']?>" class="main-image"></a>
+          <?php endif; ?>
+        </div>
         <div id="calendar"></div>
         <div class="your-story">
           <div class="club-story-article">
