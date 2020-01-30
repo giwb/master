@@ -75,7 +75,7 @@
           <div class="row align-items-center">
             <h1 class="col-sm-6 nav-logo"><a href="<?=BASE_URL?>" class="logo"><?=!empty($view['title']) ? $view['title'] : ''?></a></h1>
             <ul class="col-sm-6 text-right nav-menu">
-              <li><a href="javascript:;" class="btn-post-modal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></li>
+              <li><a target="_blank" href="https://m.cafe.daum.net/giwb"><img src="//m1.daumcdn.net/cafeimg/mobile/m640/tit_cafe_s_161214.png" width="50"></a></li>
               <?php if (empty($userData['idx'])): ?>
               <li><a href="javascript:;" class="login-popup">로그인</a></li>
               <?php else: ?>
@@ -115,8 +115,8 @@
             <a href="<?=BASE_URL?>/album/entry" title="사진 업로드"><i class="fa fa-cloud-upload btn-header"></i></a>
             <?php elseif (strstr($_SERVER['REQUEST_URI'], 'login')): ?>
             <?php else: ?>
-            <a href="javascript:;" class="btn-post-modal" title="글쓰기"><i class="fa fa-pencil-square-o btn-header"></i></a>
-            <?php endif; ?>            
+            <a target="_blank" href="https://m.cafe.daum.net/giwb"><img src="//m1.daumcdn.net/cafeimg/mobile/m640/tit_cafe_s_161214.png" width="50"></a>
+            <?php endif; ?>
           </li>
         </ul>
         <div class="nav-sp-mypage">

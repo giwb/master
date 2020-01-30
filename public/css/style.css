@@ -1577,9 +1577,10 @@ h1.nav-logo small {
   #nav-top { display: none; }
   #nav-sp { position: relative; width: 100%; background-color: #E0552A; display: block; padding: 15px 10px; }
   #nav-sp h1 { font-size: 22px; color: #fff; margin: 0px; padding: 0px; }
-  #nav-sp ul { width: 100%; margin: 0px; padding: 0px; display: table; text-align: center; }
-  #nav-sp ul li { width: 80%; display: table-cell; }
-  #nav-sp ul li:first-child, #nav-sp ul li:last-child { width: 10%; }
+  #nav-sp ul { width: 100%; margin: 0px; padding: 0px; display: table; }
+  #nav-sp ul li { width: 76%; display: table-cell; text-align: center; }
+  #nav-sp ul li:first-child, #nav-sp ul li:last-child { position: relative; width: 12%; }
+  #nav-sp ul li:last-child img { position: absolute; left: -15px; bottom: 4px; }
   .nav-sp-mypage { position: absolute; top: 56px; right: 0px; width: 150px; font-size: 14px; background-color: #fff; border: 1px solid #d9d9d9; padding: 10px; z-index: 100; }
   .page-header h1 {
     font-size: 32.437px;
