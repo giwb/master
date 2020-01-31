@@ -1,8 +1,9 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
+    </div>
     <div class="club-right">
       <?php if (!empty($listNotice)): ?>
-      <h3><i class="fa fa-calendar" aria-hidden="true"></i> 현재 진행중인 산행</h3>
+      <h3><i class="fas fa-calendar-alt" aria-hidden="true"></i> 현재 진행중인 산행</h3>
       <div class="list-schedule">
         <?php foreach ($listNotice as $value): ?>
         <a href="<?=BASE_URL?>/reserve/?n=<?=$value['idx']?>"><?=viewStatus($value['status'])?> <strong><?=$value['subject']?></strong><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명</a>

@@ -1928,7 +1928,6 @@ h1.nav-logo small {
 #club .container { display: flex; display: -webkit-flex; }
 #club .club-left { flex: 1; -webkit-flex: 1; }
 #club .club-main { flex: 3; -webkit-flex: 3; margin: 0 20px; }
-#club .club-admin { flex: 3; -webkit-flex: 3; }
 #club .club-right { flex: 1; -webkit-flex: 1; min-height: 825px; }
 
 #club .club-left .club-left-layer { position: fixed; }
@@ -1940,8 +1939,6 @@ h1.nav-logo small {
 #club .club-left .url { font-size: 12px; }
 #club .club-left .desc { font-size: 13px; text-align: justify; }
 #club .club-left .banner { width: 100%; border: 1px solid #999; margin: 10px 0; padding: 10px 0; text-align: center; cursor: pointer; }
-
-#club .club-admin #content-wrapper { margin: 0 20px; }
 
 #club .club-main .main-image { width: 100%; margin-bottom: 10px; }
 #club .club-main .your-story { width: 100%!important; clear: both; text-align: justify; overflow: hidden; }
@@ -2038,7 +2035,6 @@ h1.nav-logo small {
 
 #club .list-schedule { margin: 0 0 20px 0; padding: 0px; }
 #club .list-schedule a { font-size: 11px; color: #000; display: block; border-bottom: 1px solid #eee; margin: 0px; padding: 10px 5px; }
-#club .list-schedule a:hover { background-color: #e9e9e9; cursor: pointer; }
 #club .list-schedule a strong { font-size: 14px; color: #FF6C00; margin: 0px; padding: 0px; }
 #club .list-schedule span { font-size: 14px; }
 #club span.status-confirm { font-weight: bold; color: #000; }
@@ -2085,6 +2081,14 @@ h1.nav-logo small {
 #club .club-main .area-reply .reply-input { width: 100%; display: table; }
 #club .club-main .area-reply .reply-input textarea { width: 80%; height: 50px; display: table-cell; vertical-align: middle; }
 #club .club-main .area-reply .reply-input button { width: 19%; height: 50px; display: table-cell; vertical-align: middle; float: right; }
+
+/* 관리자 */
+#club .club-main .row { margin: 0px; }
+#club .club-main .admin-menu { margin: -15px 0 0 0; }
+#club .club-main .admin-menu .row { border-bottom: 5px solid #ddd; }
+#club .club-main .admin-menu .row a { color: #000; border-bottom: 2px solid #fff; padding: 0 0 5px 0; display: block; cursor: pointer; }
+#club .club-main .admin-menu .row a:hover, #club .club-main .admin-menu .row .active { border-bottom: 2px solid red; }
+#club .club-main #content { font-size: 14px; }
 
 #calendar { margin: 0 0 20px 0; }
 #calendar .fc-event { padding: 5px 5px 4px 5px; }
@@ -2199,6 +2203,9 @@ h1.nav-logo small {
 
 #nav-footer { display: none; }
 
+.btn-default { color: #fff; background-color: #FF6C00; }
+.btn-default:hover { color: #fff; background-color: #FF842A; }
+
 .btn-page-next, .btn-story-more { width: 100%; border: 1px solid #d9d9d9; background-color: #fff; margin: 10px 0 30px 0; padding: 5px; }
 .btn-page-next:hover, .btn-story-more:hover { box-shadow: #ddd 3px 3px 3px; }
 
@@ -2304,7 +2311,6 @@ h1.nav-logo small {
 
   #club .club-main .sub-header, .mypage h2 { display: none; }
 
-  .header-menu { border-bottom: 5px solid #ddd; }
-  .header-menu div { border-bottom: 2px solid #fff; padding: 0 0 5px 0; }
-  .header-menu .active { border-bottom: 2px solid red; }
+  /* 관리자 */
+  #club .club-main .admin-menu { margin: 0px -15px; }
 }

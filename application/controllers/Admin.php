@@ -549,6 +549,9 @@ class Admin extends Admin_Controller
     // 페이지 타이틀
     $viewData['pageTitle'] = '진행중 산행';
 
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'main_header';
+
     $this->_viewPage('admin/main_list_progress', $viewData);
   }
 
@@ -602,6 +605,12 @@ class Admin extends Admin_Controller
     // 댓글
     $viewData['listReply'] = $this->admin_model->listReply($viewData['clubIdx'], NULL, $viewData['rescode']);
     $viewData['listReply'] = $this->load->view('admin/log_reply_append', $viewData, true);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '예약 관리';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'main_header';
 
     $this->_viewPage('admin/main_view_progress', $viewData);
   }
@@ -670,6 +679,12 @@ class Admin extends Admin_Controller
       sort($viewData['busType'][$key1]['listMemo']);
     }
 
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '승차 관리';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'main_header';
+
     $this->_viewPage('admin/main_view_boarding', $viewData);
   }
 
@@ -686,6 +701,12 @@ class Admin extends Admin_Controller
 
     $idx = html_escape($idx);
     $viewData['view'] = $this->admin_model->viewEntry($idx);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '정산 관리';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'main_header';
 
     $this->_viewPage('admin/main_view_adjust', $viewData);
   }
@@ -741,6 +762,12 @@ class Admin extends Admin_Controller
       }
     }
 
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '문자 관리';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'main_header';
+
     $this->_viewPage('admin/main_view_sms', $viewData);
   }
 
@@ -774,6 +801,9 @@ class Admin extends Admin_Controller
    **/
   public function main_list_closed()
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     $viewData['search']['subject'] = $this->input->get('subject') ? html_escape($this->input->get('subject')) : '';
     $viewData['search']['sdate'] = $this->input->get('sdate') ? html_escape($this->input->get('sdate')) : date('Y-m-01');
     $viewData['search']['edate'] = $this->input->get('edate') ? html_escape($this->input->get('edate')) : date('Y-m-t');
@@ -784,6 +814,12 @@ class Admin extends Admin_Controller
     $viewData['search']['status'] = array(STATUS_CLOSED);
 
     $viewData['listClosed'] = $this->admin_model->listNotice($viewData['search']);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '다녀온 산행';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'main_header';
 
     $this->_viewPage('admin/main_list_closed', $viewData);
   }
@@ -796,6 +832,9 @@ class Admin extends Admin_Controller
    **/
   public function main_list_canceled()
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     $viewData['search']['subject'] = $this->input->get('subject') ? html_escape($this->input->get('subject')) : '';
     $viewData['search']['sdate'] = $this->input->get('sdate') ? html_escape($this->input->get('sdate')) : date('Y-m-01');
     $viewData['search']['edate'] = $this->input->get('edate') ? html_escape($this->input->get('edate')) : date('Y-m-t');
@@ -806,6 +845,12 @@ class Admin extends Admin_Controller
     $viewData['search']['status'] = array(STATUS_CANCEL);
 
     $viewData['listCancel'] = $this->admin_model->listNotice($viewData['search']);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '취소된 산행';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'main_header';
 
     $this->_viewPage('admin/main_list_canceled', $viewData);
   }
@@ -1054,6 +1099,12 @@ class Admin extends Admin_Controller
       }
     }
 
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '신규 산행 등록';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'main_header';
+
     $this->_viewPage('admin/main_entry', $viewData);
   }
 
@@ -1231,6 +1282,12 @@ exit;
     // 산행 공지사항
     $viewData['listNoticeDetail'] = $this->admin_model->listNoticeDetail($idx);
 
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '공지사항 등록';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'main_header';
+
     $this->_viewPage('admin/main_notice', $viewData);
   }
 
@@ -1406,6 +1463,12 @@ exit;
       );
     }
 
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '산행 예정 관리';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'main_header';
+
     $this->_viewPage('admin/main_schedule', $viewData);
   }
 
@@ -1472,6 +1535,12 @@ exit;
         );
       }
     }
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '지난 산행 보기';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'main_header';
 
     $this->output->set_output(json_encode($result));
   }
@@ -1574,6 +1643,12 @@ exit;
         'class' => $class,
       );
     }
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '산행 일정 복사';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'main_header';
 
     $this->load->view('admin/main_list_copy', $viewData);
   }
@@ -3162,6 +3237,9 @@ exit;
     // 클럽 정보
     $viewData['viewClub'] = $this->club_model->viewClub($viewData['clubIdx']);
 
+    // 진행중 산행
+    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['clubIdx'], array(STATUS_ABLE, STATUS_CONFIRM));
+
     // 클럽 대표이미지
     $files = $this->file_model->getFile('club', $viewData['clubIdx']);
     if (!empty($files[0]['filename']) && file_exists(PHOTO_PATH . $files[0]['filename'])) {
@@ -3176,6 +3254,7 @@ exit;
     $viewData['redirectUrl'] = $HTTP_HEADER . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
     $this->load->view('admin/header', $viewData);
+    if (!empty($viewData['headerMenu'])) $this->load->view('admin/' . $viewData['headerMenu'], $viewData);
     $this->load->view($viewPage, $viewData);
     $this->load->view('admin/footer');
   }
