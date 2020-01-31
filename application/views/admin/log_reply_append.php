@@ -10,7 +10,7 @@
   <dd>
     <strong><?=$value['nickname']?></strong> · <span class="reply-date"><?=calcStoryTime($value['created_at'])?></span><br>
     <?=$value['content']?><br>
-    <a href="<?=BASE_URL . $url?>" target="_blank">원글보기</a> | 
+    <a href="<?=BASE_URL?>/<?=$url?>" target="_blank">원글보기</a> | 
     <a href="javascript:;" class="btn-reply-delete" data-idx="<?=$value['idx']?>" data-action="delete_reply">삭제</a>
   </dd>
 </dl>
