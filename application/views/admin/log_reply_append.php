@@ -1,7 +1,7 @@
 <?php
   foreach ($listReply as $value):
-    if ($value['reply_type'] == REPLY_TYPE_STORY):  $url = 'story/view/' . $value['club_idx'] . '?n=' . $value['story_idx']; endif;
-    if ($value['reply_type'] == REPLY_TYPE_NOTICE): $url = 'reserve/' . $value['club_idx'] . '?n=' . $value['story_idx']; endif;
+    if ($value['reply_type'] == REPLY_TYPE_STORY):  $url = '/story/view/?n=' . $value['story_idx']; endif;
+    if ($value['reply_type'] == REPLY_TYPE_NOTICE): $url = '/admin/main_view_progress/' . $value['story_idx']; endif;
     if (file_exists(PHOTO_PATH . $value['created_by'])) $value['photo'] = PHOTO_URL . $value['created_by'];
     else $value['photo'] = '/public/images/user.png';
 ?>
