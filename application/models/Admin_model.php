@@ -563,6 +563,24 @@ class Admin_model extends CI_Model
     return $this->db->update(DB_HISTORY);
   }
 
+  // 활동관리 - 댓글 기록 카운트
+  public function cntReply($clubIdx, $rescode=NULL)
+  {
+    $this->db->select('COUNT(*) AS cnt')
+          ->from(DB_STORY_REPLY . ' a')
+          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
+          ->where('a.club_idx', $clubIdx)
+          ->where('a.deleted_at', NULL)
+          ->order_by('a.idx', 'desc');
+
+    if (!is_null($rescode)) {
+      $this->db->where('reply_type', REPLY_TYPE_NOTICE);
+      $this->db->where('story_idx', $rescode);
+    }
+
+    return $this->db->get()->row_array(1);
+  }
+
   // 활동관리 - 댓글 기록
   public function listReply($clubIdx, $paging=NULL, $rescode=NULL)
   {

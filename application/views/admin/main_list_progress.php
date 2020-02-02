@@ -3,7 +3,7 @@
         <div id="content" class="mb-5">
           <?php foreach ($list as $value): ?>
           <div class="border-bottom mt-1 pt-2 pb-2">
-            <b><?=viewStatus($value['status'], $value['visible'])?></b> <a href="/admin/main_view_progress/<?=$value['idx']?>"><?=$value['subject']?></a><br>
+            <b><?=viewStatus($value['status'], $value['visible'])?></b> <a href="<?=BASE_URL?>/admin/main_view_progress/<?=$value['idx']?>"><?=$value['subject']?></a><br>
             <div class="small">
               <?php if (!empty($value['sido'])): ?>
               <?php foreach ($value['sido'] as $key => $sido): ?><?=$sido?> <?=!empty($value['gugun'][$key]) ? $value['gugun'][$key] : ''?>, <?php endforeach; ?>

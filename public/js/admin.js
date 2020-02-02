@@ -46,18 +46,7 @@
     e.preventDefault();
   });
 
-  $(document).on('click', '.logout', function() {
-    // 로그아웃
-    var base_url = $('input[name=base_url]').val();
-
-    $.ajax({
-      url: '/login/logout',
-      dataType: 'json',
-      success: function() {
-        location.href = (base_url);
-      }
-    });
-  }).on('click', '.btn-member-update', function() {
+  $(document).on('click', '.btn-member-update', function() {
     // 회원정보 수정
     var $btn = $(this);
     var formData = new FormData($('#formMember')[0]);
@@ -268,32 +257,6 @@
           } else {
             $btn.removeClass('btn-secondary').addClass('btn-primary').attr('data-status', 1).text('확인');
           }
-        }
-      }
-    });
-  }).on('click', '.btn-page-next', function() {
-    // 페이징
-    var $btn = $(this);
-    var $dom = $('#formList');
-    var formData = new FormData($dom[0]);
-
-    $.ajax({
-      url: $dom.attr('action'),
-      data: formData,
-      processData: false,
-      contentType: false,
-      dataType: 'json',
-      type: 'post',
-      beforeSend: function() {
-        $btn.css('opacity', '0.5').prop('disabled', true).text('불러오는 중.....');
-      },
-      success: function(result) {
-        if (result.html == '') {
-          $btn.css('opacity', '1').prop('disabled', true).text('마지막 페이지 입니다.');
-        } else {
-          $btn.css('opacity', '1').prop('disabled', false).text('다음 페이지 보기 ▼');
-          $('input[name=p]').val(result.page);
-          if (result != '') $('.area-append').append(result.html);
         }
       }
     });

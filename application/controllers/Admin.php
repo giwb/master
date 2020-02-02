@@ -556,20 +556,6 @@ class Admin extends Admin_Controller
   }
 
   /**
-   * 계획중 산행 목록
-   *
-   * @return view
-   * @author bjchoi
-   **/
-  public function main_list_planned()
-  {
-    $search['status'] = array(STATUS_PLAN);
-    $viewData['list'] = $this->admin_model->listNotice($search);
-
-    $this->_viewPage('admin/main_list_planned', $viewData);
-  }
-
-  /**
    * 진행중 산행 예약 보기
    *
    * @return view
@@ -1434,6 +1420,9 @@ exit;
    **/
   public function main_schedule()
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     $viewData['search']['syear'] = NULL;
     $viewData['search']['smonth'] = NULL;
     $viewData['search']['status'] = array(STATUS_PLAN);
@@ -1462,6 +1451,10 @@ exit;
         'class' => $class,
       );
     }
+
+    // 계획중 산행
+    $search['status'] = array(STATUS_PLAN);
+    $viewData['listPlanned'] = $this->admin_model->listNotice($search);
 
     // 페이지 타이틀
     $viewData['pageTitle'] = '산행 예정 관리';
@@ -1721,12 +1714,16 @@ exit;
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
     $viewData['listMembers'] = $this->admin_model->listMembers($paging, $viewData['search']);
 
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '회원관리';
+
     if ($page >= 2) {
       // 2페이지 이상일 경우에는 Json으로 전송
       $result['page'] = $page;
       $result['html'] = $this->load->view('admin/member_list_append', $viewData, true);
       $this->output->set_output(json_encode($result));
     } else {
+      $viewData['listMembers'] = $this->load->view('admin/member_list_append', $viewData, true);
       // 1페이지에는 View 페이지로 전송
       $this->_viewPage('admin/member_list', $viewData);
     }
@@ -1774,6 +1771,9 @@ exit;
 
     // 페널티 내역
     $viewData['userPenalty'] = $this->member_model->userPenaltyLog($viewData['clubIdx'], $viewData['viewMember']['userid']);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '회원관리';
 
     $this->_viewPage('admin/member_view', $viewData);
   }
@@ -2085,11 +2085,20 @@ exit;
    **/
   public function log_reserve()
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     $viewData['keyword'] = !empty($this->input->post('k')) ? html_escape($this->input->post('k')) : NULL;
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
     $paging['perPage'] = 20;
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '회원 활동기록';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'log_header';
 
     // 예약기록 불러오기
     $viewData['listReserve'] = $this->admin_model->listReserve($paging, $viewData['keyword']);
@@ -2101,6 +2110,7 @@ exit;
       $this->output->set_output(json_encode($result));
     } else {
       // 1페이지에는 View 페이지로 전송
+      $viewData['listReserve'] = $this->load->view('admin/log_reserve_append', $viewData, true);
       $this->_viewPage('admin/log_reserve', $viewData);
     }
   }
@@ -2117,10 +2127,10 @@ exit;
     // 클럽ID
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
 
-    $action = html_escape($this->input->post('action'));
-    $viewData['subject'] = html_escape($this->input->post('subject'));
-    $viewData['nickname'] = html_escape($this->input->post('nickname'));
-    $viewData['status'] = !empty($this->input->post('status')) ? html_escape($this->input->post('status')) : 0;
+    $action = html_escape($this->input->get('action'));
+    $viewData['subject'] = html_escape($this->input->get('subject'));
+    $viewData['nickname'] = html_escape($this->input->get('nickname'));
+    $viewData['status'] = !empty($this->input->get('status')) ? html_escape($this->input->get('status')) : 0;
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
 
@@ -2131,15 +2141,20 @@ exit;
       $viewData['action'] = array($action);
       $viewData['listHistory'] = $this->admin_model->listHistory($paging, $viewData);
     } else {
-      $viewData['action'] = array(LOG_ENTRY, LOG_RESERVE, LOG_CANCEL, LOG_POINTUP, LOG_POINTDN, LOG_PENALTYUP, LOG_PENALTYDN);
+      $viewData['action'] = array(LOG_ENTRY, LOG_RESERVE, LOG_CANCEL, LOG_POINTUP, LOG_POINTDN, LOG_PENALTYUP, LOG_PENALTYDN, LOG_ADMIN_RESERVE, LOG_ADMIN_CANCEL, LOG_ADMIN_DEPOSIT_CONFIRM, LOG_ADMIN_DEPOSIT_CANCEL, LOG_ADMIN_REFUND);
       $viewData['listHistory'] = $this->admin_model->listHistory($paging, $viewData);
       $viewData['action'][0] = ''; // 액션 초기화
     }
 
     $viewData['maxLog'] = $this->admin_model->cntHistory($viewData);
-    $viewData['pageType'] = 'member';
-    $viewData['pageUrl'] = '/admin/log_user';
-    $viewData['pageTitle'] = '회원 활동기록';
+    $viewData['pageType'] = 'log';
+    $viewData['pageUrl'] = BASE_URL . '/admin/log_user';
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '활동기록';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'log_header';
 
     foreach ($viewData['listHistory'] as $key => $value) {
       if (!empty($value['userid'])) {
@@ -2150,91 +2165,34 @@ exit;
       }
 
       switch ($value['action']) {
-        case '1': // 회원등록
+        case LOG_ENTRY: // 회원등록
           $viewData['listHistory'][$key]['header'] = '[회원등록]';
           $viewData['listHistory'][$key]['subject'] = $value['userid'];
           break;
-        case '2': // 예약
+        case LOG_RESERVE: // 예약
           $viewData['listHistory'][$key]['header'] = '<span class="text-primary">[예약완료]</span>';
           $viewData['listHistory'][$key]['subject'] = $value['subject'];
           break;
-        case '3': // 예약취소
+        case LOG_CANCEL: // 예약취소
           $viewData['listHistory'][$key]['header'] = '<span class="text-danger">[예약취소]</span>';
           $viewData['listHistory'][$key]['subject'] = $value['subject'];
           break;
-        case '4': // 포인트 적립
+        case LOG_POINTUP: // 포인트 적립
           $viewData['listHistory'][$key]['header'] = '<span class="text-info">[포인트적립]</span>';
           $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' - ' . number_format($value['point']) . ' 포인트적립';
           break;
-        case '5': // 포인트 감소
+        case LOG_POINTDN: // 포인트 감소
           $viewData['listHistory'][$key]['header'] = '<span class="text-warning">[포인트감소]</span>';
           $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' - ' . number_format($value['point']) . ' 포인트감소';
           break;
-        case '6': // 페널티 추가
+        case LOG_PENALTYUP: // 페널티 추가
           $viewData['listHistory'][$key]['header'] = '<span class="text-warning">[페널티추가]</span>';
           $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' - ' . number_format($value['point']) . ' 페널티추가';
           break;
-        case '7': // 페널티 감소
+        case LOG_PENALTYDN: // 페널티 감소
           $viewData['listHistory'][$key]['header'] = '<span class="text-info">[페널티감소]</span>';
           $viewData['listHistory'][$key]['subject'] = $value['subject'] . ' - ' . number_format($value['point']) . ' 페널티감소';
           break;
-      }
-    }
-
-    if ($page >= 2) {
-      // 2페이지 이상일 경우에는 Json으로 전송
-      $result['page'] = $page;
-      $result['html'] = $this->load->view('admin/log_user_append', $viewData, true);
-      $this->output->set_output(json_encode($result));
-    } else {
-      // 1페이지에는 View 페이지로 전송
-      $viewData['listHistory'] = $this->load->view('admin/log_user_append', $viewData, true);
-      $this->_viewPage('admin/log_user', $viewData);
-    }
-  }
-
-  /**
-   * 활동관리 - 관리자 활동기록
-   *
-   * @return view
-   * @return json
-   * @author bjchoi
-   **/
-  public function log_admin()
-  {
-    $action = html_escape($this->input->post('action'));
-    $viewData['subject'] = html_escape($this->input->post('subject'));
-    $viewData['nickname'] = html_escape($this->input->post('nickname'));
-    $viewData['status'] = !empty($this->input->post('status')) ? html_escape($this->input->post('status')) : 0;
-    $page = html_escape($this->input->post('p'));
-    if (empty($page)) $page = 1; else $page++;
-
-    $paging['perPage'] = $viewData['perPage'] = 30;
-    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
-
-    if (!empty($action)) {
-      $viewData['action'] = array($action);
-      $viewData['listHistory'] = $this->admin_model->listHistory($paging, $viewData);
-    } else {
-      $viewData['action'] = array(LOG_ADMIN_RESERVE, LOG_ADMIN_CANCEL, LOG_ADMIN_DEPOSIT_CONFIRM, LOG_ADMIN_DEPOSIT_CANCEL);
-      $viewData['listHistory'] = $this->admin_model->listHistory($paging, $viewData);
-      $viewData['action'][0] = ''; // 액션 초기화
-    }
-
-    $viewData['maxLog'] = $this->admin_model->cntHistory($viewData);
-    $viewData['pageType'] = 'admin';
-    $viewData['pageUrl'] = '/admin/log_admin';
-    $viewData['pageTitle'] = '관리자 활동기록';
-
-    foreach ($viewData['listHistory'] as $key => $value) {
-      if (!empty($value['userid'])) {
-        $search_member['userid'] = $value['userid'];
-        $viewData['listHistory'][$key]['userData'] = $this->admin_model->viewMember($search_member);
-      } else {
-        $viewData['listHistory'][$key]['userData']['nickname'] = $value['nickname'];
-      }
-
-      switch ($value['action']) {
         case LOG_ADMIN_RESERVE: // 관리자 예약
           $viewData['listHistory'][$key]['header'] = '<span class="text-primary">[관리자예약완료]</span>';
           $viewData['listHistory'][$key]['subject'] = $value['subject'];
@@ -2255,61 +2213,13 @@ exit;
           $viewData['listHistory'][$key]['header'] = '<span class="text-warning">[관리자입금취소]</span>';
           $viewData['listHistory'][$key]['subject'] = $value['subject'];
           break;
+        case LOG_ADMIN_REFUND: // 비회원 환불기록
+          $viewData['listHistory'][$key]['userData']['nickname'] = $value['nickname'];
+          $viewEntry = $this->admin_model->viewEntry($value['fkey']);
+          $viewData['listHistory'][$key]['header'] = '<span class="text-danger">[비회원환불기록]</span>';
+          $viewData['listHistory'][$key]['subject'] = number_format($viewEntry['cost_total']) . '원<br>' . $value['subject'];
+          break;
       }
-    }
-
-    if ($page >= 2) {
-      // 2페이지 이상일 경우에는 Json으로 전송
-      $result['page'] = $page;
-      $result['html'] = $this->load->view('admin/log_user_append', $viewData, true);
-      $this->output->set_output(json_encode($result));
-    } else {
-      // 1페이지에는 View 페이지로 전송
-      $viewData['listHistory'] = $this->load->view('admin/log_user_append', $viewData, true);
-      $this->_viewPage('admin/log_user', $viewData);
-    }
-  }
-
-  /**
-   * 활동관리 - 비회원 환불기록
-   *
-   * @return view
-   * @return json
-   * @author bjchoi
-   **/
-  public function log_refund()
-  {
-    $action = html_escape($this->input->post('action'));
-    $viewData['subject'] = html_escape($this->input->post('subject'));
-    $viewData['nickname'] = html_escape($this->input->post('nickname'));
-    $viewData['status'] = !empty($this->input->post('status')) ? html_escape($this->input->post('status')) : 0;
-    $page = html_escape($this->input->post('p'));
-    if (empty($page)) $page = 1; else $page++;
-
-    $paging['perPage'] = $viewData['perPage'] = 30;
-    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
-
-    if (!empty($action)) {
-      $viewData['action'] = array($action);
-      $viewData['listHistory'] = $this->admin_model->listHistory($paging, $viewData);
-    } else {
-      $viewData['action'] = array(LOG_ADMIN_REFUND);
-      $viewData['refund'] = 'refund';
-      $viewData['listHistory'] = $this->admin_model->listHistory($paging, $viewData);
-      $viewData['action'][0] = ''; // 액션 초기화
-    }
-
-    $viewData['maxLog'] = $this->admin_model->cntHistory($viewData);
-    $viewData['pageType'] = 'refund';
-    $viewData['pageUrl'] = '/admin/log_refund';
-    $viewData['pageTitle'] = '비회원 환불기록';
-
-    foreach ($viewData['listHistory'] as $key => $value) {
-      $viewData['listHistory'][$key]['userData']['nickname'] = $value['nickname'];
-
-      $viewEntry = $this->admin_model->viewEntry($value['fkey']);
-      $viewData['listHistory'][$key]['header'] = '<span class="text-danger">[비회원환불기록]</span>';
-      $viewData['listHistory'][$key]['subject'] = number_format($viewEntry['cost_total']) . '원<br>' . $value['subject'];
     }
 
     if ($page >= 2) {
@@ -2333,10 +2243,13 @@ exit;
    **/
   public function log_bus()
   {
-    $action = html_escape($this->input->post('action'));
-    $viewData['subject'] = html_escape($this->input->post('subject'));
-    $viewData['nickname'] = html_escape($this->input->post('nickname'));
-    $viewData['status'] = !empty($this->input->post('status')) ? html_escape($this->input->post('status')) : 0;
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
+    $action = html_escape($this->input->get('action'));
+    $viewData['subject'] = html_escape($this->input->get('subject'));
+    $viewData['nickname'] = html_escape($this->input->get('nickname'));
+    $viewData['status'] = !empty($this->input->get('status')) ? html_escape($this->input->get('status')) : 0;
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
 
@@ -2354,8 +2267,13 @@ exit;
 
     $viewData['maxLog'] = $this->admin_model->cntHistory($viewData);
     $viewData['pageType'] = 'bus';
-    $viewData['pageUrl'] = '/admin/log_bus';
-    $viewData['pageTitle'] = '버스 변경기록';
+    $viewData['pageUrl'] = BASE_URL . '/admin/log_bus';
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '차량 변경기록';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'log_header';
 
     foreach ($viewData['listHistory'] as $key => $value) {
       $viewEntry = $this->admin_model->viewEntry($value['fkey']);
@@ -2363,7 +2281,7 @@ exit;
       switch ($value['action']) {
         case LOG_DRIVER_CHANGE: // 차량 변경
           $viewData['listHistory'][$key]['header'] = '<span class="text-danger">[차량변경]</span>';
-          $viewData['listHistory'][$key]['subject'] = '<a href="/admin/main_view_progress/' . $value['fkey'] . '">' . $viewEntry['subject'] . '</a> - ' . $value['subject'];
+          $viewData['listHistory'][$key]['subject'] = '<a href="' . BASE_URL . '/admin/main_view_progress/' . $value['fkey'] . '">' . $viewEntry['subject'] . '</a> - ' . $value['subject'];
           break;
       }
     }
@@ -2389,10 +2307,13 @@ exit;
    **/
   public function log_buy()
   {
-    $action = html_escape($this->input->post('action'));
-    $viewData['subject'] = html_escape($this->input->post('subject'));
-    $viewData['nickname'] = html_escape($this->input->post('nickname'));
-    $viewData['status'] = !empty($this->input->post('status')) ? html_escape($this->input->post('status')) : 0;
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
+    $action = html_escape($this->input->get('action'));
+    $viewData['subject'] = html_escape($this->input->get('subject'));
+    $viewData['nickname'] = html_escape($this->input->get('nickname'));
+    $viewData['status'] = !empty($this->input->get('status')) ? html_escape($this->input->get('status')) : 0;
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
 
@@ -2410,8 +2331,13 @@ exit;
 
     $viewData['maxLog'] = $this->admin_model->cntHistory($viewData);
     $viewData['pageType'] = 'buy';
-    $viewData['pageUrl'] = '/admin/log_buy';
-    $viewData['pageTitle'] = '회원 구매기록';
+    $viewData['pageUrl'] = BASE_URL . '/admin/log_buy';
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '구매기록';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'log_header';
 
     foreach ($viewData['listHistory'] as $key => $value) {
       $viewData['listHistory'][$key]['userData']['nickname'] = $value['nickname'];
@@ -2446,106 +2372,6 @@ exit;
   }
 
   /**
-   * 활동관리 - 관리자 구매기록
-   *
-   * @return view
-   * @return json
-   * @author bjchoi
-   **/
-  public function log_buy_admin()
-  {
-    $action = html_escape($this->input->post('action'));
-    $viewData['subject'] = html_escape($this->input->post('subject'));
-    $viewData['nickname'] = html_escape($this->input->post('nickname'));
-    $viewData['status'] = !empty($this->input->post('status')) ? html_escape($this->input->post('status')) : 0;
-    $page = html_escape($this->input->post('p'));
-    if (empty($page)) $page = 1; else $page++;
-
-    $paging['perPage'] = $viewData['perPage'] = 30;
-    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
-
-    if (!empty($action)) {
-      $viewData['action'] = array($action);
-      $viewData['listHistory'] = $this->admin_model->listHistory($paging, $viewData);
-    } else {
-      $viewData['action'] = array(LOG_ADMIN_SHOP_BUY, LOG_ADMIN_SHOP_CANCEL, LOG_ADMIN_SHOP_DEPOSIT_CONFIRM, LOG_ADMIN_SHOP_DEPOSIT_CANCEL, LOG_ADMIN_SHOP_COMPLETE);
-      $viewData['listHistory'] = $this->admin_model->listHistory($paging, $viewData);
-      $viewData['action'][0] = ''; // 액션 초기화
-    }
-
-    $viewData['maxLog'] = $this->admin_model->cntHistory($viewData);
-    $viewData['pageType'] = 'buy_admin';
-    $viewData['pageUrl'] = '/admin/log_buy_admin';
-    $viewData['pageTitle'] = '관리자 구매기록';
-
-    foreach ($viewData['listHistory'] as $key => $value) {
-      $viewData['listHistory'][$key]['userData']['nickname'] = $value['nickname'];
-      $viewOrder = $this->shop_model->viewPurchase($value['fkey']);
-
-      switch ($value['action']) {
-        case LOG_ADMIN_SHOP_BUY: // 용품판매 관리자 - 구매
-          $viewData['listHistory'][$key]['header'] = '<span class="text-primary">[구매완료]</span>';
-          $viewData['listHistory'][$key]['subject'] = $value['subject'];
-          break;
-        case LOG_ADMIN_SHOP_CANCEL: // 용품판매 관리자 - 취소
-          $viewData['listHistory'][$key]['header'] = '<span class="text-info">[구매취소]</span>';
-          $viewData['listHistory'][$key]['subject'] = $value['subject'];
-          break;
-        case LOG_ADMIN_SHOP_DEPOSIT_CONFIRM: // 용품판매 관리자 - 입금확인
-          $viewData['listHistory'][$key]['header'] = '<span class="text-danger">[입금확인]</span>';
-          $viewData['listHistory'][$key]['subject'] = $value['subject'];
-          break;
-        case LOG_ADMIN_SHOP_DEPOSIT_CANCEL: // 용품판매 관리자 - 입금취소
-          $viewData['listHistory'][$key]['header'] = '<span class="text-danger">[입금취소]</span>';
-          $viewData['listHistory'][$key]['subject'] = $value['subject'];
-          break;
-        case LOG_ADMIN_SHOP_COMPLETE: // 용품판매 관리자 - 판매완료
-          $viewData['listHistory'][$key]['header'] = '<span class="text-primary">[판매완료]</span>';
-          $viewData['listHistory'][$key]['subject'] = $value['subject'];
-          break;
-      }
-    }
-
-    if ($page >= 2) {
-      // 2페이지 이상일 경우에는 Json으로 전송
-      $result['page'] = $page;
-      $result['html'] = $this->load->view('admin/log_user_append', $viewData, true);
-      $this->output->set_output(json_encode($result));
-    } else {
-      // 1페이지에는 View 페이지로 전송
-      $viewData['listHistory'] = $this->load->view('admin/log_user_append', $viewData, true);
-      $this->_viewPage('admin/log_user', $viewData);
-    }
-  }
-
-  /**
-   * 활동관리 - 확인 체크
-   *
-   * @return json
-   * @author bjchoi
-   **/
-  public function log_check()
-  {
-    $idx = html_escape($this->input->post('idx'));
-    $status = html_escape($this->input->post('status'));
-
-    $viewHistory = $this->admin_model->viewHistory($idx);
-
-    if ($viewHistory['status'] == 1) $status = 0; else $status = 1;
-
-    $updateValues = array('status' => $status);
-    $rtn = $this->admin_model->updateHistory($updateValues, $idx);
-
-    if (empty($rtn)) {
-      $result = array('error' => 1, 'status' => $status, 'message' => $this->lang->line('error_all'));
-    } else {
-      $result = array('error' => 0, 'status' => $status, 'message' => '');
-    }
-
-    $this->output->set_output(json_encode($result));
-  }
-
-  /**
    * 활동관리 - 클럽 댓글
    *
    * @return view
@@ -2560,7 +2386,15 @@ exit;
     if (empty($page)) $page = 1; else $page++;
     $paging['perPage'] = 30;
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
+
+    $viewData['cntReply'] = $this->admin_model->cntReply($viewData['clubIdx']);
     $viewData['listReply'] = $this->admin_model->listReply($viewData['clubIdx'], $paging);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '댓글기록';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'log_header';
 
     if ($page >= 2) {
       // 2페이지 이상일 경우에는 Json으로 전송
@@ -2632,17 +2466,54 @@ exit;
    **/
   public function log_visitor()
   {
-    $viewData['keyword']      = $this->input->post('keyword') ? html_escape($this->input->post('keyword')) : '';
-    $viewData['nowdate']      = $this->input->post('nowdate') ? html_escape($this->input->post('nowdate')) : date('Ymd');
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
+    $viewData['keyword']      = $this->input->get('keyword') ? html_escape($this->input->get('keyword')) : '';
+    $viewData['nowdate']      = $this->input->get('nowdate') ? html_escape($this->input->get('nowdate')) : date('Ymd');
     $viewData['searchYear']   = date('Y', strtotime($viewData['nowdate']));
     $viewData['searchMonth']  = date('m', strtotime($viewData['nowdate']));
     $viewData['searchDay']    = date('d', strtotime($viewData['nowdate']));
     $viewData['searchPrev']   = date('Ymd', strtotime('-1 day', strtotime($viewData['nowdate'])));
     $viewData['searchNext']   = date('Ymd', strtotime('+1 day', strtotime($viewData['nowdate'])));
 
+    // 방문자
     $viewData['listVisitor'] = $this->admin_model->listVisitor($viewData);
 
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '방문기록';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'log_header';
+
     $this->_viewPage('admin/log_visitor', $viewData);
+  }
+
+  /**
+   * 활동관리 - 확인 체크
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function log_check()
+  {
+    $idx = html_escape($this->input->post('idx'));
+    $status = html_escape($this->input->post('status'));
+
+    $viewHistory = $this->admin_model->viewHistory($idx);
+
+    if ($viewHistory['status'] == 1) $status = 0; else $status = 1;
+
+    $updateValues = array('status' => $status);
+    $rtn = $this->admin_model->updateHistory($updateValues, $idx);
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'status' => $status, 'message' => $this->lang->line('error_all'));
+    } else {
+      $result = array('error' => 0, 'status' => $status, 'message' => '');
+    }
+
+    $this->output->set_output(json_encode($result));
   }
 
   /** ---------------------------------------------------------------------------------------
@@ -2701,6 +2572,12 @@ exit;
     } else {
       $viewData['area_gugun'] = array();
     }
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '기본정보 수정';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'setup_header';
 
     $this->_viewPage('admin/setup_information', $viewData);
   }
@@ -2790,9 +2667,17 @@ exit;
    **/
   public function setup_pages()
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     // 클럽 정보
-    $clubIdx = 1; // 경인웰빙
-    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+    $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '소개화면 수정';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'setup_header';
 
     $this->_viewPage('admin/setup_pages', $viewData);
   }
@@ -2932,8 +2817,17 @@ exit;
    **/
   public function setup_sms()
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     $search['status'] = array(STATUS_PLAN, STATUS_ABLE, STATUS_CONFIRM);
     $viewData['list'] = $this->admin_model->listNotice($search);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '문자양식';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'setup_header';
 
     $this->_viewPage('admin/setup_sms', $viewData);
   }
@@ -2946,7 +2840,17 @@ exit;
    **/
   public function setup_bustype()
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
+    // 차종목록
     $viewData['listBustype'] = $this->admin_model->listBustype();
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '차종등록';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'setup_header';
 
     $this->_viewPage('admin/setup_bustype', $viewData);
   }
@@ -2959,6 +2863,9 @@ exit;
    **/
   public function setup_bustype_add($idx=NULL)
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     if (!is_null($idx)) {
       $idx = html_escape($idx);
       $viewData['viewBustype'] = $this->admin_model->getBustype($idx);
@@ -2975,6 +2882,12 @@ exit;
     }
 
     $viewData['listBusdata'] = $this->admin_model->listBusdata();
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '차종등록';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'setup_header';
 
     $this->_viewPage('admin/setup_bustype_add', $viewData);
   }
@@ -3108,11 +3021,20 @@ exit;
    **/
   public function setup_calendar()
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     $sdate = html_escape($this->input->get('d'));
     if (!empty($sdate)) $viewData['sdate'] = html_escape($sdate); else $viewData['sdate'] = NULL;
 
     // 캘린더 설정
     $viewData['listCalendar'] = $this->admin_model->listCalendar();
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '달력관리';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'setup_header';
 
     $this->_viewPage('admin/setup_calendar', $viewData);
   }

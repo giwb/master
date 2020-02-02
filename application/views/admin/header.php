@@ -24,6 +24,7 @@
 
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
   <link href="/public/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/public/css/jquery-ui.css" rel="stylesheet" type="text/css">
   <link href="/public/css/fontawesome/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="/public/lib/animate/animate.min.css" rel="stylesheet">
   <link href="/public/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
@@ -38,6 +39,8 @@
 
   <script src="/public/js/jquery-2.1.4.min.js" type="text/javascript"></script>
   <script src="/public/js/jquery-ui.custom.min.js" type="text/javascript"></script>
+  <script src="/public/js/jquery-ui.min.js" type="text/javascript"></script>
+  <script src="/public/js/jquery.ui.touch-punch.min.js" type="text/javascript"></script>
   <script src="/public/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="/public/lib/easing/easing.min.js"></script>
   <script src="/public/lib/superfish/hoverIntent.js"></script>
@@ -56,6 +59,7 @@
   <script src="/public/photoswipe/photoswipe-ui-default.min.js" type="text/javascript"></script>
   <!--<script src="/public/js/jquery.magnific-popup.min.js" type="text/javascript"></script>-->
   <script src="/public/js/main.js?<?=time()?>" type="text/javascript"></script>
+  <script src="/public/js/admin.js?<?=time()?>" type="text/javascript"></script>
   <?php if (ENVIRONMENT == 'production' && $_SERVER['REMOTE_ADDR'] != '49.166.0.82'): ?>
   <script data-ad-client="ca-pub-2424708381875991" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <?php endif; ?>
@@ -149,11 +153,12 @@
           </div>
           <?=!empty($viewClub['homepage']) ? '<a href="' . $viewClub['homepage'] . '" class="url">' . $viewClub['homepage'] . '</a>' : ''?>
           <ul class="navi">
-            <li><a href="/admin/main_list_progress"><i class="fas fa-mountain" aria-hidden="true"></i> 산행관리</a></li>
-            <li><a href="/ShopAdmin/index"><i class="fas fa-shopping-cart" aria-hidden="true"></i> 구매대행관리</a></li>
-            <li><a href="/admin/member_list"><i class="fas fa-users" aria-hidden="true"></i> 회원관리</a></li>
-            <li><a href="/admin/log_user"><i class="fas fa-exchange-alt" aria-hidden="true"></i> 활동관리</a></li>
-            <li><a href="/admin/setup_information"><i class="fas fa-cog" aria-hidden="true"></i> 설정</a></li>
+            <li class="mb-1"><a href="<?=BASE_URL?>/admin"><i class="fas fa-chalkboard" aria-hidden="true"></i> 대시보드</a></li>
+            <li class="mb-1"><a href="<?=BASE_URL?>/admin/main_list_progress"><i class="fas fa-mountain" aria-hidden="true"></i> 산행관리</a></li>
+            <li class="mb-1"><a href="<?=BASE_URL?>/ShopAdmin/index"><i class="fas fa-shopping-cart" aria-hidden="true"></i> 구매대행관리</a></li>
+            <li class="mb-1"><a href="<?=BASE_URL?>/admin/member_list"><i class="fas fa-users" aria-hidden="true"></i> 회원관리</a></li>
+            <li class="mb-1"><a href="<?=BASE_URL?>/admin/log_user"><i class="fas fa-exchange-alt" aria-hidden="true"></i> 활동관리</a></li>
+            <li><a href="<?=BASE_URL?>/admin/setup_information"><i class="fas fa-cog" aria-hidden="true"></i> 설정</a></li>
           </ul>
         </div>
       </div>

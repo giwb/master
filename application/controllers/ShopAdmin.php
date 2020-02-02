@@ -25,9 +25,9 @@ class ShopAdmin extends Admin_Controller
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
 
     $viewData['search'] = array(
-      'item_name' => !empty($this->input->post('item_name')) ? html_escape($this->input->post('item_name')) : NULL,
-      'item_category1' => !empty($this->input->post('item_category1')) ? html_escape($this->input->post('item_category1')) : NULL,
-      'item_category2' => !empty($this->input->post('item_category2')) ? html_escape($this->input->post('item_category2')) : NULL
+      'item_name' => !empty($this->input->get('item_name')) ? html_escape($this->input->get('item_name')) : NULL,
+      'item_category1' => !empty($this->input->get('item_category1')) ? html_escape($this->input->get('item_category1')) : NULL,
+      'item_category2' => !empty($this->input->get('item_category2')) ? html_escape($this->input->get('item_category2')) : NULL
     );
 
     // 검색 분류
@@ -51,9 +51,9 @@ class ShopAdmin extends Admin_Controller
       // 대표 사진 추출
       $photo = unserialize($value['item_photo']);
       if (!empty($photo[0]) && file_exists(PHOTO_PATH . $photo[0])) {
-        $viewData['listItem'][$key]['item_photo'] = base_url() . PHOTO_URL . $photo[0];
+        $viewData['listItem'][$key]['item_photo'] = PHOTO_URL . $photo[0];
       } else {
-        $viewData['listItem'][$key]['item_photo'] = base_url() . 'public/images/noimage.png';
+        $viewData['listItem'][$key]['item_photo'] = '/public/images/noimage.png';
       }
 
       // 카테고리명
@@ -63,6 +63,12 @@ class ShopAdmin extends Admin_Controller
         $viewData['listItem'][$key]['item_category_name'][$cnt] = $buf['name'];
       }
     }
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '등록된 상품 관리';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'shop_header';
 
     if ($page >= 2) {
       // 2페이지 이상일 경우에는 Json으로 전송
@@ -130,6 +136,12 @@ class ShopAdmin extends Admin_Controller
         $viewData['listCategory2'] = $this->shop_model->listCategory($viewData['view']['item_category_name'][0]);
       }
     }
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '신규 상품 등록';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'shop_header';
 
     $this->_viewPage('shop_admin/entry', $viewData);
   }
@@ -266,6 +278,15 @@ class ShopAdmin extends Admin_Controller
    **/
   public function category($parent = NULL)
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '분류 설정';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'shop_header';
+
     if (empty($parent)) {
       // 부모가 없으면 뷰로 출력
       $viewData['listCategory'] = $this->shop_model->listCategory();
@@ -355,11 +376,13 @@ class ShopAdmin extends Admin_Controller
    **/
   public function order()
   {
-    $clubIdx = 1;
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     $viewData['search'] = array(
-      'item_name' => !empty($this->input->post('item_name')) ? html_escape($this->input->post('item_name')) : NULL,
-      'nickname' => !empty($this->input->post('nickname')) ? html_escape($this->input->post('nickname')) : NULL,
-      'mname' => !empty($this->input->post('mname')) ? html_escape($this->input->post('mname')) : NULL,
+      'item_name' => !empty($this->input->get('item_name')) ? html_escape($this->input->get('item_name')) : NULL,
+      'nickname' => !empty($this->input->get('nickname')) ? html_escape($this->input->get('nickname')) : NULL,
+      'mname' => !empty($this->input->get('mname')) ? html_escape($this->input->get('mname')) : NULL,
     );
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
@@ -379,8 +402,11 @@ class ShopAdmin extends Admin_Controller
       }
     }
 
-    // 진행중 산행목록
-    $viewData['listNotice'] = $this->reserve_model->listNotice($clubIdx, array(STATUS_ABLE, STATUS_CONFIRM));
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '주문 관리';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'shop_header';
 
     if ($page >= 2) {
       // 2페이지 이상일 경우에는 Json으로 전송
@@ -575,6 +601,9 @@ class ShopAdmin extends Admin_Controller
     // 클럽 정보
     $viewData['viewClub'] = $this->club_model->viewClub($viewData['clubIdx']);
 
+    // 진행중 산행
+    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['clubIdx'], array(STATUS_ABLE, STATUS_CONFIRM));
+
     // 클럽 대표이미지
     $files = $this->file_model->getFile('club', $viewData['clubIdx']);
     if (!empty($files[0]['filename']) && file_exists(PHOTO_PATH . $files[0]['filename'])) {
@@ -589,6 +618,7 @@ class ShopAdmin extends Admin_Controller
     $viewData['redirectUrl'] = $HTTP_HEADER . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
     $this->load->view('admin/header', $viewData);
+    if (!empty($viewData['headerMenu'])) $this->load->view('admin/' . $viewData['headerMenu'], $viewData);
     $this->load->view($viewPage, $viewData);
     $this->load->view('admin/footer');
   }

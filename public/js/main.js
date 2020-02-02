@@ -393,11 +393,12 @@
     $('.error-message').slideUp();
   }).on('click', '.logout', function() {
     // 로그아웃
+    var baseUrl = $('input[name=baseUrl]').val();
     $.ajax({
       url: '/login/logout',
       dataType: 'json',
-      success: function() {
-        location.replace($('input[name=baseUrl]').val());
+      success: function(result) {
+        location.reload();
       }
     });
   }).on('blur', '.check-userid', function() {

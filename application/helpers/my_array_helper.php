@@ -955,7 +955,9 @@ if (!function_exists('getUserAgent')) {
     if (strstr($agent, 'AppleWebKit') && strstr($agent, 'Mobile/15E148')) $result .= '다음앱 ';
     if (strstr($agent, 'kakaotalk'))    $result .= '카카오톡 ';
     if (strstr($agent, 'facebook'))     $result .= '페이스북 ';
-    if ($result == '') $result = $agent;
+    if (empty($result)) {
+      $result = strlen($agent) > 35 ? substr($agent, 0, 35) . '...' : $agent;
+    }
 
     return $result;
   }

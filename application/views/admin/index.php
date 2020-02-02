@@ -119,7 +119,7 @@
         <div class="border-bottom mb-3 pt-2 pb-3">
           <div class="row align-items-center">
             <div class="col-6">■ 최신 댓글</div>
-            <div class="col-6 text-right small"><a href="/admin/log_reply">[더보기]</a></div>
+            <div class="col-6 text-right small"><a href="<?=BASE_URL?>/admin/log_reply">[더보기]</a></div>
           </div>
         </div>
         <div class="admin-reply story-reply">

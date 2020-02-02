@@ -92,10 +92,10 @@ class Admin_Controller extends CI_Controller
     $adminCheck = html_escape($this->session->userData['admin']);
 
     // 모든 페이지에 로그인 체크
-    if (!empty($adminCheck) && ($clubIdx == 1 && $adminCheck == 1)) {
+    if (!empty($adminCheck)) {
       $loginData['userData'] = $this->member_model->viewMember($userIdx);
     } else {
-      redirect(BASE_URL . '/login/?r=/admin');
+      redirect(BASE_URL . '/login/?r=' . BASE_URL . '/admin');
     }
 
     $this->load->vars($loginData);
