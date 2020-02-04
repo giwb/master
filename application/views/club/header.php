@@ -120,16 +120,16 @@
           </li>
         </ul>
         <div class="nav-sp-mypage">
-          ・<a href="<?=BASE_URL?>/member">마이페이지</a><br>
-          ・<a href="<?=BASE_URL?>/member/modify">개인정보수정</a><br>
+          <a href="<?=BASE_URL?>/member">・마이페이지</a><br>
+          <a href="<?=BASE_URL?>/member/modify">・개인정보수정</a><br>
           <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
-          ・<a href="<?=BASE_URL?>/member/driver">드라이버 페이지</a><br>
+          <a href="<?=BASE_URL?>/member/driver">・드라이버 페이지</a><br>
           <?php endif; ?>
           <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
-          ・<a href="<?=BASE_URL?>/admin">설정(NEW)</a><br>
-          ・<a href="<?=BASE_URL?>/admin_old">설정(기존)</a><br>
+          <a href="<?=BASE_URL?>/admin">・설정(NEW)</a><br>
+          <a href="<?=BASE_URL?>/admin_old">・설정(기존)</a><br>
           <?php endif; ?>
-          ・<a href="javascript:;" class="logout" title="로그아웃">로그아웃</a>
+          <a href="javascript:;" class="logout" title="로그아웃">・로그아웃</a>
         </div>
       </div>
     </div>
