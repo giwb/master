@@ -66,11 +66,11 @@ if (!empty($_SERVER['REDIRECT_URL'])) {
   $domain = html_escape($arrUrl[1]);
   $query = $db->query("SELECT idx FROM clubs WHERE domain='$domain'");
   $result = $query->row_array(1);
-
-  setcookie('COOKIE_CLUBIDX', $result['idx']);
 }
 
-if (!empty($result)) {
+if (!empty($result['idx'])) {
+  setcookie('COOKIE_CLUBIDX', $result['idx']);
+
   // 도메인이 있을 경우
   $route['default_controller'] = 'club/index';
   $route[$domain] = 'club/index';
