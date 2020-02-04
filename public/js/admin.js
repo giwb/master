@@ -570,7 +570,7 @@
     } else {
       $dom.val('');
     }
-  }).on('click', '.area-bus-table .seat', function() {
+  }).on('click', '.admin-bus-table .seat', function() {
     // 산행 예약/수정 버튼
     var resIdx = $(this).data('id');
     var bus = $(this).data('bus');
@@ -607,7 +607,7 @@
         $domSeat.empty().append(selectSeat);
       }
     });
-  }).on('click', '.area-bus-table .priority', function() {
+  }).on('click', '.admin-bus-table .priority', function() {
     // 2인우선 예약 버튼
     var resIdx = $(this).data('id');
     var priorityIdx = $(this).data('priority');
