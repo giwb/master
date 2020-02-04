@@ -127,7 +127,7 @@
           <?php endif; ?>
           <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
           <a href="<?=BASE_URL?>/admin">・설정(NEW)</a><br>
-          <a href="<?=BASE_URL?>/admin_old">・설정(기존)</a><br>
+          <a href="<?=BASE_URL?>/admin_old">・설정(OLD)</a><br>
           <?php endif; ?>
           <a href="javascript:;" class="logout" title="로그아웃">・로그아웃</a>
         </div>
@@ -164,7 +164,7 @@
             <li><a href="<?=BASE_URL?>/shop"><i class="fa fa-shopping-basket" aria-hidden="true"></i> 구매대행 상품</a></li>
             <br>
             <li><a href="<?=BASE_URL?>/admin"><i class="fa fa-cog" aria-hidden="true"></i> 설정(NEW)</a></li>
-            <li><a href="<?=BASE_URL?>/admin_old"><i class="fa fa-cog" aria-hidden="true"></i> 설정(기존)</a></li>
+            <li><a href="<?=BASE_URL?>/admin_old"><i class="fa fa-cog" aria-hidden="true"></i> 설정(OLD)</a></li>
             <?php endif; ?>
           </ul>
           <div class="text-center">
