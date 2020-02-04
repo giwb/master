@@ -7,7 +7,7 @@
               <h5>■ 기본 정보</h5>
             </div>
             <div class="col col-sm-6 text-right">
-              <a href="javascript:;" onClick="history.back();"><button type="button" class="btn btn-sm btn-secondary">목록으로</button></a>
+              <a href="<?=BASE_URL?>/admin/member_list"><button type="button" class="btn btn-sm btn-secondary">목록으로</button></a>
               <button type="button" class="btn btn-sm btn-danger btn-user-login" data-idx="<?=$viewMember['idx']?>">이 사용자로 로그인</button>
             </div>
           </div>
