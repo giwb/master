@@ -277,6 +277,10 @@
     // 회원 검색
     $('input[name=p]').val('');
     $('#formList').submit();
+  }).on('change', '.select-level-type', function() {
+    $('input[name=p]').val('');
+    $('input[name=keyword]').val('');
+    $('#formList').submit();
   }).on('click', '.btn-front-sort', function() {
     // 대문 정렬
     var $dom = $('#formSort .sort-idx');

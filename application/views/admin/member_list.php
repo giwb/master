@@ -6,16 +6,14 @@
             <form id="formList" method="post" action="<?=BASE_URL?>/admin/member_list" class="m-0">
               <input type="hidden" name="p" value="1">
               <div class="row align-items-center w-100 text-center">
-                <div class="col-3 col-sm-1 p-0">실명</div>
-                <div class="col-9 col-sm-5"><input type="text" name="realname" class="form-control form-control-sm form-search" value="<?=!empty($search['realname']) ? $search['realname'] : ''?>"></div>
-                <div class="w-100 d-block d-sm-none pt-2"></div>
-                <div class="col-3 col-sm-1 p-0">닉네임</div>
-                <div class="col-9 col-sm-5"><input type="text" name="nickname" class="form-control form-control-sm form-search" value="<?=!empty($search['nickname']) ? $search['nickname'] : ''?>"></div>
+                <div class="col-3 col-sm-1 p-0">검색어</div>
+                <div class="col-7 col-sm-9"><input type="text" name="keyword" class="form-control form-control-sm form-search" value="<?=!empty($search['keyword']) ? $search['keyword'] : ''?>"></div>
+                <div class="col-2 col-sm-2 text-left"><button class="btn btn-sm btn-default w-100 btn-member-search">검색</button></div>
               </div>
               <div class="row align-items-center w-100 pt-2 text-center">
                 <div class="col-3 col-sm-1 p-0">등급</div>
-                <div class="col-9 col-sm-9">
-                  <select name="levelType" class="form-control form-control-sm">
+                <div class="col-9 col-sm-11">
+                  <select name="levelType" class="form-control form-control-sm select-level-type">
                     <option value=""></option>
                     <option<?=$search['levelType'] == 1 ? ' selected' : ''?> value="1">한그루 회원</option>
                     <option<?=$search['levelType'] == 2 ? ' selected' : ''?> value="2">두그루 회원</option>
@@ -29,8 +27,6 @@
                     <option<?=$search['levelType'] == 10 ? ' selected' : ''?> value="10">관리자</option>
                   </select>
                 </div>
-                <div class="w-100 d-block d-sm-none pt-2"></div>
-                <div class="col-sm-2 text-left"><button class="btn btn-sm btn-default w-100 btn-member-search">검색</button></div>
               </div>
             </form>
           </div>

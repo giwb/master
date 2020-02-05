@@ -345,11 +345,11 @@ class Admin_model extends CI_Model
           ->where('quitdate', NULL)
           ->order_by('idx', 'desc');
 
-    if (!empty($search['realname'])) {
-      $this->db->like('realname', $search['realname']);
-    }
-    if (!empty($search['nickname'])) {
-      $this->db->like('nickname', $search['nickname']);
+    if (!empty($search['keyword'])) {
+      $this->db->like('userid', $search['keyword']);
+      $this->db->or_like('realname', $search['keyword']);
+      $this->db->or_like('nickname', $search['keyword']);
+      $this->db->or_like('phone', $search['keyword']);
     }
     if (!empty($search['resMin'])) {
       $this->db->where('(rescount - penalty) >=', $search['resMin']);

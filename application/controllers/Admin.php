@@ -1663,8 +1663,7 @@ exit;
     // 클럽ID
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
 
-    $viewData['search']['realname'] = html_escape($this->input->post('realname'));
-    $viewData['search']['nickname'] = html_escape($this->input->post('nickname'));
+    $viewData['search']['keyword'] = html_escape($this->input->post('keyword'));
     $viewData['search']['levelType'] = html_escape($this->input->post('levelType'));
 
     if (!empty($viewData['search']['levelType'])) {
