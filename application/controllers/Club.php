@@ -262,6 +262,19 @@ class Club extends MY_Controller
       if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listReply'][$key]['url'] = BASE_URL . '/admin/main_view_progress/' . $value['story_idx']; endif;
     }
 
+    // 최신 사진첩
+    $paging['perPage'] = 2; $paging['nowPage'] = 0;
+    $viewData['listAlbum'] = $this->club_model->listAlbum($viewData['view']['idx'], $paging);
+
+    foreach ($viewData['listAlbum'] as $key => $value) {
+      $photo = $this->file_model->getFile('album', $value['idx'], NULL, 1);
+      if (!empty($photo[0]['filename'])) {
+        $viewData['listAlbum'][$key]['photo'] = PHOTO_URL . $photo[0]['filename'];
+      } else {
+        $viewData['listAlbum'][$key]['photo'] = '/public/images/noimage.png';
+      }
+    }
+
     // 회원수
     $viewData['view']['cntMember'] = $this->member_model->cntMember($viewData['view']['idx']);
     $viewData['view']['cntMemberToday'] = $this->member_model->cntMemberToday($viewData['view']['idx']);

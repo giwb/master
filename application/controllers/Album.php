@@ -43,9 +43,9 @@ class Album extends MY_Controller
     foreach ($viewData['listAlbum'] as $key => $value) {
       $photo = $this->file_model->getFile('album', $value['idx'], NULL, 1);
       if (!empty($photo[0]['filename'])) {
-        $viewData['listAlbum'][$key]['photo'] = base_url() . PHOTO_URL . $photo[0]['filename'];
+        $viewData['listAlbum'][$key]['photo'] = PHOTO_URL . $photo[0]['filename'];
       } else {
-        $viewData['listAlbum'][$key]['photo'] = base_url() . 'public/images/noimage.png';
+        $viewData['listAlbum'][$key]['photo'] = '/public/images/noimage.png';
       }
     }
 
@@ -290,13 +290,27 @@ class Album extends MY_Controller
     // 진행 중 산행
     $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
 
-    // 회원수
-    $viewData['view']['cntMember'] = $this->member_model->cntMember($viewData['view']['idx']);
-    $viewData['view']['cntMemberToday'] = $this->member_model->cntMemberToday($viewData['view']['idx']);
+    // 최신 댓글
+    $paging['perPage'] = 5; $paging['nowPage'] = 0;
+    $viewData['listReply'] = $this->admin_model->listReply($viewData['view']['idx'], $paging);
 
-    // 방문자수
-    $viewData['view']['cntVisitor'] = $this->member_model->cntVisitor($viewData['view']['idx']);
-    $viewData['view']['cntVisitorToday'] = $this->member_model->cntVisitorToday($viewData['view']['idx']);
+    foreach ($viewData['listReply'] as $key => $value) {
+      if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listReply'][$key]['url'] = BASE_URL . '/story/view/?n=' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listReply'][$key]['url'] = BASE_URL . '/admin/main_view_progress/' . $value['story_idx']; endif;
+    }
+
+    // 최신 사진첩
+    $paging['perPage'] = 2; $paging['nowPage'] = 0;
+    $viewData['listAlbum'] = $this->club_model->listAlbum($viewData['view']['idx'], $paging);
+
+    foreach ($viewData['listAlbum'] as $key => $value) {
+      $photo = $this->file_model->getFile('album', $value['idx'], NULL, 1);
+      if (!empty($photo[0]['filename'])) {
+        $viewData['listAlbum'][$key]['photo'] = PHOTO_URL . $photo[0]['filename'];
+      } else {
+        $viewData['listAlbum'][$key]['photo'] = '/public/images/noimage.png';
+      }
+    }
 
     // 클럽 대표이미지
     $files = $this->file_model->getFile('club', $viewData['view']['idx']);
