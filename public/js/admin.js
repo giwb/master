@@ -68,6 +68,13 @@
         }, 3000);
       }
     });
+  }).on('click', '.btn-mypage', function() {
+    var $dom = $('.nav-sp-mypage');
+    if ($dom.css('display') == 'none') {
+      $('.nav-sp-mypage').slideDown();
+    } else {
+      $('.nav-sp-mypage').slideUp();
+    }
   }).on('click', '.btn-member-point-update', function() {
     // 포인트/페널티 추가/감소
     var $btn = $(this);

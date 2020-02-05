@@ -401,6 +401,16 @@
         location.reload();
       }
     });
+  }).on('click', '.logout', function() {
+    // 로그아웃
+    var baseUrl = $('input[name=baseUrl]').val();
+    $.ajax({
+      url: '/login/logout',
+      dataType: 'json',
+      success: function(result) {
+        location.reload();
+      }
+    });
   }).on('blur', '.check-userid', function() {
     // 아이디 중복 체크
     var $dom = $(this);
