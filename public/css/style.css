@@ -2034,10 +2034,9 @@ h1.nav-logo small {
 #club .club-right ul.club-gallery li img { -webkit-transition: 1.6s -webkit-transform; transition: 1.6s -webkit-transform; transition: 1.6s transform; transition: 1.6s transform, 1.6s -webkit-transform; }
 #club .club-right ul.club-gallery li img:hover { transform: scale(1.2); }
 
-#club .list-schedule { margin: 0 0 20px 0; padding: 0px; }
-#club .list-schedule a { font-size: 11px; color: #000; display: block; border-bottom: 1px solid #eee; margin: 0px; padding: 10px 5px; }
-#club .list-schedule a strong { font-size: 14px; color: #FF6C00; margin: 0px; padding: 0px; }
-#club .list-schedule span { font-size: 14px; }
+#club .list-schedule { font-size: 11px; margin: 0 0 20px 0; padding: 0px; }
+#club .list-schedule a { font-size: 14px; color: #000; display: block; border-bottom: 1px solid #eee; margin: 0px; padding: 10px 5px; }
+#club .list-schedule a strong { color: #FF6C00; margin: 0px; padding: 0px; }
 #club span.status-confirm { font-weight: bold; color: #000; }
 #club span.status-wait { font-weight: bold; color: #999; }
 #club span.status-plan, #club span.status-closed, #club span.status-cancel { font-weight: bold; color: #CCC; }

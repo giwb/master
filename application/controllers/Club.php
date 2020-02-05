@@ -253,6 +253,15 @@ class Club extends MY_Controller
     // 진행 중 산행
     $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
 
+    // 최신 댓글
+    $paging['perPage'] = 10; $paging['nowPage'] = 0;
+    $viewData['listReply'] = $this->admin_model->listReply($viewData['view']['idx'], $paging);
+
+    foreach ($viewData['listReply'] as $key => $value) {
+      if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listReply'][$key]['url'] = BASE_URL . '/story/view/?n=' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listReply'][$key]['url'] = BASE_URL . '/admin/main_view_progress/' . $value['story_idx']; endif;
+    }
+
     // 회원수
     $viewData['view']['cntMember'] = $this->member_model->cntMember($viewData['view']['idx']);
     $viewData['view']['cntMemberToday'] = $this->member_model->cntMemberToday($viewData['view']['idx']);
