@@ -2,7 +2,7 @@
 
         <h2 class="sub-header mb-4"><?=$pageTitle?></h2>
         <div id="content" class="mb-5">
-          <div class="row border-bottom mb-3">
+          <div class="row border-bottom mb-3 pb-2">
             <div class="col-sm-6">
               <h5>■ 기본 정보</h5>
             </div>
