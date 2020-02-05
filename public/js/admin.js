@@ -510,13 +510,13 @@
     location.reload();
   }).on('click', '.btn-list', function() {
     // 모달 돌아가기 버튼
-    location.replace($('input[name=base_url]').val() + '/' + $(this).data('action'));
+    location.replace($('input[name=baseUrl]').val() + '/' + $(this).data('action'));
   }).on('click', '.btn-member-list', function() {
     // 회원 목록 돌아가기
-    location.href=('/admin/member_list');
+    location.href=($('input[name=baseUrl]').val() + '/admin/member_list');
   }).on('click', '.btn-user-login', function() {
     var $btn = $(this);
-    var baseUrl = $('input[name=base_url]').val();
+    var baseUrl = $('input[name=baseUrl]').val();
     $.ajax({
       url: '/admin/user_login',
       data: 'idx=' + $(this).data('idx'),
