@@ -24,6 +24,7 @@
                 <?=$value['time']?> <?=$value['title']?><br>
                 <?=!empty($value['bus_name']) ? $value['bus_name'] : ''?><br>
                 <?=$value['seat']?>번 좌석<br>
+                경인웰빙산악회<br>
                 <br>
               <?php endforeach; endif; ?>
             </div>

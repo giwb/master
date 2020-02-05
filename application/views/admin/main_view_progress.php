@@ -101,19 +101,23 @@
               <?php endif; ?>
 
               <div class="text-dark">■ <strong>대기자 추가</strong></div>
-              <div class="wait">
-                <input type="text" name="nickname" class="search-userid" placeholder="닉네임 입력" data-placement="bottom"><input type="hidden" name="userid">
-                <select name="gender" class="gender pl-0 pr-0">
-                  <option value='M'>남성</option>
-                  <option value='F'>여성</option>
-                </select>
-                <select name="location" class="location pl-0 pr-0">
-                  <?php foreach ($arrLocation as $key => $value): if ($key == 0) $value['stitle'] = '선택'; ?>
-                  <option value='<?=$value['no']?>'><?=$value['stitle']?></option>
-                  <?php endforeach; ?>
-                </select>
-                <input type="text" name="memo" placeholder="메모 입력">
-                <button type="button" class="btn btn-sm btn-primary btn-wait-insert">등록</button>
+              <div class="wait row align-items-center">
+                <div class="col-3"><input type="text" name="nickname" class="search-userid" placeholder="닉네임 입력" data-placement="bottom"><input type="hidden" name="userid"></div>
+                <div class="col-2">
+                  <select name="gender" class="gender pl-0 pr-0">
+                    <option value='M'>남성</option>
+                    <option value='F'>여성</option>
+                  </select>
+                </div>
+                <div class="col-2">
+                  <select name="location" class="location pl-0 pr-0">
+                    <?php foreach ($arrLocation as $key => $value): if ($key == 0) $value['stitle'] = '선택'; ?>
+                    <option value='<?=$value['no']?>'><?=$value['stitle']?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+                <div class="col-3"><input type="text" name="memo" placeholder="메모 입력"></div>
+                <div class="col-2"><button type="button" class="btn btn-sm btn-primary btn-wait-insert">등록</button></div>
               </div>
             </div>
             <?php endif; ?>
