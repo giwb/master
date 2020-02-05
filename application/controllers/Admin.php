@@ -1802,7 +1802,7 @@ exit;
       $html .= '<div class="row text-left border-top border-left border-right"><div class="col-3 p-2 bg-secondary text-white">생년월일</div><div class="col-9 p-2">' . $viewMember['birthday'] . '</div></div>';
       $html .= '<div class="row text-left border-top border-left border-right"><div class="col-3 p-2 bg-secondary text-white">전화번호</div><div class="col-9 p-2">' . $viewMember['phone'] . '</div></div>';
       $html .= '<div class="row text-left border-top border-left border-right border-bottom"><div class="col-3 p-2 bg-secondary text-white">레벨</div><div class="col-9 p-2">' . $viewMember['memberLevel']['levelName'] . '</div></div>';
-      $html .= '</div><div class="text-center"><a href="' . BASE_URL() . '/admin/member_view/' . $viewMember['idx'] . '"><button class="btn btn-default">상세보기</button></a></div>';
+      $html .= '</div><div class="text-center"><a href="' . BASE_URL . '/admin/member_view/' . $viewMember['idx'] . '"><button class="btn btn-default">상세보기</button></a></div>';
       $result = array('error' => 0, 'message' => $html);
     }
 
