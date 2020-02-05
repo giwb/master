@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-      <div id="album" class="club-main">
+      <div id="album" class="club-main mb-5">
         <h2 class="sub-header">사진 등록</h2>
         <div class="sub-content">
           <form id="formAlbum" method="post" action="/album/update" enctype="multipart/form-data">
@@ -24,7 +24,7 @@
               </div>
             </div>
             <div class="border-top mt-2 pt-4 text-center">
-              <button type="button" class="btn btn-primary btn-album-update"><?=empty($viewAlbum['idx']) ? '등록합니다' : '수정합니다'?></button>
+              <button type="button" class="btn btn-default btn-album-update"><?=empty($viewAlbum['idx']) ? '등록합니다' : '수정합니다'?></button>
               <?=!empty($viewAlbum['idx']) ? '<button type="button" class="btn btn-danger btn-album-delete-modal ml-3">삭제합니다</button>' : ''?>
             </div>
           </form>
@@ -45,8 +45,8 @@
               <p class="modal-message">정말로 삭제하시겠습니까?</p>
             </div>
             <div class="modal-footer">
-              <a href="<?=BASE_URL?>/album"><button type="button" class="btn btn-primary btn-album-list d-none">목록으로</button></a>
-              <button type="button" class="btn btn-primary btn-album-delete">삭제합니다</button>
+              <a href="<?=BASE_URL?>/album"><button type="button" class="btn btn-default btn-album-list d-none">목록으로</button></a>
+              <button type="button" class="btn btn-default btn-album-delete">삭제합니다</button>
               <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
             </div>
           </div>
