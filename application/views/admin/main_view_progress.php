@@ -119,7 +119,7 @@
             <?php endif; ?>
 
             <div class="text-dark mt-4">■ <strong>댓글</strong></div>
-            <div class="story-reply">
+            <div class="admin-reply story-reply">
               <?=$listReply?>
             </div>
 
