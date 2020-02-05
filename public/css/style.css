@@ -1925,7 +1925,7 @@ h1.nav-logo small {
 #club { width: 100%; margin: 0 0 30px 0; }
 #club a:link, #club a:active, #club a:visited { color: #FF6C00; }
 #club a:hover { color: #0AB031; }
-#club .container { display: flex; display: -webkit-flex; margin: 0px; padding: 0 10px; }
+#club .container { display: flex; display: -webkit-flex; margin: 0 auto; padding: 0 10px; }
 #club .club-left { flex: 1; -webkit-flex: 1; }
 #club .club-main { flex: 3; -webkit-flex: 3; margin: 0 20px; }
 #club .club-right { flex: 1; -webkit-flex: 1; min-height: 825px; }
