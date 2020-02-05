@@ -2044,6 +2044,7 @@ h1.nav-logo small {
 #club .club-main .list-schedule a { padding: 10px; }
 #club .club-main .area-schedule { display: none; }
 #club .list-reply a { font-size: 12px; }
+#club .list-reply a span { color: #FF6C00; }
 
 #club .sub-contents { width: 100%!important; min-height: 600px; clear: both; margin: 0px; font-size: 14px; }
 #club .sub-contents .sub-title { width: 100%; border-bottom: 1px solid #d9d9d9; margin: 0 0 10px 0; padding: 0 0 10px 0; display: table; }
