@@ -10,7 +10,7 @@
         </div>
         <?php endif; ?>
         <?php if (!empty($listReply)): ?>
-        <h3><i class="fas fa-calendar-alt" aria-hidden="true"></i> 최신 댓글</h3>
+        <h3><i class="fa fa-mail-reply" aria-hidden="true"></i> 최신 댓글</h3>
         <div class="list-schedule list-reply">
           <?php foreach ($listReply as $value): ?>
             <a href="<?=$value['url']?>"><span class="content"><?=ksubstr($value['content'], 35)?></span><br><?=$value['nickname']?> · <?=calcStoryTime($value['created_at'])?></a>
@@ -18,7 +18,7 @@
         </div>
         <?php endif; ?>
         <?php if (!empty($listAlbum)): ?>
-        <h3><i class="fas fa-calendar-alt" aria-hidden="true"></i> 최신 사진첩</h3>
+        <h3><i class="fa fa-photo" aria-hidden="true"></i> 최신 사진첩</h3>
         <div class="list-schedule list-reply">
           <?php foreach ($listAlbum as $value): ?>
             <a href="<?=BASE_URL?>/album"><img class="w-100 mt-2" src="<?=$value['photo']?>"><div class="mt-2 mb-1"><span class="content"><?=$value['subject']?></span></div><?=$value['nickname']?> · <?=calcStoryTime($value['created_at'])?></a>
