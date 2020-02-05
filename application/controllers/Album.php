@@ -38,14 +38,14 @@ class Album extends MY_Controller
     $viewData['cntAlbum'] = $this->club_model->cntAlbum($clubIdx);
 
     // 사진첩
-    $viewData['listAlbum'] = $this->club_model->listAlbum($clubIdx, $paging);
+    $viewData['listAlbumMain'] = $this->club_model->listAlbum($clubIdx, $paging);
 
-    foreach ($viewData['listAlbum'] as $key => $value) {
+    foreach ($viewData['listAlbumMain'] as $key => $value) {
       $photo = $this->file_model->getFile('album', $value['idx'], NULL, 1);
       if (!empty($photo[0]['filename'])) {
-        $viewData['listAlbum'][$key]['photo'] = PHOTO_URL . $photo[0]['filename'];
+        $viewData['listAlbumMain'][$key]['photo'] = PHOTO_URL . $photo[0]['filename'];
       } else {
-        $viewData['listAlbum'][$key]['photo'] = '/public/images/noimage.png';
+        $viewData['listAlbumMain'][$key]['photo'] = '/public/images/noimage.png';
       }
     }
 
@@ -59,7 +59,7 @@ class Album extends MY_Controller
       $this->output->set_output(json_encode($result));
     } else {
       // 아이템 목록 템플릿
-      $viewData['listAlbum'] = $this->load->view('club/album_list', $viewData, true);
+      $viewData['listAlbumMain'] = $this->load->view('club/album_list', $viewData, true);
 
       // 1페이지에는 View 페이지로 전송
       $this->_viewPage('club/album', $viewData);

@@ -10,7 +10,7 @@
           </form>
           <form id="formList">
             <input type="hidden" name="p" value="1">
-            <?=$listAlbum?>
+            <?=$listAlbumMain?>
             <div class="area-append"></div>
             <?php if ($cntAlbum['cnt'] > $perPage): ?>
             <button type="button" class="btn btn-page-next">다음 페이지 보기 ▼</button>
