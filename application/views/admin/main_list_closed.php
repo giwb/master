@@ -2,7 +2,7 @@
 
         <div id="content" class="mb-5">
           <div class="w-100 border mt-3 mb-3">
-            <form id="formSearch" method="get" action="/admin/main_list_closed">
+            <form id="formSearch" method="get" action="<?=BASE_URL?>/admin/main_list_closed">
               <div class="row align-items-center w-100 pt-3 text-center">
                 <div class="col-3 col-sm-2">시작일</div>
                 <div class="col-9 col-sm-4"><input id="startDatePicker" type="text" name="sdate" class="form-control form-control-sm" value="<?=!empty($search['sdate']) ? $search['sdate'] : ''?>"></div>
@@ -20,7 +20,7 @@
           </div>
           <div class="row align-items-center border-bottom mb-3 pb-3">
             <div class="col-sm-2 d-none d-sm-block"></div>
-            <div class="col-2 col-sm-1 text-right"><a href="/admin/main_list_closed?<?=$search['prev']?>">◀</a></div>
+            <div class="col-2 col-sm-1 text-right"><a href="<?=BASE_URL?>/admin/main_list_closed?<?=$search['prev']?>">◀</a></div>
             <div class="col-4 col-sm-3 pr-0">
               <select name="syear" class="form-control form-control-sm">
                 <?php foreach (range($search['syear'], 2010) as $value): ?>
@@ -35,13 +35,13 @@
                 <?php endforeach; ?>
               </select>
             </div>
-            <div class="col-2 col-sm-1"><a href="/admin/main_list_closed?<?=$search['next']?>">▶</a></div>
+            <div class="col-2 col-sm-1"><a href="<?=BASE_URL?>/admin/main_list_closed?<?=$search['next']?>">▶</a></div>
             <div class="col-sm-2 d-none d-sm-block"></div>
           </div>
           <?php foreach ($listClosed as $value): ?>
           <div class="row mb-3">
             <div class="col-10 pl-0 pr-0">
-              <strong><?=viewStatus($value['status'])?></strong> <a target="_blank" href="/admin/main_view_progress/<?=$value['idx']?>"><?=$value['subject']?></a>
+              <strong><?=viewStatus($value['status'])?></strong> <a href="<?=BASE_URL?>/admin/main_view_progress/<?=$value['idx']?>"><?=$value['subject']?></a>
               <div class="small"><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원</div>
             </div>
             <div class="col-2 pr-0 pl-0 text-right small">0원<br><?=cntRes($value['idx'])?>명</div>

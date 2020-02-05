@@ -21,9 +21,10 @@
                 <?=$value['subject']?><br>
                 <?=$value['nickname']?>님<br>
                 <?php if ($view['busTotal'] > 1): ?><?=$value['bus']?>번차<?php endif; ?>
-                <?=$value['seat']?>번 좌석<br>
                 <?=$value['time']?> <?=$value['title']?><br>
-                <?=!empty($value['bus_name']) ? $value['bus_name'] : ''?><br><br>
+                <?=!empty($value['bus_name']) ? $value['bus_name'] : ''?><br>
+                <?=$value['seat']?>번 좌석<br>
+                <br>
               <?php endforeach; endif; ?>
             </div>
           </div>
