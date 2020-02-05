@@ -2141,7 +2141,7 @@ h1.nav-logo small {
 .admin-bus-table { padding-top: 20px; }
 .admin-bus-table table { width: 100%; font-size: 12px; margin: 0px; }
 .admin-bus-table table thead th { border-top: 5px solid #E0552A; }
-.admin-bus-table table th, .admin-bus-table table td { padding: 0.2rem; vertical-align: middle; border: 1px solid #999; cursor: pointer; }
+.admin-bus-table table th, .admin-bus-table table td { padding: 0.5rem; vertical-align: middle; border: 1px solid #999; cursor: pointer; }
 .admin-bus-table table td.table-blank { border: 0px; }
 .admin-bus-table table tr:last-child td.table-blank { border-bottom: 1px solid #999; }
 .admin-bus-table .male { background-color: #E5FAFF; }
@@ -2413,4 +2413,5 @@ h1.nav-logo small {
 
   /* 관리자 */
   #club .club-main .admin-menu { font-size: 12px; margin: 0px -15px; }
+  .admin-bus-table table th, .admin-bus-table table td { padding: 0.2rem; }
 }
