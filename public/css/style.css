@@ -2413,5 +2413,9 @@ h1.nav-logo small {
 
   /* 관리자 */
   #club .club-main .admin-menu { font-size: 12px; margin: 0px -15px; }
+  .admin-bus-table {
+    --font-family-sans-serif: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  }
   .admin-bus-table table th, .admin-bus-table table td { font-size: 11px; padding: 5px 1px; }
 }
