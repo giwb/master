@@ -102,7 +102,7 @@
     // 회원정보 모달
     var $btn = $(this);
     $.ajax({
-      url: '/admin/member_view_modal',
+      url: $('input[name=baseUrl]').val() + '/admin/member_view_modal',
       data: 'userid=' + $(this).data('userid'),
       dataType: 'json',
       type: 'post',
