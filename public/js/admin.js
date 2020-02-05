@@ -98,6 +98,22 @@
         location.reload();
       }
     });
+  }).on('click', '.btn-member-modal', function() {
+    // 회원정보 모달
+    var $btn = $(this);
+    $.ajax({
+      url: '/admin/member_view_modal',
+      data: 'userid=' + $(this).data('userid'),
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true);
+      },
+      success: function(result) {
+        $btn.css('opacity', '1').prop('disabled', false);
+        $.openMsgModal(result.message);
+      }
+    });
   }).on('click', '.btn-point-modal', function() {
     // 회원 페널티 모달
     var type = $(this).data('type');
@@ -1045,6 +1061,9 @@
           if (reserveInfo.reserve.status == 1) button += '입금취소'; else button += '입금확인';
           button += '</button> ';
           button += '<button type="button" class="btn btn-secondary btn-reserve-cancel" data-idx="' + resIdx + '">예약취소</button> ';
+          if (reserveInfo.reserve.userid != '') {
+            button += '<button type="button" class="btn btn-info btn-member-modal" data-userid="' + reserveInfo.reserve.userid + '">회원정보</button> ';
+          }
         } else {
           var button = '';
         }
@@ -1061,7 +1080,7 @@
   $.openMsgModal = function(msg) {
     $('#messageModal .modal-footer .btn').hide();
     $('#messageModal .modal-footer .btn-close').show();
-    $('#messageModal .modal-message').text(msg);
+    $('#messageModal .modal-message').html(msg);
     $('#messageModal').modal('show');
   }
 

@@ -1778,6 +1778,38 @@ exit;
   }
 
   /**
+   * 회원 정보 간략 보기
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function member_view_modal()
+  {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
+    $search = array('userid' => html_escape($this->input->post('userid')));
+    $viewMember = $this->admin_model->viewMember($search);
+    $viewMember['memberLevel'] = memberLevel($viewMember['rescount'], $viewMember['penalty'], $viewMember['level'], $viewMember['admin']);
+    if ($viewMember['gender'] == 'M') $viewMember['gender'] = '남성'; else $viewMember['gender'] = '여성';
+    $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+
+    if (!empty($viewMember)) {
+      $html = '<div class="mb-3 pl-4 pr-4">';
+      $html .= '<div class="row text-left border-top border-left border-right"><div class="col-3 p-2 bg-secondary text-white">실명</div><div class="col-9 p-2">' . $viewMember['realname'] . '</div></div>';
+      $html .= '<div class="row text-left border-top border-left border-right"><div class="col-3 p-2 bg-secondary text-white">별명</div><div class="col-9 p-2">' . $viewMember['nickname'] . '</div></div>';
+      $html .= '<div class="row text-left border-top border-left border-right"><div class="col-3 p-2 bg-secondary text-white">성별</div><div class="col-9 p-2">' . $viewMember['gender'] . '</div></div>';
+      $html .= '<div class="row text-left border-top border-left border-right"><div class="col-3 p-2 bg-secondary text-white">생년월일</div><div class="col-9 p-2">' . $viewMember['birthday'] . '</div></div>';
+      $html .= '<div class="row text-left border-top border-left border-right"><div class="col-3 p-2 bg-secondary text-white">전화번호</div><div class="col-9 p-2">' . $viewMember['phone'] . '</div></div>';
+      $html .= '<div class="row text-left border-top border-left border-right border-bottom"><div class="col-3 p-2 bg-secondary text-white">레벨</div><div class="col-9 p-2">' . $viewMember['memberLevel']['levelName'] . '</div></div>';
+      $html .= '</div><div class="text-center"><a href="' . BASE_URL() . '/admin/member_view/' . $viewMember['idx'] . '"><button class="btn btn-default">상세보기</button></a></div>';
+      $result = array('error' => 0, 'message' => $html);
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 회원 정보 수정
    *
    * @return view
