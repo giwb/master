@@ -2413,5 +2413,5 @@ h1.nav-logo small {
 
   /* 관리자 */
   #club .club-main .admin-menu { font-size: 12px; margin: 0px -15px; }
-  .admin-bus-table table th, .admin-bus-table table td { padding: 0.2rem; }
+  .admin-bus-table table th, .admin-bus-table table td { font-size: 11px; padding: 5px 1px; }
 }
