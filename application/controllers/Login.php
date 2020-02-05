@@ -501,27 +501,28 @@ class Login extends MY_Controller
 
     if (!empty($viewData['view'])) {
       // 진행 중 산행
-      $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
+      $viewData['listFooterNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
 
       // 최신 댓글
       $paging['perPage'] = 5; $paging['nowPage'] = 0;
-      $viewData['listReply'] = $this->admin_model->listReply($viewData['view']['idx'], $paging);
+      $viewData['listFooterReply'] = $this->admin_model->listReply($viewData['view']['idx'], $paging);
 
-      foreach ($viewData['listReply'] as $key => $value) {
-        if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listReply'][$key]['url'] = BASE_URL . '/story/view/?n=' . $value['story_idx']; endif;
-        if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listReply'][$key]['url'] = BASE_URL . '/admin/main_view_progress/' . $value['story_idx']; endif;
+      foreach ($viewData['listFooterReply'] as $key => $value) {
+        if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/story/view/?n=' . $value['story_idx']; endif;
+        if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/admin/main_view_progress/' . $value['story_idx']; endif;
       }
 
       // 최신 사진첩
       $paging['perPage'] = 2; $paging['nowPage'] = 0;
-      $viewData['listAlbum'] = $this->club_model->listAlbum($viewData['view']['idx'], $paging);
+      $viewData['listFooterAlbum'] = $this->club_model->listAlbum($viewData['view']['idx'], $paging);
 
-      foreach ($viewData['listAlbum'] as $key => $value) {
+      foreach ($viewData['listFooterAlbum'] as $key => $value) {
         $photo = $this->file_model->getFile('album', $value['idx'], NULL, 1);
         if (!empty($photo[0]['filename'])) {
-          $viewData['listAlbum'][$key]['photo'] = PHOTO_URL . $photo[0]['filename'];
+          //$viewData['listAlbum'][$key]['photo'] = PHOTO_URL . 'thumb_' . $photo[0]['filename'];
+          $viewData['listFooterAlbum'][$key]['photo'] = PHOTO_URL . $photo[0]['filename'];
         } else {
-          $viewData['listAlbum'][$key]['photo'] = '/public/images/noimage.png';
+          $viewData['listFooterAlbum'][$key]['photo'] = '/public/images/noimage.png';
         }
       }
 
