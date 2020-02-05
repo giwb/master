@@ -28,7 +28,7 @@ class Admin extends Admin_Controller
     $viewData['userLevel'] = $this->load->get_var('userLevel');
 
     // 등록된 산행 목록
-    $viewData['listNotice'] = $this->admin_model->listNotice();
+    $viewData['listNoticeSchedule'] = $this->admin_model->listNotice();
 
     // 캘린더 설정
     $listCalendar = $this->admin_model->listCalendar();
@@ -39,7 +39,7 @@ class Admin extends Admin_Controller
       } else {
         $class = 'dayname';
       }
-      $viewData['listNotice'][] = array(
+      $viewData['listNoticeSchedule'][] = array(
         'idx' => 0,
         'startdate' => $value['nowdate'],
         'enddate' => $value['nowdate'],
