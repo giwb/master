@@ -68,6 +68,14 @@
         }, 3000);
       }
     });
+  }).on('click', '.nav-menu .img-profile', function() {
+    // 로그인 아이콘
+    var $dom = $('.profile-box');
+    if ($dom.css('display') == 'none') {
+      $dom.slideDown();
+    } else {
+      $dom.slideUp();
+    }
   }).on('click', '.btn-mypage', function() {
     var $dom = $('.nav-sp-mypage');
     if ($dom.css('display') == 'none') {

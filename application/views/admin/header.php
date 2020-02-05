@@ -88,13 +88,13 @@
               <li><a href="javascript:;" class="login-popup">로그인</a></li>
               <?php else: ?>
               <li>
-              <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
-              <img class="img-profile" src="<?=PHOTO_URL . $userData['idx']?>">
-              <?php elseif (!empty($userData['icon_thumbnail'])): ?>
-              <img class="img-profile" src="<?=$userData['icon_thumbnail']?>">
-              <?php else: ?>
-              <img class="img-profile" src="/public/images/user.png">
-              <?php endif; ?>
+                <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
+                <img class="img-profile" src="<?=PHOTO_URL . $userData['idx']?>">
+                <?php elseif (!empty($userData['icon_thumbnail'])): ?>
+                <img class="img-profile" src="<?=$userData['icon_thumbnail']?>">
+                <?php else: ?>
+                <img class="img-profile" src="/public/images/user.png">
+                <?php endif; ?>
                 <div class="profile-box">
                   <strong><?=$userData['nickname']?></strong> (<?=$userLevel['levelName']?>)<hr>
                   <a href="<?=BASE_URL?>/member">마이페이지</a><br>
@@ -125,6 +125,7 @@
           </li>
         </ul>
         <div class="nav-sp-mypage">
+          <strong><?=$userData['nickname']?></strong> (<?=$userLevel['levelName']?>)<hr>
           <a href="<?=goHome($viewClub['domain'])?>">・HOME</a><br>
           <a href="<?=BASE_URL?>/member">・마이페이지</a><br>
           <a href="<?=BASE_URL?>/member/modify">・개인정보수정</a><br>
