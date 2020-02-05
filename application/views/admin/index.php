@@ -49,7 +49,7 @@
         <h2 class="sub-header mb-4">대시보드</h2>
         <div class="row mt-2">
           <div class="col-xl-6 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card border-left-primary shadow h-100 py-2" onClick="location.href=('<?=BASE_URL?>/admin/member_list')">
               <div class="card-body">
                 <div class="row no-gutters align-items-center">
                   <div class="col mr-2">
@@ -64,7 +64,7 @@
             </div>
           </div>
           <div class="col-xl-6 col-md-6 mb-4">
-            <div class="card border-left-success shadow h-100 py-2">
+            <div class="card border-left-success shadow h-100 py-2" onClick="location.href=('<?=BASE_URL?>/admin/main_list_progress')">
               <div class="card-body">
                 <div class="row no-gutters align-items-center">
                   <div class="col mr-2">
@@ -81,7 +81,7 @@
         </div>
         <div class="row">
           <div class="col-xl-6 col-md-6 mb-4">
-            <div class="card border-left-info shadow h-100 py-2">
+            <div class="card border-left-info shadow h-100 py-2" onClick="location.href=('<?=BASE_URL?>/admin/main_list_closed')">
               <div class="card-body">
                 <div class="row no-gutters align-items-center">
                   <div class="col mr-2">
@@ -100,7 +100,7 @@
             </div>
           </div>
           <div class="col-xl-6 col-md-6 mb-4">
-            <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card border-left-warning shadow h-100 py-2" onClick="location.href=('<?=BASE_URL?>/admin/log_visitor')">
               <div class="card-body">
                 <div class="row no-gutters align-items-center">
                   <div class="col mr-2">
