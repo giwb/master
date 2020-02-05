@@ -12,16 +12,16 @@
           <div class="sub-contents">
             <h2 class="m-0 p-0 pb-2"><b><?=viewStatus($view['status'])?></b> <?=$view['subject']?></h2>
             <?php if (!empty($view['type'])): ?><div class="ti"><strong>・유형</strong> : <?=$view['type']?></div><?php endif; ?>
-        <div class="ti"><strong>・일시</strong> : <?=$view['startdate']?> (<?=calcWeek($view['startdate'])?>) <?=$view['starttime']?></div>
-        <?php $view['cost'] = $view['cost_total'] == 0 ? $view['cost'] : $view['cost_total']; if (!empty($view['cost'])): ?>
-        <?php if (!empty($view['sido'])): ?>
-        <div class="ti"><strong>・지역</strong> : <?php foreach ($view['sido'] as $key => $value): if ($key != 0): ?>, <?php endif; ?><?=$value?> <?=!empty($view['gugun'][$key]) ? $view['gugun'][$key] : ''?><?php endforeach; ?></div>
-        <?php endif; ?>
-        <div class="ti"><strong>・요금</strong> : <?=number_format($view['cost_total'] == 0 ? $view['cost'] : $view['cost_total'])?>원 (<?=calcTerm($view['startdate'], $view['starttime'], $view['enddate'], $view['schedule'])?><?=!empty($view['distance']) ? ', ' . calcDistance($view['distance']) : ''?><?=!empty($view['options']) ? ', ' . getOptions($view['options']) : ''?><?=!empty($view['options_etc']) ? ', ' . $view['options_etc'] : ''?><?=!empty($view['options']) || !empty($view['options_etc']) ? ' 제공' : ''?><?=!empty($view['costmemo']) ? ', ' . $view['costmemo'] : ''?>)</div>
-        <?php endif; ?>
-        <?=!empty($view['content']) ? '<div class="ti"><strong>・코스</strong> : ' . nl2br($view['content']) . '</div>' : ''?>
-        <?=!empty($view['kilometer']) ? '<div class="ti"><strong>・거리</strong> : ' . $view['kilometer'] . '</div>' : ''?>
-        <div class="ti"><strong>・예약</strong> : <?=cntRes($view['idx'])?>명</div>
+            <div class="ti"><strong>・일시</strong> : <?=$view['startdate']?> (<?=calcWeek($view['startdate'])?>) <?=$view['starttime']?></div>
+            <?php $view['cost'] = $view['cost_total'] == 0 ? $view['cost'] : $view['cost_total']; if (!empty($view['cost'])): ?>
+            <?php if (!empty($view['sido'])): ?>
+            <div class="ti"><strong>・지역</strong> : <?php foreach ($view['sido'] as $key => $value): if ($key != 0): ?>, <?php endif; ?><?=$value?> <?=!empty($view['gugun'][$key]) ? $view['gugun'][$key] : ''?><?php endforeach; ?></div>
+            <?php endif; ?>
+            <div class="ti"><strong>・요금</strong> : <?=number_format($view['cost_total'] == 0 ? $view['cost'] : $view['cost_total'])?>원 (<?=calcTerm($view['startdate'], $view['starttime'], $view['enddate'], $view['schedule'])?><?=!empty($view['distance']) ? ', ' . calcDistance($view['distance']) : ''?><?=!empty($view['options']) ? ', ' . getOptions($view['options']) : ''?><?=!empty($view['options_etc']) ? ', ' . $view['options_etc'] : ''?><?=!empty($view['options']) || !empty($view['options_etc']) ? ' 제공' : ''?><?=!empty($view['costmemo']) ? ', ' . $view['costmemo'] : ''?>)</div>
+            <?php endif; ?>
+            <?=!empty($view['content']) ? '<div class="ti"><strong>・코스</strong> : ' . nl2br($view['content']) . '</div>' : ''?>
+            <?=!empty($view['kilometer']) ? '<div class="ti"><strong>・거리</strong> : ' . $view['kilometer'] . '</div>' : ''?>
+            <div class="ti"><strong>・예약</strong> : <?=cntRes($view['idx'])?>명</div>
 
             <div class="col-sm-3 mt-3 pl-0">
               <select name="status" class="form-control form-control-sm change-status-modal">
@@ -102,22 +102,22 @@
 
               <div class="text-dark">■ <strong>대기자 추가</strong></div>
               <div class="wait row align-items-center">
-                <div class="col-3"><input type="text" name="nickname" class="search-userid" placeholder="닉네임 입력" data-placement="bottom"><input type="hidden" name="userid"></div>
-                <div class="col-2">
-                  <select name="gender" class="gender pl-0 pr-0">
+                <div class="col-3 col-sm-3 p-0 pr-1"><input type="text" name="nickname" class="search-userid form-control form-control-sm" placeholder="닉네임" data-placement="bottom"><input type="hidden" name="userid"></div>
+                <div class="col-2 col-sm-2 p-0 pr-1">
+                  <select name="gender" class="gender form-control form-control-sm pl-0 pr-0">
                     <option value='M'>남성</option>
                     <option value='F'>여성</option>
                   </select>
                 </div>
-                <div class="col-2">
-                  <select name="location" class="location pl-0 pr-0">
+                <div class="col-2 col-sm-2 p-0 pr-1">
+                  <select name="location" class="location form-control form-control-sm pl-0 pr-0">
                     <?php foreach ($arrLocation as $key => $value): if ($key == 0) $value['stitle'] = '선택'; ?>
                     <option value='<?=$value['no']?>'><?=$value['stitle']?></option>
                     <?php endforeach; ?>
                   </select>
                 </div>
-                <div class="col-3"><input type="text" name="memo" placeholder="메모 입력"></div>
-                <div class="col-2"><button type="button" class="btn btn-sm btn-primary btn-wait-insert">등록</button></div>
+                <div class="col-3 col-sm-4 p-0 pr-1"><input type="text" name="memo" class="form-control form-control-sm" placeholder="메모"></div>
+                <div class="col-2 col-sm-1 p-0"><button type="button" class="btn btn-sm btn-default w-100 btn-wait-insert">등록</button></div>
               </div>
             </div>
             <?php endif; ?>
