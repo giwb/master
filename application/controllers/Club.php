@@ -254,7 +254,7 @@ class Club extends MY_Controller
     $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
 
     // 최신 댓글
-    $paging['perPage'] = 10; $paging['nowPage'] = 0;
+    $paging['perPage'] = 5; $paging['nowPage'] = 0;
     $viewData['listReply'] = $this->admin_model->listReply($viewData['view']['idx'], $paging);
 
     foreach ($viewData['listReply'] as $key => $value) {
