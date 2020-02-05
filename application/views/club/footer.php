@@ -13,7 +13,7 @@
         <h3><i class="fas fa-calendar-alt" aria-hidden="true"></i> 최신 댓글</h3>
         <div class="list-schedule list-reply">
           <?php foreach ($listReply as $value): ?>
-            <a href="<?=$value['url']?>"><?=ksubstr($value['content'], 40)?><br><?=$value['nickname']?> · <?=calcStoryTime($value['created_at'])?></a>
+            <a href="<?=$value['url']?>"><?=ksubstr($value['content'], 35)?><br><?=$value['nickname']?> · <?=calcStoryTime($value['created_at'])?></a>
           <?php endforeach; ?>
         </div>
         <?php endif; ?>
