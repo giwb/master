@@ -9,7 +9,6 @@ $URL = $header . $_SERVER['HTTP_HOST'];
   <meta charset="utf-8">
   <title>경인웰빙산악회</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 
   <meta property="og:title" content="경인웰빙" />
   <meta property="og:type" content="website" />
