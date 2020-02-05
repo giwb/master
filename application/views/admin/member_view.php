@@ -3,10 +3,10 @@
         <h2 class="sub-header mb-4"><?=$pageTitle?></h2>
         <div id="content" class="mb-5">
           <div class="row border-bottom mb-3">
-            <div class="col col-sm-6">
+            <div class="col-sm-6">
               <h5>■ 기본 정보</h5>
             </div>
-            <div class="col col-sm-6 text-right">
+            <div class="col-sm-6 text-right">
               <a href="<?=BASE_URL?>/admin/member_list"><button type="button" class="btn btn-sm btn-secondary">목록으로</button></a>
               <button type="button" class="btn btn-sm btn-danger btn-user-login" data-idx="<?=$viewMember['idx']?>">이 사용자로 로그인</button>
             </div>
