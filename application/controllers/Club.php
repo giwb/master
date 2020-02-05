@@ -269,19 +269,12 @@ class Club extends MY_Controller
     foreach ($viewData['listAlbum'] as $key => $value) {
       $photo = $this->file_model->getFile('album', $value['idx'], NULL, 1);
       if (!empty($photo[0]['filename'])) {
+        //$viewData['listAlbum'][$key]['photo'] = PHOTO_URL . 'thumb_' . $photo[0]['filename'];
         $viewData['listAlbum'][$key]['photo'] = PHOTO_URL . $photo[0]['filename'];
       } else {
         $viewData['listAlbum'][$key]['photo'] = '/public/images/noimage.png';
       }
     }
-
-    // 회원수
-    $viewData['view']['cntMember'] = $this->member_model->cntMember($viewData['view']['idx']);
-    $viewData['view']['cntMemberToday'] = $this->member_model->cntMemberToday($viewData['view']['idx']);
-
-    // 방문자수
-    $viewData['view']['cntVisitor'] = $this->member_model->cntVisitor($viewData['view']['idx']);
-    $viewData['view']['cntVisitorToday'] = $this->member_model->cntVisitorToday($viewData['view']['idx']);
 
     // 클럽 대표이미지
     $files = $this->file_model->getFile('club', $viewData['view']['idx']);

@@ -21,7 +21,7 @@
         <h3><i class="fas fa-calendar-alt" aria-hidden="true"></i> 최신 사진첩</h3>
         <div class="list-schedule list-reply">
           <?php foreach ($listAlbum as $value): ?>
-            <a href="<?=BASE_URL?>/album"><img class="mt-2" src="<?=$value['photo']?>"><div class="mt-2 mb-1"><span class="content"><?=$value['subject']?></span></div><?=$value['nickname']?> · <?=calcStoryTime($value['created_at'])?></a>
+            <a href="<?=BASE_URL?>/album"><img class="w-100 mt-2" src="<?=$value['photo']?>"><div class="mt-2 mb-1"><span class="content"><?=$value['subject']?></span></div><?=$value['nickname']?> · <?=calcStoryTime($value['created_at'])?></a>
           <?php endforeach; ?>
         </div>
         <?php endif; ?>
