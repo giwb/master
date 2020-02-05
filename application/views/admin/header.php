@@ -112,8 +112,8 @@
       </div>
       <div id="nav-sp">
         <ul>
-          <li><a href="<?=goHome($viewClub['domain'])?>"><i class="fas fa-home btn-header"></i></a></li>
-          <li><a href="<?=BASE_URL?>"><h1><?=!empty($pageTitle) ? $pageTitle : $viewClub['title'] ?></h1></a></li>
+          <li><a href="<?=BASE_URL?>/admin"><i class="fas fa-chalkboard btn-header"></i></a></li>
+          <li><a href="<?=BASE_URL?>/admin"><h1><?=!empty($pageTitle) ? $pageTitle : $viewClub['title'] ?></h1></a></li>
           <li class="btn-mypage">
             <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
             <img class="img-profile" src="<?=PHOTO_URL . $userData['idx']?>">
@@ -125,6 +125,7 @@
           </li>
         </ul>
         <div class="nav-sp-mypage">
+          <a href="<?=goHome($viewClub['domain'])?>">・HOME</a><br>
           <a href="<?=BASE_URL?>/member">・마이페이지</a><br>
           <a href="<?=BASE_URL?>/member/modify">・개인정보수정</a><br>
           <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
