@@ -8,7 +8,7 @@
         <div class="sub-contents">
           <div class="sub-title">
             <div class="area-title"><h2><b><?=viewStatus($notice['status'])?></b> <?=$notice['subject']?></h2></div>
-            <div class="area-btn"><a href="<?=BASE_URL?>/reserve/?n=<?=$notice['idx']?>"><button type="button" class="btn btn-primary">좌석보기</button></a></div>
+            <div class="area-btn"><a href="<?=BASE_URL?>/reserve/?n=<?=$notice['idx']?>"><button type="button" class="btn btn-default">좌석보기</button></a></div>
           </div>
 
           <?php if (empty($listNoticeDetail)): ?>
@@ -43,7 +43,7 @@
               <input type="hidden" name="replyType" value="<?=REPLY_TYPE_NOTICE?>">
               <input type="hidden" name="replyIdx" value="">
               <textarea name="content" class="club-story-reply"></textarea>
-              <button type="button" class="btn btn-primary btn-post-reply" data-idx="<?=$notice['idx']?>">댓글달기</button>
+              <button type="button" class="btn btn-default btn-post-reply" data-idx="<?=$notice['idx']?>">댓글달기</button>
             </form>
           </div>
         </div>
