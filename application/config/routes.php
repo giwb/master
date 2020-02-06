@@ -61,7 +61,7 @@ $domain = $_SERVER['HTTP_HOST'];
 $query = $db->query("SELECT idx FROM clubs WHERE domain='$domain'");
 $result = $query->row_array(1);
 
-if (!empty($_SERVER['REDIRECT_URL'])) {
+if (empty($result) && !empty($_SERVER['REDIRECT_URL'])) {
   $arrUrl = explode('/', $_SERVER['REDIRECT_URL']);
   $domain = html_escape($arrUrl[1]);
   $query = $db->query("SELECT idx FROM clubs WHERE domain='$domain'");
