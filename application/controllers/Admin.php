@@ -389,7 +389,7 @@ class Admin extends Admin_Controller
           $penalty = 1;
         }
       }
-      $this->member_model->updatePenalty($clubIdx, $viewReserve['userid'], ($userData['penalty'] + $penalty));
+      $this->member_model->updatePenalty($viewReserve['userid'], ($userData['penalty'] + $penalty));
 
       // 예약 페널티 로그 기록
       if ($penalty > 0) {
@@ -410,16 +410,16 @@ class Admin extends Admin_Controller
           if ($userData['level'] == 1) {
             // 평생회원은 할인 적용된 가격을 환불
             $viewEntry['cost'] = $viewEntry['cost'] - 5000;
-            $this->member_model->updatePoint($clubIdx, $viewReserve['userid'], ($userData['point'] + $viewEntry['cost']));
+            $this->member_model->updatePoint($viewReserve['userid'], ($userData['point'] + $viewEntry['cost']));
           } else {
-            $this->member_model->updatePoint($clubIdx, $viewReserve['userid'], ($userData['point'] + $viewEntry['cost']));
+            $this->member_model->updatePoint($viewReserve['userid'], ($userData['point'] + $viewEntry['cost']));
           }
           // 포인트 반환 로그 기록
           setHistory(LOG_POINTUP, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'] . ' 관리자 예약 취소', $now, $viewEntry['cost']);
         }
       } elseif ($viewReserve['status'] == RESERVE_ON && $viewReserve['point'] > 0) {
         // 예약정보에 포인트가 있을때 반환
-        $this->member_model->updatePoint($clubIdx, $viewReserve['userid'], ($userData['point'] + $viewReserve['point']));
+        $this->member_model->updatePoint($viewReserve['userid'], ($userData['point'] + $viewReserve['point']));
 
         // 포인트 반환 로그 기록
         setHistory(LOG_POINTUP, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'] . ' 관리자 예약 취소', $now, $viewReserve['point']);
@@ -865,7 +865,7 @@ class Admin extends Admin_Controller
         if ($userData['level'] != 2 && $userData['admin'] != 1) { // 무료회원과 관리자는 적립금 없음
           // 최초 1회는 자신의 레벨에 맞게 포인트 지급
           $memberLevel = memberLevel($userData['rescount'], $userData['penalty'], $userData['level'], $userData['admin']);
-          $this->member_model->updatePoint($clubIdx, $userData['userid'], ($userData['point'] + $memberLevel['point']));
+          $this->member_model->updatePoint($userData['userid'], ($userData['point'] + $memberLevel['point']));
           setHistory(LOG_POINTUP, $search['rescode'], $userData['userid'], $userData['nickname'], $viewEntry['subject'] . ' 본인 예약 포인트', $now, $memberLevel['point']);
 
           // 같은 아이디로 추가 예약을 했을 경우 포인트 1000씩 지급
@@ -873,7 +873,7 @@ class Admin extends Admin_Controller
           if ($addedReserve['cnt'] > 1) {
             $addedPoint = ($addedReserve['cnt'] - 1) * 1000;
             $userData = $this->admin_model->viewMember($search); // 갱신된 정보를 다시 불러옴
-            $this->member_model->updatePoint($clubIdx, $userData['userid'], ($userData['point'] + $addedPoint));
+            $this->member_model->updatePoint($userData['userid'], ($userData['point'] + $addedPoint));
             setHistory(LOG_POINTUP, $search['rescode'], $userData['userid'], $userData['nickname'], $viewEntry['subject'] . ' 일행 예약 포인트', $now, $addedPoint);
           }
         }
@@ -895,16 +895,16 @@ class Admin extends Admin_Controller
             if ($userData['level'] == 1) {
               // 평생회원은 할인 적용된 가격을 환불
               $viewEntry['cost'] = $viewEntry['cost'] - 5000;
-              $this->member_model->updatePoint($clubIdx, $value['userid'], ($userData['point'] + $viewEntry['cost']));
+              $this->member_model->updatePoint($value['userid'], ($userData['point'] + $viewEntry['cost']));
             } else {
-              $this->member_model->updatePoint($clubIdx, $value['userid'], ($userData['point'] + $viewEntry['cost']));
+              $this->member_model->updatePoint($value['userid'], ($userData['point'] + $viewEntry['cost']));
             }
             // 포인트 반환 로그 기록
             setHistory(LOG_POINTUP, $value['rescode'], $value['userid'], $value['nickname'], $viewEntry['subject'] . ' 산행 취소', $now, $viewEntry['cost']);
           }
         } elseif ($value['status'] == RESERVE_ON && $value['point'] > 0) {
           // 예약정보에 포인트가 있을때 반환
-          $this->member_model->updatePoint($clubIdx, $value['userid'], ($userData['point'] + $value['point']));
+          $this->member_model->updatePoint($value['userid'], ($userData['point'] + $value['point']));
 
           // 포인트 반환 로그 기록
           setHistory(LOG_POINTUP, $value['rescode'], $value['userid'], $value['nickname'], $viewEntry['subject'] . ' 산행 취소', $now, $value['point']);

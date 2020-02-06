@@ -205,7 +205,7 @@
               <div class="modal-footer">
                 <input type="hidden" name="delete_idx">
                 <button type="button" class="btn btn-sm btn-default btn-reserve-cancel-complete">승인</button>
-                <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-sm btn-secondary btn-close" data-dismiss="modal">닫기</button>
               </div>
             </div>
           </div>
