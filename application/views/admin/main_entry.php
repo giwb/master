@@ -21,7 +21,7 @@
                 <h4>■ 기본정보</h4>
               </div>
               <div class="col-sm-3 pb-2 text-right">
-                <select class="form-control form-control-sm search-notice">
+                <select class="form-control search-notice">
                   <option value="">▼ 불러오기</option>
                   <?php foreach ($listNotice as $value): ?>
                   <option value='<?=$value['idx']?>'><?=$value['subject']?></option>
@@ -59,7 +59,7 @@
             <div class="row align-items-top border-top mt-3 pt-3">
               <div class="col-sm-2 font-weight-bold">지역</div>
               <div class="col-sm-10 pl-0">
-                <div class="mb-2 ml-3"><button type="button" class="btn btn-sm btn-primary btn-add-area">추가</button></div>
+                <div class="mb-2 ml-3"><button type="button" class="btn btn-sm btn-default btn-add-area">추가</button></div>
                 <?php if (empty($view['sido'])): ?>
                 <div class="row mt-1 select-area">
                   <div class="col col-sm-4">
@@ -138,7 +138,7 @@
             <div class="row align-items-center border-top mt-3 pt-3">
               <div class="col-sm-2 font-weight-bold">차량</div>
               <div class="col-sm-10">
-                <button type="button" class="btn btn-sm btn-primary btn-add-bus">추가</button><br>
+                <button type="button" class="btn btn-sm btn-default btn-add-bus">추가</button><br>
                 <div class="mt-2">
                   <?php if (!$view['idx']): // 등록 ?>
                   <div id="area-init-bus">
@@ -219,7 +219,7 @@
             <?php endforeach; ?>
             <div class="added-course"></div>
             <div class="row align-items-center font-weight-bold border-top mt-3 pt-3">
-              <div class="col-sm-2 mb-3"><button type="button" class="btn btn-sm btn-primary btn-course">추가</button></div>
+              <div class="col-sm-2 mb-3"><button type="button" class="btn btn-sm btn-default btn-course">추가</button></div>
               <div class="col-sm-5"></div>
               <div class="col-sm-2">합계</div>
               <div class="col-sm-2"><input class="form-control total-distance" readonly type="text" name="distance" size="4" value="0"></div>
@@ -339,14 +339,14 @@
             </div>
 
             <div class="area-button">
-              <button type="button" class="btn btn-primary btn-entry mr-2"><?=$btn?></button>
-              <button type="button" class="btn btn-dark btn-list mr-5" data-action="admin/main_list_progress">목록</button>
+              <button type="button" class="btn btn-sm btn-default btn-entry mr-2"><?=$btn?></button>
+              <button type="button" class="btn btn-sm btn-dark btn-list mr-5" data-action="admin/main_list_progress">목록</button>
               <?php if (!empty($view['visible']) && $view['visible'] == VISIBLE_ABLE): ?>
-              <button type="button" class="btn btn-secondary btn-change-visible" data-idx="<?=$view['idx']?>" data-visible="<?=VISIBLE_NONE?>">숨김</button>
+              <button type="button" class="btn btn-sm btn-secondary btn-change-visible" data-idx="<?=$view['idx']?>" data-visible="<?=VISIBLE_NONE?>">숨김</button>
               <?php else: ?>
-              <button type="button" class="btn btn-primary btn-change-visible" data-idx="<?=$view['idx']?>" data-visible="<?=VISIBLE_ABLE?>">공개</button>
+              <button type="button" class="btn btn-sm btn-default btn-change-visible" data-idx="<?=$view['idx']?>" data-visible="<?=VISIBLE_ABLE?>">공개</button>
               <?php endif; ?>
-              <button type="button" class="btn btn-danger btn-notice-delete ml-2" data-idx="<?=$view['idx']?>">삭제</button>
+              <button type="button" class="btn btn-sm btn-danger btn-notice-delete ml-2" data-idx="<?=$view['idx']?>">삭제</button>
             </div>
           </form>
         </div>
