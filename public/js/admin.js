@@ -514,6 +514,16 @@
   }).on('click', '.btn-member-list', function() {
     // 회원 목록 돌아가기
     location.href=($('input[name=baseUrl]').val() + '/admin/member_list');
+  }).on('click', '.logout', function() {
+    // 로그아웃
+    var baseUrl = $('input[name=baseUrl]').val();
+    $.ajax({
+      url: '/login/logout',
+      dataType: 'json',
+      success: function(result) {
+        location.reload();
+      }
+    });
   }).on('click', '.btn-user-login', function() {
     var $btn = $(this);
     var baseUrl = $('input[name=baseUrl]').val();
