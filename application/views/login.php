@@ -19,11 +19,11 @@
           </div>
           <div class="error-message text-danger text-center"></div>
           <div class="text-center mt-3 mr-3 ml-3">
-            <a href="/login/entry"><button type="button" class="btn btn-primary"><span class="small">회원가입</span></button></a>
+            <a href="/login/entry"><button type="button" class="btn btn-default"><span class="small">회원가입</span></button></a>
             <a href="/login/forgot"><button type="button" class="btn btn-secondary"><span class="small">아이디/비밀번호 찾기</span></button></a>
           </div>
           <div class="text-center mt-3 mb-5">
-            <button type="button" class="btn btn-primary btn-login pl-5 pr-5 pt-2 pb-2">로그인</button>
+            <button type="button" class="btn btn-default btn-login pl-5 pr-5 pt-2 pb-2">로그인</button>
           </div>
           <!--
           <div class="text-center mt-3">
