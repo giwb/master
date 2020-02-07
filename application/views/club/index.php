@@ -67,7 +67,7 @@
         <div id="calendar" class="d-none d-sm-block"></div>
         <div class="your-story">
           <form id="your-story-form" method="post" action="/story/insert">
-            <textarea id="club-story-content" placeholder="당신의 이야기를 들려주세요~"></textarea>
+            <textarea id="club-story-content" placeholder="그저 온전히 행복해질 수 있는 하루.. 그런 산행..."></textarea>
             <div class="area-photo"></div>
             <div class="area-btn">
               <input type="file" class="file">
