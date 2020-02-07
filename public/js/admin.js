@@ -37,15 +37,6 @@
     }
   });
 
-  // Smooth scrolling using jQuery easing
-  $(document).on('click', 'a.scroll-to-top', function(e) {
-    var $anchor = $(this);
-    $('html, body').stop().animate({
-      scrollTop: ($($anchor.attr('href')).offset().top)
-    }, 1000);
-    e.preventDefault();
-  });
-
   $(document).on('click', '.btn-member-update', function() {
     // 회원정보 수정
     var $btn = $(this);
@@ -68,6 +59,9 @@
         }, 3000);
       }
     });
+  }).on('click', '.scroll-to-top', function() {
+    // 상단 스크롤
+    $('html, body').animate({scrollTop : 0}, 1000, 'easeInOutExpo');
   }).on('click', '.nav-menu .img-profile', function() {
     // 로그인 아이콘
     var $dom = $('.profile-box');
