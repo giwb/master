@@ -47,9 +47,9 @@
         <div class="modal-footer">
           <input type="hidden" name="action" value="">
           <input type="hidden" name="delete_idx" value="">
-          <button type="button" class="btn btn-primary btn-refresh">새로고침</button>
-          <button type="button" class="btn btn-primary btn-delete">삭제합니다</button>
-          <button type="button" class="btn btn-primary btn-list" data-action="">목록으로</button>
+          <button type="button" class="btn btn-default btn-refresh">새로고침</button>
+          <button type="button" class="btn btn-default btn-delete">삭제합니다</button>
+          <button type="button" class="btn btn-default btn-list" data-action="">목록으로</button>
           <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
         </div>
       </div>
