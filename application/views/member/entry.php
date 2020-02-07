@@ -89,7 +89,7 @@
             <dd><img class="photo" src="/public/images/noimage.png"><input type="file" name="photo" class="file d-none"><button type="button" class="btn btn-sm btn-info btn-upload mt-2 pl-3 pr-3">사진올리기</button><input type="hidden" name="filename"><br><button type="button" class="btn btn-sm btn-danger btn-entry-photo-delete mt-1 pl-3 pr-3 d-none">사진　삭제</button></dd>
           </dl>
           <div class="area-btn">
-            <button type="button" class="btn btn-primary btn-entry">등록합니다</button>
+            <button type="button" class="btn btn-default btn-entry">등록합니다</button>
           </div>
         </form>
       </div>
