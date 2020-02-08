@@ -20,6 +20,7 @@
               ・잔여 포인트 : <span class="text-danger"><?=number_format($viewMember['point'])?>점</span><br>
             </div>
           </div>
+
           <h3>
             ■ 진행중 예약 내역 : <span class="text-success"><?=$maxReserve['cnt']?>건</span>
             <div class="area-btn">
@@ -46,7 +47,7 @@
             </dl>
             <?php endforeach; ?>
           </form>
-<?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
+
           <h3>
             ■ 구매 내역
             <div class="area-btn">
@@ -58,7 +59,6 @@
           <form id="shopForm" method="post" action="/shop/payment">
             <?=$listPurchase?>
           </form>
-<?php endif; ?>
 
           <h3>
             ■ 다녀온 산행 내역 : <span class="text-primary"><?=$maxVisit['cnt']?>회</span>
