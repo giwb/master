@@ -4,7 +4,7 @@
         <h2 class="sub-header"><?=$pageTitle?></h2>
         <div class="row align-items-center">
           <div class="col-9 mb-2"><a href="javascript:;" class="btn-notice" data-idx="1"><strong><i class="fa fa-question-circle-o" aria-hidden="true"></i> 구매대행 상품이란..?</strong></a></div>
-          <div class="col-3 text-right d-none d-sm-block"><a href="<?=BASE_URL?>/shop/cart"><button type="button" class="btn btn-sm btn-cart">장바구니 보기</button></a></div>
+          <div class="col-3 text-right d-none d-sm-block"><button type="button" class="btn btn-sm btn-cart">장바구니 보기</button></div>
         </div>
         <div class="area-notice text-justify small" data-idx="1">
           <div class="border mb-3 p-4">

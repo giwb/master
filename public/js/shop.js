@@ -1,6 +1,12 @@
 $(document).on('click', '.shop-item', function() {
   // 용품 상세 페이지
   location.href = ( $('input[name=baseUrl]').val() + '/shop/item/?n=' + $(this).data('idx') );
+}).on('click', '.btn-cart', function() {
+  if ($('input[name=userIdx]').val() == '') {
+    $('#loginModal').modal('show'); // 로그인
+    return false;
+  }
+  location.href = ( $('input[name=baseUrl]').val() + '/shop/cart' );
 }).on('click', '.btn-notice', function() {
   // 구매대행 상품이란?
   var $dom = $('.area-notice[data-idx=' + $(this).data('idx') + ']');
@@ -18,6 +24,10 @@ $(document).on('click', '.shop-item', function() {
   var amount = $('.area-option .item-amount').val();
   var type = $(this).data('type');
 
+  if ($('input[name=userIdx]').val() == '') {
+    $('#loginModal').modal('show'); // 로그인
+    return false;
+  }
   if (typeof amount == 'undefined') {
     $.openMsgModal('옵션은 꼭 선택해주세요.');
     return false;
@@ -83,6 +93,12 @@ $(document).on('click', '.shop-item', function() {
   var $btn = $(this);
   var rowid = $(this).data('rowid');
   var amount = 0;
+
+  if ($('input[name=userIdx]').val() == '') {
+    $('#loginModal').modal('show'); // 로그인
+    return false;
+  }
+
   $.ajax({
     url: '/shop/cart_update',
     data: 'rowid=' + rowid + '&amount=' + amount,
@@ -164,6 +180,12 @@ $(document).on('click', '.shop-item', function() {
   var $dom = $('#formCheckout');
   var baseUrl = $('input[name=baseUrl]').val();
   var formData = new FormData($dom[0]);
+
+  if ($('input[name=userIdx]').val() == '') {
+    $('#loginModal').modal('show'); // 로그인
+    return false;
+  }
+
   $.ajax({
     url: $dom.attr('action'),
     processData: false,

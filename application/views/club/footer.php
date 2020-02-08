@@ -36,7 +36,7 @@
 
   <ul id="nav-footer">
     <li><a href="<?=BASE_URL?>/reserve/list"><i class="fa fa-calendar" aria-hidden="true"></i><br>일정</a></li>
-    <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?><li><a href="<?=BASE_URL?>/shop"><i class="fa fa-shopping-cart" aria-hidden="true"></i><br>구매</a></li><?php endif; ?>
+    <li><a href="<?=BASE_URL?>/shop"><i class="fa fa-shopping-cart" aria-hidden="true"></i><br>구매</a></li>
     <li><a href="<?=BASE_URL?>/album"><i class="fa fa-camera-retro" aria-hidden="true"></i><br>사진</a></li>
     <li><a href="<?=BASE_URL?>/club/about"><i class="fa fa-sitemap" aria-hidden="true"></i><br>소개</a></li>
     <?php if (!empty($userData['idx'])): ?>

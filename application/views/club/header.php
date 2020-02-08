@@ -110,7 +110,7 @@
             <?php if (strstr($_SERVER['REQUEST_URI'], 'member')): ?>
             <a href="javascript:;" class="btn-mypage"><i class="fa fa-cog btn-header"></i></a>
             <?php elseif (strstr($_SERVER['REQUEST_URI'], 'shop')): ?>
-            <a href="<?=BASE_URL?>/shop/cart" title="장바구니"><i class="fa fa-shopping-cart btn-header"></i></a>
+            <a href="javascript:;" title="장바구니"><i class="fa fa-shopping-cart btn-header btn-cart"></i></a>
             <?php elseif (strstr($_SERVER['REQUEST_URI'], 'album')): ?>
             <a href="<?=BASE_URL?>/album/entry" title="사진 업로드"><i class="fa fa-cloud-upload btn-header"></i></a>
             <?php elseif (strstr($_SERVER['REQUEST_URI'], 'login')): ?>
@@ -160,8 +160,8 @@
             <li><a href="<?=BASE_URL?>/club/auth"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소 인증현황</a></li>
             <?php endif; ?><br>
             <li><a href="<?=BASE_URL?>/album"><i class="fa fa-photo" aria-hidden="true"></i> 사진첩</a></li>
-            <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
             <li><a href="<?=BASE_URL?>/shop"><i class="fa fa-shopping-basket" aria-hidden="true"></i> 구매대행 상품</a></li>
+            <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
             <br>
             <li><a href="<?=BASE_URL?>/admin"><i class="fa fa-cog" aria-hidden="true"></i> 설정(NEW)</a></li>
             <li><a href="<?=BASE_URL?>/admin_old"><i class="fa fa-cog" aria-hidden="true"></i> 설정(OLD)</a></li>
