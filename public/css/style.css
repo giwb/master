@@ -2173,7 +2173,7 @@ h1.nav-logo small {
 .visitor-row { display: flex; }
 
 #formShop .item-cost { position: relative; }
-#formShop .item-cost .item-cost-text { position: absolute; top: 8px; right: 24px; z-index: 100; }
+#formShop .item-cost .item-cost-text { position: absolute; top: 8px; right: 24px; z-index: 1; }
 #formShop .item-cost input { text-align: right; padding-right: 30px; }
 .added-files img { width: 150px; display: inline-block; margin-right: 10px; cursor: pointer; }
 .item-list { cursor: pointer; }

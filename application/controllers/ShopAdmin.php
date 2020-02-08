@@ -516,6 +516,31 @@ class ShopAdmin extends Admin_Controller
   }
 
   /**
+   * 쇼핑몰 : 상품 숨기기/보이기
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function change_visible()
+  {
+    $idx = html_escape($this->input->post('idx'));
+    $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+
+    if (!empty($idx)) {
+      $viewItem = $this->shop_model->viewItem($idx);
+
+      if ($viewItem['item_visible'] == 'Y') $itemVisible = 'N'; else $itemVisible = 'Y';
+
+      $updateValues = array('item_visible' => $itemVisible);
+      $this->shop_model->updateItem($updateValues, $idx);
+
+      $result = array('error' => 0, 'message' => $itemVisible);
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 파일 업로드
    *
    * @return json

@@ -3,7 +3,7 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <title>경인웰빙산악회<?=!empty($pageTitle) ? ' - ' . $pageTitle : ''?></title>
+  <title><?=!empty($view['title']) ? $view['title'] : '한국여행 :: TripKorea.net'?><?=!empty($pageTitle) ? ' - ' . $pageTitle : ''?></title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -73,7 +73,7 @@
       <div id="nav-top">
         <div class="container">
           <div class="row align-items-center">
-            <h1 class="col-sm-6 nav-logo"><a href="<?=BASE_URL?>" class="logo"><?=!empty($view['title']) ? $view['title'] : ''?></a></h1>
+            <h1 class="col-sm-6 nav-logo"><a href="<?=BASE_URL?>" class="logo"><?=!empty($view['title']) ? $view['title'] : '한국여행 <small>TripKorea.net</small>'?></a></h1>
             <ul class="col-sm-6 text-right nav-menu">
               <li><a target="_blank" href="http://giwb.co.kr"><img src="//m1.daumcdn.net/cafeimg/mobile/m640/tit_cafe_s_161214.png" width="50"></a></li>
               <?php if (empty($userData['idx'])): ?>

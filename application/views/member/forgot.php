@@ -18,41 +18,37 @@
           <dl>
             <dt>생년월일</dt>
             <dd>
-              <div class="container">
-                <div class="row w-100">
-                  <select name="birthday_year" class="form-control col-sm-5 mr-2 pl-1">
-                  <?php foreach (range(date('Y'), 1900) as $value): ?>
-                    <option value='<?=$value?>'><?=$value?>년</option>
-                  <?php endforeach; ?>
-                  </select>
-                  <select name="birthday_month" class="form-control col-sm-3 mr-2 pl-1">
-                  <?php foreach (range(1, 12) as $value): ?>
-                    <option value='<?=$value?>'><?=$value?>월</option>
-                  <?php endforeach; ?>
-                  </select>
-                  <select name="birthday_day" class="form-control col-sm-3 mr-2 pl-1">
-                  <?php foreach (range(1, 31) as $value): ?>
-                    <option value='<?=$value?>'><?=$value?>일</option>
-                  <?php endforeach; ?>
-                  </select>
-                </div>
+              <div class="row w-100">
+                <select name="birthday_year" class="form-control col-sm-5 mr-2 pl-1">
+                <?php foreach (range(date('Y'), 1900) as $value): ?>
+                  <option value='<?=$value?>'><?=$value?>년</option>
+                <?php endforeach; ?>
+                </select>
+                <select name="birthday_month" class="form-control col-sm-3 mr-2 pl-1">
+                <?php foreach (range(1, 12) as $value): ?>
+                  <option value='<?=$value?>'><?=$value?>월</option>
+                <?php endforeach; ?>
+                </select>
+                <select name="birthday_day" class="form-control col-sm-3 mr-2 pl-1">
+                <?php foreach (range(1, 31) as $value): ?>
+                  <option value='<?=$value?>'><?=$value?>일</option>
+                <?php endforeach; ?>
+                </select>
               </div>
             </dd>
           </dl>
           <dl>
             <dt>전화번호</dt>
             <dd>
-              <div class="container">
-                <div class="row w-100">
-                  <div class="col-sm-2 mr-2 p-0"><input type="text" name="phone1" maxlength="3" class="form-control"></div>
-                  <div class="col-sm-3 mr-2 p-0"><input type="text" name="phone2" maxlength="4" class="form-control"></div>
-                  <div class="col-sm-3 p-0"><input type="text" name="phone3" maxlength="4" class="form-control"></div>
-                </div>
+              <div class="row w-100">
+                <div class="col-sm-2 mr-2 p-0"><input type="text" name="phone1" maxlength="3" class="form-control"></div>
+                <div class="col-sm-3 mr-2 p-0"><input type="text" name="phone2" maxlength="4" class="form-control"></div>
+                <div class="col-sm-3 p-0"><input type="text" name="phone3" maxlength="4" class="form-control"></div>
               </div>
             </dd>
           </dl>
           <div class="area-btn">
-            <button type="button" class="btn btn-primary btn-search-id">아이디 찾기</button>
+            <button type="button" class="btn btn-default btn-search-id">아이디 찾기</button>
           </div>
         </form>
 
@@ -78,36 +74,32 @@
           <dl>
             <dt>생년월일</dt>
             <dd>
-              <div class="container">
-                <div class="row w-100">
-                  <select name="birthday_year" class="form-control col-sm-5 mr-2 pl-1">
-                  <?php foreach (range(date('Y'), 1900) as $value): ?>
-                    <option value='<?=$value?>'><?=$value?>년</option>
-                  <?php endforeach; ?>
-                  </select>
-                  <select name="birthday_month" class="form-control col-sm-3 mr-2 pl-1">
-                  <?php foreach (range(1, 12) as $value): ?>
-                    <option value='<?=$value?>'><?=$value?>월</option>
-                  <?php endforeach; ?>
-                  </select>
-                  <select name="birthday_day" class="form-control col-sm-3 mr-2 pl-1">
-                  <?php foreach (range(1, 31) as $value): ?>
-                    <option value='<?=$value?>'><?=$value?>일</option>
-                  <?php endforeach; ?>
-                  </select>
-                </div>
+              <div class="row w-100">
+                <select name="birthday_year" class="form-control col-sm-5 mr-2 pl-1">
+                <?php foreach (range(date('Y'), 1900) as $value): ?>
+                  <option value='<?=$value?>'><?=$value?>년</option>
+                <?php endforeach; ?>
+                </select>
+                <select name="birthday_month" class="form-control col-sm-3 mr-2 pl-1">
+                <?php foreach (range(1, 12) as $value): ?>
+                  <option value='<?=$value?>'><?=$value?>월</option>
+                <?php endforeach; ?>
+                </select>
+                <select name="birthday_day" class="form-control col-sm-3 mr-2 pl-1">
+                <?php foreach (range(1, 31) as $value): ?>
+                  <option value='<?=$value?>'><?=$value?>일</option>
+                <?php endforeach; ?>
+                </select>
               </div>
             </dd>
           </dl>
           <dl>
             <dt>전화번호</dt>
             <dd>
-              <div class="container">
-                <div class="row w-100">
-                  <div class="col-sm-2 mr-2 p-0"><input type="text" name="phone1" maxlength="3" class="form-control"></div>
-                  <div class="col-sm-3 mr-2 p-0"><input type="text" name="phone2" maxlength="4" class="form-control"></div>
-                  <div class="col-sm-3 p-0"><input type="text" name="phone3" maxlength="4" class="form-control"></div>
-                </div>
+              <div class="row w-100">
+                <div class="col-sm-2 mr-2 p-0"><input type="text" name="phone1" maxlength="3" class="form-control"></div>
+                <div class="col-sm-3 mr-2 p-0"><input type="text" name="phone2" maxlength="4" class="form-control"></div>
+                <div class="col-sm-3 p-0"><input type="text" name="phone3" maxlength="4" class="form-control"></div>
               </div>
             </dd>
           </dl>
@@ -116,7 +108,7 @@
             <dd><input type="password" name="new_password" class="form-control" autocomplete="new-password"></dd>
           </dl>
           <div class="area-btn">
-            <button type="button" class="btn btn-primary btn-change-password">비밀번호 변경</button>
+            <button type="button" class="btn btn-default btn-change-password">비밀번호 변경</button>
           </div>
         </form>
       </div>

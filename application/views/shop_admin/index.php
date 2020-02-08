@@ -69,6 +69,30 @@
                 }
               });
             }
+          }).on('click', '.btn-item-visible', function() {
+            // 상품 보이기/숨기기
+            var $btn = $(this);
+            $.ajax({
+              url: '<?=BASE_URL?>/ShopAdmin/change_visible/',
+              data: 'idx=' + $(this).parent().parent().data('idx'),
+              dataType: 'json',
+              type: 'post',
+              beforeSend: function() {
+                $btn.css('opacity', '0.5').prop('disabled', true);
+              },
+              success: function(result) {
+                $btn.css('opacity', '1').prop('disabled', false);
+                if (result.error == 1) {
+                  $.openMsgModal(result.message);
+                } else {
+                  if (result.message == 'Y') {
+                    $btn.text('숨김').removeClass('btn-default').addClass('btn-secondary');
+                  } else {
+                    $btn.text('공개').removeClass('btn-secondary').addClass('btn-default');
+                  }
+                }
+              }
+            });
           }).on('click', '.item-list', function() {
             // 상세보기
             location.href = '<?=BASE_URL?>/ShopAdmin/entry/' + $(this).data('idx');

@@ -70,8 +70,7 @@
               </div>
             </div>
             <div class="row align-items-center mb-2">
-              <div class="col-sm-2 font-weight-bold">설명</div>
-              <div class="col-sm-10"><textarea name="item_content" id="item_content" rows="10" cols="100"><?=!empty($view['item_content']) ? $view['item_content'] : ''?></textarea></div>
+              <div class="col-sm-12"><textarea name="item_content" id="item_content" rows="10" cols="100"><?=!empty($view['item_content']) ? $view['item_content'] : ''?></textarea></div>
             </div>
             <div class="row align-items-center mb-3">
               <div class="col-sm-2 font-weight-bold">사진 <span class="required">(*)</span></div>
@@ -86,7 +85,7 @@
             </div>
             <div class="row align-items-center mb-2">
               <div class="col-sm-2 font-weight-bold">인기상품</div>
-              <div class="col-sm-10"><label><input type="checkbox" name="item_recommend" value="Y"<?=!empty($view['item_recommend']) && $view['item_recommend'] == 'Y' ? ' checked' : ''?>> 인기상품으로 등록</label></div>
+              <div class="col-sm-10"><label class="m-0"><input type="checkbox" name="item_recommend" value="Y"<?=!empty($view['item_recommend']) && $view['item_recommend'] == 'Y' ? ' checked' : ''?>> 인기상품으로 등록</label></div>
             </div>
             <div class="border-top text-center mt-3 mb-5 pt-3 pb-5">
               <button type="button" class="btn btn-sm btn-default btn-item-entry"><?=empty($view['idx']) ? '등록합니다' : '수정합니다'?></button>
@@ -228,7 +227,7 @@
                 } else {
                   $('#messageModal .modal-footer .btn').hide();
                   $('#messageModal .modal-footer .btn-close, #messageModal .modal-footer .btn-list').show();
-                  $('#messageModal .modal-footer .btn-list').data('action', '<?=BASE_URL?>/ShopAdmin/index');
+                  $('#messageModal .modal-footer .btn-list').data('action', 'ShopAdmin/index');
                   $('#messageModal .modal-message').text(result.message);
                   $('#messageModal').modal('show');
                 }
@@ -252,7 +251,7 @@
                   $.openMsgModal(result.message);
                 } else {
                   $('#messageModal .modal-footer .btn').hide();
-                  $('#messageModal .modal-footer .btn-list').data('action', '<?=BASE_URL?>/ShopAdmin/index').show();
+                  $('#messageModal .modal-footer .btn-list').data('action', 'ShopAdmin/index').show();
                   $('#messageModal .modal-message').text(result.message);
                   $('#messageModal').modal({backdrop: 'static', keyboard: false});
                 }

@@ -3,7 +3,7 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <title>한국여행 :: TripKorea.net</title>
+  <title><?=!empty($view['title']) ? $view['title'] : '한국여행 :: TripKorea.net'?><?=!empty($pageTitle) ? ' - ' . $pageTitle : ''?></title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
@@ -63,7 +63,7 @@
       <div id="nav-top">
         <div class="container">
           <div class="row align-items-center">
-            <h1 class="col-sm-6 nav-logo"><a href="/" class="logo">한국여행 <small>TripKorea.net</small></a></h1>
+            <h1 class="col-sm-6 nav-logo"><a href="<?=BASE_URL?>" class="logo"><?=!empty($view['title']) ? $view['title'] : '한국여행 <small>TripKorea.net</small>'?></a></h1>
             <ul class="col-sm-6 text-right nav-menu">
               <li<?=$uri == 'top' ? ' class="active"' : ''?>><a href="/">TOP</a></li>
               <li<?=$uri == 'place' ? ' class="active"' : ''?>><a href="/place">여행정보</a></li>
