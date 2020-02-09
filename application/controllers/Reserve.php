@@ -431,7 +431,7 @@ class Reserve extends MY_Controller
       $updateValues['rescount'] = $rescount['cnt'];
       $this->member_model->updateMember($updateValues, $userData['idx']);
 
-      $result = array('error' => 0, 'message' => '/reserve/' . $noticeIdx . '?c=' . implode(',', $reserveIdx));
+      $result = array('error' => 0, 'message' => '/reserve/index/' . $noticeIdx . '?c=' . implode(',', $reserveIdx));
     }
 
     $this->output->set_output(json_encode($result));
