@@ -1,18 +1,19 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
+        <?=$headerMenuView?>
         <div id="content" class="mb-5">
-          <div class="row align-items-center border-bottom text-center mb-4 pt-3 pb-3">
-            <div class="col pt-0 pr-1 pb-0 pl-1"><a href="<?=BASE_URL?>/admin/main_entry/<?=$view['idx']?>"><button type="button" class="btn btn-sm btn-default w-100">수정</button></a></div>
-            <div class="col pt-0 pr-1 pb-0 pl-1"><a href="<?=BASE_URL?>/admin/main_notice/<?=$view['idx']?>"><button type="button" class="btn btn-sm btn-default w-100">공지</button></a></div>
-            <div class="col pt-0 pr-1 pb-0 pl-1"><a href="<?=BASE_URL?>/admin/main_view_progress/<?=$view['idx']?>"><button type="button" class="btn btn-sm btn-default w-100">예약</button></a></div>
-            <div class="col pt-0 pr-1 pb-0 pl-1"><a href="<?=BASE_URL?>/admin/main_view_boarding/<?=$view['idx']?>"><button type="button" class="btn btn-sm btn-default w-100">승차</button></a></div>
-            <div class="col pt-0 pr-1 pb-0 pl-1"><a href="<?=BASE_URL?>/admin/main_view_sms/<?=$view['idx']?>"><button type="button" class="btn btn-sm btn-default w-100">문자</button></a></div>
-            <div class="col pt-0 pr-1 pb-0 pl-1"><a href="<?=BASE_URL?>/admin/main_view_adjust/<?=$view['idx']?>"><button type="button" class="btn btn-sm btn-secondary w-100">정산</button></a></div>
-          </div>
           <div class="sub-contents">
-            <h2><b><?=viewStatus($view['status'])?></b> <?=$view['subject']?></h2>
-            산행일시 : <?=$view['startdate']?> (<?=calcWeek($view['startdate'])?>) <?=$view['starttime']?><br>
-            참가비용 : <?=number_format($view['cost_total'] == 0 ? $view['cost'] : $view['cost_total'])?>원 (<?=calcTerm($view['startdate'], $view['starttime'], $view['enddate'], $view['schedule'])?>)<br>
-            예약인원 : <?=cntRes($view['idx'])?>명<br>
+            <h2 class="m-0 p-0 pb-2"><b><?=viewStatus($view['status'])?></b> <?=$view['subject']?></h2>
+            <?php if (!empty($view['type'])): ?><div class="ti"><strong>・유형</strong> : <?=$view['type']?></div><?php endif; ?>
+            <div class="ti"><strong>・일시</strong> : <?=$view['startdate']?> (<?=calcWeek($view['startdate'])?>) <?=$view['starttime']?></div>
+            <?php $view['cost'] = $view['cost_total'] == 0 ? $view['cost'] : $view['cost_total']; if (!empty($view['cost'])): ?>
+            <?php if (!empty($view['sido'])): ?>
+            <div class="ti"><strong>・지역</strong> : <?php foreach ($view['sido'] as $key => $value): if ($key != 0): ?>, <?php endif; ?><?=$value?> <?=!empty($view['gugun'][$key]) ? $view['gugun'][$key] : ''?><?php endforeach; ?></div>
+            <?php endif; ?>
+            <div class="ti"><strong>・요금</strong> : <?=number_format($view['cost_total'] == 0 ? $view['cost'] : $view['cost_total'])?>원 (<?=calcTerm($view['startdate'], $view['starttime'], $view['enddate'], $view['schedule'])?><?=!empty($view['distance']) ? ', ' . calcDistance($view['distance']) : ''?><?=!empty($view['options']) ? ', ' . getOptions($view['options']) : ''?><?=!empty($view['options_etc']) ? ', ' . $view['options_etc'] : ''?><?=!empty($view['options']) || !empty($view['options_etc']) ? ' 제공' : ''?><?=!empty($view['costmemo']) ? ', ' . $view['costmemo'] : ''?>)</div>
+            <?php endif; ?>
+            <?=!empty($view['content']) ? '<div class="ti"><strong>・코스</strong> : ' . nl2br($view['content']) . '</div>' : ''?>
+            <?=!empty($view['kilometer']) ? '<div class="ti"><strong>・거리</strong> : ' . $view['kilometer'] . '</div>' : ''?>
+            <div class="ti"><strong>・예약</strong> : <?=cntRes($view['idx'])?>명</div>
           </div>
         </div>

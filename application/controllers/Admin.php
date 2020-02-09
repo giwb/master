@@ -597,6 +597,7 @@ class Admin extends Admin_Controller
 
     // 헤더 메뉴
     $viewData['headerMenu'] = 'main_header';
+    $viewData['headerMenuView'] = $this->load->view('admin/main_view_header', $viewData, true);
 
     $this->_viewPage('admin/main_view_progress', $viewData);
   }
@@ -670,6 +671,7 @@ class Admin extends Admin_Controller
 
     // 헤더 메뉴
     $viewData['headerMenu'] = 'main_header';
+    $viewData['headerMenuView'] = $this->load->view('admin/main_view_header', $viewData, true);
 
     $this->_viewPage('admin/main_view_boarding', $viewData);
   }
@@ -693,6 +695,7 @@ class Admin extends Admin_Controller
 
     // 헤더 메뉴
     $viewData['headerMenu'] = 'main_header';
+    $viewData['headerMenuView'] = $this->load->view('admin/main_view_header', $viewData, true);
 
     $this->_viewPage('admin/main_view_adjust', $viewData);
   }
@@ -753,6 +756,7 @@ class Admin extends Admin_Controller
 
     // 헤더 메뉴
     $viewData['headerMenu'] = 'main_header';
+    $viewData['headerMenuView'] = $this->load->view('admin/main_view_header', $viewData, true);
 
     $this->_viewPage('admin/main_view_sms', $viewData);
   }
@@ -1090,6 +1094,7 @@ class Admin extends Admin_Controller
 
     // 헤더 메뉴
     $viewData['headerMenu'] = 'main_header';
+    $viewData['headerMenuView'] = $this->load->view('admin/main_view_header', $viewData, true);
 
     $this->_viewPage('admin/main_entry', $viewData);
   }
@@ -1273,6 +1278,7 @@ exit;
 
     // 헤더 메뉴
     $viewData['headerMenu'] = 'main_header';
+    $viewData['headerMenuView'] = $this->load->view('admin/main_view_header', $viewData, true);
 
     $this->_viewPage('admin/main_notice', $viewData);
   }

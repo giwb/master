@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
     </div>
-    <div class="club-right">
+    <div class="club-right mb-5 pb-5">
       <?php if (!empty($listNotice)): ?>
       <h3><i class="fas fa-calendar-alt" aria-hidden="true"></i> 현재 진행중인 산행</h3>
       <div class="list-schedule">

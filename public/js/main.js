@@ -1013,7 +1013,6 @@
 
   // 닉네임 확인
   $.checkNickname = function() {
-    var clubIdx = $('input[name=clubIdx]').val();
     var userid = $('input[name=userid]').val();
     var nickname = $('input[name=nickname]').val();
 

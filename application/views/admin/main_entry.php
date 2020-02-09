@@ -1,16 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
+        <?php if (!empty($view['idx'])) echo $headerMenuView; ?>
         <div id="content" class="mb-5">
-          <?php if (!empty($view['idx'])): ?>
-          <div class="row align-items-center border-bottom text-center mb-4 pt-3 pb-3">
-            <div class="col pt-0 pr-1 pb-0 pl-1"><a href="<?=BASE_URL?>/admin/main_entry/<?=$view['idx']?>"><button type="button" class="btn btn-sm btn-secondary w-100">수정</button></a></div>
-            <div class="col pt-0 pr-1 pb-0 pl-1"><a href="<?=BASE_URL?>/admin/main_notice/<?=$view['idx']?>"><button type="button" class="btn btn-sm btn-default w-100">공지</button></a></div>
-            <div class="col pt-0 pr-1 pb-0 pl-1"><a href="<?=BASE_URL?>/admin/main_view_progress/<?=$view['idx']?>"><button type="button" class="btn btn-sm btn-default w-100">예약</button></a></div>
-            <div class="col pt-0 pr-1 pb-0 pl-1"><a href="<?=BASE_URL?>/admin/main_view_boarding/<?=$view['idx']?>"><button type="button" class="btn btn-sm btn-default w-100">승차</button></a></div>
-            <div class="col pt-0 pr-1 pb-0 pl-1"><a href="<?=BASE_URL?>/admin/main_view_sms/<?=$view['idx']?>"><button type="button" class="btn btn-sm btn-default w-100">문자</button></a></div>
-            <div class="col pt-0 pr-1 pb-0 pl-1"><a href="<?=BASE_URL?>/admin/main_view_adjust/<?=$view['idx']?>"><button type="button" class="btn btn-sm btn-default w-100">정산</button></a></div>
-          </div>
-          <?php endif; ?>
           <form id="myForm" method="post" action="/admin/main_entry_update">
             <input type="hidden" name="idx" value="<?=$view['idx']?>">
             <input type="hidden" name="peak" class="peak" value="<?=$view['peak']?>">
@@ -340,7 +331,7 @@
 
             <div class="area-button">
               <button type="button" class="btn btn-sm btn-default btn-entry mr-2"><?=$btn?></button>
-              <button type="button" class="btn btn-sm btn-dark btn-list mr-5" data-action="admin/main_list_progress">목록</button>
+              <button type="button" class="btn btn-sm btn-dark btn-list mr-4" data-action="admin/main_list_progress">목록</button>
               <?php if (!empty($view['visible']) && $view['visible'] == VISIBLE_ABLE): ?>
               <button type="button" class="btn btn-sm btn-secondary btn-change-visible" data-idx="<?=$view['idx']?>" data-visible="<?=VISIBLE_NONE?>">숨김</button>
               <?php else: ?>
