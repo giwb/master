@@ -200,7 +200,7 @@ class Reserve extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function notice($noticeIdx)
+  public function notice($noticeIdx=NULL)
   {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $noticeIdx = html_escape($noticeIdx);
