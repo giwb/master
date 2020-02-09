@@ -139,11 +139,11 @@ class Shop extends MY_Controller
 
     // 댓글
     $cntReply = $this->story_model->cntStoryReply($itemIdx, REPLY_TYPE_SHOP);
-    $cntLike = $this->story_model->cntStoryReaction($itemIdx, REPLY_TYPE_SHOP, REACTION_KIND_LIKE);
-    $cntShare = $this->story_model->cntStoryReaction($itemIdx, REPLY_TYPE_SHOP, REACTION_KIND_SHARE);
-    $viewData['notice']['reply_cnt'] = $cntReply['cnt'];
-    $viewData['notice']['like_cnt'] = $cntLike['cnt'];
-    $viewData['notice']['share_cnt'] = $cntShare['cnt'];
+    $cntLike = $this->story_model->cntStoryReaction($itemIdx, REACTION_TYPE_SHOP, REACTION_KIND_LIKE);
+    $cntShare = $this->story_model->cntStoryReaction($itemIdx, REACTION_TYPE_SHOP, REACTION_KIND_SHARE);
+    $viewData['viewItem']['reply_cnt'] = $cntReply['cnt'];
+    $viewData['viewItem']['like_cnt'] = $cntLike['cnt'];
+    $viewData['viewItem']['share_cnt'] = $cntShare['cnt'];
 
     $viewData['listReply'] = $this->story_model->listStoryReply($itemIdx, REPLY_TYPE_SHOP);
     $viewData['listReply'] = $this->load->view('story/reply', $viewData, true);
@@ -609,6 +609,7 @@ class Shop extends MY_Controller
     foreach ($viewData['listFooterReply'] as $key => $value) {
       if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/story/view/?n=' . $value['story_idx']; endif;
       if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/reserve/?n=' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_SHOP):   $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/shop/item/' . $value['story_idx']; endif;
     }
 
     // 최신 사진첩

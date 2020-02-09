@@ -213,21 +213,22 @@ defined('LOG_ADMIN_SHOP_COMPLETE')        OR define('LOG_ADMIN_SHOP_COMPLETE', 2
 defined('LOG_DRIVER_CHANGE')              OR define('LOG_DRIVER_CHANGE', 51);
 
 // 레벨 형태
-defined('LEVEL_NORMAL')       OR define('LEVEL_NORMAL', 0);   // 일반회원
-defined('LEVEL_LIFETIME')     OR define('LEVEL_LIFETIME', 1); // 평생회원
-defined('LEVEL_FREE')         OR define('LEVEL_FREE', 2);     // 무료회원
-defined('LEVEL_DRIVER')       OR define('LEVEL_DRIVER', 3);   // 드라이버
-defined('LEVEL_DRIVER_ADMIN') OR define('LEVEL_DRIVER_ADMIN', 4); // 드라이버 관리자
-defined('LEVEL_BLACKLIST')    OR define('LEVEL_BLACKLIST', 9); // 블랙리스트
+defined('LEVEL_NORMAL')                   OR define('LEVEL_NORMAL', 0);   // 일반회원
+defined('LEVEL_LIFETIME')                 OR define('LEVEL_LIFETIME', 1); // 평생회원
+defined('LEVEL_FREE')                     OR define('LEVEL_FREE', 2);     // 무료회원
+defined('LEVEL_DRIVER')                   OR define('LEVEL_DRIVER', 3);   // 드라이버
+defined('LEVEL_DRIVER_ADMIN')             OR define('LEVEL_DRIVER_ADMIN', 4); // 드라이버 관리자
+defined('LEVEL_BLACKLIST')                OR define('LEVEL_BLACKLIST', 9); // 블랙리스트
 
 // 댓글 형태
-defined('REPLY_TYPE_STORY')   OR define('REPLY_TYPE_STORY', 1);
-defined('REPLY_TYPE_NOTICE')  OR define('REPLY_TYPE_NOTICE', 2);
-defined('REPLY_TYPE_SHOP')    OR define('REPLY_TYPE_SHOP', 3);
+defined('REPLY_TYPE_STORY')               OR define('REPLY_TYPE_STORY', 1);
+defined('REPLY_TYPE_NOTICE')              OR define('REPLY_TYPE_NOTICE', 2);
+defined('REPLY_TYPE_SHOP')                OR define('REPLY_TYPE_SHOP', 3);
 
 // 공유 형태
-defined('REACTION_TYPE_STORY')   OR define('REACTION_TYPE_STORY', 1);
-defined('REACTION_TYPE_NOTICE')  OR define('REACTION_TYPE_NOTICE', 2);
+defined('REACTION_TYPE_STORY')            OR define('REACTION_TYPE_STORY', 1);
+defined('REACTION_TYPE_NOTICE')           OR define('REACTION_TYPE_NOTICE', 2);
+defined('REACTION_TYPE_SHOP')             OR define('REACTION_TYPE_SHOP', 3);
 
 // 쿠키 시간 (1년)
 define('COOKIE_STRAGE_PERIOD', 60 * 60 * 24 * 30 * 12);

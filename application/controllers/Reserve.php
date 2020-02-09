@@ -74,8 +74,8 @@ class Reserve extends MY_Controller
       $viewData['arrLocation'] = arrLocation();
 
       $cntReply = $this->story_model->cntStoryReply($noticeIdx, REPLY_TYPE_NOTICE);
-      $cntLike = $this->story_model->cntStoryReaction($noticeIdx, REPLY_TYPE_NOTICE, REACTION_KIND_LIKE);
-      $cntShare = $this->story_model->cntStoryReaction($noticeIdx, REPLY_TYPE_NOTICE, REACTION_KIND_SHARE);
+      $cntLike = $this->story_model->cntStoryReaction($noticeIdx, REACTION_TYPE_NOTICE, REACTION_KIND_LIKE);
+      $cntShare = $this->story_model->cntStoryReaction($noticeIdx, REACTION_TYPE_NOTICE, REACTION_KIND_SHARE);
       $viewData['notice']['reply_cnt'] = $cntReply['cnt'];
       $viewData['notice']['like_cnt'] = $cntLike['cnt'];
       $viewData['notice']['share_cnt'] = $cntShare['cnt'];
@@ -221,8 +221,8 @@ class Reserve extends MY_Controller
 
     // 댓글
     $cntReply = $this->story_model->cntStoryReply($noticeIdx, REPLY_TYPE_NOTICE);
-    $cntLike = $this->story_model->cntStoryReaction($noticeIdx, REPLY_TYPE_NOTICE, REACTION_KIND_LIKE);
-    $cntShare = $this->story_model->cntStoryReaction($noticeIdx, REPLY_TYPE_NOTICE, REACTION_KIND_SHARE);
+    $cntLike = $this->story_model->cntStoryReaction($noticeIdx, REACTION_TYPE_NOTICE, REACTION_KIND_LIKE);
+    $cntShare = $this->story_model->cntStoryReaction($noticeIdx, REACTION_TYPE_NOTICE, REACTION_KIND_SHARE);
     $viewData['notice']['reply_cnt'] = $cntReply['cnt'];
     $viewData['notice']['like_cnt'] = $cntLike['cnt'];
     $viewData['notice']['share_cnt'] = $cntShare['cnt'];
@@ -699,6 +699,7 @@ class Reserve extends MY_Controller
     foreach ($viewData['listFooterReply'] as $key => $value) {
       if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/story/view/?n=' . $value['story_idx']; endif;
       if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/reserve/?n=' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_SHOP):   $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/shop/item/' . $value['story_idx']; endif;
     }
 
     // 최신 사진첩
