@@ -75,10 +75,12 @@ if (!empty($result['idx'])) {
   $route['default_controller'] = 'club/index';
   $route[$domain] = 'club/index';
   $uri = '';
-  foreach ($arrUrl as $key => $value) {
-    if ($key > 1 && !empty($value)) {
-      if ($key > 2) $uri .= '/';
-      $uri .= $value;
+  if (!empty($arrUrl)) {
+    foreach ($arrUrl as $key => $value) {
+      if ($key > 1 && !empty($value)) {
+        if ($key > 2) $uri .= '/';
+        $uri .= $value;
+      }
     }
   }
   $route[$domain . '/' . $uri] = $uri;
