@@ -66,7 +66,9 @@ if (empty($result) && !empty($_SERVER['REDIRECT_URL'])) {
   $domain = html_escape($arrUrl[1]);
   $query = $db->query("SELECT idx FROM clubs WHERE domain='$domain'");
   $result = $query->row_array(1);
+}
 
+if (!empty($result['idx'])) {
   setcookie('COOKIE_CLUBIDX', $result['idx']);
 
   // 도메인이 있을 경우
@@ -78,29 +80,6 @@ if (empty($result) && !empty($_SERVER['REDIRECT_URL'])) {
       if ($key > 2) $uri .= '/';
       $uri .= $value;
     }
-  }
-  if (strstr($uri, 'reserve') && !strstr($uri, 'member')) {
-    $route[$domain . '/reserve/(:num)'] = 'reserve/index/$1';
-    $route[$domain . '/reserve/notice/(:num)'] = 'reserve/notice/$1';
-  }
-  $route[$domain . '/' . $uri] = $uri;
-} elseif (!empty($result)) {
-  setcookie('COOKIE_CLUBIDX', $result['idx']);
-
-  $route['default_controller'] = 'club/index';
-  $route[$domain] = 'club/index';
-
-  $arrUrl = explode('/', $_SERVER['REDIRECT_URL']);
-  $uri = '';
-  foreach ($arrUrl as $key => $value) {
-    if ($key > 0 && !empty($value)) {
-      if ($key > 1) $uri .= '/';
-      $uri .= $value;
-    }
-  }
-  if (strstr($uri, 'reserve') && !strstr($uri, 'member')) {
-    $route[$domain . '/reserve/(:num)'] = 'reserve/index/$1';
-    $route[$domain . '/reserve/notice/(:num)'] = 'reserve/notice/$1';
   }
   $route[$domain . '/' . $uri] = $uri;
 } else {

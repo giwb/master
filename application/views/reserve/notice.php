@@ -8,7 +8,7 @@
         <div class="sub-contents">
           <div class="sub-title">
             <div class="area-title"><h2><b><?=viewStatus($notice['status'])?></b> <?=$notice['subject']?></h2></div>
-            <div class="area-btn"><a href="<?=BASE_URL?>/reserve/<?=$notice['idx']?>"><button type="button" class="btn btn-default">좌석보기</button></a></div>
+            <div class="area-btn"><a href="<?=BASE_URL?>/reserve/index/<?=$notice['idx']?>"><button type="button" class="btn btn-default">좌석보기</button></a></div>
           </div>
 
           <?php if (empty($listNoticeDetail)): ?>
