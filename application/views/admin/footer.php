@@ -10,6 +10,14 @@
         <?php endforeach; ?>
       </div>
       <?php endif; ?>
+      <?php if (!empty($listFooterReply)): ?>
+      <h3><i class="fas fa-reply" aria-hidden="true"></i> 최신 댓글</h3>
+      <div class="list-schedule list-reply">
+        <?php foreach ($listFooterReply as $value): ?>
+          <a href="<?=$value['url']?>"><span class="content"><?=ksubstr($value['content'], 35)?></span><br><?=$value['nickname']?> · <?=calcStoryTime($value['created_at'])?></a>
+        <?php endforeach; ?>
+      </div>
+      <?php endif; ?>
       <!-- GOOGLE ADSENSE -->
       <?php if (ENVIRONMENT == 'production' && $_SERVER['REMOTE_ADDR'] != '49.166.0.82'): ?>
       <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2424708381875991" data-ad-slot="1285643193" data-ad-format="auto" data-full-width-responsive="true"></ins>

@@ -59,11 +59,6 @@ class Admin extends Admin_Controller
     // 오늘 방문자수
     $viewData['cntTodayVisitor'] = $this->admin_model->cntTodayVisitor($viewData['clubIdx']);
 
-    // 댓글
-    $paging['perPage'] = 10; $paging['nowPage'] = 0;
-    $viewData['listReply'] = $this->admin_model->listReply($viewData['clubIdx'], $paging);
-    $viewData['listReply'] = $this->load->view('admin/log_reply_append', $viewData, true);
-
     // 페이지 타이틀
     $viewData['pageTitle'] = '대시보드';
 
@@ -3206,6 +3201,16 @@ exit;
       $viewData['viewClub']['main_photo'] = PHOTO_URL . $files[0]['filename'];
       $viewData['viewClub']['main_photo_width'] = $size[0];
       $viewData['viewClub']['main_photo_height'] = $size[1];
+    }
+
+    // 최신 댓글
+    $paging['perPage'] = 5; $paging['nowPage'] = 0;
+    $viewData['listFooterReply'] = $this->admin_model->listReply($viewData['clubIdx'], $paging);
+
+    foreach ($viewData['listFooterReply'] as $key => $value) {
+      if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/story/view/' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/admin/main_view_progress/' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_SHOP):   $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/shop/item/' . $value['story_idx']; endif;
     }
 
     // 리다이렉트 URL 추출
