@@ -24,6 +24,12 @@ class Reserve extends MY_Controller
     $userData = $this->load->get_var('userData');
     $noticeIdx = html_escape($noticeIdx);
     $checkIdx = html_escape($this->input->get('c'));
+    $noticeIdxOld = html_escape($this->input->get('n'));
+
+    if (!empty($noticeIdxOld)) {
+      redirect(BASE_URL . '/reserve/index/' . $noticeIdxOld);
+      exit;
+    }
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
