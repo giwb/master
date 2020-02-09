@@ -13,21 +13,37 @@ class Reserve extends MY_Controller
   }
 
   /**
-   * 예약 페이지
+   * 메인
    *
    * @return view
    * @author bjchoi
    **/
   public function index($noticeIdx=NULL)
   {
+    $noticeIdxOld = html_escape($this->input->get('n'));
+
+    if (!empty($noticeIdxOld)) {
+      redirect(BASE_URL . '/reserve/list/' . $noticeIdxOld);
+    } else {
+      redirect(BASE_URL . '/reserve/list/' . $noticeIdx);
+    }
+  }
+
+  /**
+   * 예약 페이지
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function list($noticeIdx=NULL)
+  {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $noticeIdx = html_escape($noticeIdx);
     $checkIdx = html_escape($this->input->get('c'));
-    $noticeIdxOld = html_escape($this->input->get('n'));
 
-    if (!empty($noticeIdxOld)) {
-      redirect(BASE_URL . '/reserve/index/' . $noticeIdxOld);
+    if (empty($noticeIdx)) {
+      redirect(BASE_URL . '/reserve/schedule/');
       exit;
     }
 
@@ -155,7 +171,7 @@ class Reserve extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function list()
+  public function schedule()
   {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
 
@@ -191,7 +207,7 @@ class Reserve extends MY_Controller
     // 페이지 타이틀
     $viewData['pageTitle'] = '산행 일정';
 
-    $this->_viewPage('reserve/list', $viewData);
+    $this->_viewPage('reserve/schedule', $viewData);
   }
 
   /**
@@ -443,7 +459,7 @@ class Reserve extends MY_Controller
       $updateValues['rescount'] = $rescount['cnt'];
       $this->member_model->updateMember($updateValues, $userData['idx']);
 
-      $result = array('error' => 0, 'message' => '/reserve/index/' . $noticeIdx . '?c=' . implode(',', $reserveIdx));
+      $result = array('error' => 0, 'message' => '/reserve/list/' . $noticeIdx . '?c=' . implode(',', $reserveIdx));
     }
 
     $this->output->set_output(json_encode($result));
@@ -710,7 +726,7 @@ class Reserve extends MY_Controller
 
     foreach ($viewData['listFooterReply'] as $key => $value) {
       if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/story/view/' . $value['story_idx']; endif;
-      if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/reserve/index/' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/reserve/list/' . $value['story_idx']; endif;
       if ($value['reply_type'] == REPLY_TYPE_SHOP):   $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/shop/item/' . $value['story_idx']; endif;
     }
 

@@ -36,7 +36,7 @@
             <dl>
               <dt><input type="checkbox" id="cr<?=$key?>" name="checkReserve[]" class="check-reserve" value="<?=$value['idx']?>" data-reserve-cost="<?=$value['cost_total']?>" data-payment-cost="<?=$value['real_cost']?>" data-status="<?=$value['status']?>" data-penalty="<?=$value['penalty']?>"><label for="cr<?=$key?>"></label></dt>
               <dd>
-                <?=viewStatus($value['notice_status'])?> <a href="<?=BASE_URL?>/reserve/index/<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
+                <?=viewStatus($value['notice_status'])?> <a href="<?=BASE_URL?>/reserve/list/<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
                 <small>
                   일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 
                   요금 : <?=$value['view_cost']?> /
@@ -69,7 +69,7 @@
           <?php foreach ($userVisit as $value): ?>
           <dl>
             <dd>
-              <?=viewStatus($value['notice_status'])?> <a href="<?=BASE_URL?>/reserve/index/<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
+              <?=viewStatus($value['notice_status'])?> <a href="<?=BASE_URL?>/reserve/list/<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
               <small>
                 일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 
                 요금 : <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원
@@ -87,7 +87,7 @@
           <?php foreach ($userReserveCancel as $value): ?>
           <dl>
             <dd>
-              <?=viewStatus($value['notice_status'])?> <a href="<?=BASE_URL?>/reserve/index/<?=$value['resCode']?>"><?=$value['subject']?></a><br>
+              <?=viewStatus($value['notice_status'])?> <a href="<?=BASE_URL?>/reserve/list/<?=$value['resCode']?>"><?=$value['subject']?></a><br>
               <small>
                 취소일시 : <?=date('Y-m-d', $value['regdate'])?> (<?=calcWeek(date('Y-m-d', $value['regdate']))?>) <?=date('H:i', $value['regdate'])?>
               </small>
