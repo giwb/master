@@ -108,7 +108,7 @@ $URL = $header . $_SERVER['HTTP_HOST'];
         <?php
             else:
               if ($value['status'] >= 1):
-                $url = $URL . '/reserve/index' . $value['idx'];
+                $url = $URL . '/reserve/index/' . $value['idx'];
               else:
                 $url = 'javascript:;';
               endif;
@@ -140,7 +140,7 @@ $URL = $header . $_SERVER['HTTP_HOST'];
   </div>
   <?php foreach ($listNotice as $value): if ($value['status'] >= STATUS_ABLE && $value['status'] <= STATUS_CONFIRM): ?>
   <div style="font-size: 14px;">
-    <strong><?=viewStatus($value['status'])?></strong> <a target="_blank" href="<?=$URL?>/reserve/index<?=$value['idx']?>"><strong><?=$value['subject']?></strong></a><br>
+    <strong><?=viewStatus($value['status'])?></strong> <a target="_blank" href="<?=$URL?>/reserve/index/<?=$value['idx']?>"><strong><?=$value['subject']?></strong></a><br>
     <span class="small">일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 참가비용 : <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / 예약인원 : <?=cntRes($value['idx'])?>명</span><hr style="margin: 9px 0 10px 0;">
   </div>
   <?php endif; endforeach; ?>
