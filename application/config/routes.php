@@ -81,6 +81,10 @@ if (!empty($result['idx'])) {
       $uri .= $value;
     }
   }
+  if (strstr($uri, 'reserve') && !strstr($uri, 'member')) {
+    $route[$domain . '/reserve/(:num)'] = 'reserve/index/$1';
+    $route[$domain . '/reserve/notice/(:num)'] = 'reserve/notice/$1';
+  }
   $route[$domain . '/' . $uri] = $uri;
 } else {
   $route['default_controller']  = 'welcome';

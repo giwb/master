@@ -18,11 +18,11 @@ class Reserve extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function index()
+  public function index($noticeIdx=NULL)
   {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
-    $noticeIdx = html_escape($this->input->get('n'));
+    $noticeIdx = html_escape($noticeIdx);
     $checkIdx = html_escape($this->input->get('c'));
 
     // 클럽 정보
@@ -194,10 +194,10 @@ class Reserve extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function notice()
+  public function notice($noticeIdx)
   {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
-    $noticeIdx = html_escape($this->input->get('n'));
+    $noticeIdx = html_escape($noticeIdx);
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
@@ -431,7 +431,7 @@ class Reserve extends MY_Controller
       $updateValues['rescount'] = $rescount['cnt'];
       $this->member_model->updateMember($updateValues, $userData['idx']);
 
-      $result = array('error' => 0, 'message' => '/reserve/?n=' . $noticeIdx . '&c=' . implode(',', $reserveIdx));
+      $result = array('error' => 0, 'message' => '/reserve/' . $noticeIdx . '?c=' . implode(',', $reserveIdx));
     }
 
     $this->output->set_output(json_encode($result));
@@ -697,8 +697,8 @@ class Reserve extends MY_Controller
     $viewData['listFooterReply'] = $this->admin_model->listReply($viewData['view']['idx'], $paging);
 
     foreach ($viewData['listFooterReply'] as $key => $value) {
-      if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/story/view/?n=' . $value['story_idx']; endif;
-      if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/reserve/?n=' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/story/view/' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/reserve/' . $value['story_idx']; endif;
       if ($value['reply_type'] == REPLY_TYPE_SHOP):   $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/shop/item/' . $value['story_idx']; endif;
     }
 

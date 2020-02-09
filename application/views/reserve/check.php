@@ -10,7 +10,7 @@
             <form id="reserveForm" method="post" class="border-top border-bottom text-left mt-4 mb-4 pt-3 pl-5 pr-5">
               <?php foreach ($listReserve as $key => $value): ?>
               <dl>
-                <dt><?=viewStatus($value['notice_status'])?> <a href="<?=base_url()?>reserve/<?=$view['idx']?>?n=<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석</dt>
+                <dt><?=viewStatus($value['notice_status'])?> <a href="<?=BASE_URL?>/reserve/<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석</dt>
                 <dd>
                   일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 
                   요금 : <?=$value['view_cost']?> /
@@ -26,9 +26,9 @@
             추후 마이페이지에서도 입력하실 수 있습니다.<br><br><br>
 
             <?php if ($userData['level'] != LEVEL_FREE): ?>
-            <button type="button" class="btn btn-primary btn-mypage-payment">결제정보입력</button></a>
+            <button type="button" class="btn btn-default btn-mypage-payment">결제정보입력</button></a>
             <?php endif; ?>
-            <a href="/reserve/?n=<?=$view['noticeIdx']?>"><button type="button" class="btn btn-secondary">좌석현황보기</button></a>
+            <a href="<?=BASE_URL?>/reserve/<?=$view['noticeIdx']?>"><button type="button" class="btn btn-secondary">좌석현황보기</button></a>
           <?php endif; ?>
           </div>
         </div>
@@ -83,7 +83,7 @@
             </div>
             <div class="error-message"></div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary btn-reserve-payment">입력완료</button>
+              <button type="button" class="btn btn-default btn-reserve-payment">입력완료</button>
               <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
             </div>
           </div>

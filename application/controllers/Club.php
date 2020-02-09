@@ -258,8 +258,8 @@ class Club extends MY_Controller
     $viewData['listFooterReply'] = $this->admin_model->listReply($viewData['view']['idx'], $paging);
 
     foreach ($viewData['listFooterReply'] as $key => $value) {
-      if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/story/view/?n=' . $value['story_idx']; endif;
-      if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/reserve/?n=' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/story/view/' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/reserve/' . $value['story_idx']; endif;
       if ($value['reply_type'] == REPLY_TYPE_SHOP):   $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/shop/item/' . $value['story_idx']; endif;
     }
 

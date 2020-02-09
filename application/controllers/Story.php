@@ -18,10 +18,10 @@ class Story extends MY_Controller
    * @return json
    * @author bjchoi
    **/
-  public function index()
+  public function index($storyIdx=NULL)
   {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
-    $storyIdx = html_escape($this->input->post('n'));
+    $storyIdx = html_escape($storyIdx);
     $page = html_escape($this->input->post('p'));
     $viewData['userData'] = $this->session->userData;
     $result = '';
@@ -50,10 +50,10 @@ class Story extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function view()
+  public function view($storyIdx=NULL)
   {
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
-    $viewData['storyIdx'] = html_escape($this->input->get('n'));
+    $viewData['storyIdx'] = html_escape($storyIdx);
     $viewData['userData'] = $this->session->userData;
 
     // 클럽 정보
@@ -72,10 +72,10 @@ class Story extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function edit()
+  public function edit($storyIdx=NULL)
   {
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
-    $viewData['storyIdx'] = html_escape($this->input->get('n'));
+    $viewData['storyIdx'] = html_escape($storyIdx);
     $viewData['userData'] = $this->session->userData;
 
     // 클럽 정보
@@ -85,7 +85,7 @@ class Story extends MY_Controller
     $viewData['listStory'] = $this->story_model->viewStory($viewData['storyIdx']);
 
     if ($viewData['userData']['idx'] != $viewData['listStory'][0]['created_by'] && $viewData['userData']['admin'] != 1) {
-      redirect(BASE_URL . '/story/view/' . $viewData['clubIdx'] . '?n=' . $viewData['storyIdx']);
+      redirect(BASE_URL . '/story/view/' . $viewData['storyIdx']);
     } else {
       $viewData['viewStory'] = $this->load->view('story/index', $viewData, true);
       $this->_viewPage('story/edit', $viewData);
@@ -599,8 +599,8 @@ class Story extends MY_Controller
     $viewData['listFooterReply'] = $this->admin_model->listReply($viewData['view']['idx'], $paging);
 
     foreach ($viewData['listFooterReply'] as $key => $value) {
-      if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/story/view/?n=' . $value['story_idx']; endif;
-      if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/reserve/?n=' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/story/view/' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/reserve/' . $value['story_idx']; endif;
       if ($value['reply_type'] == REPLY_TYPE_SHOP):   $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/shop/item/' . $value['story_idx']; endif;
     }
 

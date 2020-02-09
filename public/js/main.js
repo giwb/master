@@ -1300,7 +1300,7 @@ $(document).on('click', '.btn-reply', function() {
         $('#messageModal').modal();
       } else {
         if (typeof(idx) != 'undefined') {
-          location.replace(baseUrl + '/story/view/?n=' + idx);
+          location.replace(baseUrl + '/story/view/' + idx);
         } else {
           location.replace(baseUrl);
         }
@@ -1377,16 +1377,15 @@ $(document).on('click', '.btn-reply', function() {
   var $btn = $(this);
   var storyIdx = $('input[name=n]').val();
   var paging = $('input[name=p]').val();
+  var data = '';
 
   if (typeof storyIdx != 'undefined' && typeof paging != 'undefined') {
     $('input[name=p]').val(Number(paging) + 1);
-    if (storyIdx != '') {
-      var data = 'n=' + storyIdx;
-    } else {
-      var data = 'p=' + $('input[name=p]').val();
+    if (storyIdx == '') {
+      data = 'p=' + $('input[name=p]').val();
     }
     $.ajax({
-      url: $('input[name=baseUrl]').val() + '/story/index',
+      url: $('input[name=baseUrl]').val() + '/story/index/' + storyIdx,
       data: data,
       dataType: 'json',
       type: 'post',
