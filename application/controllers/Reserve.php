@@ -230,14 +230,6 @@ class Reserve extends MY_Controller
     $viewData['listReply'] = $this->story_model->listStoryReply($noticeIdx, REPLY_TYPE_NOTICE);
     $viewData['listReply'] = $this->load->view('story/reply', $viewData, true);
 
-    if (!empty($viewData['notice']['photo']) && file_exists(PHOTO_PATH . $viewData['notice']['photo'])) {
-      $viewData['notice']['photo'] = PHOTO_URL . $viewData['notice']['photo'];
-    }
-
-    if (!empty($viewData['notice']['map']) && file_exists(PHOTO_PATH . $viewData['notice']['map'])) {
-      $viewData['notice']['map'] = PHOTO_URL . $viewData['notice']['map'];
-    }
-
     // 페이지 타이틀
     $viewData['pageTitle'] = '산행 공지사항';
 

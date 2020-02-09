@@ -223,6 +223,7 @@ defined('LEVEL_BLACKLIST')    OR define('LEVEL_BLACKLIST', 9); // 블랙리스�
 // 댓글 형태
 defined('REPLY_TYPE_STORY')   OR define('REPLY_TYPE_STORY', 1);
 defined('REPLY_TYPE_NOTICE')  OR define('REPLY_TYPE_NOTICE', 2);
+defined('REPLY_TYPE_SHOP')    OR define('REPLY_TYPE_SHOP', 3);
 
 // 공유 형태
 defined('REACTION_TYPE_STORY')   OR define('REACTION_TYPE_STORY', 1);

@@ -1,6 +1,6 @@
 $(document).on('click', '.shop-item', function() {
   // 용품 상세 페이지
-  location.href = ( $('input[name=baseUrl]').val() + '/shop/item/?n=' + $(this).data('idx') );
+  location.href = ( $('input[name=baseUrl]').val() + '/shop/item/' + $(this).data('idx') );
 }).on('click', '.btn-cart', function() {
   if ($('input[name=userIdx]').val() == '') {
     $('#loginModal').modal('show'); // 로그인
@@ -201,7 +201,7 @@ $(document).on('click', '.shop-item', function() {
         $btn.css('opacity', '1').prop('disabled', false).text('구매 완료하기');
         $.openMsgModal(result.message);
       } else {
-        location.href = (baseUrl + '/shop/complete/?n=' + result.message);
+        location.href = (baseUrl + '/shop/complete/' + result.message);
       }
     }
   });

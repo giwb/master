@@ -50,7 +50,7 @@
           <div class="text-center mt-4 mb-5">
             <a href="<?=BASE_URL?>/shop"><button type="button" class="btn btn-secondary">계속 쇼핑하기</button></a>
             <?php if (!empty($listCart)): ?>
-            <a href="<?=BASE_URL?>/shop/checkout"><button type="button" class="btn btn-primary ml-4">용품 구매진행</button></a>
+            <a href="<?=BASE_URL?>/shop/checkout"><button type="button" class="btn btn-default ml-4">용품 구매진행</button></a>
             <?php endif; ?>
           </div>
         </div>

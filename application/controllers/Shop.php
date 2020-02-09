@@ -9,7 +9,7 @@ class Shop extends MY_Controller
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
     $this->load->library(array('cart', 'image_lib', 'session'));
-    $this->load->model(array('club_model', 'file_model', 'member_model', 'shop_model'));
+    $this->load->model(array('club_model', 'file_model', 'member_model', 'shop_model', 'story_model'));
   }
   /**
    * 용품 목록
@@ -89,20 +89,20 @@ class Shop extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function item()
+  public function item($itemIdx)
   {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
-    $idx = html_escape($this->input->get('n'));
+    $itemIdx = html_escape($itemIdx);
 
     // 상품이 없을때는 목록으로
-    if (empty($idx)) {
+    if (empty($itemIdx)) {
       redirect(BASE_URL . '/shop');
       exit;
     }
 
     // 상품 정보
-    $viewData['viewItem'] = $this->shop_model->viewItem($idx);
+    $viewData['viewItem'] = $this->shop_model->viewItem($itemIdx);
 
     // 사진이 실제로 업로드 되어 있는지 확인
     $arrPhotos = unserialize($viewData['viewItem']['item_photo']);
@@ -136,6 +136,17 @@ class Shop extends MY_Controller
 
     // 검색 분류
     $viewData['listCategory'] = $this->shop_model->listCategory();
+
+    // 댓글
+    $cntReply = $this->story_model->cntStoryReply($itemIdx, REPLY_TYPE_SHOP);
+    $cntLike = $this->story_model->cntStoryReaction($itemIdx, REPLY_TYPE_SHOP, REACTION_KIND_LIKE);
+    $cntShare = $this->story_model->cntStoryReaction($itemIdx, REPLY_TYPE_SHOP, REACTION_KIND_SHARE);
+    $viewData['notice']['reply_cnt'] = $cntReply['cnt'];
+    $viewData['notice']['like_cnt'] = $cntLike['cnt'];
+    $viewData['notice']['share_cnt'] = $cntShare['cnt'];
+
+    $viewData['listReply'] = $this->story_model->listStoryReply($itemIdx, REPLY_TYPE_SHOP);
+    $viewData['listReply'] = $this->load->view('story/reply', $viewData, true);
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
@@ -431,18 +442,18 @@ class Shop extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function complete()
+  public function complete($idx)
   {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
-    $idx = !empty($this->input->get('n')) ? html_escape($this->input->get('n')) : NULL;
-
-    // 클럽 정보
-    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+    $idx = html_escape($idx);
 
     if (empty($idx)) {
       redirect(BASE_URL . '/shop');
     } else {
+      // 클럽 정보
+      $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
       // 구매 정보
       $viewData['viewPurchase'] = $this->shop_model->viewPurchase($idx);
 
