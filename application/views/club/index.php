@@ -32,7 +32,7 @@
               <?php
                   else:
                     if ($value['status'] >= 1):
-                      $url = BASE_URL . '/reserve/' . $value['idx'];
+                      $url = BASE_URL . '/reserve/index/' . $value['idx'];
                     else:
                       $url = 'javascript:;';
                     endif;
