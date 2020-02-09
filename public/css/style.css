@@ -2091,7 +2091,7 @@ h1.nav-logo small {
 #club .club-main .admin-menu .row { border-bottom: 5px solid #ddd; }
 #club .club-main .admin-menu .row a { color: #000; border-bottom: 2px solid #fff; padding: 0 0 5px 0; display: block; cursor: pointer; }
 #club .club-main .admin-menu .row a:hover, #club .club-main .admin-menu .row .active { border-bottom: 2px solid red; }
-#club .club-main .area-button { position: fixed; left: 1px; bottom: 59px; width: 100%; background-color: #f8f9fc; border-top: 2px solid #aaa; padding: 10px 0; text-align: center; z-index: 1000; }
+#club .club-main .area-button { position: fixed; left: 1px; bottom: 0px; width: 100%; background-color: #f8f9fc; border-top: 2px solid #aaa; padding: 10px 0; text-align: center; z-index: 1000; }
 
 #messageModal .btn-list { display: none; }
 .ui-widget { font-size: 14px!important; }
@@ -2415,6 +2415,7 @@ h1.nav-logo small {
   #club .club-main .sub-header, .mypage h2 { display: none; }
 
   /* 관리자 */
+  #club .club-main .area-button { bottom: 59px; }
   #club .club-main .admin-menu { font-size: 12px; margin: 0px -10px; }
   #club .club-main .view-header { font-size: 12px; margin: 0px -10px; }
   #club .club-main .view-header a { padding: 7px 0; }
