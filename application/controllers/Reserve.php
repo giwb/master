@@ -204,6 +204,12 @@ class Reserve extends MY_Controller
   {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $noticeIdx = html_escape($noticeIdx);
+    $noticeIdxOld = html_escape($this->input->get('n'));
+
+    if (!empty($noticeIdxOld)) {
+      redirect(BASE_URL . '/reserve/notice/' . $noticeIdxOld);
+      exit;
+    }
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
