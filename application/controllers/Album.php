@@ -237,15 +237,15 @@ class Album extends MY_Controller
       $filename = time() . mt_rand(10000, 99999) . ".jpg";
 
       if (move_uploaded_file($_FILES['file_obj']['tmp_name'], UPLOAD_PATH . $filename)) {
-        // 사진 사이즈 줄이기 (세로 사이즈가 300보다 클 경우)
-        $maxSize = 300;
+        // 사진 사이즈 줄이기 (가로 사이즈가 2000보다 클 경우)
+        $maxSize = 2000;
         $size = getImageSize(UPLOAD_PATH . $filename);
         if ($size[1] >= $maxSize) {
           $this->image_lib->clear();
           $config['image_library'] = 'gd2';
           $config['source_image'] = UPLOAD_PATH . $filename;
-          $config['maintain_ratio'] = FALSE;
-          $config['height'] = $maxSize;
+          $config['maintain_ratio'] = TRUE;
+          $config['width'] = $maxSize;
           $this->image_lib->initialize($config);
           $this->image_lib->resize();
         }
