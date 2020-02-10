@@ -185,7 +185,7 @@ class Album extends MY_Controller
           $config['source_image'] = PHOTO_PATH . $value;
           $config['new_image'] = PHOTO_PATH . 'thumb_' . $value;
           $config['create_thumb'] = TRUE;
-          $config['maintain_ratio'] = FALSE;
+          $config['maintain_ratio'] = TRUE;
           $config['thumb_marker'] = '';
           $config['width'] = 200;
           $this->image_lib->initialize($config);
