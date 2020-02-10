@@ -240,7 +240,7 @@ class Album extends MY_Controller
         // 사진 사이즈 줄이기 (가로 사이즈가 2000보다 클 경우)
         $maxSize = 2000;
         $size = getImageSize(UPLOAD_PATH . $filename);
-        if ($size[1] >= $maxSize) {
+        if ($size[0] >= $maxSize) {
           $this->image_lib->clear();
           $config['image_library'] = 'gd2';
           $config['source_image'] = UPLOAD_PATH . $filename;
