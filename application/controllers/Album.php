@@ -88,7 +88,7 @@ class Album extends MY_Controller
         $size = getImageSize(PHOTO_PATH . $value['filename']);
         $result[$cnt]['width'] = $size[0];
         $result[$cnt]['height'] = $size[1];
-        $result[$cnt]['src'] = base_url() . PHOTO_URL . $value['filename'];
+        $result[$cnt]['src'] = BASE_URL . PHOTO_URL . $value['filename'];
         $result[$cnt]['title'] = $viewData['viewAlbum']['subject'];
         $cnt++;
       }
@@ -252,7 +252,7 @@ class Album extends MY_Controller
 
         $result = array(
           'error' => 0,
-          'message' => base_url() . UPLOAD_URL . $filename,
+          'message' => BASE_URL . UPLOAD_URL . $filename,
           'filename' => $filename
         );
       } else {
@@ -318,7 +318,7 @@ class Album extends MY_Controller
     $files = $this->file_model->getFile('club', $viewData['view']['idx']);
     if (!empty($files[0]['filename']) && file_exists(PHOTO_PATH . $files[0]['filename'])) {
       $size = getImageSize(PHOTO_PATH . $files[0]['filename']);
-      $viewData['view']['main_photo'] = base_url() . PHOTO_URL . $files[0]['filename'];
+      $viewData['view']['main_photo'] = BASE_URL . PHOTO_URL . $files[0]['filename'];
       $viewData['view']['main_photo_width'] = $size[0];
       $viewData['view']['main_photo_height'] = $size[1];
     }
