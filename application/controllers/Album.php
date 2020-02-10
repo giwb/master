@@ -43,7 +43,7 @@ class Album extends MY_Controller
     foreach ($viewData['listAlbumMain'] as $key => $value) {
       $photo = $this->file_model->getFile('album', $value['idx'], NULL, 1);
       if (!empty($photo[0]['filename'])) {
-        $viewData['listAlbumMain'][$key]['photo'] = PHOTO_URL . $photo[0]['filename'];
+        $viewData['listAlbumMain'][$key]['photo'] = PHOTO_URL . 'thumb_' . $photo[0]['filename'];
       } else {
         $viewData['listAlbumMain'][$key]['photo'] = '/public/images/noimage.png';
       }
