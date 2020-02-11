@@ -118,7 +118,7 @@
                   <dt><?=$purchase['nickname']?></dt>
                   <dd>
                   <?php foreach ($purchase['listCart'] as $key => $item): ?>
-                    <span class="area-status"><?=getPurchaseStatus($purchase['status'])?></span> <?=$item['name']?><br><small><?=!empty($item['option']) ? $item['option'] . ' - ' : ''?><?=number_format($item['amount'])?>개, <?=number_format($item['cost'] * $item['amount'])?>원</small>
+                    <span class="area-status"><?=getPurchaseStatus($purchase['status'])?></span> <?=$item['name']?><br><small><?=!empty($item['option']) ? $item['option'] . ' - ' : ''?><?=number_format($item['amount'])?>개, <?=number_format($item['cost'] * $item['amount'])?>원</small><br>
                   <?php endforeach; ?>
                   </dd>
                 </dl>
