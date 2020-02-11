@@ -2424,4 +2424,7 @@ h1.nav-logo small {
     --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   }
   .admin-bus-table table th, .admin-bus-table table td { font-size: 11px; padding: 5px 1px; }
+
+  .area-boarding dl dt { width: 38%; }
+  .area-boarding dl dd { width: 62%; }
 }
