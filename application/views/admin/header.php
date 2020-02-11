@@ -79,8 +79,8 @@
           <div class="row align-items-center">
             <h1 class="col-sm-6 nav-logo"><a href="<?=goHome($viewClub['domain'])?>" class="logo"><?=!empty($viewClub['title']) ? $viewClub['title'] : ''?></a></h1>
             <ul class="col-sm-6 text-right nav-menu">
-              <?php if (strstr($_SERVER['REQUEST_URI'], 'admin')): ?>
-                <li><a href="<?=goHome($viewClub['domain'])?>"><i class="fa fa-home" aria-hidden="true"></i></a></li>
+              <?php if (strstr($_SERVER['REQUEST_URI'], 'admin') || strstr($_SERVER['REQUEST_URI'], 'ShopAdmin')): ?>
+              <li><a href="<?=goHome($viewClub['domain'])?>"><i class="fa fa-home" aria-hidden="true"></i></a></li>
               <?php else: ?>
               <li><a href="javascript:;" class="btn-post-modal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></li>
               <?php endif; ?>
@@ -135,7 +135,17 @@
           <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
           <a href="<?=BASE_URL?>/admin">・설정</a><br>
           <?php endif; ?>
-          <a href="javascript:;" class="logout" title="로그아웃">・로그아웃</a>
+          <a href="javascript:;" class="logout" title="로그아웃">・로그아웃</a><br>
+          <form method="post" action="/admin_old/log_reserve" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+            <div class="input-group">
+              <input type="text" name="k" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" value="<?=!empty($keyword) ? $keyword : ''?>">
+              <div class="input-group-append">
+                <button class="btn btn-primary">
+                  <i class="fas fa-search fa-sm"></i>
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>

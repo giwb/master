@@ -15,7 +15,6 @@ class Shop_model extends CI_Model
   {
     $this->db->select('*')
           ->from(DB_SHOP)
-          ->where('item_visible', 'Y')
           ->where('deleted_at', NULL)
           ->order_by('idx', 'desc');
 

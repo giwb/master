@@ -43,7 +43,12 @@
             // 검색
             $('input[name=p]').val('');
             $('#formList').submit();
-          }).on('change', '#formList select', function(e) {
+          }).on('change', '.item-category', function(e) {
+            // 선택
+            $('input[name=p]').val('');
+            $('.item-category-child').empty();
+            $('#formList').submit();
+          }).on('change', '.item-category-child', function(e) {
             // 선택
             $('input[name=p]').val('');
             $('#formList').submit();
@@ -53,6 +58,7 @@
               $('input[name=p]').val('');
               $('#formList').submit();
             }
+/*
           }).on('change', '.item-category', function() {
             // 카테고리 검색
             var categoryIdx = $(this).val();
@@ -73,6 +79,7 @@
                 }
               });
             }
+*/
           }).on('click', '.btn-item-visible', function() {
             // 상품 보이기/숨기기
             var $btn = $(this);
