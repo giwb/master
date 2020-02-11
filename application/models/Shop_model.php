@@ -63,7 +63,6 @@ class Shop_model extends CI_Model
   {
     $this->db->select('*')
           ->from(DB_SHOP)
-          ->where('item_visible', 'Y')
           ->where('deleted_at', NULL)
           ->where('idx', $idx);
     return $this->db->get()->row_array(1);

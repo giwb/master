@@ -90,7 +90,7 @@ class ShopAdmin extends Admin_Controller
    * @return view
    * @author bjchoi
    **/
-  public function entry($idx = NULL)
+  public function entry($idx=NULL)
   {
     // 클럽ID
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
