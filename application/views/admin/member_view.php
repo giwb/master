@@ -185,7 +185,7 @@
               <?php break; case LOG_POINTDN: ?>
               <strong class="text-danger"><?=number_format($value['point'])?> 포인트 감소</strong> - <?=$value['subject']?>
               <?php break; endswitch; ?>
-              <small>일시 : <?=date('Y-m-d, H:i:s', $value['regdate'])?></small>
+              <br><small><?=date('Y-m-d, H:i:s', $value['regdate'])?></small>
             </div>
             <?php endforeach; ?>
 
@@ -197,7 +197,7 @@
               <?php break; case LOG_PENALTYDN: ?>
               <strong class="text-danger"><?=number_format($value['point'])?> 페널티 감소</strong> - <?=$value['subject']?>
               <?php break; endswitch; ?>
-              <small>일시 : <?=date('Y-m-d, H:i:s', $value['regdate'])?></small>
+              <br><small><?=date('Y-m-d, H:i:s', $value['regdate'])?></small>
             </div>
             <?php endforeach; ?>
           </div>
