@@ -61,9 +61,9 @@
                   </div>
                   <?php else: foreach ($view['added_option'] as $key => $value): ?>
                   <div class="row align-items-center w-100 mt-1 option-row">
-                    <div class="col-sm-2"><input type="text" name="item_option[]" class="form-control" placeholder="옵션명" value="<?=$value?>"></div>
-                    <div class="col-sm-2 item-cost"><input type="text" name="added_price[]" maxlength="8" class="form-control" value="<?=array_key_exists($key, $view['added_price']) ? $view['added_price'][$key] : '0'?>"><span class="item-cost-text">원</span></div>
-                    <div class="col-sm-2 item-cost"><input type="text" name="added_cost[]" maxlength="8" class="form-control" value="<?=array_key_exists($key, $view['added_cost']) ? $view['added_cost'][$key] : '0'?>"><span class="item-cost-text">원</span></div>
+                    <div class="col-sm-4"><input type="text" name="item_option[]" class="form-control" placeholder="옵션명" value="<?=$value?>"></div>
+                    <div class="col-sm-4 item-cost"><input type="text" name="added_price[]" maxlength="8" class="form-control" value="<?=array_key_exists($key, $view['added_price']) ? $view['added_price'][$key] : '0'?>"><span class="item-cost-text">원</span></div>
+                    <div class="col-sm-4 item-cost"><input type="text" name="added_cost[]" maxlength="8" class="form-control" value="<?=array_key_exists($key, $view['added_cost']) ? $view['added_cost'][$key] : '0'?>"><span class="item-cost-text">원</span></div>
                   </div>
                   <?php endforeach; endif; ?>
                 </div>
@@ -276,7 +276,7 @@
               }
             });
           }).on('click', '.btn-add-option', function() {
-            var addedOption = '<div class="row align-items-center w-100 mt-1 option-row"><div class="col-sm-2"><input type="text" name="item_option[]" class="form-control"></div><div class="col-sm-2 item-cost"><input type="text" name="added_price[]" maxlength="8" class="form-control"><span class="item-cost-text">원</span></div><div class="col-sm-2 item-cost"><input type="text" name="added_cost[]" maxlength="8" class="form-control"><span class="item-cost-text">원</span></div></div>';
+            var addedOption = '<div class="row align-items-center w-100 mt-1 option-row"><div class="col-sm-4"><input type="text" name="item_option[]" class="form-control"></div><div class="col-sm-4 item-cost"><input type="text" name="added_price[]" maxlength="8" class="form-control"><span class="item-cost-text">원</span></div><div class="col-sm-4 item-cost"><input type="text" name="added_cost[]" maxlength="8" class="form-control"><span class="item-cost-text">원</span></div></div>';
             $('#sortable').append(addedOption);
           });
 
