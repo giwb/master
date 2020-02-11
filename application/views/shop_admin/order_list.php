@@ -26,8 +26,8 @@
     ・인수산행 : <?php if (!empty($value['startdate'])): ?><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['mname']?><?php else: ?>-<?php endif; ?>
     <?php foreach ($value['listCart'] as $key => $item): ?>
     <div class="row align-items-center mt-3">
-      <div class="col-3 col-sm-1"><img class="w-100" src="<?=PHOTO_URL . $item['photo']?>"></div>
-      <div class="col-9 col-sm-11">
+      <div class="col-3 col-sm-2"><img class="w-100" src="<?=PHOTO_URL . $item['photo']?>"></div>
+      <div class="col-9 col-sm-10">
         <?=$item['name']?><br>
         <small><?=!empty($item['option']) ? $item['option'] . ' - ' : ''?><?=number_format($item['amount'])?>개, <?=number_format($item['cost'] * $item['amount'])?>원</small>
       </div>
