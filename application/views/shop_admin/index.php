@@ -43,6 +43,10 @@
             // 검색
             $('input[name=p]').val('');
             $('#formList').submit();
+          }).on('change', '#formList select', function(e) {
+            // 선택
+            $('input[name=p]').val('');
+            $('#formList').submit();
           }).on('keypress', '.form-item-search', function(e) {
             // 검색 엔터
             if (e.keyCode == 13) {
