@@ -76,18 +76,26 @@
     <div id="nav">
       <div id="nav-top">
         <div class="container">
-          <div class="row align-items-center">
-            <h1 class="col-sm-6 nav-logo"><a href="<?=goHome($viewClub['domain'])?>" class="logo"><?=!empty($viewClub['title']) ? $viewClub['title'] : ''?></a></h1>
-            <ul class="col-sm-6 text-right nav-menu">
-              <?php if (strstr($_SERVER['REQUEST_URI'], 'admin') || strstr($_SERVER['REQUEST_URI'], 'ShopAdmin')): ?>
-              <li><a href="<?=goHome($viewClub['domain'])?>"><i class="fa fa-home" aria-hidden="true"></i></a></li>
-              <?php else: ?>
-              <li><a href="javascript:;" class="btn-post-modal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></li>
-              <?php endif; ?>
-              <?php if (empty($userData['idx'])): ?>
-              <li><a href="javascript:;" class="login-popup">로그인</a></li>
-              <?php else: ?>
-              <li>
+          <div class="row align-items-center pt-3">
+            <div class="col-sm-8 p-0"><a href="<?=goHome($viewClub['domain'])?>"><h1 class="text-white m-0"><?=!empty($viewClub['title']) ? $viewClub['title'] : ''?></h1></a></div>
+            <div class="col-sm-4 p-0 text-right row align-items-center">
+              <div class="col-sm-10 p-0">
+                <form method="post" action="<?=BASE_URL?>/admin/log_reserve" class="row align-items-center m-0">
+                  <div class="col-sm-9"><input type="text" name="k" value="<?=!empty($keyword) ? $keyword : ''?>" class="form-control form-control-sm"></div>
+                  <div class="col-sm-3 p-0 text-left"><button class="btn btn-sm btn-default">검색</button></div>
+                </form>
+              </div>
+              <div class="col-sm-1 p-0 text-center">
+                <?php if (strstr($_SERVER['REQUEST_URI'], 'admin') || strstr($_SERVER['REQUEST_URI'], 'ShopAdmin')): ?>
+                <a href="<?=goHome($viewClub['domain'])?>"><h2 class="m-0 text-white"><i class="fa fa-home " aria-hidden="true"></i></h2></a>
+                <?php else: ?>
+                <a href="javascript:;" class="btn-post-modal"><h2 class="m-0 text-white"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></h2></a>
+                <?php endif; ?>
+              </div>
+              <div class="col-sm-1 text-right">
+                <?php if (empty($userData['idx'])): ?>
+                <a href="javascript:;" class="login-popup">로그인</a>
+                <?php else: ?>
                 <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
                 <img class="img-profile" src="<?=PHOTO_URL . $userData['idx']?>">
                 <?php elseif (!empty($userData['icon_thumbnail'])): ?>
@@ -104,9 +112,9 @@
                   <a href="<?=BASE_URL?>/member/modify">개인정보수정</a><br>
                   <a href="javascript:;" class="logout">로그아웃</a>
                 </div>
-              </li>
-              <?php endif; ?>
-            </ul>
+                <?php endif; ?>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -136,16 +144,12 @@
           <a href="<?=BASE_URL?>/admin">・설정</a><br>
           <?php endif; ?>
           <a href="javascript:;" class="logout" title="로그아웃">・로그아웃</a><br>
-          <form method="post" action="/admin_old/log_reserve" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" name="k" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" value="<?=!empty($keyword) ? $keyword : ''?>">
-              <div class="input-group-append">
-                <button class="btn btn-primary">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form>
+          <div class="container">
+            <form method="post" action="<?=BASE_URL?>/admin/log_reserve" class="row align-items-center">
+              <div class="col-9 p-0 p-2"><input type="text" name="k" value="<?=!empty($keyword) ? $keyword : ''?>" class="form-control form-control-sm"></div>
+              <div class="col-3 p-0"><button class="btn btn-sm btn-default">검색</button></div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
