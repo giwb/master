@@ -77,43 +77,28 @@
       <div id="nav-top">
         <div class="container">
           <div class="row align-items-center pt-3">
-            <div class="col-sm-8 p-0"><a href="<?=goHome($viewClub['domain'])?>"><h1 class="text-white m-0"><?=!empty($viewClub['title']) ? $viewClub['title'] : ''?></h1></a></div>
-            <div class="col-sm-4 p-0 text-right row align-items-center">
-              <div class="col-sm-10 p-0">
-                <form method="post" action="<?=BASE_URL?>/admin/log_reserve" class="row align-items-center m-0">
-                  <div class="col-sm-9"><input type="text" name="k" value="<?=!empty($keyword) ? $keyword : ''?>" class="form-control form-control-sm"></div>
-                  <div class="col-sm-3 p-0 text-left"><button class="btn btn-sm btn-default">검색</button></div>
-                </form>
-              </div>
-              <div class="col-sm-1 p-0 text-center">
-                <?php if (strstr($_SERVER['REQUEST_URI'], 'admin') || strstr($_SERVER['REQUEST_URI'], 'ShopAdmin')): ?>
-                <a href="<?=goHome($viewClub['domain'])?>"><h2 class="m-0 text-white"><i class="fa fa-home " aria-hidden="true"></i></h2></a>
-                <?php else: ?>
-                <a href="javascript:;" class="btn-post-modal"><h2 class="m-0 text-white"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></h2></a>
+            <div class="col-sm-8"><a href="<?=goHome($viewClub['domain'])?>"><h1 class="text-white m-0"><?=!empty($viewClub['title']) ? $viewClub['title'] : ''?></h1></a></div>
+            <div class="col-sm-4 text-right">
+              <?php if (empty($userData['idx'])): ?>
+              <a href="javascript:;" class="login-popup">로그인</a>
+              <?php else: ?>
+              <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
+              <img class="img-profile" src="<?=PHOTO_URL . $userData['idx']?>">
+              <?php elseif (!empty($userData['icon_thumbnail'])): ?>
+              <img class="img-profile" src="<?=$userData['icon_thumbnail']?>">
+              <?php else: ?>
+              <img class="img-profile" src="/public/images/user.png">
+              <?php endif; ?>
+              <div class="profile-box">
+                <strong><?=$userData['nickname']?></strong> (<?=$userLevel['levelName']?>)<hr>
+                <a href="<?=BASE_URL?>/member">마이페이지</a><br>
+                <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
+                <a href="<?=BASE_URL?>/member/driver">드라이버 페이지</a><br>
                 <?php endif; ?>
+                <a href="<?=BASE_URL?>/member/modify">개인정보수정</a><br>
+                <a href="javascript:;" class="logout">로그아웃</a>
               </div>
-              <div class="col-sm-1 text-right">
-                <?php if (empty($userData['idx'])): ?>
-                <a href="javascript:;" class="login-popup">로그인</a>
-                <?php else: ?>
-                <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
-                <img class="img-profile" src="<?=PHOTO_URL . $userData['idx']?>">
-                <?php elseif (!empty($userData['icon_thumbnail'])): ?>
-                <img class="img-profile" src="<?=$userData['icon_thumbnail']?>">
-                <?php else: ?>
-                <img class="img-profile" src="/public/images/user.png">
-                <?php endif; ?>
-                <div class="profile-box">
-                  <strong><?=$userData['nickname']?></strong> (<?=$userLevel['levelName']?>)<hr>
-                  <a href="<?=BASE_URL?>/member">마이페이지</a><br>
-                  <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
-                  <a href="<?=BASE_URL?>/member/driver">드라이버 페이지</a><br>
-                  <?php endif; ?>
-                  <a href="<?=BASE_URL?>/member/modify">개인정보수정</a><br>
-                  <a href="javascript:;" class="logout">로그아웃</a>
-                </div>
-                <?php endif; ?>
-              </div>
+              <?php endif; ?>
             </div>
           </div>
         </div>
@@ -176,6 +161,12 @@
             <li class="mb-1"><a href="<?=BASE_URL?>/admin/log_user"><i class="fas fa-exchange-alt" aria-hidden="true"></i> 활동관리</a></li>
             <li><a href="<?=BASE_URL?>/admin/setup_information"><i class="fas fa-cog" aria-hidden="true"></i> 설정</a></li>
           </ul>
+          <div class="club-search">
+            <form method="post" action="<?=BASE_URL?>/admin/log_reserve">
+              <div class="club-search-item1"><input type="text" name="k" value="<?=!empty($keyword) ? $keyword : ''?>" class="form-control form-control-sm"></div>
+              <div class="club-search-item2"><button class="btn btn-sm btn-default">검색</button></div>
+            </form>
+          </div>
         </div>
       </div>
       <div class="club-main">

@@ -62,7 +62,7 @@
   }).on('click', '.scroll-to-top', function() {
     // 상단 스크롤
     $('html, body').animate({scrollTop : 0}, 1000, 'easeInOutExpo');
-  }).on('click', '.nav-menu .img-profile', function() {
+  }).on('click', '.img-profile', function() {
     // 로그인 아이콘
     var $dom = $('.profile-box');
     if ($dom.css('display') == 'none') {

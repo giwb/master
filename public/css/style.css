@@ -1919,7 +1919,7 @@ h1.nav-logo small {
 .club-list .list ul li .text { font-size: 14px; display: table-cell; vertical-align: top; line-height: 1.4em; }
 .club-list .list ul li .text a { font-size: 16px; display: block; padding-bottom: 3px; }
 
-.profile-box { width: 170px; font-size: 14px; position: absolute; top: 55px; right: -1px; border: 1px solid #d9d9d9; background-color: #fff; padding: 10px; text-align: left; display: none; z-index: 99; }
+.profile-box { width: 170px; font-size: 14px; position: absolute; top: 58px; right: 10px; border: 1px solid #d9d9d9; background-color: #fff; padding: 10px; text-align: left; display: none; z-index: 99; }
 .profile-box hr { margin: 10px 0; }
 
 /* Club Main */
@@ -1940,6 +1940,9 @@ h1.nav-logo small {
 #club .club-left .url { font-size: 12px; }
 #club .club-left .desc { font-size: 13px; text-align: justify; }
 #club .club-left .banner { width: 100%; border: 1px solid #999; margin: 10px 0; padding: 10px 0; text-align: center; cursor: pointer; }
+#club .club-left .club-search { width: 200px; display: table; margin: 0px; padding: 0px; }
+#club .club-left .club-search .club-search-item1 { width: 135px; display: table-cell; vertical-align: middle; }
+#club .club-left .club-search .club-search-item2 { width: 60px; display: table-cell; vertical-align: middle; padding-left: 5px; }
 
 #club .club-main .main-image { width: 100%; margin-bottom: 10px; }
 #club .club-main .your-story { width: 100%!important; clear: both; text-align: justify; overflow: hidden; }
