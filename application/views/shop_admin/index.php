@@ -95,6 +95,6 @@
             });
           }).on('click', '.item-list', function() {
             // 상세보기
-            location.href = '<?=BASE_URL?>/ShopAdmin/entry/' + $(this).data('idx');
+            location.href = '<?=BASE_URL?>/ShopAdmin/entry/' + $(this).parent().data('idx');
           });
         </script>
