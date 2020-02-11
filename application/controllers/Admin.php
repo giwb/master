@@ -661,6 +661,21 @@ class Admin extends Admin_Controller
       sort($viewData['busType'][$key1]['listMemo']);
     }
 
+    // 구매대행
+    $viewData['search'] = array('notice_idx' => $viewData['rescode']);
+    $viewData['maxPurchase'] = $this->shop_model->cntPurchase($viewData['search']);
+    $viewData['listPurchase'] = $this->shop_model->listPurchase(NULL, $viewData['search']);
+
+    foreach ($viewData['listPurchase'] as $key => $value) {
+      $items = unserialize($value['items']);
+      $viewData['listPurchase'][$key]['listCart'] = $items;
+
+      $viewData['listPurchase'][$key]['totalCost'] = 0;
+      foreach ($items as $item) {
+        $viewData['listPurchase'][$key]['totalCost'] += $item['cost'] * $item['amount'];
+      }
+    }
+
     // 페이지 타이틀
     $viewData['pageTitle'] = '승차 관리';
 

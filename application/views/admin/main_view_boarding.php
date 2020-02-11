@@ -111,6 +111,19 @@
                 <?php endforeach; ?>
               </div>
               <?php endforeach; ?>
+              <div class="area-boarding">
+                <div class="mb-2">■ <strong>구매대행</strong> (<?=number_format($maxPurchase['cnt'])?>명)</div>
+                <?php foreach ($listPurchase as $purchase): ?>
+                <dl>
+                  <dt><?=$purchase['nickname']?></dt>
+                  <dd>
+                  <?php foreach ($purchase['listCart'] as $key => $item): ?>
+                    <span class="area-status"><?=getPurchaseStatus($purchase['status'])?></span> <?=$item['name']?><br><small><?=!empty($item['option']) ? $item['option'] . ' - ' : ''?><?=number_format($item['amount'])?>개, <?=number_format($item['cost'] * $item['amount'])?>원</small>
+                  <?php endforeach; ?>
+                  </dd>
+                </dl>
+                <?php endforeach; ?>
+              </div>
             </div>
           </div>
         </div>
