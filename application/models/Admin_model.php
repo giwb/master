@@ -160,7 +160,7 @@ class Admin_model extends CI_Model
           ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
           ->join(DB_MEMBER . ' c', 'a.nickname=c.nickname', 'left')
           ->where_in('b.status', array(STATUS_ABLE, STATUS_CONFIRM, STATUS_CLOSED))
-          ->order_by('b.regdate', 'desc');
+          ->order_by('a.regdate', 'desc');
 
     if (!is_null($nickname)) {
       $this->db->like('a.nickname', $nickname);
