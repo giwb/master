@@ -157,7 +157,7 @@
           <ul class="navi">
             <li class="mb-1"><a href="<?=BASE_URL?>/admin"><i class="fas fa-chalkboard" aria-hidden="true"></i> 대시보드</a></li>
             <li class="mb-1"><a href="<?=BASE_URL?>/admin/main_list_progress"><i class="fas fa-mountain" aria-hidden="true"></i> 산행관리</a></li>
-            <li class="mb-1"><a href="<?=BASE_URL?>/ShopAdmin/index"><i class="fas fa-shopping-cart" aria-hidden="true"></i> 구매대행관리</a></li>
+            <li class="mb-1"><a href="<?=BASE_URL?>/ShopAdmin/order"><i class="fas fa-shopping-cart" aria-hidden="true"></i> 구매대행관리</a></li>
             <li class="mb-1"><a href="<?=BASE_URL?>/admin/member_list"><i class="fas fa-users" aria-hidden="true"></i> 회원관리</a></li>
             <li class="mb-1"><a href="<?=BASE_URL?>/admin/log_user"><i class="fas fa-exchange-alt" aria-hidden="true"></i> 활동관리</a></li>
             <li><a href="<?=BASE_URL?>/admin/setup_information"><i class="fas fa-cog" aria-hidden="true"></i> 설정</a></li>
