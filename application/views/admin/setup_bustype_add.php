@@ -37,7 +37,7 @@
               <div class="col-sm-12 text-center">
                 <div class="error-message"></div>
                 <input type="hidden" name="idx" value="<?=$viewBustype['idx']?>">
-                <button type="button" class="btn btn-primary btn-bustype-add"><?=$btnName?></button>
+                <button type="button" class="btn btn-default btn-bustype-add"><?=$btnName?></button>
               </div>
             </div>
           </form>
