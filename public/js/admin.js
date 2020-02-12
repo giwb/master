@@ -359,7 +359,7 @@
           $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
         },
         success: function() {
-          location.href=($('input[name=baseUrl]'.val() +  '/admin/setup_front');
+          location.href=($('input[name=baseUrl]').val() +  '/admin/setup_front');
         }
       });
     }
@@ -394,7 +394,7 @@
           $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
         },
         success: function() {
-          location.href=($('input[name=baseUrl]'.val() + '/admin/setup_bustype');
+          location.href=($('input[name=baseUrl]').val() + '/admin/setup_bustype');
         }
       });
     }
@@ -815,7 +815,7 @@
           $('#messageModal .modal-message').text(result.message);
           $('#messageModal').modal('show');
         } else {
-          location.replace($('input[name=baseUrl]'.val() +  '/admin/main_view_progress/' + $('input[name=idx]').val());
+          location.replace($('input[name=baseUrl]').val() +  '/admin/main_view_progress/' + $('input[name=idx]').val());
         }
       }
     });
