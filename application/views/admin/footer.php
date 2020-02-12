@@ -28,7 +28,7 @@
 
   <ul id="nav-footer">
     <li><a href="<?=BASE_URL?>/admin/main_list_progress"><i class="fas fa-mountain" aria-hidden="true"></i><br>산행</a></li>
-    <li><a href="<?=BASE_URL?>/ShopAdmin/index"><i class="fas fa-shopping-cart" aria-hidden="true"></i><br>구매</a></li>
+    <li><a href="<?=BASE_URL?>/ShopAdmin/order"><i class="fas fa-shopping-cart" aria-hidden="true"></i><br>구매</a></li>
     <li><a href="<?=BASE_URL?>/admin/member_list"><i class="fas fa-users" aria-hidden="true"></i><br>회원</a></li>
     <li><a href="<?=BASE_URL?>/admin/log_user"><i class="fas fa-exchange-alt" aria-hidden="true"></i><br>활동</a></li>
     <li><a href="<?=BASE_URL?>/admin/setup_information"><i class="fas fa-cog" aria-hidden="true"></i><br>설정</a></li>
