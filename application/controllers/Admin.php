@@ -23,6 +23,10 @@ class Admin extends Admin_Controller
     // 클럽ID
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
 
+    if (empty($viewData['clubIdx'])) {
+      redirect(BASE_URL . '/admin');
+    }
+
     // 회원 정보
     $viewData['userData'] = $this->load->get_var('userData');
     $viewData['userLevel'] = $this->load->get_var('userLevel');
