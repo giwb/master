@@ -590,6 +590,7 @@ class Admin_model extends CI_Model
           ->from(DB_STORY_REPLY . ' a')
           ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
           ->where('a.club_idx', $clubIdx)
+          ->where('a.visible', 'Y')
           ->where('a.deleted_at', NULL)
           ->order_by('a.idx', 'desc');
 
@@ -604,8 +605,18 @@ class Admin_model extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  // 활동관리 - 댓글 정보
+  public function viewReply($idx)
+  {
+    $this->db->select('*')
+          ->from(DB_STORY_REPLY)
+          ->where('idx', $idx);
+
+    return $this->db->get()->row_array(1);
+  }
+
   // 활동관리 - 댓글 수정/삭제
-  public function deleteReply($data, $idx)
+  public function updateReply($data, $idx)
   {
     $this->db->set($data);
     $this->db->where('idx', $idx);

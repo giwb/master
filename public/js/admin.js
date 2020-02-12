@@ -278,9 +278,34 @@
         } else {
           $btn.css('opacity', '1').prop('disabled', false);
           if (result.status == 1) {
-            $btn.removeClass('btn-primary').addClass('btn-secondary').attr('data-status', 0).text('복원');
+            $btn.removeClass('btn-default').addClass('btn-secondary').attr('data-status', 0).text('복원');
           } else {
-            $btn.removeClass('btn-secondary').addClass('btn-primary').attr('data-status', 1).text('확인');
+            $btn.removeClass('btn-secondary').addClass('btn-default').attr('data-status', 1).text('확인');
+          }
+        }
+      }
+    });
+  }).on('click', '.btn-reply-check', function() {
+    // 댓글 확인 체크
+    var $btn = $(this);
+    $.ajax({
+      url: '/admin/reply_check',
+      data: 'idx=' + $(this).data('idx'),
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true);
+      },
+      success: function(result) {
+        if (result.error == 1) {
+          $btn.css('opacity', '1').prop('disabled', false).text('확인');
+          $.openMsgModal(result.message);
+        } else {
+          $btn.css('opacity', '1').prop('disabled', false);
+          if (result.message == 'N') {
+            $btn.removeClass('btn-default').addClass('btn-secondary').text('복원');
+          } else {
+            $btn.removeClass('btn-secondary').addClass('btn-default').text('확인');
           }
         }
       }

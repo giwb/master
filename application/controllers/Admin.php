@@ -2474,7 +2474,7 @@ exit;
       'deleted_by' => $userIdx,
       'deleted_at' => time()
     );
-    $this->admin_model->deleteReply($updateValues, $idx);
+    $this->admin_model->updateReply($updateValues, $idx);
 
     $result['reload'] = true;
     $this->output->set_output(json_encode($result));
@@ -2562,6 +2562,31 @@ exit;
       $result = array('error' => 1, 'status' => $status, 'message' => $this->lang->line('error_all'));
     } else {
       $result = array('error' => 0, 'status' => $status, 'message' => '');
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 활동관리 - 댓글 확인 체크
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function reply_check()
+  {
+    $idx = html_escape($this->input->post('idx'));
+    $viewReply = $this->admin_model->viewReply($idx);
+
+    if ($viewReply['visible'] == 'Y') $visible = 'N'; else $visible = 'Y';
+
+    $updateValues = array('visible' => $visible);
+    $rtn = $this->admin_model->updateReply($updateValues, $idx);
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+    } else {
+      $result = array('error' => 0, 'message' => $visible);
     }
 
     $this->output->set_output(json_encode($result));
