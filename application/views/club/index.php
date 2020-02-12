@@ -60,7 +60,7 @@
       <div class="club-main">
         <?php if (!empty($view['main_photo'])): ?>
         <!-- 모바일 대표 사진 -->
-        <div class="d-block d-sm-none">
+        <div class="d-block d-sm-none mt-1">
           <a href="javascript:;" class="photo-zoom" data-filename="<?=$view['main_photo']?>" data-width="<?=$view['main_photo_width']?>" data-height="<?=$view['main_photo_height']?>"><img src="<?=$view['main_photo']?>" class="main-image"></a>
           <?php endif; ?>
         </div>

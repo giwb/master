@@ -317,7 +317,7 @@ class Album extends MY_Controller
     $files = $this->file_model->getFile('club', $viewData['view']['idx']);
     if (!empty($files[0]['filename']) && file_exists(PHOTO_PATH . $files[0]['filename'])) {
       $size = getImageSize(PHOTO_PATH . $files[0]['filename']);
-      $viewData['view']['main_photo'] = BASE_URL . PHOTO_URL . $files[0]['filename'];
+      $viewData['view']['main_photo'] = PHOTO_URL . $files[0]['filename'];
       $viewData['view']['main_photo_width'] = $size[0];
       $viewData['view']['main_photo_height'] = $size[1];
     }
