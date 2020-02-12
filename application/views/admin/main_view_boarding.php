@@ -50,7 +50,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <?php if ($value['seat'] > 12): ?>
+                    <?php if ($value['seat'] > 15): ?>
                     <tr>
                       <th colspan="4" class="text-left">운전석<?=!empty($value['bus_owner']) ? ' (' . $value['bus_owner'] . ' 기사님)' : ''?></th>
                       <th colspan="6" class="text-right">출입구 (예약 : <?=cntRes($view['idx'], $bus)?>명)</th>
