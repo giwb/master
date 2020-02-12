@@ -77,7 +77,7 @@
       <div id="nav-top">
         <div class="container">
           <div class="row align-items-center pt-3">
-            <div class="col-sm-8"><a href="<?=goHome($viewClub['domain'])?>"><h1 class="text-white m-0"><?=!empty($viewClub['title']) ? $viewClub['title'] : ''?></h1></a></div>
+            <div class="col-sm-8"><a href="<?=goHome($viewClub['domain'])?>"><h1 class="nav-logo"><?=!empty($viewClub['title']) ? $viewClub['title'] : ''?></h1></a></div>
             <div class="col-sm-4 text-right">
               <?php if (empty($userData['idx'])): ?>
               <a href="javascript:;" class="login-popup">로그인</a>

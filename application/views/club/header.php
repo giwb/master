@@ -72,33 +72,35 @@
     <div id="nav">
       <div id="nav-top">
         <div class="container">
-          <div class="row align-items-center">
-            <h1 class="col-sm-6 nav-logo"><a href="<?=BASE_URL?>" class="logo"><?=!empty($view['title']) ? $view['title'] : '한국여행 <small>TripKorea.net</small>'?></a></h1>
-            <ul class="col-sm-6 text-right nav-menu">
-              <li><a target="_blank" href="http://giwb.co.kr"><img src="//m1.daumcdn.net/cafeimg/mobile/m640/tit_cafe_s_161214.png" width="50"></a></li>
-              <?php if (empty($userData['idx'])): ?>
-              <li><a href="javascript:;" class="login-popup">로그인</a></li>
-              <?php else: ?>
-              <li>
-              <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
-              <img class="img-profile" src="<?=PHOTO_URL . $userData['idx']?>">
-              <?php elseif (!empty($userData['icon_thumbnail'])): ?>
-              <img class="img-profile" src="<?=$userData['icon_thumbnail']?>">
-              <?php else: ?>
-              <img class="img-profile" src="/public/images/user.png">
-              <?php endif; ?>
-                <div class="profile-box">
-                  <strong><?=$userData['nickname']?></strong> (<?=$userLevel['levelName']?>)<hr>
-                  <a href="<?=BASE_URL?>/member">마이페이지</a><br>
-                  <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
-                  <a href="<?=BASE_URL?>/member/driver">드라이버 페이지</a><br>
-                  <?php endif; ?>
-                  <a href="<?=BASE_URL?>/member/modify">개인정보수정</a><br>
-                  <a href="javascript:;" class="logout">로그아웃</a>
-                </div>
-              </li>
-              <?php endif; ?>
-            </ul>
+          <div class="row align-items-center pt-3">
+            <div class="col-sm-8"><a href="<?=BASE_URL?>"><h1 class="nav-logo"><?=!empty($view['title']) ? $view['title'] : '한국여행 <small>TripKorea.net</small>'?></h1></a></div>
+            <div class="col-sm-4 text-right">
+              <ul>
+                <li class="mr-3"><a target="_blank" href="http://giwb.co.kr"><img src="//m1.daumcdn.net/cafeimg/mobile/m640/tit_cafe_s_161214.png" class="logo-cafe"></a></li>
+                <?php if (empty($userData['idx'])): ?>
+                <li><a href="javascript:;" class="login-popup">로그인</a></li>
+                <?php else: ?>
+                <li>
+                <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
+                <img class="img-profile" src="<?=PHOTO_URL . $userData['idx']?>">
+                <?php elseif (!empty($userData['icon_thumbnail'])): ?>
+                <img class="img-profile" src="<?=$userData['icon_thumbnail']?>">
+                <?php else: ?>
+                <img class="img-profile" src="/public/images/user.png">
+                <?php endif; ?>
+                  <div class="profile-box">
+                    <strong><?=$userData['nickname']?></strong> (<?=$userLevel['levelName']?>)<hr>
+                    <a href="<?=BASE_URL?>/member">마이페이지</a><br>
+                    <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
+                    <a href="<?=BASE_URL?>/member/driver">드라이버 페이지</a><br>
+                    <?php endif; ?>
+                    <a href="<?=BASE_URL?>/member/modify">개인정보수정</a><br>
+                    <a href="javascript:;" class="logout">로그아웃</a>
+                  </div>
+                </li>
+                <?php endif; ?>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
