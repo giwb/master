@@ -78,7 +78,7 @@
               <ul>
                 <li class="mr-3"><a target="_blank" href="http://giwb.co.kr"><img src="//m1.daumcdn.net/cafeimg/mobile/m640/tit_cafe_s_161214.png" class="logo-cafe"></a></li>
                 <?php if (empty($userData['idx'])): ?>
-                <li><a href="javascript:;" class="login-popup">로그인</a></li>
+                <li><a href="javascript:;" class="login-popup"><span class="text-white">로그인</span></a></li>
                 <?php else: ?>
                 <li>
                 <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
