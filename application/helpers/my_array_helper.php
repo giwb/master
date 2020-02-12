@@ -466,6 +466,10 @@ if (!function_exists('getBusTableMake')) {
         elseif ($seat == 2) $result = '</tr><tr>';
         elseif ($seat <= 5 && $seat%4 == 1 || $seat == 8 || $seat == 11) $result = '</tr><tr>';
         break;
+      case '5': // 5석
+        if ($seat == 2) $result = '<td colspan="2"></td>';
+        elseif ($seat%3 == 0) $result = '</tr><tr>';
+        break;
     }
     return $result;
   }

@@ -4,19 +4,19 @@
           <form id="formBustype" method="post" action="<?=BASE_URL?>/admin/<?=$action?>" class="mt-2">
             <div class="row align-items-center pt-2 pb-2">
               <div class="col-sm-2"><strong>차량명</strong> <span class="required">(*)</span></div>
-              <div class="col-sm-10"><input type="text" name="bus_name" class="form-control" value="<?=$viewBustype['bus_name']?>"></div>
+              <div class="col-sm-10"><input type="text" name="bus_name" class="form-control" value="<?=!empty($viewBustype['bus_name']) ? $viewBustype['bus_name'] : ''?>"></div>
             </div>
             <div class="row align-items-center pt-2 pb-2">
               <div class="col-sm-2"><strong>기사명</strong></div>
-              <div class="col-sm-10"><input type="text" name="bus_owner" class="form-control" value="<?=$viewBustype['bus_owner']?>"></div>
+              <div class="col-sm-10"><input type="text" name="bus_owner" class="form-control" value="<?=!empty($viewBustype['bus_owner']) ? $viewBustype['bus_owner'] : ''?>"></div>
             </div>
             <div class="row align-items-center pt-2 pb-2">
               <div class="col-sm-2"><strong>번호판</strong></div>
-              <div class="col-sm-10"><input type="text" name="bus_license" class="form-control" value="<?=$viewBustype['bus_license']?>"></div>
+              <div class="col-sm-10"><input type="text" name="bus_license" class="form-control" value="<?=!empty($viewBustype['bus_license']) ? $viewBustype['bus_license'] : ''?>"></div>
             </div>
             <div class="row align-items-center pt-2 pb-2">
               <div class="col-sm-2"><strong>색상</strong></div>
-              <div class="col-sm-10"><input type="text" name="bus_color" class="form-control" value="<?=$viewBustype['bus_color']?>"></div>
+              <div class="col-sm-10"><input type="text" name="bus_color" class="form-control" value="<?=!empty($viewBustype['bus_color']) ? $viewBustype['bus_color'] : ''?>"></div>
             </div>
             <div class="row align-items-center pt-2 pb-2">
               <div class="col-sm-2"><strong>인원수</strong> <span class="required">(*)</span></div>
@@ -31,7 +31,7 @@
             </div>
             <div class="row align-items-center pt-2 pb-2">
               <div class="col-sm-2"><strong>메모</strong></div>
-              <div class="col-sm-10"><textarea name="memo" rows="10" class="w-100 form-control"><?=$viewBustype['memo']?></textarea></div>
+              <div class="col-sm-10"><textarea name="memo" rows="10" class="w-100 form-control"><?=!empty($viewBustype['memo']) ? $viewBustype['memo'] : ''?></textarea></div>
             </div>
             <div class="row align-items-center pt-2 pb-2">
               <div class="col-sm-12 text-center">
