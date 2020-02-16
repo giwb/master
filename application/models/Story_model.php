@@ -114,7 +114,7 @@ class Story_model extends CI_Model
   }
 
   // 스토리 댓글 수정
-  public function updateStoryReply($data, $storyIdx, $replyType, $storyReplyIdx=NULL)
+  public function updateStoryReply($data, $storyIdx, $replyType, $storyReplyIdx=NULL, $replyParentIdx=NULL)
   {
     $this->db->set($data);
     $this->db->where('story_idx', $storyIdx);
@@ -122,6 +122,9 @@ class Story_model extends CI_Model
 
     if (!is_null($storyReplyIdx)) {
       $this->db->where('idx', $storyReplyIdx);
+    }
+    if (!is_null($replyParentIdx)) {
+      $this->db->where('parent_idx', $replyParentIdx);
     }
 
     return $this->db->update(DB_STORY_REPLY);

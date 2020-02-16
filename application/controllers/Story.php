@@ -503,6 +503,9 @@ class Story extends MY_Controller
 
         $rtn = $this->story_model->updateStoryReply($updateData, $viewStoryReply['story_idx'], $viewStoryReply['reply_type'], $storyReplyIdx);
 
+        // 댓글에 대한 답글도 삭제
+        $this->story_model->updateStoryReply($updateData, $viewStoryReply['story_idx'], $viewStoryReply['reply_type'], NULL, $storyReplyIdx);
+
         if (!empty($rtn)) {
           $cntStoryReply = $this->story_model->cntStoryReply($viewStoryReply['story_idx'], $viewStoryReply['reply_type']);
           $updateData = array('reply_cnt' => $cntStoryReply['cnt']);
