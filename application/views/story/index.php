@@ -47,6 +47,7 @@
                   <input type="hidden" name="storyIdx" value="<?=$value['idx']?>">
                   <input type="hidden" name="replyType" value="<?=REPLY_TYPE_STORY?>">
                   <input type="hidden" name="replyIdx" value="">
+                  <input type="hidden" name="replyParentIdx" value="">
                   <textarea name="content" class="club-story-reply"></textarea>
                   <button type="button" class="btn btn-primary btn-post-reply" data-idx="<?=$value['idx']?>">댓글달기</button>
                 </form>

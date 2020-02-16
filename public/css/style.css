@@ -2002,6 +2002,9 @@ h1.nav-logo small {
 #club .club-main .story-reply .story-reply-input textarea { width: 75%; height: 50px; display: table-cell; vertical-align: middle; float: left; }
 #club .club-main .story-reply .story-reply-input button { width: 22%; height: 50px; display: table-cell; vertical-align: middle; float: right; }
 #club .club-main .story-reply .btn-post-delete-modal { font-size: 12px; }
+#club .club-main .story-reply .reply-response { display: none; }
+#club .club-main .story-reply .story-reply-item.response dt { width: 100px; }
+#club .club-main .story-reply .story-reply-item.response .reply-response { display: inline-block; margin: 0 0 10px 20px; }
 
 #club .club-main .sub-header { text-align: center; border-bottom: 1px solid #999; margin-top: .5rem; padding: 0 0 20px; }
 #club .club-main .sub-notice-header { width: 100%; font-weight: bold; background-color: #d9d9d9; border: 1px solid #999; border-width: 1px 0; margin: 0px; padding: 7px 15px; cursor: pointer; }

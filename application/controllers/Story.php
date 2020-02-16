@@ -182,29 +182,14 @@ class Story extends MY_Controller
 
     // 댓글 목록
     $reply = $this->story_model->listStoryReply($storyIdx, $replyType);
-
     foreach ($reply as $value) {
-      if ($userData['idx'] == $value['created_by'] || $userData['admin'] == 1) {
-        $delete = ' <a href="javascript:;" class="btn-reply-update" data-idx="' . $value['idx'] . '">[수정]</a> <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '" data-action="delete_reply">[삭제]</a>';
-      } else {
-        $delete = '';
+      $message .= $this->_viewReplyContent($value, $userData, true);
+
+      // 댓글에 대한 답글
+      $replyResponse = $this->story_model->listStoryReply($storyIdx, $replyType, $value['idx']);
+      foreach ($replyResponse as $response) {
+        $message .= $this->_viewReplyContent($response, $userData, true);
       }
-      if (!empty($value['updated_at'])) {
-        $date = calcStoryTime($value['created_at']) . ' 작성, ' . calcStoryTime($value['updated_at']) . ' 수정';
-      } else {
-        $date = calcStoryTime($value['created_at']);
-      }
-      if (file_exists(PHOTO_PATH . $value['created_by'])) {
-        $size = getImageSize(PHOTO_PATH . $value['created_by']);
-        $value['photo'] = PHOTO_URL . $value['created_by'];
-        $value['photo_width'] = $size[0];
-        $value['photo_height'] = $size[1];
-      } else {
-        $value['photo'] = '/public/images/user.png';
-        $value['photo_width'] = 64;
-        $value['photo_height'] = 64;
-      }
-      $message .= '<dl class="story-reply-item" data-idx="' . $value['idx'] . '"><dt><img class="img-profile photo-zoom" src="' . $value['photo'] . '" data-filename="' . $value['photo'] . '" data-width="' . $value['photo_width'] . '" data-height="' . $value['photo_height'] . '"></dt><dd><strong>' . $value['nickname'] . '</strong> · <span class="reply-date">' . $date . $delete . '</span><div class="reply-content" data-idx="' . $value['idx'] . '">' . $value['content'] . '</div></dd></dl>';
     }
 
     $result = array('error' => 0, 'message' => $message);
@@ -227,12 +212,14 @@ class Story extends MY_Controller
     $storyIdx = html_escape($this->input->post('storyIdx'));
     $replyType = html_escape($this->input->post('replyType'));
     $replyIdx = html_escape($this->input->post('replyIdx'));
+    $replyParentIdx = html_escape($this->input->post('replyParentIdx'));
     $content = html_escape($this->input->post('content'));
 
     if (empty($userData['idx'])) {
       $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
     } else {
       if (!empty($replyIdx)) {
+        // 수정
         $updateValues = array(
           'content' => $content,
           'updated_by' => $userData['idx'],
@@ -248,7 +235,28 @@ class Story extends MY_Controller
 
         // 스토리 댓글 개수
         $cntStoryReply = $this->story_model->cntStoryReply($storyIdx, $replyType);
+      } elseif (!empty($replyParentIdx)) {
+        // 댓글에 대한 답글 등록
+        $insertValues = array(
+          'club_idx' => $clubIdx,
+          'story_idx' => $storyIdx,
+          'parent_idx' => $replyParentIdx,
+          'reply_type' => $replyType,
+          'content' => $content,
+          'created_by' => $userData['idx'],
+          'created_at' => $now
+        );
+        $rtn = $this->story_model->insertStoryReply($insertValues);
+
+        // 스토리 댓글 개수 올리기
+        $cntStoryReply = $this->story_model->cntStoryReply($storyIdx, $replyType);
+
+        if ($replyType == REPLY_TYPE_STORY) {
+          $updateData['reply_cnt'] = $cntStoryReply['cnt'];
+          $this->story_model->updateStory($updateData, $storyIdx);
+        }
       } else {
+        // 등록
         $insertValues = array(
           'club_idx' => $clubIdx,
           'story_idx' => $storyIdx,
@@ -285,7 +293,19 @@ class Story extends MY_Controller
           $photo_height = 64;
         }
 
-        $html = '<dl class="story-reply-item" data-idx="' . $rtn . '"><dt><img class="img-profile photo-zoom" src="' . $photo . '" data-filename="' . $photo . '" data-width="' . $photo_width . '" data-height="' . $photo_height . '"></dt><dd><strong>' . $userData['nickname'] . '</strong> · <span class="reply-date">(' . calcStoryTime($now) . ') <a href="javascript:;" class="btn-reply-update" data-idx="' . $rtn . '">[수정]</a> <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $rtn . '" data-action="delete_reply">[삭제]</a></span><div class="reply-content" data-idx="' . $rtn . '">' . $content . '</div></dd></dl>';
+        $replyData = array(
+          'idx' => $rtn,
+          'parent_idx' => $replyParentIdx,
+          'photo' => $photo,
+          'photo_width' => $photo_width,
+          'photo_height' => $photo_height,
+          'nickname' => $userData['nickname'],
+          'content' => $content,
+          'created_at' => $now,
+          'created_by' => $userData['idx']
+        );
+
+        $html = $this->_viewReplyContent($replyData, $userData, true);
 
         $result = array(
           'error' => 0,
@@ -573,6 +593,49 @@ class Story extends MY_Controller
     }
 
     $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 댓글 표시
+   *
+   * @param $value
+   * @param $userData
+   * @return view
+   * @author bjchoi
+   **/
+  private function _viewReplyContent($value, $userData)
+  {
+    if ($userData['idx'] == $value['created_by'] || $userData['admin'] == 1) {
+      $delete = ' <a href="javascript:;" class="btn-reply-update" data-idx="' . $value['idx'] . '">[수정]</a> <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '" data-action="delete_reply">[삭제]</a>';
+    } else {
+      $delete = '';
+    }
+    if (!empty($value['updated_at'])) {
+      $date = calcStoryTime($value['created_at']) . ' 작성, ' . calcStoryTime($value['updated_at']) . ' 수정';
+    } else {
+      $date = calcStoryTime($value['created_at']);
+    }
+    if (file_exists(PHOTO_PATH . $value['created_by'])) {
+      $size = getImageSize(PHOTO_PATH . $value['created_by']);
+      $value['photo'] = PHOTO_URL . $value['created_by'];
+      $value['photo_width'] = $size[0];
+      $value['photo_height'] = $size[1];
+    } else {
+      $value['photo'] = '/public/images/user.png';
+      $value['photo_width'] = 64;
+      $value['photo_height'] = 64;
+    }
+    if (!empty($value['parent_idx'])) {
+      $responseClass = ' response'; 
+      $reply = '';
+    } else {
+      $responseClass = '';
+      $value['parent_idx'] = $value['idx'];
+      $reply = ' <a href="javascript:;" class="btn-reply-response" data-idx="' . $value['idx'] . '">[답글]</a>';
+    } 
+    $message = '<dl class="story-reply-item' . $responseClass . '" data-idx="' . $value['idx'] . '" data-parent="' . $value['parent_idx'] . '"><dt><img class="reply-response" src="/public/images/reply.png"><img class="img-profile photo-zoom" src="' . $value['photo'] . '" data-filename="' . $value['photo'] . '" data-width="' . $value['photo_width'] . '" data-height="' . $value['photo_height'] . '"></dt><dd><strong class="nickname">' . $value['nickname'] . '</strong> · <span class="reply-date">' . $date . $reply . $delete . '</span><div class="reply-content" data-idx="' . $value['idx'] . '">' . $value['content'] . '</div></dd></dl>';
+
+    return $message;
   }
 
   /**
