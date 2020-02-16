@@ -1082,7 +1082,7 @@ $(document).on('click', '.btn-reply', function() {
   } else {
     $('input[name=replyParentIdx]', $dom).val(replyParentIdx);
     $('.club-story-reply').focus();
-    $dom.append('<div class="club-story-reply-response">' + nickname + '님의 댓글에 대한 답글 달기</div>');
+    $dom.after('<div class="club-story-reply-response">' + nickname + '님의 댓글에 대한 답글 달기</div>');
   }
 }).on('click', '.btn-share', function() {
   // 공유하기
