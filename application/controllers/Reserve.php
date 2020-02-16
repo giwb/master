@@ -103,7 +103,18 @@ class Reserve extends MY_Controller
       $viewData['notice']['share_cnt'] = $cntShare['cnt'];
 
       // 댓글
-      $viewData['listReply'] = $this->story_model->listStoryReply($noticeIdx, REPLY_TYPE_NOTICE);
+      $reply = $this->story_model->listStoryReply($noticeIdx, REPLY_TYPE_NOTICE);
+
+      foreach ($reply as $key => $value) {
+        $viewData['listReply'][] = $value;
+
+        // 댓글에 대한 답글
+        $replyResponse = $this->story_model->listStoryReply($noticeIdx, REPLY_TYPE_NOTICE, $value['idx']);
+        foreach ($replyResponse as $response) {
+          $viewData['listReply'][] = $response;
+        }
+      }
+
       $viewData['listReply'] = $this->load->view('story/reply', $viewData, true);
 
       $this->_viewPage('reserve/index', $viewData);

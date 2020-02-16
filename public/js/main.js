@@ -1261,7 +1261,13 @@ $(document).on('click', '.btn-reply', function() {
         if (result.message == 'delete_reply') {
           // 댓글 삭제시에는 해당 댓글만 사라지게
           $btn.css('opacity', '1').prop('disabled', false).text('삭제합니다');
+
+          // 댓글에 대한 답글 정보 삭제
+          $('input[name=replyParentIdx]').val('');
+          $('.club-story-reply-response').remove();
+
           $('.story-reply-item[data-idx=' + $('input[name=deleteIdx]').val() + ']').remove();
+          $('.story-reply-item[data-parent=' + $('input[name=deleteIdx]').val() + ']').remove();
           $('.cnt-reply[data-idx=' + result.story_idx + ']').text(result.reply_cnt);
           $('#messageModal input[name=action]').val('');
           $('#messageModal input[name=deleteIdx]').val('');
