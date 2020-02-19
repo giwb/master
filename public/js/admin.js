@@ -193,72 +193,23 @@
       return false;
     }
     $.ajax({
-        url: $('#myForm').attr('action'),
-        data: formData,
-        processData: false,
-        contentType: false,
-        dataType: 'json',
-        type: 'post',
-        beforeSend: function() {
-          $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
-        },
-        success: function(result) {
-          $btn.css('opacity', '1').prop('disabled', false).text(btnText);
-          $('#messageModal .btn-delete, #messageModal .btn-refresh').hide();
-          $('#messageModal .btn-list').attr('data-action', $('input[name=back_url').val()).show();
-          $('#messageModal .modal-message').text(result.message);
-          $('#messageModal').modal('show');
-        }
-      });
-  }).on('click', '.btn-front-submit', function() {
-    // 대문 등록
-    if ($('input[name=filename]').val() == '') {
-      $('#messageModal .btn-refresh, #messageModal .btn-delete').hide();
-      $('#messageModal .modal-message').text('파일을 선택해주세요.');
-      $('#messageModal').modal('show');
-    } else {
-      // 파일 업로드
-      var $dom = $('#formFront');
-      var $btn = $(this);
-      var action = $dom.attr('action');
-      var formData = new FormData($dom[0]);
-      var maxSize = 20480000;
-      var size = $('.file', $dom)[0].files[0].size;
-
-      if (size > maxSize) {
-        $('.file', $dom).val('');
-        $('#messageModal .btn-refresh, #messageModal .btn-delete').hide();
-        $('#messageModal .modal-message').text('파일의 용량은 20MB를 넘을 수 없습니다.');
+      url: $('#myForm').attr('action'),
+      data: formData,
+      processData: false,
+      contentType: false,
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+      },
+      success: function(result) {
+        $btn.css('opacity', '1').prop('disabled', false).text(btnText);
+        $('#messageModal .btn-delete, #messageModal .btn-refresh').hide();
+        $('#messageModal .btn-list').attr('data-action', $('input[name=back_url').val()).show();
+        $('#messageModal .modal-message').text(result.message);
         $('#messageModal').modal('show');
-        return;
       }
-
-      // 사진 형태 추가
-      formData.append('file_obj', $('.file', $dom)[0].files[0]);
-
-      $.ajax({
-        url: action,
-        processData: false,
-        contentType: false,
-        data: formData,
-        dataType: 'json',
-        type: 'post',
-        beforeSend: function() {
-          $btn.css('opacity', '0.5').prop('disabled', true).text('업로드중..');
-          $('.file', $dom).val('');
-        },
-        success: function(result) {
-          if (result.error == 1) {
-            $('#messageModal .btn-list, #messageModal .btn-refresh, #messageModal .btn-delete').hide();
-            $('#messageModal .modal-message').text(result.message);
-            $('#messageModal').modal('show');
-            $btn.css('opacity', '1').prop('disabled', false).text('등록하기');
-          } else {
-            location.reload();
-          }
-        }
-      });
-    }
+    });
   }).on('click', '.btn-log-check', function() {
     // 활동관리 확인 체크
     var $btn = $(this);

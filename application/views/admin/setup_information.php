@@ -66,19 +66,14 @@
               <div class="row align-items-center mt-2">
                 <div class="col-sm-2 font-weight-bold">사진</div>
                 <div class="col-sm-10">
-                  <input type="file" class="file">
-                  <input type="hidden" name="file" value="">
                   <div class="added-files mt-3">
-                  <?php
-                    if ($view['photo'][0] != ''):
-                      foreach ($view['photo'] as $value):
-                  ?>
+                    <?php if ($view['photo'][0] != ''): foreach ($view['photo'] as $value): ?>
                     <img src="<?=PHOTO_URL?><?=$value?>" class="btn-photo-modal" data-photo="<?=$value?>">
-                  <?php
-                      endforeach;
-                    endif;
-                  ?>
+                    <?php endforeach; endif; ?>
                   </div>
+                  <input type="hidden" name="file" value="">
+                  <input type="file" class="file d-none">
+                  <button type="button" class="btn btn-sm btn-default btn-upload">사진 선택</button>
                 </div>
               </div><br>
 
@@ -232,8 +227,11 @@
             } else {
               $('.' + target).prop('checked', false)
             }
+          }).on('click', '.btn-upload', function() {
+            $(this).prev().click();
           }).on('change', '.file', function() {
             // 파일 업로드
+            var $btn = $('.btn-upload');
             var $dom = $(this);
             var formData = new FormData($('form')[0]);
             var maxSize = 20480000;
@@ -241,8 +239,7 @@
 
             if (size > maxSize) {
               $dom.val('');
-              $('#messageModal .modal-message').text('파일의 용량은 20MB를 넘을 수 없습니다.');
-              $('#messageModal').modal('show');
+              $.openMsgModal('파일의 용량은 20MB를 넘을 수 없습니다.');
               return;
             }
 
@@ -250,31 +247,25 @@
             formData.append('file_obj', $dom[0].files[0]);
 
             $.ajax({
-              url: '/club/upload',
+              url: '/file/upload',
               processData: false,
               contentType: false,
               data: formData,
               dataType: 'json',
               type: 'post',
               beforeSend: function() {
-                $('.btn-upload').css('opacity', '0.5').prop('disabled', true).text('업로드중.....');
+                $btn.css('opacity', '0.5').prop('disabled', true).text('업로드중.....');
                 $dom.val('');
               },
               success: function(result) {
-                $('.btn-upload').css('opacity', '1').prop('disabled', false).text('사진올리기');
+                $btn.css('opacity', '1').prop('disabled', false).text('사진 선택');
+                $dom.val('');
                 if (result.error == 1) {
-                  $('.btn-list, .btn-refresh, .btn-delete').hide();
-                  $('#messageModal .modal-message').text(result.message);
-                  $('#messageModal').modal('show');
+                  $.openMsgModal(result.message);
                 } else {
-                  // 그 외
                   var $domFiles = $('input[name=file]');
-                  $('.added-files').append('<img src="' + result.message + '" class="btn-photo-modal" data-photo="' + result.filename + '">');
-                  if ($domFiles.val() == '') {
-                    $domFiles.val(result.filename);
-                  } else {
-                    $domFiles.val($domFiles.val() + ',' + result.filename);
-                  }
+                  $('.added-files').empty().append('<img src="' + result.message + '" class="btn-photo-modal" data-photo="' + result.filename + '">');
+                  $('input[name=file]').val(result.filename);
                 }
               }
             });
