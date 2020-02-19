@@ -73,10 +73,13 @@
       <div id="nav-top">
         <div class="container">
           <div class="row align-items-center pt-3">
-            <div class="col-sm-8"><a href="<?=BASE_URL?>"><h1 class="nav-logo"><?=!empty($view['title']) ? $view['title'] : '한국여행 <small>TripKorea.net</small>'?></h1></a></div>
+            <div class="col-sm-8 pl-2"><a href="<?=BASE_URL?>"><h1 class="nav-logo"><?=!empty($view['title']) ? $view['title'] : '한국여행 <small>TripKorea.net</small>'?></h1></a></div>
             <div class="col-sm-4 text-right">
               <ul>
-                <li class="mr-3"><a target="_blank" href="http://giwb.co.kr"><img src="//m1.daumcdn.net/cafeimg/mobile/m640/tit_cafe_s_161214.png" class="logo-cafe"></a></li>
+                <li class="mr-4"><a target="_blank" href="http://giwb.co.kr"><img src="//m1.daumcdn.net/cafeimg/mobile/m640/tit_cafe_s_161214.png" class="logo-cafe"></a></li>
+                <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN): ?>
+                <li class="mr-4 align-middle"><a href="<?=BASE_URL?>/member/driver"><h2 class="m-0 p-0"><i class="fa fa-bus text-white"></i></h2></a></li>
+                <?php endif; ?>
                 <?php if (empty($userData['idx'])): ?>
                 <li><a href="javascript:;" class="login-popup"><span class="text-white">로그인</span></a></li>
                 <?php else: ?>
@@ -109,6 +112,9 @@
           <li><a href="<?=BASE_URL?>"><i class="fa fa-home btn-header"></i></a></li>
           <li><a href="<?=BASE_URL?>"><h1><?=!empty($pageTitle) ? $pageTitle : $view['title'] ?></h1></a></li>
           <li>
+            <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN): ?>
+            <a href="<?=BASE_URL?>/member/driver"><h3 class="m-0 p-0"><i class="fa fa-bus text-white"></i></h3></a>
+            <?php else: ?>
             <?php if (strstr($_SERVER['REQUEST_URI'], 'member')): ?>
             <a href="javascript:;" class="btn-mypage"><i class="fa fa-cog btn-header"></i></a>
             <?php elseif (strstr($_SERVER['REQUEST_URI'], 'shop')): ?>
@@ -118,6 +124,7 @@
             <?php elseif (strstr($_SERVER['REQUEST_URI'], 'login')): ?>
             <?php else: ?>
             <a target="_blank" href="http://giwb.co.kr"><img src="//m1.daumcdn.net/cafeimg/mobile/m640/tit_cafe_s_161214.png" width="50"></a>
+            <?php endif; ?>
             <?php endif; ?>
           </li>
         </ul>
