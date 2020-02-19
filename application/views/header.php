@@ -62,29 +62,30 @@
       <!-- Top Nav -->
       <div id="nav-top">
         <div class="container">
-          <div class="row align-items-center">
-            <h1 class="col-sm-6 nav-logo"><a href="<?=BASE_URL?>" class="logo"><?=!empty($view['title']) ? $view['title'] : '한국여행 <small>TripKorea.net</small>'?></a></h1>
-            <ul class="col-sm-6 text-right nav-menu">
-              <li<?=$uri == 'top' ? ' class="active"' : ''?>><a href="/">TOP</a></li>
-              <li<?=$uri == 'place' ? ' class="active"' : ''?>><a href="/place">여행정보</a></li>
-              <li<?=$uri == 'club' ? ' class="active"' : ''?>><a href="/club">산악회정보</a></li>
-              <?php if (!empty($userData['idx'])): ?>
-              <li>
-                <img class="img-profile" src="<?=$userData['icon']?>">
-                <div class="profile-box">
-                  <strong><?=$userData['nickname']?></strong><hr>
-                  <a href="#">내 정보</a><br>
-                  <a href="#">내 클럽</a><hr>
-                  <a href="#">초대 확인</a><br>
-                  <a href="#">공지사항</a><br>
-                  <a href="#">설정</a><hr>
-                  <a href="javascript:;" class="logout">로그아웃</a>
-                </div>
-              </li>
-              <?php else: ?>
-              <li><a href="javascript:;" class="login-popup">로그인</a></li>
-              <?php endif; ?>
-            </ul>
+          <div class="row align-items-center pt-3">
+            <div class="col-sm-8 pl-2"><a href="<?=BASE_URL?>"><h1 class="nav-logo"><?=!empty($view['title']) ? $view['title'] : '한국여행 <small>TripKorea.net</small>'?></h1></a></div>
+            <div class="col-sm-4 text-right">
+              <ul class="text-white">
+                <li><a href="/place">여행정보</a></li>
+                <li><a href="/club">산악회정보</a></li>
+                <?php if (!empty($userData['idx'])): ?>
+                <li>
+                  <img class="img-profile" src="<?=$userData['icon']?>">
+                  <div class="profile-box">
+                    <strong><?=$userData['nickname']?></strong><hr>
+                    <a href="#">내 정보</a><br>
+                    <a href="#">내 클럽</a><hr>
+                    <a href="#">초대 확인</a><br>
+                    <a href="#">공지사항</a><br>
+                    <a href="#">설정</a><hr>
+                    <a href="javascript:;" class="logout">로그아웃</a>
+                  </div>
+                </li>
+                <?php else: ?>
+                <li><a href="javascript:;" class="login-popup">로그인</a></li>
+                <?php endif; ?>
+              </ul>
+            </div>
           </div>
         </div>
       </div>

@@ -42,6 +42,11 @@ class Reserve extends MY_Controller
     $noticeIdx = html_escape($noticeIdx);
     $checkIdx = html_escape($this->input->get('c'));
 
+    if (empty($clubIdx)) {
+      redirect(BASE_URL . '/reserve/list/' . $noticeIdx);
+      exit;
+    }
+
     if (empty($noticeIdx)) {
       redirect(BASE_URL . '/reserve/schedule/');
       exit;

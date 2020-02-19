@@ -25,6 +25,7 @@ class Admin extends Admin_Controller
 
     if (empty($viewData['clubIdx'])) {
       redirect(BASE_URL . '/admin');
+      exit;
     }
 
     // 회원 정보
