@@ -24,10 +24,12 @@ class Login extends MY_Controller
     checkUserLoginRedirect($viewData['redirect_url']); // 로그인 상태의 회원은 메인 페이지로
 
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
-    if (!empty($viewData['clubIdx'])) {
-      $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
+    if (empty($viewData['clubIdx'])) {
+      redirect(BASE_URL . '/login/?r=' . $viewData['redirect_url']);
+      exit;
     }
 
+    $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
     $userid = html_escape($this->input->post('userid'));
     $password = html_escape($this->input->post('password'));
     $save = html_escape($this->input->post('save'));
