@@ -305,7 +305,9 @@ class Welcome extends MY_Controller
    **/
   private function _viewPage($viewPage, $viewData=NULL)
   {
-    $viewData['uri'] = 'top';
+    // 리다이렉트 URL 추출
+    if ($_SERVER['SERVER_PORT'] == '80') $HTTP_HEADER = 'http://'; else $HTTP_HEADER = 'https://';
+    $viewData['redirectUrl'] = $HTTP_HEADER . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
     $this->load->view('header', $viewData);
     $this->load->view($viewPage, $viewData);

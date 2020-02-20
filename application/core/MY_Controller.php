@@ -12,10 +12,12 @@ class MY_Controller extends CI_Controller
 
     // 클럽 도메인 설정
     if ($_SERVER['SERVER_PORT'] == '80') $header = 'http://'; else $header = 'https://';
+
     if (!empty($_SERVER['REDIRECT_URL'])) {
       $arrUri = explode('/', $_SERVER['REDIRECT_URL']);
       $uri = html_escape($arrUri[1]);
-      if (empty($uri)) {
+
+      if (empty($uri) || $uri == 'place' || $uri == 'club') {
         define('BASE_URL', $header . $_SERVER['HTTP_HOST']);
       } else {
         $result = $this->club_model->getDomain($_SERVER['HTTP_HOST']);

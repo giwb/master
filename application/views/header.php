@@ -30,7 +30,7 @@
   <link href="/public/css/fullcalendar.print.css" rel="stylesheet">
 
   <!-- Main Stylesheet File -->
-  <link href="/public/css/style.css" rel="stylesheet">
+  <link href="/public/css/tripkorea.css" rel="stylesheet">
 
   <script src="/public/js/jquery-1.11.1.min.js" type="text/javascript"></script>
   <script src="/public/js/jquery-ui.custom.min.js" type="text/javascript"></script>
@@ -55,53 +55,34 @@
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header id="header">
-    <!-- NAV -->
-    <div id="nav">
-      <!-- Top Nav -->
-      <div id="nav-top">
-        <div class="container">
-          <div class="row align-items-center pt-3">
-            <div class="col-sm-8 pl-2"><a href="<?=BASE_URL?>"><h1 class="nav-logo"><?=!empty($view['title']) ? $view['title'] : '한국여행 <small>TripKorea.net</small>'?></h1></a></div>
-            <div class="col-sm-4 text-right">
-              <ul class="text-white">
-                <li><a href="/place">여행정보</a></li>
-                <li><a href="/club">산악회정보</a></li>
-                <?php if (!empty($userData['idx'])): ?>
-                <li>
-                  <img class="img-profile" src="<?=$userData['icon']?>">
-                  <div class="profile-box">
-                    <strong><?=$userData['nickname']?></strong><hr>
-                    <a href="#">내 정보</a><br>
-                    <a href="#">내 클럽</a><hr>
-                    <a href="#">초대 확인</a><br>
-                    <a href="#">공지사항</a><br>
-                    <a href="#">설정</a><hr>
-                    <a href="javascript:;" class="logout">로그아웃</a>
-                  </div>
-                </li>
-                <?php else: ?>
-                <li><a href="javascript:;" class="login-popup">로그인</a></li>
-                <?php endif; ?>
-              </ul>
-            </div>
-          </div>
+  <header>
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-sm-9"><a href="<?=BASE_URL?>"><h1 class="text-white"><?=!empty($view['title']) ? $view['title'] : '한국여행 <small>TripKorea.net</small>'?></h1></a></div>
+        <div class="col-sm-3 text-right">
+          <ul class="row align-items-center">
+            <li class="col p-0"><a href="/place" class="text-white font-weight-bold">여행정보</a></li>
+            <li class="col p-0"><a href="/club" class="text-white font-weight-bold">산악회</a></li>
+            <?php if (!empty($userData['idx'])): ?>
+            <li class="col p-0 pr-3">
+              <img class="img-profile" src="<?=$userData['icon']?>">
+              <div class="profile-box">
+                <strong><?=$userData['nickname']?></strong><hr>
+                <a href="#">내 정보</a><br>
+                <a href="#">내 클럽</a><hr>
+                <a href="#">초대 확인</a><br>
+                <a href="#">공지사항</a><br>
+                <a href="#">설정</a><hr>
+                <a href="javascript:;" class="logout">로그아웃</a>
+              </div>
+            </li>
+            <?php else: ?>
+            <li class="col p-0 pr-3"><a href="javascript:;" class="text-white font-weight-bold login-popup">로그인</a></li>
+            <?php endif; ?>
+          </ul>
         </div>
       </div>
-      <!-- /Top Nav -->
-
-      <!-- /Nav Search -->
-      <div id="nav-search">
-        <form>
-          <input class="input" name="search" placeholder="검색할 내용을 입력해 주세요.">
-        </form>
-        <button class="nav-close search-close">
-          <span></span>
-        </button>
-      </div>
-      <!-- /Nav Search -->
     </div>
-    <!-- /NAV -->
   </header>
-  <!-- /HEADER -->
+
+  <main>

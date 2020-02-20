@@ -1,7 +1,8 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-  <input type="hidden" name="base_url" value="<?=base_url()?>">
-  <input type="hidden" name="redirect_url" value="<?=!empty($_SERVER['REQUEST_URI']) ? base_url() . substr($_SERVER['REQUEST_URI'], 1) : ''?>">
+  <input type="hidden" name="baseUrl" value="<?=BASE_URL?>">
+  <input type="hidden" name="userIdx" value="<?=!empty($userData['idx']) ? $userData['idx'] : ''?>">
+  <input type="hidden" name="redirectUrl" value="<?=$redirectUrl?>">
 
   <!-- Message Modal -->
   <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
@@ -21,30 +22,6 @@
           <button type="button" class="btn btn-default btn-refresh">새로고침</button>
           <button type="button" class="btn btn-default btn-delete">삭제합니다</button>
           <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Photo Modal -->
-  <div class="modal fade" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="photoModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="smallmodalLabel">사진 미리보기</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body text-center">
-          <p class="modal-message"></p>
-        </div>
-        <div class="modal-footer">
-          <input type="hidden" class="photo" value="">
-          <button type="button" class="btn btn-default btn-list">목록으로</button>
-          <button type="button" class="btn btn-default btn-refresh">새로고침</button>
-          <button type="button" class="btn btn-default btn-delete">삭제합니다</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
         </div>
       </div>
     </div>
@@ -90,10 +67,8 @@
   <?php endif; ?>
 
   <!-- FOOTER -->
-  <footer id="footer">
-    <div class="text-center">
-      Copyright &copy; <script>document.write(new Date().getFullYear());</script> <strong>SayHome</strong>. All Rights Reserved.
-    </div>
+  <footer class="p-3 text-center">
+    Copyright &copy; <script>document.write(new Date().getFullYear());</script> <strong>SayHome</strong>. All Rights Reserved.
   </footer>
   <!-- /FOOTER -->
 

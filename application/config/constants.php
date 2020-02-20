@@ -132,6 +132,11 @@ defined('DB_SHOP_PURCHASE')   OR define('DB_SHOP_PURCHASE', 'shop_purchase'); //
 defined('DB_VISITOR')         OR define('DB_VISITOR', 'visitor'); // 방문자
 defined('DB_WAIT')            OR define('DB_WAIT', 'wait'); // 대기자 명단
 
+// 사진 형식
+defined('TYPE_MAIN')          OR define('TYPE_MAIN', 1);
+defined('TYPE_ADDED')         OR define('TYPE_ADDED', 2);
+defined('TYPE_MAP')           OR define('TYPE_MAP', 3);
+
 // 산행 상태
 defined('STATUS_PLAN')        OR define('STATUS_PLAN', 0); // 계획
 defined('STATUS_ABLE')        OR define('STATUS_ABLE', 1); // 예정
