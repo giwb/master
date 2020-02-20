@@ -24,7 +24,7 @@ class Login extends MY_Controller
     checkUserLoginRedirect($viewData['redirect_url']); // 로그인 상태의 회원은 메인 페이지로
 
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
-    if (empty($viewData['clubIdx'])) {
+    if (empty($viewData['clubIdx']) && !empty($viewData['redirect_url'])) {
       redirect(BASE_URL . '/login/?r=' . $viewData['redirect_url']);
       exit;
     }
