@@ -2,7 +2,7 @@
 
         <div id="content" class="mb-5">
           <div class="w-100 border mt-3 mb-3 p-3">
-            <form id="formList" method="get" action="<?=$pageUrl?>" class="m-0">
+            <form id="formList" method="post" action="<?=$pageUrl?>" class="m-0">
               <input type="hidden" name="p" value="1">
               <div class="row align-items-center w-100 text-center">
                 <div class="col-3 col-sm-1 p-0">형태</div>
