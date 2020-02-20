@@ -2186,7 +2186,7 @@ exit;
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
 
-    $paging['perPage'] = $viewData['perPage'] = 10;
+    $paging['perPage'] = $viewData['perPage'] = 30;
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
 
     if (!empty($action)) {
