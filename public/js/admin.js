@@ -272,7 +272,7 @@
       processData: false,
       contentType: false,
       dataType: 'json',
-      type: $dom.attr('method'),
+      type: 'post',
       beforeSend: function() {
         $btn.css('opacity', '0.5').prop('disabled', true).text('불러오는 중.....');
       },

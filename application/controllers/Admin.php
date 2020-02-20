@@ -2179,14 +2179,14 @@ exit;
     // 클럽ID
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
 
-    $action = html_escape($this->input->get('action'));
-    $viewData['subject'] = html_escape($this->input->get('subject'));
-    $viewData['nickname'] = html_escape($this->input->get('nickname'));
-    $viewData['status'] = !empty($this->input->get('status')) ? html_escape($this->input->get('status')) : 0;
+    $action = !empty($this->input->get('action')) ? html_escape($this->input->get('action')) : html_escape($this->input->post('action'));
+    $viewData['subject'] = !empty($this->input->get('subject')) ? html_escape($this->input->get('subject')) : html_escape($this->input->post('subject'));
+    $viewData['nickname'] = !empty($this->input->get('nickname')) ? html_escape($this->input->get('nickname')) : html_escape($this->input->post('nickname'));
+    $viewData['status'] = !empty($this->input->get('status')) ? html_escape($this->input->get('status')) : !empty($this->input->post('status')) ? html_escape($this->input->post('status')) : 0;
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
 
-    $paging['perPage'] = $viewData['perPage'] = 30;
+    $paging['perPage'] = $viewData['perPage'] = 10;
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
 
     if (!empty($action)) {
@@ -2298,10 +2298,10 @@ exit;
     // 클럽ID
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
 
-    $action = html_escape($this->input->get('action'));
-    $viewData['subject'] = html_escape($this->input->get('subject'));
-    $viewData['nickname'] = html_escape($this->input->get('nickname'));
-    $viewData['status'] = !empty($this->input->get('status')) ? html_escape($this->input->get('status')) : 0;
+    $action = !empty($this->input->get('action')) ? html_escape($this->input->get('action')) : html_escape($this->input->post('action'));
+    $viewData['subject'] = !empty($this->input->get('subject')) ? html_escape($this->input->get('subject')) : html_escape($this->input->post('subject'));
+    $viewData['nickname'] = !empty($this->input->get('nickname')) ? html_escape($this->input->get('nickname')) : html_escape($this->input->post('nickname'));
+    $viewData['status'] = !empty($this->input->get('status')) ? html_escape($this->input->get('status')) : !empty($this->input->post('status')) ? html_escape($this->input->post('status')) : 0;
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
 
@@ -2362,10 +2362,10 @@ exit;
     // 클럽ID
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
 
-    $action = html_escape($this->input->get('action'));
-    $viewData['subject'] = html_escape($this->input->get('subject'));
-    $viewData['nickname'] = html_escape($this->input->get('nickname'));
-    $viewData['status'] = !empty($this->input->get('status')) ? html_escape($this->input->get('status')) : 0;
+    $action = !empty($this->input->get('action')) ? html_escape($this->input->get('action')) : html_escape($this->input->post('action'));
+    $viewData['subject'] = !empty($this->input->get('subject')) ? html_escape($this->input->get('subject')) : html_escape($this->input->post('subject'));
+    $viewData['nickname'] = !empty($this->input->get('nickname')) ? html_escape($this->input->get('nickname')) : html_escape($this->input->post('nickname'));
+    $viewData['status'] = !empty($this->input->get('status')) ? html_escape($this->input->get('status')) : !empty($this->input->post('status')) ? html_escape($this->input->post('status')) : 0;
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
 
