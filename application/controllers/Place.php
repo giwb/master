@@ -38,6 +38,9 @@ class Place extends MY_Controller
       default: $viewData['pageTitle'] = '전체보기';
     }
 
+    // 공통 메뉴
+    $viewData['commonMenu'] = $this->load->view('place/menu', $viewData, true);
+
     $this->_viewPage('place/index', $viewData);
   }
 
@@ -59,6 +62,9 @@ class Place extends MY_Controller
         $viewData['view']['photo_' . $value['type']][$key] = '';
       }
     }
+
+    // 공통 메뉴
+    $viewData['commonMenu'] = $this->load->view('place/menu', $viewData, true);
 
     $this->_viewPage('place/view', $viewData);
   }
@@ -122,6 +128,9 @@ class Place extends MY_Controller
     } else {
       $viewData['area_gugun'] = array();
     }
+
+    // 공통 메뉴
+    $viewData['commonMenu'] = $this->load->view('place/menu', $viewData, true);
 
     $this->_viewPage('place/entry', $viewData);
   }

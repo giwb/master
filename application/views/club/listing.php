@@ -2,7 +2,7 @@
 
     <section class="container">
       <div class="row">
-        <div class="col-sm-3 pb-5 nav-place">
+        <div class="col-sm-3 pl-0 nav-place d-none d-sm-block">
           <!--
           <img src="/public/images/map_20190902.gif" usemap="#Map">
           <map name="Map" id="Map">
@@ -44,16 +44,17 @@
           <a href="/club/?s=area_sido&k=26000" class="d-block<?=$keyword == 26000 ? ' active' : ''?>">경상남도</a>
           <a href="/club/?s=area_sido&k=27000" class="d-block<?=$keyword == 27000 ? ' active' : ''?>">제주도</a>
         </div>
-        <div class="col-sm-9 p-3">
-          <div class="row align-items-center border-bottom mt-1 mb-3 pb-3">
-            <div class="col-7">
+        <div class="col-12 col-sm-9">
+          <div class="mt-3 d-none d-sm-block"></div>
+          <div class="row align-items-center border-bottom mb-3 pb-3">
+            <div class="col-sm-7">
               <h2><?=$searchTitle['name']?></h2>
             </div>
-            <div class="col-5 text-right pr-4">
+            <div class="col-sm-5 text-right pr-4">
               <form method="get" action="/club" class="row align-items-center m-0">
                 <div class="col-8 p-1"><input type="hidden" name="s" value="title"><input type="text" size="10" name="k" value="<?=$search == 'title' ? $keyword : ''?>" class="form-control form-control-sm"></div>
-                <div class="col-2 p-1"><button type="submit" class="btn btn-sm btn-primary w-100">검색</button></div>
-                <div class="col-2 p-1"><a href="/club/entry"><button type="button" class="btn btn-sm btn-primary w-100">등록</button></a></div>
+                <div class="col-2 p-1"><button type="submit" class="btn btn-sm btn-primary w-100"><span class="small">검색</span></button></div>
+                <div class="col-2 p-1"><a href="/club/entry"><button type="button" class="btn btn-sm btn-primary w-100"><span class="small">등록</span></button></a></div>
               </form>
             </div>
           </div>

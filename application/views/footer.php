@@ -1,5 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
+  </main>
+
   <nav class="d-block d-sm-none">
     <ul id="nav-footer">
       <li><a href="/"><i class="fas fa-home" aria-hidden="true"></i><br>HOME</a></li>

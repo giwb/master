@@ -2,37 +2,27 @@
 
     <section class="container">
       <div class="row">
-        <div class="col-sm-3 nav-place">
-          <a href="/place/?search=type&keyword=type1" class="d-block">전체보기</a>
-          <a href="/place/?search=type&keyword=type2" class="d-block">산림청 선정 100대 명산</a>
-          <a href="/place/?search=type&keyword=type3" class="d-block">블랙야크 명산100</a>
-          <a href="/place/?search=type&keyword=type4" class="d-block">죽기전에 꼭 가봐야 할 국내여행 1001</a>
-          <a href="/place/?search=type&keyword=type5" class="d-block">백두대간</a>
-          <a href="/place/?search=type&keyword=type6" class="d-block">도보트레킹</a>
-          <a href="/place/?search=type&keyword=type7" class="d-block">투어</a>
-          <a href="/place/?search=type&keyword=type8" class="d-block">섬</a>
+        <div class="col-sm-3 pl-0 nav-place d-none d-sm-block">
+          <?=$commonMenu?>
         </div>
-        <div class="col-sm-9">
-          <div class="row align-items-center border-bottom mt-3 mb-3 pb-3">
-            <div class="col-6"><h2 class="m-0"><?=$view['title']?></h2></div>
-            <div class="col-6 text-right">
-              <div class="pr-3">
-                <a href="/place"><button type="button" class="btn btn-sm btn-secondary btn-back">목록으로</button></a>
-              </div>
-            </div>
+        <div class="col-12 col-sm-9">
+          <div class="mt-3 d-none d-sm-block"></div>
+          <div class="row align-items-center border-bottom mb-3 pb-3">
+            <div class="col-8"><h2 class="m-0">여행정보 <?=empty($view['idx']) ? '등록' : '수정'?></h2></div>
+            <div class="col-4 text-right"><a href="/place"><button type="button" class="btn btn-sm btn-secondary btn-back">목록으로</button></a></div>
           </div>
-          <form id="myForm" method="post" action="/place/<?=empty($view['idx']) ? 'insert' : 'update'?>" class="pr-3">
+          <form id="myForm" method="post" action="/place/<?=empty($view['idx']) ? 'insert' : 'update'?>">
             <div class="row align-items-center border-bottom mb-3 pb-3">
-              <div class="col-4 col-sm-2 font-weight-bold">여행지 제목 <span class="text-require">(*)</span></div>
-              <div class="col-8 col-sm-10"><input type="text" name="title" value="<?=$view['title']?>" class="form-control"></div>
+              <div class="col-sm-2 font-weight-bold">여행지 제목 <span class="text-require">(*)</span></div>
+              <div class="col-sm-10"><input type="text" name="title" value="<?=$view['title']?>" class="form-control"></div>
             </div>
             <div class="row align-items-center border-bottom mb-3 pb-3">
-              <div class="col-4 col-sm-2 font-weight-bold">지역 <span class="text-require">(*)</span></div>
-              <div class="col-8 col-sm-10">
+              <div class="col-sm-2 font-weight-bold">지역 <span class="text-require">(*)</span></div>
+              <div class="col-sm-10">
                 <button type="button" class="btn btn-sm btn-primary btn-add-area mb-2">추가</button><br>
                 <?php if (empty($view['sido'])): ?>
                 <div class="row">
-                  <div class="col">
+                  <div class="col p-0 pr-3">
                     <select name="area_sido[]" class="form-control area-sido">
                       <option value=''>시/도</option>
                       <?php foreach ($area_sido as $value): ?>
@@ -40,7 +30,7 @@
                       <?php endforeach; ?>
                     </select>
                   </div>
-                  <div class="col">
+                  <div class="col p-0">
                     <select name="area_gugun[]" class="form-control area-gugun">
                       <option value=''>시/군/구</option>
                       <?php foreach ($area_gugun as $value): ?>
@@ -51,7 +41,7 @@
                 </div>
                 <?php else: foreach ($view['sido'] as $key => $val): ?>
                 <div class="row">
-                  <div class="col">
+                  <div class="col p-0 pr-3">
                     <select name="area_sido[]" class="form-control area-sido">
                       <option value=''>시/도</option>
                       <?php foreach ($list_sido as $value): ?>
@@ -59,7 +49,7 @@
                       <?php endforeach; ?>
                     </select>
                   </div>
-                  <div class="col">
+                  <div class="col p-0">
                     <select name="area_gugun[]" class="form-control area-gugun">
                       <option value=''>시/군/구</option>
                       <?php foreach ($list_gugun[$key] as $value): ?>
@@ -74,16 +64,16 @@
               </div>
             </div>
             <div class="row align-items-center border-bottom mb-3 pb-3">
-              <div class="col-4 col-sm-2 font-weight-bold">여행 포인트</div>
-              <div class="col-8 col-sm-10">
+              <div class="col-sm-2 font-weight-bold">여행 포인트</div>
+              <div class="col-sm-10">
                 <label class="m-0 mr-3"><input<?=in_array('point1', $view['point']) ? " checked" : ""?> type="checkbox" name="point[]" value="point1"> 문화재</label>
                 <label class="m-0 mr-3"><input<?=in_array('point2', $view['point']) ? " checked" : ""?> type="checkbox" name="point[]" value="point2"> 천연기념물</label>
                 <label class="m-0"><input<?=in_array('point3', $view['point']) ? " checked" : ""?> type="checkbox" name="point[]" value="point3"> 보물</label>
               </div>
             </div>
             <div class="row align-items-center border-bottom mb-3 pb-3">
-              <div class="col-4 col-sm-2 font-weight-bold">여행 분류</div>
-              <div class="col-8 col-sm-10">
+              <div class="col-sm-2 font-weight-bold">여행 분류</div>
+              <div class="col-sm-10">
                 <label class="m-0 mr-3"><input<?=in_array('type1', $view['type']) ? " checked" : ""?> type="checkbox" name="type[]" value="type1" class="type1"> 산림청 선정 100대 명산</label>
                 <label class="m-0 mr-3"><input<?=in_array('type2', $view['type']) ? " checked" : ""?> type="checkbox" name="type[]" value="type2"> 블랙야크 명산100</label>
                 <label class="m-0 mr-3"><input<?=in_array('type3', $view['type']) ? " checked" : ""?> type="checkbox" name="type[]" value="type3"> 죽기전에 꼭 가봐야 할 국내여행 1001</label>
@@ -94,28 +84,31 @@
               </div>
             </div>
             <div class="row align-items-center border-bottom mb-3 pb-3">
-              <div class="col-4 col-sm-2 font-weight-bold">선정 사유</div>
-              <div class="col-8 col-sm-10"><textarea name="reason" id="reason"><?=$view['reason']?></textarea></div>
+              <div class="col-sm-2 font-weight-bold">선정 사유</div>
+              <div class="col-sm-10"><textarea name="reason" id="reason"><?=$view['reason']?></textarea></div>
             </div>
             <div class="row align-items-center border-bottom mb-3 pb-3">
-              <div class="col-4 col-sm-2 font-weight-bold">해발</div>
-              <div class="col-8 col-sm-10"><input type="number" name="altitude" value="<?=$view['altitude']?>" class="width-half"> ※ 숫자로만 입력해주세요.</div>
+              <div class="col-sm-2 font-weight-bold">해발</div>
+              <div class="col-sm-10 row align-items-center">
+                <div class="col-sm-6"><input type="number" name="altitude" value="<?=$view['altitude']?>" class="form-control"></div>
+                <div class="col-sm-6">※ 숫자로만 입력해주세요.</div>
+              </div>
             </div>
             <div class="row align-items-center border-bottom mb-3 pb-3">
-              <div class="col-4 col-sm-2 font-weight-bold">여행지 소개</div>
-              <div class="col-8 col-sm-10"><textarea name="content" id="content"><?=$view['content']?></textarea></div>
+              <div class="col-sm-2 font-weight-bold">여행지 소개</div>
+              <div class="col-sm-10"><textarea name="content" id="content"><?=$view['content']?></textarea></div>
             </div>
             <div class="row align-items-center border-bottom mb-3 pb-3">
-              <div class="col-4 col-sm-2 font-weight-bold">주변 관광지</div>
-              <div class="col-8 col-sm-10"><textarea name="around" id="around"><?=$view['around']?></textarea></div>
+              <div class="col-sm-2 font-weight-bold">주변 관광지</div>
+              <div class="col-sm-10"><textarea name="around" id="around"><?=$view['around']?></textarea></div>
             </div>
             <div class="row align-items-center border-bottom mb-3 pb-3">
-              <div class="col-4 col-sm-2 font-weight-bold">산행 코스</div>
-              <div class="col-8 col-sm-10"><textarea name="course" id="course"><?=$view['course']?></textarea></div>
+              <div class="col-sm-2 font-weight-bold">산행 코스</div>
+              <div class="col-sm-10"><textarea name="course" id="course"><?=$view['course']?></textarea></div>
             </div>
             <div class="row align-items-center border-bottom mb-3 pb-3">
-              <div class="col-4 col-sm-2 font-weight-bold">대표 사진 <span class="require">(*)</span></div>
-              <div class="col-8 col-sm-10">
+              <div class="col-sm-2 font-weight-bold">대표 사진 <span class="require">(*)</span></div>
+              <div class="col-sm-10">
                 <input type="hidden" name="file_<?=TYPE_MAIN?>">
                 <input type="file" name="file" class="file" data-type="<?=TYPE_MAIN?>">
                 <div class="added-files type<?=TYPE_MAIN?>">
@@ -134,8 +127,8 @@
               </div>
             </div>
             <div class="row align-items-center border-bottom mb-3 pb-3">
-              <div class="col-4 col-sm-2 font-weight-bold">추가 사진 <span class="require">(*)</span></div>
-              <div class="col-8 col-sm-10">
+              <div class="col-sm-2 font-weight-bold">추가 사진 <span class="require">(*)</span></div>
+              <div class="col-sm-10">
                 <input type="hidden" name="file_<?=TYPE_ADDED?>">
                 <input type="file" name="file" class="file" data-type="<?=TYPE_ADDED?>">
                 <div class="added-files type<?=TYPE_ADDED?>">
@@ -154,8 +147,8 @@
               </div>
             </div>
             <div class="row align-items-center border-bottom mb-3 pb-3">
-              <div class="col-4 col-sm-2 font-weight-bold">지도</div>
-              <div class="col-8 col-sm-10">
+              <div class="col-sm-2 font-weight-bold">지도</div>
+              <div class="col-sm-10">
                 <input type="hidden" name="file_<?=TYPE_MAP?>">
                 <input type="file" name="file" class="file" data-type="<?=TYPE_MAP?>">
                 <div class="added-files type<?=TYPE_MAP?>">

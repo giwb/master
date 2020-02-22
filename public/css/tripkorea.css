@@ -21,6 +21,8 @@ main .container .nav-place { width: 100%; font-size: 13px; border-right: 10px so
 main .container .nav-place a { padding: 0.5rem 1rem; }
 main .container .nav-place a.active { color: #505050; background-color: #C0DEFF; }
 
+.row { margin: 0px; padding: 0px; }
+.hot-post { padding-right: 0px; }
 .post { position: relative; }
 .post-img { display: block; overflow: hidden; transition: 0.2s color; }
 .post-img>img { width: 100%; -webkit-transition: 1.6s -webkit-transform; transition: 1.6s -webkit-transform; transition: 1.6s transform; transition: 1.6s transform, 1.6s -webkit-transform; }
@@ -32,13 +34,15 @@ main .container .nav-place a.active { color: #505050; background-color: #C0DEFF;
 .schedule-meta { font-size: 11px; }
 
 @media only screen and (max-width: 767px) {
-  h1 { font-size: 24px; }
+  h1 { font-size: 1.5em; }
+  h2 { font-size: 1.5em; }
+  h3 { font-size: 1.2em; }
 
-  main .container { padding: 4rem 0 0 0; }
-  .hot-post { margin-bottom: 24px; }
+  main .container { padding: 4.8rem 0; }
+  .hot-post { margin-bottom: 15px; padding-right: 15px; }
 
   #nav-footer { position: fixed; bottom: 0px; width: 100%; border-top: 2px solid #666; background-color: #fff; padding: 10px 0 7px 0; display: table; z-index: 1000; }
-  #nav-footer li { width: 25%; font-size: 12px; display: table-cell; vertical-align: middle; text-align: center; }
+  #nav-footer li { width: 25%; font-size: 0.9em; display: table-cell; vertical-align: middle; text-align: center; }
   #nav-footer li i { font-size: 20px; color: #666; }
   #nav-footer li a { color: #505050; }
 }
