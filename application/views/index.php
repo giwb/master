@@ -2,7 +2,7 @@
 
     <section class="container">
       <div class="row p-3">
-        <div class="col-sm-8 hot-post-left">
+        <div class="col-sm-8 hot-post">
           <!-- post -->
           <div class="post post-thumb">
             <a class="post-img" href="#"><img src="/public/images/news1.jpg" class="w-100"></a>
@@ -48,10 +48,10 @@
             </div>
           </div>
           <div class="row align-items-center pt-0 pr-4 pb-0 pl-4">
-            <div class="col-2 p-2">
+            <div class="col-3 col-sm-2 p-2">
               <a href="#"><img src="/public/images/post-1.jpg" class="w-100"></a>
             </div>
-            <div class="col-10 p-2">
+            <div class="col-9 col-sm-10 p-2">
               <a href="#"><small>경인웰빙</small></a>
               <a href="#"><h4 class="font-weight-bold m-0">지리산 둘레길 3코스</h4></a>
               <ul class="schedule-meta">
@@ -60,10 +60,10 @@
             </div>
           </div>
           <div class="row align-items-center pt-0 pr-4 pb-0 pl-4">
-            <div class="col-2 p-2">
+            <div class="col-3 col-sm-2 p-2">
               <a href="#"><img src="/public/images/post-2.jpg" class="w-100"></a>
             </div>
-            <div class="col-10 p-2">
+            <div class="col-9 col-sm-10 p-2">
               <a href="#"><small>경인웰빙</small></a>
               <a href="#"><h4 class="font-weight-bold m-0">태백산 칠선계곡 비선담 트레킹</h4></a>
               <ul class="schedule-meta">
@@ -72,10 +72,10 @@
             </div>
           </div>
           <div class="row align-items-center pt-0 pr-4 pb-0 pl-4">
-            <div class="col-2 p-2">
+            <div class="col-3 col-sm-2 p-2">
               <a href="#"><img src="/public/images/post-3.jpg" class="w-100"></a>
             </div>
-            <div class="col-10 p-2">
+            <div class="col-9 col-sm-10 p-2">
               <a href="#"><small>경인웰빙</small></a>
               <a href="#"><h4 class="font-weight-bold m-0">점봉산 곰배령 야생화</h4></a>
               <ul class="schedule-meta">
@@ -84,10 +84,10 @@
             </div>
           </div>
           <div class="row align-items-center pt-0 pr-4 pb-0 pl-4">
-            <div class="col-2 p-2">
+            <div class="col-3 col-sm-2 p-2">
               <a href="#"><img src="/public/images/post-1.jpg" class="w-100"></a>
             </div>
-            <div class="col-10 p-2">
+            <div class="col-9 col-sm-10 p-2">
               <a href="#"><small>경인웰빙</small></a>
               <a href="#"><h4 class="font-weight-bold m-0">지리산 둘레길 3코스</h4></a>
               <ul class="schedule-meta">
@@ -96,10 +96,10 @@
             </div>
           </div>
           <div class="row align-items-center pt-0 pr-4 pb-0 pl-4">
-            <div class="col-2 p-2">
+            <div class="col-3 col-sm-2 p-2">
               <a href="#"><img src="/public/images/post-2.jpg" class="w-100"></a>
             </div>
-            <div class="col-10 p-2">
+            <div class="col-9 col-sm-10 p-2">
               <a href="#"><small>경인웰빙</small></a>
               <a href="#"><h4 class="font-weight-bold m-0">태백산 칠선계곡 비선담 트레킹</h4></a>
               <ul class="schedule-meta">
@@ -108,10 +108,10 @@
             </div>
           </div>
           <div class="row align-items-center pt-0 pr-4 pb-0 pl-4">
-            <div class="col-2 p-2">
+            <div class="col-3 col-sm-2 p-2">
               <a href="#"><img src="/public/images/post-3.jpg" class="w-100"></a>
             </div>
-            <div class="col-10 p-2">
+            <div class="col-9 col-sm-10 p-2">
               <a href="#"><small>경인웰빙</small></a>
               <a href="#"><h4 class="font-weight-bold m-0">점봉산 곰배령 야생화</h4></a>
               <ul class="schedule-meta">
@@ -120,10 +120,10 @@
             </div>
           </div>
           <div class="row align-items-center pt-0 pr-4 pb-0 pl-4">
-            <div class="col-2 p-2">
+            <div class="col-3 col-sm-2 p-2">
               <a href="#"><img src="/public/images/post-1.jpg" class="w-100"></a>
             </div>
-            <div class="col-10 p-2">
+            <div class="col-9 col-sm-10 p-2">
               <a href="#"><small>경인웰빙</small></a>
               <a href="#"><h4 class="font-weight-bold m-0">지리산 둘레길 3코스</h4></a>
               <ul class="schedule-meta">
@@ -132,10 +132,10 @@
             </div>
           </div>
           <div class="row align-items-center pt-0 pr-4 pb-0 pl-4">
-            <div class="col-2 p-2">
+            <div class="col-3 col-sm-2 p-2">
               <a href="#"><img src="/public/images/post-2.jpg" class="w-100"></a>
             </div>
-            <div class="col-10 p-2">
+            <div class="col-9 col-sm-10 p-2">
               <a href="#"><small>경인웰빙</small></a>
               <a href="#"><h4 class="font-weight-bold m-0">태백산 칠선계곡 비선담 트레킹</h4></a>
               <ul class="schedule-meta">
@@ -144,10 +144,10 @@
             </div>
           </div>
           <div class="row align-items-center pt-0 pr-4 pb-0 pl-4">
-            <div class="col-2 p-2">
+            <div class="col-3 col-sm-2 p-2">
               <a href="#"><img src="/public/images/post-3.jpg" class="w-100"></a>
             </div>
-            <div class="col-10 p-2">
+            <div class="col-9 col-sm-10 p-2">
               <a href="#"><small>경인웰빙</small></a>
               <a href="#"><h4 class="font-weight-bold m-0">점봉산 곰배령 야생화</h4></a>
               <ul class="schedule-meta">

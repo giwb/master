@@ -1,5 +1,18 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
+  <nav class="d-block d-sm-none">
+    <ul id="nav-footer">
+      <li><a href="/"><i class="fas fa-home" aria-hidden="true"></i><br>HOME</a></li>
+      <li><a href="/place"><i class="fa fa-bus" aria-hidden="true"></i><br>여행정보</a></li>
+      <li><a href="/club"><i class="fas fa-mountain" aria-hidden="true"></i><br>산악회</a></li>
+      <?php if (!empty($userData['idx'])): ?>
+      <li><a href="/member"><i class="fa fa-user-circle" aria-hidden="true"></i><br>내정보</a></li>
+      <?php else: ?>
+      <li><a href="javascript:;" class="login-popup"><i class="fa fa-user-circle" aria-hidden="true"></i><br>로그인</a></li>
+      <?php endif; ?>
+    </ul>
+  </nav>
+
   <input type="hidden" name="baseUrl" value="<?=BASE_URL?>">
   <input type="hidden" name="userIdx" value="<?=!empty($userData['idx']) ? $userData['idx'] : ''?>">
   <input type="hidden" name="redirectUrl" value="<?=$redirectUrl?>">

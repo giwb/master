@@ -37,16 +37,16 @@
               </div>
               <div class="modal-body">
                 <div class="row align-items-center mb-2">
-                  <div class="col-sm-2">시작일</div>
-                  <div class="col-sm-10"><input type="text" name="sdate" class="form-control form-control-sm"></div>
+                  <div class="col-sm-3">시작일</div>
+                  <div class="col-sm-9"><input type="text" name="sdate" class="form-control form-control-sm"></div>
                 </div>
                 <div class="row align-items-center mb-2">
-                  <div class="col-sm-2">종료일</div>
-                  <div class="col-sm-10"><input type="text" name="edate" class="form-control form-control-sm"></div>
+                  <div class="col-sm-3">종료일</div>
+                  <div class="col-sm-9"><input type="text" name="edate" class="form-control form-control-sm"></div>
                 </div>
                 <div class="row align-items-center">
-                  <div class="col-sm-2">산행명</div>
-                  <div class="col-sm-10"><input type="text" name="subject" class="form-control form-control-sm"></div>
+                  <div class="col-sm-3">산행명</div>
+                  <div class="col-sm-9"><input type="text" name="subject" class="form-control form-control-sm"></div>
                 </div>
                 <div class="text-center error-message"></div>
               </div>
@@ -196,7 +196,7 @@
             $('#scheduleModal').modal('show');
 
             $.ajax({
-              url: $('input[name=base_url]').val() + 'admin/main_schedule_past',
+              url: '/admin/main_schedule_past',
               data: 'sdate=' + sdate + '&edate=' + edate,
               dataType: 'json',
               type: 'post',
@@ -214,7 +214,7 @@
             $('#scheduleModal').modal('show');
 
             $.ajax({
-              url: $('input[name=base_url]').val() + 'admin/main_schedule_past',
+              url: '/admin/main_schedule_past',
               data: 'idx=' + idx,
               dataType: 'json',
               type: 'post',

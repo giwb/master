@@ -235,7 +235,6 @@ class Place extends MY_Controller
       'title'       => html_escape($input_data['title']),
       'area_sido'   => make_serialize($input_data['area_sido']),
       'area_gugun'  => make_serialize($input_data['area_gugun']),
-      'point'       => make_serialize($input_data['point']),
       'type'        => make_serialize($input_data['type']),
       'altitude'    => html_escape($input_data['altitude']),
       'reason'      => html_escape($input_data['reason']),
@@ -245,6 +244,11 @@ class Place extends MY_Controller
       'updated_by'  => 1,
       'updated_at'  => $now
     );
+
+    if (!empty($input_data['point'])) {
+      $update_values['point'] = make_serialize($input_data['point']);
+    }
+
     $this->place_model->updatePlace($update_values, $idx);
 
     // 파일 등록
@@ -282,12 +286,7 @@ class Place extends MY_Controller
       }
     }
 
-    $result = array(
-      'error' => 0,
-      'message' => '수정이 완료되었습니다.'
-    );
-
-    $this->output->set_output(json_encode($result));
+    redirect('/place');
   }
 
   /**
