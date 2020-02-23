@@ -57,7 +57,7 @@
 <body>
 
   <header>
-    <div class="container">
+    <div class="container p-0">
       <div class="row align-items-center">
         <div class="col-sm-9"><a href="<?=BASE_URL?>"><h1 class="text-white">한국여행 <small>TripKorea.net</small></h1></a></div>
         <div class="col-sm-3 text-right d-none d-sm-block">

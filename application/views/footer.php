@@ -17,7 +17,7 @@
 
   <input type="hidden" name="baseUrl" value="<?=BASE_URL?>">
   <input type="hidden" name="userIdx" value="<?=!empty($userData['idx']) ? $userData['idx'] : ''?>">
-  <input type="hidden" name="redirectUrl" value="<?=$redirectUrl?>">
+  <!--<input type="hidden" name="redirectUrl" value="<?=$redirectUrl?>">-->
 
   <!-- Message Modal -->
   <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
@@ -33,9 +33,9 @@
           <p class="modal-message"></p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default btn-list">목록으로</button>
-          <button type="button" class="btn btn-default btn-refresh">새로고침</button>
-          <button type="button" class="btn btn-default btn-delete">삭제합니다</button>
+          <button type="button" class="btn btn-primary btn-list">목록으로</button>
+          <button type="button" class="btn btn-primary btn-refresh">새로고침</button>
+          <button type="button" class="btn btn-primary btn-delete">삭제합니다</button>
           <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
         </div>
       </div>
@@ -69,11 +69,11 @@
         </div>
         <div class="modal-footer">
           <div class="modal-footer-left">
-            <a href="/login/entry"><button type="button" class="btn btn-default">회원가입</button></a>
+            <a href="/login/entry"><button type="button" class="btn btn-primary">회원가입</button></a>
             <a href="/login/forgot"><button type="button" class="btn btn-secondary">아이디/비밀번호 찾기</button></a>
           </div>
           <div class="modal-footer-right">
-            <button type="button" class="btn btn-default btn-login">로그인</button>
+            <button type="button" class="btn btn-primary btn-login">로그인</button>
           </div>
         </div>
       </div>

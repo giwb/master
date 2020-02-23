@@ -33,6 +33,18 @@ main .container .nav-place a.active { color: #505050; background-color: #C0DEFF;
 .post-body .post-title a { font-size: 26px; font-weight: bold; color: #fff; padding: 0.4rem 0 0 0; display: block; }
 .schedule-meta { font-size: 11px; }
 
+/* Login Modal */
+#loginModal .modal-body { padding-top: 20px; }
+#loginModal dl { width: 80%; margin: 0px; padding: 0px; display: table; }
+#loginModal dl dt { width: 50%; margin: 0px; padding: 5px 10px 5px 0; display: table-cell; vertical-align: middle; text-align: right; }
+#loginModal dl dd { width: 50%; margin: 0px; padding: 5px 0; display: table-cell; vertical-align: middle; }
+#loginModal dl dd input { font-size: 14px; width: 90%; border: 1px solid #999; padding: 2px 5px; }
+#loginModal .modal-footer { justify-content: space-between; }
+#loginModal .modal-footer .modal-footer-left { float: left; }
+#loginModal .modal-footer .modal-footer-right { float: right; }
+#loginModal .modal-footer div button { font-size: 14px!important; }
+.error-message { font-size: 12px; color: #E0552a; padding: 10px 0; display: none; }
+
 @media only screen and (max-width: 767px) {
   h1 { font-size: 1.5em; }
   h2 { font-size: 1.5em; }
