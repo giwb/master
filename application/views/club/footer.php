@@ -78,11 +78,11 @@
         </div>
         <div class="modal-footer">
           <div class="modal-footer-left">
-            <a href="<?=BASE_URL?>/login/entry"><button type="button" class="btn btn-default">회원가입</button></a>
+            <a href="<?=BASE_URL?>/login/entry"><button type="button" class="btn btn-<?=$view['main_color']?>">회원가입</button></a>
             <a href="<?=BASE_URL?>/login/forgot"><button type="button" class="btn btn-secondary">아이디/비밀번호 찾기</button></a>
           </div>
           <div class="modal-footer-right">
-            <button type="button" class="btn btn-default btn-login">로그인</button>
+            <button type="button" class="btn btn-<?=$view['main_color']?> btn-login">로그인</button>
           </div>
         </div>
       </div>
@@ -106,10 +106,10 @@
         <div class="modal-footer">
           <input type="hidden" name="action" value="">
           <input type="hidden" name="deleteIdx" value="">
-          <a href="<?=BASE_URL?>"><button type="button" class="btn btn-default btn-top">메인 화면으로</button></a>
-          <button type="button" class="btn btn-default btn-list">목록으로</button>
-          <button type="button" class="btn btn-default btn-refresh">새로고침</button>
-          <button type="button" class="btn btn-default btn-delete">삭제합니다</button>
+          <a href="<?=BASE_URL?>"><button type="button" class="btn btn-<?=$view['main_color']?> btn-top">메인 화면으로</button></a>
+          <button type="button" class="btn btn-<?=$view['main_color']?> btn-list">목록으로</button>
+          <button type="button" class="btn btn-<?=$view['main_color']?> btn-refresh">새로고침</button>
+          <button type="button" class="btn btn-<?=$view['main_color']?> btn-delete">삭제합니다</button>
           <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
         </div>
       </div>
@@ -131,7 +131,7 @@
         </div>
         <div class="modal-footer">
           <input type="hidden" name="photo_name" value="">
-          <button type="button" class="btn btn-default btn-photo-delete">삭제합니다</button>
+          <button type="button" class="btn btn-<?=$view['main_color']?> btn-photo-delete">삭제합니다</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
         </div>
       </div>
@@ -173,7 +173,7 @@
         <div class="modal-footer">
           <input type="hidden" name="resIdx">
           <input type="hidden" name="resType">
-          <button type="button" class="btn btn-default btn-reserve-cancel-confirm">승인</button>
+          <button type="button" class="btn btn-<?=$view['main_color']?> btn-reserve-cancel-confirm">승인</button>
           <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
         </div>
       </div>
@@ -205,7 +205,7 @@
             <button type="button" class="btn btn-photo"><i class="fa fa-camera" aria-hidden="true"></i> <span class="text">사진추가</span></button>
           </div>
           <div class="col-7 text-right">
-            <button type="button" class="btn btn-default btn-post">전송</button>
+            <button type="button" class="btn btn-<?=$view['main_color']?> btn-post">전송</button>
             <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
           </div>
         </div>

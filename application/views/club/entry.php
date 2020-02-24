@@ -99,6 +99,19 @@
               </div>
             </div>
             <div class="row align-items-center border-bottom mb-3 pb-3">
+              <div class="col-sm-3 font-weight-bold">기본 색상 <span class="text-require">(*)</span></div>
+              <div class="col-sm-9">
+                <div class="row">
+                  <div class="col-2 pl-0 pr-5"><label class="border p-3 bg-primary"><input type="radio" name="main_color" value="primary" checked></label></div>
+                  <div class="col-2 pl-0 pr-5"><label class="border p-3 bg-danger"><input type="radio" name="main_color" value="danger"></label></div>
+                  <div class="col-2 pl-0 pr-5"><label class="border p-3 bg-warning"><input type="radio" name="main_color" value="warning"></label></div>
+                  <div class="col-2 pl-0 pr-5"><label class="border p-3 bg-info"><input type="radio" name="main_color" value="info"></label></div>
+                  <div class="col-2 pl-0 pr-5"><label class="border p-3 bg-success"><input type="radio" name="main_color" value="success"></label></div>
+                  <div class="col-2 pl-0 pr-5"><label class="border p-3 bg-secondary"><input type="radio" name="main_color" value="default"></label></div>
+                </div>
+              </div>
+            </div>
+            <div class="row align-items-center border-bottom mb-3 pb-3">
               <div class="col-sm-3 font-weight-bold">사진</div>
               <div class="col-sm-9">
                 <input type="hidden" name="file_<?=TYPE_MAIN?>" value="">

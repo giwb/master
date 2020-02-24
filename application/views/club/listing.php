@@ -50,11 +50,11 @@
             <div class="col-sm-7">
               <h2><?=$searchTitle['name']?></h2>
             </div>
-            <div class="col-sm-5 text-right pr-4">
+            <div class="col-sm-5 text-right p-0">
               <form method="get" action="/club" class="row align-items-center m-0">
                 <div class="col-8 p-1"><input type="hidden" name="s" value="title"><input type="text" size="10" name="k" value="<?=$search == 'title' ? $keyword : ''?>" class="form-control form-control-sm"></div>
-                <div class="col-2 p-1"><button type="submit" class="btn btn-sm btn-primary w-100"><span class="small">검색</span></button></div>
-                <div class="col-2 p-1"><a href="/club/entry"><button type="button" class="btn btn-sm btn-primary w-100"><span class="small">등록</span></button></a></div>
+                <div class="col-2 p-1"><button type="submit" class="btn btn-sm btn-primary w-100">검색</button></div>
+                <div class="col-2 p-1"><a href="/club/entry"><button type="button" class="btn btn-sm btn-primary w-100">등록</button></a></div>
               </form>
             </div>
           </div>

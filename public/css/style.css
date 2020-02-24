@@ -70,13 +70,11 @@ p {
 }
 
 a {
-  color: #11151c;
   -webkit-transition: 0.2s color;
   transition: 0.2s color;
 }
 
 a:hover, a:focus {
-  color: #E0552A;
   text-decoration: none;
   outline: none;
 }
@@ -320,10 +318,7 @@ textarea.input {
 #nav-sp { display: none; }
 .nav-sp-mypage { display: none; }
 
-#nav-top {
-  background-color: #E0552A;
-  height: 73px;
-}
+#nav-top { height: 73px; }
 #nav-top ul { display: block; }
 #nav-top ul li { display: inline-block; }
 #nav-top ul li .logo-cafe { width: 50px; margin-top: -2px; }
@@ -1928,8 +1923,6 @@ h1.nav-logo small {
 
 /* Club Main */
 #club { width: 100%; margin: 0 0 30px 0; }
-#club a:link, #club a:active, #club a:visited { color: #FF6C00; }
-#club a:hover { color: #0AB031; }
 #club .container { display: flex; display: -webkit-flex; margin: 0 auto; padding: 0 10px; }
 #club .club-left { flex: 1; -webkit-flex: 1; }
 #club .club-main { flex: 3; -webkit-flex: 3; margin: 0 20px; }
@@ -1955,8 +1948,7 @@ h1.nav-logo small {
 #club .club-main .your-story .area-btn { height: 40px; margin: 10px 0; }
 #club .club-main .your-story .area-btn .btn-photo { font-size: 14px; border-radius: 10px; margin: 0 0 0 4px; padding: 3px 15px; float: left; }
 #club .club-main .your-story .area-btn .btn-photo:hover { border: 1px solid #d9d9d9; box-shadow: 1px 1px 3px #ddd; }
-#club .club-main .your-story .area-btn .btn-post { font-size: 14px; color: #fff; background-color: #FF6C00; padding: 3px 15px; float: right; }
-#club .club-main .your-story .area-btn .btn-post:hover { color: #000; background-color: #F6C23E; border: 1px solid #FF6C00; }
+#club .club-main .your-story .area-btn .btn-post { font-size: 14px; color: #fff; padding: 3px 15px; float: right; }
 
 #club .club-main .your-story .file { width: 0px; }
 #club .club-main .your-story .area-photo { width: 100%; overflow: hidden; position: relative; }
@@ -2316,6 +2308,7 @@ h1.nav-logo small {
 
 #nav-footer { display: none; }
 
+.bg-default { background-color: #E0552A; }
 .btn-default { color: #fff; background-color: #FF6C00; }
 .btn-default:hover { color: #fff; background-color: #FF842A; }
 

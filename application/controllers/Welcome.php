@@ -142,6 +142,7 @@ class Welcome extends MY_Controller
       'title'             => html_escape($input_data['title']),
       'homepage'          => html_escape($input_data['homepage']),
       'phone'             => html_escape($input_data['phone']),
+      'main_color'        => html_escape($input_data['main_color']),
       'area_sido'         => make_serialize($input_data['area_sido']),
       'area_gugun'        => make_serialize($input_data['area_gugun']),
       'about'             => html_escape($input_data['about']),
@@ -211,6 +212,7 @@ class Welcome extends MY_Controller
       'title'             => html_escape($input_data['title']),
       'homepage'          => html_escape($input_data['homepage']),
       'phone'             => html_escape($input_data['phone']),
+      'main_color'        => html_escape($input_data['main_color']),
       'area_sido'         => make_serialize($input_data['area_sido']),
       'area_gugun'        => make_serialize($input_data['area_gugun']),
       'content'           => html_escape($input_data['content']),
@@ -222,8 +224,8 @@ class Welcome extends MY_Controller
       'club_week'         => make_serialize($input_data['club_week']),
       'club_geton'        => make_serialize($input_data['club_geton']),
       'club_getoff'       => make_serialize($input_data['club_getoff']),
-      'updated_by'  => 1,
-      'updated_at'  => $now
+      'updated_by'        => 1,
+      'updated_at'        => $now
     );
     $this->club_model->updateClub($update_values, $idx);
 

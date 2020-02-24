@@ -33,7 +33,13 @@
   <link href="/public/css/fullcalendar.print.css" rel="stylesheet">
   <link href="/public/photoswipe/photoswipe.css" rel="stylesheet">
   <link href="/public/photoswipe/default-skin/default-skin.css" rel="stylesheet">
-  <!--<link href="/public/css/magnific-popup.css" rel="stylesheet">-->
+
+  <?php if ($view['main_color'] == 'default'): ?>
+  <style type="text/css">
+    #club a:link, #club a:active, #club a:visited { color: #FF6C00; }
+    #club a:hover { color: #0AB031; }
+  </style>
+  <?php endif; ?>
   <link href="/public/css/style.css?<?=time()?>" rel="stylesheet">
 
   <script src="/public/js/jquery-2.1.4.min.js" type="text/javascript"></script>
@@ -70,7 +76,7 @@
 
   <header id="header">
     <div id="nav">
-      <div id="nav-top">
+      <div id="nav-top" class="bg-<?=$view['main_color']?>">
         <div class="container">
           <div class="row align-items-center pt-3">
             <div class="col-sm-8 pl-2"><a href="<?=BASE_URL?>"><h1 class="nav-logo"><?=!empty($view['title']) ? $view['title'] : '한국여행 <small>TripKorea.net</small>'?></h1></a></div>
