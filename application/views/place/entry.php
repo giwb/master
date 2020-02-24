@@ -68,7 +68,7 @@
               <div class="col-sm-10">
                 <label class="m-0 mr-3"><input<?=in_array('point1', $view['point']) ? " checked" : ""?> type="checkbox" name="point[]" value="point1"> 문화재</label>
                 <label class="m-0 mr-3"><input<?=in_array('point2', $view['point']) ? " checked" : ""?> type="checkbox" name="point[]" value="point2"> 천연기념물</label>
-                <label class="m-0"><input<?=in_array('point3', $view['point']) ? " checked" : ""?> type="checkbox" name="point[]" value="point3"> 보물</label>
+                <label class="m-0 mr-3"><input<?=in_array('point3', $view['point']) ? " checked" : ""?> type="checkbox" name="point[]" value="point3"> 보물</label>
               </div>
             </div>
             <div class="row align-items-center border-bottom mb-3 pb-3">

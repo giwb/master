@@ -91,4 +91,5 @@ if (!empty($result['idx'])) {
   $route['logout']              = 'login/logout';
   $route['member']              = 'member/index';
   $route['club']                = 'welcome/listing';
+  $route['club/entry']          = 'welcome/entry';
 }
