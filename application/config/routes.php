@@ -92,4 +92,5 @@ if (!empty($result['idx'])) {
   $route['member']              = 'member/index';
   $route['club']                = 'welcome/listing';
   $route['club/entry']          = 'welcome/entry';
+  $route['club/insert']         = 'welcome/insert';
 }

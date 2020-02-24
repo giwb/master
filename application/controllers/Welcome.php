@@ -191,7 +191,7 @@ class Welcome extends MY_Controller
       }
     }
 
-    redirect(base_url() . 'club/listing');
+    redirect('/club');
   }
 
   /**

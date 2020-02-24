@@ -32,7 +32,7 @@
               <a href="/club"><button class="btn btn-sm btn-secondary btn-back">목록으로</button></a>
             </div>
           </div>
-          <form id="myForm" method="post" action="<?=base_url()?>club/insert" enctype="multipart/form-data">
+          <form id="myForm" method="post" action="/club/insert" enctype="multipart/form-data">
             <h3 class="font-weight-bold border-bottom mt-4 mb-3 pb-3">■ 기본정보</h3>
             <div class="row align-items-center border-bottom mb-3 pb-3">
               <div class="col-sm-3 font-weight-bold">산악회/단체명 <span class="text-require">(*)</span></div>
@@ -106,7 +106,7 @@
                 <button type="button" class="btn btn-sm btn-primary btn-upload">사진 선택</button>
                 <div class="added-files type<?=TYPE_MAIN?>">
                   <?php if ($view['photo'][0] != ''): foreach ($view['photo'] as $value): ?>
-                  <img src="<?=base_url()?><?=PHOTO_URL?><?=$value?>" class="btn-photo-modal" data-photo="<?=$value?>">
+                  <img src="<?=PHOTO_URL . $value?>" class="btn-photo-modal" data-photo="<?=$value?>">
                   <?php endforeach; endif; ?>
                 </div>
               </div>
@@ -241,16 +241,23 @@
         var parent = $dom.val();
 
         $.ajax({
-          url: $('input[name=base_url]').val() + 'place/list_gugun',
+          url: '/place/list_gugun',
           data: 'parent=' + parent,
           dataType: 'json',
           type: 'post',
           success: function(result) {
-            $dom.next().empty().append( $('<option value="">시/군/구</option>') );
+            $dom.parent().parent().find('.area-gugun').empty().append( $('<option value="">시/군/구</option>') );
             for (var i=0; i<result.length; i++) {
-              $dom.next().append( $('<option value="' + result[i].idx + '">' + result[i].name + '</option>') );
+              $dom.parent().parent().find('.area-gugun').append( $('<option value="' + result[i].idx + '">' + result[i].name + '</option>') );
             }
           }
         });
+      }).on('click', '.btn-submit', function() {
+        if ($('input[name=title]').val() == '') {
+          $.openMsgModal('산악회/단체명은 꼭 입력해주세요.');
+          return false;
+        }
+        $(this).css('opacity', '0.5').prop('disabled', true).text('등록중......');
+        $('#myForm').submit();
       });
       </script>

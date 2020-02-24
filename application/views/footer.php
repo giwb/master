@@ -30,12 +30,15 @@
           </button>
         </div>
         <div class="modal-body text-center">
-          <p class="modal-message"></p>
+          <p class="modal-message mt-3"></p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary btn-list">목록으로</button>
-          <button type="button" class="btn btn-primary btn-refresh">새로고침</button>
-          <button type="button" class="btn btn-primary btn-delete">삭제합니다</button>
+          <input type="hidden" name="action" value="">
+          <input type="hidden" name="deleteIdx" value="">
+          <a href="<?=BASE_URL?>"><button type="button" class="btn btn-default btn-top">메인 화면으로</button></a>
+          <button type="button" class="btn btn-default btn-list">목록으로</button>
+          <button type="button" class="btn btn-default btn-refresh">새로고침</button>
+          <button type="button" class="btn btn-default btn-delete">삭제합니다</button>
           <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
         </div>
       </div>
