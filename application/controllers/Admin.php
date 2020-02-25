@@ -528,6 +528,7 @@ class Admin extends Admin_Controller
     // 클럽ID
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
 
+    $search['clubIdx'] = $viewData['clubIdx'];
     $search['status'] = array(STATUS_ABLE, STATUS_CONFIRM);
     $viewData['list'] = $this->admin_model->listNotice($search);
 
@@ -817,6 +818,7 @@ class Admin extends Admin_Controller
     $viewData['search']['prev'] = 'sdate=' . date('Y-m-01', strtotime('-1 months', strtotime($viewData['search']['sdate']))) . '&edate=' . date('Y-m-t', strtotime('-1 months', strtotime($viewData['search']['sdate'])));
     $viewData['search']['next'] = 'sdate=' . date('Y-m-01', strtotime('+1 months', strtotime($viewData['search']['sdate']))) . '&edate=' . date('Y-m-t', strtotime('+1 months', strtotime($viewData['search']['sdate'])));
     $viewData['search']['status'] = array(STATUS_CLOSED);
+    $viewData['search']['clubIdx'] = $viewData['clubIdx'];
 
     $viewData['listClosed'] = $this->admin_model->listNotice($viewData['search']);
 
@@ -848,6 +850,7 @@ class Admin extends Admin_Controller
     $viewData['search']['prev'] = 'sdate=' . date('Y-m-01', strtotime('-1 months', strtotime($viewData['search']['sdate']))) . '&edate=' . date('Y-m-t', strtotime('-1 months', strtotime($viewData['search']['sdate'])));
     $viewData['search']['next'] = 'sdate=' . date('Y-m-01', strtotime('+1 months', strtotime($viewData['search']['sdate']))) . '&edate=' . date('Y-m-t', strtotime('+1 months', strtotime($viewData['search']['sdate'])));
     $viewData['search']['status'] = array(STATUS_CANCEL);
+    $viewData['search']['clubIdx'] = $viewData['clubIdx'];
 
     $viewData['listCancel'] = $this->admin_model->listNotice($viewData['search']);
 
@@ -1447,6 +1450,7 @@ exit;
     $viewData['search']['syear'] = NULL;
     $viewData['search']['smonth'] = NULL;
     $viewData['search']['status'] = array(STATUS_PLAN);
+    $viewData['search']['clubIdx'] = $viewData['clubIdx'];
 
     $sdate = html_escape($this->input->get('d'));
     if (!empty($sdate)) $viewData['sdate'] = html_escape($sdate); else $viewData['sdate'] = NULL;
@@ -1475,10 +1479,11 @@ exit;
 
     // 계획중 산행
     $search['status'] = array(STATUS_PLAN);
+    $search['clubIdx'] = $viewData['clubIdx'];
     $viewData['listPlanned'] = $this->admin_model->listNotice($search);
 
     // 페이지 타이틀
-    $viewData['pageTitle'] = '산행 예정 관리';
+    $viewData['pageTitle'] = '산행 계획 관리';
 
     // 헤더 메뉴
     $viewData['headerMenu'] = 'main_header';
@@ -1619,10 +1624,14 @@ exit;
    **/
   public function main_list_copy()
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     // 등록된 산행 목록
     $search['sdate'] = date('Y-m-01');
     $search['edate'] = date('Y-m-t', time() + (60 * 60 * 24 * 30 * 12));
     $search['status'] = array(STATUS_PLAN, STATUS_ABLE, STATUS_CONFIRM, STATUS_CANCEL, STATUS_CLOSED);
+    $search['clubIdx'] = $viewData['clubIdx'];
     $viewData['listNotice'] = $this->admin_model->listNotice($search);
 
     foreach ($viewData['listNotice'] as $key => $value) {
@@ -1682,7 +1691,7 @@ exit;
   public function member_list()
   {
     // 클럽ID
-    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+    $viewData['clubIdx'] = $viewData['search']['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
 
     $viewData['search']['keyword'] = html_escape($this->input->post('keyword'));
     $viewData['search']['levelType'] = html_escape($this->input->post('levelType'));
@@ -2153,7 +2162,7 @@ exit;
     $viewData['headerMenu'] = 'log_header';
 
     // 예약기록 불러오기
-    $viewData['listReserve'] = $this->admin_model->listReserve($paging, $viewData['keyword']);
+    $viewData['listReserve'] = $this->admin_model->listReserve($paging, $viewData);
 
     if ($page >= 2) {
       // 2페이지 이상일 경우에는 Json으로 전송
@@ -3237,7 +3246,9 @@ exit;
     $viewData['viewClub'] = $this->club_model->viewClub($viewData['clubIdx']);
 
     // 진행중 산행
-    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['clubIdx'], array(STATUS_ABLE, STATUS_CONFIRM));
+    $search['clubIdx'] = $viewData['clubIdx'];
+    $search['status'] = array(STATUS_ABLE, STATUS_CONFIRM);
+    $viewData['listNotice'] = $this->admin_model->listNotice($search);
 
     // 클럽 대표이미지
     $files = $this->file_model->getFile('club', $viewData['clubIdx']);

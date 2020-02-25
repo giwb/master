@@ -38,7 +38,11 @@
             <div class="col-2 col-sm-1"><a href="<?=BASE_URL?>/admin/main_list_canceled?<?=$search['next']?>">▶</a></div>
             <div class="col-sm-2 d-none d-sm-block"></div>
           </div>
-          <?php foreach ($listCancel as $value): ?>
+          <?php if (empty($listCancel)): ?>
+          <div class="border-bottom pt-4 pb-5 text-center">
+            등록된 산행이 없습니다.
+          </div>
+          <?php else: foreach ($listCancel as $value): ?>
           <div class="row mb-3">
             <div class="col-10 pl-0 pr-0">
               <strong><?=viewStatus($value['status'])?></strong> <a href="<?=BASE_URL?>/admin/main_view_progress/<?=$value['idx']?>"><?=$value['subject']?></a>
@@ -46,7 +50,7 @@
             </div>
             <div class="col-2 pr-0 pl-0 text-right small">0원<br><?=cntRes($value['idx'])?>명</div>
           </div>
-          <?php endforeach; ?>
+          <?php endforeach; endif; ?>
         </div>
 
         <link href="/public/css/jquery-ui.css" rel="stylesheet">

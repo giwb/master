@@ -3,7 +3,11 @@
         <div id="content" class="mt-3 mb-5">
           <div id="calendar" class="mb-0"></div>
 
-          <?php foreach ($listPlanned as $value): ?>
+          <?php if (empty($listPlanned)): ?>
+          <div class="border-bottom pt-5 pb-5 text-center">
+            등록된 계획이 없습니다.
+          </div>
+          <?php else: foreach ($listPlanned as $value): ?>
           <div class="row align-items-center border-bottom pt-2 pb-2">
             <div class="col-9 col-sm-10">
               <b><?=viewStatus($value['status'], $value['visible'])?></b> <a href="/admin/main_view_progress/<?=$value['idx']?>"><?=$value['subject']?></a><br>
@@ -22,7 +26,7 @@
               <?php endif; ?>
             </div>
           </div>
-          <?php endforeach; ?>
+          <?php endforeach; endif; ?>
         </div>
 
         <!-- Schedule Modal -->

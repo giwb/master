@@ -114,6 +114,9 @@ class Admin_model extends CI_Model
     if (!empty($search['status'])) {
       $this->db->where_in('status', $search['status']);
     }
+    if (!empty($search['clubIdx'])) {
+      $this->db->where('club_idx', $search['clubIdx']);
+    }
 
     return $this->db->get()->result_array();
   }
@@ -155,7 +158,7 @@ class Admin_model extends CI_Model
   }
 
   // 회원 예약 목록
-  public function listReserve($paging, $nickname)
+  public function listReserve($paging, $search)
   {
     $this->db->select('a.rescode, a.userid, a.nickname, a.bus, a.seat, a.loc, a.memo, b.startdate, b.starttime, b.subject, b.bus AS notice_bus, b.bustype AS notice_bustype, b.status AS notice_status, b.cost, b.cost_total, c.idx AS member_idx')
           ->from(DB_RESERVATION . ' a')
@@ -164,8 +167,11 @@ class Admin_model extends CI_Model
           ->where_in('b.status', array(STATUS_ABLE, STATUS_CONFIRM, STATUS_CLOSED))
           ->order_by('a.regdate', 'desc');
 
-    if (!is_null($nickname)) {
-      $this->db->like('a.nickname', $nickname);
+    if (!empty($search['nickname'])) {
+      $this->db->like('a.nickname', $search['nickname']);
+    }
+    if (!empty($search['clubIdx'])) {
+      $this->db->where('b.club_idx', $search['clubIdx']);
     }
     if (!is_null($paging)) {
       $this->db->limit($paging['perPage'], $paging['nowPage']);
@@ -347,6 +353,9 @@ class Admin_model extends CI_Model
           ->where('quitdate', NULL)
           ->order_by('idx', 'desc');
 
+    if (!empty($search['clubIdx'])) {
+      $this->db->where('club_idx', $search['clubIdx']);
+    }
     if (!empty($search['keyword'])) {
       $this->db->group_start()
                 ->like('userid', $search['keyword'])
@@ -508,6 +517,9 @@ class Admin_model extends CI_Model
           ->where('status', $search['status'])
           ->order_by('idx', 'desc');
 
+    if (!empty($search['clubIdx'])) {
+      $this->db->where('club_idx', $search['clubIdx']);
+    }
     if (!empty($search['action'])) {
       $this->db->where_in('action', $search['action']);
     }
@@ -534,6 +546,9 @@ class Admin_model extends CI_Model
           ->from(DB_HISTORY)
           ->where('status', $search['status']);
 
+    if (!empty($search['clubIdx'])) {
+      $this->db->where('club_idx', $search['clubIdx']);
+    }
     if (!empty($search['action'])) {
       $this->db->where_in('action', $search['action']);
     }
@@ -652,10 +667,13 @@ class Admin_model extends CI_Model
           ->order_by('a.created_at', 'desc');
 
     if (!empty($search['nowdate'])) {
-      $this->db->where('FROM_UNIXTIME(created_at, "%Y%m%d") =', $search['nowdate']);
+      $this->db->where('FROM_UNIXTIME(a.created_at, "%Y%m%d") =', $search['nowdate']);
     }
     if (!empty($search['keyword'])) {
       $this->db->where($search['keyword'] . ' !=', NULL);
+    }
+    if (!empty($search['clubIdx'])) {
+      $this->db->where('a.club_idx', $search['clubIdx']);
     }
           
     return $this->db->get()->result_array();

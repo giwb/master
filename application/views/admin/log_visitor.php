@@ -28,7 +28,7 @@
                     <?php endforeach; ?>
                   </select>
                 </div>
-                <div class="col-2 col-sm-1 p-0 pr-1"><button type="button" class="btn btn-sm btn-default btn-search-visitor">검색</button></div>
+                <div class="col-2 col-sm-1 p-0 pr-1"><button type="button" class="btn btn-sm btn-<?=$viewClub['main_color']?> btn-search-visitor">검색</button></div>
                 <div class="col-1 col-sm-2 p-0"><a href="javascript:;" class="btn-search-visitor-date" data-nowdate="<?=$searchNext?>">▶</a></div>
               </div>
             </form>
@@ -39,9 +39,9 @@
             </div>
             <div class="col-sm-6 text-right mb-2 p-0">
               <?php if (empty($keyword)): ?>
-              <button class="btn btn-sm btn-default btn-search-visitor-member" data-keyword="created_by">회원만 보기</button>
+              <button class="btn btn-sm btn-<?=$viewClub['main_color']?> btn-search-visitor-member" data-keyword="created_by">회원만 보기</button>
               <?php else: ?>
-              <button class="btn btn-sm btn-default btn-search-visitor-member" data-keyword="">모두 보기</button>
+              <button class="btn btn-sm btn-<?=$viewClub['main_color']?> btn-search-visitor-member" data-keyword="">모두 보기</button>
               <?php endif; ?>
             </div>
           </div>

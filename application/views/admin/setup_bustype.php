@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
         <div id="content" class="mb-5">
-          <div class="text-right pt-3 pb-3"><a href="<?=BASE_URL?>/admin/setup_bustype_add"><button class="btn btn-sm btn-default">차종 등록하기</button></a></div>
+          <div class="text-right pt-3 pb-3"><a href="<?=BASE_URL?>/admin/setup_bustype_add"><button class="btn btn-sm btn-<?=$viewClub['main_color']?>">차종 등록하기</button></a></div>
           <input type="hidden" name="back_url" value="setup_bustype">
           <div class="row align-items-center font-weight-bold border-top pt-3">
             <div class="col-6 col-sm-3">차량명</div>

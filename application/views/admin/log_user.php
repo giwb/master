@@ -44,7 +44,7 @@
                 <div class="col-3 col-sm-1 p-0">닉네임</div>
                 <div class="col-9 col-sm-9"><input type="text" name="nickname" class="form-control form-control-sm form-search" value="<?=!empty($nickname) ? $nickname : ''?>"></div>
                 <div class="w-100 d-block d-sm-none pt-2"></div>
-                <div class="col-sm-2 text-left"><button class="btn btn-sm btn-default w-100 btn-member-search">검색</button></div>
+                <div class="col-sm-2 text-left"><button class="btn btn-sm btn-<?=$viewClub['main_color']?> w-100 btn-member-search">검색</button></div>
               </div>
             </form>
           </div>

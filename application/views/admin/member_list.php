@@ -8,7 +8,7 @@
               <div class="row align-items-center w-100 text-center">
                 <div class="col-3 col-sm-1 p-0">검색어</div>
                 <div class="col-7 col-sm-9"><input type="text" name="keyword" class="form-control form-control-sm form-search" value="<?=!empty($search['keyword']) ? $search['keyword'] : ''?>"></div>
-                <div class="col-2 col-sm-2 text-left"><button class="btn btn-sm btn-default w-100 btn-member-search">검색</button></div>
+                <div class="col-2 col-sm-2 text-left"><button class="btn btn-sm btn-<?=$viewClub['main_color']?> w-100 btn-member-search">검색</button></div>
               </div>
               <div class="row align-items-center w-100 pt-2 text-center">
                 <div class="col-3 col-sm-1 p-0">등급</div>

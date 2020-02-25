@@ -9,7 +9,7 @@
                 <div class="col-sm-10"><input type="text" name="title" value="<?=$view['title']?>" class="form-control"></div>
               </div>
               <div class="row align-items-center mt-2">
-                <div class="col-sm-2 font-weight-bold">지역<div class="mt-2"><button type="button" class="btn btn-sm btn-default btn-add-area mb-2">추가</button></div></div>
+                <div class="col-sm-2 font-weight-bold">지역<div class="mt-2"><button type="button" class="btn btn-sm btn-<?=$viewClub['main_color']?> btn-add-area mb-2">추가</button></div></div>
                 <div class="col-sm-10 pl-1">
                   <?php if (empty($view['sido'])): ?>
                   <div class="row mt-1">
@@ -73,7 +73,7 @@
                   </div>
                   <input type="hidden" name="file" value="">
                   <input type="file" class="file d-none">
-                  <button type="button" class="btn btn-sm btn-default btn-upload">사진 선택</button>
+                  <button type="button" class="btn btn-sm btn-<?=$viewClub['main_color']?> btn-upload">사진 선택</button>
                 </div>
               </div><br>
 
@@ -145,7 +145,7 @@
                   </div>
                   <div class="row align-items-center mt-2">
                     <div class="ml-3"><input type="text" name="club_geton[]" class="club-geton-text form-control"></div>
-                    <div class="ml-2"><button type="button" class="btn btn-default btn-club-geton">추가</button></div>
+                    <div class="ml-2"><button type="button" class="btn btn-<?=$viewClub['main_color']?> btn-club-geton">추가</button></div>
                   </div>
                 </div>
               </div>
@@ -159,12 +159,12 @@
                   </div>
                   <div class="row align-items-center mt-2">
                     <div class="ml-3"><input type="text" name="club_getoff[]" class="club-getoff-text form-control"></div>
-                    <div class="ml-2"><button type="button" class="btn btn-default btn-club-getoff">추가</button></div>
+                    <div class="ml-2"><button type="button" class="btn btn-<?=$viewClub['main_color']?> btn-club-getoff">추가</button></div>
                   </div>
                 </div>
               </div>
               <div class="area-button">
-                <button type="submit" class="btn btn-default">확인합니다</button>
+                <button type="submit" class="btn btn-<?=$viewClub['main_color']?>">확인합니다</button>
               </div>
             </form>
           </div>

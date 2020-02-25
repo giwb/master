@@ -138,7 +138,7 @@
           <div class="container">
             <form method="post" action="<?=BASE_URL?>/admin/log_reserve" class="row align-items-center">
               <div class="col-9 p-0 p-2"><input type="text" name="k" value="<?=!empty($keyword) ? $keyword : ''?>" class="form-control form-control-sm"></div>
-              <div class="col-3 p-0"><button class="btn btn-sm btn-default">검색</button></div>
+              <div class="col-3 p-0"><button class="btn btn-sm btn-<?=$viewClub['main_color']?>">검색</button></div>
             </form>
           </div>
         </div>
@@ -162,7 +162,9 @@
           <ul class="navi">
             <li class="mb-1"><a href="<?=BASE_URL?>/admin"><i class="fas fa-chalkboard" aria-hidden="true"></i> 대시보드</a></li>
             <li class="mb-1"><a href="<?=BASE_URL?>/admin/main_list_progress"><i class="fas fa-mountain" aria-hidden="true"></i> 산행관리</a></li>
+            <?php if ($viewClub['idx'] == 1): ?>
             <li class="mb-1"><a href="<?=BASE_URL?>/ShopAdmin/order"><i class="fas fa-shopping-cart" aria-hidden="true"></i> 구매대행관리</a></li>
+            <?php endif; ?>
             <li class="mb-1"><a href="<?=BASE_URL?>/admin/member_list"><i class="fas fa-users" aria-hidden="true"></i> 회원관리</a></li>
             <li class="mb-1"><a href="<?=BASE_URL?>/admin/log_user"><i class="fas fa-exchange-alt" aria-hidden="true"></i> 활동관리</a></li>
             <li><a href="<?=BASE_URL?>/admin/setup_information"><i class="fas fa-cog" aria-hidden="true"></i> 설정</a></li>
@@ -170,7 +172,7 @@
           <div class="club-search">
             <form method="post" action="<?=BASE_URL?>/admin/log_reserve">
               <div class="club-search-item1"><input type="text" name="k" value="<?=!empty($keyword) ? $keyword : ''?>" class="form-control form-control-sm"></div>
-              <div class="club-search-item2"><button class="btn btn-sm btn-default">검색</button></div>
+              <div class="club-search-item2"><button class="btn btn-sm btn-<?=$viewClub['main_color']?>">검색</button></div>
             </form>
           </div>
         </div>
