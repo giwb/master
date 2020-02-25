@@ -85,7 +85,16 @@
               </div>
             </div>
             <div class="row align-items-center border-bottom mb-3 pb-3">
-              <div class="col-sm-3 font-weight-bold">홈페이지</div>
+              <div class="col-sm-3 font-weight-bold">사용할 도메인 <span class="text-require">(*)</span></div>
+              <div class="col-sm-9">
+                <div class="row align-items-center">
+                  <div class="col-6 col-sm-3 p-1 text-right"><?=base_url()?></div>
+                  <div class="col-6 col-sm-9 p-0 check-domain"><input type="text" name="domain" value="<?=$view['domain']?>" class="form-control form-control-sm"></div>
+                </div>
+              </div>
+            </div>
+            <div class="row align-items-center border-bottom mb-3 pb-3">
+              <div class="col-sm-3 font-weight-bold">홈페이지 링크</div>
               <div class="col-sm-9"><input type="text" name="homepage" value="<?=$view['homepage']?>" class="form-control form-control-sm"></div>
             </div>
             <div class="row align-items-center border-bottom mb-3 pb-3">
@@ -93,7 +102,7 @@
               <div class="col-sm-9"><input type="text" name="phone" value="<?=$view['phone']?>" class="form-control form-control-sm"></div>
             </div>
             <div class="row align-items-center border-bottom mb-3 pb-3">
-              <div class="col-sm-12 font-weight-bold">산악회 소개 <span class="text-require">(*)</span></div>
+              <div class="col-sm-12 font-weight-bold">산악회 소개</div>
               <div class="col-sm-12 mt-3">
                 <textarea name="about" id="about"><?=!empty($view['about']) ? $view['about'] : ''?></textarea>
               </div>
@@ -270,7 +279,44 @@
           $.openMsgModal('산악회/단체명은 꼭 입력해주세요.');
           return false;
         }
-        $(this).css('opacity', '0.5').prop('disabled', true).text('등록중......');
+        if ($('.area-sido').val() == '' || $('.area-gugun').val() == '') {
+          $.openMsgModal('지역은 꼭 선택해주세요.');
+          return false;
+        }
+        if ($('input[name=domain]').val() == '') {
+          $.openMsgModal('사용할 도메인은 꼭 입력해주세요.');
+          return false;
+        }
+        if ($('.check-domain img').hasClass('check-domain-complete') == false) {
+          $.openMsgModal('도메인을 확인해주세요.');
+          return false;
+        }
+        $(this).css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요...');
         $('#myForm').submit();
+      }).on('blur', '.check-domain', function() {
+        // 도메인 중복 체크
+        var $dom = $(this);
+        var domain = $('input[name=domain]').val();
+        var pattern = /^[a-z0-9]{3,20}$/;
+
+        if (domain != '') {
+          if (domain.length < 3 || domain.length > 20 || !pattern.test(domain) || domain.search(/\s/) != -1) {
+            $.openMsgModal('도메인은 띄어쓰기 없이<br>3자 ~ 20자 이하의 영어 소문자만 가능합니다.');
+            $(this).val('');
+            return false;
+          }
+          $.ajax({
+            url: '/club/check_domain',
+            data: 'domain=' + domain,
+            dataType: 'json',
+            type: 'post',
+            success: function(result) {
+              $('img', $dom).remove();
+              $dom.append(result.message);
+            }
+          });
+        } else {
+          $('img', $dom).remove();
+        }
       });
       </script>

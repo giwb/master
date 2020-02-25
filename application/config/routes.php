@@ -90,7 +90,8 @@ if (!empty($result['idx'])) {
   $route['login']               = 'login/index';
   $route['logout']              = 'login/logout';
   $route['member']              = 'member/index';
-  $route['club']                = 'welcome/listing';
-  $route['club/entry']          = 'welcome/entry';
-  $route['club/insert']         = 'welcome/insert';
+  $route['club']                = 'welcome/club_listing';
+  $route['club/entry']          = 'welcome/club_entry';
+  $route['club/insert']         = 'welcome/club_insert';
+  $route['club/check_domain']   = 'welcome/check_domain';
 }
