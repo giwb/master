@@ -56,11 +56,11 @@ class Admin extends Admin_Controller
     }
 
     // 현재 회원수
-    $viewData['cntTotalMember'] = $this->admin_model->cntTotalMember();
+    $viewData['cntTotalMember'] = $this->admin_model->cntTotalMember($viewData['clubIdx']);
     // 다녀온 산행횟수
-    $viewData['cntTotalTour'] = $this->admin_model->cntTotalTour();
+    $viewData['cntTotalTour'] = $this->admin_model->cntTotalTour($viewData['clubIdx']);
     // 다녀온 산행 인원수
-    $viewData['cntTotalCustomer'] = $this->admin_model->cntTotalCustomer();
+    $viewData['cntTotalCustomer'] = $this->admin_model->cntTotalCustomer($viewData['clubIdx']);
     // 오늘 방문자수
     $viewData['cntTodayVisitor'] = $this->admin_model->cntTodayVisitor($viewData['clubIdx']);
 

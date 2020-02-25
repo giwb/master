@@ -11,28 +11,30 @@ class Admin_model extends CI_Model
   }
 
   // 현재 회원수
-  public function cntTotalMember()
+  public function cntTotalMember($clubIdx)
   {
-    $this->db->select('COUNT(idx) AS CNT')->from(DB_MEMBER)->where('club_idx', 1)->where('quitdate', NULL);
+    $this->db->select('COUNT(idx) AS CNT')->from(DB_MEMBER)->where('club_idx', $clubIdx)->where('quitdate', NULL);
     return $this->db->get()->row_array(1);
   }
 
   // 다녀온 산행 횟수
-  public function cntTotalTour()
+  public function cntTotalTour($clubIdx)
   {
     $this->db->select('COUNT(idx) AS CNT')
           ->from(DB_NOTICE)
+          ->where('club_idx', $clubIdx)
           ->where('status', 9);
     return $this->db->get()->row_array(1);
   }
 
   // 다녀온 산행 인원수
-  public function cntTotalCustomer()
+  public function cntTotalCustomer($clubIdx)
   {
     $this->db->select('COUNT(b.idx) AS CNT')
           ->from(DB_NOTICE . ' a')
           ->from(DB_RESERVATION . ' b')
           ->where('a.idx=b.rescode')
+          ->where('a.club_idx', $clubIdx)
           ->where('a.status', 9)
           ->where('b.status', 1);
     return $this->db->get()->row_array(1);
