@@ -3,7 +3,7 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <title>경인웰빙산악회<?=!empty($pageTitle) ? ' - ' . $pageTitle : ''?></title>
+  <title><?=$viewClub['title']?><?=!empty($pageTitle) ? ' - ' . $pageTitle : ''?></title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -34,7 +34,13 @@
   <link href="/public/css/fullcalendar.print.css" rel="stylesheet">
   <link href="/public/photoswipe/photoswipe.css" rel="stylesheet">
   <link href="/public/photoswipe/default-skin/default-skin.css" rel="stylesheet">
-  <!--<link href="/public/css/magnific-popup.css" rel="stylesheet">-->
+
+  <?php if ($viewClub['main_color'] == 'default'): ?>
+  <style type="text/css">
+    #club a:link, #club a:active, #club a:visited { color: #FF6C00; }
+    #club a:hover { color: #0AB031; }
+  </style>
+  <?php endif; ?>
   <link href="/public/css/style.css?<?=time()?>" rel="stylesheet">
 
   <script src="/public/js/jquery-2.1.4.min.js" type="text/javascript"></script>
@@ -74,7 +80,7 @@
 
   <header id="header">
     <div id="nav">
-      <div id="nav-top">
+      <div id="nav-top" class="bg-<?=$viewClub['main_color']?>">
         <div class="container">
           <div class="row align-items-center pt-3">
             <div class="col-sm-8"><a href="<?=goHome($viewClub['domain'])?>"><h1 class="nav-logo"><?=!empty($viewClub['title']) ? $viewClub['title'] : ''?></h1></a></div>
