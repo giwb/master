@@ -42,13 +42,19 @@
           <div class="border-bottom pt-4 pb-5 text-center">
             등록된 산행이 없습니다.
           </div>
-          <?php else: foreach ($listClosed as $value): ?>
+          <?php else: foreach ($listClosed as $value):
+            $cntRes = cntRes($value['idx']);
+            $costRes = $value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'];
+          ?>
           <div class="row mb-3">
             <div class="col-10 pl-0 pr-0">
               <strong><?=viewStatus($value['status'])?></strong> <a href="<?=BASE_URL?>/admin/main_view_progress/<?=$value['idx']?>"><?=$value['subject']?></a>
-              <div class="small"><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원</div>
+              <div class="small"><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($costRes)?>원</div>
             </div>
-            <div class="col-2 pr-0 pl-0 text-right small">0원<br><?=cntRes($value['idx'])?>명</div>
+            <div class="col-2 pr-0 pl-0 text-right small">
+              <?=number_format($cntRes * $costRes)?>원<br>
+              <?=$cntRes?>명
+            </div>
           </div>
           <?php endforeach; endif; ?>
         </div>

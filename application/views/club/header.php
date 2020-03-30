@@ -141,8 +141,7 @@
           <a href="<?=BASE_URL?>/member/driver">・드라이버 페이지</a><br>
           <?php endif; ?>
           <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
-          <a href="<?=BASE_URL?>/admin">・설정(NEW)</a><br>
-          <a href="<?=BASE_URL?>/admin_old">・설정(OLD)</a><br>
+          <a href="<?=BASE_URL?>/admin">・설정</a><br>
           <?php endif; ?>
           <a href="javascript:;" class="logout" title="로그아웃">・로그아웃</a>
         </div>

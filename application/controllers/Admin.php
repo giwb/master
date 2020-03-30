@@ -705,6 +705,9 @@ class Admin extends Admin_Controller
 
     $idx = html_escape($idx);
     $viewData['view'] = $this->admin_model->viewEntry($idx);
+    $viewData['view']['cntRes'] = cntRes($viewData['view']['idx']);
+
+    if ($viewData['view']['cost_total'] != 0) $viewData['view']['cost'] = $viewData['view']['cost_total'];
 
     // 페이지 타이틀
     $viewData['pageTitle'] = '정산 관리';
