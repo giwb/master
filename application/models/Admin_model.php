@@ -11,28 +11,30 @@ class Admin_model extends CI_Model
   }
 
   // 현재 회원수
-  public function cntTotalMember()
+  public function cntTotalMember($clubIdx)
   {
-    $this->db->select('COUNT(idx) AS CNT')->from(DB_MEMBER)->where('club_idx', 1)->where('quitdate', NULL);
+    $this->db->select('COUNT(idx) AS CNT')->from(DB_MEMBER)->where('club_idx', $clubIdx)->where('quitdate', NULL);
     return $this->db->get()->row_array(1);
   }
 
   // 다녀온 산행 횟수
-  public function cntTotalTour()
+  public function cntTotalTour($clubIdx)
   {
     $this->db->select('COUNT(idx) AS CNT')
           ->from(DB_NOTICE)
+          ->where('club_idx', $clubIdx)
           ->where('status', 9);
     return $this->db->get()->row_array(1);
   }
 
   // 다녀온 산행 인원수
-  public function cntTotalCustomer()
+  public function cntTotalCustomer($clubIdx)
   {
     $this->db->select('COUNT(b.idx) AS CNT')
           ->from(DB_NOTICE . ' a')
           ->from(DB_RESERVATION . ' b')
           ->where('a.idx=b.rescode')
+          ->where('a.club_idx', $clubIdx)
           ->where('a.status', 9)
           ->where('b.status', 1);
     return $this->db->get()->row_array(1);
@@ -112,6 +114,9 @@ class Admin_model extends CI_Model
     if (!empty($search['status'])) {
       $this->db->where_in('status', $search['status']);
     }
+    if (!empty($search['clubIdx'])) {
+      $this->db->where('club_idx', $search['clubIdx']);
+    }
 
     return $this->db->get()->result_array();
   }
@@ -153,17 +158,20 @@ class Admin_model extends CI_Model
   }
 
   // 회원 예약 목록
-  public function listReserve($paging, $nickname)
+  public function listReserve($paging, $search)
   {
     $this->db->select('a.rescode, a.userid, a.nickname, a.bus, a.seat, a.loc, a.memo, b.startdate, b.starttime, b.subject, b.bus AS notice_bus, b.bustype AS notice_bustype, b.status AS notice_status, b.cost, b.cost_total, c.idx AS member_idx')
           ->from(DB_RESERVATION . ' a')
           ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
           ->join(DB_MEMBER . ' c', 'a.nickname=c.nickname', 'left')
           ->where_in('b.status', array(STATUS_ABLE, STATUS_CONFIRM, STATUS_CLOSED))
-          ->order_by('b.startdate', 'desc');
+          ->order_by('a.regdate', 'desc');
 
-    if (!is_null($nickname)) {
-      $this->db->like('a.nickname', $nickname);
+    if (!empty($search['nickname'])) {
+      $this->db->like('a.nickname', $search['nickname']);
+    }
+    if (!empty($search['clubIdx'])) {
+      $this->db->where('b.club_idx', $search['clubIdx']);
     }
     if (!is_null($paging)) {
       $this->db->limit($paging['perPage'], $paging['nowPage']);
@@ -345,16 +353,21 @@ class Admin_model extends CI_Model
           ->where('quitdate', NULL)
           ->order_by('idx', 'desc');
 
-    if (!empty($search['realname'])) {
-      $this->db->like('realname', $search['realname']);
+    if (!empty($search['clubIdx'])) {
+      $this->db->where('club_idx', $search['clubIdx']);
     }
-    if (!empty($search['nickname'])) {
-      $this->db->like('nickname', $search['nickname']);
+    if (!empty($search['keyword'])) {
+      $this->db->group_start()
+                ->like('userid', $search['keyword'])
+                ->or_like('realname', $search['keyword'])
+                ->or_like('nickname', $search['keyword'])
+                ->or_like('phone', $search['keyword'])
+                ->group_end();
     }
     if (!empty($search['resMin'])) {
-      $this->db->where('(rescount - penalty) >=', $search['resMin']);
-      $this->db->where('admin', 0);
-      $this->db->where('level', 0);
+      $this->db->where('(rescount - penalty) >=', $search['resMin'])
+              ->where('admin', 0)
+              ->where('level', 0);
     }
     if (!empty($search['resMax'])) {
       $this->db->where('(rescount - penalty) <=', $search['resMax']);
@@ -504,6 +517,9 @@ class Admin_model extends CI_Model
           ->where('status', $search['status'])
           ->order_by('idx', 'desc');
 
+    if (!empty($search['clubIdx'])) {
+      $this->db->where('club_idx', $search['clubIdx']);
+    }
     if (!empty($search['action'])) {
       $this->db->where_in('action', $search['action']);
     }
@@ -530,6 +546,9 @@ class Admin_model extends CI_Model
           ->from(DB_HISTORY)
           ->where('status', $search['status']);
 
+    if (!empty($search['clubIdx'])) {
+      $this->db->where('club_idx', $search['clubIdx']);
+    }
     if (!empty($search['action'])) {
       $this->db->where_in('action', $search['action']);
     }
@@ -563,13 +582,33 @@ class Admin_model extends CI_Model
     return $this->db->update(DB_HISTORY);
   }
 
+  // 활동관리 - 댓글 기록 카운트
+  public function cntReply($clubIdx, $rescode=NULL)
+  {
+    $this->db->select('COUNT(*) AS cnt')
+          ->from(DB_STORY_REPLY . ' a')
+          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
+          ->where('a.club_idx', $clubIdx)
+          ->where('a.deleted_at', NULL)
+          ->order_by('a.idx', 'desc');
+
+    if (!is_null($rescode)) {
+      $this->db->where('reply_type', REPLY_TYPE_NOTICE);
+      $this->db->where('story_idx', $rescode);
+    }
+
+    return $this->db->get()->row_array(1);
+  }
+
   // 활동관리 - 댓글 기록
-  public function listReply($paging=NULL, $rescode=NULL)
+  public function listReply($clubIdx, $paging=NULL, $rescode=NULL)
   {
     $this->db->select('a.idx, a.club_idx, a.story_idx, a.reply_type, a.content, a.created_by, a.created_at, b.nickname')
           ->from(DB_STORY_REPLY . ' a')
           ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
-          ->where('deleted_at', NULL)
+          ->where('a.club_idx', $clubIdx)
+          ->where('a.visible', 'Y')
+          ->where('a.deleted_at', NULL)
           ->order_by('a.idx', 'desc');
 
     if (!is_null($rescode)) {
@@ -583,8 +622,18 @@ class Admin_model extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  // 활동관리 - 댓글 정보
+  public function viewReply($idx)
+  {
+    $this->db->select('*')
+          ->from(DB_STORY_REPLY)
+          ->where('idx', $idx);
+
+    return $this->db->get()->row_array(1);
+  }
+
   // 활동관리 - 댓글 수정/삭제
-  public function deleteReply($data, $idx)
+  public function updateReply($data, $idx)
   {
     $this->db->set($data);
     $this->db->where('idx', $idx);
@@ -618,10 +667,13 @@ class Admin_model extends CI_Model
           ->order_by('a.created_at', 'desc');
 
     if (!empty($search['nowdate'])) {
-      $this->db->where('FROM_UNIXTIME(created_at, "%Y%m%d") =', $search['nowdate']);
+      $this->db->where('FROM_UNIXTIME(a.created_at, "%Y%m%d") =', $search['nowdate']);
     }
     if (!empty($search['keyword'])) {
       $this->db->where($search['keyword'] . ' !=', NULL);
+    }
+    if (!empty($search['clubIdx'])) {
+      $this->db->where('a.club_idx', $search['clubIdx']);
     }
           
     return $this->db->get()->result_array();

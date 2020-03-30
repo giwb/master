@@ -3,7 +3,7 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <title>경인웰빙산악회<?=!empty($pageTitle) ? ' - ' . $pageTitle : ''?></title>
+  <title><?=!empty($view['title']) ? $view['title'] : '한국여행 :: TripKorea.net'?><?=!empty($pageTitle) ? ' - ' . $pageTitle : ''?></title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -33,7 +33,13 @@
   <link href="/public/css/fullcalendar.print.css" rel="stylesheet">
   <link href="/public/photoswipe/photoswipe.css" rel="stylesheet">
   <link href="/public/photoswipe/default-skin/default-skin.css" rel="stylesheet">
-  <!--<link href="/public/css/magnific-popup.css" rel="stylesheet">-->
+
+  <?php if ($view['main_color'] == 'default'): ?>
+  <style type="text/css">
+    #club a:link, #club a:active, #club a:visited { color: #FF6C00; }
+    #club a:hover { color: #0AB031; }
+  </style>
+  <?php endif; ?>
   <link href="/public/css/style.css?<?=time()?>" rel="stylesheet">
 
   <script src="/public/js/jquery-2.1.4.min.js" type="text/javascript"></script>
@@ -70,35 +76,40 @@
 
   <header id="header">
     <div id="nav">
-      <div id="nav-top">
+      <div id="nav-top" class="bg-<?=$view['main_color']?>">
         <div class="container">
-          <div class="row align-items-center">
-            <h1 class="col-sm-6 nav-logo"><a href="<?=BASE_URL?>" class="logo"><?=!empty($view['title']) ? $view['title'] : ''?></a></h1>
-            <ul class="col-sm-6 text-right nav-menu">
-              <li><a target="_blank" href="http://giwb.co.kr"><img src="//m1.daumcdn.net/cafeimg/mobile/m640/tit_cafe_s_161214.png" width="50"></a></li>
-              <?php if (empty($userData['idx'])): ?>
-              <li><a href="javascript:;" class="login-popup">로그인</a></li>
-              <?php else: ?>
-              <li>
-              <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
-              <img class="img-profile" src="<?=PHOTO_URL . $userData['idx']?>">
-              <?php elseif (!empty($userData['icon_thumbnail'])): ?>
-              <img class="img-profile" src="<?=$userData['icon_thumbnail']?>">
-              <?php else: ?>
-              <img class="img-profile" src="/public/images/user.png">
-              <?php endif; ?>
-                <div class="profile-box">
-                  <strong><?=$userData['nickname']?></strong> (<?=$userLevel['levelName']?>)<hr>
-                  <a href="<?=BASE_URL?>/member">마이페이지</a><br>
-                  <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
-                  <a href="<?=BASE_URL?>/member/driver">드라이버 페이지</a><br>
-                  <?php endif; ?>
-                  <a href="<?=BASE_URL?>/member/modify">개인정보수정</a><br>
-                  <a href="javascript:;" class="logout">로그아웃</a>
-                </div>
-              </li>
-              <?php endif; ?>
-            </ul>
+          <div class="row align-items-center pt-3">
+            <div class="col-sm-8 pl-2"><a href="<?=BASE_URL?>"><h1 class="nav-logo"><?=!empty($view['title']) ? $view['title'] : '한국여행 <small>TripKorea.net</small>'?></h1></a></div>
+            <div class="col-sm-4 text-right">
+              <ul>
+                <li class="mr-4"><a target="_blank" href="http://giwb.co.kr"><img src="//m1.daumcdn.net/cafeimg/mobile/m640/tit_cafe_s_161214.png" class="logo-cafe"></a></li>
+                <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN): ?>
+                <li class="mr-4 align-middle"><a href="<?=BASE_URL?>/member/driver"><h2 class="m-0 p-0"><i class="fa fa-bus text-white"></i></h2></a></li>
+                <?php endif; ?>
+                <?php if (empty($userData['idx'])): ?>
+                <li><a href="javascript:;" class="login-popup"><span class="text-white">로그인</span></a></li>
+                <?php else: ?>
+                <li>
+                <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
+                <img class="img-profile" src="<?=PHOTO_URL . $userData['idx']?>">
+                <?php elseif (!empty($userData['icon_thumbnail'])): ?>
+                <img class="img-profile" src="<?=$userData['icon_thumbnail']?>">
+                <?php else: ?>
+                <img class="img-profile" src="/public/images/user.png">
+                <?php endif; ?>
+                  <div class="profile-box">
+                    <strong><?=$userData['nickname']?></strong> (<?=$userLevel['levelName']?>)<hr>
+                    <a href="<?=BASE_URL?>/member">마이페이지</a><br>
+                    <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
+                    <a href="<?=BASE_URL?>/member/driver">드라이버 페이지</a><br>
+                    <?php endif; ?>
+                    <a href="<?=BASE_URL?>/member/modify">개인정보수정</a><br>
+                    <a href="javascript:;" class="logout">로그아웃</a>
+                  </div>
+                </li>
+                <?php endif; ?>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -107,28 +118,32 @@
           <li><a href="<?=BASE_URL?>"><i class="fa fa-home btn-header"></i></a></li>
           <li><a href="<?=BASE_URL?>"><h1><?=!empty($pageTitle) ? $pageTitle : $view['title'] ?></h1></a></li>
           <li>
+            <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN): ?>
+            <a href="<?=BASE_URL?>/member/driver"><h3 class="m-0 p-0"><i class="fa fa-bus text-white"></i></h3></a>
+            <?php else: ?>
             <?php if (strstr($_SERVER['REQUEST_URI'], 'member')): ?>
             <a href="javascript:;" class="btn-mypage"><i class="fa fa-cog btn-header"></i></a>
             <?php elseif (strstr($_SERVER['REQUEST_URI'], 'shop')): ?>
-            <a href="<?=BASE_URL?>/shop/cart" title="장바구니"><i class="fa fa-shopping-cart btn-header"></i></a>
+            <a href="javascript:;" title="장바구니"><i class="fa fa-shopping-cart btn-header btn-cart"></i></a>
             <?php elseif (strstr($_SERVER['REQUEST_URI'], 'album')): ?>
             <a href="<?=BASE_URL?>/album/entry" title="사진 업로드"><i class="fa fa-cloud-upload btn-header"></i></a>
             <?php elseif (strstr($_SERVER['REQUEST_URI'], 'login')): ?>
             <?php else: ?>
             <a target="_blank" href="http://giwb.co.kr"><img src="//m1.daumcdn.net/cafeimg/mobile/m640/tit_cafe_s_161214.png" width="50"></a>
             <?php endif; ?>
+            <?php endif; ?>
           </li>
         </ul>
         <div class="nav-sp-mypage">
-          ・<a href="<?=BASE_URL?>/member">마이페이지</a><br>
-          ・<a href="<?=BASE_URL?>/member/modify">개인정보수정</a><br>
+          <a href="<?=BASE_URL?>/member">・마이페이지</a><br>
+          <a href="<?=BASE_URL?>/member/modify">・개인정보수정</a><br>
           <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
-          ・<a href="<?=BASE_URL?>/member/driver">드라이버 페이지</a><br>
+          <a href="<?=BASE_URL?>/member/driver">・드라이버 페이지</a><br>
           <?php endif; ?>
           <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
-          ・<a href="<?=BASE_URL?>/admin">설정</a><br>
+          <a href="<?=BASE_URL?>/admin">・설정</a><br>
           <?php endif; ?>
-          ・<a href="javascript:;" class="logout" title="로그아웃">로그아웃</a>
+          <a href="javascript:;" class="logout" title="로그아웃">・로그아웃</a>
         </div>
       </div>
     </div>
@@ -159,10 +174,11 @@
             <li><a href="<?=BASE_URL?>/club/auth"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소 인증현황</a></li>
             <?php endif; ?><br>
             <li><a href="<?=BASE_URL?>/album"><i class="fa fa-photo" aria-hidden="true"></i> 사진첩</a></li>
-            <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
             <li><a href="<?=BASE_URL?>/shop"><i class="fa fa-shopping-basket" aria-hidden="true"></i> 구매대행 상품</a></li>
+            <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
             <br>
-            <li><a href="/admin"><i class="fa fa-cog" aria-hidden="true"></i> 설정</a></li>
+            <li><a href="<?=BASE_URL?>/admin"><i class="fa fa-cog" aria-hidden="true"></i> 설정(NEW)</a></li>
+            <li><a href="<?=BASE_URL?>/admin_old"><i class="fa fa-cog" aria-hidden="true"></i> 설정(OLD)</a></li>
             <?php endif; ?>
           </ul>
           <div class="text-center">

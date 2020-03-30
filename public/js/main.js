@@ -393,11 +393,22 @@
     $('.error-message').slideUp();
   }).on('click', '.logout', function() {
     // 로그아웃
+    var baseUrl = $('input[name=baseUrl]').val();
     $.ajax({
       url: '/login/logout',
       dataType: 'json',
-      success: function() {
-        location.replace($('input[name=baseUrl]').val());
+      success: function(result) {
+        location.reload();
+      }
+    });
+  }).on('click', '.logout', function() {
+    // 로그아웃
+    var baseUrl = $('input[name=baseUrl]').val();
+    $.ajax({
+      url: '/login/logout',
+      dataType: 'json',
+      success: function(result) {
+        location.reload();
       }
     });
   }).on('blur', '.check-userid', function() {
@@ -657,7 +668,7 @@
         }
       }
     });
-  }).on('click', '.nav-menu .img-profile', function() {
+  }).on('click', '.img-profile', function() {
     // 로그인 아이콘
     var $dom = $('.profile-box');
     if ($dom.css('display') == 'none') {
@@ -1002,7 +1013,6 @@
 
   // 닉네임 확인
   $.checkNickname = function() {
-    var clubIdx = $('input[name=clubIdx]').val();
     var userid = $('input[name=userid]').val();
     var nickname = $('input[name=nickname]').val();
 
@@ -1055,6 +1065,24 @@ $(document).on('click', '.btn-reply', function() {
     });
   } else {
     $dom.slideUp();
+  }
+}).on('click', '.btn-reply-response', function() {
+  // 댓글에 대한 답글 쓰기
+  var $dom = $('.story-reply-input');
+  var $dom_response = $('.club-story-reply-response');
+  var clubIdx = $('input[name=clubIdx]', $dom).val();
+  var storyIdx = $('input[name=storyIdx]', $dom).val();
+  var replyType = $('input[name=replyType]', $dom).val();
+  var replyParentIdx = $(this).data('idx');
+  var nickname = $('.story-reply-item[data-idx=' + replyParentIdx + '] .nickname').text();
+
+  if ($dom_response.length) {
+    $('input[name=replyParentIdx]', $dom).val('');
+    $dom_response.remove();
+  } else {
+    $('input[name=replyParentIdx]', $dom).val(replyParentIdx);
+    $('.club-story-reply').focus();
+    $dom.after('<div class="club-story-reply-response">' + nickname + '님의 댓글에 대한 답글 달기</div>');
   }
 }).on('click', '.btn-share', function() {
   // 공유하기
@@ -1138,7 +1166,7 @@ $(document).on('click', '.btn-reply', function() {
   }
 
   if ($btn.prev().val() == '') {
-    return false;
+    return false; // 내용이 없으면 종료
   }
 
   $.ajax({
@@ -1156,10 +1184,19 @@ $(document).on('click', '.btn-reply', function() {
         $.openMsgModal('댓글 등록에 실패했습니다. 다시 시도해주세요.');
       } else {
         var replyIdx = $('input[name=replyIdx]').val();
+        var replyParentIdx = $('input[name=replyParentIdx]').val();
         if (typeof replyIdx == 'undefined' || replyIdx == '') {
-          // 댓글 등록
-          $('.story-reply[data-idx=' + storyIdx + '] .story-reply-content').append(result.message);
-          $('.cnt-reply[data-idx=' + storyIdx + ']').text(result.reply_cnt);
+          if (typeof replyParentIdx == 'undefined' || replyParentIdx == '') {
+            // 댓글 등록
+            $('.story-reply[data-idx=' + storyIdx + '] .story-reply-content').append(result.message);
+            $('.cnt-reply[data-idx=' + storyIdx + ']').text(result.reply_cnt);
+          } else {
+            // 댓글에 대한 답글 등록
+            $('.story-reply[data-idx=' + storyIdx + '] .story-reply-content .story-reply-item[data-parent=' + replyParentIdx + ']').last().after(result.message);
+            $('.cnt-reply[data-idx=' + storyIdx + ']').text(result.reply_cnt);
+            $('input[name=replyParentIdx]').val('');
+            $('.club-story-reply-response').remove();
+          }
         } else {
           // 댓글 수정
           $('.reply-content[data-idx=' + replyIdx + ']').text($('.club-story-reply', $form).val());
@@ -1224,7 +1261,13 @@ $(document).on('click', '.btn-reply', function() {
         if (result.message == 'delete_reply') {
           // 댓글 삭제시에는 해당 댓글만 사라지게
           $btn.css('opacity', '1').prop('disabled', false).text('삭제합니다');
+
+          // 댓글에 대한 답글 정보 삭제
+          $('input[name=replyParentIdx]').val('');
+          $('.club-story-reply-response').remove();
+
           $('.story-reply-item[data-idx=' + $('input[name=deleteIdx]').val() + ']').remove();
+          $('.story-reply-item[data-parent=' + $('input[name=deleteIdx]').val() + ']').remove();
           $('.cnt-reply[data-idx=' + result.story_idx + ']').text(result.reply_cnt);
           $('#messageModal input[name=action]').val('');
           $('#messageModal input[name=deleteIdx]').val('');
@@ -1290,7 +1333,7 @@ $(document).on('click', '.btn-reply', function() {
         $('#messageModal').modal();
       } else {
         if (typeof(idx) != 'undefined') {
-          location.replace(baseUrl + '/story/view/?n=' + idx);
+          location.replace(baseUrl + '/story/view/' + idx);
         } else {
           location.replace(baseUrl);
         }
@@ -1302,6 +1345,12 @@ $(document).on('click', '.btn-reply', function() {
   var replyIdx = $(this).data('idx');
   var $dom = $('.reply-content[data-idx=' + replyIdx + ']');
   var content = $dom.text();
+
+  // 댓글에 대한 답글 정보 삭제
+  $('input[name=replyParentIdx]').val('');
+  $('.club-story-reply-response').remove();
+
+  // 수정 관련 정보 설정
   $('input[name=replyIdx]').val(replyIdx);
   $('.club-story-reply').val(content);
   $('.btn-post-reply').text('댓글수정');
@@ -1367,16 +1416,15 @@ $(document).on('click', '.btn-reply', function() {
   var $btn = $(this);
   var storyIdx = $('input[name=n]').val();
   var paging = $('input[name=p]').val();
+  var data = '';
 
   if (typeof storyIdx != 'undefined' && typeof paging != 'undefined') {
     $('input[name=p]').val(Number(paging) + 1);
-    if (storyIdx != '') {
-      var data = 'n=' + storyIdx;
-    } else {
-      var data = 'p=' + $('input[name=p]').val();
+    if (storyIdx == '') {
+      data = 'p=' + $('input[name=p]').val();
     }
     $.ajax({
-      url: $('input[name=baseUrl]').val() + '/story/index',
+      url: $('input[name=baseUrl]').val() + '/story/index/' + storyIdx,
       data: data,
       dataType: 'json',
       type: 'post',

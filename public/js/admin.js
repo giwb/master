@@ -37,27 +37,7 @@
     }
   });
 
-  // Smooth scrolling using jQuery easing
-  $(document).on('click', 'a.scroll-to-top', function(e) {
-    var $anchor = $(this);
-    $('html, body').stop().animate({
-      scrollTop: ($($anchor.attr('href')).offset().top)
-    }, 1000);
-    e.preventDefault();
-  });
-
-  $(document).on('click', '.logout', function() {
-    // 로그아웃
-    var base_url = $('input[name=base_url]').val();
-
-    $.ajax({
-      url: '/login/logout',
-      dataType: 'json',
-      success: function() {
-        location.href = (base_url);
-      }
-    });
-  }).on('click', '.btn-member-update', function() {
+  $(document).on('click', '.btn-member-update', function() {
     // 회원정보 수정
     var $btn = $(this);
     var formData = new FormData($('#formMember')[0]);
@@ -79,6 +59,24 @@
         }, 3000);
       }
     });
+  }).on('click', '.scroll-to-top', function() {
+    // 상단 스크롤
+    $('html, body').animate({scrollTop : 0}, 1000, 'easeInOutExpo');
+  }).on('click', '.img-profile', function() {
+    // 로그인 아이콘
+    var $dom = $('.profile-box');
+    if ($dom.css('display') == 'none') {
+      $dom.slideDown();
+    } else {
+      $dom.slideUp();
+    }
+  }).on('click', '.btn-mypage', function() {
+    var $dom = $('.nav-sp-mypage');
+    if ($dom.css('display') == 'none') {
+      $('.nav-sp-mypage').slideDown();
+    } else {
+      $('.nav-sp-mypage').slideUp();
+    }
   }).on('click', '.btn-member-point-update', function() {
     // 포인트/페널티 추가/감소
     var $btn = $(this);
@@ -92,6 +90,22 @@
       },
       success: function() {
         location.reload();
+      }
+    });
+  }).on('click', '.btn-member-modal', function() {
+    // 회원정보 모달
+    var $btn = $(this);
+    $.ajax({
+      url: $('input[name=baseUrl]').val() + '/admin/member_view_modal',
+      data: 'userid=' + $(this).data('userid'),
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true);
+      },
+      success: function(result) {
+        $btn.css('opacity', '1').prop('disabled', false);
+        $.openMsgModal(result.message);
       }
     });
   }).on('click', '.btn-point-modal', function() {
@@ -179,72 +193,23 @@
       return false;
     }
     $.ajax({
-        url: $('#myForm').attr('action'),
-        data: formData,
-        processData: false,
-        contentType: false,
-        dataType: 'json',
-        type: 'post',
-        beforeSend: function() {
-          $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
-        },
-        success: function(result) {
-          $btn.css('opacity', '1').prop('disabled', false).text(btnText);
-          $('#messageModal .btn-delete, #messageModal .btn-refresh').hide();
-          $('#messageModal .btn-list').attr('data-action', $('input[name=back_url').val()).show();
-          $('#messageModal .modal-message').text(result.message);
-          $('#messageModal').modal('show');
-        }
-      });
-  }).on('click', '.btn-front-submit', function() {
-    // 대문 등록
-    if ($('input[name=filename]').val() == '') {
-      $('#messageModal .btn-refresh, #messageModal .btn-delete').hide();
-      $('#messageModal .modal-message').text('파일을 선택해주세요.');
-      $('#messageModal').modal('show');
-    } else {
-      // 파일 업로드
-      var $dom = $('#formFront');
-      var $btn = $(this);
-      var action = $dom.attr('action');
-      var formData = new FormData($dom[0]);
-      var maxSize = 20480000;
-      var size = $('.file', $dom)[0].files[0].size;
-
-      if (size > maxSize) {
-        $('.file', $dom).val('');
-        $('#messageModal .btn-refresh, #messageModal .btn-delete').hide();
-        $('#messageModal .modal-message').text('파일의 용량은 20MB를 넘을 수 없습니다.');
+      url: $('#myForm').attr('action'),
+      data: formData,
+      processData: false,
+      contentType: false,
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+      },
+      success: function(result) {
+        $btn.css('opacity', '1').prop('disabled', false).text(btnText);
+        $('#messageModal .btn-delete, #messageModal .btn-refresh').hide();
+        $('#messageModal .btn-list').attr('data-action', $('input[name=back_url').val()).show();
+        $('#messageModal .modal-message').text(result.message);
         $('#messageModal').modal('show');
-        return;
       }
-
-      // 사진 형태 추가
-      formData.append('file_obj', $('.file', $dom)[0].files[0]);
-
-      $.ajax({
-        url: action,
-        processData: false,
-        contentType: false,
-        data: formData,
-        dataType: 'json',
-        type: 'post',
-        beforeSend: function() {
-          $btn.css('opacity', '0.5').prop('disabled', true).text('업로드중..');
-          $('.file', $dom).val('');
-        },
-        success: function(result) {
-          if (result.error == 1) {
-            $('#messageModal .btn-list, #messageModal .btn-refresh, #messageModal .btn-delete').hide();
-            $('#messageModal .modal-message').text(result.message);
-            $('#messageModal').modal('show');
-            $btn.css('opacity', '1').prop('disabled', false).text('등록하기');
-          } else {
-            location.reload();
-          }
-        }
-      });
-    }
+    });
   }).on('click', '.btn-log-check', function() {
     // 활동관리 확인 체크
     var $btn = $(this);
@@ -264,9 +229,34 @@
         } else {
           $btn.css('opacity', '1').prop('disabled', false);
           if (result.status == 1) {
-            $btn.removeClass('btn-primary').addClass('btn-secondary').attr('data-status', 0).text('복원');
+            $btn.removeClass('btn-default').addClass('btn-secondary').attr('data-status', 0).text('복원');
           } else {
-            $btn.removeClass('btn-secondary').addClass('btn-primary').attr('data-status', 1).text('확인');
+            $btn.removeClass('btn-secondary').addClass('btn-default').attr('data-status', 1).text('확인');
+          }
+        }
+      }
+    });
+  }).on('click', '.btn-reply-check', function() {
+    // 댓글 확인 체크
+    var $btn = $(this);
+    $.ajax({
+      url: '/admin/reply_check',
+      data: 'idx=' + $(this).data('idx'),
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true);
+      },
+      success: function(result) {
+        if (result.error == 1) {
+          $btn.css('opacity', '1').prop('disabled', false).text('확인');
+          $.openMsgModal(result.message);
+        } else {
+          $btn.css('opacity', '1').prop('disabled', false);
+          if (result.message == 'N') {
+            $btn.removeClass('btn-default').addClass('btn-secondary').text('복원');
+          } else {
+            $btn.removeClass('btn-secondary').addClass('btn-default').text('확인');
           }
         }
       }
@@ -276,7 +266,6 @@
     var $btn = $(this);
     var $dom = $('#formList');
     var formData = new FormData($dom[0]);
-
     $.ajax({
       url: $dom.attr('action'),
       data: formData,
@@ -306,6 +295,10 @@
   }).on('click', '.btn-member-search', function() {
     // 회원 검색
     $('input[name=p]').val('');
+    $('#formList').submit();
+  }).on('change', '.select-level-type', function() {
+    $('input[name=p]').val('');
+    $('input[name=keyword]').val('');
     $('#formList').submit();
   }).on('click', '.btn-front-sort', function() {
     // 대문 정렬
@@ -342,7 +335,7 @@
           $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
         },
         success: function() {
-          location.href=('/admin/setup_front');
+          location.href=($('input[name=baseUrl]').val() +  '/admin/setup_front');
         }
       });
     }
@@ -377,7 +370,7 @@
           $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
         },
         success: function() {
-          location.href=('/admin/setup_bustype');
+          location.href=($('input[name=baseUrl]').val() + '/admin/setup_bustype');
         }
       });
     }
@@ -512,13 +505,23 @@
     location.reload();
   }).on('click', '.btn-list', function() {
     // 모달 돌아가기 버튼
-    location.replace($('input[name=base_url]').val() + '/' + $(this).data('action'));
+    location.replace($('input[name=baseUrl]').val() + '/' + $(this).data('action'));
   }).on('click', '.btn-member-list', function() {
     // 회원 목록 돌아가기
-    location.href=('/admin/member_list');
+    location.href=($('input[name=baseUrl]').val() + '/admin/member_list');
+  }).on('click', '.logout', function() {
+    // 로그아웃
+    var baseUrl = $('input[name=baseUrl]').val();
+    $.ajax({
+      url: '/login/logout',
+      dataType: 'json',
+      success: function(result) {
+        location.reload();
+      }
+    });
   }).on('click', '.btn-user-login', function() {
     var $btn = $(this);
-    var baseUrl = $('input[name=base_url]').val();
+    var baseUrl = $('input[name=baseUrl]').val();
     $.ajax({
       url: '/admin/user_login',
       data: 'idx=' + $(this).data('idx'),
@@ -607,7 +610,7 @@
     } else {
       $dom.val('');
     }
-  }).on('click', '.area-bus-table .seat', function() {
+  }).on('click', '.admin-bus-table .seat', function() {
     // 산행 예약/수정 버튼
     var resIdx = $(this).data('id');
     var bus = $(this).data('bus');
@@ -644,7 +647,7 @@
         $domSeat.empty().append(selectSeat);
       }
     });
-  }).on('click', '.area-bus-table .priority', function() {
+  }).on('click', '.admin-bus-table .priority', function() {
     // 2인우선 예약 버튼
     var resIdx = $(this).data('id');
     var priorityIdx = $(this).data('priority');
@@ -788,7 +791,7 @@
           $('#messageModal .modal-message').text(result.message);
           $('#messageModal').modal('show');
         } else {
-          location.replace('/admin/main_view_progress/' + $('input[name=idx]').val());
+          location.replace($('input[name=baseUrl]').val() +  '/admin/main_view_progress/' + $('input[name=idx]').val());
         }
       }
     });
@@ -1057,12 +1060,15 @@
         var location = '<select name="location[]" class="location">'; $.each(reserveInfo.location, function(i, v) { if (v.stitle == '') v.stitle = '승차위치'; cnt = i + 1; if (reserveInfo.reserve.loc == v.no) selected = ' selected'; else selected = ''; location += '<option' + selected + ' value="' + v.no + '">' + v.stitle + '</option>'; }); location += '</select> ';
         var depositname = '<input type="text" name="depositname[]" size="20" placeholder="입금자명" value="' + reserveInfo.reserve.depositname + '">';
         var memo = '<div class="mt-1"><input type="text" name="memo[]" size="30" placeholder="메모" value="' + reserveInfo.reserve.memo + '"> ';
-        var options = '<label><input'; if (reserveInfo.reserve.vip == 1) options += ' checked'; options += ' type="checkbox" name="vip[]">평생회원</label> <label><input'; if (reserveInfo.reserve.manager == 1) options += ' checked'; options += ' type="checkbox" name="manager[]" class="btn-manager">운영진우선</label> <label><input'; if (reserveInfo.reserve.priority == 1) options += ' checked'; options += ' type="checkbox" name="priority[]" class="priority">2인우선</label> ';
+        var options = '<label><input'; if (reserveInfo.reserve.vip == 1) options += ' checked'; options += ' type="checkbox" name="vip[]">평생</label> <label><input'; if (reserveInfo.reserve.manager == 1) options += ' checked'; options += ' type="checkbox" name="manager[]" class="btn-manager">운영진</label> <label><input'; if (reserveInfo.reserve.priority == 1) options += ' checked'; options += ' type="checkbox" name="priority[]" class="priority">2인</label> ';
         if (resIdx != '') {
           var button = '<button type="button" class="btn btn-secondary btn-reserve-deposit" data-idx="' + resIdx + '" data-status="' + reserveInfo.reserve.status + '">';
           if (reserveInfo.reserve.status == 1) button += '입금취소'; else button += '입금확인';
           button += '</button> ';
           button += '<button type="button" class="btn btn-secondary btn-reserve-cancel" data-idx="' + resIdx + '">예약취소</button> ';
+          if (reserveInfo.reserve.userid != '') {
+            button += '<button type="button" class="btn btn-info btn-member-modal" data-userid="' + reserveInfo.reserve.userid + '">회원정보</button> ';
+          }
         } else {
           var button = '';
         }
@@ -1079,7 +1085,7 @@
   $.openMsgModal = function(msg) {
     $('#messageModal .modal-footer .btn').hide();
     $('#messageModal .modal-footer .btn-close').show();
-    $('#messageModal .modal-message').text(msg);
+    $('#messageModal .modal-message').html(msg);
     $('#messageModal').modal('show');
   }
 

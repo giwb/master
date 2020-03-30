@@ -132,6 +132,11 @@ defined('DB_SHOP_PURCHASE')   OR define('DB_SHOP_PURCHASE', 'shop_purchase'); //
 defined('DB_VISITOR')         OR define('DB_VISITOR', 'visitor'); // 방문자
 defined('DB_WAIT')            OR define('DB_WAIT', 'wait'); // 대기자 명단
 
+// 사진 형식
+defined('TYPE_MAIN')          OR define('TYPE_MAIN', 1);
+defined('TYPE_ADDED')         OR define('TYPE_ADDED', 2);
+defined('TYPE_MAP')           OR define('TYPE_MAP', 3);
+
 // 산행 상태
 defined('STATUS_PLAN')        OR define('STATUS_PLAN', 0); // 계획
 defined('STATUS_ABLE')        OR define('STATUS_ABLE', 1); // 예정
@@ -213,20 +218,22 @@ defined('LOG_ADMIN_SHOP_COMPLETE')        OR define('LOG_ADMIN_SHOP_COMPLETE', 2
 defined('LOG_DRIVER_CHANGE')              OR define('LOG_DRIVER_CHANGE', 51);
 
 // 레벨 형태
-defined('LEVEL_NORMAL')       OR define('LEVEL_NORMAL', 0);   // 일반회원
-defined('LEVEL_LIFETIME')     OR define('LEVEL_LIFETIME', 1); // 평생회원
-defined('LEVEL_FREE')         OR define('LEVEL_FREE', 2);     // 무료회원
-defined('LEVEL_DRIVER')       OR define('LEVEL_DRIVER', 3);   // 드라이버
-defined('LEVEL_DRIVER_ADMIN') OR define('LEVEL_DRIVER_ADMIN', 4); // 드라이버 관리자
-defined('LEVEL_BLACKLIST')    OR define('LEVEL_BLACKLIST', 9); // 블랙리스트
+defined('LEVEL_NORMAL')                   OR define('LEVEL_NORMAL', 0);   // 일반회원
+defined('LEVEL_LIFETIME')                 OR define('LEVEL_LIFETIME', 1); // 평생회원
+defined('LEVEL_FREE')                     OR define('LEVEL_FREE', 2);     // 무료회원
+defined('LEVEL_DRIVER')                   OR define('LEVEL_DRIVER', 3);   // 드라이버
+defined('LEVEL_DRIVER_ADMIN')             OR define('LEVEL_DRIVER_ADMIN', 4); // 드라이버 관리자
+defined('LEVEL_BLACKLIST')                OR define('LEVEL_BLACKLIST', 9); // 블랙리스트
 
 // 댓글 형태
-defined('REPLY_TYPE_STORY')   OR define('REPLY_TYPE_STORY', 1);
-defined('REPLY_TYPE_NOTICE')  OR define('REPLY_TYPE_NOTICE', 2);
+defined('REPLY_TYPE_STORY')               OR define('REPLY_TYPE_STORY', 1);
+defined('REPLY_TYPE_NOTICE')              OR define('REPLY_TYPE_NOTICE', 2);
+defined('REPLY_TYPE_SHOP')                OR define('REPLY_TYPE_SHOP', 3);
 
 // 공유 형태
-defined('REACTION_TYPE_STORY')   OR define('REACTION_TYPE_STORY', 1);
-defined('REACTION_TYPE_NOTICE')  OR define('REACTION_TYPE_NOTICE', 2);
+defined('REACTION_TYPE_STORY')            OR define('REACTION_TYPE_STORY', 1);
+defined('REACTION_TYPE_NOTICE')           OR define('REACTION_TYPE_NOTICE', 2);
+defined('REACTION_TYPE_SHOP')             OR define('REACTION_TYPE_SHOP', 3);
 
 // 쿠키 시간 (1년)
 define('COOKIE_STRAGE_PERIOD', 60 * 60 * 24 * 30 * 12);

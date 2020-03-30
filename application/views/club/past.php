@@ -20,7 +20,7 @@
           <li><input type="text" id="endDatePicker" name="edate" class="form-control form-control-sm" value="<?=!empty($searchData['edate']) ? $searchData['edate'] : ''?>"></li>
           <li>키워드검색</li>
           <li><input type="text" name="keyword" class="form-control form-control-sm" value="<?=!empty($searchData['keyword']) ? $searchData['keyword'] : ''?>"></li>
-          <li><button class="btn btn-sm btn-primary">검색</button></li>
+          <li><button class="btn btn-sm btn-default">검색</button></li>
         </ul>
       </form>
       <ul class="box-past-title">
@@ -46,7 +46,7 @@
           <div class="text-center m-5">검색된 정보가 없습니다.</div>
         <?php else : ?>
         <?php foreach ($listPastNotice as $value): ?>
-        <a href="<?=BASE_URL?>/reserve/?n=<?=$value['idx']?>"><strong><?=$value['subject']?></strong><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명</a>
+        <a href="<?=BASE_URL?>/reserve/list/<?=$value['idx']?>"><strong><?=$value['subject']?></strong><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명</a>
         <?php endforeach; ?>
         <?php endif; ?>
       </div>

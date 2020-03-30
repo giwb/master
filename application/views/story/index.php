@@ -21,7 +21,7 @@
             <div class="story-container">
               <div class="story-profile">
                 <img class="img-profile photo-zoom" src="<?=$value['photo']?>" data-filename="<?=$value['photo']?>" data-width="<?=$value['photo_width']?>" data-height="<?=$value['photo_height']?>"> <strong><?=$value['user_nickname']?></strong><br>
-                <a href="<?=BASE_URL?>/story/view/?n=<?=$value['idx']?>" class="story-date"><?=calcStoryTime($value['created_at'])?><?=!empty($value['updated_at']) ? ' 작성, ' . calcStoryTime($value['updated_at']) . ' 수정' : ''?></a><?=!empty($userData['idx']) && ($userData['idx'] == $value['created_by'] || $userData['admin'] == 1) ? ' <a href="' . BASE_URL . '/story/edit/?n=' . $value['idx'] . '">[수정]</a> <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '" data-action="delete">[삭제]</a>' : ''?>
+                <a href="<?=BASE_URL?>/story/view/<?=$value['idx']?>" class="story-date"><?=calcStoryTime($value['created_at'])?><?=!empty($value['updated_at']) ? ' 작성, ' . calcStoryTime($value['updated_at']) . ' 수정' : ''?></a><?=!empty($userData['idx']) && ($userData['idx'] == $value['created_by'] || $userData['admin'] == 1) ? ' <a href="' . BASE_URL . '/story/edit/' . $value['idx'] . '">[수정]</a> <a href="javascript:;" class="btn-post-delete-modal" data-idx="' . $value['idx'] . '" data-action="delete">[삭제]</a>' : ''?>
               </div>
               <div class="story-content">
                 <?php if (!empty($value['filename'])): ?><img class="story-photo" src="<?=PHOTO_URL?>thumb_<?=$value['filename']?>" data-filename="<?=PHOTO_URL?><?=$value['filename']?>" data-width="<?=$value['file_width']?>" data-height="<?=$value['file_height']?>"><br><?php endif; ?>
@@ -33,9 +33,9 @@
                 <button type="button" class="btn-share" data-idx="<?=$value['idx']?>" data-type="<?=REACTION_TYPE_STORY?>"><i class="fa fa-share-alt" aria-hidden="true"></i> 공유 <span class="cnt-share"><?=$value['share_cnt']?></span></button>
                 <div class="area-share" data-idx="<?=$value['idx']?>">
                   <ul>
-                    <li><a href="javascript:;" class="btn-share-sns" data-idx="<?=$value['idx']?>" data-reaction-type="<?=REACTION_TYPE_STORY?>" data-type="<?=SHARE_TYPE_FACEBOOK?>" data-url="https://facebook.com/sharer/sharer.php?u=<?=BASE_URL?>/story/view/?n=<?=$value['idx']?>"><img src="/public/images/icon_facebook.png"><br>페이스북</a></li>
-                    <li><a href="javascript:;" class="btn-share-sns" data-idx="<?=$value['idx']?>" data-reaction-type="<?=REACTION_TYPE_STORY?>" data-type="<?=SHARE_TYPE_TWITTER?>" data-url="https://twitter.com/intent/tweet?url=<?=BASE_URL?>/story/view/?n=<?=$value['idx']?>"><img src="/public/images/icon_twitter.png"><br>트위터</a></li>
-                    <li><a href="javascript:;" class="btn-share-url" data-idx="<?=$value['idx']?>" data-reaction-type="<?=REACTION_TYPE_STORY?>" data-type="<?=SHARE_TYPE_URL?>" data-trigger="click" data-placement="bottom" data-clipboard-text="<?=BASE_URL?>/story/view/?n=<?=$value['idx']?>"><img src="/public/images/icon_url.png"><br>URL</a></li>
+                    <li><a href="javascript:;" class="btn-share-sns" data-idx="<?=$value['idx']?>" data-reaction-type="<?=REACTION_TYPE_STORY?>" data-type="<?=SHARE_TYPE_FACEBOOK?>" data-url="https://facebook.com/sharer/sharer.php?u=<?=BASE_URL?>/story/view/<?=$value['idx']?>"><img src="/public/images/icon_facebook.png"><br>페이스북</a></li>
+                    <li><a href="javascript:;" class="btn-share-sns" data-idx="<?=$value['idx']?>" data-reaction-type="<?=REACTION_TYPE_STORY?>" data-type="<?=SHARE_TYPE_TWITTER?>" data-url="https://twitter.com/intent/tweet?url=<?=BASE_URL?>/story/view/<?=$value['idx']?>"><img src="/public/images/icon_twitter.png"><br>트위터</a></li>
+                    <li><a href="javascript:;" class="btn-share-url" data-idx="<?=$value['idx']?>" data-reaction-type="<?=REACTION_TYPE_STORY?>" data-type="<?=SHARE_TYPE_URL?>" data-trigger="click" data-placement="bottom" data-clipboard-text="<?=BASE_URL?>/story/view/<?=$value['idx']?>"><img src="/public/images/icon_url.png"><br>URL</a></li>
                   </ul>
                 </div>
               </div>
@@ -47,6 +47,7 @@
                   <input type="hidden" name="storyIdx" value="<?=$value['idx']?>">
                   <input type="hidden" name="replyType" value="<?=REPLY_TYPE_STORY?>">
                   <input type="hidden" name="replyIdx" value="">
+                  <input type="hidden" name="replyParentIdx" value="">
                   <textarea name="content" class="club-story-reply"></textarea>
                   <button type="button" class="btn btn-primary btn-post-reply" data-idx="<?=$value['idx']?>">댓글달기</button>
                 </form>

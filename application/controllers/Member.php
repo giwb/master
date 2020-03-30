@@ -786,15 +786,31 @@ class Member extends MY_Controller
     $viewData['userLevel'] = $this->load->get_var('userLevel');
 
     // 진행 중 산행
-    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
+    $viewData['listFooterNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
 
-    // 회원수
-    $viewData['view']['cntMember'] = $this->member_model->cntMember($viewData['view']['idx']);
-    $viewData['view']['cntMemberToday'] = $this->member_model->cntMemberToday($viewData['view']['idx']);
+    // 최신 댓글
+    $paging['perPage'] = 5; $paging['nowPage'] = 0;
+    $viewData['listFooterReply'] = $this->admin_model->listReply($viewData['view']['idx'], $paging);
 
-    // 방문자수
-    $viewData['view']['cntVisitor'] = $this->member_model->cntVisitor($viewData['view']['idx']);
-    $viewData['view']['cntVisitorToday'] = $this->member_model->cntVisitorToday($viewData['view']['idx']);
+    foreach ($viewData['listFooterReply'] as $key => $value) {
+      if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/story/view/' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/reserve/list/' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_SHOP):   $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/shop/item/' . $value['story_idx']; endif;
+    }
+
+    // 최신 사진첩
+    $paging['perPage'] = 2; $paging['nowPage'] = 0;
+    $viewData['listFooterAlbum'] = $this->club_model->listAlbum($viewData['view']['idx'], $paging);
+
+    foreach ($viewData['listFooterAlbum'] as $key => $value) {
+      $photo = $this->file_model->getFile('album', $value['idx'], NULL, 1);
+      if (!empty($photo[0]['filename'])) {
+        //$viewData['listAlbum'][$key]['photo'] = PHOTO_URL . 'thumb_' . $photo[0]['filename'];
+        $viewData['listFooterAlbum'][$key]['photo'] = PHOTO_URL . $photo[0]['filename'];
+      } else {
+        $viewData['listFooterAlbum'][$key]['photo'] = '/public/images/noimage.png';
+      }
+    }
 
     // 클럽 대표이미지
     $files = $this->file_model->getFile('club', $viewData['view']['idx']);

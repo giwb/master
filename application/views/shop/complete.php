@@ -61,7 +61,7 @@
           </div>
           <?php endif; ?>
           <div class="text-center mb-5 pt-4">
-            <a href="<?=BASE_URL?>"><button type="button" class="btn btn-primary">메인 화면으로</button></a>
+            <a href="<?=BASE_URL?>"><button type="button" class="btn btn-default">메인 화면으로</button></a>
             <a href="<?=BASE_URL?>/shop"><button type="button" class="btn btn-secondary ml-3">계속 쇼핑하기</button></a>
           </div>
         </div>

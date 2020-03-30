@@ -66,15 +66,22 @@ class Story_model extends CI_Model
   }
 
   // 스토리 댓글
-  public function listStoryReply($storyIdx, $replyType)
+  public function listStoryReply($storyIdx, $replyType, $parentIdx=NULL)
   {
-    $this->db->select('a.idx, a.content, a.created_by, a.created_at, a.updated_at, b.nickname')
+    $this->db->select('a.idx, a.parent_idx, a.content, a.created_by, a.created_at, a.updated_at, b.nickname')
           ->from(DB_STORY_REPLY . ' a')
           ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
           ->where('a.story_idx', $storyIdx)
           ->where('a.reply_type', $replyType)
           ->where('a.deleted_at', NULL)
           ->order_by('a.idx', 'asc');
+
+    if (!is_null($parentIdx)) {
+      $this->db->where('a.parent_idx', $parentIdx);
+    } else {
+      $this->db->where('a.parent_idx', 0);
+    }
+
     return $this->db->get()->result_array();
   }
 
@@ -107,7 +114,7 @@ class Story_model extends CI_Model
   }
 
   // 스토리 댓글 수정
-  public function updateStoryReply($data, $storyIdx, $replyType, $storyReplyIdx=NULL)
+  public function updateStoryReply($data, $storyIdx, $replyType, $storyReplyIdx=NULL, $replyParentIdx=NULL)
   {
     $this->db->set($data);
     $this->db->where('story_idx', $storyIdx);
@@ -115,6 +122,9 @@ class Story_model extends CI_Model
 
     if (!is_null($storyReplyIdx)) {
       $this->db->where('idx', $storyReplyIdx);
+    }
+    if (!is_null($replyParentIdx)) {
+      $this->db->where('parent_idx', $replyParentIdx);
     }
 
     return $this->db->update(DB_STORY_REPLY);

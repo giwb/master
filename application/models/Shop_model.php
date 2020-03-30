@@ -42,6 +42,7 @@ class Shop_model extends CI_Model
   {
     $this->db->select('COUNT(*) AS cnt')
           ->from(DB_SHOP)
+          ->where('item_visible', 'Y')
           ->where('deleted_at', NULL);
 
     if (!empty($search['item_name'])) {
@@ -156,6 +157,9 @@ class Shop_model extends CI_Model
     if (!empty($search['mname'])) {
       $this->db->like('c.mname', $search['mname']);
     }
+    if (!empty($search['notice_idx'])) {
+      $this->db->where('a.notice_idx', $search['notice_idx']);
+    }
     if (!empty($paging)) {
       $this->db->limit($paging['perPage'], $paging['nowPage']);
     }
@@ -164,11 +168,30 @@ class Shop_model extends CI_Model
   }
 
   // 구매 내역 카운트
-  public function cntPurchase()
+  public function cntPurchase($search=NULL)
   {
     $this->db->select('COUNT(*) AS cnt')
-          ->from(DB_SHOP_PURCHASE)
-          ->where('deleted_at', NULL);
+          ->from(DB_SHOP_PURCHASE . ' a')
+          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
+          ->join(DB_NOTICE . ' c', 'a.notice_idx=c.idx', 'left')
+          ->where('a.deleted_at', NULL);
+
+    if (!empty($search['item_name'])) {
+      $this->db->like('a.items', $search['item_name']);
+    }
+    if (!empty($search['created_by'])) {
+      $this->db->like('a.created_by', $search['created_by']);
+    }
+    if (!empty($search['nickname'])) {
+      $this->db->like('b.nickname', $search['nickname']);
+    }
+    if (!empty($search['mname'])) {
+      $this->db->like('c.mname', $search['mname']);
+    }
+    if (!empty($search['notice_idx'])) {
+      $this->db->where('a.notice_idx', $search['notice_idx']);
+    }
+
     return $this->db->get()->row_array(1);
   }
 

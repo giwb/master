@@ -52,6 +52,82 @@ if (!function_exists('ksubstr'))
   }
 }
 
+// 여행 포인트
+if (!function_exists('getPoint')) {
+  function getPoint($point) {
+    $result = '';
+    $arr = unserialize($point);
+
+    if ($arr != '') {
+      foreach ($arr as $value) {
+        if ($result != '') $result .= ' / ';
+        switch ($value) {
+          case 'point1':
+            $result .= '문화재';
+          break;
+          case 'point2':
+            $result .= '천연기념물';
+          break;
+          case 'point3':
+            $result .= '보물';
+          break;
+        }
+      }
+    }
+    return $result;
+  }
+}
+
+// 해발
+if (!function_exists('getHeight'))
+{
+  function getHeight($n, $d = 1)
+  {
+    if (!empty($n)) {
+      $result = number_format($n, $d);
+      $result = rtrim($result, 0);
+      $result = rtrim($result, '.');
+      $result = '해발 ' . $result . 'm<br>';
+    } else {
+      $result = '해발 0m<br>';
+    }
+    return $result;
+  }
+}
+
+// 지역
+if (!function_exists('getAreaName')) {
+  function getAreaName($sido, $gugun, $limit=NULL) {
+    $result = NULL;
+    if ($sido != '' || $gugun != '') {
+      $result = '';
+      $arr_sido = unserialize($sido);
+      $arr_gugun = unserialize($gugun);
+
+      foreach ($arr_sido as $key => $value) {
+        if ($key >= 1) $result .= ', ';
+        $sido = $GLOBALS['CI']->area_model->getName($value);
+        $gugun = $GLOBALS['CI']->area_model->getName($arr_gugun[$key]);
+        $result .= $sido['name'] . ' ' . $gugun['name'];
+        if (!is_null($limit)) break;
+      }
+    }
+    return $result;
+  }
+}
+
+// 클럽 홈 URL
+if (!function_exists('goHome')) {
+  function goHome($domain) {
+    if (strstr($domain, '.')) {
+      $result = 'http://' . $domain;
+    } else {
+      $result = base_url() . $domain;
+    }
+    return $result;
+  }
+}
+
 // 방문자 기록
 if (!function_exists('setVisitor')) {
   function setVisitor() {
@@ -448,11 +524,13 @@ if (!function_exists('getBusTableMake')) {
         if ($seat != 1 && $seat%4 == 1 && $seat < 23) $result = '</tr><tr>';
         elseif ($seat%4 == 3 && $seat < 23) $result = '<td colspan="2" class="table-blank"></td>';
         break;
-      case '13': // 13석
-      case '10': // 10석
-        if ($seat == 1) $result = '<td colspan="4">운전석</td>';
-        elseif ($seat == 2) $result = '</tr><tr>';
-        elseif ($seat <= 5 && $seat%4 == 1 || $seat == 8 || $seat == 11) $result = '</tr><tr>';
+      case '15': // 15석
+      case '12': // 12석
+        if ($seat%3 == 1) $result = '</tr><tr>';
+        break;
+      case '5': // 5석
+        if ($seat == 2) $result = '<td colspan="2"></td>';
+        elseif ($seat%3 == 0) $result = '</tr><tr>';
         break;
     }
     return $result;
@@ -943,7 +1021,9 @@ if (!function_exists('getUserAgent')) {
     if (strstr($agent, 'AppleWebKit') && strstr($agent, 'Mobile/15E148')) $result .= '다음앱 ';
     if (strstr($agent, 'kakaotalk'))    $result .= '카카오톡 ';
     if (strstr($agent, 'facebook'))     $result .= '페이스북 ';
-    if ($result == '') $result = $agent;
+    if (empty($result)) {
+      $result = strlen($agent) > 35 ? substr($agent, 0, 35) . '...' : $agent;
+    }
 
     return $result;
   }

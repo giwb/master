@@ -11,7 +11,7 @@
         <div class="sub-contents">
           <div class="sub-title">
             <div class="area-title"><h2><b><?=viewStatus($notice['status'])?></b> <?=$notice['subject']?></h2></div>
-            <div class="area-btn"><a href="<?=BASE_URL?>/reserve/notice/?n=<?=$notice['idx']?>"><button type="button" class="btn btn-primary">산행공지</button></a></div>
+            <div class="area-btn"><a href="<?=BASE_URL?>/reserve/notice/<?=$notice['idx']?>"><button type="button" class="btn btn-default">산행공지</button></a></div>
           </div>
           <?php if (!empty($notice['type'])): ?><div class="ti"><strong>・유형</strong> : <?=$notice['type']?></div><?php endif; ?>
           <div class="ti"><strong>・일시</strong> : <?=$notice['startdate']?> (<?=calcWeek($notice['startdate'])?>) <?=$notice['starttime']?></div>
@@ -85,8 +85,8 @@
                 <input type="hidden" name="userLocation" value="<?=!empty($userData['location']) ? $userData['location'] : ''?>">
                 <input type="hidden" name="userGender" value="<?=!empty($userData['gender']) ? $userData['gender'] : ''?>">
                 <?php $checkWait = checkWait($view['idx'], $notice['idx'], $userData['idx']); if (empty($checkWait)): ?>
-                <button type="button" class="btn btn-primary btn-reserve-wait-add">대기자 등록</button>
-                <button type="button" class="btn btn-primary btn-reserve-wait d-none">대기자 등록</button>
+                <button type="button" class="btn btn-default btn-reserve-wait-add">대기자 등록</button>
+                <button type="button" class="btn btn-default btn-reserve-wait d-none">대기자 등록</button>
                 <?php else: ?>
                 <button type="button" class="btn btn-secondary btn-reserve-wait">대기자 취소</button>
                 <?php endif; ?>
@@ -98,7 +98,7 @@
               <input type="hidden" name="clubIdx" value="<?=!empty($view['idx']) ? $view['idx'] : ''?>">
               <input type="hidden" name="userIdx" value="<?=!empty($userData['idx']) ? $userData['idx'] : ''?>">
               <input type="hidden" name="noticeIdx" value="<?=!empty($notice['idx']) ? $notice['idx'] : ''?>">
-              <button type="button" class="btn btn-primary btn-reserve-confirm">예약합니다</button>
+              <button type="button" class="btn btn-default btn-reserve-confirm">예약합니다</button>
               <button type="button" class="btn btn-secondary btn-reserve-cancel d-none">취소합니다</button>
             </form>
             <?php endif; ?>
@@ -109,9 +109,9 @@
             <button type="button" class="btn-share" data-idx="<?=$notice['idx']?>"><i class="fa fa-share-alt" aria-hidden="true"></i> 공유하기 <span class="cnt-share"><?=$notice['share_cnt']?></span></button>
             <div class="area-share" data-idx="<?=$notice['idx']?>">
               <ul>
-                <li><a href="javascript:;" class="btn-share-sns" data-idx="<?=$notice['idx']?>" data-reaction-type="<?=REACTION_TYPE_NOTICE?>" data-type="<?=SHARE_TYPE_FACEBOOK?>" data-url="https://facebook.com/sharer/sharer.php?u=<?=BASE_URL?>/reserve/?n=<?=$notice['idx']?>"><img src="/public/images/icon_facebook.png"><br>페이스북</a></li>
-                <li><a href="javascript:;" class="btn-share-sns" data-idx="<?=$notice['idx']?>" data-reaction-type="<?=REACTION_TYPE_NOTICE?>" data-type="<?=SHARE_TYPE_TWITTER?>" data-url="https://twitter.com/intent/tweet?url=<?=BASE_URL?>/reserve/?n=<?=$notice['idx']?>"><img src="/public/images/icon_twitter.png"><br>트위터</a></li>
-                <li><a href="javascript:;" class="btn-share-url" data-idx="<?=$notice['idx']?>" data-reaction-type="<?=REACTION_TYPE_NOTICE?>" data-type="<?=SHARE_TYPE_URL?>" data-trigger="click" data-placement="bottom" data-clipboard-text="<?=BASE_URL?>/reserve/?n=<?=$notice['idx']?>"><img src="/public/images/icon_url.png"><br>URL</a></li>
+                <li><a href="javascript:;" class="btn-share-sns" data-idx="<?=$notice['idx']?>" data-reaction-type="<?=REACTION_TYPE_NOTICE?>" data-type="<?=SHARE_TYPE_FACEBOOK?>" data-url="https://facebook.com/sharer/sharer.php?u=<?=BASE_URL?>/reserve/list/<?=$notice['idx']?>"><img src="/public/images/icon_facebook.png"><br>페이스북</a></li>
+                <li><a href="javascript:;" class="btn-share-sns" data-idx="<?=$notice['idx']?>" data-reaction-type="<?=REACTION_TYPE_NOTICE?>" data-type="<?=SHARE_TYPE_TWITTER?>" data-url="https://twitter.com/intent/tweet?url=<?=BASE_URL?>/reserve/list/<?=$notice['idx']?>"><img src="/public/images/icon_twitter.png"><br>트위터</a></li>
+                <li><a href="javascript:;" class="btn-share-url" data-idx="<?=$notice['idx']?>" data-reaction-type="<?=REACTION_TYPE_NOTICE?>" data-type="<?=SHARE_TYPE_URL?>" data-trigger="click" data-placement="bottom" data-clipboard-text="<?=BASE_URL?>/reserve/list/<?=$notice['idx']?>"><img src="/public/images/icon_url.png"><br>URL</a></li>
               </ul>
             </div>
           </div>
@@ -124,8 +124,9 @@
               <input type="hidden" name="storyIdx" value="<?=$notice['idx']?>">
               <input type="hidden" name="replyType" value="<?=REPLY_TYPE_NOTICE?>">
               <input type="hidden" name="replyIdx" value="">
+              <input type="hidden" name="replyParentIdx" value="">
               <textarea name="content" class="club-story-reply"></textarea>
-              <button type="button" class="btn btn-primary btn-post-reply" data-idx="<?=$notice['idx']?>">댓글달기</button>
+              <button type="button" class="btn btn-default btn-post-reply" data-idx="<?=$notice['idx']?>">댓글달기</button>
             </form>
           </div>
         </div>

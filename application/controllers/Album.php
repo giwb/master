@@ -38,14 +38,14 @@ class Album extends MY_Controller
     $viewData['cntAlbum'] = $this->club_model->cntAlbum($clubIdx);
 
     // 사진첩
-    $viewData['listAlbum'] = $this->club_model->listAlbum($clubIdx, $paging);
+    $viewData['listAlbumMain'] = $this->club_model->listAlbum($clubIdx, $paging);
 
-    foreach ($viewData['listAlbum'] as $key => $value) {
+    foreach ($viewData['listAlbumMain'] as $key => $value) {
       $photo = $this->file_model->getFile('album', $value['idx'], NULL, 1);
       if (!empty($photo[0]['filename'])) {
-        $viewData['listAlbum'][$key]['photo'] = base_url() . PHOTO_URL . $photo[0]['filename'];
+        $viewData['listAlbumMain'][$key]['photo'] = PHOTO_URL . 'thumb_' . $photo[0]['filename'];
       } else {
-        $viewData['listAlbum'][$key]['photo'] = base_url() . 'public/images/noimage.png';
+        $viewData['listAlbumMain'][$key]['photo'] = '/public/images/noimage.png';
       }
     }
 
@@ -59,7 +59,7 @@ class Album extends MY_Controller
       $this->output->set_output(json_encode($result));
     } else {
       // 아이템 목록 템플릿
-      $viewData['listAlbum'] = $this->load->view('club/album_list', $viewData, true);
+      $viewData['listAlbumMain'] = $this->load->view('club/album_list', $viewData, true);
 
       // 1페이지에는 View 페이지로 전송
       $this->_viewPage('club/album', $viewData);
@@ -88,7 +88,7 @@ class Album extends MY_Controller
         $size = getImageSize(PHOTO_PATH . $value['filename']);
         $result[$cnt]['width'] = $size[0];
         $result[$cnt]['height'] = $size[1];
-        $result[$cnt]['src'] = base_url() . PHOTO_URL . $value['filename'];
+        $result[$cnt]['src'] = BASE_URL . PHOTO_URL . $value['filename'];
         $result[$cnt]['title'] = $viewData['viewAlbum']['subject'];
         $cnt++;
       }
@@ -185,10 +185,9 @@ class Album extends MY_Controller
           $config['source_image'] = PHOTO_PATH . $value;
           $config['new_image'] = PHOTO_PATH . 'thumb_' . $value;
           $config['create_thumb'] = TRUE;
-          $config['maintain_ratio'] = FALSE;
+          $config['maintain_ratio'] = TRUE;
           $config['thumb_marker'] = '';
           $config['width'] = 200;
-          $config['height'] = 200;
           $this->image_lib->initialize($config);
           $this->image_lib->resize();
         }
@@ -237,22 +236,22 @@ class Album extends MY_Controller
       $filename = time() . mt_rand(10000, 99999) . ".jpg";
 
       if (move_uploaded_file($_FILES['file_obj']['tmp_name'], UPLOAD_PATH . $filename)) {
-        // 사진 사이즈 줄이기 (세로 사이즈가 1024보다 클 경우)
-        $maxSize = 1024;
+        // 사진 사이즈 줄이기 (가로 사이즈가 2000보다 클 경우)
+        $maxSize = 2000;
         $size = getImageSize(UPLOAD_PATH . $filename);
-        if ($size[1] >= $maxSize) {
+        if ($size[0] >= $maxSize) {
           $this->image_lib->clear();
           $config['image_library'] = 'gd2';
           $config['source_image'] = UPLOAD_PATH . $filename;
           $config['maintain_ratio'] = TRUE;
-          $config['height'] = $maxSize;
+          $config['width'] = $maxSize;
           $this->image_lib->initialize($config);
           $this->image_lib->resize();
         }
 
         $result = array(
           'error' => 0,
-          'message' => base_url() . UPLOAD_URL . $filename,
+          'message' => BASE_URL . UPLOAD_URL . $filename,
           'filename' => $filename
         );
       } else {
@@ -288,21 +287,37 @@ class Album extends MY_Controller
     $viewData['userLevel'] = $this->load->get_var('userLevel');
 
     // 진행 중 산행
-    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
+    $viewData['listFooterNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
 
-    // 회원수
-    $viewData['view']['cntMember'] = $this->member_model->cntMember($viewData['view']['idx']);
-    $viewData['view']['cntMemberToday'] = $this->member_model->cntMemberToday($viewData['view']['idx']);
+    // 최신 댓글
+    $paging['perPage'] = 5; $paging['nowPage'] = 0;
+    $viewData['listFooterReply'] = $this->admin_model->listReply($viewData['view']['idx'], $paging);
 
-    // 방문자수
-    $viewData['view']['cntVisitor'] = $this->member_model->cntVisitor($viewData['view']['idx']);
-    $viewData['view']['cntVisitorToday'] = $this->member_model->cntVisitorToday($viewData['view']['idx']);
+    foreach ($viewData['listFooterReply'] as $key => $value) {
+      if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/story/view/' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/reserve/list/' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_SHOP):   $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/shop/item/' . $value['story_idx']; endif;
+    }
+
+    // 최신 사진첩
+    $paging['perPage'] = 2; $paging['nowPage'] = 0;
+    $viewData['listFooterAlbum'] = $this->club_model->listAlbum($viewData['view']['idx'], $paging);
+
+    foreach ($viewData['listFooterAlbum'] as $key => $value) {
+      $photo = $this->file_model->getFile('album', $value['idx'], NULL, 1);
+      if (!empty($photo[0]['filename'])) {
+        //$viewData['listAlbum'][$key]['photo'] = PHOTO_URL . 'thumb_' . $photo[0]['filename'];
+        $viewData['listFooterAlbum'][$key]['photo'] = PHOTO_URL . $photo[0]['filename'];
+      } else {
+        $viewData['listFooterAlbum'][$key]['photo'] = '/public/images/noimage.png';
+      }
+    }
 
     // 클럽 대표이미지
     $files = $this->file_model->getFile('club', $viewData['view']['idx']);
     if (!empty($files[0]['filename']) && file_exists(PHOTO_PATH . $files[0]['filename'])) {
       $size = getImageSize(PHOTO_PATH . $files[0]['filename']);
-      $viewData['view']['main_photo'] = base_url() . PHOTO_URL . $files[0]['filename'];
+      $viewData['view']['main_photo'] = PHOTO_URL . $files[0]['filename'];
       $viewData['view']['main_photo_width'] = $size[0];
       $viewData['view']['main_photo_height'] = $size[1];
     }

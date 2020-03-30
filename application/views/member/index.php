@@ -20,6 +20,7 @@
               ・잔여 포인트 : <span class="text-danger"><?=number_format($viewMember['point'])?>점</span><br>
             </div>
           </div>
+
           <h3>
             ■ 진행중 예약 내역 : <span class="text-success"><?=$maxReserve['cnt']?>건</span>
             <div class="area-btn">
@@ -35,7 +36,7 @@
             <dl>
               <dt><input type="checkbox" id="cr<?=$key?>" name="checkReserve[]" class="check-reserve" value="<?=$value['idx']?>" data-reserve-cost="<?=$value['cost_total']?>" data-payment-cost="<?=$value['real_cost']?>" data-status="<?=$value['status']?>" data-penalty="<?=$value['penalty']?>"><label for="cr<?=$key?>"></label></dt>
               <dd>
-                <?=viewStatus($value['notice_status'])?> <a href="<?=BASE_URL?>/reserve/?n=<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
+                <?=viewStatus($value['notice_status'])?> <a href="<?=BASE_URL?>/reserve/list/<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
                 <small>
                   일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 
                   요금 : <?=$value['view_cost']?> /
@@ -46,7 +47,7 @@
             </dl>
             <?php endforeach; ?>
           </form>
-<?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
+
           <h3>
             ■ 구매 내역
             <div class="area-btn">
@@ -58,7 +59,6 @@
           <form id="shopForm" method="post" action="/shop/payment">
             <?=$listPurchase?>
           </form>
-<?php endif; ?>
 
           <h3>
             ■ 다녀온 산행 내역 : <span class="text-primary"><?=$maxVisit['cnt']?>회</span>
@@ -69,7 +69,7 @@
           <?php foreach ($userVisit as $value): ?>
           <dl>
             <dd>
-              <?=viewStatus($value['notice_status'])?> <a href="<?=BASE_URL?>/reserve/?n=<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
+              <?=viewStatus($value['notice_status'])?> <a href="<?=BASE_URL?>/reserve/list/<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
               <small>
                 일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 
                 요금 : <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원
@@ -87,7 +87,7 @@
           <?php foreach ($userReserveCancel as $value): ?>
           <dl>
             <dd>
-              <?=viewStatus($value['notice_status'])?> <a href="<?=BASE_URL?>/reserve/?n=<?=$value['resCode']?>"><?=$value['subject']?></a><br>
+              <?=viewStatus($value['notice_status'])?> <a href="<?=BASE_URL?>/reserve/list/<?=$value['resCode']?>"><?=$value['subject']?></a><br>
               <small>
                 취소일시 : <?=date('Y-m-d', $value['regdate'])?> (<?=calcWeek(date('Y-m-d', $value['regdate']))?>) <?=date('H:i', $value['regdate'])?>
               </small>
@@ -107,17 +107,17 @@
               switch ($value['action']):
                 case LOG_POINTUP:
             ?>
-            <li><strong><span class="text-primary">[포인트추가]</span> <?=!empty($value['subject']) ? $value['subject'] . ' - ' : ''?><?=number_format($value['point'])?> 포인트 추가</strong>
+            <li><strong class="text-primary"><?=number_format($value['point'])?> 포인트 추가</strong> - <?=!empty($value['subject']) ? $value['subject'] : ''?>
             <?php
                   break;
                 case LOG_POINTDN:
             ?>
-            <li><strong><span class="text-danger">[포인트감소]</span> <?=!empty($value['subject']) ? $value['subject'] . ' - ' : ''?><?=number_format($value['point'])?> 포인트 감소</strong>
+            <li><strong class="text-danger"><?=number_format($value['point'])?> 포인트 감소</strong> - <?=!empty($value['subject']) ? $value['subject'] : ''?>
             <?php
                   break;
               endswitch;
             ?>
-              <small>일시 : <?=date('Y-m-d, H:i:s', $value['regdate'])?></small></li>
+              <small><?=date('Y-m-d, H:i:s', $value['regdate'])?></small></li>
             <?php endforeach; ?>
           </ul>
 
@@ -133,17 +133,17 @@
               switch ($value['action']):
                 case LOG_PENALTYUP:
             ?>
-            <li><strong><span class="text-danger">[페널티추가]</span> <?=!empty($value['subject']) ? $value['subject'] . ' - ' : ''?><?=number_format($value['point'])?> 페널티 추가</strong>
+            <li><strong class="text-danger"><?=number_format($value['point'])?> 페널티 추가</strong> - <?=!empty($value['subject']) ? $value['subject'] : ''?>
             <?php
                   break;
                 case LOG_PENALTYDN:
             ?>
-            <li><strong><span class="text-primary">[페널티감소]</span> <?=!empty($value['subject']) ? $value['subject'] . ' - ' : ''?><?=number_format($value['point'])?> 페널티 감소</strong>
+            <li><strong class="text-primary"><?=number_format($value['point'])?> 페널티 감소</strong> - <?=!empty($value['subject']) ? $value['subject'] : ''?>
             <?php
                   break;
               endswitch;
             ?>
-              <small>일시 : <?=date('Y-m-d, H:i:s', $value['regdate'])?></small></li>
+              <small><?=date('Y-m-d, H:i:s', $value['regdate'])?></small></li>
             <?php endforeach; ?>
           </ul>
         </div>

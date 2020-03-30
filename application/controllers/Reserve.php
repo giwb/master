@@ -13,17 +13,44 @@ class Reserve extends MY_Controller
   }
 
   /**
+   * 메인
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function index($noticeIdx=NULL)
+  {
+    $noticeIdxOld = html_escape($this->input->get('n'));
+
+    if (!empty($noticeIdxOld)) {
+      redirect(BASE_URL . '/reserve/list/' . $noticeIdxOld);
+    } else {
+      redirect(BASE_URL . '/reserve/list/' . $noticeIdx);
+    }
+  }
+
+  /**
    * 예약 페이지
    *
    * @return view
    * @author bjchoi
    **/
-  public function index()
+  public function list($noticeIdx=NULL)
   {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
-    $noticeIdx = html_escape($this->input->get('n'));
+    $noticeIdx = html_escape($noticeIdx);
     $checkIdx = html_escape($this->input->get('c'));
+
+    if (empty($clubIdx)) {
+      redirect(BASE_URL . '/reserve/list/' . $noticeIdx);
+      exit;
+    }
+
+    if (empty($noticeIdx)) {
+      redirect(BASE_URL . '/reserve/schedule/');
+      exit;
+    }
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
@@ -74,14 +101,25 @@ class Reserve extends MY_Controller
       $viewData['arrLocation'] = arrLocation();
 
       $cntReply = $this->story_model->cntStoryReply($noticeIdx, REPLY_TYPE_NOTICE);
-      $cntLike = $this->story_model->cntStoryReaction($noticeIdx, REPLY_TYPE_NOTICE, REACTION_KIND_LIKE);
-      $cntShare = $this->story_model->cntStoryReaction($noticeIdx, REPLY_TYPE_NOTICE, REACTION_KIND_SHARE);
+      $cntLike = $this->story_model->cntStoryReaction($noticeIdx, REACTION_TYPE_NOTICE, REACTION_KIND_LIKE);
+      $cntShare = $this->story_model->cntStoryReaction($noticeIdx, REACTION_TYPE_NOTICE, REACTION_KIND_SHARE);
       $viewData['notice']['reply_cnt'] = $cntReply['cnt'];
       $viewData['notice']['like_cnt'] = $cntLike['cnt'];
       $viewData['notice']['share_cnt'] = $cntShare['cnt'];
 
       // 댓글
-      $viewData['listReply'] = $this->story_model->listStoryReply($noticeIdx, REPLY_TYPE_NOTICE);
+      $reply = $this->story_model->listStoryReply($noticeIdx, REPLY_TYPE_NOTICE);
+
+      foreach ($reply as $key => $value) {
+        $viewData['listReply'][] = $value;
+
+        // 댓글에 대한 답글
+        $replyResponse = $this->story_model->listStoryReply($noticeIdx, REPLY_TYPE_NOTICE, $value['idx']);
+        foreach ($replyResponse as $response) {
+          $viewData['listReply'][] = $response;
+        }
+      }
+
       $viewData['listReply'] = $this->load->view('story/reply', $viewData, true);
 
       $this->_viewPage('reserve/index', $viewData);
@@ -149,7 +187,7 @@ class Reserve extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function list()
+  public function schedule()
   {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
 
@@ -185,7 +223,7 @@ class Reserve extends MY_Controller
     // 페이지 타이틀
     $viewData['pageTitle'] = '산행 일정';
 
-    $this->_viewPage('reserve/list', $viewData);
+    $this->_viewPage('reserve/schedule', $viewData);
   }
 
   /**
@@ -194,10 +232,16 @@ class Reserve extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function notice()
+  public function notice($noticeIdx=NULL)
   {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
-    $noticeIdx = html_escape($this->input->get('n'));
+    $noticeIdx = html_escape($noticeIdx);
+    $noticeIdxOld = html_escape($this->input->get('n'));
+
+    if (!empty($noticeIdxOld)) {
+      redirect(BASE_URL . '/reserve/notice/' . $noticeIdxOld);
+      exit;
+    }
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
@@ -221,22 +265,14 @@ class Reserve extends MY_Controller
 
     // 댓글
     $cntReply = $this->story_model->cntStoryReply($noticeIdx, REPLY_TYPE_NOTICE);
-    $cntLike = $this->story_model->cntStoryReaction($noticeIdx, REPLY_TYPE_NOTICE, REACTION_KIND_LIKE);
-    $cntShare = $this->story_model->cntStoryReaction($noticeIdx, REPLY_TYPE_NOTICE, REACTION_KIND_SHARE);
+    $cntLike = $this->story_model->cntStoryReaction($noticeIdx, REACTION_TYPE_NOTICE, REACTION_KIND_LIKE);
+    $cntShare = $this->story_model->cntStoryReaction($noticeIdx, REACTION_TYPE_NOTICE, REACTION_KIND_SHARE);
     $viewData['notice']['reply_cnt'] = $cntReply['cnt'];
     $viewData['notice']['like_cnt'] = $cntLike['cnt'];
     $viewData['notice']['share_cnt'] = $cntShare['cnt'];
 
     $viewData['listReply'] = $this->story_model->listStoryReply($noticeIdx, REPLY_TYPE_NOTICE);
     $viewData['listReply'] = $this->load->view('story/reply', $viewData, true);
-
-    if (!empty($viewData['notice']['photo']) && file_exists(PHOTO_PATH . $viewData['notice']['photo'])) {
-      $viewData['notice']['photo'] = PHOTO_URL . $viewData['notice']['photo'];
-    }
-
-    if (!empty($viewData['notice']['map']) && file_exists(PHOTO_PATH . $viewData['notice']['map'])) {
-      $viewData['notice']['map'] = PHOTO_URL . $viewData['notice']['map'];
-    }
 
     // 페이지 타이틀
     $viewData['pageTitle'] = '산행 공지사항';
@@ -439,7 +475,7 @@ class Reserve extends MY_Controller
       $updateValues['rescount'] = $rescount['cnt'];
       $this->member_model->updateMember($updateValues, $userData['idx']);
 
-      $result = array('error' => 0, 'message' => '/reserve/?n=' . $noticeIdx . '&c=' . implode(',', $reserveIdx));
+      $result = array('error' => 0, 'message' => '/reserve/list/' . $noticeIdx . '?c=' . implode(',', $reserveIdx));
     }
 
     $this->output->set_output(json_encode($result));
@@ -698,15 +734,31 @@ class Reserve extends MY_Controller
     $viewData['userLevel'] = $this->load->get_var('userLevel');
 
     // 진행 중 산행
-    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
+    $viewData['listFooterNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
 
-    // 회원수
-    $viewData['view']['cntMember'] = $this->member_model->cntMember($viewData['view']['idx']);
-    $viewData['view']['cntMemberToday'] = $this->member_model->cntMemberToday($viewData['view']['idx']);
+    // 최신 댓글
+    $paging['perPage'] = 5; $paging['nowPage'] = 0;
+    $viewData['listFooterReply'] = $this->admin_model->listReply($viewData['view']['idx'], $paging);
 
-    // 방문자수
-    $viewData['view']['cntVisitor'] = $this->member_model->cntVisitor($viewData['view']['idx']);
-    $viewData['view']['cntVisitorToday'] = $this->member_model->cntVisitorToday($viewData['view']['idx']);
+    foreach ($viewData['listFooterReply'] as $key => $value) {
+      if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/story/view/' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/reserve/list/' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_SHOP):   $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/shop/item/' . $value['story_idx']; endif;
+    }
+
+    // 최신 사진첩
+    $paging['perPage'] = 2; $paging['nowPage'] = 0;
+    $viewData['listFooterAlbum'] = $this->club_model->listAlbum($viewData['view']['idx'], $paging);
+
+    foreach ($viewData['listFooterAlbum'] as $key => $value) {
+      $photo = $this->file_model->getFile('album', $value['idx'], NULL, 1);
+      if (!empty($photo[0]['filename'])) {
+        //$viewData['listAlbum'][$key]['photo'] = PHOTO_URL . 'thumb_' . $photo[0]['filename'];
+        $viewData['listFooterAlbum'][$key]['photo'] = PHOTO_URL . $photo[0]['filename'];
+      } else {
+        $viewData['listFooterAlbum'][$key]['photo'] = '/public/images/noimage.png';
+      }
+    }
 
     // 클럽 대표이미지
     $files = $this->file_model->getFile('club', $viewData['view']['idx']);

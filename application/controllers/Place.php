@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 // 첫 페이지 클래스
-class Place extends CI_Controller
+class Place extends MY_Controller
 {
   function __construct()
   {
@@ -21,11 +21,25 @@ class Place extends CI_Controller
     foreach ($viewData['list'] as $key => $value) {
       $file = $this->file_model->getFile('place', $value['idx'], TYPE_MAIN, 1);
       if (!empty($file[0]['filename'])) {
-        $viewData['list'][$key]['photo'] = 'thumb_' . $file[0]['filename'];
+        $viewData['list'][$key]['photo'] = PHOTO_URL . 'thumb_' . $file[0]['filename'];
       } else {
-        $viewData['list'][$key]['photo'] = 'noimage.png';
+        $viewData['list'][$key]['photo'] = '/public/images/noimage.png';
       }
     }
+
+    switch ($viewData['keyword']) {
+      case 'type2': $viewData['pageTitle'] = '산림청 선정 100대 명산'; break;
+      case 'type3': $viewData['pageTitle'] = '블랙야크 명산100'; break;
+      case 'type4': $viewData['pageTitle'] = '죽기전에 꼭 가봐야 할 국내여행 1001'; break;
+      case 'type5': $viewData['pageTitle'] = '백두대간'; break;
+      case 'type6': $viewData['pageTitle'] = '도보트레킹'; break;
+      case 'type7': $viewData['pageTitle'] = '투어'; break;
+      case 'type8': $viewData['pageTitle'] = '섬'; break;
+      default: $viewData['pageTitle'] = '전체보기';
+    }
+
+    // 공통 메뉴
+    $viewData['commonMenu'] = $this->load->view('place/menu', $viewData, true);
 
     $this->_viewPage('place/index', $viewData);
   }
@@ -48,6 +62,9 @@ class Place extends CI_Controller
         $viewData['view']['photo_' . $value['type']][$key] = '';
       }
     }
+
+    // 공통 메뉴
+    $viewData['commonMenu'] = $this->load->view('place/menu', $viewData, true);
 
     $this->_viewPage('place/view', $viewData);
   }
@@ -111,6 +128,9 @@ class Place extends CI_Controller
     } else {
       $viewData['area_gugun'] = array();
     }
+
+    // 공통 메뉴
+    $viewData['commonMenu'] = $this->load->view('place/menu', $viewData, true);
 
     $this->_viewPage('place/entry', $viewData);
   }
@@ -224,7 +244,6 @@ class Place extends CI_Controller
       'title'       => html_escape($input_data['title']),
       'area_sido'   => make_serialize($input_data['area_sido']),
       'area_gugun'  => make_serialize($input_data['area_gugun']),
-      'point'       => make_serialize($input_data['point']),
       'type'        => make_serialize($input_data['type']),
       'altitude'    => html_escape($input_data['altitude']),
       'reason'      => html_escape($input_data['reason']),
@@ -234,6 +253,11 @@ class Place extends CI_Controller
       'updated_by'  => 1,
       'updated_at'  => $now
     );
+
+    if (!empty($input_data['point'])) {
+      $update_values['point'] = make_serialize($input_data['point']);
+    }
+
     $this->place_model->updatePlace($update_values, $idx);
 
     // 파일 등록
@@ -271,12 +295,7 @@ class Place extends CI_Controller
       }
     }
 
-    $result = array(
-      'error' => 0,
-      'message' => '수정이 완료되었습니다.'
-    );
-
-    $this->output->set_output(json_encode($result));
+    redirect('/place');
   }
 
   /**
@@ -400,9 +419,11 @@ class Place extends CI_Controller
    **/
   private function _viewPage($viewPage, $viewData=NULL)
   {
-    $headerData['uri'] = 'place';
+    // 리다이렉트 URL 추출
+    if ($_SERVER['SERVER_PORT'] == '80') $HTTP_HEADER = 'http://'; else $HTTP_HEADER = 'https://';
+    $viewData['redirectUrl'] = $HTTP_HEADER . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
-    $this->load->view('header', $headerData);
+    $this->load->view('header', $viewData);
     $this->load->view($viewPage, $viewData);
     $this->load->view('footer');
   }

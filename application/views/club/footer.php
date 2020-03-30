@@ -1,11 +1,27 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
       <div class="club-right">
-        <?php if (!empty($listNotice)): ?>
+        <?php if (!empty($listFooterNotice)): ?>
         <h3><i class="fa fa-calendar" aria-hidden="true"></i> 현재 진행중인 산행</h3>
         <div class="list-schedule">
-          <?php foreach ($listNotice as $value): ?>
-          <a href="<?=BASE_URL?>/reserve/?n=<?=$value['idx']?>"><?=viewStatus($value['status'])?> <strong><?=$value['subject']?></strong><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명</a>
+          <?php foreach ($listFooterNotice as $value): ?>
+          <a href="<?=BASE_URL?>/reserve/list/<?=$value['idx']?>"><?=viewStatus($value['status'])?> <strong><?=$value['subject']?></strong><br><small><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명</small></a>
+          <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
+        <?php if (!empty($listFooterReply)): ?>
+        <h3><i class="fa fa-mail-reply" aria-hidden="true"></i> 최신 댓글</h3>
+        <div class="list-schedule list-reply">
+          <?php foreach ($listFooterReply as $value): ?>
+            <a href="<?=$value['url']?>"><span class="content"><?=ksubstr($value['content'], 35)?></span><br><?=$value['nickname']?> · <?=calcStoryTime($value['created_at'])?></a>
+          <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
+        <?php if (!empty($listFooterAlbum)): ?>
+        <h3><i class="fa fa-photo" aria-hidden="true"></i> 최신 사진첩</h3>
+        <div class="list-schedule list-reply">
+          <?php foreach ($listFooterAlbum as $value): ?>
+            <a href="<?=BASE_URL?>/album"><img class="w-100 mt-2" src="<?=$value['photo']?>"><div class="mt-2 mb-1"><span class="content"><?=$value['subject']?></span></div><?=$value['nickname']?> · <?=calcStoryTime($value['created_at'])?></a>
           <?php endforeach; ?>
         </div>
         <?php endif; ?>
@@ -19,8 +35,8 @@
   </section>
 
   <ul id="nav-footer">
-    <li><a href="<?=BASE_URL?>/reserve/list"><i class="fa fa-calendar" aria-hidden="true"></i><br>일정</a></li>
-    <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?><li><a href="<?=BASE_URL?>/shop"><i class="fa fa-shopping-cart" aria-hidden="true"></i><br>구매</a></li><?php endif; ?>
+    <li><a href="<?=BASE_URL?>/reserve/schedule"><i class="fa fa-calendar" aria-hidden="true"></i><br>일정</a></li>
+    <li><a href="<?=BASE_URL?>/shop"><i class="fa fa-shopping-cart" aria-hidden="true"></i><br>구매</a></li>
     <li><a href="<?=BASE_URL?>/album"><i class="fa fa-camera-retro" aria-hidden="true"></i><br>사진</a></li>
     <li><a href="<?=BASE_URL?>/club/about"><i class="fa fa-sitemap" aria-hidden="true"></i><br>소개</a></li>
     <?php if (!empty($userData['idx'])): ?>
@@ -62,11 +78,11 @@
         </div>
         <div class="modal-footer">
           <div class="modal-footer-left">
-            <a href="<?=BASE_URL?>/login/entry"><button type="button" class="btn btn-primary">회원가입</button></a>
+            <a href="<?=BASE_URL?>/login/entry"><button type="button" class="btn btn-<?=$view['main_color']?>">회원가입</button></a>
             <a href="<?=BASE_URL?>/login/forgot"><button type="button" class="btn btn-secondary">아이디/비밀번호 찾기</button></a>
           </div>
           <div class="modal-footer-right">
-            <button type="button" class="btn btn-primary btn-login">로그인</button>
+            <button type="button" class="btn btn-<?=$view['main_color']?> btn-login">로그인</button>
           </div>
         </div>
       </div>
@@ -90,10 +106,10 @@
         <div class="modal-footer">
           <input type="hidden" name="action" value="">
           <input type="hidden" name="deleteIdx" value="">
-          <a href="<?=BASE_URL?>"><button type="button" class="btn btn-primary btn-top">메인 화면으로</button></a>
-          <button type="button" class="btn btn-primary btn-list">목록으로</button>
-          <button type="button" class="btn btn-primary btn-refresh">새로고침</button>
-          <button type="button" class="btn btn-primary btn-delete">삭제합니다</button>
+          <a href="<?=BASE_URL?>"><button type="button" class="btn btn-<?=$view['main_color']?> btn-top">메인 화면으로</button></a>
+          <button type="button" class="btn btn-<?=$view['main_color']?> btn-list">목록으로</button>
+          <button type="button" class="btn btn-<?=$view['main_color']?> btn-refresh">새로고침</button>
+          <button type="button" class="btn btn-<?=$view['main_color']?> btn-delete">삭제합니다</button>
           <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
         </div>
       </div>
@@ -115,7 +131,7 @@
         </div>
         <div class="modal-footer">
           <input type="hidden" name="photo_name" value="">
-          <button type="button" class="btn btn-primary btn-photo-delete">삭제합니다</button>
+          <button type="button" class="btn btn-<?=$view['main_color']?> btn-photo-delete">삭제합니다</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
         </div>
       </div>
@@ -157,7 +173,7 @@
         <div class="modal-footer">
           <input type="hidden" name="resIdx">
           <input type="hidden" name="resType">
-          <button type="button" class="btn btn-primary btn-reserve-cancel-confirm">승인</button>
+          <button type="button" class="btn btn-<?=$view['main_color']?> btn-reserve-cancel-confirm">승인</button>
           <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
         </div>
       </div>
@@ -189,7 +205,7 @@
             <button type="button" class="btn btn-photo"><i class="fa fa-camera" aria-hidden="true"></i> <span class="text">사진추가</span></button>
           </div>
           <div class="col-7 text-right">
-            <button type="button" class="btn btn-primary btn-post">전송</button>
+            <button type="button" class="btn btn-<?=$view['main_color']?> btn-post">전송</button>
             <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
           </div>
         </div>

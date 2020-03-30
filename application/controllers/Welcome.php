@@ -23,7 +23,7 @@ class Welcome extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function listing()
+  public function club_listing()
   {
     $viewData['search'] = html_escape($this->input->get('s'));
     $viewData['keyword'] = html_escape($this->input->get('k'));
@@ -62,7 +62,7 @@ class Welcome extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function entry($idx=NULL)
+  public function club_entry($idx=NULL)
   {
     if (!is_null($idx)) {
       $viewData['view'] = $this->club_model->viewClub($idx);
@@ -88,7 +88,9 @@ class Welcome extends MY_Controller
     } else {
       $viewData['view']['idx'] = '';
       $viewData['view']['title'] = '';
+      $viewData['view']['domain'] = '';
       $viewData['view']['homepage'] = '';
+      $viewData['view']['main_color'] = '';
       $viewData['view']['area_sido'] = '';
       $viewData['view']['area_gugun'] = '';
       $viewData['view']['phone'] = '';
@@ -132,7 +134,7 @@ class Welcome extends MY_Controller
    * @return json
    * @author bjchoi
    **/
-  public function insert()
+  public function club_insert()
   {
     $now = time();
     $input_data = $this->input->post();
@@ -140,8 +142,10 @@ class Welcome extends MY_Controller
 
     $insert_values = array(
       'title'             => html_escape($input_data['title']),
+      'domain'            => html_escape($input_data['domain']),
       'homepage'          => html_escape($input_data['homepage']),
       'phone'             => html_escape($input_data['phone']),
+      'main_color'        => html_escape($input_data['main_color']),
       'area_sido'         => make_serialize($input_data['area_sido']),
       'area_gugun'        => make_serialize($input_data['area_gugun']),
       'about'             => html_escape($input_data['about']),
@@ -191,7 +195,7 @@ class Welcome extends MY_Controller
       }
     }
 
-    redirect(base_url() . 'club/listing');
+    redirect('/club');
   }
 
   /**
@@ -200,7 +204,7 @@ class Welcome extends MY_Controller
    * @return json
    * @author bjchoi
    **/
-  public function update()
+  public function club_update()
   {
     $now = time();
     $input_data = $this->input->post();
@@ -209,8 +213,10 @@ class Welcome extends MY_Controller
 
     $update_values = array(
       'title'             => html_escape($input_data['title']),
+      'domain'            => html_escape($input_data['domain']),
       'homepage'          => html_escape($input_data['homepage']),
       'phone'             => html_escape($input_data['phone']),
+      'main_color'        => html_escape($input_data['main_color']),
       'area_sido'         => make_serialize($input_data['area_sido']),
       'area_gugun'        => make_serialize($input_data['area_gugun']),
       'content'           => html_escape($input_data['content']),
@@ -222,8 +228,8 @@ class Welcome extends MY_Controller
       'club_week'         => make_serialize($input_data['club_week']),
       'club_geton'        => make_serialize($input_data['club_geton']),
       'club_getoff'       => make_serialize($input_data['club_getoff']),
-      'updated_by'  => 1,
-      'updated_at'  => $now
+      'updated_by'        => 1,
+      'updated_at'        => $now
     );
     $this->club_model->updateClub($update_values, $idx);
 
@@ -273,7 +279,7 @@ class Welcome extends MY_Controller
    * @return json
    * @author bjchoi
    **/
-  public function delete()
+  public function club_delete()
   {
     $input_data = $this->input->post();
     $idx = html_escape($input_data['idx']);
@@ -296,6 +302,32 @@ class Welcome extends MY_Controller
   }
 
   /**
+   * 도메인 중복 체크
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function check_domain()
+  {
+    $domain = html_escape($this->input->post('domain'));
+    $check = $this->club_model->getDomain($domain);
+
+    if (empty($check['idx'])) {
+      $result = array(
+        'error' => 0,
+        'message' => '<img class="check-domain-complete" src="/public/images/icon_check.png">'
+      );
+    } else {
+      $result = array(
+        'error' => 1,
+        'message' => '<img src="/public/images/icon_cross.png">'
+      );
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 페이지 표시
    *
    * @param $viewPage
@@ -305,7 +337,9 @@ class Welcome extends MY_Controller
    **/
   private function _viewPage($viewPage, $viewData=NULL)
   {
-    $viewData['uri'] = 'top';
+    // 리다이렉트 URL 추출
+    if ($_SERVER['SERVER_PORT'] == '80') $HTTP_HEADER = 'http://'; else $HTTP_HEADER = 'https://';
+    $viewData['redirectUrl'] = $HTTP_HEADER . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
     $this->load->view('header', $viewData);
     $this->load->view($viewPage, $viewData);

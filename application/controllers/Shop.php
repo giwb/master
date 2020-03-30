@@ -9,7 +9,7 @@ class Shop extends MY_Controller
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
     $this->load->library(array('cart', 'image_lib', 'session'));
-    $this->load->model(array('club_model', 'file_model', 'member_model', 'shop_model'));
+    $this->load->model(array('club_model', 'file_model', 'member_model', 'shop_model', 'story_model'));
   }
   /**
    * 용품 목록
@@ -89,20 +89,20 @@ class Shop extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function item()
+  public function item($itemIdx)
   {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
-    $idx = html_escape($this->input->get('n'));
+    $itemIdx = html_escape($itemIdx);
 
     // 상품이 없을때는 목록으로
-    if (empty($idx)) {
+    if (empty($itemIdx)) {
       redirect(BASE_URL . '/shop');
       exit;
     }
 
     // 상품 정보
-    $viewData['viewItem'] = $this->shop_model->viewItem($idx);
+    $viewData['viewItem'] = $this->shop_model->viewItem($itemIdx);
 
     // 사진이 실제로 업로드 되어 있는지 확인
     $arrPhotos = unserialize($viewData['viewItem']['item_photo']);
@@ -136,6 +136,17 @@ class Shop extends MY_Controller
 
     // 검색 분류
     $viewData['listCategory'] = $this->shop_model->listCategory();
+
+    // 댓글
+    $cntReply = $this->story_model->cntStoryReply($itemIdx, REPLY_TYPE_SHOP);
+    $cntLike = $this->story_model->cntStoryReaction($itemIdx, REACTION_TYPE_SHOP, REACTION_KIND_LIKE);
+    $cntShare = $this->story_model->cntStoryReaction($itemIdx, REACTION_TYPE_SHOP, REACTION_KIND_SHARE);
+    $viewData['viewItem']['reply_cnt'] = $cntReply['cnt'];
+    $viewData['viewItem']['like_cnt'] = $cntLike['cnt'];
+    $viewData['viewItem']['share_cnt'] = $cntShare['cnt'];
+
+    $viewData['listReply'] = $this->story_model->listStoryReply($itemIdx, REPLY_TYPE_SHOP);
+    $viewData['listReply'] = $this->load->view('story/reply', $viewData, true);
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
@@ -431,18 +442,18 @@ class Shop extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function complete()
+  public function complete($idx)
   {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
-    $idx = !empty($this->input->get('n')) ? html_escape($this->input->get('n')) : NULL;
-
-    // 클럽 정보
-    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+    $idx = html_escape($idx);
 
     if (empty($idx)) {
       redirect(BASE_URL . '/shop');
     } else {
+      // 클럽 정보
+      $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
       // 구매 정보
       $viewData['viewPurchase'] = $this->shop_model->viewPurchase($idx);
 
@@ -589,15 +600,31 @@ class Shop extends MY_Controller
     $viewData['userLevel'] = $this->load->get_var('userLevel');
 
     // 진행 중 산행
-    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
+    $viewData['listFooterNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
 
-    // 회원수
-    $viewData['view']['cntMember'] = $this->member_model->cntMember($viewData['view']['idx']);
-    $viewData['view']['cntMemberToday'] = $this->member_model->cntMemberToday($viewData['view']['idx']);
+    // 최신 댓글
+    $paging['perPage'] = 5; $paging['nowPage'] = 0;
+    $viewData['listFooterReply'] = $this->admin_model->listReply($viewData['view']['idx'], $paging);
 
-    // 방문자수
-    $viewData['view']['cntVisitor'] = $this->member_model->cntVisitor($viewData['view']['idx']);
-    $viewData['view']['cntVisitorToday'] = $this->member_model->cntVisitorToday($viewData['view']['idx']);
+    foreach ($viewData['listFooterReply'] as $key => $value) {
+      if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/story/view/' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/reserve/list/' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_SHOP):   $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/shop/item/' . $value['story_idx']; endif;
+    }
+
+    // 최신 사진첩
+    $paging['perPage'] = 2; $paging['nowPage'] = 0;
+    $viewData['listFooterAlbum'] = $this->club_model->listAlbum($viewData['view']['idx'], $paging);
+
+    foreach ($viewData['listFooterAlbum'] as $key => $value) {
+      $photo = $this->file_model->getFile('album', $value['idx'], NULL, 1);
+      if (!empty($photo[0]['filename'])) {
+        //$viewData['listAlbum'][$key]['photo'] = PHOTO_URL . 'thumb_' . $photo[0]['filename'];
+        $viewData['listFooterAlbum'][$key]['photo'] = PHOTO_URL . $photo[0]['filename'];
+      } else {
+        $viewData['listFooterAlbum'][$key]['photo'] = '/public/images/noimage.png';
+      }
+    }
 
     // 클럽 대표이미지
     $files = $this->file_model->getFile('club', $viewData['view']['idx']);

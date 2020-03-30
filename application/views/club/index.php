@@ -32,7 +32,7 @@
               <?php
                   else:
                     if ($value['status'] >= 1):
-                      $url = BASE_URL . '/reserve/?n=' . $value['idx'];
+                      $url = BASE_URL . '/reserve/index/' . $value['idx'];
                     else:
                       $url = 'javascript:;';
                     endif;
@@ -58,21 +58,21 @@
 
       <div id="fb-root"></div>
       <div class="club-main">
-        <?php if (!empty($view['main_photo'])): ?>
         <!-- 모바일 대표 사진 -->
-        <div class="d-block d-sm-none">
+        <div class="d-block d-sm-none mt-1">
+          <?php if (!empty($view['main_photo'])): ?>
           <a href="javascript:;" class="photo-zoom" data-filename="<?=$view['main_photo']?>" data-width="<?=$view['main_photo_width']?>" data-height="<?=$view['main_photo_height']?>"><img src="<?=$view['main_photo']?>" class="main-image"></a>
           <?php endif; ?>
         </div>
         <div id="calendar" class="d-none d-sm-block"></div>
         <div class="your-story">
           <form id="your-story-form" method="post" action="/story/insert">
-            <textarea id="club-story-content" placeholder="당신의 이야기를 들려주세요~"></textarea>
+            <textarea id="club-story-content" placeholder="그저 온전히 행복해질 수 있는 하루.. 그런 산행..."></textarea>
             <div class="area-photo"></div>
             <div class="area-btn">
               <input type="file" class="file">
               <button type="button" class="btn btn-photo"><i class="fa fa-camera" aria-hidden="true"></i> 사진추가</button>
-              <button type="button" class="btn btn-post">등록합니다</button>
+              <button type="button" class="btn btn-post btn-<?=$view['main_color']?>">등록합니다</button>
               <input type="hidden" name="clubIdx" value="<?=$view['idx']?>">
               <input type="hidden" name="userIdx" value="<?=$userData['idx']?>">
               <input type="hidden" name="page" value="story">
