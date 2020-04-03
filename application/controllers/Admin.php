@@ -705,9 +705,27 @@ class Admin extends Admin_Controller
 
     $idx = html_escape($idx);
     $viewData['view'] = $this->admin_model->viewEntry($idx);
-    $viewData['view']['cntRes'] = cntRes($viewData['view']['idx']);
+    $viewData['view']['cntRes'] = cntRes($idx);
 
+    // 산행예약 금액
     if ($viewData['view']['cost_total'] != 0) $viewData['view']['cost'] = $viewData['view']['cost_total'];
+
+    // 평생회원 수량
+    $search['vip'] = 1;
+    $search['rescode'] = $idx;
+    $search['club_idx'] = $viewData['clubIdx'];
+    $viewData['view']['vip'] = $this->admin_model->cntReserve($search);
+
+    // 포인트 수량
+    $search['vip'] = NULL;
+    $search['point'] = 1;
+    $viewData['view']['point'] = $this->admin_model->cntReserve($search);
+
+    // 포인트 금액
+    $viewData['view']['point_cost'] = $this->admin_model->viewReservePoint($search);
+
+    // 초기 합계 금액
+    $viewData['view']['total'] = ($viewData['view']['cntRes'] * $viewData['view']['cost']) - (($viewData['view']['vip']['cnt'] * 5000) + $viewData['view']['point_cost']['total']);
 
     // 페이지 타이틀
     $viewData['pageTitle'] = '정산 관리';
@@ -717,6 +735,47 @@ class Admin extends Admin_Controller
     $viewData['headerMenuView'] = $this->load->view('admin/main_view_header', $viewData, true);
 
     $this->_viewPage('admin/main_view_adjust', $viewData);
+  }
+
+  /**
+   * 진행중 산행 : 정산관리
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function main_view_adjust_update()
+  {
+    $inputDatas = array('rescode', 'memo');
+    foreach (range(1, 30) as $key) {
+      array_push($inputDatas, 'title' . $key, 'amount' . $key, 'cost' . $key, 'total' . $key, 'memo' . $key);
+    }
+
+    $updateValues = array();
+    if (!empty($this->input->post())) {
+      foreach($inputDatas as $key) {
+        $inputData = $this->input->post($key);
+        $updateValues[$key] = htmlspecialchars($inputData, ENT_QUOTES, "UTF-8");
+      }
+    }
+
+    $viewAdjust = $this->admin_model->viewAdjust($updateValues['rescode']);
+
+    if (empty($viewAdjust['idx'])) {
+      // 기존 데이터가 없으면 등록
+      $updateValues['regdate'] = time();
+      $rtn = $this->admin_model->insertAdjust($updateValues);
+    } else {
+      // 기존 데이터가 있으면 수정
+      $rtn = $this->admin_model->updateAdjust($updateValues, $updateValues['rescode']);
+    }
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+    } else {
+      $result = array('error' => 0, 'message' => $this->lang->line('msg_save_complete'));
+    }
+
+    $this->output->set_output(json_encode($result));
   }
 
   /**

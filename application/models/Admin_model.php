@@ -180,6 +180,36 @@ class Admin_model extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  // 예약 수량
+  public function cntReserve($search)
+  {
+    $this->db->select('COUNT(*) AS cnt')
+          ->from(DB_RESERVATION)
+          ->where('club_idx', $search['club_idx'])
+          ->where('rescode', $search['rescode']);
+
+    if (!empty($search['vip'])) {
+      $this->db->where('vip', $search['vip']);
+    }
+    if (!empty($search['point'])) {
+      $this->db->where('point > 0');
+    }
+
+    return $this->db->get()->row_array(1);
+  }
+
+  // 예약 포인트
+  public function viewReservePoint($search)
+  {
+    $this->db->select('SUM(point) AS total')
+          ->from(DB_RESERVATION)
+          ->where('point > 0')
+          ->where('club_idx', $search['club_idx'])
+          ->where('rescode', $search['rescode']);
+
+    return $this->db->get()->row_array(1);
+  }
+
   // 예약 정보 보기
   public function viewReserve($search)
   {
@@ -330,6 +360,30 @@ class Admin_model extends CI_Model
   {
     $this->db->where('idx', $idx);
     return $this->db->delete(DB_WAIT);
+  }
+
+  // 정산 보기
+  public function viewAdjust($rescode)
+  {
+    $this->db->select('idx')
+          ->from(DB_ADJUST)
+          ->where('rescode', $rescode);
+    return $this->db->get()->row_array(1);
+  }
+
+  // 정산 등록
+  public function insertAdjust($data)
+  {
+    $this->db->insert(DB_ADJUST, $data);
+    return $this->db->insert_id();
+  }
+
+  // 정산 수정
+  public function updateAdjust($data, $rescode)
+  {
+    $this->db->set($data);
+    $this->db->where('rescode', $rescode);
+    return $this->db->update(DB_ADJUST);
   }
 
   // 문자양식
