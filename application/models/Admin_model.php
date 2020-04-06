@@ -157,6 +157,47 @@ class Admin_model extends CI_Model
     return $this->db->update(DB_NOTICE_DETAIL);
   }
 
+  // 산행 목록
+  public function listNoticeClosed($search=NULL, $order='asc')
+  {
+    $this->db->select('a.*, b.total')
+          ->from(DB_NOTICE . ' a')
+          ->join(DB_ADJUST . ' b', 'a.idx=b.rescode', 'left')
+          ->order_by('a.startdate', $order);
+
+    if (!empty($search['past_sdate'])) {
+      $this->db->where("DATE_FORMAT(a.startdate, '%m-%d') >= '" . $search['past_sdate'] . "'");
+    }
+    if (!empty($search['past_edate'])) {
+      if ($search['past_edate'] < $search['past_sdate']) {
+        $this->db->or_where("DATE_FORMAT(a.startdate, '%m-%d') <= '" . $search['past_edate'] . "'");
+      } else {
+        $this->db->where("DATE_FORMAT(a.startdate, '%m-%d') <= '" . $search['past_edate'] . "'");
+      }
+    }
+    if (!empty($search['sdate'])) {
+      $this->db->where("DATE_FORMAT(a.startdate, '%Y-%m-%d') >= '" . $search['sdate'] . "'");
+    }
+    if (!empty($search['edate'])) {
+      if ($search['edate'] < $search['sdate']) {
+        $this->db->or_where("DATE_FORMAT(a.startdate, '%Y-%m-%d') <= '" . $search['edate'] . "'");
+      } else {
+        $this->db->where("DATE_FORMAT(a.startdate, '%Y-%m-%d') <= '" . $search['edate'] . "'");
+      }
+    }
+    if (!empty($search['subject'])) {
+      $this->db->like('a.subject', $search['subject']);
+    }
+    if (!empty($search['status'])) {
+      $this->db->where_in('a.status', $search['status']);
+    }
+    if (!empty($search['clubIdx'])) {
+      $this->db->where('a.club_idx', $search['clubIdx']);
+    }
+
+    return $this->db->get()->result_array();
+  }
+
   // 회원 예약 목록
   public function listReserve($paging, $search)
   {
@@ -365,7 +406,7 @@ class Admin_model extends CI_Model
   // 정산 보기
   public function viewAdjust($rescode)
   {
-    $this->db->select('idx')
+    $this->db->select('*')
           ->from(DB_ADJUST)
           ->where('rescode', $rescode);
     return $this->db->get()->row_array(1);

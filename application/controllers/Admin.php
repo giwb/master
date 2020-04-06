@@ -707,6 +707,9 @@ class Admin extends Admin_Controller
     $viewData['view'] = $this->admin_model->viewEntry($idx);
     $viewData['view']['cntRes'] = cntRes($idx);
 
+    // 정산 내역
+    $viewData['viewAdjust'] = $this->admin_model->viewAdjust($idx);
+
     // 산행예약 금액
     if ($viewData['view']['cost_total'] != 0) $viewData['view']['cost'] = $viewData['view']['cost_total'];
 
@@ -745,7 +748,7 @@ class Admin extends Admin_Controller
    **/
   public function main_view_adjust_update()
   {
-    $inputDatas = array('rescode', 'memo');
+    $inputDatas = array('rescode', 'total', 'memo');
     foreach (range(1, 30) as $key) {
       array_push($inputDatas, 'title' . $key, 'amount' . $key, 'cost' . $key, 'total' . $key, 'memo' . $key);
     }
@@ -882,7 +885,8 @@ class Admin extends Admin_Controller
     $viewData['search']['status'] = array(STATUS_CLOSED);
     $viewData['search']['clubIdx'] = $viewData['clubIdx'];
 
-    $viewData['listClosed'] = $this->admin_model->listNotice($viewData['search']);
+    // 다녀온 산행
+    $viewData['listClosed'] = $this->admin_model->listNoticeClosed($viewData['search']);
 
     // 페이지 타이틀
     $viewData['pageTitle'] = '다녀온 산행';

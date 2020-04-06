@@ -52,7 +52,7 @@
               <div class="small"><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($costRes)?>원</div>
             </div>
             <div class="col-2 pr-0 pl-0 text-right small">
-              <?=number_format($cntRes * $costRes)?>원<br>
+              <?=empty($value['total']) ? number_format($cntRes * $costRes) : number_format($value['total'])?>원<br>
               <?=$cntRes?>명
             </div>
           </div>
