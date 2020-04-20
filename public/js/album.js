@@ -43,27 +43,32 @@ $(document).ready(function() {
 }).on('change', '.photo', function() {
   // 사진 업로드
   var $dom = $(this);
-  var formData = new FormData($('form')[0]);
+  var formData = new FormData($('#formAlbum')[0]);
   var maxSize = 20480000;
-  var size = $dom[0].files[0].size;
+  var errorSize = false;
 
-  if (size > maxSize) {
+  // 파일 용량을 우선적으로 체크
+  $.each($dom[0].files, function(i, v) {
+    if (v.size > maxSize) {
+      errorSize = true;
+    }
+  });
+  if (errorSize == true) {
     $dom.val('');
-    $('#messageModal .modal-message').text('파일의 용량은 20MB를 넘을 수 없습니다.');
+    $('#messageModal .btn').hide();
+    $('#messageModal .btn-close').show();
+    $('#messageModal .modal-message').html('파일의 용량은 20MB를 넘을 수 없습니다.');
     $('#messageModal').modal('show');
-    return;
+    return false;
   }
 
-  // 사진 형태 추가
-  formData.append('file_obj', $dom[0].files[0]);
-
   $.ajax({
+    type: 'post',
     url: '/album/upload',
     processData: false,
     contentType: false,
     data: formData,
     dataType: 'json',
-    type: 'post',
     beforeSend: function() {
       $('.btn-upload-photo').css('opacity', '0.5').prop('disabled', true).text('업로드중.....');
       $dom.val('');
@@ -74,12 +79,14 @@ $(document).ready(function() {
         $.openMsgModal(result.message);
       } else {
         var $domFiles = $('input[name=photos]');
-        $('.added-files').append('<img src="' + result.message + '" class="btn-photo-modal" data-photo="' + result.filename + '">');
-        if ($domFiles.val() == '') {
-          $domFiles.val(result.filename);
-        } else {
-          $domFiles.val($domFiles.val() + ',' + result.filename);
-        }
+        $.each(result.filename, function(i, v) {
+          $('.added-files').append('<img src="' + result.message[i] + '" class="btn-photo-modal" data-photo="' + v + '">');
+          if ($domFiles.val() == '') {
+            $domFiles.val(v);
+          } else {
+            $domFiles.val($domFiles.val() + ',' + v);
+          }
+        });
       }
     }
   });

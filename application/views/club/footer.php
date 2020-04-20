@@ -101,7 +101,7 @@
           </button>
         </div>
         <div class="modal-body text-center">
-          <p class="modal-message"></p>
+          <p class="modal-message mb-4"></p>
         </div>
         <div class="modal-footer">
           <input type="hidden" name="action" value="">

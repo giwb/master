@@ -232,41 +232,34 @@ class Album extends MY_Controller
    **/
   public function upload()
   {
-    if ($_FILES['file_obj']['type'] == 'image/jpeg') {
-      $filename = time() . mt_rand(10000, 99999) . ".jpg";
+    $maxSize = 2000;
+    $result = array('error' => 1, 'message' => $this->lang->line('error_photo_upload'));
 
-      if (move_uploaded_file($_FILES['file_obj']['tmp_name'], UPLOAD_PATH . $filename)) {
-        // 사진 사이즈 줄이기 (가로 사이즈가 2000보다 클 경우)
-        $maxSize = 2000;
-        $size = getImageSize(UPLOAD_PATH . $filename);
-        if ($size[0] >= $maxSize) {
-          $this->image_lib->clear();
-          $config['image_library'] = 'gd2';
-          $config['source_image'] = UPLOAD_PATH . $filename;
-          $config['maintain_ratio'] = TRUE;
-          $config['width'] = $maxSize;
-          $this->image_lib->initialize($config);
-          $this->image_lib->resize();
+    foreach ($_FILES['files']['tmp_name'] as $tmp_name) {
+      if (!empty($tmp_name)) {
+        $filename = time() . mt_rand(10000, 99999) . '.jpg';
+
+        if (move_uploaded_file($tmp_name, UPLOAD_PATH . $filename)) {
+          // 사진 사이즈 줄이기 (가로 사이즈가 2000보다 클 경우)
+          $size = getImageSize(UPLOAD_PATH . $filename);
+          if ($size[0] >= $maxSize) {
+            $this->image_lib->clear();
+            $config['image_library'] = 'gd2';
+            $config['source_image'] = UPLOAD_PATH . $filename;
+            $config['maintain_ratio'] = TRUE;
+            $config['width'] = $maxSize;
+            $this->image_lib->initialize($config);
+            $this->image_lib->resize();
+          }
+
+          $message[] = UPLOAD_URL . $filename;
+          $message_filename[] = $filename;
         }
-
-        $result = array(
-          'error' => 0,
-          'message' => BASE_URL . UPLOAD_URL . $filename,
-          'filename' => $filename
-        );
-      } else {
-        $result = array(
-          'error' => 1,
-          'message' => '사진 업로드에 실패했습니다.'
-        );
       }
-    } else {
-      $result = array(
-        'error' => 1,
-        'message' => 'jpg 형식의 사진만 업로드 할 수 있습니다.'
-      );
+    }    
+    if (!empty($message)) {
+      $result = array('error' => 0, 'message' => $message, 'filename' => $message_filename);
     }
-
     $this->output->set_output(json_encode($result));
   }
 
