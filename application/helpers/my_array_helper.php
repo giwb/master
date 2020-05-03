@@ -591,6 +591,9 @@ if (!function_exists('getReserveAdmin')) {
         if (!empty($value['priority'])) {
           $result['class'] = 'priority';
           $result['priority'] = $value['priority'];
+        } elseif (!empty($value['honor'])) {
+          $result['class'] = 'honor';
+          $result['honor'] = $value['honor'];
         } else {
           if ($value['status'] == RESERVE_PAY) {
             $result['class'] .= '';
@@ -636,6 +639,8 @@ if (!function_exists('getReserve')) {
         }
         if (!empty($value['priority'])) {
           $value['class'] .= ' priority';
+        } elseif (!empty($value['honor'])) {
+          $value['class'] .= ' honor';
         }
         $result = $value;
       }

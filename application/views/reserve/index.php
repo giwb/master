@@ -66,8 +66,8 @@
                         $seatNumber = checkDirection($seat, $bus, $notice['bustype'], $notice['bus']);
                   ?>
                   <?=$tableMake?>
-                    <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>"<?=!empty($reserveInfo['priority']) ? ' data-priority="' . $reserveInfo['priority'] . '"' : ''?> data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$seatNumber?></td>
-                    <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>"<?=!empty($reserveInfo['priority']) ? ' data-priority="' . $reserveInfo['priority'] . '"' : ''?> data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$reserveInfo['nickname']?></td>
+                    <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>"<?=!empty($reserveInfo['priority']) ? ' data-priority="' . $reserveInfo['priority'] . '"' : ''?> <?=!empty($reserveInfo['honor']) ? ' data-honor="' . $reserveInfo['honor'] . '"' : ''?> data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$seatNumber?></td>
+                    <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>"<?=!empty($reserveInfo['priority']) ? ' data-priority="' . $reserveInfo['priority'] . '"' : ''?> <?=!empty($reserveInfo['honor']) ? ' data-honor="' . $reserveInfo['honor'] . '"' : ''?> data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$reserveInfo['nickname']?></td>
                   <?php endforeach; ?>
                 </tbody>
               </table>

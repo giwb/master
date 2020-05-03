@@ -843,6 +843,60 @@
       $.viewReserveInfo(resIdx, bus, seat, priorityIdx);
       $.viewReserveInfo(priorityIdx, bus, prioritySeat, priorityIdx);
     }
+  }).on('click', '.area-bus-table .honor', function() {
+    // 1인우등 예약 버튼
+    var userIdx = $('input[name=userIdx]').val();
+
+    if (userIdx == '') {
+      // 로그인
+      $('input[name=redirectUrl]').val($(location).attr('href'));
+      $('#loginModal').modal('show');
+      return false;
+    }
+
+    var resIdx = $(this).data('id');
+    var honorIdx = $(this).data('honor');
+    var bus = $(this).data('bus');
+    var seat = $(this).data('seat');
+    var chk = false;
+
+    // 우선석 정보가 있는지 확인하고, 없으면 종료
+    if (typeof honorIdx == 'undefined') {
+      return false;
+    }
+    var honorSeat = $('.honor[data-bus=' + bus + '][data-id=' + honorIdx + ']').attr('data-seat');
+
+    // 예약/수정 중에는 대기자 예약을 숨긴다
+    $('.area-wait').hide();
+
+    // 좌석 토글
+    if ($(this).hasClass('active')) {
+      // 비활성화
+      $('.honor[data-bus=' + bus + '][data-seat=' + seat + ']').removeClass('active');
+      $('.honor[data-bus=' + bus + '][data-id=' + honorIdx + ']').removeClass('active');
+      $('#addedInfo .reserve[data-seat=' + seat + ']').remove();
+      $('#addedInfo .reserve[data-seat=' + honorSeat + ']').remove();
+
+      // 예약 내용이 없으면 버튼 삭제
+      if ($('#addedInfo .reserve').length == 0) {
+        $('.btn-reserve-confirm').text('예약합니다').hide();
+        $('.btn-reserve-cancel').addClass('d-none'); // 취소버튼 숨기기
+      }
+    } else {
+      // 활성화
+      $('.resIdx').each(function(n) {
+        if ($(this).val() != '') chk = true;
+      });
+      if (chk == true || typeof $('.resIdx').css('display') != 'undefined') {
+        $.openMsgModal('일반예약과 2인예약을 동시에 할 수 없습니다.');
+        return false;
+      }
+      $('.honor[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
+      $('.honor[data-bus=' + bus + '][data-id=' + honorIdx + ']').addClass('active');
+      $('html, body').animate( { scrollTop : $('#reserveForm').offset().top - 100 }, 1000 ); // 하단으로 스크롤
+      $.viewReserveInfo(resIdx, bus, seat, honorIdx);
+      $.viewReserveInfo(honorIdx, bus, honorSeat, honorIdx);
+    }
   }).on('click', '.btn-reserve-confirm', function() {
     // 좌석 예약
     var $btn = $(this);
@@ -977,6 +1031,9 @@
           var selectSeat = '<select name="seat[]" class="busSeat">'; $.each(reserveInfo.seat[bus], function(i, v) { selectSeat += '<option'; if ((i+1) == seat) selectSeat += ' selected'; selectSeat += ' value="' + (i+1) + '">' + v + '번</option>'; }); selectSeat += '</select> ';
 
           if (reserveInfo.reserve.priority == 0 && reserveInfo.reserve.nickname != '2인우선') {
+            $('.btn-reserve-cancel').removeClass('d-none').show();
+          }
+          if (reserveInfo.reserve.honor == 0 && reserveInfo.reserve.nickname != '1인우등') {
             $('.btn-reserve-cancel').removeClass('d-none').show();
           }
         } else {

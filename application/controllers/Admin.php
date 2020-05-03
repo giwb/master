@@ -102,6 +102,7 @@ class Admin extends Admin_Controller
       $result['reserve']['vip'] = '';
       $result['reserve']['manager'] = '';
       $result['reserve']['priority'] = '';
+      $result['reserve']['honor'] = '';
     }
 
     $result['busType'] = getBusType($viewData['view']['bustype'], $viewData['view']['bus']); // 버스 형태별 좌석 배치
@@ -168,6 +169,7 @@ class Admin extends Admin_Controller
     $arrVip = $this->input->post('vip');
     $arrManager = $this->input->post('manager');
     $arrPriority = $this->input->post('priority');
+    $arrHonor = $this->input->post('honor');
 
     // 산행 정보
     $viewEntry = $this->admin_model->viewEntry($idx);
@@ -179,6 +181,7 @@ class Admin extends Admin_Controller
       $nowSeat = html_escape($seat);
       $nowManager = html_escape($arrManager[$key]) == 'true' ? 1 : 0;
       $nowPriority = html_escape($arrPriority[$key]) == 'true' ? 1 : 0;
+      $nowHonor = html_escape($arrHonor[$key]) == 'true' ? 1 : 0;
 
       $postData = array(
         'rescode' => $idx,
@@ -218,8 +221,11 @@ class Admin extends Admin_Controller
           if (!empty($nowPriority)) {
             $priorityIdx[] = $result; // 2인우선석일 경우, 각각의 고유번호를 저장
           }
+          if (!empty($nowHonor)) {
+            $honorIdx[] = $result; // 1인우등석일 경우, 각각의 고유번호를 저장
+          }
 
-          if (!empty($result) && empty($nowPriority) && empty($nowManager)) {
+          if (!empty($result) && empty($nowPriority) && empty($nowHonor) && empty($nowManager)) {
             // 관리자 예약 기록
             setHistory(LOG_ADMIN_RESERVE, $idx, $nowUserid, $nowNick, $viewEntry['subject'], $now);
           }
@@ -244,6 +250,7 @@ class Admin extends Admin_Controller
               'depositname' => NULL,
               'point' => 0,
               'priority' => 0,
+              'honor' => 0,
               'vip' => 0,
               'manager' => 0,
               'penalty' => 0,
@@ -257,6 +264,10 @@ class Admin extends Admin_Controller
             // 2인우선석의 경우
             $postData['status'] = RESERVE_ON;
             $postData['priority'] = 0;
+          } elseif (!empty($checkReserve['honor']) && $checkReserve['nickname'] == '1인우등') {
+            // 1인우등석의 경우
+            $postData['status'] = RESERVE_ON;
+            $postData['honor'] = 0;
           } else {
             // 일반 좌석일 경우 좌석을 교환
             $changeData = array(
@@ -285,6 +296,13 @@ class Admin extends Admin_Controller
         $this->admin_model->updateReserve($updateValues, $priorityIdx[1]);
         $updateValues['priority'] = $priorityIdx[1];
         $this->admin_model->updateReserve($updateValues, $priorityIdx[0]);
+      }
+      // 1인우등석 처리 (각각의 예약 고유번호를 입력)
+      if (!empty($honorIdx)) {
+        $updateValues['honor'] = $honorIdx[0];
+        $this->admin_model->updateReserve($updateValues, $honorIdx[1]);
+        $updateValues['honor'] = $honorIdx[1];
+        $this->admin_model->updateReserve($updateValues, $honorIdx[0]);
       }
       if ($viewEntry['status'] == STATUS_ABLE) {
         $cntReservation = $this->admin_model->cntReservation($idx);
@@ -349,6 +367,7 @@ class Admin extends Admin_Controller
         'depositname' => NULL,
         'point' => 0,
         'priority' => 0,
+        'honor' => 0,
         'vip' => 0,
         'manager' => 0,
         'penalty' => 0,
@@ -370,7 +389,7 @@ class Admin extends Admin_Controller
       }
     }
 
-    if (!empty($rtn) && empty($viewReserve['priority']) && empty($viewReserve['manager'])) {
+    if (!empty($rtn) && empty($viewReserve['priority']) && empty($viewReserve['honor']) && empty($viewReserve['manager'])) {
       $startTime = explode(':', $viewEntry['starttime']);
       $startDate = explode('-', $viewEntry['startdate']);
       $limitDate = mktime($startTime[0], $startTime[1], 0, $startDate[1], $startDate[2], $startDate[0]);

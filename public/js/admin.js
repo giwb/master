@@ -610,6 +610,15 @@
     } else {
       $dom.val('');
     }
+  }).on('click', '#addedInfo .honor', function() {
+    // 1인우등
+    var $dom = $(this).parent().parent().parent().find('.nickname');
+    var checked = $(this).is(':checked');
+    if (checked == true) {
+      $dom.val('1인우등');
+    } else {
+      $dom.val('');
+    }
   }).on('click', '.admin-bus-table .seat', function() {
     // 산행 예약/수정 버튼
     var resIdx = $(this).data('id');
@@ -666,6 +675,7 @@
       $('.priority[data-bus=' + bus + '][data-seat=' + seat + ']').removeClass('active');
       $('.priority[data-bus=' + bus + '][data-id=' + priorityIdx + ']').removeClass('active');
       $('#addedInfo .reserve[data-seat=' + seat + ']').remove();
+      $('#addedInfo .reserve[data-seat=' + prioritySeat + ']').remove();
 
       // 예약 내용이 없으면 예약 확정 버튼 삭제
       if ($('#addedInfo .reserve').length == 0) $('.btn-reserve-confirm').hide();
@@ -678,6 +688,38 @@
         $.viewReserveInfo(priorityIdx, bus, prioritySeat); // 2인석 예약
       }
     }
+  }).on('click', '.admin-bus-table .honor', function() {
+    // 1인우등 예약 버튼
+    var resIdx = $(this).data('id');
+    var honorIdx = $(this).data('honor');
+    var bus = $(this).data('bus');
+    var seat = $(this).data('seat');
+
+    // 1인우등 정보가 있는지 확인하고, 없으면 종료
+    if (typeof honorIdx == 'undefined') {
+      return false;
+    }
+    var honorSeat = $('.honor[data-bus=' + bus + '][data-id=' + honorIdx + ']').attr('data-seat');
+
+    // 좌석 배경색 토글
+    if ($(this).hasClass('active')) {
+      // 삭제
+      $('.honor[data-bus=' + bus + '][data-seat=' + seat + ']').removeClass('active');
+      $('.honor[data-bus=' + bus + '][data-id=' + honorIdx + ']').removeClass('active');
+      $('#addedInfo .reserve[data-seat=' + seat + ']').remove();
+      $('#addedInfo .reserve[data-seat=' + honorSeat + ']').remove();
+
+      // 예약 내용이 없으면 예약 확정 버튼 삭제
+      if ($('#addedInfo .reserve').length == 0) $('.btn-reserve-confirm').hide();
+    } else {
+      // 예약 활성화
+      $('.honor[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
+      $.viewReserveInfo(resIdx, bus, seat); // 1번째 자리 예약
+      if (typeof $('.honor[data-bus=' + bus + '][data-id=' + honorIdx + ']').css('display') != 'undefined') {
+        $('.honor[data-bus=' + bus + '][data-id=' + honorIdx + ']').addClass('active');
+        $.viewReserveInfo(honorIdx, bus, honorSeat); // 2번째 자리 예약
+      }
+    }
   }).on('click', '.btn-reserve-confirm', function() {
     // 예약 확정
     var $btn = $(this);
@@ -688,6 +730,7 @@
     formData.delete('vip[]');
     formData.delete('manager[]');
     formData.delete('priority[]');
+    formData.delete('honor[]');
     var checkbox = $("#reserveForm").find("input[type=checkbox]");
     $.each(checkbox, function(i, v) {
       formData.append($(v).attr('name'), $(this).is(':checked'))
@@ -705,7 +748,7 @@
       }
     });
 
-    // 2인우선석은 2개가 선택되었는지 확인
+    // 2인우선석이 2개가 선택되었는지 확인
     var cnt = 0;
     $('#addedInfo .priority').each(function() {
       if ($(this).is(':checked') == true) {
@@ -714,6 +757,18 @@
     });
     if (cnt > 0 && cnt != 2) {
       $.openMsgModal('2인우선석은 2개 자리만 지정해주세요.');
+      return false;
+    }
+
+    // 1인우등석이 2개가 선택되었는지 확인
+    var cnt = 0;
+    $('#addedInfo .honor').each(function() {
+      if ($(this).is(':checked') == true) {
+        cnt++;
+      }
+    });
+    if (cnt > 0 && cnt != 2) {
+      $.openMsgModal('1인우등석은 2개 자리만 지정해주세요.');
       return false;
     }
 
@@ -1060,7 +1115,7 @@
         var location = '<select name="location[]" class="location">'; $.each(reserveInfo.location, function(i, v) { if (v.stitle == '') v.stitle = '승차위치'; cnt = i + 1; if (reserveInfo.reserve.loc == v.no) selected = ' selected'; else selected = ''; location += '<option' + selected + ' value="' + v.no + '">' + v.stitle + '</option>'; }); location += '</select> ';
         var depositname = '<input type="text" name="depositname[]" size="20" placeholder="입금자명" value="' + reserveInfo.reserve.depositname + '">';
         var memo = '<div class="mt-1"><input type="text" name="memo[]" size="30" placeholder="메모" value="' + reserveInfo.reserve.memo + '"> ';
-        var options = '<label><input'; if (reserveInfo.reserve.vip == 1) options += ' checked'; options += ' type="checkbox" name="vip[]">평생</label> <label><input'; if (reserveInfo.reserve.manager == 1) options += ' checked'; options += ' type="checkbox" name="manager[]" class="btn-manager">운영진</label> <label><input'; if (reserveInfo.reserve.priority == 1) options += ' checked'; options += ' type="checkbox" name="priority[]" class="priority">2인</label> ';
+        var options = '<label><input'; if (reserveInfo.reserve.vip == 1) options += ' checked'; options += ' type="checkbox" name="vip[]">평생</label> <label><input'; if (reserveInfo.reserve.manager == 1) options += ' checked'; options += ' type="checkbox" name="manager[]" class="btn-manager">운영진</label> <label><input'; if (reserveInfo.reserve.honor == 1) options += ' checked'; options += ' type="checkbox" name="honor[]" class="honor">1인</label> <label><input'; if (reserveInfo.reserve.priority == 1) options += ' checked'; options += ' type="checkbox" name="priority[]" class="priority">2인</label>';
         if (resIdx != '') {
           var button = '<button type="button" class="btn btn-secondary btn-reserve-deposit" data-idx="' + resIdx + '" data-status="' + reserveInfo.reserve.status + '">';
           if (reserveInfo.reserve.status == 1) button += '입금취소'; else button += '입금확인';
