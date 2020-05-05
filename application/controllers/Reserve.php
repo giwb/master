@@ -167,7 +167,6 @@ class Reserve extends MY_Controller
       }
 
       // 추천상품
-      $search['item_visible'] = 'Y';
       $search['item_recommend'] = 'Y';
       $viewData['listItem'] = $this->shop_model->listItem(NULL, $search);
       foreach ($viewData['listItem'] as $key => $value) {

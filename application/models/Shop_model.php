@@ -16,6 +16,7 @@ class Shop_model extends CI_Model
     $this->db->select('*')
           ->from(DB_SHOP)
           ->where('deleted_at', NULL)
+          ->where('item_visible', 'Y')
           ->order_by('idx', 'desc');
 
     if (!empty($search['item_name'])) {
@@ -29,9 +30,6 @@ class Shop_model extends CI_Model
     }
     if (!empty($search['item_recommend'])) {
       $this->db->where('item_recommend', $search['item_recommend']);
-    }
-    if (!empty($search['item_visible'])) {
-      $this->db->where('item_visible', $search['item_visible']);
     }
     if (!empty($paging)) {
       $this->db->limit($paging['perPage'], $paging['nowPage']);
