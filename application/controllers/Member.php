@@ -78,7 +78,7 @@ class Member extends MY_Controller
           // 무료회원 할인
           $viewData['userReserve'][$key]['view_cost'] = '<s class="text-secondary">' . number_format($value['cost_total']) . '원</s> → ' . '0원';
           $viewData['userReserve'][$key]['real_cost'] = 0;
-        } elseif ($value > 1) {
+        } elseif ($value['honor'] > 1) {
           // 1인우등 할인
           if ($key == 1) {
             $honorCost = 10000;
@@ -419,6 +419,16 @@ class Member extends MY_Controller
         // 무료회원 할인
         $viewData['userReserve'][$key]['view_cost'] = '<s class="text-secondary">' . number_format($value['cost_total']) . '원</s> → ' . '0원';
         $viewData['userReserve'][$key]['real_cost'] = 0;
+      } elseif ($value['honor'] > 1) {
+          // 1인우등 할인
+          if ($key == 1) {
+            $honorCost = 10000;
+            $viewData['userReserve'][$key]['view_cost'] = '<s class="text-secondary">' . number_format($value['cost_total']) . '원</s> → ' . number_format($honorCost) . '원';
+            $viewData['userReserve'][$key]['real_cost'] = $honorCost;
+          } else {
+            $viewData['userReserve'][$key]['view_cost'] = number_format($value['cost_total']) . '원';
+            $viewData['userReserve'][$key]['real_cost'] = $value['cost_total'];
+          }
       } else {
         $viewData['userReserve'][$key]['view_cost'] = number_format($value['cost_total']) . '원';
         $viewData['userReserve'][$key]['real_cost'] = $value['cost_total'];
