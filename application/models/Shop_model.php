@@ -30,6 +30,9 @@ class Shop_model extends CI_Model
     if (!empty($search['item_recommend'])) {
       $this->db->where('item_recommend', $search['item_recommend']);
     }
+    if (!empty($search['item_visible'])) {
+      $this->db->where('item_visible', $search['item_visible']);
+    }
     if (!empty($paging)) {
       $this->db->limit($paging['perPage'], $paging['nowPage']);
     }
