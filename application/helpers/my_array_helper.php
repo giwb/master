@@ -639,7 +639,7 @@ if (!function_exists('getReserve')) {
         }
         if (!empty($value['priority'])) {
           $value['class'] .= ' priority';
-        } elseif (!empty($value['honor'])) {
+        } elseif (!empty($value['honor']) && $value['honor'] > 1) {
           $value['class'] .= ' honor';
         }
         $result = $value;

@@ -2068,8 +2068,7 @@ h1.nav-logo small {
 #club .sub-contents .area-bus-table .female { color: #505050; background-color: #FFEAFA; }
 #club .sub-contents .area-bus-table .reserved { color: #505050; background-color: #FBEFD8; }
 #club .sub-contents .area-bus-table .reserved.seat { color: #505050; background-color: #FBEFD8; }
-#club .sub-contents .area-bus-table .reserved.priority { color: #AAA!important; background-color: #fff; }
-#club .sub-contents .area-bus-table .reserved.honor { color: #AAA!important; background-color: #fff; }
+#club .sub-contents .area-bus-table .reserved.priority, #club .sub-contents .area-bus-table .reserved.honor { color: #AAA; background-color: #fff; }
 #club .sub-contents .area-bus-table .wait { font-weight: normal; color: #505050; }
 #club .sub-contents .area-bus-table .active { color: #505050!important; background-color: #FFCC00!important; }
 #club .sub-contents .area-bus-table .my-seat { color: #fff!important; background-color: #FF6C00!important; }

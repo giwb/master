@@ -189,29 +189,27 @@
               <h4>■ 운행거리 및 통행료 산출</h4>
             </div>
             <div class="d-none d-sm-block">
-              <div class="row align-items-center font-weight-bold border-top mt-3 pt-3">
-                <div class="col-sm-2">번호</div>
+              <div class="row align-items-center font-weight-bold border-top mt-2 pt-2">
                 <div class="col-sm-3">운행구간</div>
                 <div class="col-sm-3">도착지주소</div>
                 <div class="col-sm-2">거리 (km)</div>
                 <div class="col-sm-2">소요시간</div>
-                <div class="col-sm-2">통행료 (원)</div>
+                <div class="col-sm-2 pl-0">통행료 (원)</div>
               </div>
             </div>
             <?php foreach ($view['road_course'] as $key => $value): ?>
-            <div class="row align-items-center font-weight-bold border-top mt-3 pt-3 row-course">
-              <div class="col-sm-2"><?=$key + 1?></div>
-              <div class="col-sm-3"><input placeholder="운행구간" class="form-control w2x" type="text" size="20" name="road_course[]" value="<?=!empty($view['road_course'][$key]) ? $view['road_course'][$key] : ''?>"></div>
-              <div class="col-sm-3"><input placeholder="도착지주소" class="form-control w2x" type="text" size="20" name="road_address[]" value="<?=!empty($view['road_address'][$key]) ? $view['road_address'][$key] : '-'?>"></div>
-              <div class="col-sm-2"><input placeholder="거리 (km)" class="form-control road-distance" type="text" size="4" name="road_distance[]" value="<?=!empty($view['road_distance'][$key]) ? $view['road_distance'][$key] : ''?>"></div>
-              <div class="col-sm-2"><input placeholder="소요시간" class="form-control road-runtime" type="text" size="4" name="road_runtime[]" value="<?=array_key_exists($key, $view['road_runtime']) ? $view['road_runtime'][$key] : ''?>"></div>
-              <div class="col-sm-2"><input placeholder="통행료 (원)" class="form-control road-cost" type="text" size="4" name="road_cost[]" value="<?=array_key_exists($key, $view['road_cost']) ? $view['road_cost'][$key] : ''?>"></div>
+            <div class="row align-items-center font-weight-bold border-top mt-2 pt-2 row-course">
+              <div class="col-sm-3 pr-0"><input placeholder="운행구간" class="form-control form-control-sm" type="text" size="20" name="road_course[]" value="<?=!empty($view['road_course'][$key]) ? $view['road_course'][$key] : ''?>"></div>
+              <div class="col-sm-3 pr-0"><input placeholder="도착지주소" class="form-control form-control-sm" type="text" size="20" name="road_address[]" value="<?=!empty($view['road_address'][$key]) ? $view['road_address'][$key] : '-'?>"></div>
+              <div class="col-sm-2 pr-0"><input placeholder="거리 (km)" class="form-control form-control-sm road-distance" type="text" size="4" name="road_distance[]" value="<?=!empty($view['road_distance'][$key]) ? $view['road_distance'][$key] : ''?>"></div>
+              <div class="col-sm-2"><input placeholder="소요시간" class="form-control form-control-sm road-runtime" type="text" size="4" name="road_runtime[]" value="<?=array_key_exists($key, $view['road_runtime']) ? $view['road_runtime'][$key] : ''?>"></div>
+              <div class="col-sm-2 pl-0"><input placeholder="통행료 (원)" class="form-control form-control-sm road-cost" type="text" size="4" name="road_cost[]" value="<?=array_key_exists($key, $view['road_cost']) ? $view['road_cost'][$key] : ''?>"></div>
             </div>
             <?php endforeach; ?>
             <div class="added-course"></div>
-            <div class="row align-items-center font-weight-bold border-top mt-3 pt-3">
+            <div class="row align-items-center font-weight-bold border-top mt-2 pt-2">
               <div class="col-sm-2 mb-3"><button type="button" class="btn btn-sm btn-default btn-course">추가</button></div>
-              <div class="col-sm-5"></div>
+              <div class="col-sm-2"></div>
               <div class="col-sm-2">합계</div>
               <div class="col-sm-2"><input class="form-control total-distance" readonly type="text" name="distance" size="4" value="0"></div>
               <div class="col-sm-2"></div>
@@ -221,91 +219,91 @@
             <div class="mt-5">
               <h4>■ 버스비용 산출</h4>
             </div>
-            <div class="row align-items-center font-weight-bold border-top mt-3 pt-3">
-              <div class="col-sm-3">기본요금</div>
-              <div class="col-sm-3">주유비</div>
-              <div class="col-sm-3">운행비</div>
-              <div class="col-sm-3">추가비용</div>
+            <div class="row align-items-center font-weight-bold border-top mt-2 pt-2">
+              <div class="col-sm-3 pr-0">기본요금</div>
+              <div class="col-sm-3 pr-0">주유비</div>
+              <div class="col-sm-3 pr-0">운행비</div>
+              <div class="col-sm-3 pr-0">추가비용</div>
             </div>
-            <div class="row align-items-center border-top mt-3 pt-3">
-              <div class="col-sm-3 row"></div>
-              <div class="col-sm-3 row align-items-center">
-                <div class="col-sm-6">총주행 (km)</div>
-                <div class="col-sm-6"><input class="form-control total-distance" readonly type="text" size="3" name="driving_fuel[]"></div>
+            <div class="row align-items-center border-top mt-2 pt-2 small">
+              <div class="col-sm-3 p-0 row"></div>
+              <div class="col-sm-3 p-0 row align-items-center">
+                <div class="col-sm-6 pr-0">총주행 (km)</div>
+                <div class="col-sm-6 p-0"><input class="form-control form-control-sm total-distance" readonly type="text" size="3" name="driving_fuel[]"></div>
               </div>
-              <div class="col-sm-3 row align-items-center">
-                <div class="col-sm-6">통행료 (원)</div>
-                <div class="col-sm-6"><input class="form-control driving-cost total-cost" readonly type="text" size="4" name="driving_cost[]" value="<?=!empty($view['driving_cost'][0]) ? $view['driving_cost'][0] : ''?>"></div>
+              <div class="col-sm-3 p-0 row align-items-center">
+                <div class="col-sm-6 pr-0">통행료 (원)</div>
+                <div class="col-sm-6 p-0"><input class="form-control form-control-sm driving-cost total-cost" readonly type="text" size="4" name="driving_cost[]" value="<?=!empty($view['driving_cost'][0]) ? $view['driving_cost'][0] : ''?>"></div>
               </div>
-              <div class="col-sm-3 row align-items-center">
-                <div class="col-sm-6">일정추가 (원)</div>
-                <div class="col-sm-6"><input class="form-control driving-add cost-add-schedule" readonly type="text" size="4" name="driving_add[]" value="<?=!empty($view['driving_add'][0]) ? $view['driving_add'][0] : ''?>"></div>
-              </div>
-            </div>
-            <div class="row align-items-center border-top mt-3 pt-3">
-              <div class="col-sm-3 row"></div>
-              <div class="col-sm-3 row align-items-center">
-                <div class="col-sm-6">연비 (km)</div>
-                <div class="col-sm-6"><input class="form-control driving-fuel" readonly type="text" size="3" name="driving_fuel[]"></div>
-              </div>
-              <div class="col-sm-3 row align-items-center">
-                <div class="col-sm-6">주차비 (원)</div>
-                <div class="col-sm-6"><input class="form-control driving-cost" type="text" size="4" name="driving_cost[]" value="<?=!empty($view['driving_cost'][1]) ? $view['driving_cost'][1] : '6000'?>"></div>
-              </div>
-              <div class="col-sm-3 row align-items-center">
-                <div class="col-sm-6">성수기 (원)</div>
-                <div class="col-sm-6"><input class="form-control driving-add cost-peak" readonly type="text" size="4" name="driving_add[]"></div>
+              <div class="col-sm-3 p-0 row align-items-center">
+                <div class="col-sm-6 pr-0">일정추가 (원)</div>
+                <div class="col-sm-6 p-0"><input class="form-control form-control-sm driving-add cost-add-schedule" readonly type="text" size="4" name="driving_add[]" value="<?=!empty($view['driving_add'][0]) ? $view['driving_add'][0] : ''?>"></div>
               </div>
             </div>
-            <div class="row align-items-center border-top mt-3 pt-3">
-              <div class="col-sm-3 row"></div>
-              <div class="col-sm-3 row align-items-center">
-                <div class="col-sm-6">시세 (원/L)</div>
-                <div class="col-sm-6"><input class="form-control cost-gas" type="text" size="3" name="driving_fuel[]" value="<?=!empty($view['driving_fuel'][2]) ? $view['driving_fuel'][2] : $costGas?>"></div>
+            <div class="row align-items-center border-top mt-2 pt-2 small">
+              <div class="col-sm-3 p-0 row"></div>
+              <div class="col-sm-3 p-0 row align-items-center">
+                <div class="col-sm-6 pr-0">연비 (km)</div>
+                <div class="col-sm-6 p-0"><input class="form-control form-control-sm driving-fuel" readonly type="text" size="3" name="driving_fuel[]"></div>
               </div>
-              <div class="col-sm-3 row align-items-center">
-                <div class="col-sm-6">식대 (원)</div>
-                <div class="col-sm-6"><input class="form-control driving-cost" type="text" size="4" name="driving_cost[]" value="<?=!empty($view['driving_cost'][2]) ? $view['driving_cost'][2] : '10000'?>"></div>
+              <div class="col-sm-3 p-0 row align-items-center">
+                <div class="col-sm-6 pr-0">주차비 (원)</div>
+                <div class="col-sm-6 p-0"><input class="form-control form-control-sm driving-cost" type="text" size="4" name="driving_cost[]" value="<?=!empty($view['driving_cost'][1]) ? $view['driving_cost'][1] : '6000'?>"></div>
               </div>
-              <div class="col-sm-3 row align-items-center">
-                <div class="col-sm-6">승객수당 (원)</div>
-                <div class="col-sm-6"><input class="form-control driving-add" type="text" size="4" name="driving_add[]" value="<?=!empty($view['cost_driver']) ? $view['cost_driver'] : ''?>"></div>
-              </div>
-            </div>
-            <div class="row align-items-center border-top mt-3 pt-3">
-              <div class="col-sm-3 row"></div>
-              <div class="col-sm-3 row"></div>
-              <div class="col-sm-3 row align-items-center">
-                <div class="col-sm-6">숙박 (원)</div>
-                <div class="col-sm-6"><input class="form-control driving-cost" type="text" size="4" name="driving_cost[]" value="<?=!empty($view['driving_cost'][3]) ? $view['driving_cost'][3] : ''?>"></div>
-              </div>
-              <div class="col-sm-3 row"></div>
-            </div>
-            <div class="row align-items-center border-top mt-3 pt-3">
-              <div class="col-sm-3 row align-items-center">
-                <div class="col-sm-6">기본요금 (원)</div>
-                <div class="col-sm-6"><input class="form-control driving-default" readonly type="text" size="6" name="driving_default"></div>
-              </div>
-              <div class="col-sm-3 row align-items-center">
-                <div class="col-sm-6">합계 (원)</div>
-                <div class="col-sm-6"><input class="form-control total-driving-fuel" readonly type="text" size="3"></div>
-              </div>
-              <div class="col-sm-3 row align-items-center">
-                <div class="col-sm-6">합계 (원)</div>
-                <div class="col-sm-6"><input class="form-control total-driving-cost" readonly type="text" size="4"></div>
-              </div>
-              <div class="col-sm-3 row align-items-center">
-                <div class="col-sm-6">합계 (원)</div>
-                <div class="col-sm-6"><input class="form-control total-driving-add" readonly type="text" size="4"></div>
+              <div class="col-sm-3 p-0 row align-items-center">
+                <div class="col-sm-6 pr-0">성수기 (원)</div>
+                <div class="col-sm-6 p-0"><input class="form-control form-control-sm driving-add cost-peak" readonly type="text" size="4" name="driving_add[]"></div>
               </div>
             </div>
-            <div class="row align-items-center border-top mt-3 pt-3">
-              <div class="col-sm-3 row"></div>
-              <div class="col-sm-3 row"></div>
-              <div class="col-sm-3 row"></div>
-              <div class="col-sm-3 row align-items-center">
-                <div class="col-sm-6 font-weight-bold">운행견적총액 (원)</div>
-                <div class="col-sm-6"><input class="form-control total-bus-cost" readonly type="text" size="4" name="driving_total" value="<?=$view['driving_total'] != '' ? $view['driving_total'] : ''?>"></div>
+            <div class="row align-items-center border-top mt-2 pt-2 small">
+              <div class="col-sm-3 p-0 row"></div>
+              <div class="col-sm-3 p-0 row align-items-center">
+                <div class="col-sm-6 pr-0">시세 (원/L)</div>
+                <div class="col-sm-6 p-0"><input class="form-control form-control-sm cost-gas" type="text" size="3" name="driving_fuel[]" value="<?=!empty($view['driving_fuel'][2]) ? $view['driving_fuel'][2] : $costGas?>"></div>
+              </div>
+              <div class="col-sm-3 p-0 row align-items-center">
+                <div class="col-sm-6 pr-0">식대 (원)</div>
+                <div class="col-sm-6 p-0"><input class="form-control form-control-sm driving-cost" type="text" size="4" name="driving_cost[]" value="<?=!empty($view['driving_cost'][2]) ? $view['driving_cost'][2] : '10000'?>"></div>
+              </div>
+              <div class="col-sm-3 p-0 row align-items-center">
+                <div class="col-sm-6 pr-0">승객수당</div>
+                <div class="col-sm-6 p-0"><input class="form-control form-control-sm driving-add" type="text" size="4" name="driving_add[]" value="<?=!empty($view['cost_driver']) ? $view['cost_driver'] : ''?>"></div>
+              </div>
+            </div>
+            <div class="row align-items-center border-top mt-2 pt-2 small">
+              <div class="col-sm-3 p-0 row"></div>
+              <div class="col-sm-3 p-0 row"></div>
+              <div class="col-sm-3 p-0 row align-items-center">
+                <div class="col-sm-6 pr-0">숙박 (원)</div>
+                <div class="col-sm-6 p-0"><input class="form-control form-control-sm driving-cost" type="text" size="4" name="driving_cost[]" value="<?=!empty($view['driving_cost'][3]) ? $view['driving_cost'][3] : ''?>"></div>
+              </div>
+              <div class="col-sm-3 p-0 row"></div>
+            </div>
+            <div class="row align-items-center border-top mt-2 pt-2 small">
+              <div class="col-sm-3 p-0 row align-items-center">
+                <div class="col-sm-6 p-0">기본요금 (원)</div>
+                <div class="col-sm-6 p-0"><input class="form-control form-control-sm driving-default" readonly type="text" size="6" name="driving_default"></div>
+              </div>
+              <div class="col-sm-3 p-0 row align-items-center">
+                <div class="col-sm-6 pr-0">합계 (원)</div>
+                <div class="col-sm-6 p-0"><input class="form-control form-control-sm total-driving-fuel" readonly type="text" size="3"></div>
+              </div>
+              <div class="col-sm-3 p-0 row align-items-center">
+                <div class="col-sm-6 pr-0">합계 (원)</div>
+                <div class="col-sm-6 p-0"><input class="form-control form-control-sm total-driving-cost" readonly type="text" size="4"></div>
+              </div>
+              <div class="col-sm-3 p-0 row align-items-center">
+                <div class="col-sm-6 pr-0">합계 (원)</div>
+                <div class="col-sm-6 p-0"><input class="form-control form-control-sm total-driving-add" readonly type="text" size="4"></div>
+              </div>
+            </div>
+            <div class="row align-items-center border-top mt-2 pt-2 small">
+              <div class="col-sm-3 p-0 row"></div>
+              <div class="col-sm-3 p-0 row"></div>
+              <div class="col-sm-2 p-0 row"></div>
+              <div class="col-sm-4 p-0 row align-items-center">
+                <div class="col-sm-6 p-0 font-weight-bold">운행견적총액 (원)</div>
+                <div class="col-sm-6 p-0"><input class="form-control form-control-sm total-bus-cost" readonly type="text" size="4" name="driving_total" value="<?=$view['driving_total'] != '' ? $view['driving_total'] : ''?>"></div>
               </div>
             </div>
 
@@ -475,12 +473,13 @@
             $('.row-course').each(function() {
               cnt++;
             });
-            var html = '<div class="row align-items-center font-weight-bold border-top mt-3 pt-3 row-course"><div class="col-sm-2">' + (Number(cnt) + 1) + '</div>';
-                html += '<div class="col-sm-3"><input placeholder="운행구간" class="form-control w2x" type="text" size="20" name="road_course[]"></div>';
-                html += '<div class="col-sm-3"><input placeholder="도착지주소" class="form-control w2x" type="text" size="20" name="road_address[]"></div>';
-                html += '<div class="col-sm-2"><input placeholder="거리 (km)" class="form-control road-distance" type="text" size="4" name="road_distance[]"></div>';
-                html += '<div class="col-sm-2"><input placeholder="소요시간" class="form-control road-runtime" type="text" size="4" name="road_runtime[]"></div>';
-                html += '<div class="col-sm-2"><input placeholder="통행료 (원)" class="form-control road-cost" type="text" size="4" name="road_cost[]"></div></div>';
+            //var html = '<div class="row align-items-center font-weight-bold border-top mt-3 pt-3 row-course"><div class="col-sm-2">' + (Number(cnt) + 1) + '</div>';
+            var html  = '<div class="row align-items-center font-weight-bold border-top mt-2 pt-2 row-course">';
+                html += '<div class="col-sm-3 pr-0"><input placeholder="운행구간" class="form-control form-control-sm" type="text" size="20" name="road_course[]"></div>';
+                html += '<div class="col-sm-3 pr-0"><input placeholder="도착지주소" class="form-control form-control-sm" type="text" size="20" name="road_address[]"></div>';
+                html += '<div class="col-sm-2 pr-0"><input placeholder="거리 (km)" class="form-control form-control-sm road-distance" type="text" size="4" name="road_distance[]"></div>';
+                html += '<div class="col-sm-2"><input placeholder="소요시간" class="form-control form-control-sm road-runtime" type="text" size="4" name="road_runtime[]"></div>';
+                html += '<div class="col-sm-2 pl-0"><input placeholder="통행료 (원)" class="form-control form-control-sm road-cost" type="text" size="4" name="road_cost[]"></div></div>';
 
             $('.added-course').append(html);
           });

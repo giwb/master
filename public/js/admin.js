@@ -1023,6 +1023,7 @@
   $.calcBusCost = function(totalDistance) {
     var cost = 0;
     var cost_bus = 0;
+    /*
     if      (totalDistance <  200)                          { cost = 23000; cost_bus = 220000; }
     else if (totalDistance >= 200 && totalDistance < 250)   { cost = 24000; cost_bus = 230000; }
     else if (totalDistance >= 250 && totalDistance < 300)   { cost = 25000; cost_bus = 240000; }
@@ -1041,6 +1042,25 @@
     else if (totalDistance >= 900 && totalDistance < 950)   { cost = 38000; cost_bus = 370000; }
     else if (totalDistance >= 950 && totalDistance < 1000)  { cost = 39000; cost_bus = 380000; }
     else if (totalDistance > 1000)                          { cost = 40000; cost_bus = 390000; }
+    */
+    if      (totalDistance <  200)                          { cost = 24000; cost_bus = 220000; }
+    else if (totalDistance >= 200 && totalDistance < 250)   { cost = 25000; cost_bus = 230000; }
+    else if (totalDistance >= 250 && totalDistance < 300)   { cost = 26000; cost_bus = 240000; }
+    else if (totalDistance >= 300 && totalDistance < 350)   { cost = 27000; cost_bus = 250000; }
+    else if (totalDistance >= 350 && totalDistance < 400)   { cost = 28000; cost_bus = 260000; }
+    else if (totalDistance >= 400 && totalDistance < 450)   { cost = 29000; cost_bus = 270000; }
+    else if (totalDistance >= 450 && totalDistance < 500)   { cost = 30000; cost_bus = 280000; }
+    else if (totalDistance >= 500 && totalDistance < 550)   { cost = 31000; cost_bus = 290000; }
+    else if (totalDistance >= 550 && totalDistance < 600)   { cost = 32000; cost_bus = 300000; }
+    else if (totalDistance >= 600 && totalDistance < 650)   { cost = 33000; cost_bus = 310000; }
+    else if (totalDistance >= 650 && totalDistance < 700)   { cost = 34000; cost_bus = 320000; }
+    else if (totalDistance >= 700 && totalDistance < 750)   { cost = 35000; cost_bus = 330000; }
+    else if (totalDistance >= 750 && totalDistance < 800)   { cost = 36000; cost_bus = 340000; }
+    else if (totalDistance >= 800 && totalDistance < 850)   { cost = 37000; cost_bus = 350000; }
+    else if (totalDistance >= 850 && totalDistance < 900)   { cost = 38000; cost_bus = 360000; }
+    else if (totalDistance >= 900 && totalDistance < 950)   { cost = 39000; cost_bus = 370000; }
+    else if (totalDistance >= 950 && totalDistance < 1000)  { cost = 40000; cost_bus = 380000; }
+    else if (totalDistance > 1000)                          { cost = 41000; cost_bus = 390000; }
     $('.driving-default').val(cost_bus);
     $('.cost-default').val(cost);
   }

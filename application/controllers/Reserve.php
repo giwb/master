@@ -142,14 +142,24 @@ class Reserve extends MY_Controller
         if (empty($value['cost_total'])) {
           $value['cost_total'] = $value['cost'];
         }
-        if ($userData['level'] == LEVEL_LIFETIME || $value['honor'] == 1) {
-          // 평생회원 할인, 1인우등 할인
+        if ($userData['level'] == LEVEL_LIFETIME) {
+          // 평생회원 할인
           $viewData['listReserve'][$key]['view_cost'] = '<s class="text-secondary">' . number_format($value['cost_total']) . '원</s> → ' . number_format($value['cost_total'] - 5000) . '원';
           $viewData['listReserve'][$key]['real_cost'] = $value['cost_total'] - 5000;
         } elseif ($userData['level'] == LEVEL_FREE) {
           // 무료회원 할인
           $viewData['listReserve'][$key]['view_cost'] = '<s class="text-secondary">' . number_format($value['cost_total']) . '원</s> → ' . '0원';
           $viewData['listReserve'][$key]['real_cost'] = 0;
+        } elseif ($value['honor'] == 1) {
+          // 1인우등 할인
+          if ($key == 1) { // 1인우등의 2번째 좌석은 무조건 1만원
+            $addedCost = 10000;
+            $viewData['listReserve'][$key]['view_cost'] = '<s class="text-secondary">' . number_format($value['cost_total']) . '원</s> → ' . number_format($addedCost) . '원';
+            $viewData['listReserve'][$key]['real_cost'] = $addedCost;
+          } else {
+            $viewData['listReserve'][$key]['view_cost'] = number_format($value['cost_total']) . '원';
+            $viewData['listReserve'][$key]['real_cost'] = $value['cost_total'];
+          }
         } else {
           $viewData['listReserve'][$key]['view_cost'] = number_format($value['cost_total']) . '원';
           $viewData['listReserve'][$key]['real_cost'] = $value['cost_total'];
