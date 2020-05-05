@@ -1032,13 +1032,9 @@
           }
           var selectSeat = '<select name="seat[]" class="busSeat">'; $.each(reserveInfo.seat[bus], function(i, v) { selectSeat += '<option'; if ((i+1) == seat) selectSeat += ' selected'; selectSeat += ' value="' + (i+1) + '">' + v + '번</option>'; }); selectSeat += '</select> ';
 
-          /*
-          if (reserveInfo.reserve.priority == 0 && reserveInfo.reserve.nickname != '2인우선') {
+          if (reserveInfo.reserve.priority == 0 && reserveInfo.reserve.honor <= 1) {
             $('.btn-reserve-cancel').removeClass('d-none').show();
           }
-          if (reserveInfo.reserve.honor == 0 && reserveInfo.reserve.nickname != '1인우등') {
-            $('.btn-reserve-cancel').removeClass('d-none').show();
-          }*/
         } else {
           // 등록
           var busNumber = '';
