@@ -895,7 +895,7 @@
       $('.honor[data-bus=' + bus + '][data-id=' + honorIdx + ']').addClass('active');
       $('html, body').animate( { scrollTop : $('#reserveForm').offset().top - 100 }, 1000 ); // 하단으로 스크롤
       $.viewReserveInfo(resIdx, bus, seat, honorIdx);
-      $.viewReserveInfo(honorIdx, bus, honorSeat, honorIdx);
+      $.viewReserveInfo(honorIdx, bus, honorSeat, honorIdx, 1);
     }
   }).on('click', '.btn-reserve-confirm', function() {
     // 좌석 예약
@@ -906,7 +906,7 @@
     var cnt = 0;
 
     // 승차위치 선택 확인
-    $('.location').each(function() {
+    $('.location:visible').each(function() {
       if ($(this).val() == 0) {
         cnt++;
       }
@@ -1004,14 +1004,16 @@
   });
 
   // 예약 정보
-  $.viewReserveInfo = function(resIdx, bus, seat, priorityIdx) {
+  $.viewReserveInfo = function(resIdx, bus, seat, priorityIdx, hide='') {
     $.ajax({
       url: '/reserve/information',
       data: 'clubIdx=' + $('input[name=clubIdx]').val() + '&idx=' + $('input[name=noticeIdx]').val() + '&bus=' + bus + '&seat=' + seat + '&resIdx=' + resIdx,
       dataType: 'json',
       type: 'post',
       beforeSend: function() {
-        $('#addedInfo').append('<img src="/public/images/ajax-loader.gif" class="ajax-loader">');
+        if (!hide) {
+          $('#addedInfo').append('<img src="/public/images/ajax-loader.gif" class="ajax-loader">');
+        }
       },
       success: function(reserveInfo) {
         var header = '<div class="reserve" data-seat="' + seat + '"><input type="hidden" name="resIdx[]" value="' + resIdx + '" class="resIdx" data-penalty="' + reserveInfo.penalty + '">';
@@ -1048,6 +1050,9 @@
 
         $('.ajax-loader').remove();
         $('#addedInfo').append(header + busType + selectSeat + location + memo + footer);
+        if (hide) {
+          $('#addedInfo .reserve[data-seat=' + seat + ']').hide();
+        }
 
         // 예약 확정 버튼
         if ($('.btn-reserve-confirm').is(':visible') == false) $('.btn-reserve-confirm').show();

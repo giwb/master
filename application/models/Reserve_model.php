@@ -261,7 +261,7 @@ class Reserve_model extends CI_Model
   // 좌석 예약 확인
   public function checkReserve($noticeIdx, $bus, $seat)
   {
-    $this->db->select('idx, userid, nickname, priority')
+    $this->db->select('idx, userid, nickname, priority, honor')
           ->from(DB_RESERVATION)
           ->where('rescode', $noticeIdx)
           ->where('bus', $bus)

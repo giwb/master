@@ -142,8 +142,8 @@ class Reserve extends MY_Controller
         if (empty($value['cost_total'])) {
           $value['cost_total'] = $value['cost'];
         }
-        if ($userData['level'] == LEVEL_LIFETIME) {
-          // 평생회원 할인
+        if ($userData['level'] == LEVEL_LIFETIME || $value['honor'] == 1) {
+          // 평생회원 할인, 1인우등 할인
           $viewData['listReserve'][$key]['view_cost'] = '<s class="text-secondary">' . number_format($value['cost_total']) . '원</s> → ' . number_format($value['cost_total'] - 5000) . '원';
           $viewData['listReserve'][$key]['real_cost'] = $value['cost_total'] - 5000;
         } elseif ($userData['level'] == LEVEL_FREE) {
@@ -444,11 +444,18 @@ class Reserve extends MY_Controller
         // 선택한 좌석 예약 여부 확인
         $checkReserve = $this->reserve_model->checkReserve($noticeIdx, $nowBus, $seat);
 
-        // 자신이 예약한 좌석만 수정 가능
-        if ($checkReserve['userid'] == $userData['userid'] || empty($checkReserve['idx']) || (!empty($checkReserve['priority']) && $checkReserve['nickname'] == '2인우선')) {
+        // 자신이 예약한 좌석만 수정 가능, 2인우선석/1인우등석은 수정
+        if (  $checkReserve['userid'] == $userData['userid']
+            || empty($checkReserve['idx'])
+            || (!empty($checkReserve['priority']) && $checkReserve['nickname'] == '2인우선')
+            || (!empty($checkReserve['honor']) && $checkReserve['nickname'] == '1인우등')
+          ) {
           if (!empty($checkReserve['priority']) && $checkReserve['nickname'] == '2인우선') {
             $processData['status'] = RESERVE_ON;
             $processData['priority'] = 0;
+          } elseif (!empty($checkReserve['honor']) && $checkReserve['nickname'] == '1인우등') {
+            $processData['status'] = RESERVE_ON;
+            $processData['honor'] = 1;
           }
           $result = $this->reserve_model->updateReserve($processData, $resIdxNow);
 
