@@ -25,6 +25,7 @@ class Shop extends MY_Controller
     $viewData['search'] = array(
       'item_name' => !empty($this->input->get('k')) ? html_escape($this->input->get('k')) : NULL,
       'item_category1' => !empty($this->input->get('c')) ? html_escape($this->input->get('c')) : NULL,
+      'item_visible' => 'Y',
     );
 
     if (empty($viewData['search']['item_category1'])) {
