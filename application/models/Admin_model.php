@@ -75,6 +75,7 @@ class Admin_model extends CI_Model
     $this->db->select('COUNT(idx) AS CNT')
           ->from(DB_RESERVATION)
           ->where('rescode', $resCode)
+          ->where('nickname !=', '1인우등')
           ->where('honor >', 0);
 
     if (!is_null($bus)) {
@@ -246,6 +247,7 @@ class Admin_model extends CI_Model
 
     if (!empty($search['honor'])) {
       $this->db->where('honor >', 0);
+      $this->db->where('nickname !=', '1인우등');
     }
     if (!empty($search['vip'])) {
       $this->db->where('vip', $search['vip']);

@@ -205,7 +205,7 @@
       success: function(result) {
         $btn.css('opacity', '1').prop('disabled', false).text(btnText);
         $('#messageModal .btn-delete, #messageModal .btn-refresh').hide();
-        $('#messageModal .btn-list').attr('data-action', $('input[name=back_url').val()).show();
+        $('#messageModal .btn-list').attr('data-action', $('input[name=back_url]').val()).show();
         $('#messageModal .modal-message').text(result.message);
         $('#messageModal').modal('show');
       }

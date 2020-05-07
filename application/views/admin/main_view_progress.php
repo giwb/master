@@ -160,7 +160,7 @@
               <div class="modal-footer">
                 <input type="hidden" name="selectStatus">
                 <button type="button" class="btn btn-sm btn-default btn-change-status">승인</button>
-                <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-sm btn-secondary btn-close" data-dismiss="modal">닫기</button>
               </div>
             </div>
           </div>
