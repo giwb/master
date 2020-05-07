@@ -150,7 +150,7 @@ class Reserve extends MY_Controller
           // 무료회원 할인
           $viewData['listReserve'][$key]['view_cost'] = '<s class="text-secondary">' . number_format($value['cost_total']) . '원</s> → ' . '0원';
           $viewData['listReserve'][$key]['real_cost'] = 0;
-        } elseif ($value['honor'] == 1) {
+        } elseif (!empty($value['honor'])) {
           // 1인우등 할인
           if ($key == 1) { // 1인우등의 2번째 좌석은 무조건 1만원
             $honorCost = 10000;
@@ -314,15 +314,8 @@ class Reserve extends MY_Controller
       if (is_null($result['reserve']['depositname'])) $result['reserve']['depositname'] = '';
       if (is_null($result['reserve']['memo'])) $result['reserve']['memo'] = '';
     } else {
-      $result['reserve']['nickname'] = '';
-      $result['reserve']['gender'] = 'M';
       $result['reserve']['loc'] = '';
-      $result['reserve']['bref'] = '';
-      $result['reserve']['depositname'] = '';
       $result['reserve']['memo'] = '';
-      $result['reserve']['vip'] = '';
-      $result['reserve']['manager'] = '';
-      $result['reserve']['priority'] = '';
     }
 
     $result['busType'] = getBusType($notice['bustype'], $notice['bus']); // 버스 형태별 좌석 배치
@@ -463,10 +456,8 @@ class Reserve extends MY_Controller
           ) {
           if (!empty($checkReserve['priority']) && $checkReserve['nickname'] == '2인우선') {
             $processData['status'] = RESERVE_ON;
-            $processData['priority'] = 0;
           } elseif (!empty($checkReserve['honor']) && $checkReserve['nickname'] == '1인우등') {
             $processData['status'] = RESERVE_ON;
-            $processData['honor'] = 1;
           }
           $result = $this->reserve_model->updateReserve($processData, $resIdxNow);
 
@@ -593,15 +584,15 @@ class Reserve extends MY_Controller
       if ($cntReserve['cnt'] >= $maxSeat[$userBus] || $cntReserveWait['cnt'] >= 1) {
         // 예약 삭제 처리
         $updateValues = array(
-          'userid' => NULL,
+          'userid' => '',
           'nickname' => '대기자 우선',
-          'gender' => '',
-          'loc' => NULL,
-          'bref' => NULL,
-          'memo' => NULL,
-          'depositname' => NULL,
+          'gender' => 'M',
+          'loc' => 0,
+          'memo' => '',
+          'depositname' => '',
           'point' => 0,
           'priority' => 0,
+          'honor' => 0,
           'vip' => 0,
           'manager' => 0,
           'penalty' => 0,
@@ -610,8 +601,46 @@ class Reserve extends MY_Controller
         // 만석일 경우에는 대기자 우선석으로 변경
         $rtn = $this->reserve_model->updateReserve($updateValues, $idx);
       } else {
-        // 좌석이 남아있을 경우에는 그냥 삭제
-        $rtn = $this->reserve_model->deleteReserve($idx);
+        // 좌석이 남아있을 경우
+        if (!empty($userReserve['priority'])) {
+          // 2인우선석이었던 경우 변경
+          $updateValues = array(
+            'userid' => '',
+            'nickname' => '2인우선',
+            'gender' => 'M',
+            'loc' => 0,
+            'memo' => '',
+            'depositname' => '',
+            'point' => 0,
+            'vip' => 0,
+            'manager' => 0,
+            'penalty' => 0,
+            'status' => 0
+          );
+          $this->reserve_model->updateReserve($updateValues, $userReserve['priority']);
+          $rtn = $this->reserve_model->updateReserve($updateValues, $idx);
+        } elseif (!empty($userReserve['honor'])) {
+          // 1인우등석이었던 경우 변경
+          $updateValues = array(
+            'userid' => '',
+            'nickname' => '1인우등',
+            'gender' => 'M',
+            'loc' => 0,
+            'memo' => '',
+            'depositname' => '',
+            'point' => 0,
+            'vip' => 0,
+            'manager' => 0,
+            'penalty' => 0,
+            'status' => 0
+          );
+          $this->reserve_model->updateReserve($updateValues, $userReserve['honor']);
+          $rtn = $this->reserve_model->updateReserve($updateValues, $idx);
+        } else {
+          // 삭제
+          $rtn = $this->reserve_model->deleteReserve($idx);
+        }
+        
       }
 
       if (!empty($rtn)) {

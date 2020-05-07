@@ -719,12 +719,10 @@
         $('#messageModal').modal({backdrop: 'static', keyboard: false});
       }
     });
-  }).on('click', '.area-bus-table .seat', function() {
+  }).on('click', '.area-bus-table .seat, .area-bus-table .my-seat', function() {
     // 산행 예약/수정 버튼
-    var userIdx = $('input[name=userIdx]').val();
-
-    if (userIdx == '') {
-      // 로그인
+    if ($('input[name=userIdx]').val() == '') {
+      // 로그인 확인
       $('input[name=redirectUrl]').val($(location).attr('href'));
       $('#loginModal').modal('show');
       return false;
@@ -742,6 +740,7 @@
     if ($(this).hasClass('active')) {
       // 비활성화
       $('.seat[data-bus=' + bus + '][data-seat=' + seat + ']').removeClass('active');
+      $('.my-seat[data-bus=' + bus + '][data-seat=' + seat + ']').removeClass('active');
       $('#addedInfo .reserve[data-seat=' + seat + ']').remove();
 
       // 예약 내용이 없으면 버튼 삭제
@@ -767,28 +766,10 @@
         }
       }
       $('.seat[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
+      $('.my-seat[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
       $('html, body').animate( { scrollTop : $('#reserveForm').offset().top - 100 }, 1000 ); // 하단으로 스크롤
       $.viewReserveInfo(resIdx, bus, seat, 0); // 예약 정보
     }
-  }).on('change', '.reserve .busSelect', function() {
-    // 버스 선택시 해당 버스의 좌석으로 변경
-    var $dom = $(this);
-    var $domSeat = $dom.parent().find('.busSeat');
-    var seat = $domSeat.val();
-    var bus = $dom.val();
-    var selectSeat = '';
-    var selected = '';
-    $.ajax({
-      url: '/reserve/information_bus',
-      data: 'idx=' + $('input[name=noticeIdx]').val(),
-      dataType: 'json',
-      type: 'post',
-      success: function(result) {
-        console.log(result);
-        $.each(result.seat[bus], function(i, v) { if ((i+1) == seat) selected = ' selected'; else selected = ''; selectSeat += '<option' + selected + ' value="' + (i+1) + '">' + v + '번</option>'; });
-        $domSeat.empty().append(selectSeat);
-      }
-    });
   }).on('click', '.area-bus-table .priority', function() {
     // 2인우선 예약 버튼
     var userIdx = $('input[name=userIdx]').val();
@@ -836,6 +817,9 @@
       if (chk == true || typeof $('.resIdx').css('display') != 'undefined') {
         $.openMsgModal('일반예약과 2인예약을 동시에 할 수 없습니다.');
         return false;
+      }
+      if ($(this).hasClass('reserved')) {
+        $('.btn-reserve-confirm').text('수정합니다');
       }
       $('.priority[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
       $('.priority[data-bus=' + bus + '][data-id=' + priorityIdx + ']').addClass('active');
@@ -891,12 +875,34 @@
         $.openMsgModal('일반예약과 2인예약을 동시에 할 수 없습니다.');
         return false;
       }
+      if ($(this).hasClass('reserved')) {
+        $('.btn-reserve-confirm').text('수정합니다');
+      }
       $('.honor[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
       $('.honor[data-bus=' + bus + '][data-id=' + honorIdx + ']').addClass('active');
       $('html, body').animate( { scrollTop : $('#reserveForm').offset().top - 100 }, 1000 ); // 하단으로 스크롤
       $.viewReserveInfo(resIdx, bus, seat, honorIdx);
       $.viewReserveInfo(honorIdx, bus, honorSeat, honorIdx, 1);
     }
+  }).on('change', '.reserve .busSelect', function() {
+    // 버스 선택시 해당 버스의 좌석으로 변경
+    var $dom = $(this);
+    var $domSeat = $dom.parent().find('.busSeat');
+    var seat = $domSeat.val();
+    var bus = $dom.val();
+    var selectSeat = '';
+    var selected = '';
+    $.ajax({
+      url: '/reserve/information_bus',
+      data: 'idx=' + $('input[name=noticeIdx]').val(),
+      dataType: 'json',
+      type: 'post',
+      success: function(result) {
+        console.log(result);
+        $.each(result.seat[bus], function(i, v) { if ((i+1) == seat) selected = ' selected'; else selected = ''; selectSeat += '<option' + selected + ' value="' + (i+1) + '">' + v + '번</option>'; });
+        $domSeat.empty().append(selectSeat);
+      }
+    });
   }).on('click', '.btn-reserve-confirm', function() {
     // 좌석 예약
     var $btn = $(this);
@@ -1032,7 +1038,7 @@
           }
           var selectSeat = '<select name="seat[]" class="busSeat">'; $.each(reserveInfo.seat[bus], function(i, v) { selectSeat += '<option'; if ((i+1) == seat) selectSeat += ' selected'; selectSeat += ' value="' + (i+1) + '">' + v + '번</option>'; }); selectSeat += '</select> ';
 
-          if (reserveInfo.reserve.priority == 0 && reserveInfo.reserve.honor <= 1) {
+          if (reserveInfo.reserve.nickname != '1인우등' && reserveInfo.reserve.nickname != '2인우선') {
             $('.btn-reserve-cancel').removeClass('d-none').show();
           }
         } else {

@@ -626,7 +626,13 @@ if (!function_exists('getReserve')) {
     foreach ($reserve as $key => $value) {
       if ($value['bus'] == $bus && $value['seat'] == $seat) {
         if (!empty($value['userid']) && $userData['userid'] == $value['userid']) {
-          $value['class'] = 'seat my-seat';
+          if (!empty($value['priority'])) {
+            $value['class'] = 'my-priority';
+          } elseif (!empty($value['honor']) && $value['honor'] > 1) {
+            $value['class'] = 'my-honor';
+          } else {
+            $value['class'] = 'my-seat';
+          }
         } else {
           $value['class'] = '';
         }
