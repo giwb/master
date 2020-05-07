@@ -254,8 +254,16 @@ if (!function_exists('calcDate')) {
 // 산행 예약자 카운트
 if (!function_exists('cntRes')) {
   function cntRes($resCode, $bus=NULL) {
-    $result = $GLOBALS['CI']->admin_model->cntReservation($resCode, $bus);
-    return $result['CNT'];
+    $cnt1 = $GLOBALS['CI']->admin_model->cntReservation($resCode, $bus);
+    $cnt2 = $GLOBALS['CI']->admin_model->cntReservationHonor($resCode, $bus);
+
+    if ($cnt2 > 0) {
+      $result = $cnt1['CNT'] - ($cnt2['CNT'] / 2);
+    } else {
+      $result = $cnt1['CNT'];
+    }
+
+    return $result;
   }
 }
 
@@ -628,7 +636,7 @@ if (!function_exists('getReserve')) {
         if (!empty($value['userid']) && $userData['userid'] == $value['userid']) {
           if (!empty($value['priority'])) {
             $value['class'] = 'my-priority';
-          } elseif (!empty($value['honor']) && $value['honor'] > 1) {
+          } elseif (!empty($value['honor'])) {
             $value['class'] = 'my-honor';
           } else {
             $value['class'] = 'my-seat';
@@ -641,7 +649,9 @@ if (!function_exists('getReserve')) {
         } elseif ($value['status'] == RESERVE_WAIT) {
           $value['class'] .= ' wait';
         } else {
-          $value['class'] .= ' reserved';
+          if ($value['nickname'] != '1인우등' && $value['nickname'] != '2인우선') {
+            $value['class'] .= ' reserved';
+          }
         }
         if (!empty($value['priority'])) {
           $value['class'] .= ' priority';

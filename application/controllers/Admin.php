@@ -644,6 +644,7 @@ class Admin extends Admin_Controller
 
     // 시간별 승차위치
     $listLocation = arrLocation($viewData['view']['starttime']);
+    $cnt = 0;
 
     foreach ($viewData['busType'] as $key1 => $bus) {
       $busNumber = $key1 + 1;
@@ -651,7 +652,15 @@ class Admin extends Admin_Controller
         $viewData['busType'][$key1]['listLocation'][] = $value;
         $resData = $this->admin_model->listReserveLocation($viewData['rescode'], $busNumber, $value['no']);
         foreach ($resData as $people) {
-          $viewData['busType'][$key1]['listLocation'][$key2]['nickname'][] = $people['nickname'];
+          if (!empty($people['honor'])) {
+            $cnt++;
+            if ($cnt > 1) {
+              $viewData['busType'][$key1]['listLocation'][$key2]['nickname'][] = $people['nickname'] . '(우등)';
+              $cnt = 0;
+            }
+          } else {
+            $viewData['busType'][$key1]['listLocation'][$key2]['nickname'][] = $people['nickname'];
+          }
         }
       }
 

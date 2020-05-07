@@ -58,22 +58,20 @@
                     <?php endif; ?>
                     <?php
                         // 버스 형태 좌석 배치
-                        $maxRes = 0;
                         foreach (range(1, $value['seat']) as $seat):
                           $tableMake = getBusTableMake($value['seat'], $seat); // 버스 좌석 테이블 만들기
                           $reserveInfo = getReserveAdmin($reserve, $bus, $seat, $userData); // 예약자 정보
                           $seatNumber = checkDirection($seat, $bus, $view['bustype'], $view['bus']);
-                          if (!empty($reserveInfo['idx'])) $maxRes++;
                     ?>
                       <?=$tableMake?>
-                      <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>" <?=!empty($reserveInfo['priority']) ? ' data-priority="' . $reserveInfo['priority'] . '"' : ''?> data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$seatNumber?></td>
-                      <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>" <?=!empty($reserveInfo['priority']) ? ' data-priority="' . $reserveInfo['priority'] . '"' : ''?> data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$reserveInfo['nickname']?></td>
+                      <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>" data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$seatNumber?></td>
+                      <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>" data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$reserveInfo['nickname']?><?=!empty($reserveInfo['honor']) ? '(우등)' : ''?></td>
                     <?php endforeach; ?>
                   </tbody>
                 </table>
               </div>
               <div class="area-boarding">
-                <div class="mb-2">■ <strong>승차위치</strong> (<?=number_format($maxRes)?>명)</div>
+                <div class="mb-2">■ <strong>승차위치</strong> (<?=cntRes($view['idx'])?>명)</div>
                 <?php
                   foreach ($value['listLocation'] as $cnt => $location):
                     if ($cnt == 0): $lastData = $location;

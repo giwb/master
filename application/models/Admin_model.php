@@ -57,11 +57,26 @@ class Admin_model extends CI_Model
           ->from(DB_RESERVATION)
           ->where('rescode', $resCode)
           ->where('manager', 0)
-          ->where('priority', 0);
+          ->where_not_in('nickname', array('1인우등', '2인우선'));
 
     if (is_null($wait)) {
       $this->db->where('status !=', RESERVE_WAIT);
     }
+    if (!is_null($bus)) {
+      $this->db->where('bus', $bus);
+    }
+
+    return $this->db->get()->row_array(1);
+  }
+
+  // 산행 예약자 중 1인우등 예약자 카운트
+  public function cntReservationHonor($resCode, $bus=NULL)
+  {
+    $this->db->select('COUNT(idx) AS CNT')
+          ->from(DB_RESERVATION)
+          ->where('rescode', $resCode)
+          ->where('honor >', 0);
+
     if (!is_null($bus)) {
       $this->db->where('bus', $bus);
     }
@@ -334,7 +349,7 @@ class Admin_model extends CI_Model
           ->where('bus', $bus)
           ->where('loc', $location)
           ->where('manager !=', 1)
-          ->where('priority=', 0)
+          ->where_not_in('nickname', array('1인우등', '2인우선'))
           ->order_by('seat', 'asc');
     return $this->db->get()->result_array();
   }
