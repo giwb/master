@@ -76,7 +76,7 @@ class Reserve_model extends CI_Model
           ->from(DB_RESERVATION)
           ->where('rescode', $noticeIdx)
           ->where('manager', 0)
-          ->where('priority', 0);
+          ->where_not_in('nickname', array('1인우등', '2인우선'));
 
     if (!empty($bus)) {
       $this->db->where('bus', $bus);
