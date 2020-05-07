@@ -741,10 +741,15 @@ class Admin extends Admin_Controller
     // 산행예약 금액
     if ($viewData['view']['cost_total'] != 0) $viewData['view']['cost'] = $viewData['view']['cost_total'];
 
-    // 평생회원 수량
-    $search['vip'] = 1;
+    // 1인우등 수량
     $search['rescode'] = $idx;
     $search['club_idx'] = $viewData['clubIdx'];
+    $search['honor'] = 1;
+    $viewData['view']['honor'] = $this->admin_model->cntReserve($search);
+
+    // 평생회원 수량
+    $search['honor'] = NULL;
+    $search['vip'] = 1;
     $viewData['view']['vip'] = $this->admin_model->cntReserve($search);
 
     // 포인트 수량
@@ -777,7 +782,7 @@ class Admin extends Admin_Controller
   public function main_view_adjust_update()
   {
     $inputDatas = array('rescode', 'total', 'memo');
-    foreach (range(1, 30) as $key) {
+    foreach (range(1, 31) as $key) {
       array_push($inputDatas, 'title' . $key, 'amount' . $key, 'cost' . $key, 'total' . $key, 'memo' . $key);
     }
 

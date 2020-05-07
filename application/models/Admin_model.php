@@ -244,6 +244,9 @@ class Admin_model extends CI_Model
           ->where('club_idx', $search['club_idx'])
           ->where('rescode', $search['rescode']);
 
+    if (!empty($search['honor'])) {
+      $this->db->where('honor >', 0);
+    }
     if (!empty($search['vip'])) {
       $this->db->where('vip', $search['vip']);
     }

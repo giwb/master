@@ -37,6 +37,14 @@
             </div>
             <div class="row align-items-center p-1">
               <div class="col-1 p-0">산행비</div>
+              <div class="col-3 pl-1 pr-1"><input type="text" name="title31" class="form-control form-control-sm" value="<?=empty($viewAdjust['title31']) ? '1인우등' : $viewAdjust['title31']?>"></div>
+              <div class="col-1 pl-1 pr-1"><input readonly type="text" name="amount31" class="form-control form-control-sm text-right" value="<?=empty($viewAdjust['amount31']) ? ($view['honor']['cnt'] / 2) : $viewAdjust['amount31']?>"></div>
+              <div class="col-2 pl-1 pr-1"><input readonly type="text" name="cost31" class="form-control form-control-sm text-right" value="<?=empty($viewAdjust['cost31']) ? '10000' : $viewAdjust['cost31']?>"></div>
+              <div class="col-2 pl-1 pr-1"><input readonly type="text" name="total31" class="form-control form-control-sm text-right total-cost" value="<?=empty($viewAdjust['total31']) ? ($view['honor']['cnt'] / 2) * 10000 : $viewAdjust['total31']?>"></div>
+              <div class="col-3 pl-1 pr-1"><input type="text" name="memo31" class="form-control form-control-sm" value="<?=empty($viewAdjust['memo31']) ? '' : $viewAdjust['memo31']?>"></div>
+            </div>
+            <div class="row align-items-center p-1">
+              <div class="col-1"></div>
               <div class="col-3 pl-1 pr-1"><input type="text" name="title2" class="form-control form-control-sm" value="<?=empty($viewAdjust['title2']) ? '현지합류' : $viewAdjust['title2']?>"></div>
               <div class="col-1 pl-1 pr-1"><input type="text" name="amount2" class="form-control form-control-sm text-right" value="<?=empty($viewAdjust['amount2']) ? '' : $viewAdjust['amount2']?>"></div>
               <div class="col-2 pl-1 pr-1"><input type="text" name="cost2" class="form-control form-control-sm text-right" value="<?=empty($viewAdjust['cost2']) ? '' : $viewAdjust['cost2']?>"></div>
