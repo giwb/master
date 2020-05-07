@@ -148,10 +148,10 @@
             <h5>■ 예약 내역</h5>
             <?php foreach ($userReserve as $key => $value): ?>
             <div class="border-top pt-2 pb-2">
-              <?=viewStatus($value['notice_status'])?> <a href="/admin/main_view_progress/<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
+              <?=viewStatus($value['notice_status'])?> <a href="<?=BASE_URL?>/reserve/list/<?=$value['resCode']?>"><?=$value['subject']?></a> - <?=checkDirection($value['seat'], $value['bus'], $value['notice_bustype'], $value['notice_bus'])?>번 좌석<br>
               <small>
                 일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 
-                요금 : <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 /
+                요금 : <?=$value['view_cost']?> /
                 <?=!empty($value['status']) && $value['status'] == STATUS_ABLE ? '입금완료' : '입금대기'?>
                 <?=!empty($value['depositname']) ? ' / 입금자 : ' . $value['depositname'] : ''?>
               </small>
