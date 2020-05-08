@@ -651,12 +651,15 @@ if (!function_exists('getReserve')) {
         } else {
           if ($value['nickname'] != '1인우등' && $value['nickname'] != '2인우선') {
             $value['class'] .= ' reserved';
+          } else {
+            if (!empty($value['priority'])) {
+              $value['class'] .= ' priority';
+            } elseif (!empty($value['honor'])) {
+              if (empty($value['status'])) {
+                $value['class'] .= ' honor';
+              }
+            }
           }
-        }
-        if (!empty($value['priority'])) {
-          $value['class'] .= ' priority';
-        } elseif (!empty($value['honor']) && $value['honor'] > 1) {
-          $value['class'] .= ' honor';
         }
         $result = $value;
       }

@@ -770,12 +770,10 @@
       $('html, body').animate( { scrollTop : $('#reserveForm').offset().top - 100 }, 1000 ); // 하단으로 스크롤
       $.viewReserveInfo(resIdx, bus, seat, 0); // 예약 정보
     }
-  }).on('click', '.area-bus-table .priority', function() {
+  }).on('click', '.area-bus-table .priority, .area-bus-table .my-priority', function() {
     // 2인우선 예약 버튼
-    var userIdx = $('input[name=userIdx]').val();
-
-    if (userIdx == '') {
-      // 로그인
+    if ($('input[name=userIdx]').val() == '') {
+      // 로그인 확인
       $('input[name=redirectUrl]').val($(location).attr('href'));
       $('#loginModal').modal('show');
       return false;
@@ -792,6 +790,9 @@
       return false;
     }
     var prioritySeat = $('.priority[data-bus=' + bus + '][data-id=' + priorityIdx + ']').attr('data-seat');
+    if (typeof prioritySeat == 'undefined') {
+      var prioritySeat = $('.my-priority[data-bus=' + bus + '][data-id=' + priorityIdx + ']').attr('data-seat');
+    }
 
     // 예약/수정 중에는 대기자 예약을 숨긴다
     $('.area-wait').hide();
@@ -801,6 +802,8 @@
       // 비활성화
       $('.priority[data-bus=' + bus + '][data-seat=' + seat + ']').removeClass('active');
       $('.priority[data-bus=' + bus + '][data-id=' + priorityIdx + ']').removeClass('active');
+      $('.my-priority[data-bus=' + bus + '][data-seat=' + seat + ']').removeClass('active');
+      $('.my-priority[data-bus=' + bus + '][data-id=' + priorityIdx + ']').removeClass('active');
       $('#addedInfo .reserve[data-seat=' + seat + ']').remove();
       $('#addedInfo .reserve[data-seat=' + prioritySeat + ']').remove();
 
@@ -823,16 +826,16 @@
       }
       $('.priority[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
       $('.priority[data-bus=' + bus + '][data-id=' + priorityIdx + ']').addClass('active');
+      $('.my-priority[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
+      $('.my-priority[data-bus=' + bus + '][data-id=' + priorityIdx + ']').addClass('active');
       $('html, body').animate( { scrollTop : $('#reserveForm').offset().top - 100 }, 1000 ); // 하단으로 스크롤
       $.viewReserveInfo(resIdx, bus, seat, priorityIdx);
       $.viewReserveInfo(priorityIdx, bus, prioritySeat, priorityIdx);
     }
-  }).on('click', '.area-bus-table .honor', function() {
+  }).on('click', '.area-bus-table .honor, .area-bus-table .my-honor', function() {
     // 1인우등 예약 버튼
-    var userIdx = $('input[name=userIdx]').val();
-
-    if (userIdx == '') {
-      // 로그인
+    if ($('input[name=userIdx]').val() == '') {
+      // 로그인 확인
       $('input[name=redirectUrl]').val($(location).attr('href'));
       $('#loginModal').modal('show');
       return false;
@@ -849,6 +852,9 @@
       return false;
     }
     var honorSeat = $('.honor[data-bus=' + bus + '][data-id=' + honorIdx + ']').attr('data-seat');
+    if (typeof honorSeat == 'undefined') {
+      var honorSeat = $('.my-honor[data-bus=' + bus + '][data-id=' + honorIdx + ']').attr('data-seat');
+    }
 
     // 예약/수정 중에는 대기자 예약을 숨긴다
     $('.area-wait').hide();
@@ -858,6 +864,8 @@
       // 비활성화
       $('.honor[data-bus=' + bus + '][data-seat=' + seat + ']').removeClass('active');
       $('.honor[data-bus=' + bus + '][data-id=' + honorIdx + ']').removeClass('active');
+      $('.my-honor[data-bus=' + bus + '][data-seat=' + seat + ']').removeClass('active');
+      $('.my-honor[data-bus=' + bus + '][data-id=' + honorIdx + ']').removeClass('active');
       $('#addedInfo .reserve[data-seat=' + seat + ']').remove();
       $('#addedInfo .reserve[data-seat=' + honorSeat + ']').remove();
 
@@ -880,6 +888,8 @@
       }
       $('.honor[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
       $('.honor[data-bus=' + bus + '][data-id=' + honorIdx + ']').addClass('active');
+      $('.my-honor[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
+      $('.my-honor[data-bus=' + bus + '][data-id=' + honorIdx + ']').addClass('active');
       $('html, body').animate( { scrollTop : $('#reserveForm').offset().top - 100 }, 1000 ); // 하단으로 스크롤
       $.viewReserveInfo(resIdx, bus, seat, honorIdx);
       $.viewReserveInfo(honorIdx, bus, honorSeat, honorIdx, 1);
