@@ -10,7 +10,7 @@
           <?php else: foreach ($listPlanned as $value): ?>
           <div class="row align-items-center border-bottom pt-2 pb-2">
             <div class="col-9 col-sm-10">
-              <b><?=viewStatus($value['status'], $value['visible'])?></b> <a href="/admin/main_view_progress/<?=$value['idx']?>"><?=$value['subject']?></a><br>
+              <b><?=viewStatus($value['status'], $value['visible'])?></b> <a href="<?=BASE_URL?>/admin/main_view_progress/<?=$value['idx']?>"><?=$value['subject']?></a><br>
               <div class="small">
                 <?php if (!empty($value['sido'])): ?>
                 <?php foreach ($value['sido'] as $key => $sido): ?><?=$sido?> <?=!empty($value['gugun'][$key]) ? $value['gugun'][$key] : ''?>, <?php endforeach; ?>

@@ -596,24 +596,25 @@ if (!function_exists('getReserveAdmin')) {
         $result['userid'] = $value['userid'];
         $result['nickname'] = $value['nickname'];
 
-        if (!empty($value['priority'])) {
-          $result['class'] = 'priority';
-          $result['priority'] = $value['priority'];
-        } elseif (!empty($value['honor'])) {
-          $result['class'] = 'honor';
-          $result['honor'] = $value['honor'];
+        if ($value['status'] == RESERVE_PAY) {
+          $result['class'] .= ' paid';
+        } elseif ($value['status'] == RESERVE_WAIT) {
+          $result['class'] .= ' wait';
         } else {
-          if ($value['status'] == RESERVE_PAY) {
-            $result['class'] .= '';
-          } elseif ($value['status'] == RESERVE_WAIT) {
-            $result['class'] .= ' wait';
-          } else {
+          if ($value['nickname'] != '1인우등' && $value['nickname'] != '2인우선') {
             if ($value['gender'] == 'M') {
               $result['class'] .= ' male';
             } elseif ($value['gender'] == 'F') {
               $result['class'] .= ' female';
             }
           }
+        }
+        if (!empty($value['priority'])) {
+          $result['class'] .= ' priority';
+          $result['priority'] = $value['priority'];
+        } elseif (!empty($value['honor'])) {
+          $result['class'] .= ' honor';
+          $result['honor'] = $value['honor'];
         }
       }
       $checkGender[$value['bus']][$value['seat']] = $value['gender'];

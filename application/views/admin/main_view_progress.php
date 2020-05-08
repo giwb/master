@@ -16,16 +16,21 @@
             <?=!empty($view['kilometer']) ? '<div class="ti"><strong>・거리</strong> : ' . $view['kilometer'] . '</div>' : ''?>
             <div class="ti"><strong>・예약</strong> : <?=cntRes($view['idx'])?>명</div>
 
-            <div class="col-sm-3 mt-3 pl-0">
-              <select name="status" class="form-control form-control-sm change-status-modal">
-                <option value="">산행 상태</option>
-                <option value="">------------</option>
-                <option<?=$view['status'] == STATUS_PLAN ? ' selected' : ''?> value="<?=STATUS_PLAN?>">계획</option>
-                <option<?=$view['status'] == STATUS_ABLE ? ' selected' : ''?> value="<?=STATUS_ABLE?>">예정</option>
-                <option<?=$view['status'] == STATUS_CONFIRM ? ' selected' : ''?> value="<?=STATUS_CONFIRM?>">확정</option>
-                <option<?=$view['status'] == STATUS_CANCEL ? ' selected' : ''?> value="<?=STATUS_CANCEL?>">취소</option>
-                <option<?=$view['status'] == STATUS_CLOSED ? ' selected' : ''?> value="<?=STATUS_CLOSED?>">종료</option>
-              </select>
+            <div class="row mt-3">
+              <div class="col-4 pl-0">
+                <select name="status" class="form-control form-control-sm change-status-modal">
+                  <option value="">산행 상태</option>
+                  <option value="">------------</option>
+                  <option<?=$view['status'] == STATUS_PLAN ? ' selected' : ''?> value="<?=STATUS_PLAN?>">계획</option>
+                  <option<?=$view['status'] == STATUS_ABLE ? ' selected' : ''?> value="<?=STATUS_ABLE?>">예정</option>
+                  <option<?=$view['status'] == STATUS_CONFIRM ? ' selected' : ''?> value="<?=STATUS_CONFIRM?>">확정</option>
+                  <option<?=$view['status'] == STATUS_CANCEL ? ' selected' : ''?> value="<?=STATUS_CANCEL?>">취소</option>
+                  <option<?=$view['status'] == STATUS_CLOSED ? ' selected' : ''?> value="<?=STATUS_CLOSED?>">종료</option>
+                </select>
+              </div>
+              <div class="col-8 pr-0 text-right">
+                <button type="button" class="btn btn-sm btn-secondary btn-autoseat">코로나19 대응 자동배정</button>
+              </div>
             </div>
 
             <div class="area-reservation">
@@ -65,7 +70,7 @@
                     ?>
                       <?=$tableMake?>
                       <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>" <?=!empty($reserveInfo['priority']) ? ' data-priority="' . $reserveInfo['priority'] . '"' : ''?> <?=!empty($reserveInfo['honor']) ? ' data-honor="' . $reserveInfo['honor'] . '"' : ''?> data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$seatNumber?></td>
-                      <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>" <?=!empty($reserveInfo['priority']) ? ' data-priority="' . $reserveInfo['priority'] . '"' : ''?> <?=!empty($reserveInfo['honor']) ? ' data-honor="' . $reserveInfo['honor'] . '"' : ''?> data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$reserveInfo['nickname']?><?=!empty($reserveInfo['honor']) ? '(우등)' : ''?></td>
+                      <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>" <?=!empty($reserveInfo['priority']) ? ' data-priority="' . $reserveInfo['priority'] . '"' : ''?> <?=!empty($reserveInfo['honor']) ? ' data-honor="' . $reserveInfo['honor'] . '"' : ''?> data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$reserveInfo['nickname']?><?=!empty($reserveInfo['honor']) && $reserveInfo['nickname'] != '1인우등' ? '(우등)' : ''?></td>
                     <?php endforeach; ?>
                   </tbody>
                 </table>
@@ -193,3 +198,26 @@
             </div>
           </div>
         </div>
+
+        <script type="text/javascript">
+          $(document).on('click', '.btn-autoseat', function() {
+            var $btn = $(this);
+            $.ajax({
+              url: '/admin/autoseat',
+              data: 'idx=<?=$view['idx']?>',
+              dataType: 'json',
+              type: 'post',
+              beforeSend: function() {
+                $btn.css('opacity', '0.5').prop('disabled', true).text('진행중.....');
+              },
+              success: function(result) {
+                if (result.error == 1) {
+                  $btn.css('opacity', '1').prop('disabled', false).text('코로나19 대응 자동배정');
+                  $.openMsgModal(result.message);
+                } else {
+                  location.reload();
+                }
+              }
+            });
+          });
+        </script>

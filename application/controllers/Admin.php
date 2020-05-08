@@ -3370,6 +3370,109 @@ exit;
   }
 
   /**
+   * 코로나19 대응 자동배정
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function autoseat()
+  {
+    $now = time();
+    $idx = html_escape($this->input->post('idx'));
+    $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+
+    // 예약자가 있는지 확인
+    $search['rescode'] = $idx;
+    $reserve = $this->admin_model->viewReserve($search);
+
+    if (!empty($reserve)) {
+      $result = array('error' => 1, 'message' => '이미 예약된 정보가 있습니다.');
+    } else {
+      $notice = $this->admin_model->viewEntry($idx);
+      $bustype = getBusType($notice['bustype'], $notice['bus']); // 버스 형태별 좌석 배치
+
+      foreach ($bustype as $key => $value) {
+        if ($value['seat'] == 44 && $value['direction'] == 0) {
+          // 44석 순방향
+          $postData = array('rescode' => $idx, 'bus' => ($key + 1), 'regdate' => $now);
+
+          for ($i=0; $i<=5; $i++) {
+            $postData['seat'] = 1+($i*8); $postData['nickname'] = '2인우선'; $prevIdx1 = $this->admin_model->insertReserve($postData);
+            $postData['seat'] = 2+($i*8); $prevIdx2 = $this->admin_model->insertReserve($postData);
+            $updateData = array('priority' => $prevIdx1); $this->admin_model->updateReserve($updateData, $prevIdx2);
+            $updateData = array('priority' => $prevIdx2); $rtn = $this->admin_model->updateReserve($updateData, $prevIdx1);
+
+            $postData['seat'] = 3+($i*8); $postData['nickname'] = '1인우등'; $prevIdx1 = $this->admin_model->insertReserve($postData);
+            $postData['seat'] = 4+($i*8); $prevIdx2 = $this->admin_model->insertReserve($postData);
+            $updateData = array('honor' => $prevIdx1); $this->admin_model->updateReserve($updateData, $prevIdx2);
+            $updateData = array('honor' => $prevIdx2); $rtn = $this->admin_model->updateReserve($updateData, $prevIdx1);
+          }
+          for ($i=0; $i<=4; $i++) {
+            $postData['seat'] = 5+($i*8); $postData['nickname'] = '1인우등'; $prevIdx1 = $this->admin_model->insertReserve($postData);
+            $postData['seat'] = 6+($i*8); $prevIdx2 = $this->admin_model->insertReserve($postData);
+            $updateData = array('honor' => $prevIdx1); $this->admin_model->updateReserve($updateData, $prevIdx2);
+            $updateData = array('honor' => $prevIdx2); $rtn = $this->admin_model->updateReserve($updateData, $prevIdx1);
+
+            $postData['seat'] = 7+($i*8); $postData['nickname'] = '2인우선'; $prevIdx1 = $this->admin_model->insertReserve($postData);
+            $postData['seat'] = 8+($i*8); $prevIdx2 = $this->admin_model->insertReserve($postData);
+            $updateData = array('priority' => $prevIdx1); $this->admin_model->updateReserve($updateData, $prevIdx2);
+            $updateData = array('priority' => $prevIdx2); $rtn = $this->admin_model->updateReserve($updateData, $prevIdx1);
+          }
+        } elseif ($value['seat'] == 45 && $value['direction'] == 0) {
+          // 45석 순방향
+          $postData = array('rescode' => $idx, 'bus' => ($key + 1), 'regdate' => $now);
+
+          for ($i=0; $i<=4; $i++) {
+            $postData['seat'] = 1+($i*8); $postData['nickname'] = '2인우선'; $prevIdx1 = $this->admin_model->insertReserve($postData);
+            $postData['seat'] = 2+($i*8); $prevIdx2 = $this->admin_model->insertReserve($postData);
+            $updateData = array('priority' => $prevIdx1); $this->admin_model->updateReserve($updateData, $prevIdx2);
+            $updateData = array('priority' => $prevIdx2); $rtn = $this->admin_model->updateReserve($updateData, $prevIdx1);
+
+            $postData['seat'] = 3+($i*8); $postData['nickname'] = '1인우등'; $prevIdx1 = $this->admin_model->insertReserve($postData);
+            $postData['seat'] = 4+($i*8); $prevIdx2 = $this->admin_model->insertReserve($postData);
+            $updateData = array('honor' => $prevIdx1); $this->admin_model->updateReserve($updateData, $prevIdx2);
+            $updateData = array('honor' => $prevIdx2); $rtn = $this->admin_model->updateReserve($updateData, $prevIdx1);
+          }
+          for ($i=0; $i<=4; $i++) {
+            $postData['seat'] = 5+($i*8); $postData['nickname'] = '1인우등'; $prevIdx1 = $this->admin_model->insertReserve($postData);
+            $postData['seat'] = 6+($i*8); $prevIdx2 = $this->admin_model->insertReserve($postData);
+            $updateData = array('honor' => $prevIdx1); $this->admin_model->updateReserve($updateData, $prevIdx2);
+            $updateData = array('honor' => $prevIdx2); $rtn = $this->admin_model->updateReserve($updateData, $prevIdx1);
+
+            $postData['seat'] = 7+($i*8); $postData['nickname'] = '2인우선'; $prevIdx1 = $this->admin_model->insertReserve($postData);
+            $postData['seat'] = 8+($i*8); $prevIdx2 = $this->admin_model->insertReserve($postData);
+            $updateData = array('priority' => $prevIdx1); $this->admin_model->updateReserve($updateData, $prevIdx2);
+            $updateData = array('priority' => $prevIdx2); $rtn = $this->admin_model->updateReserve($updateData, $prevIdx1);
+          }
+
+          // 41, 42번 좌석 (2인우선)
+          $postData['seat'] = 41; $postData['nickname'] = '2인우선'; $prevIdx1 = $this->admin_model->insertReserve($postData);
+          $postData['seat'] = 42; $prevIdx2 = $this->admin_model->insertReserve($postData);
+          $updateData = array('priority' => $prevIdx1); $this->admin_model->updateReserve($updateData, $prevIdx2);
+          $updateData = array('priority' => $prevIdx2); $rtn = $this->admin_model->updateReserve($updateData, $prevIdx1);
+
+          // 운영진우선
+          $postData['seat'] = 43; $postData['nickname'] = '운영진우선'; $postData['manager'] = 1; $postData['status'] = 1; $this->admin_model->insertReserve($postData);
+
+          // 44, 45번 좌석 (1인우등)
+          $postData['seat'] = 44; $postData['nickname'] = '1인우등'; $prevIdx1 = $this->admin_model->insertReserve($postData);
+          $postData['seat'] = 45; $prevIdx2 = $this->admin_model->insertReserve($postData);
+          $updateData = array('honor' => $prevIdx1); $this->admin_model->updateReserve($updateData, $prevIdx2);
+          $updateData = array('honor' => $prevIdx2); $rtn = $this->admin_model->updateReserve($updateData, $prevIdx1);
+        } else {
+          $msg = $value['seat'] . '석 ';
+          if ($value['direction'] == 1) $msg .= '역방향'; else $msg .= '순방향';
+          $result = array('error' => 1, 'message' => $msg . '에 해당하는 버스 템플릿이 없습니다.');
+        }
+      }
+    }
+
+    if (!empty($rtn)) $result = array('error' => 0, 'message' => $rtn);
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 페이지 표시
    *
    * @param $viewPage

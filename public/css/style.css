@@ -2150,12 +2150,13 @@ h1.nav-logo small {
 .admin-bus-table table th, .admin-bus-table table td { color: #858796; padding: 0.5rem; vertical-align: middle; border: 1px solid #999; cursor: pointer; }
 .admin-bus-table table td.table-blank { border: 0px; }
 .admin-bus-table table tr:last-child td.table-blank { border-bottom: 1px solid #999; }
-.admin-bus-table .male { background-color: #E5FAFF; }
-.admin-bus-table .female { background-color: #FFEAFA; }
+.admin-bus-table .priority { color: #aaa; background-color: #fff; }
+.admin-bus-table .honor { color: #aaa; background-color: #fff; }
+.admin-bus-table .male { color: #333; background-color: #E5FAFF; }
+.admin-bus-table .female { color: #333; background-color: #FFEAFA; }
 .admin-bus-table .wait { color: #333; background-color: #ddd; }
-.admin-bus-table .priority { background-color: #fff; }
-.admin-bus-table .honor { background-color: #fff; }
 .admin-bus-table .active { background-color: #FFCC00; }
+.admin-bus-table .paid { color: #333; }
 .admin-bus-table input.seat { width: 20px; }
 
 #addedInfo .reserve { font-size: 12px; background-color: #fff; border: 1px solid #999; margin: 10px 0; padding: 0.5rem 0 0.3rem 0.5rem; }
