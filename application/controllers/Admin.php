@@ -3451,14 +3451,14 @@ exit;
           $updateData = array('priority' => $prevIdx1); $this->admin_model->updateReserve($updateData, $prevIdx2);
           $updateData = array('priority' => $prevIdx2); $rtn = $this->admin_model->updateReserve($updateData, $prevIdx1);
 
-          // 운영진우선
-          $postData['seat'] = 43; $postData['nickname'] = '운영진우선'; $postData['manager'] = 1; $postData['status'] = 1; $this->admin_model->insertReserve($postData);
-
           // 44, 45번 좌석 (1인우등)
           $postData['seat'] = 44; $postData['nickname'] = '1인우등'; $prevIdx1 = $this->admin_model->insertReserve($postData);
           $postData['seat'] = 45; $prevIdx2 = $this->admin_model->insertReserve($postData);
           $updateData = array('honor' => $prevIdx1); $this->admin_model->updateReserve($updateData, $prevIdx2);
           $updateData = array('honor' => $prevIdx2); $rtn = $this->admin_model->updateReserve($updateData, $prevIdx1);
+
+          // 운영진우선
+          $postData['seat'] = 43; $postData['nickname'] = '운영진우선'; $postData['manager'] = 1; $postData['status'] = 1; $this->admin_model->insertReserve($postData);
         } else {
           $msg = $value['seat'] . '석 ';
           if ($value['direction'] == 1) $msg .= '역방향'; else $msg .= '순방향';
