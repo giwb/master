@@ -90,7 +90,7 @@ class Reserve_model extends CI_Model
   {
     $this->db->select('COUNT(*) AS cnt')
           ->from(DB_RESERVATION)
-          ->where('rescode', $resCode)
+          ->where('rescode', $noticeIdx)
           ->where('nickname !=', '1인우등')
           ->where('honor >', 0);
 
