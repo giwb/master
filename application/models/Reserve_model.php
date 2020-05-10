@@ -85,6 +85,22 @@ class Reserve_model extends CI_Model
     return $this->db->get()->row_array(1);
   }
 
+  // 산행 예약자 중 1인우등 예약자 카운트
+  public function cntReserveHonor($noticeIdx, $bus=NULL)
+  {
+    $this->db->select('COUNT(*) AS cnt')
+          ->from(DB_RESERVATION)
+          ->where('rescode', $resCode)
+          ->where('nickname !=', '1인우등')
+          ->where('honor >', 0);
+
+    if (!is_null($bus)) {
+      $this->db->where('bus', $bus);
+    }
+
+    return $this->db->get()->row_array(1);
+  }
+
   // 마이페이지 사용자 예약 내역
   public function userReserve($clubIdx, $userId=NULL, $idx=NULL, $paging=NULL)
   {
