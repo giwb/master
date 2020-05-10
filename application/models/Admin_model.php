@@ -222,6 +222,7 @@ class Admin_model extends CI_Model
           ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
           ->join(DB_MEMBER . ' c', 'a.nickname=c.nickname', 'left')
           ->where_in('b.status', array(STATUS_ABLE, STATUS_CONFIRM, STATUS_CLOSED))
+          ->where_not_in('a.nickname', array('1인우등','2인우선'));
           ->order_by('a.regdate', 'desc');
 
     if (!empty($search['nickname'])) {
