@@ -15,7 +15,7 @@
             <?=!empty($view['content']) ? '<div class="ti"><strong>・코스</strong> : ' . nl2br($view['content']) . '</div>' : ''?>
             <?=!empty($view['kilometer']) ? '<div class="ti"><strong>・거리</strong> : ' . $view['kilometer'] . '</div>' : ''?>
             <div class="ti"><strong>・예약</strong> : <?=cntRes($view['idx'])?>명</div>
-            <form id="myForm" method="post" action="/admin/main_notice_update" enctype="multipart/form-data" class="mb-0">
+            <form id="myForm" method="post" action="<?=BASE_URL?>/admin/main_notice_update" enctype="multipart/form-data" class="mb-0">
               <input type="hidden" name="noticeIdx" value="<?=$view['idx']?>">
               <div class="row align-items-center">
                 <div class="col-sm-3 pb-2 text-right">
@@ -41,8 +41,9 @@
                 <?php endforeach; ?>
               </div>
               <div class="area-button">
-                <button type="button" class="btn btn-sm btn-secondary btn-add-notice mr-2">항목 추가</button>
-                <button type="submit" class="btn btn-sm btn-default ml-2 mr-4">공지 저장</button>
+                <button type="button" class="btn btn-sm btn-info btn-add-notice mr-2">항목추가</button>
+                <a target="_blank" href="<?=BASE_URL?>/admin/main_notice_view/<?=$view['idx']?>"><button type="button" class="btn btn-sm btn-secondary ml-2 mr-2">복사하기</button></a>
+                <button type="submit" class="btn btn-sm btn-default ml-2 mr-4">저장하기</button>
               </div>
             </form>
           </div>

@@ -1479,6 +1479,42 @@ exit;
   }
 
   /**
+   * 공지사항 보기
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function main_notice_view($idx=NULL)
+  {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
+    if (is_null($idx)) exit; else $noticeIdx = html_escape($idx);
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
+
+    // 산행 공지
+    $viewData['notice'] = $this->reserve_model->viewNotice($noticeIdx);
+
+    // 산행 공지 상세
+    $viewData['listNoticeDetail'] = $this->reserve_model->listNoticeDetail($noticeIdx);
+
+    foreach ($viewData['listNoticeDetail'] as $key => $notice) {
+      $viewData['listNoticeDetail'][$key]['content'] = reset_html_escape($viewData['listNoticeDetail'][$key]['content']);
+      preg_match_all("/<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i", $viewData['listNoticeDetail'][$key]['content'], $matches);
+      foreach ($matches[1] as $value) {
+        if (file_exists(BASE_PATH . $value)) {
+          $size = getImageSize(BASE_PATH . $value);
+          $viewData['listNoticeDetail'][$key]['content'] = str_replace('src="' . $value, 'data-width="' . $size[0] . '" data-height="' . $size[1] . '" src="'. $value, $viewData['listNoticeDetail'][$key]['content']);
+        }
+      }
+    }
+
+    $this->load->view('admin/main_notice_view', $viewData);
+  }
+
+  /**
    * 대기자 등록
    *
    * @return view
