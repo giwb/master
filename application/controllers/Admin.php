@@ -377,8 +377,45 @@ class Admin extends Admin_Controller
       // 만석일 경우에는 대기자 우선석으로 변경
       $rtn = $this->admin_model->updateReserve($updateValues, $inputData['idx']);
     } else {
-      // 좌석이 남아있을 경우에는 그냥 삭제
-      $rtn = $this->admin_model->deleteReserve($inputData['idx']);
+      // 좌석이 남아있을 경우
+      if (!empty($viewReserve['priority']) && $viewReserve['nickname'] != '2인우선') {
+        // 2인우선석이었던 경우 변경
+        $updateValues = array(
+          'userid' => '',
+          'nickname' => '2인우선',
+          'gender' => 'M',
+          'loc' => 0,
+          'memo' => '',
+          'depositname' => '',
+          'point' => 0,
+          'vip' => 0,
+          'manager' => 0,
+          'penalty' => 0,
+          'status' => 0
+        );
+        //$this->admin_model->updateReserve($updateValues, $viewReserve['priority']);
+        $rtn = $this->admin_model->updateReserve($updateValues, $inputData['idx']);
+      } elseif (!empty($viewReserve['honor']) && $viewReserve['nickname'] != '1인우등') {
+        // 1인우등석이었던 경우 변경
+        $updateValues = array(
+          'userid' => '',
+          'nickname' => '1인우등',
+          'gender' => 'M',
+          'loc' => 0,
+          'memo' => '',
+          'depositname' => '',
+          'point' => 0,
+          'vip' => 0,
+          'manager' => 0,
+          'penalty' => 0,
+          'status' => 0
+        );
+        $this->admin_model->updateReserve($updateValues, $viewReserve['honor']);
+        $rtn = $this->admin_model->updateReserve($updateValues, $inputData['idx']);
+      } else {
+        // 일반 예약의 경우 삭제
+        $rtn = $this->admin_model->deleteReserve($inputData['idx']);
+      }
 
       if ($viewEntry['status'] == STATUS_CONFIRM) {
         $cntReservation = $this->admin_model->cntReservation($viewReserve['rescode']);

@@ -638,7 +638,7 @@ class Reserve extends MY_Controller
           $this->reserve_model->updateReserve($updateValues, $userReserve['honor']);
           $rtn = $this->reserve_model->updateReserve($updateValues, $idx);
         } else {
-          // 삭제
+          // 일반 예약의 경우 삭제
           $rtn = $this->reserve_model->deleteReserve($idx);
         }
         
