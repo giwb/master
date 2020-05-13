@@ -353,9 +353,6 @@
     } else {
       $('.nav-sp-mypage').slideUp();
     }
-  }).on('click', '.login-popup', function() {
-    // 로그인 모달
-    $('#loginModal').modal('show');
   }).on('click', '.btn-login', function(e) {
     // 로그인
     e.preventDefault();

@@ -66,6 +66,15 @@
   <script data-ad-client="ca-pub-2424708381875991" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <?php endif; ?>
 
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.login-popup').click(function() {
+        // 로그인 모달
+        $('#loginModal').modal('show');
+      });
+    });
+  </script>
+
   <!--[if lt IE 9]>
   <script src="/public/js/html5shiv.js"></script>
   <script src="/public/js/respond.min.js"></script>
