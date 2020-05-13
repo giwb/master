@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<!DOCTYPE html5>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="utf-8">
@@ -65,15 +65,6 @@
   <?php if (ENVIRONMENT == 'production' && $_SERVER['REMOTE_ADDR'] != '49.166.0.82'): ?>
   <script data-ad-client="ca-pub-2424708381875991" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <?php endif; ?>
-
-  <script type="text/javascript">
-    $(document).ready(function() {
-      $('.login-popup').click(function() {
-        // 로그인 모달
-        $('#loginModal').modal('show');
-      });
-    });
-  </script>
 
   <!--[if lt IE 9]>
   <script src="/public/js/html5shiv.js"></script>

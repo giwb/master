@@ -353,6 +353,9 @@
     } else {
       $('.nav-sp-mypage').slideUp();
     }
+  }).on('click', '.login-popup', function() {
+    // 로그인 모달
+    $('#loginModal').modal('show');
   }).on('click', '.btn-login', function(e) {
     // 로그인
     e.preventDefault();
@@ -1017,14 +1020,14 @@
   });
 
   // 예약 정보
-  $.viewReserveInfo = function(resIdx, bus, seat, priorityIdx, hide='') {
+  $.viewReserveInfo = function(resIdx, bus, seat, priorityIdx, hide) {
     $.ajax({
       url: '/reserve/information',
       data: 'clubIdx=' + $('input[name=clubIdx]').val() + '&idx=' + $('input[name=noticeIdx]').val() + '&bus=' + bus + '&seat=' + seat + '&resIdx=' + resIdx,
       dataType: 'json',
       type: 'post',
       beforeSend: function() {
-        if (!hide) {
+        if (typeof hide != 'undefined') {
           $('#addedInfo').append('<img src="/public/images/ajax-loader.gif" class="ajax-loader">');
         }
       },
@@ -1060,7 +1063,7 @@
 
         $('.ajax-loader').remove();
         $('#addedInfo').append(header + busType + selectSeat + location + memo + footer);
-        if (hide) {
+        if (typeof hide != 'undefined') {
           $('#addedInfo .reserve[data-seat=' + seat + ']').hide();
         }
 
