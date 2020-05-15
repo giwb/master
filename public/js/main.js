@@ -1046,7 +1046,8 @@
           } else {
             busType += '<input type="hidden" name="bus[]" value="' + bus + '">';
           }
-          var selectSeat = '<select name="seat[]" class="busSeat">'; $.each(reserveInfo.seat[bus], function(i, v) { selectSeat += '<option'; if ((i+1) == seat) selectSeat += ' selected'; selectSeat += ' value="' + (i+1) + '">' + v + '번</option>'; }); selectSeat += '</select> ';
+          //var selectSeat = '<select name="seat[]" class="busSeat">'; $.each(reserveInfo.seat[bus], function(i, v) { selectSeat += '<option'; if ((i+1) == seat) selectSeat += ' selected'; selectSeat += ' value="' + (i+1) + '">' + v + '번</option>'; }); selectSeat += '</select> ';
+          var selectSeat = seat + '번 ';
 
           if (reserveInfo.reserve.nickname != '1인우등' && reserveInfo.reserve.nickname != '2인우선') {
             $('.btn-reserve-cancel').removeClass('d-none').show();
