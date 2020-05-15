@@ -260,14 +260,6 @@ class Admin extends Admin_Controller
 
             // 대기자 입력이기 때문에 미입금으로 변경
             $postData['status'] = RESERVE_ON;
-          } elseif (!empty($checkReserve['priority']) && $checkReserve['nickname'] == '2인우선') {
-            // 2인우선석의 경우
-            $postData['status'] = RESERVE_ON;
-            $postData['priority'] = 0;
-          } elseif (!empty($checkReserve['honor']) && $checkReserve['nickname'] == '1인우등') {
-            // 1인우등석의 경우
-            $postData['status'] = RESERVE_ON;
-            $postData['honor'] = 0;
           } else {
             // 일반 좌석일 경우 좌석을 교환
             $changeData = array(
