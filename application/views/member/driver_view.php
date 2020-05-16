@@ -10,10 +10,10 @@
           <div class="ti mb-2"><strong>・일시</strong> : <?=$viewNotice['startdate']?> (<?=calcWeek($viewNotice['startdate'])?>) <?=$viewNotice['starttime']?></div>
           <div class="ti mb-2">
             <strong>・<span class="text-danger">운행요금</span></strong> : <span class="text-danger"><?=number_format($viewNotice['total_driving_cost'])?>원</span> (예약인원 <?=$maxRes?>명 기준)<br>
-            기본요금 : <?=number_format($viewNotice['total_driving_cost1'])?>원<?=$viewNotice['total_driving_cost'] == $viewNotice['total_driving_cost1'] ? ' <span class="text-danger">☜ 현재예약인원</span>' : ''?><br>
-            30명이상 : <?=number_format($viewNotice['total_driving_cost2'])?>원<?=$viewNotice['total_driving_cost'] == $viewNotice['total_driving_cost2'] ? ' <span class="text-danger">☜ 현재예약인원</span>' : ''?><br>
-            40명이상 : <?=number_format($viewNotice['total_driving_cost3'])?>원<?=$viewNotice['total_driving_cost'] == $viewNotice['total_driving_cost3'] ? ' <span class="text-danger">☜ 현재예약인원</span>' : ''?><br>
-            만차요금 : <?=number_format($viewNotice['total_driving_cost4'])?>원<?=$viewNotice['total_driving_cost'] == $viewNotice['total_driving_cost4'] ? ' <span class="text-danger">☜ 현재예약인원</span>' : ''?>
+            기본요금 : <?=number_format($viewNotice['total_driving_cost1'])?>원<?=$viewNotice['cost_standard'] == 0 ? ' <span class="text-danger">☜ 현재예약인원</span>' : ''?><br>
+            30명이상 : <?=number_format($viewNotice['total_driving_cost2'])?>원<?=$viewNotice['cost_standard'] == 1 ? ' <span class="text-danger">☜ 현재예약인원</span>' : ''?><br>
+            40명이상 : <?=number_format($viewNotice['total_driving_cost3'])?>원<?=$viewNotice['cost_standard'] == 2 ? ' <span class="text-danger">☜ 현재예약인원</span>' : ''?><br>
+            만차요금 : <?=number_format($viewNotice['total_driving_cost4'])?>원<?=$viewNotice['cost_standard'] == 3 ? ' <span class="text-danger">☜ 현재예약인원</span>' : ''?>
           </div>
           <?php foreach ($viewNotice['road_address'] as $key => $value): if ($key == 0) $title = '만나는 장소 (' . date('H:i', strtotime($viewNotice['starttime']) - (60*30)) . ')'; elseif (count($viewNotice['road_address']) == ($key +1)) $title = '하차지 주소'; else $title = '행선지 ' . $key; ?>
           <div class="ti mb-2">・<strong><?=$title?></strong><br><?=$value?></div>
