@@ -291,7 +291,7 @@ class Admin_model extends CI_Model
   // 예약 정보 보기 : 종료시
   public function viewReserveClosed($rescode)
   {
-    $this->db->select('userid')
+    $this->db->select('userid, honor')
           ->from(DB_RESERVATION)
           ->where('rescode', $rescode)
           ->where('userid !=', NULL)
