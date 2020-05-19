@@ -1935,9 +1935,10 @@ exit;
   public function member_view($keyword)
   {
     // 클럽ID
+    $nowDate = time();
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
 
-    $keyword = html_escape($keyword);
+    $keyword = html_escape(urldecode($keyword));
     $search = array('idx' => $keyword);
     $viewData['viewMember'] = $this->admin_model->viewMember($search);
 
@@ -1958,11 +1959,11 @@ exit;
       if (empty($value['cost_total'])) {
         $value['cost_total'] = $value['cost'];
       }
-      if ($userData['level'] == LEVEL_LIFETIME) {
+      if ($viewData['viewMember']['level'] == LEVEL_LIFETIME) {
         // 평생회원 할인
         $viewData['userReserve'][$key]['view_cost'] = '<s class="text-secondary">' . number_format($value['cost_total']) . '원</s> → ' . number_format($value['cost_total'] - 5000) . '원';
         $viewData['userReserve'][$key]['real_cost'] = $value['cost_total'] - 5000;
-      } elseif ($userData['level'] == LEVEL_FREE) {
+      } elseif ($viewData['viewMember']['level'] == LEVEL_FREE) {
         // 무료회원 할인
         $viewData['userReserve'][$key]['view_cost'] = '<s class="text-secondary">' . number_format($value['cost_total']) . '원</s> → ' . '0원';
         $viewData['userReserve'][$key]['real_cost'] = 0;
