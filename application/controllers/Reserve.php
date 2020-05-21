@@ -691,6 +691,10 @@ class Reserve extends MY_Controller
               // 평생회원은 할인 적용된 가격을 환불
               $userReserve['cost'] = $userReserve['cost'] - 5000;
               $this->member_model->updatePoint($userReserve['userid'], ($userData['point'] + $userReserve['cost']));
+            } elseif ($userReserve['honor'] > 0) {
+              // 1인우등 좌석의 취소는 1만원 추가 환불
+              $userReserve['cost'] = $userReserve['cost'] + 10000;
+              $this->member_model->updatePoint($userReserve['userid'], ($userData['point'] + $userReserve['cost']));
             } else {
               $this->member_model->updatePoint($userReserve['userid'], ($userData['point'] + $userReserve['cost']));
             }
