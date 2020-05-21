@@ -465,8 +465,8 @@
         if (result.error != 1) {
           if (typeof $('.search-userid-result').css('display') == 'undefined') {
             $dom.next().val(result.message.userid);
-            $dom.parent().find('.gender').val(result.message.gender);
-            $dom.parent().find('.location').val(result.message.location);
+            $dom.parent().parent().find('.gender').val(result.message.gender);
+            $dom.parent().parent().find('.location').val(result.message.location);
             $dom.tooltip('hide').attr('data-original-title', '회원입니다!').tooltip('show');
             setTimeout(function() { $dom.attr('data-original-title', '').tooltip('hide'); }, 2000);
           } else {
