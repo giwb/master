@@ -68,7 +68,7 @@
                 <div class="col-sm-10">
                   <div class="added-files mt-3">
                     <?php if ($view['photo'][0] != ''): foreach ($view['photo'] as $value): ?>
-                    <img src="<?=PHOTO_URL?><?=$value?>" class="btn-photo-modal" data-photo="<?=$value?>">
+                      <?php if (file_exists(PHOTO_PATH . $value)): ?><img src="<?=PHOTO_URL?><?=$value?>" class="btn-photo-modal" data-photo="<?=$value?>"><?php endif; ?>
                     <?php endforeach; endif; ?>
                   </div>
                   <input type="hidden" name="file" value="">

@@ -420,7 +420,7 @@ class Admin extends Admin_Controller
       }
     }
 
-    if (!empty($rtn) && empty($viewReserve['priority']) && empty($viewReserve['honor']) && empty($viewReserve['manager'])) {
+    if (!empty($rtn) && empty($viewReserve['manager'])) {
       $startTime = explode(':', $viewEntry['starttime']);
       $startDate = explode('-', $viewEntry['startdate']);
       $limitDate = mktime($startTime[0], $startTime[1], 0, $startDate[1], $startDate[2], $startDate[0]);
@@ -460,6 +460,10 @@ class Admin extends Admin_Controller
           if ($userData['level'] == 1) {
             // 평생회원은 할인 적용된 가격을 환불
             $viewEntry['cost'] = $viewEntry['cost'] - 5000;
+            $this->member_model->updatePoint($viewReserve['userid'], ($userData['point'] + $viewEntry['cost']));
+          } elseif ($viewReserve['honor'] > 0) {
+            // 1인우등 좌석의 취소는 1만원 추가 환불
+            $viewEntry['cost'] = $viewEntry['cost'] + 10000;
             $this->member_model->updatePoint($viewReserve['userid'], ($userData['point'] + $viewEntry['cost']));
           } else {
             $this->member_model->updatePoint($viewReserve['userid'], ($userData['point'] + $viewEntry['cost']));
@@ -504,6 +508,11 @@ class Admin extends Admin_Controller
       $updateValues['status'] = RESERVE_ON;
       $this->admin_model->updateReserve($updateValues, $viewData['idx']);
 
+      // 1인우등의 경우, 함께 예약된 좌석도 입금취소
+      if ($viewReserve['honor'] > 0) {
+        $this->admin_model->updateReserve($updateValues, $viewReserve['honor']);
+      }
+
       // 관리자 입금취소 기록
       setHistory(LOG_ADMIN_DEPOSIT_CANCEL, $viewEntry['idx'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'], $now);
 
@@ -521,6 +530,11 @@ class Admin extends Admin_Controller
       // 입금확인
       $updateValues['status'] = RESERVE_PAY;
       $this->admin_model->updateReserve($updateValues, $viewData['idx']);
+
+      // 1인우등의 경우, 함께 예약된 좌석도 입금확인
+      if ($viewReserve['honor'] > 0) {
+        $this->admin_model->updateReserve($updateValues, $viewReserve['honor']);
+      }
 
       // 관리자 입금확인 기록
       setHistory(LOG_ADMIN_DEPOSIT_CONFIRM, $viewEntry['idx'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'], $now);
@@ -1049,6 +1063,10 @@ class Admin extends Admin_Controller
             if ($userData['level'] == 1) {
               // 평생회원은 할인 적용된 가격을 환불
               $viewEntry['cost'] = $viewEntry['cost'] - 5000;
+              $this->member_model->updatePoint($value['userid'], ($userData['point'] + $viewEntry['cost']));
+            } elseif ($value['honor'] > 0) {
+              // 1인우등 좌석의 취소는 2개 좌석의 합을 반으로 나눠서
+              $viewEntry['cost'] = ($viewEntry['cost'] + 10000) / 2;
               $this->member_model->updatePoint($value['userid'], ($userData['point'] + $viewEntry['cost']));
             } else {
               $this->member_model->updatePoint($value['userid'], ($userData['point'] + $viewEntry['cost']));
@@ -2857,11 +2875,16 @@ exit;
 
       foreach ($area_sido as $key => $value) {
         $sido = $this->area_model->getName($value);
-        $gugun = $this->area_model->getName($area_gugun[$key]);
+        if (!empty($area_gugun[$key])) {
+          $gugun = $this->area_model->getName($area_gugun[$key]);
+        }
+
         $viewData['list_sido'] = $this->area_model->listSido();
         $viewData['list_gugun'][$key] = $this->area_model->listGugun($value);
         $viewData['view']['sido'][$key] = $sido['name'];
-        $viewData['view']['gugun'][$key] = $gugun['name'];
+        if (!empty($gugun)) {
+          $viewData['view']['gugun'][$key] = $gugun['name'];
+        }
       }
 
       $viewData['area_gugun'] = $this->area_model->listGugun($viewData['view']['area_sido']);
