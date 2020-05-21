@@ -5,12 +5,16 @@
         <div class="text-center mt-5">데이터가 없습니다.</div>
         <?php else: ?>
         <div class="sub-contents">
-          <div class="row border-bottom pb-2 mb-3">
-            <div class="col-7 col-sm-9 p-0 pt-1"><h2 class="notice-title"><b><?=viewStatus($notice['status'])?></b> <?=$notice['subject']?></h2></div>
+          <div class="row align-items-center border-bottom pb-2 mb-3">
+            <div class="col-10 p-0 pt-1"><h2 class="notice-title"><b><?=viewStatus($notice['status'])?></b> <?=$notice['subject']?></h2></div>
+            <div class="col-2 p-0 text-right">
+              <a href="<?=BASE_URL?>/reserve/notice/<?=$notice['idx']?>"><button type="button" class="btn btn-default btn-notice">공지</button></a>
+            </div>
+            <!--
             <div class="col-5 col-sm-3 p-0 text-right row">
               <div class="col-7 p-0"><img width="40" src="/public/images/icon_weather1.png"></div>
               <div class="col-5 p-0"><a href="<?=BASE_URL?>/reserve/notice/<?=$notice['idx']?>"><button type="button" class="btn btn-default btn-notice">공지</button></a></div>
-            </div>
+            </div>-->
           </div>
           <?php if (!empty($notice['type'])): ?><div class="ti"><strong>・유형</strong> : <?=$notice['type']?></div><?php endif; ?>
           <div class="ti"><strong>・일시</strong> : <?=$notice['startdate']?> (<?=calcWeek($notice['startdate'])?>) <?=$notice['starttime']?></div>

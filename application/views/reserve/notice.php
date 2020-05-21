@@ -2,12 +2,17 @@
 
       <div class="club-main">
         <div class="sub-contents">
-          <div class="row border-bottom pb-2 mb-3">
-            <div class="col-7 col-sm-9 p-0 pt-1"><h2 class="notice-title"><b><?=viewStatus($notice['status'])?></b> <?=$notice['subject']?></h2></div>
+          <div class="row align-items-center border-bottom pb-2 mb-3 ">
+            <div class="col-10 p-0 pt-1"><h2 class="notice-title"><b><?=viewStatus($notice['status'])?></b> <?=$notice['subject']?></h2></div>
+            <div class="col-2 p-0 text-right">
+              <a href="<?=BASE_URL?>/reserve/list/<?=$notice['idx']?>"><button type="button" class="btn btn-default btn-notice">좌석</button></a>
+            </div>
+            <!--
             <div class="col-5 col-sm-3 p-0 text-right row">
               <div class="col-7 p-0"><img width="40" src="/public/images/icon_weather1.png"></div>
               <div class="col-5 p-0"><a href="<?=BASE_URL?>/reserve/list/<?=$notice['idx']?>"><button type="button" class="btn btn-default btn-notice">좌석</button></a></div>
             </div>
+            -->
           </div>
 
           <?php if (empty($listNoticeDetail)): ?>
