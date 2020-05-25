@@ -294,7 +294,7 @@ class Admin_model extends CI_Model
     $this->db->select('userid, honor')
           ->from(DB_RESERVATION)
           ->where('rescode', $rescode)
-          ->where('userid !=', NULL)
+          ->where('userid !=', '')
           ->where('status', RESERVE_PAY)
           ->where('penalty', 0)
           ->group_by('userid');
