@@ -131,6 +131,7 @@ defined('DB_SHOP_CATEGORY')   OR define('DB_SHOP_CATEGORY', 'shop_category'); //
 defined('DB_SHOP_PURCHASE')   OR define('DB_SHOP_PURCHASE', 'shop_purchase'); // 판매대행 주문내역
 defined('DB_VISITOR')         OR define('DB_VISITOR', 'visitor'); // 방문자
 defined('DB_WAIT')            OR define('DB_WAIT', 'wait'); // 대기자 명단
+defined('DB_WEATHER')         OR define('DB_WEATHER', 'weather'); // 날씨
 
 // 사진 형식
 defined('TYPE_MAIN')          OR define('TYPE_MAIN', 1);
