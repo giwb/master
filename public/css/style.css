@@ -2331,7 +2331,6 @@ h1.nav-logo small {
   #club .club-right { width: 100%; flex: auto; -webkit-flex: auto; display: block; margin: 0px; }
   #club .sub-contents h2 { font-size: 18px; padding: 10px 0 20px; }
   #club .sub-contents h2.notice-title { font-size: 18px; }
-  #club .sub-contents .btn-notice { font-size: 14px; padding: .50rem .55rem;}
 
   .header-nickname { margin-left: 15px; color: #fff; }
   table.fc-header { border: 0px; }
