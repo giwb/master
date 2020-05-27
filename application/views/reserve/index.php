@@ -8,7 +8,7 @@
           <div class="row align-items-center border-bottom pb-2 mb-3">
             <div class="col-8 col-sm-9 p-0 pt-1"><h2 class="notice-title"><b><?=viewStatus($notice['status'])?></b> <?=$notice['subject']?></h2></div>
             <div class="col-4 col-sm-3 p-0 text-right row align-items-center">
-              <div class="col-7"><?=!empty($weather) ? $weather : ''?></div>
+              <div class="col-7"><?=!empty($notice['weather']) ? '<a target="_blank" href="' . $notice['weather'] . '">날씨</a>' : ''?></div>
               <div class="col-5 p-0"><a href="<?=BASE_URL?>/reserve/notice/<?=$notice['idx']?>"><button type="button" class="btn btn-default btn-notice">공지</button></a></div>
             </div>
           </div>

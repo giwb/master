@@ -97,6 +97,10 @@
               </div>
             </div>
             <div class="row align-items-center border-top mt-3 pt-3">
+              <div class="col-sm-2 font-weight-bold">날씨 URL</div>
+              <div class="col-sm-10"><input type="text" name="weather" class="form-control" value="<?=$view['weather']?>"><a target="_blank" href="https://weather.naver.com/rgn/townWetr.nhn">https://weather.naver.com/rgn/townWetr.nhn</a></div>
+            </div>
+            <div class="row align-items-center border-top mt-3 pt-3">
               <div class="col-sm-2 font-weight-bold">행사 유형</div>
               <div class="col-sm-10">
                 <select name="type" class="form-control">

@@ -123,6 +123,7 @@ class Reserve extends MY_Controller
       $viewData['listReply'] = $this->load->view('story/reply', $viewData, true);
 
       // 날씨
+      /*
       $weatherData = $this->area_model->getWeather($noticeIdx);
       $weatherDataArr = json_decode($weatherData['json_data']);
       $term = date('j', (strtotime($viewData['notice']['startdate']) - time()));
@@ -155,6 +156,7 @@ class Reserve extends MY_Controller
         $item = 'wf' . $term . $add; // 몇일 후 산행인지 계산
         $viewData['weather'] = $weatherDataArr->response->body->items->item[0]->$item;
       }
+      */
 
       $this->_viewPage('reserve/index', $viewData);
     } else {
