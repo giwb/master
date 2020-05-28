@@ -218,13 +218,6 @@ class Admin extends Admin_Controller
         if (empty($checkReserve['idx'])) {
           $result = $this->admin_model->insertReserve($postData);
 
-          if (!empty($nowPriority)) {
-            $priorityIdx[] = $result; // 2인우선석일 경우, 각각의 고유번호를 저장
-          }
-          if (!empty($nowHonor)) {
-            $honorIdx[] = $result; // 1인우등석일 경우, 각각의 고유번호를 저장
-          }
-
           if (!empty($result) && empty($nowPriority) && empty($nowHonor) && empty($nowManager)) {
             // 관리자 예약 기록
             setHistory(LOG_ADMIN_RESERVE, $idx, $nowUserid, $nowNick, $viewEntry['subject'], $now);
@@ -276,6 +269,16 @@ class Admin extends Admin_Controller
         }
         // 예약정보 수정
         $result = $this->admin_model->updateReserve($postData, $resIdx);
+        if (!empty($result)) {
+          $result = $resIdx;
+        }
+      }
+
+      if (!empty($nowPriority)) {
+        $priorityIdx[] = $result; // 2인우선석일 경우, 각각의 고유번호를 저장
+      }
+      if (!empty($nowHonor)) {
+        $honorIdx[] = $result; // 1인우등석일 경우, 각각의 고유번호를 저장
       }
     }
 
