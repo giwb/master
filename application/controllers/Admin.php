@@ -371,6 +371,11 @@ class Admin extends Admin_Controller
       );
       // 만석일 경우에는 대기자 우선석으로 변경
       $rtn = $this->admin_model->updateReserve($updateValues, $inputData['idx']);
+
+      // 1인우등 좌석은 2개 모두 변경
+      if (!empty($viewReserve['honor'])) {
+        $this->admin_model->updateReserve($updateValues, $viewReserve['honor']);
+      }
     } else {
       // 좌석이 남아있을 경우
       if (!empty($viewReserve['priority']) && $viewReserve['nickname'] != '2인우선') {
