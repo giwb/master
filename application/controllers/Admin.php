@@ -2206,6 +2206,9 @@ exit;
    **/
   public function attendance_list()
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     // PHP Ver 7.x
     //$viewData['viewType'] = !empty($this->input->get('action')) ? $this->input->get('action') : '';
 
@@ -2251,6 +2254,9 @@ exit;
    **/
   public function attendance_mountain()
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     // 랭킹별 닉네임 추출
     $viewData['listNickname'] = $this->admin_model->listAttendanceNickname();
 
@@ -2276,6 +2282,9 @@ exit;
    **/
   public function attendance_make()
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     // 산행 추출
     $dateStart = '2019-04-06';
     $dateEnd = date('Y-m-d');
@@ -2332,10 +2341,16 @@ exit;
    **/
   public function attendance_auth()
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     $search['status'] = array(STATUS_CLOSED);
     $search['sdate'] = '2019-04-06';
     $search['edate'] = date('Y-m-d');
     $viewData['listNotice'] = $this->admin_model->listNotice($search, 'desc');
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '백산백소 인증';
 
     $this->_viewPage('admin/attendance_auth', $viewData);
   }
@@ -2348,6 +2363,9 @@ exit;
    **/
   public function attendance_auth_insert()
   {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     $inputData = $this->input->post();
 
     $insertValues = array(
