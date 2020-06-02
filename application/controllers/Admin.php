@@ -2345,10 +2345,10 @@ exit;
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
 
     $search['clubIdx'] = $viewData['clubIdx'];
-    $search['status'] = array(STATUS_ABLE, STATUS_CONFIRM, STATUS_CLOSED);
+    $search['status'] = array(STATUS_CLOSED);
     $search['sdate'] = '2019-04-06';
     $search['edate'] = date('Y-m-d');
-    $viewData['listNotice'] = $this->admin_model->listNotice($search, 'desc');
+    $viewData['listAttendanceNotice'] = $this->admin_model->listNotice($search, 'desc');
 
     // 페이지 타이틀
     $viewData['pageTitle'] = '백산백소 인증';

@@ -9,7 +9,7 @@
                 <div class="col-sm-9">
                   <select name="rescode" class="form-control rescode">
                     <option value=''>인증하실 산행을 선택하세요</option>
-                    <?php foreach ($listNotice as $value): ?>
+                    <?php foreach ($listAttendanceNotice as $value): ?>
                     <option value='<?=$value['idx']?>' data-name='<?=$value['mname']?>'><?=$value['startdate']?> <?=$value['mname']?></option>
                     <?php endforeach; ?>
                   </select>
