@@ -2345,7 +2345,7 @@ exit;
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
 
     $search['clubIdx'] = $viewData['clubIdx'];
-    $search['status'] = array(STATUS_CLOSED);
+    $search['status'] = array(STATUS_ABLE, STATUS_CONFIRM, STATUS_CLOSED);
     $search['sdate'] = '2019-04-06';
     $search['edate'] = date('Y-m-d');
     $viewData['listNotice'] = $this->admin_model->listNotice($search, 'desc');
