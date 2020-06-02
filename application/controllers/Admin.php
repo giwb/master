@@ -2344,6 +2344,7 @@ exit;
     // 클럽ID
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
 
+    $search['clubIdx'] = $viewData['clubIdx']
     $search['status'] = array(STATUS_CLOSED);
     $search['sdate'] = '2019-04-06';
     $search['edate'] = date('Y-m-d');
