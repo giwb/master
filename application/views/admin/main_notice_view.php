@@ -19,9 +19,11 @@
   <table width="100%">
     <tr>
       <td><h2 class="notice-title"><?=$notice['subject']?></h2></td>
-      <td style="text-align: right;">
-        <?=!empty($notice['weather']) ? '<a target="_blank" href="' . $notice['weather'] . '"><button type="button" class="btn btn-sm btn-primary">날씨</button></a>' : ''?>&nbsp;
-        <a target="_blank" href="<?=BASE_URL?>/reserve/list/<?=$notice['idx']?>"><button type="button" class="btn btn-sm btn-default btn-notice">좌석</button></a>
+      <td>
+        <div class="text-right">
+          <?=!empty($notice['weather']) ? '<a target="_blank" href="' . $notice['weather'] . '"><button type="button" class="btn btn-sm btn-primary">날씨</button></a>' : ''?>&nbsp;
+          <a target="_blank" href="<?=BASE_URL?>/reserve/list/<?=$notice['idx']?>"><button type="button" class="btn btn-sm btn-default btn-notice">좌석</button></a>
+        </div>
       </td>
     </tr>
   </table>
