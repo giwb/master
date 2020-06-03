@@ -20,7 +20,7 @@
 
 <div style="clear: both; padding-top: 20px;">
   <?php foreach ($listNoticeDetail as $value): ?>
-  <div style="font-weight: bold; background-color: #d9d9d9; border: 1px solid #999; border-width: 1px 0; margin: 0px; padding: 7px 15px;"><?=$value['title']?></div>
+  <div style="font-weight: bold; background-color: #d9d9d9; border: 1px solid #999; border-width: 1px 0; margin: 0 0 10px 0; padding: 7px 15px;"><?=$value['title']?></div>
   <div class="sub-content" style="font-size: 14px; text-align: justify; overflow: hidden;"><?=$value['content']?></div><br>
   <?php endforeach; ?>
 </div>
