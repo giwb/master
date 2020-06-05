@@ -296,7 +296,12 @@ if (!function_exists('calcTerm')) {
           $result = ($dTerm - 1) . '박 ' . $dTerm . '일';
         } else {
           // 22시 이후 출발은 1일 무박
-          $result = '1무 ' . ($dTerm - 2) . '박 ' . $dTerm . '일';
+          $sleepDay = $dTerm - 2;
+          if ($sleepDay == 0) {
+            $result = '무박';
+          } else {
+            $result = '1무 ' . ($sleepDay) . '박 ' . $dTerm . '일';
+          }
         }
       }
     }
