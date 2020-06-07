@@ -302,7 +302,7 @@ class Admin extends Admin_Controller
       if ($viewEntry['status'] == STATUS_ABLE) {
         $cntReservation = $this->admin_model->cntReservation($idx);
         $cntReservationHonor = $this->admin_model->cntReservationHonor($idx);
-        if ($cntReservation['CNT'] - ($cntReservation['CNT'] / 2) >= 15) {
+        if ($cntReservation['CNT'] - ($cntReservationHonor['CNT'] / 2) >= 15) {
           // 예약자가 15명 이상일 경우 확정으로 변경
           $updateValues = array('status' => STATUS_CONFIRM);
           $this->admin_model->updateEntry($updateValues, $idx);

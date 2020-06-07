@@ -122,42 +122,6 @@ class Reserve extends MY_Controller
 
       $viewData['listReply'] = $this->load->view('story/reply', $viewData, true);
 
-      // 날씨
-      /*
-      $weatherData = $this->area_model->getWeather($noticeIdx);
-      $weatherDataArr = json_decode($weatherData['json_data']);
-      $term = date('j', (strtotime($viewData['notice']['startdate']) - time()));
-
-      if ($term >= 0 && $term <= 3) { // 오늘부터 3일 이내의 기간은 단기 예보
-        switch ($term) { // 9시 기준
-          case '1': $ptyNumber = 83; $skyNumber = 85; break;
-          case '2': $ptyNumber = 165; $skyNumber = 167; break;
-          case '3': $ptyNumber = 215; $skyNumber = 219; break;
-          default:  $ptyNumber = 1; $skyNumber = 3;
-        }
-        $pty = $weatherDataArr->response->body->items->item[$ptyNumber]->fcstValue;
-        if (empty($pty)) {
-          $sky = $weatherDataArr->response->body->items->item[$skyNumber]->fcstValue;
-          switch ($sky) {
-            case '1': $viewData['weather'] = '맑음'; break;
-            case '3': $viewData['weather'] = '구름많음'; break;
-            case '4': $viewData['weather'] = '흐림'; break;
-          }
-        } else {
-          switch ($pty) {
-            case '1': $viewData['weather'] = '비'; break;
-            case '2': $viewData['weather'] = '비/눈'; break;
-            case '3': $viewData['weather'] = '눈'; break;
-            case '4': $viewData['weather'] = '소나기'; break;
-          }
-        }
-      } elseif ($term >= 4 && $term <= 10) { // 4일부터 10일 이내의 기간은 중기 예보
-        if ($term < 8) $add = 'Am'; else $add = '';
-        $item = 'wf' . $term . $add; // 몇일 후 산행인지 계산
-        $viewData['weather'] = $weatherDataArr->response->body->items->item[0]->$item;
-      }
-      */
-
       $this->_viewPage('reserve/index', $viewData);
     } else {
       // 페이지 타이틀
