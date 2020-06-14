@@ -466,15 +466,23 @@ class Admin extends Admin_Controller
         // 이미 입금을 마친 상태라면, 전액 포인트로 환불 (무료회원은 환불 안함)
         if (empty($userData['level']) || $userData['level'] != 2) {
           if ($userData['level'] == 1) {
-            // 평생회원은 할인 적용된 가격을 환불
-            $viewEntry['cost'] = $viewEntry['cost'] - 5000;
-            $this->member_model->updatePoint($viewReserve['userid'], ($userData['point'] + $viewEntry['cost']));
-          } elseif ($viewReserve['honor'] > 0) {
-            // 1인우등 좌석의 취소는 1만원 추가 환불
-            $viewEntry['cost'] = $viewEntry['cost'] + 10000;
-            $this->member_model->updatePoint($viewReserve['userid'], ($userData['point'] + $viewEntry['cost']));
+            if ($viewReserve['honor'] > 0) {
+              // 1인우등 좌석 취소
+              $viewEntry['cost'] = $viewEntry['cost'] + 5000;
+              $this->member_model->updatePoint($viewReserve['userid'], ($userData['point'] + $viewEntry['cost']));
+            } else {
+              // 평생회원은 할인 적용된 가격을 환불
+              $viewEntry['cost'] = $viewEntry['cost'] - 5000;
+              $this->member_model->updatePoint($viewReserve['userid'], ($userData['point'] + $viewEntry['cost']));
+            }
           } else {
-            $this->member_model->updatePoint($viewReserve['userid'], ($userData['point'] + $viewEntry['cost']));
+            if ($viewReserve['honor'] > 0) {
+              // 1인우등 좌석의 취소는 1만원 추가 환불
+              $viewEntry['cost'] = $viewEntry['cost'] + 10000;
+              $this->member_model->updatePoint($viewReserve['userid'], ($userData['point'] + $viewEntry['cost']));
+            } else {
+              $this->member_model->updatePoint($viewReserve['userid'], ($userData['point'] + $viewEntry['cost']));
+            }
           }
           // 포인트 반환 로그 기록
           setHistory(LOG_POINTUP, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'] . ' 관리자 예약 취소', $now, $viewEntry['cost']);
@@ -1069,15 +1077,23 @@ class Admin extends Admin_Controller
           // 이미 입금을 마친 상태라면, 전액 포인트로 환불 (무료회원은 환불 안함)
           if (empty($userData['level']) || $userData['level'] != 2) {
             if ($userData['level'] == 1) {
-              // 평생회원은 할인 적용된 가격을 환불
-              $viewEntry['cost'] = $viewEntry['cost'] - 5000;
-              $this->member_model->updatePoint($value['userid'], ($userData['point'] + $viewEntry['cost']));
-            } elseif ($value['honor'] > 0) {
-              // 1인우등 좌석의 취소는 2개 좌석의 합을 반으로 나눠서
-              $viewEntry['cost'] = ($viewEntry['cost'] + 10000) / 2;
-              $this->member_model->updatePoint($value['userid'], ($userData['point'] + $viewEntry['cost']));
+              if ($value['honor'] > 0) {
+                // 1인우등 좌석의 취소는 2개 좌석의 합을 반으로 나눠서
+                $viewEntry['cost'] = ($viewEntry['cost'] + 5000) / 2;
+                $this->member_model->updatePoint($value['userid'], ($userData['point'] + $viewEntry['cost']));
+              } else {
+                // 평생회원은 할인 적용된 가격을 환불
+                $viewEntry['cost'] = $viewEntry['cost'] - 5000;
+                $this->member_model->updatePoint($value['userid'], ($userData['point'] + $viewEntry['cost']));
+              }
             } else {
-              $this->member_model->updatePoint($value['userid'], ($userData['point'] + $viewEntry['cost']));
+              if ($value['honor'] > 0) {
+                // 1인우등 좌석의 취소는 2개 좌석의 합을 반으로 나눠서
+                $viewEntry['cost'] = ($viewEntry['cost'] + 10000) / 2;
+                $this->member_model->updatePoint($value['userid'], ($userData['point'] + $viewEntry['cost']));
+              } else {
+                $this->member_model->updatePoint($value['userid'], ($userData['point'] + $viewEntry['cost']));
+              }
             }
             // 포인트 반환 로그 기록
             setHistory(LOG_POINTUP, $value['rescode'], $value['userid'], $value['nickname'], $viewEntry['subject'] . ' 산행 취소', $now, $viewEntry['cost']);

@@ -688,15 +688,23 @@ class Reserve extends MY_Controller
           // 이미 입금을 마친 상태라면, 전액 포인트로 환불 (무료회원은 환불 안함)
           if (empty($userData['level']) || $userData['level'] != 2) {
             if ($userData['level'] == 1) {
-              // 평생회원은 할인 적용된 가격을 환불
-              $userReserve['cost'] = $userReserve['cost'] - 5000;
-              $this->member_model->updatePoint($userReserve['userid'], ($userData['point'] + $userReserve['cost']));
-            } elseif ($userReserve['honor'] > 0) {
-              // 1인우등 좌석의 취소는 1만원 추가 환불
-              $userReserve['cost'] = $userReserve['cost'] + 10000;
-              $this->member_model->updatePoint($userReserve['userid'], ($userData['point'] + $userReserve['cost']));
+              if ($userReserve['honor'] > 0) {
+                // 1인우등 좌석 취소
+                $userReserve['cost'] = $userReserve['cost'] + 5000;
+                $this->member_model->updatePoint($userReserve['userid'], ($userData['point'] + $userReserve['cost']));
+              } else {
+                // 평생회원은 할인 적용된 가격을 환불
+                $userReserve['cost'] = $userReserve['cost'] - 5000;
+                $this->member_model->updatePoint($userReserve['userid'], ($userData['point'] + $userReserve['cost']));
+              }
             } else {
-              $this->member_model->updatePoint($userReserve['userid'], ($userData['point'] + $userReserve['cost']));
+              if ($userReserve['honor'] > 0) {
+                // 1인우등 좌석의 취소는 1만원 추가 환불
+                $userReserve['cost'] = $userReserve['cost'] + 10000;
+                $this->member_model->updatePoint($userReserve['userid'], ($userData['point'] + $userReserve['cost']));
+              } else {
+                $this->member_model->updatePoint($userReserve['userid'], ($userData['point'] + $userReserve['cost']));
+              }
             }
             // 포인트 반환 로그 기록
             setHistory(LOG_POINTUP, $userReserve['resCode'], $userReserve['userid'], $userReserve['nickname'], $userReserve['subject'] . ' 예약 취소', $nowDate, $userReserve['cost']);
