@@ -18,7 +18,7 @@
 
             <div class="border-top mt-4 pt-4">
               <?php if (!empty($list)): foreach ($list as $value): ?>
-                <?=$value['date']?> (<?=calcTerm($view['startdate'], $view['starttime'], $view['enddate'], $view['schedule'])?>)<br>
+                <?=$value['date']?> (<?=$value['week']?>요<?=$value['dist']?>)<br>
                 <?=$value['subject']?><br>
                 <?=$value['nickname']?>님<br>
                 <?php if ($view['busTotal'] > 1): ?><?=$value['bus']?>번차<?php endif; ?>
