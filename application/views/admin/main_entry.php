@@ -316,7 +316,7 @@
             </div>
             <div class="row align-items-center border-top mt-3 pt-3">
               <div class="col-sm-2 font-weight-bold">기본비용</div>
-              <div class="col-sm-10"><input readonly type="text" name="cost" class="form-control cost-default" value="<?=$view['cost'] != '' ? $view['cost'] : '0'?>"></div>
+              <div class="col-sm-10"><input type="text" name="cost" class="form-control cost-default" value="<?=$view['cost'] != '' ? $view['cost'] : '0'?>"></div>
             </div>
             <div class="row align-items-center border-top mt-3 pt-3">
               <div class="col-sm-2 font-weight-bold">추가비용</div>
