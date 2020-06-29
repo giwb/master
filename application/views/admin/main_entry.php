@@ -343,6 +343,7 @@
             </div>
           </form>
         </div>
+        <script type="text/javascript" src="/public/js/moment.min.js"></script>
         <script type="text/javascript">
           $(document).ready(function(){
             var totalDistance = $.calcTotalDistance(); // 총 거리 계산

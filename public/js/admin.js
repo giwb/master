@@ -920,9 +920,9 @@
     var sDate = new Date(sDateArr[0], sDateArr[1], sDateArr[2]);
     var eDate = new Date(eDateArr[0], eDateArr[1], eDateArr[2]);
     var lastDay = new Date(sDateArr[0], sDateArr[1], 0).getDate();
-    var addedTime = 0;
-    if (eDateArr[1] > sDateArr[1]) addedTime = 1;
-    var resultDay = parseInt((eDate - sDate) / (24 * 60 * 60 * 1000) - addedTime);
+
+    // moment js 사용하여 말일/윤달 계산
+    var resultDay = (moment(endDate) - moment(startDate)) / (24 * 60 * 60 * 1000);
     var addDay = (parseInt(resultDay) + 1);
     var startTimeArr = startTime.split(':');
     var sTime = startTimeArr[0] + startTimeArr[1];
