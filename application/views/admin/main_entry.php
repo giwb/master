@@ -263,7 +263,7 @@
               <div class="col-sm-3 p-0 row"></div>
               <div class="col-sm-3 p-0 row align-items-center">
                 <div class="col-sm-6 pr-0">시세 (원/L)</div>
-                <div class="col-sm-6 p-0"><input class="form-control form-control-sm cost-gas" type="text" size="3" name="driving_fuel[]" value="<?=!empty($view['driving_fuel'][2]) ? $view['driving_fuel'][2] : $costGas?>"></div>
+                <div class="col-sm-6 p-0"><input class="form-control form-control-sm cost-gas" type="text" size="3" name="driving_fuel[]" value="<?=!empty($view['driving_fuel'][2]) ? $view['driving_fuel'][2] : !empty($costGas) ? $costGas : 0?>"></div>
               </div>
               <div class="col-sm-3 p-0 row align-items-center">
                 <div class="col-sm-6 pr-0">식대 (원)</div>
