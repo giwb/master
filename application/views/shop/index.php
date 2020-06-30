@@ -16,7 +16,7 @@
           </div>
         </div>
         <div class="d-none d-sm-block">
-          <div class="row-category row m-0 p-0 border-bottom border-right">
+          <div class="row m-3 p-0 border-top border-bottom border-right">
             <a href="<?=BASE_URL?>/shop" class="col border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=empty($search['item_category1']) ? ' active' : ''?>">인기상품</a>
             <?php foreach ($listCategory as $value): ?>
             <a href="<?=BASE_URL?>/shop/?c=<?=$value['idx']?>" class="col border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=$value['idx'] == $search['item_category1'] ? ' active' : ''?>"><?=$value['name']?></a>
