@@ -20,7 +20,7 @@
           <?php endforeach; ?>
 
           <h3 class="mb-3">■ 버스비용 산출</h3>
-          <strong>・기본요금</strong> : <?=number_format($notice['cost_total'] == 0 ? $notice['cost'] : $notice['cost_total'])?>원 (<?=!empty($viewNotice['distance']) ? calcDistance($viewNotice['distance']) : ''?>)<br>
+          <strong>・기본요금</strong> : <?=number_format($viewNotice['cost_total'] == 0 ? $viewNotice['cost'] : $viewNotice['cost_total'])?>원 (<?=!empty($viewNotice['distance']) ? calcDistance($viewNotice['distance']) : ''?>)<br>
           <div class="ti mt-2">
             <strong>・주유비</strong> : <?=!empty($viewNotice['total_fuel']) ? number_format($viewNotice['total_fuel']) : '0'?>원<br>
             총주행 : <?=!empty($viewNotice['driving_fuel'][0]) ? number_format($viewNotice['driving_fuel'][0]) : '0'?>km<br>
