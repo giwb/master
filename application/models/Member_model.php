@@ -128,7 +128,7 @@ class Member_model extends CI_Model
     if (!empty($paging)) {
       $this->db->limit($paging['perPage'], $paging['nowPage']);
     } else {
-      $this->db->limit(5);
+      $this->db->limit(10);
     }
 
     return $this->db->get()->result_array();
@@ -158,7 +158,7 @@ class Member_model extends CI_Model
     if (!empty($paging)) {
       $this->db->limit($paging['perPage'], $paging['nowPage']);
     } else {
-      $this->db->limit(5);
+      $this->db->limit(10);
     }
 
     return $this->db->get()->result_array();

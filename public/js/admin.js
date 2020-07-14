@@ -108,6 +108,25 @@
         $.openMsgModal(result.message);
       }
     });
+  }).on('click', '.btn-point-delete-modal', function() {
+    // 포인트 내역 삭제 모달
+    $('#pointDeleteModal input[name=idx]').val($(this).data('idx'));
+    $('#pointDeleteModal').modal('show');
+  }).on('click', '.btn-point-delete', function() {
+    // 포인트 내역 삭제
+    var $btn = $(this);
+    $.ajax({
+      url: '/admin/member_delete_history',
+      data: 'idx=' + $('#pointDeleteModal input[name=idx]').val(),
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+      },
+      success: function(result) {
+        location.reload();
+      }
+    });
   }).on('click', '.btn-point-modal', function() {
     // 회원 페널티 모달
     var type = $(this).data('type');

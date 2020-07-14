@@ -698,6 +698,13 @@ class Admin_model extends CI_Model
     return $this->db->update(DB_HISTORY);
   }
 
+  // 활동관리 - 내역 삭제
+  public function deleteHistory($idx)
+  {
+    $this->db->where('idx', $idx);
+    return $this->db->delete(DB_HISTORY);
+  }
+
   // 활동관리 - 댓글 기록 카운트
   public function cntReply($clubIdx, $rescode=NULL)
   {

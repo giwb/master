@@ -179,13 +179,18 @@
 
             <h5 class="mt-4">■ 포인트 내역 <small>- 잔액 <?=number_format($viewMember['point'])?> 포인트</small></h5>
             <?php foreach ($userPoint as $value): ?>
-            <div class="border-top pt-2 pb-2">
-              <?php switch ($value['action']): case LOG_POINTUP: ?>
-              <strong class="text-primary"><?=number_format($value['point'])?> 포인트 추가</strong> - <?=$value['subject']?>
-              <?php break; case LOG_POINTDN: ?>
-              <strong class="text-danger"><?=number_format($value['point'])?> 포인트 감소</strong> - <?=$value['subject']?>
-              <?php break; endswitch; ?>
-              <br><small><?=date('Y-m-d, H:i:s', $value['regdate'])?></small>
+            <div class="border-top pt-2 pb-2 row align-items-center">
+              <div class="col-10 p-0">
+                <?php switch ($value['action']): case LOG_POINTUP: ?>
+                <strong class="text-primary"><?=number_format($value['point'])?> 포인트 추가</strong> - <?=$value['subject']?>
+                <?php break; case LOG_POINTDN: ?>
+                <strong class="text-danger"><?=number_format($value['point'])?> 포인트 감소</strong> - <?=$value['subject']?>
+                <?php break; endswitch; ?>
+                <br><small><?=date('Y-m-d, H:i:s', $value['regdate'])?></small>
+              </div>
+              <div class="col-2 text-right p-0">
+                <button type="button" data-idx="<?=$value['idx']?>" class="btn btn-sm btn-default btn-point-delete-modal">삭제</button>
+              </div>
             </div>
             <?php endforeach; ?>
 
@@ -224,6 +229,28 @@
                 <input type="hidden" name="action">
                 <input type="hidden" name="type">
                 <button type="button" class="btn btn-primary btn-member-point-update">승인</button>
+                <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 포인트 내역 삭제 모달 -->
+        <div class="modal fade" id="pointDeleteModal" tabindex="-1" role="dialog" aria-labelledby="pointDeleteModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="smallmodalLabel">메세지</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body text-center p-5">
+                정말로 삭제하시겠습니까?
+              </div>
+              <div class="modal-footer">
+                <input type="hidden" name="idx">
+                <button type="button" class="btn btn-default btn-point-delete">삭제합니다</button>
                 <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
               </div>
             </div>

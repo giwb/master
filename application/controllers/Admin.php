@@ -2176,6 +2176,28 @@ exit;
   }
 
   /**
+   * 기록 내역 삭제
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function member_delete_history()
+  {
+    $idx = html_escape($this->input->post('idx'));
+    $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+
+    if (!empty($idx)) {
+      $rtn = $this->admin_model->deleteHistory($idx);
+
+      if (!empty($rtn)) {
+        $result = array('error' => 0, 'message' => '');
+      }
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 회원 정보 삭제
    *
    * @return view
