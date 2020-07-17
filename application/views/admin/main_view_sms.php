@@ -21,7 +21,7 @@
                 <?=$value['date']?> (<?=$value['week']?>요<?=$value['dist']?>)<br>
                 <?=$value['subject']?><br>
                 <?=$value['nickname']?>님<br>
-                <?php if ($view['busTotal'] > 1): ?><?=$value['bus']?>번차<?php endif; ?>
+                <?php if ($view['busTotal'] > 1): ?><?=$value['bus']?>호차<?php endif; ?>
                 <?=$value['time']?> <?=$value['title']?><br>
                 <?=!empty($value['bus_name']) ? $value['bus_name'] : ''?><br>
                 <?=$value['seat']?>번 좌석<br>

@@ -144,7 +144,7 @@
               <button type="button" class="btn btn-secondary btn-member-delete-modal">삭제합니다</button>
             </div>
           </form>
-          <div class="border-bottom mt-4 mb-3 pb-3">
+          <div class="mt-4 mb-3 pb-3">
             <h5>■ 예약 내역</h5>
             <?php foreach ($userReserve as $key => $value): ?>
             <div class="border-top pt-2 pb-2">
@@ -178,33 +178,50 @@
             <?php endforeach; ?>
 
             <h5 class="mt-4">■ 포인트 내역 <small>- 잔액 <?=number_format($viewMember['point'])?> 포인트</small></h5>
-            <?php foreach ($userPoint as $value): ?>
-            <div class="border-top pt-2 pb-2 row align-items-center">
-              <div class="col-10 p-0">
-                <?php switch ($value['action']): case LOG_POINTUP: ?>
-                <strong class="text-primary"><?=number_format($value['point'])?> 포인트 추가</strong> - <?=$value['subject']?>
-                <?php break; case LOG_POINTDN: ?>
-                <strong class="text-danger"><?=number_format($value['point'])?> 포인트 감소</strong> - <?=$value['subject']?>
-                <?php break; endswitch; ?>
-                <br><small><?=date('Y-m-d, H:i:s', $value['regdate'])?></small>
+            <div class="area-list" data-type="point">
+              <?php foreach ($userPoint as $value): ?>
+              <div class="border-top pt-2 pb-2 row align-items-center">
+                <div class="col-10 col-sm-11 p-0">
+                  <?php switch ($value['action']): case LOG_POINTUP: ?>
+                  <strong class="text-primary"><?=number_format($value['point'])?> 포인트 추가</strong> - <?=$value['subject']?>
+                  <?php break; case LOG_POINTDN: ?>
+                  <strong class="text-danger"><?=number_format($value['point'])?> 포인트 감소</strong> - <?=$value['subject']?>
+                  <?php break; endswitch; ?>
+                  <br><small><?=date('Y-m-d, H:i:s', $value['regdate'])?></small>
+                </div>
+                <div class="col-2 col-sm-1 text-right p-0">
+                  <button type="button" data-idx="<?=$value['idx']?>" class="btn btn-sm btn-default btn-history-delete-modal">삭제</button>
+                </div>
               </div>
-              <div class="col-2 text-right p-0">
-                <button type="button" data-idx="<?=$value['idx']?>" class="btn btn-sm btn-default btn-point-delete-modal">삭제</button>
-              </div>
+              <?php endforeach; ?>
             </div>
-            <?php endforeach; ?>
+            <div class="border-top text-right small pt-2">
+              <a href="javascript:;" class="btn-member-more" data-userid="<?=$viewMember['userid']?>" data-type="point">더보기 ▼</a>
+              <input type="hidden" class="page" data-type="point" value="1">
+            </div>
 
             <h5 class="mt-4">■ 페널티 내역</h5>
-            <?php foreach ($userPenalty as $value): ?>
-            <div class="border-top pt-2 pb-2">
-              <?php switch ($value['action']): case LOG_PENALTYUP: ?>
-              <strong class="text-primary"><?=number_format($value['point'])?> 페널티 추가</strong> - <?=$value['subject']?>
-              <?php break; case LOG_PENALTYDN: ?>
-              <strong class="text-danger"><?=number_format($value['point'])?> 페널티 감소</strong> - <?=$value['subject']?>
-              <?php break; endswitch; ?>
-              <br><small><?=date('Y-m-d, H:i:s', $value['regdate'])?></small>
+            <div class="area-list" data-type="penalty">
+              <?php foreach ($userPenalty as $value): ?>
+              <div class="border-top pt-2 pb-2 row align-items-center">
+                <div class="col-10 col-sm-11 p-0">
+                  <?php switch ($value['action']): case LOG_PENALTYUP: ?>
+                  <strong class="text-primary"><?=number_format($value['point'])?> 페널티 추가</strong> - <?=$value['subject']?>
+                  <?php break; case LOG_PENALTYDN: ?>
+                  <strong class="text-danger"><?=number_format($value['point'])?> 페널티 감소</strong> - <?=$value['subject']?>
+                  <?php break; endswitch; ?>
+                  <br><small><?=date('Y-m-d, H:i:s', $value['regdate'])?></small>
+                </div>
+                <div class="col-2 col-sm-1 text-right p-0">
+                  <button type="button" data-idx="<?=$value['idx']?>" class="btn btn-sm btn-default btn-history-delete-modal">삭제</button>
+                </div>
+              </div>
+              <?php endforeach; ?>
             </div>
-            <?php endforeach; ?>
+            <div class="border-top text-right small pt-2">
+              <a href="javascript:;" class="btn-member-more" data-userid="<?=$viewMember['userid']?>" data-type="penalty">더보기 ▼</a>
+              <input type="hidden" class="page" data-type="penalty" value="1">
+            </div>
           </div>
         </div>
 
@@ -235,8 +252,8 @@
           </div>
         </div>
 
-        <!-- 포인트 내역 삭제 모달 -->
-        <div class="modal fade" id="pointDeleteModal" tabindex="-1" role="dialog" aria-labelledby="pointDeleteModalLabel" aria-hidden="true">
+        <!-- 포인트/페널티 내역 삭제 모달 -->
+        <div class="modal fade" id="historyDeleteModal" tabindex="-1" role="dialog" aria-labelledby="historyDeleteModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -250,7 +267,7 @@
               </div>
               <div class="modal-footer">
                 <input type="hidden" name="idx">
-                <button type="button" class="btn btn-default btn-point-delete">삭제합니다</button>
+                <button type="button" class="btn btn-default btn-history-delete">삭제합니다</button>
                 <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
               </div>
             </div>

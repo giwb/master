@@ -108,16 +108,16 @@
         $.openMsgModal(result.message);
       }
     });
-  }).on('click', '.btn-point-delete-modal', function() {
-    // 포인트 내역 삭제 모달
-    $('#pointDeleteModal input[name=idx]').val($(this).data('idx'));
-    $('#pointDeleteModal').modal('show');
-  }).on('click', '.btn-point-delete', function() {
-    // 포인트 내역 삭제
+  }).on('click', '.btn-history-delete-modal', function() {
+    // 포인트/페널티 내역 삭제 모달
+    $('#historyDeleteModal input[name=idx]').val($(this).data('idx'));
+    $('#historyDeleteModal').modal('show');
+  }).on('click', '.btn-history-delete', function() {
+    // 포인트/페널티 내역 삭제
     var $btn = $(this);
     $.ajax({
       url: '/admin/member_delete_history',
-      data: 'idx=' + $('#pointDeleteModal input[name=idx]').val(),
+      data: 'idx=' + $('#historyDeleteModal input[name=idx]').val(),
       dataType: 'json',
       type: 'post',
       beforeSend: function() {
@@ -887,6 +887,26 @@
         } else {
           if (result.message == 'Y') var msg = '숨김'; else msg = '보임';
           $btn.text(msg);
+        }
+      }
+    });
+  }).on('click', '.btn-member-more', function() {
+    // 회원관리 - 포인트/페널티 내역 더보기
+    var $dom = $(this);
+    var userid = $dom.data('userid');
+    var type = $dom.data('type');
+    var page = $('.page[data-type=' + type + ']').val();
+    $.ajax({
+      url: '/admin/member_more',
+      data: 'userid=' + userid + '&type=' + type + '&page=' + page,
+      dataType: 'json',
+      type: 'post',
+      success: function(result) {
+        if (result.html != '') {
+          $('.page[data-type=' + type + ']').val(result.page);
+          $('.area-list[data-type="' + type + '"]').append(result.html);
+        } else {
+          $dom.text('마지막 데이터 입니다.');
         }
       }
     });

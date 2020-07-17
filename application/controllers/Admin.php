@@ -2094,6 +2094,61 @@ exit;
   }
 
   /**
+   * 회원 정보 더보기
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function member_more()
+  {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
+    $userid = html_escape($this->input->post('userid')); // 회원 아이디
+    $type = html_escape($this->input->post('type')); // 더보기 타입 (포인트 : point, 페널티 : penalty)
+
+    // 페이징
+    $result['page'] = html_escape($this->input->post('page'));
+    if (empty($result['page'])) $result['page'] = 1; else $result['page']++;
+    $paging['perPage'] = $viewData['perPage'] = 5;
+    $paging['nowPage'] = ($result['page'] * $paging['perPage']) - $paging['perPage'];
+    $result['html'] = '';
+
+    switch ($type) {
+      case 'point':
+        // 포인트 내역
+        $arr = $this->member_model->userPointLog($viewData['clubIdx'], $userid, $paging);
+        foreach ($arr as $value) {
+          $result['html'] .= '<div class="border-top pt-2 pb-2 row align-items-center"><div class="col-10 p-0">';
+          if ($value['action'] == LOG_POINTUP) {
+            $result['html'] .= '<strong class="text-primary">' . number_format($value['point']) . ' 포인트 추가</strong> - ' . $value['subject'];
+          } elseif ($value['action'] == LOG_POINTDN) {
+            $result['html'] .= '<strong class="text-danger">' . number_format($value['point']) . ' 포인트 감소</strong> - ' . $value['subject'];
+          }
+          $result['html'] .= '<br><small>' . date('Y-m-d, H:i:s', $value['regdate']) . '</small></div><div class="col-2 text-right p-0">';
+          $result['html'] .= '<button type="button" data-idx="' . $value['idx'] . '" class="btn btn-sm btn-default btn-history-delete-modal">삭제</button></div></div>';
+        }
+        break;
+      case 'penalty':
+        // 페널티 내역
+        $arr = $this->member_model->userPenaltyLog($viewData['clubIdx'], $userid, $paging);
+        foreach ($arr as $value) {
+          $result['html'] .= '<div class="border-top pt-2 pb-2 row align-items-center"><div class="col-10 p-0">';
+          if ($value['action'] == LOG_PENALTYUP) {
+            $result['html'] .= '<strong class="text-primary">' . number_format($value['point']) . ' 페널티 추가</strong> - ' . $value['subject'];
+          } elseif ($value['action'] == LOG_PENALTYDN) {
+            $result['html'] .= '<strong class="text-danger">' . number_format($value['point']) . ' 페널티 감소</strong> - ' . $value['subject'];
+          }
+          $result['html'] .= '<br><small>' . date('Y-m-d, H:i:s', $value['regdate']) . '</small></div><div class="col-2 text-right p-0">';
+          $result['html'] .= '<button type="button" data-idx="' . $value['idx'] . '" class="btn btn-sm btn-default btn-history-delete-modal">삭제</button></div></div>';
+        }
+        break;
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 회원 정보 수정
    *
    * @return view
