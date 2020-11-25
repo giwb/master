@@ -90,50 +90,86 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 |--------------------------------------------------------------------------
 */
 
-// 테이블명 - 경인웰빙
-defined('DB_ADJUST')      OR define('DB_ADJUST', 'giwb_adjust');
-defined('DB_ATTENDANCE')  OR define('DB_ATTENDANCE', 'giwb_attendance');
-defined('DB_AUTH')        OR define('DB_AUTH', 'giwb_auth');
-defined('DB_BOARD')       OR define('DB_BOARD', 'giwb_board');
-defined('DB_BUSDATA')     OR define('DB_BUSDATA', 'giwb_busdata');
-defined('DB_BUSTYPE')     OR define('DB_BUSTYPE', 'giwb_bustype');
-defined('DB_CALENDAR')    OR define('DB_CALENDAR', 'giwb_calendar');
-defined('DB_FRONT')       OR define('DB_FRONT', 'giwb_front');
-defined('DB_HISTORY')     OR define('DB_HISTORY', 'giwb_history');
-defined('DB_MEMBER')      OR define('DB_MEMBER', 'giwb_member');
-defined('DB_MTDB')        OR define('DB_MTDB', 'giwb_mtdb');
-defined('DB_NOTICE')      OR define('DB_NOTICE', 'giwb_notice');
-defined('DB_RESERVATION') OR define('DB_RESERVATION', 'giwb_reservation');
-defined('DB_SCHEDULE')    OR define('DB_SCHEDULE', 'giwb_schedule');
-defined('DB_VISITOR')     OR define('DB_VISITOR', 'giwb_visitor');
-defined('DB_WAIT')        OR define('DB_WAIT', 'giwb_wait');
+// 업로드 디렉토리
+defined('UPLOAD_URL')         OR define('UPLOAD_URL', '/public/uploads/');
+defined('UPLOAD_PATH')        OR define('UPLOAD_PATH', BASE_PATH . UPLOAD_URL);
+
+// 에디터 업로드 디렉토리
+defined('EDITOR_URL')         OR define('EDITOR_URL', '/public/uploads/editor/');
+defined('EDITOR_PATH')        OR define('EDITOR_PATH', BASE_PATH . EDITOR_URL);
+
+// 사진 디렉토리
+defined('PHOTO_URL')          OR define('PHOTO_URL', '/public/photos/');
+defined('PHOTO_PATH')         OR define('PHOTO_PATH', BASE_PATH . PHOTO_URL);
+
+// 테이블명
+defined('DB_ADJUST')          OR define('DB_ADJUST', 'adjust'); // 정산
+defined('DB_ALBUM')           OR define('DB_ALBUM', 'album'); // 사진첩
+defined('DB_ATTENDANCE')      OR define('DB_ATTENDANCE', 'attendance'); // 출석
+defined('DB_AREAS')           OR define('DB_AREAS', 'areas'); // 지역
+defined('DB_AUTH')            OR define('DB_AUTH', 'auth'); // 백산백소 인증
+defined('DB_BOARD')           OR define('DB_BOARD', 'board'); // 안부방 (OLD)
+defined('DB_BUSDATA')         OR define('DB_BUSDATA', 'busdata'); // 버스 좌석 데이터 (기본)
+defined('DB_BUSTYPE')         OR define('DB_BUSTYPE', 'bustype'); // 버스 형태
+defined('DB_CALENDAR')        OR define('DB_CALENDAR', 'calendar'); // 캘린더 휴일 (관리자 작성)
+defined('DB_CLUBS')           OR define('DB_CLUBS', 'clubs'); // 클럽
+defined('DB_FILES')           OR define('DB_FILES', 'files'); // 파일
+defined('DB_FRONT')           OR define('DB_FRONT', 'front'); // 대문사진 (OLD)
+defined('DB_HISTORY')         OR define('DB_HISTORY', 'history'); // 활동기록
+defined('DB_MEMBER')          OR define('DB_MEMBER', 'member'); // 회원
+defined('DB_MTDB')            OR define('DB_MTDB', 'mtdb'); // 산행DB
+defined('DB_NOTICE')          OR define('DB_NOTICE', 'notice'); // 산행공지
+defined('DB_NOTICE_DETAIL')   OR define('DB_NOTICE_DETAIL', 'notice_detail'); // 산행공지 상세
+defined('DB_PLACES')          OR define('DB_PLACES', 'places'); // 예약
+defined('DB_RESERVATION')     OR define('DB_RESERVATION', 'reservation'); // 예약
+defined('DB_SCHEDULE')        OR define('DB_SCHEDULE', 'schedule'); // 산행계획
+defined('DB_STORY')           OR define('DB_STORY', 'story'); // 스토리
+defined('DB_STORY_REACTION')  OR define('DB_STORY_REACTION', 'story_reaction'); // 스토리 좋아요/공유
+defined('DB_STORY_REPLY')     OR define('DB_STORY_REPLY', 'story_reply'); // 스토리 댓글
+defined('DB_SHOP')            OR define('DB_SHOP', 'shop'); // 판매대행
+defined('DB_SHOP_CATEGORY')   OR define('DB_SHOP_CATEGORY', 'shop_category'); // 판매대행 분류
+defined('DB_SHOP_PURCHASE')   OR define('DB_SHOP_PURCHASE', 'shop_purchase'); // 판매대행 주문내역
+defined('DB_VISITOR')         OR define('DB_VISITOR', 'visitor'); // 방문자
+defined('DB_WAIT')            OR define('DB_WAIT', 'wait'); // 대기자 명단
+defined('DB_WEATHER')         OR define('DB_WEATHER', 'weather'); // 날씨
+
+// 사진 형식
+defined('TYPE_MAIN')          OR define('TYPE_MAIN', 1);
+defined('TYPE_ADDED')         OR define('TYPE_ADDED', 2);
+defined('TYPE_MAP')           OR define('TYPE_MAP', 3);
 
 // 산행 상태
-defined('STATUS_PLAN')    OR define('STATUS_PLAN', 0); // 계획
-defined('STATUS_ABLE')    OR define('STATUS_ABLE', 1); // 예정
-defined('STATUS_CONFIRM') OR define('STATUS_CONFIRM', 2); // 확정
-defined('STATUS_CANCEL')  OR define('STATUS_CANCEL', 8); // 취소
-defined('STATUS_CLOSED')  OR define('STATUS_CLOSED', 9); // 종료
+defined('STATUS_PLAN')        OR define('STATUS_PLAN', 0); // 계획
+defined('STATUS_ABLE')        OR define('STATUS_ABLE', 1); // 예정
+defined('STATUS_CONFIRM')     OR define('STATUS_CONFIRM', 2); // 확정
+defined('STATUS_CANCEL')      OR define('STATUS_CANCEL', 8); // 취소
+defined('STATUS_CLOSED')      OR define('STATUS_CLOSED', 9); // 종료
 
 // 예약 상태
-defined('RESERVE_ON')     OR define('RESERVE_ON', 0); // 예약상태
-defined('RESERVE_PAY')    OR define('RESERVE_PAY', 1); // 입금상태
-defined('RESERVE_WAIT')   OR define('RESERVE_WAIT', 9); // 대기상태
+defined('RESERVE_ON')         OR define('RESERVE_ON', 0); // 예약
+defined('RESERVE_PAY')        OR define('RESERVE_PAY', 1); // 입금
+defined('RESERVE_WAIT')       OR define('RESERVE_WAIT', 9); // 대기
+
+// 구매 상태
+defined('ORDER_ON')           OR define('ORDER_ON', 0); // 구매 (미입금)
+defined('ORDER_PAY')          OR define('ORDER_PAY', 1); // 입금완료
+defined('ORDER_CANCEL')       OR define('ORDER_CANCEL', 8); // 구매취소
+defined('ORDER_END')          OR define('ORDER_END', 9); // 판매완료
 
 // 산행 숨김
-defined('VISIBLE_NONE')   OR define('VISIBLE_NONE', 0); // 숨김
-defined('VISIBLE_ABLE')   OR define('VISIBLE_ABLE', 1); // 공개
+defined('VISIBLE_NONE')       OR define('VISIBLE_NONE', 0); // 숨김
+defined('VISIBLE_ABLE')       OR define('VISIBLE_ABLE', 1); // 공개
 
 // 스토리 리액션 형태
-defined('REACTION_KIND_LIKE') OR define('REACTION_KIND_LIKE', 1); // 좋아요
-defined('REACTION_KIND_SHARE') OR define('REACTION_KIND_SHARE', 2); // 공유하기
+defined('REACTION_KIND_LIKE')   OR define('REACTION_KIND_LIKE', 1); // 좋아요
+defined('REACTION_KIND_SHARE')  OR define('REACTION_KIND_SHARE', 2); // 공유하기
 
 // 스토리 공유 형태
-defined('SHARE_TYPE_URL') OR define('SHARE_TYPE_URL', 1); // 페이스북
-defined('SHARE_TYPE_FACEBOOK') OR define('SHARE_TYPE_FACEBOOK', 2); // 페이스북
-defined('SHARE_TYPE_TWITTER') OR define('SHARE_TYPE_TWITTER', 3); // 트위터
-defined('SHARE_TYPE_KAKAO') OR define('SHARE_TYPE_KAKAO', 4); // 카카오톡
-defined('SHARE_TYPE_DAUM') OR define('SHARE_TYPE_DAUM', 5); // 다음
+defined('SHARE_TYPE_URL')       OR define('SHARE_TYPE_URL', 1); // 페이스북
+defined('SHARE_TYPE_FACEBOOK')  OR define('SHARE_TYPE_FACEBOOK', 2); // 페이스북
+defined('SHARE_TYPE_TWITTER')   OR define('SHARE_TYPE_TWITTER', 3); // 트위터
+defined('SHARE_TYPE_KAKAO')     OR define('SHARE_TYPE_KAKAO', 4); // 카카오톡
+defined('SHARE_TYPE_DAUM')      OR define('SHARE_TYPE_DAUM', 5); // 다음
 
 // 로그 키
 /*
@@ -147,32 +183,68 @@ defined('SHARE_TYPE_DAUM') OR define('SHARE_TYPE_DAUM', 5); // 다음
   7 - 페널티 감소
   8 - 관리자 예약
   9 - 관리자 취소
+  10 - 관리자 입금확인
+  11 - 관리자 입금취소
+  12 - 비회원 환불내역
+  21 - 용품판매 - 구매
+  22 - 용품판매 - 결제
+  23 - 용품판매 - 취소
+  24 - 용품판매 관리자 - 구매
+  25 - 용품판매 관리자 - 취소
+  26 - 용품판매 관리자 - 입금확인
+  27 - 용품판매 관리자 - 입금취소
+  28 - 용품판매 관리자 - 판매완료
+  51 - 드라이버 변경
 */
-defined('LOG_ENTRY')          OR define('LOG_ENTRY', 1);
-defined('LOG_RESERVE')        OR define('LOG_RESERVE', 2);
-defined('LOG_CANCEL')         OR define('LOG_CANCEL', 3);
-defined('LOG_POINTUP')        OR define('LOG_POINTUP', 4);
-defined('LOG_POINTDN')        OR define('LOG_POINTDN', 5);
-defined('LOG_PENALTYUP')      OR define('LOG_PENALTYUP', 6);
-defined('LOG_PENALTYDN')      OR define('LOG_PENALTYDN', 7);
-defined('LOG_ADMIN_RESERVE')  OR define('LOG_ADMIN_RESERVE', 8);
-defined('LOG_ADMIN_CANCEL')   OR define('LOG_ADMIN_CANCEL', 9);
-defined('LOG_ADMIN_DEPOSIT_CONFIRM')  OR define('LOG_ADMIN_DEPOSIT_CONFIRM', 10);
-defined('LOG_ADMIN_DEPOSIT_CANCEL')   OR define('LOG_ADMIN_DEPOSIT_CANCEL', 11);
-
-// 경로 설정
-defined('PATH_FRONT')         OR define('PATH_FRONT', PATH_MAIN . '/public/uploads/front/');
-defined('URL_FRONT')          OR define('URL_FRONT', 'public/uploads/front/');
+defined('LOG_ENTRY')                      OR define('LOG_ENTRY', 1);
+defined('LOG_RESERVE')                    OR define('LOG_RESERVE', 2);
+defined('LOG_CANCEL')                     OR define('LOG_CANCEL', 3);
+defined('LOG_POINTUP')                    OR define('LOG_POINTUP', 4);
+defined('LOG_POINTDN')                    OR define('LOG_POINTDN', 5);
+defined('LOG_PENALTYUP')                  OR define('LOG_PENALTYUP', 6);
+defined('LOG_PENALTYDN')                  OR define('LOG_PENALTYDN', 7);
+defined('LOG_ADMIN_RESERVE')              OR define('LOG_ADMIN_RESERVE', 8);
+defined('LOG_ADMIN_CANCEL')               OR define('LOG_ADMIN_CANCEL', 9);
+defined('LOG_ADMIN_DEPOSIT_CONFIRM')      OR define('LOG_ADMIN_DEPOSIT_CONFIRM', 10);
+defined('LOG_ADMIN_DEPOSIT_CANCEL')       OR define('LOG_ADMIN_DEPOSIT_CANCEL', 11);
+defined('LOG_ADMIN_REFUND')               OR define('LOG_ADMIN_REFUND', 12);
+defined('LOG_SHOP_BUY')                   OR define('LOG_SHOP_BUY', 21);
+defined('LOG_SHOP_CHECKOUT')              OR define('LOG_SHOP_CHECKOUT', 22);
+defined('LOG_SHOP_CANCEL')                OR define('LOG_SHOP_CANCEL', 23);
+defined('LOG_ADMIN_SHOP_BUY')             OR define('LOG_ADMIN_SHOP_BUY', 24);
+defined('LOG_ADMIN_SHOP_CANCEL')          OR define('LOG_ADMIN_SHOP_CANCEL', 25);
+defined('LOG_ADMIN_SHOP_DEPOSIT_CONFIRM') OR define('LOG_ADMIN_SHOP_DEPOSIT_CONFIRM', 26);
+defined('LOG_ADMIN_SHOP_DEPOSIT_CANCEL')  OR define('LOG_ADMIN_SHOP_DEPOSIT_CANCEL', 27);
+defined('LOG_ADMIN_SHOP_COMPLETE')        OR define('LOG_ADMIN_SHOP_COMPLETE', 28);
+defined('LOG_DRIVER_CHANGE')              OR define('LOG_DRIVER_CHANGE', 51);
 
 // 레벨 형태
-defined('LEVEL_NORMAL')       OR define('LEVEL_NORMAL', 0);
-defined('LEVEL_LIFETIME')     OR define('LEVEL_LIFETIME', 1);
-defined('LEVEL_FREE')         OR define('LEVEL_FREE', 2);
+defined('LEVEL_NORMAL')                   OR define('LEVEL_NORMAL', 0);   // 일반회원
+defined('LEVEL_LIFETIME')                 OR define('LEVEL_LIFETIME', 1); // 평생회원
+defined('LEVEL_FREE')                     OR define('LEVEL_FREE', 2);     // 무료회원
+defined('LEVEL_DRIVER')                   OR define('LEVEL_DRIVER', 3);   // 드라이버
+defined('LEVEL_DRIVER_ADMIN')             OR define('LEVEL_DRIVER_ADMIN', 4); // 드라이버 관리자
+defined('LEVEL_BLACKLIST')                OR define('LEVEL_BLACKLIST', 9); // 블랙리스트
 
 // 댓글 형태
-defined('REPLY_TYPE_STORY')   OR define('REPLY_TYPE_STORY', 1);
-defined('REPLY_TYPE_NOTICE')  OR define('REPLY_TYPE_NOTICE', 2);
+defined('REPLY_TYPE_STORY')               OR define('REPLY_TYPE_STORY', 1);
+defined('REPLY_TYPE_NOTICE')              OR define('REPLY_TYPE_NOTICE', 2);
+defined('REPLY_TYPE_SHOP')                OR define('REPLY_TYPE_SHOP', 3);
 
 // 공유 형태
-defined('REACTION_TYPE_STORY')   OR define('REACTION_TYPE_STORY', 1);
-defined('REACTION_TYPE_NOTICE')  OR define('REACTION_TYPE_NOTICE', 2);
+defined('REACTION_TYPE_STORY')            OR define('REACTION_TYPE_STORY', 1);
+defined('REACTION_TYPE_NOTICE')           OR define('REACTION_TYPE_NOTICE', 2);
+defined('REACTION_TYPE_SHOP')             OR define('REACTION_TYPE_SHOP', 3);
+
+// 쿠키 시간 (1년)
+define('COOKIE_STRAGE_PERIOD', 60 * 60 * 24 * 30 * 12);
+
+// Providr
+defined('PROVIDER_NONE')  OR define('PROVIDER_NONE', 0);
+defined('PROVIDER_KAKAO') OR define('PROVIDER_KAKAO', 1);
+defined('PROVIDER_NAVER') OR define('PROVIDER_NAVER', 2);
+defined('PROVIDER_GMAIL') OR define('PROVIDER_GMAIL', 3);
+
+// API
+defined('API_KAKAO')      OR define('API_KAKAO', 'ac8c155b86aa3885c643ba50a7cd4442');
+defined('API_KAKAO_URL')  OR define('API_KAKAO_URL', 'login/kakao');

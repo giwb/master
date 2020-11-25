@@ -1,8 +1,18 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
     <div class="club-main">
-      <div class="sub-header">지난 산행보기</div>
-      <form id="formSearch" method="get" action="<?=base_url()?>club/past/<?=$view['idx']?>" class="row border no-gutters align-items-center text-center pt-2 pb-2 pr-2 mt-3 mb-3">
+      <div class="row-category mb-3">
+        <div class="row m-0 p-0 border-right border-bottom">
+          <a href="<?=BASE_URL?>/club/about" class="col-6 col-sm-2 border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=strstr($_SERVER['REQUEST_URI'], '/about') ? ' active' : ''?>">산악회 소개</a>
+          <a href="<?=BASE_URL?>/club/guide" class="col-6 col-sm-2 border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=strstr($_SERVER['REQUEST_URI'], '/guide') ? ' active' : ''?>">등산안내인</a>
+          <a href="<?=BASE_URL?>/club/past" class="col-6 col-sm-2 border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=strstr($_SERVER['REQUEST_URI'], '/past') ? ' active' : ''?>">지난 산행보기</a>
+          <a href="<?=BASE_URL?>/club/howto" class="col-6 col-sm-2 border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=strstr($_SERVER['REQUEST_URI'], '/howto') ? ' active' : ''?>">이용안내</a>
+          <a href="<?=BASE_URL?>/club/auth_about" class="col-6 col-sm-2 border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=strstr($_SERVER['REQUEST_URI'], '_about') ? ' active' : ''?>">백산백소 소개</a>
+          <a href="<?=BASE_URL?>/club/auth" class="col-6 col-sm-2 border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=strstr($_SERVER['REQUEST_URI'], '/auth') && !strstr($_SERVER['REQUEST_URI'], 'auth_about') ? ' active' : ''?>">인증현황</a>
+        </div>
+      </div>
+      <h2 class="sub-header"><?=$pageTitle?></h2>
+      <form id="formSearch" method="get" action="<?=BASE_URL?>/club/past" class="row border no-gutters align-items-center text-center pt-2 pb-2 pr-2 mt-3 mb-3">
         <ul class="box-past-search">
           <li>기간검색</li>
           <li><input type="text" id="startDatePicker" name="sdate" class="form-control form-control-sm" value="<?=!empty($searchData['sdate']) ? $searchData['sdate'] : ''?>"></li>
@@ -10,11 +20,11 @@
           <li><input type="text" id="endDatePicker" name="edate" class="form-control form-control-sm" value="<?=!empty($searchData['edate']) ? $searchData['edate'] : ''?>"></li>
           <li>키워드검색</li>
           <li><input type="text" name="keyword" class="form-control form-control-sm" value="<?=!empty($searchData['keyword']) ? $searchData['keyword'] : ''?>"></li>
-          <li><button class="btn btn-sm btn-primary">검색</button></li>
+          <li><button class="btn btn-sm btn-default">검색</button></li>
         </ul>
       </form>
       <ul class="box-past-title">
-        <li><a href="<?=base_url()?>club/past/<?=$view['idx']?>?<?=$searchData['prev']?>">◀</a></li>
+        <li><a href="<?=BASE_URL?>/club/past/?<?=$searchData['prev']?>">◀</a></li>
         <li>
           <select name="syear" class="form-control">
             <?php foreach (range($searchData['syear'], 2010) as $value): ?>
@@ -29,21 +39,21 @@
             <?php endforeach; ?>
           </select>
         </li>
-        <li><a href="<?=base_url()?>club/past/<?=$view['idx']?>?<?=$searchData['next']?>">▶</a></li>
+        <li><a href="<?=BASE_URL?>/club/past/?<?=$searchData['next']?>">▶</a></li>
       </ul>
       <div class="list-schedule">
         <?php if (empty($listPastNotice)): ?>
           <div class="text-center m-5">검색된 정보가 없습니다.</div>
         <?php else : ?>
         <?php foreach ($listPastNotice as $value): ?>
-        <a href="<?=base_url()?>reserve/<?=$value['club_idx']?>?n=<?=$value['idx']?>"><strong><?=$value['subject']?></strong><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명</a>
+        <a href="<?=BASE_URL?>/reserve/list/<?=$value['idx']?>"><strong><?=$value['subject']?></strong><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명</a>
         <?php endforeach; ?>
         <?php endif; ?>
       </div>
     </div>
 
-    <link href="<?=base_url()?>public/css/jquery-ui.css" rel="stylesheet">
-    <script src="<?=base_url()?>public/js/jquery-ui.min.js" type="text/javascript"></script>
+    <link href="/public/css/jquery-ui.css" rel="stylesheet">
+    <script src="/public/js/jquery-ui.min.js" type="text/javascript"></script>
     <script type="text/javascript">
       $(document).ready(function(){
         $('#startDatePicker').datepicker({

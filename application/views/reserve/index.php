@@ -5,19 +5,24 @@
         <div class="text-center mt-5">데이터가 없습니다.</div>
         <?php else: ?>
         <div class="sub-contents">
-          <div class="sub-title">
-            <div class="area-title"><h2><b><?=viewStatus($notice['status'])?></b> <?=$notice['subject']?></h2></div>
-            <div class="area-btn"><a href="<?=base_url()?>reserve/notice/<?=$view['idx']?>?n=<?=$notice['idx']?>"><button type="button" class="btn btn-primary">산행공지</button></a></div>
+          <div class="row align-items-center border-bottom pb-2 mb-3">
+            <div class="col-8 col-sm-9 p-0 pt-1"><h2 class="notice-title"><b><?=viewStatus($notice['status'])?></b> <?=$notice['subject']?></h2></div>
+            <div class="col-4 col-sm-3 p-0 text-right row align-items-center">
+              <div class="col-6 col-sm-8 p-0"><?=!empty($notice['weather']) ? '<a target="_blank" href="' . $notice['weather'] . '"><button type="button" class="btn btn-sm btn-primary">날씨</button></a>' : ''?></div>
+              <div class="col-6 col-sm-4 p-0"><a href="<?=BASE_URL?>/reserve/notice/<?=$notice['idx']?>"><button type="button" class="btn btn-sm btn-default btn-notice">공지</button></a></div>
+            </div>
           </div>
-          <strong>・일시</strong> : <?=$notice['startdate']?> (<?=calcWeek($notice['startdate'])?>) <?=$notice['starttime']?><br>
+          <?php if (!empty($notice['type'])): ?><div class="ti"><strong>・유형</strong> : <?=$notice['type']?></div><?php endif; ?>
+          <div class="ti"><strong>・일시</strong> : <?=$notice['startdate']?> (<?=calcWeek($notice['startdate'])?>) <?=$notice['starttime']?></div>
           <?php $notice['cost'] = $notice['cost_total'] == 0 ? $notice['cost'] : $notice['cost_total']; if (!empty($notice['cost'])): ?>
           <?php if (!empty($notice['sido'])): ?>
-          <strong>・지역</strong> : <?php foreach ($notice['sido'] as $key => $value): if ($key != 0): ?>, <?php endif; ?><?=$value?> <?=!empty($notice['gugun'][$key]) ? $notice['gugun'][$key] : ''?><?php endforeach; ?><br>
+          <div class="ti"><strong>・지역</strong> : <?php foreach ($notice['sido'] as $key => $value): if ($key != 0): ?>, <?php endif; ?><?=$value?> <?=!empty($notice['gugun'][$key]) ? $notice['gugun'][$key] : ''?><?php endforeach; ?></div>
           <?php endif; ?>
-          <strong>・분담금</strong> : <?=number_format($notice['cost_total'] == 0 ? $notice['cost'] : $notice['cost_total'])?>원 (<?=calcTerm($notice['startdate'], $notice['starttime'], $notice['enddate'], $notice['schedule'])?><?=!empty($notice['distance']) ? ', ' . calcDistance($notice['distance']) : ''?><?=!empty($notice['costmemo']) ? ', ' . $notice['costmemo'] : ''?>)<br>
+          <div class="ti"><strong>・요금</strong> : <?=number_format($notice['cost_total'] == 0 ? $notice['cost'] : $notice['cost_total'])?>원 (<?=calcTerm($notice['startdate'], $notice['starttime'], $notice['enddate'], $notice['schedule'])?><?=!empty($notice['distance']) ? ', ' . calcDistance($notice['distance']) : ''?><?=!empty($notice['options']) ? ', ' . getOptions($notice['options']) : ''?><?=!empty($notice['options_etc']) ? ', ' . $notice['options_etc'] : ''?><?=!empty($notice['options']) || !empty($notice['options_etc']) ? ' 제공' : ''?><?=!empty($notice['costmemo']) ? ', ' . $notice['costmemo'] : ''?>)</div>
           <?php endif; ?>
-          <?=!empty($notice['content']) ? "<strong>・코스</strong> : " . nl2br($notice['content']) : ""?>
-          <br><strong>・예약인원</strong> : <?=cntRes($notice['idx'])?>명
+          <?=!empty($notice['content']) ? '<div class="ti"><strong>・코스</strong> : ' . nl2br($notice['content']) . '</div>' : ''?>
+          <?=!empty($notice['kilometer']) ? '<div class="ti"><strong>・거리</strong> : ' . $notice['kilometer'] . '</div>' : ''?>
+          <div class="ti"><strong>・예약</strong> : <?=cntRes($notice['idx'])?>명</div>
 
           <div class="area-reservation">
             <?php
@@ -42,7 +47,7 @@
                 </colgroup>
                 <thead>
                   <tr>
-                    <th colspan="10" style="border-right: 0px;"><?=count($busType) >= 2 ? $bus . '호차 - ' : ''?><?=$value['bus_name']?></td>
+                    <th colspan="10"><?=count($busType) >= 2 ? $bus . '호차 - ' : ''?><?=$value['bus_name']?> <?=!empty($value['bus_license']) ? '(' . $value['bus_license'] . ')' : ''?></td>
                   </tr>
                 </thead>
                 <tbody>
@@ -60,18 +65,18 @@
                         $seatNumber = checkDirection($seat, $bus, $notice['bustype'], $notice['bus']);
                   ?>
                   <?=$tableMake?>
-                    <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>" data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$seatNumber?></td>
-                    <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>" data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$reserveInfo['nickname']?></td>
+                    <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>"<?=!empty($reserveInfo['priority']) ? ' data-priority="' . $reserveInfo['priority'] . '"' : ''?> <?=!empty($reserveInfo['honor']) ? ' data-honor="' . $reserveInfo['honor'] . '"' : ''?> data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$seatNumber?></td>
+                    <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>"<?=!empty($reserveInfo['priority']) ? ' data-priority="' . $reserveInfo['priority'] . '"' : ''?> <?=!empty($reserveInfo['honor']) ? ' data-honor="' . $reserveInfo['honor'] . '"' : ''?> data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$reserveInfo['nickname']?><?=!empty($reserveInfo['honor']) && $reserveInfo['nickname'] != '1인우등' ? '<small>(우등)</small>' : ''?></td>
                   <?php endforeach; ?>
                 </tbody>
               </table>
             </div>
             <?php endforeach; ?>
             <?php if ($notice['status'] != STATUS_CLOSED): ?>
-            <?php if ($maxRes == $value['seat']): $cntWait = cntWait($view['idx'], $notice['idx']); ?>
+            <?php $cntWait = cntWait($notice['idx']); if ($maxRes == $value['seat'] || $cntWait > 0): ?>
             <div class="area-wait text-center mt-3 mb-4">
               현재 예약 대기자로 <span class="cnt-wait"><?=$cntWait?></span>명이 등록되어 있습니다.<br>
-              <form id="waitForm" method="post" action="<?=base_url()?>reserve/wait_insert" class="mt-3">
+              <form id="waitForm" method="post" action="/reserve/wait_insert" class="mt-3">
                 <div id="addedWait"></div>
                 <input type="hidden" name="clubIdx" value="<?=!empty($view['idx']) ? $view['idx'] : ''?>">
                 <input type="hidden" name="noticeIdx" value="<?=!empty($notice['idx']) ? $notice['idx'] : ''?>">
@@ -79,40 +84,63 @@
                 <input type="hidden" name="userLocation" value="<?=!empty($userData['location']) ? $userData['location'] : ''?>">
                 <input type="hidden" name="userGender" value="<?=!empty($userData['gender']) ? $userData['gender'] : ''?>">
                 <?php $checkWait = checkWait($view['idx'], $notice['idx'], $userData['idx']); if (empty($checkWait)): ?>
-                <button type="button" class="btn btn-primary btn-reserve-wait-add">대기자 등록</button>
-                <button type="button" class="btn btn-primary btn-reserve-wait d-none">대기자 등록</button>
+                <button type="button" class="btn btn-default btn-reserve-wait-add">대기자 등록</button>
+                <button type="button" class="btn btn-default btn-reserve-wait d-none">대기자 등록</button>
                 <?php else: ?>
                 <button type="button" class="btn btn-secondary btn-reserve-wait">대기자 취소</button>
                 <?php endif; ?>
               </form>
             </div>
             <?php endif; ?>
-            <form id="reserveForm" method="post" action="<?=base_url()?>reserve/insert">
+            <form id="reserveForm" method="post" action="/reserve/insert">
               <div id="addedInfo"></div>
               <input type="hidden" name="clubIdx" value="<?=!empty($view['idx']) ? $view['idx'] : ''?>">
               <input type="hidden" name="userIdx" value="<?=!empty($userData['idx']) ? $userData['idx'] : ''?>">
               <input type="hidden" name="noticeIdx" value="<?=!empty($notice['idx']) ? $notice['idx'] : ''?>">
-              <button type="button" class="btn btn-primary btn-reserve-confirm">예약합니다</button>
-              <button type="button" class="btn btn-primary btn-reserve-cancel d-none">취소합니다</button>
+              <button type="button" class="btn btn-default btn-reserve-confirm">예약합니다</button>
+              <button type="button" class="btn btn-secondary btn-reserve-cancel d-none">취소합니다</button>
             </form>
             <?php endif; ?>
           </div>
-        </div>
-        <?php endif; ?>
-
-        <div class="area-schedule">
-          <h3><i class="fa fa-calendar" aria-hidden="true"></i> 현재 진행중인 산행</h3>
-          <div class="list-schedule">
-            <?php foreach ($listNotice as $value): ?>
-            <a href="<?=base_url()?>reserve/<?=$value['club_idx']?>?n=<?=$value['idx']?>"><?=viewStatus($value['status'])?> <strong><?=$value['subject']?></strong><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명</a>
-            <?php endforeach; ?>
+          <div class="story-reaction mt-5">
+            <button type="button" data-idx="<?=$notice['idx']?>" data-type="<?=REPLY_TYPE_NOTICE?>"><i class="fa fa-reply" aria-hidden="true"></i> 댓글 <span class="cnt-reply" data-idx="<?=$notice['idx']?>"><?=$notice['reply_cnt']?></span></button>
+            <button type="button" class="btn-like<?=!empty($notice['like']) ? ' text-danger' : ''?>" data-idx="<?=$notice['idx']?>" data-type="<?=REACTION_TYPE_NOTICE?>"><i class="fa fa-heart" aria-hidden="true"></i> 좋아요 <span class="cnt-like"><?=$notice['like_cnt']?></span></button>
+            <button type="button" class="btn-share" data-idx="<?=$notice['idx']?>"><i class="fa fa-share-alt" aria-hidden="true"></i> 공유하기 <span class="cnt-share"><?=$notice['share_cnt']?></span></button>
+            <div class="area-share" data-idx="<?=$notice['idx']?>">
+              <ul>
+                <li><a href="javascript:;" class="btn-share-sns" data-idx="<?=$notice['idx']?>" data-reaction-type="<?=REACTION_TYPE_NOTICE?>" data-type="<?=SHARE_TYPE_FACEBOOK?>" data-url="https://facebook.com/sharer/sharer.php?u=<?=BASE_URL?>/reserve/list/<?=$notice['idx']?>"><img src="/public/images/icon_facebook.png"><br>페이스북</a></li>
+                <li><a href="javascript:;" class="btn-share-sns" data-idx="<?=$notice['idx']?>" data-reaction-type="<?=REACTION_TYPE_NOTICE?>" data-type="<?=SHARE_TYPE_TWITTER?>" data-url="https://twitter.com/intent/tweet?url=<?=BASE_URL?>/reserve/list/<?=$notice['idx']?>"><img src="/public/images/icon_twitter.png"><br>트위터</a></li>
+                <li><a href="javascript:;" class="btn-share-url" data-idx="<?=$notice['idx']?>" data-reaction-type="<?=REACTION_TYPE_NOTICE?>" data-type="<?=SHARE_TYPE_URL?>" data-trigger="click" data-placement="bottom" data-clipboard-text="<?=BASE_URL?>/reserve/list/<?=$notice['idx']?>"><img src="/public/images/icon_url.png"><br>URL</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="story-reply mt-3 reply-type-<?=REPLY_TYPE_NOTICE?>" data-idx="<?=$notice['idx']?>">
+            <div class="story-reply-content">
+              <?=$listReply?>
+            </div>
+            <form method="post" action="/story/insert_reply" class="story-reply-input" data-idx="<?=$notice['idx']?>">
+              <input type="hidden" name="clubIdx" value="<?=$view['idx']?>">
+              <input type="hidden" name="storyIdx" value="<?=$notice['idx']?>">
+              <input type="hidden" name="replyType" value="<?=REPLY_TYPE_NOTICE?>">
+              <input type="hidden" name="replyIdx" value="">
+              <input type="hidden" name="replyParentIdx" value="">
+              <textarea name="content" class="club-story-reply"></textarea>
+              <button type="button" class="btn btn-default btn-post-reply" data-idx="<?=$notice['idx']?>">댓글달기</button>
+            </form>
           </div>
         </div>
+        <?php endif; ?>
       </div>
 
       <script type="text/javascript">
+        new ClipboardJS('.btn-share-url');
         var arrLocation = new Array();
         <?php foreach ($arrLocation as $value): ?>
           arrLocation.push('<?=$value['stitle']?>');
         <?php endforeach; ?>
+        <?php if ($userData['level'] == LEVEL_BLACKLIST): ?>
+          $('.seat').click(function() {
+            return false;
+          });
+        <?php endif; ?>
       </script>

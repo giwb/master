@@ -11,28 +11,30 @@ class Admin_model extends CI_Model
   }
 
   // 현재 회원수
-  public function cntTotalMember()
+  public function cntTotalMember($clubIdx)
   {
-    $this->db->select('COUNT(idx) AS CNT')->from(DB_MEMBER);
+    $this->db->select('COUNT(idx) AS CNT')->from(DB_MEMBER)->where('club_idx', $clubIdx)->where('quitdate', NULL);
     return $this->db->get()->row_array(1);
   }
 
   // 다녀온 산행 횟수
-  public function cntTotalTour()
+  public function cntTotalTour($clubIdx)
   {
     $this->db->select('COUNT(idx) AS CNT')
           ->from(DB_NOTICE)
+          ->where('club_idx', $clubIdx)
           ->where('status', 9);
     return $this->db->get()->row_array(1);
   }
 
   // 다녀온 산행 인원수
-  public function cntTotalCustomer()
+  public function cntTotalCustomer($clubIdx)
   {
     $this->db->select('COUNT(b.idx) AS CNT')
           ->from(DB_NOTICE . ' a')
           ->from(DB_RESERVATION . ' b')
           ->where('a.idx=b.rescode')
+          ->where('a.club_idx', $clubIdx)
           ->where('a.status', 9)
           ->where('b.status', 1);
     return $this->db->get()->row_array(1);
@@ -49,11 +51,32 @@ class Admin_model extends CI_Model
   }
 
   // 산행 예약자 카운트
-  public function cntReservation($resCode, $bus=NULL)
+  public function cntReservation($resCode, $bus=NULL, $wait=NULL)
   {
     $this->db->select('COUNT(idx) AS CNT')
           ->from(DB_RESERVATION)
-          ->where('rescode', $resCode);
+          ->where('rescode', $resCode)
+          ->where('manager', 0)
+          ->where_not_in('nickname', array('1인우등', '2인우선'));
+
+    if (is_null($wait)) {
+      $this->db->where('status !=', RESERVE_WAIT);
+    }
+    if (!is_null($bus)) {
+      $this->db->where('bus', $bus);
+    }
+
+    return $this->db->get()->row_array(1);
+  }
+
+  // 산행 예약자 중 1인우등 예약자 카운트
+  public function cntReservationHonor($resCode, $bus=NULL)
+  {
+    $this->db->select('COUNT(idx) AS CNT')
+          ->from(DB_RESERVATION)
+          ->where('rescode', $resCode)
+          ->where('nickname !=', '1인우등')
+          ->where('honor >', 0);
 
     if (!is_null($bus)) {
       $this->db->where('bus', $bus);
@@ -107,25 +130,146 @@ class Admin_model extends CI_Model
     if (!empty($search['status'])) {
       $this->db->where_in('status', $search['status']);
     }
+    if (!empty($search['clubIdx'])) {
+      $this->db->where('club_idx', $search['clubIdx']);
+    }
+
+    return $this->db->get()->result_array();
+  }
+
+  // 산행 공지사항 목록
+  public function listNoticeDetail($noticeIdx)
+  {
+    $this->db->select('idx, title, content')
+          ->from(DB_NOTICE_DETAIL)
+          ->where('notice_idx', $noticeIdx)
+          ->where('deleted_at', NULL)
+          ->order_by('sort_idx', 'asc');
+    return $this->db->get()->result_array();
+  }
+
+  // 산행 공지사항 보기
+  public function viewNoticeDetail($idx)
+  {
+    $this->db->select('idx, title, content')
+          ->from(DB_NOTICE_DETAIL)
+          ->where('idx', $idx)
+          ->where('deleted_at', NULL);
+    return $this->db->get()->row_array(1);
+  }
+
+  // 산행 공지사항 등록
+  public function insertNoticeDetail($data)
+  {
+    $this->db->insert(DB_NOTICE_DETAIL, $data);
+    return $this->db->insert_id();
+  }
+
+  // 산행 공지사항 수정
+  public function updateNoticeDetail($data, $idx)
+  {
+    $this->db->set($data);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_NOTICE_DETAIL);
+  }
+
+  // 산행 목록
+  public function listNoticeClosed($search=NULL, $order='asc')
+  {
+    $this->db->select('a.*, b.total')
+          ->from(DB_NOTICE . ' a')
+          ->join(DB_ADJUST . ' b', 'a.idx=b.rescode', 'left')
+          ->order_by('a.startdate', $order);
+
+    if (!empty($search['past_sdate'])) {
+      $this->db->where("DATE_FORMAT(a.startdate, '%m-%d') >= '" . $search['past_sdate'] . "'");
+    }
+    if (!empty($search['past_edate'])) {
+      if ($search['past_edate'] < $search['past_sdate']) {
+        $this->db->or_where("DATE_FORMAT(a.startdate, '%m-%d') <= '" . $search['past_edate'] . "'");
+      } else {
+        $this->db->where("DATE_FORMAT(a.startdate, '%m-%d') <= '" . $search['past_edate'] . "'");
+      }
+    }
+    if (!empty($search['sdate'])) {
+      $this->db->where("DATE_FORMAT(a.startdate, '%Y-%m-%d') >= '" . $search['sdate'] . "'");
+    }
+    if (!empty($search['edate'])) {
+      if ($search['edate'] < $search['sdate']) {
+        $this->db->or_where("DATE_FORMAT(a.startdate, '%Y-%m-%d') <= '" . $search['edate'] . "'");
+      } else {
+        $this->db->where("DATE_FORMAT(a.startdate, '%Y-%m-%d') <= '" . $search['edate'] . "'");
+      }
+    }
+    if (!empty($search['subject'])) {
+      $this->db->like('a.subject', $search['subject']);
+    }
+    if (!empty($search['status'])) {
+      $this->db->where_in('a.status', $search['status']);
+    }
+    if (!empty($search['clubIdx'])) {
+      $this->db->where('a.club_idx', $search['clubIdx']);
+    }
 
     return $this->db->get()->result_array();
   }
 
   // 회원 예약 목록
-  public function searchReserve($paging, $nickname)
+  public function listReserve($paging, $search)
   {
-    $this->db->select('a.rescode, a.userid, a.nickname, a.bus, a.seat, a.loc, a.memo, b.startdate, b.starttime, b.subject, b.bus AS notice_bus, b.bustype AS notice_bustype, b.status AS notice_status, b.cost, b.cost_total')
+    $this->db->select('a.rescode, a.userid, a.nickname, a.bus, a.seat, a.loc, a.memo, b.startdate, b.starttime, b.subject, b.bus AS notice_bus, b.bustype AS notice_bustype, b.status AS notice_status, b.cost, b.cost_total, c.idx AS member_idx')
           ->from(DB_RESERVATION . ' a')
           ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
-          ->like('a.nickname', $nickname)
+          ->join(DB_MEMBER . ' c', 'a.nickname=c.nickname', 'left')
           ->where_in('b.status', array(STATUS_ABLE, STATUS_CONFIRM, STATUS_CLOSED))
-          ->order_by('b.startdate', 'desc');
+          ->where_not_in('a.nickname', array('1인우등','2인우선'))
+          ->order_by('a.regdate', 'desc');
 
+    if (!empty($search['nickname'])) {
+      $this->db->like('a.nickname', $search['nickname']);
+    }
+    if (!empty($search['clubIdx'])) {
+      $this->db->where('b.club_idx', $search['clubIdx']);
+    }
     if (!is_null($paging)) {
       $this->db->limit($paging['perPage'], $paging['nowPage']);
     }
 
     return $this->db->get()->result_array();
+  }
+
+  // 예약 수량
+  public function cntReserve($search)
+  {
+    $this->db->select('COUNT(*) AS cnt')
+          ->from(DB_RESERVATION)
+          ->where('club_idx', $search['club_idx'])
+          ->where('rescode', $search['rescode']);
+
+    if (!empty($search['honor'])) {
+      $this->db->where('honor >', 0);
+      $this->db->where('nickname !=', '1인우등');
+    }
+    if (!empty($search['vip'])) {
+      $this->db->where('vip', $search['vip']);
+    }
+    if (!empty($search['point'])) {
+      $this->db->where('point > 0');
+    }
+
+    return $this->db->get()->row_array(1);
+  }
+
+  // 예약 포인트
+  public function viewReservePoint($search)
+  {
+    $this->db->select('SUM(point) AS total')
+          ->from(DB_RESERVATION)
+          ->where('point > 0')
+          ->where('club_idx', $search['club_idx'])
+          ->where('rescode', $search['rescode']);
+
+    return $this->db->get()->row_array(1);
   }
 
   // 예약 정보 보기
@@ -147,10 +291,10 @@ class Admin_model extends CI_Model
   // 예약 정보 보기 : 종료시
   public function viewReserveClosed($rescode)
   {
-    $this->db->select('userid')
+    $this->db->select('userid, honor')
           ->from(DB_RESERVATION)
           ->where('rescode', $rescode)
-          ->where('userid !=', NULL)
+          ->where('userid !=', '')
           ->where('status', RESERVE_PAY)
           ->where('penalty', 0)
           ->group_by('userid');
@@ -172,7 +316,7 @@ class Admin_model extends CI_Model
   // 좌석 예약 확인
   public function checkReserve($idx, $bus, $seat)
   {
-    $this->db->select('idx, status')
+    $this->db->select('idx, userid, nickname, priority, status')
           ->from(DB_RESERVATION)
           ->where('rescode', $idx)
           ->where('bus', $bus)
@@ -211,7 +355,7 @@ class Admin_model extends CI_Model
           ->where('bus', $bus)
           ->where('loc', $location)
           ->where('manager !=', 1)
-          ->where('priority !=', 1)
+          ->where_not_in('nickname', array('1인우등', '2인우선'))
           ->order_by('seat', 'asc');
     return $this->db->get()->result_array();
   }
@@ -248,11 +392,10 @@ class Admin_model extends CI_Model
   }
 
   // 대기자 카운트
-  public function cntWait($clubIdx, $noticeIdx)
+  public function cntWait($noticeIdx)
   {
     $this->db->select('COUNT(created_at) as cnt')
           ->from(DB_WAIT)
-          ->where('club_idx', $clubIdx)
           ->where('notice_idx', $noticeIdx);
     return $this->db->get()->row_array(1);
   }
@@ -281,10 +424,34 @@ class Admin_model extends CI_Model
     return $this->db->delete(DB_WAIT);
   }
 
+  // 정산 보기
+  public function viewAdjust($rescode)
+  {
+    $this->db->select('*')
+          ->from(DB_ADJUST)
+          ->where('rescode', $rescode);
+    return $this->db->get()->row_array(1);
+  }
+
+  // 정산 등록
+  public function insertAdjust($data)
+  {
+    $this->db->insert(DB_ADJUST, $data);
+    return $this->db->insert_id();
+  }
+
+  // 정산 수정
+  public function updateAdjust($data, $rescode)
+  {
+    $this->db->set($data);
+    $this->db->where('rescode', $rescode);
+    return $this->db->update(DB_ADJUST);
+  }
+
   // 문자양식
   public function listSMS($rescode)
   {
-    $this->db->select('a.idx, a.nickname, a.bus AS nowbus, a.seat, a.loc, b.subject, b.bus, b.startdate, b.starttime, b.schedule, b.distance')
+    $this->db->select('a.idx, a.nickname, a.bus AS nowbus, a.seat, a.loc, b.subject, b.bus, b.bustype, b.startdate, b.starttime, b.schedule, b.distance')
           ->from(DB_RESERVATION . ' a')
           ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
           ->where('a.rescode', $rescode)
@@ -302,16 +469,21 @@ class Admin_model extends CI_Model
           ->where('quitdate', NULL)
           ->order_by('idx', 'desc');
 
-    if (!empty($search['realname'])) {
-      $this->db->like('realname', $search['realname']);
+    if (!empty($search['clubIdx'])) {
+      $this->db->where('club_idx', $search['clubIdx']);
     }
-    if (!empty($search['nickname'])) {
-      $this->db->like('nickname', $search['nickname']);
+    if (!empty($search['keyword'])) {
+      $this->db->group_start()
+                ->like('userid', $search['keyword'])
+                ->or_like('realname', $search['keyword'])
+                ->or_like('nickname', $search['keyword'])
+                ->or_like('phone', $search['keyword'])
+                ->group_end();
     }
     if (!empty($search['resMin'])) {
-      $this->db->where('(rescount - penalty) >=', $search['resMin']);
-      $this->db->where('admin', 0);
-      $this->db->where('level', 0);
+      $this->db->where('(rescount - penalty) >=', $search['resMin'])
+              ->where('admin', 0)
+              ->where('level', 0);
     }
     if (!empty($search['resMax'])) {
       $this->db->where('(rescount - penalty) <=', $search['resMax']);
@@ -343,7 +515,7 @@ class Admin_model extends CI_Model
       $this->db->where('userid', $search['userid']);
     }
     if (!empty($search['nickname'])) {
-      $this->db->like('nickname', $search['nickname']);
+      $this->db->where('nickname', $search['nickname']);
     }
 
     return $this->db->get()->row_array(1);
@@ -458,8 +630,12 @@ class Admin_model extends CI_Model
   {
     $this->db->select('*')
           ->from(DB_HISTORY)
+          ->where('status', $search['status'])
           ->order_by('idx', 'desc');
 
+    if (!empty($search['clubIdx'])) {
+      $this->db->where('club_idx', $search['clubIdx']);
+    }
     if (!empty($search['action'])) {
       $this->db->where_in('action', $search['action']);
     }
@@ -472,23 +648,115 @@ class Admin_model extends CI_Model
     if (!is_null($paging)) {
       $this->db->limit($paging['perPage'], $paging['nowPage']);
     }
+    if (!empty($search['refund'])) {
+      $this->db->where('userid', '');
+    }
 
     return $this->db->get()->result_array();
   }
 
+  // 활동관리 - 회원 예약 기록 카운트
+  public function cntHistory($search=NULL)
+  {
+    $this->db->select('COUNT(*) AS cnt')
+          ->from(DB_HISTORY)
+          ->where('status', $search['status']);
+
+    if (!empty($search['clubIdx'])) {
+      $this->db->where('club_idx', $search['clubIdx']);
+    }
+    if (!empty($search['action'])) {
+      $this->db->where_in('action', $search['action']);
+    }
+    if (!empty($search['subject'])) {
+      $this->db->like('subject', $search['subject']);
+    }
+    if (!empty($search['nickname'])) {
+      $this->db->like('nickname', $search['nickname']);
+    }
+    if (!empty($search['refund'])) {
+      $this->db->where('userid', '');
+    }
+
+    return $this->db->get()->row_array(1);
+  }
+
+  // 활동관리 - 기록 상세 보기
+  public function viewHistory($idx)
+  {
+    $this->db->select('*')
+          ->from(DB_HISTORY)
+          ->where('idx', $idx);
+    return $this->db->get()->row_array(1);
+  }
+
+  // 활동관리 - 확인 체크
+  public function updateHistory($data, $idx)
+  {
+    $this->db->set($data);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_HISTORY);
+  }
+
+  // 활동관리 - 내역 삭제
+  public function deleteHistory($idx)
+  {
+    $this->db->where('idx', $idx);
+    return $this->db->delete(DB_HISTORY);
+  }
+
+  // 활동관리 - 댓글 기록 카운트
+  public function cntReply($clubIdx, $rescode=NULL)
+  {
+    $this->db->select('COUNT(*) AS cnt')
+          ->from(DB_STORY_REPLY . ' a')
+          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
+          ->where('a.club_idx', $clubIdx)
+          ->where('a.deleted_at', NULL)
+          ->order_by('a.idx', 'desc');
+
+    if (!is_null($rescode)) {
+      $this->db->where('reply_type', REPLY_TYPE_NOTICE);
+      $this->db->where('story_idx', $rescode);
+    }
+
+    return $this->db->get()->row_array(1);
+  }
+
   // 활동관리 - 댓글 기록
-  public function listReply()
+  public function listReply($clubIdx, $paging=NULL, $rescode=NULL)
   {
     $this->db->select('a.idx, a.club_idx, a.story_idx, a.reply_type, a.content, a.created_by, a.created_at, b.nickname')
           ->from(DB_STORY_REPLY . ' a')
           ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
-          ->where('deleted_at', NULL)
+          ->where('a.club_idx', $clubIdx)
+          ->where('a.visible', 'Y')
+          ->where('a.deleted_at', NULL)
           ->order_by('a.idx', 'desc');
+
+    if (!is_null($rescode)) {
+      $this->db->where('reply_type', REPLY_TYPE_NOTICE);
+      $this->db->where('story_idx', $rescode);
+    }
+    if (!is_null($paging)) {
+      $this->db->limit($paging['perPage'], $paging['nowPage']);
+    }
+
     return $this->db->get()->result_array();
   }
 
+  // 활동관리 - 댓글 정보
+  public function viewReply($idx)
+  {
+    $this->db->select('*')
+          ->from(DB_STORY_REPLY)
+          ->where('idx', $idx);
+
+    return $this->db->get()->row_array(1);
+  }
+
   // 활동관리 - 댓글 수정/삭제
-  public function deleteReply($data, $idx)
+  public function updateReply($data, $idx)
   {
     $this->db->set($data);
     $this->db->where('idx', $idx);
@@ -521,11 +789,14 @@ class Admin_model extends CI_Model
           ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
           ->order_by('a.created_at', 'desc');
 
-    if (!empty($search['nowDate'])) {
-      $this->db->where('FROM_UNIXTIME(created_at, "%Y%m%d") =', $search['nowDate']);
+    if (!empty($search['nowdate'])) {
+      $this->db->where('FROM_UNIXTIME(a.created_at, "%Y%m%d") =', $search['nowdate']);
     }
-    if (!empty($search['keyWord'])) {
-      $this->db->where($search['keyWord'] . ' !=', NULL);
+    if (!empty($search['keyword'])) {
+      $this->db->where($search['keyword'] . ' !=', NULL);
+    }
+    if (!empty($search['clubIdx'])) {
+      $this->db->where('a.club_idx', $search['clubIdx']);
     }
           
     return $this->db->get()->result_array();
@@ -573,17 +844,17 @@ class Admin_model extends CI_Model
   // 설정 - 차종 목록
   public function listBustype()
   {
-    $this->db->select('a.idx, a.bus_name, a.bus_owner, a.created_at, b.name AS bus_seat_name')
+    $this->db->select('a.*, b.name AS bus_seat_name')
           ->from(DB_BUSTYPE . ' a')
           ->join(DB_BUSDATA . ' b', 'a.bus_seat=b.idx')
-          ->order_by('idx', 'asc');
+          ->order_by('sort', 'asc');
     return $this->db->get()->result_array();
   }
 
   // 설정 - 차종 정보
   public function getBustype($idx)
   {
-    $this->db->select('a.idx, a.bus_name, a.bus_owner, a.bus_seat, b.seat, b.direction')
+    $this->db->select('a.*, b.seat, b.direction')
           ->from(DB_BUSTYPE . ' a')
           ->join(DB_BUSDATA . ' b', 'a.bus_seat=b.idx', 'left')
           ->where('a.idx', $idx);

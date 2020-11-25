@@ -2,7 +2,7 @@
 
       <div class="club-main">
         <div class="memberForm">
-          <form id="entryForm" method="post" action="<?=base_url()?>member/update">
+          <form id="entryForm" method="post" action="/member/update">
           <input type="hidden" name="page" value="member">
             <h2>개인정보수정</h2>
             <dl class="pt-2 pb-2">
@@ -110,7 +110,7 @@
             <div class="modal-footer">
               <button type="button" class="btn btn-primary btn-quit">탈퇴합니다</button>
               <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
-              <a href="<?=base_url()?><?=$view['idx']?>"><button type="button" class="btn btn-primary btn-top d-none">메인 화면으로</button></a>
+              <a href="<?=BASE_URL?>"><button type="button" class="btn btn-primary btn-top d-none">메인 화면으로</button></a>
             </div>
           </div>
         </div>

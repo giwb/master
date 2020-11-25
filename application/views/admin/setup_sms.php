@@ -1,12 +1,8 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-    <div id="content-wrapper" class="d-flex flex-column">
-      <div id="content">
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-          <h1 class="h3 mb-0 text-gray-800">문자양식</h1>
-        </div>
-
-        ** 경인웰빙 산행안내 **<br><br>
+        <div id="content" class="mb-5">
+          <div class="p-4">
+            ** 경인웰빙 산행안내 **<br><br>
 <?php
   $str = '';
   foreach ($list as $value):
@@ -45,18 +41,19 @@
 
   echo nl2br($str);
 ?>
-        <button class="btn btn-secondary btn-copy mb-5" data-trigger="click" data-placement="top" data-clipboard-text="<?=$str?>">복사하기</button>
-      </div>
+            <button class="btn btn-secondary btn-copy mb-5" data-trigger="click" data-placement="top" data-clipboard-text="<?=$str?>">복사하기</button>
+          </div>
+        </div>
 
-      <script src="<?=base_url()?>public/js/clipboard.min.js" type="text/javascript"></script>
-      <script type="text/javascript">
-        $(document).ready(function() {
-          new ClipboardJS('.btn-copy');
+        <script src="/public/js/clipboard.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+          $(document).ready(function() {
+            new ClipboardJS('.btn-copy');
 
-          $('.btn-copy').click(function() {
-            var $dom = $(this);
-            $dom.css('color', '#000').css('background', '#fff').text('복사했습니다!');
-            setTimeout(function() { $dom.css('color', '#fff').css('background', '#717384').text('복사하기'); }, 2000);
+            $('.btn-copy').click(function() {
+              var $dom = $(this);
+              $dom.css('color', '#000').css('background', '#fff').text('복사했습니다!');
+              setTimeout(function() { $dom.css('color', '#fff').css('background', '#717384').text('복사하기'); }, 2000);
+            });
           });
-        });
-      </script>
+        </script>

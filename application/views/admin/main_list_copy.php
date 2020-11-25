@@ -1,53 +1,56 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+if ($_SERVER['SERVER_PORT'] == '80') $header = 'http://'; else $header = 'https://';
+$URL = $header . $_SERVER['HTTP_HOST'];
+?>
 <!DOCTYPE html5>
 <html lang="ko">
 <head>
   <meta charset="utf-8">
   <title>경인웰빙산악회</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 
   <meta property="og:title" content="경인웰빙" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://giwb.kr/" />
-  <meta property="og:image" content="<?=base_url()?>public/images/logo.png" />
+  <meta property="og:url" content="<?=$URL?>" />
+  <meta property="og:image" content="<?=$URL?>/public/images/logo.png" />
   <meta property="og:description" content="인천과 부천 지역을 기반으로 토요산행과 일요산행을 매주 운행하는 안내산악회입니다. 차내 음주가무 없으며 초보자도 함께할 수 있도록 여유롭게 산행을 진행합니다.">
   <meta name="description" content="인천과 부천 지역을 기반으로 토요산행과 일요산행을 매주 운행하는 안내산악회입니다. 차내 음주가무 없으며 초보자도 함께할 수 있도록 여유롭게 산행을 진행합니다.">
 
-  <link rel="icon" type="image/png" href="<?=base_url()?>public/images/favicon.png">
-  <link rel="shortcut icon" type="image/png" href="<?=base_url()?>public/images/favicon.png">
-  <link rel="apple-touch-icon" sizes="76x76" href="<?=base_url()?>public/images/apple-touch-icon-76x76.png">
-  <link rel="apple-touch-icon" sizes="120x120" href="<?=base_url()?>public/images/apple-touch-icon-120x120.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="<?=base_url()?>public/images/apple-touch-icon-152x152.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="<?=base_url()?>public/images/apple-touch-icon-180x180.png">
-  <link rel="apple-touch-icon" sizes="256x256" href="<?=base_url()?>public/images/apple-touch-icon-256x256.png">
+  <link rel="icon" type="image/png" href="<?=$URL?>/public/images/favicon.png">
+  <link rel="shortcut icon" type="image/png" href="<?=$URL?>/public/images/favicon.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="<?=$URL?>/public/images/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="<?=$URL?>/public/images/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="<?=$URL?>/public/images/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="<?=$URL?>/public/images/apple-touch-icon-180x180.png">
+  <link rel="apple-touch-icon" sizes="256x256" href="<?=$URL?>/public/images/apple-touch-icon-256x256.png">
 
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-  <link href="<?=base_url()?>public/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="<?=base_url()?>public/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  <link href="<?=base_url()?>public/lib/animate/animate.min.css" rel="stylesheet">
-  <link href="<?=base_url()?>public/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
-  <link href="<?=base_url()?>public/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-  <link href="<?=base_url()?>public/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
-  <link href="<?=base_url()?>public/css/fullcalendar.css" rel="stylesheet">
+  <link href="<?=$URL?>/public/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="<?=$URL?>/public/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="<?=$URL?>/public/lib/animate/animate.min.css" rel="stylesheet">
+  <link href="<?=$URL?>/public/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+  <link href="<?=$URL?>/public/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="<?=$URL?>/public/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+  <link href="<?=$URL?>/public/css/fullcalendar.css" rel="stylesheet">
   
-  <script src="<?=base_url()?>public/js/jquery-2.1.4.min.js" type="text/javascript"></script>
-  <script src="<?=base_url()?>public/js/jquery-ui.custom.min.js" type="text/javascript"></script>
+  <script src="<?=$URL?>/public/js/jquery-2.1.4.min.js" type="text/javascript"></script>
+  <script src="<?=$URL?>/public/js/jquery-ui.custom.min.js" type="text/javascript"></script>
 
-  <script src="<?=base_url()?>public/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="<?=base_url()?>public/lib/superfish/hoverIntent.js"></script>
-  <script src="<?=base_url()?>public/lib/superfish/superfish.min.js"></script>
-  <script src="<?=base_url()?>public/lib/wow/wow.min.js"></script>
-  <script src="<?=base_url()?>public/lib/waypoints/waypoints.min.js"></script>
-  <script src="<?=base_url()?>public/lib/counterup/counterup.min.js"></script>
-  <script src="<?=base_url()?>public/lib/owlcarousel/owl.carousel.min.js"></script>
-  <script src="<?=base_url()?>public/lib/isotope/isotope.pkgd.min.js"></script>
-  <script src="<?=base_url()?>public/lib/lightbox/js/lightbox.min.js"></script>
-  <script src="<?=base_url()?>public/lib/touchSwipe/jquery.touchSwipe.min.js"></script>
-  <script src="<?=base_url()?>public/ckeditor/ckeditor.js" type="text/javascript" charset="utf-8"></script>
+  <script src="<?=$URL?>/public/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="<?=$URL?>/public/lib/superfish/hoverIntent.js"></script>
+  <script src="<?=$URL?>/public/lib/superfish/superfish.min.js"></script>
+  <script src="<?=$URL?>/public/lib/wow/wow.min.js"></script>
+  <script src="<?=$URL?>/public/lib/waypoints/waypoints.min.js"></script>
+  <script src="<?=$URL?>/public/lib/counterup/counterup.min.js"></script>
+  <script src="<?=$URL?>/public/lib/owlcarousel/owl.carousel.min.js"></script>
+  <script src="<?=$URL?>/public/lib/isotope/isotope.pkgd.min.js"></script>
+  <script src="<?=$URL?>/public/lib/lightbox/js/lightbox.min.js"></script>
+  <script src="<?=$URL?>/public/lib/touchSwipe/jquery.touchSwipe.min.js"></script>
+  <script src="<?=$URL?>/public/ckeditor/ckeditor.js" type="text/javascript" charset="utf-8"></script>
 
-  <script src="<?=base_url()?>public/js/fullcalendar.js" type="text/javascript"></script>
-  <script src="<?=base_url()?>public/js/main.js?<?=time()?>"></script>
+  <script src="<?=$URL?>/public/js/fullcalendar.js" type="text/javascript"></script>
+  <script src="<?=$URL?>/public/js/main.js?<?=time()?>"></script>
 
   <style>
     body { font-size: 14px; font-family: "맑은 고딕"; }
@@ -105,7 +108,7 @@
         <?php
             else:
               if ($value['status'] >= 1):
-                $url = base_url() . 'reserve/' . '?n=' . $value['idx'];
+                $url = $URL . '/reserve/list/' . $value['idx'];
               else:
                 $url = 'javascript:;';
               endif;
@@ -127,18 +130,20 @@
   });
 </script>
 
-<div id="club" class="m-auto" style="width: 750px;">
+<div class="m-auto" style="width: 750px;">
   <div id="calendar"></div>
-
+</div>
+<div id="club" class="m-auto" style="width: 750px;">
   <div class="text-left">
     ■ <strong>현재 예약 진행중인 산행 내역</strong> <small>(<?=date('Y-m-d H:i:s')?> Updated!)</small>
     <hr style="margin: 10px 0;">
   </div>
-  <?php foreach ($listNotice as $value): ?>
+  <?php foreach ($listNotice as $value): if ($value['status'] >= STATUS_ABLE && $value['status'] <= STATUS_CONFIRM): ?>
   <div style="font-size: 14px;">
-    <strong><?=viewStatus($value['status'])?></strong> <a target="_blank" href="<?=base_url()?>reserve/?n=<?=$value['idx']?>"><strong><?=$value['subject']?></strong></a><br><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원<hr style="margin: 9px 0 10px 0;">
+    <strong><?=viewStatus($value['status'])?></strong> <a target="_blank" href="<?=$URL?>/reserve/list/<?=$value['idx']?>"><strong><?=$value['subject']?></strong></a><br>
+    <span class="small">일시 : <?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / 참가비용 : <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / 예약인원 : <?=cntRes($value['idx'])?>명</span><hr style="margin: 9px 0 10px 0;">
   </div>
-  <?php endforeach; ?>
+  <?php endif; endforeach; ?>
 </div><br><br>
 
 </body>

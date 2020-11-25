@@ -11,13 +11,11 @@ class Member_model extends CI_Model
   }
 
   // 로그인 확인
-  public function checkLogin($clubIdx, $userid, $password)
+  public function checkLogin($userid)
   {
-    $this->db->select('idx, club_idx, userid, nickname, realname, gender, birthday, birthday_type, phone, rescount, point, penalty, level, admin, connect')
+    $this->db->select('idx, club_idx, userid, password, nickname, realname, gender, birthday, birthday_type, phone, rescount, point, penalty, level, admin, connect')
           ->from(DB_MEMBER)
           ->where('userid', $userid)
-          ->where('password', $password)
-          ->where('club_idx', $clubIdx)
           ->where('quitdate', NULL);
     return $this->db->get()->row_array(1);
   }
@@ -41,23 +39,21 @@ class Member_model extends CI_Model
   }
 
   // 아이디 중복 확인
-  public function checkUserid($clubIdx, $userid)
+  public function checkUserid($userid)
   {
     $this->db->select('*')
           ->from(DB_MEMBER)
-          ->where('club_idx', $clubIdx)
           ->where('userid', $userid);
     return $this->db->get()->row_array(1);
   }
 
   // 닉네임 중복 확인
-  public function checkNickname($clubIdx, $userid, $nickname)
+  public function checkNickname($userid, $nickname)
   {
     $this->db->select('idx')
           ->from(DB_MEMBER)
           ->where('userid !=', $userid)
-          ->where('nickname', $nickname)
-          ->where('club_idx', $clubIdx);
+          ->where('nickname', $nickname);
     return $this->db->get()->row_array(1);
   }
 
@@ -88,11 +84,10 @@ class Member_model extends CI_Model
   }
 
   // 회원 정보
-  public function viewMember($clubIdx, $userIdx)
+  public function viewMember($userIdx)
   {
     $this->db->select('*')
           ->from(DB_MEMBER)
-          ->where('club_idx', $clubIdx)
           ->where('idx', $userIdx)
           ->where('quitdate', NULL);
     return $this->db->get()->row_array(1);
@@ -106,10 +101,9 @@ class Member_model extends CI_Model
   }
 
   // 개인정보 수정
-  public function updateMember($data, $clubIdx, $userIdx)
+  public function updateMember($data, $userIdx)
   {
     $this->db->set($data);
-    $this->db->where('club_idx', $clubIdx);
     $this->db->where('idx', $userIdx);
     return $this->db->update(DB_MEMBER);
   }
@@ -122,46 +116,77 @@ class Member_model extends CI_Model
   }
 
   // 사용자 포인트 기록
-  public function userPointLog($clubIdx, $userId)
+  public function userPointLog($clubIdx, $userId, $paging=NULL)
   {
     $this->db->select('*')
           ->from(DB_HISTORY)
           ->where('club_idx', $clubIdx)
           ->where('userid', $userId)
           ->where_in('action', array(LOG_POINTUP, LOG_POINTDN))
-          ->order_by('regdate', 'desc')
-          ->limit(5);
+          ->order_by('regdate', 'desc');
+
+    if (!empty($paging)) {
+      $this->db->limit($paging['perPage'], $paging['nowPage']);
+    } else {
+      $this->db->limit(5);
+    }
+
     return $this->db->get()->result_array();
   }
 
+  // 사용자 포인트 카운트
+  public function maxPointLog($clubIdx, $userId)
+  {
+    $this->db->select('COUNT(*) AS cnt')
+          ->from(DB_HISTORY)
+          ->where('club_idx', $clubIdx)
+          ->where('userid', $userId)
+          ->where_in('action', array(LOG_POINTUP, LOG_POINTDN));
+    return $this->db->get()->row_array(1);
+  }
+
   // 사용자 페널티 기록
-  public function userPenaltyLog($clubIdx, $userId)
+  public function userPenaltyLog($clubIdx, $userId, $paging=NULL)
   {
     $this->db->select('*')
           ->from(DB_HISTORY)
           ->where('club_idx', $clubIdx)
           ->where('userid', $userId)
           ->where_in('action', array(LOG_PENALTYUP, LOG_PENALTYDN))
-          ->order_by('regdate', 'desc')
-          ->limit(5);
+          ->order_by('regdate', 'desc');
+
+    if (!empty($paging)) {
+      $this->db->limit($paging['perPage'], $paging['nowPage']);
+    } else {
+      $this->db->limit(5);
+    }
+
     return $this->db->get()->result_array();
   }
 
+  // 사용자 페널티 카운트
+  public function maxPenaltyLog($userid)
+  {
+    $this->db->select('COUNT(*) AS cnt')
+          ->from(DB_HISTORY)
+          ->where('userid', $userid)
+          ->where_in('action', array(LOG_PENALTYUP, LOG_PENALTYDN));
+    return $this->db->get()->row_array(1);
+  }
+
   // 포인트 수정
-  public function updatePoint($clubIdx, $userId, $point)
+  public function updatePoint($userid, $point)
   {
     $this->db->set('point', $point);
-    $this->db->where('club_idx', $clubIdx);
-    $this->db->where('userid', $userId);
+    $this->db->where('userid', $userid);
     $this->db->update(DB_MEMBER);
   }
 
   // 페널티 수정
-  public function updatePenalty($clubIdx, $userId, $penalty)
+  public function updatePenalty($userid, $penalty)
   {
     $this->db->set('penalty', $penalty);
-    $this->db->where('club_idx', $clubIdx);
-    $this->db->where('userid', $userId);
+    $this->db->where('userid', $userid);
     $this->db->update(DB_MEMBER);
   }
 
@@ -235,6 +260,17 @@ class Member_model extends CI_Model
     $this->db->set($data);
     $this->db->where('idx', $idx);
     return $this->db->update(DB_VISITOR);
+  }
+
+  // OAuth User Check
+  public function checkOAuthUser($provider, $email)
+  {
+    $this->db->select('*')
+          ->from(DB_MEMBER)
+          ->where('provider', $provider)
+          ->where('email', $email)
+          ->where('quitdate', NULL);
+    return $this->db->get()->row_array(1);
   }
 }
 ?>

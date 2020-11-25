@@ -8,26 +8,44 @@ class MY_Controller extends CI_Controller
     parent::__construct();
     $this->load->helper(array('cookie', 'security', 'url', 'my_array_helper'));
     $this->load->library('session');
-    $this->load->model('member_model');
+    $this->load->model(array('club_model', 'member_model'));
 
-    // 클럽 설정
-    $loginData['clubIdx'] = 1; // 최초는 경인웰빙
+    // 클럽 도메인 설정
+    if ($_SERVER['SERVER_PORT'] == '80') $header = 'http://'; else $header = 'https://';
+
     if (!empty($_SERVER['REDIRECT_URL'])) {
-      $arrUrl = explode('/', $_SERVER['REDIRECT_URL']);
-      $clubIdx = array_pop($arrUrl);
+      $arrUri = explode('/', $_SERVER['REDIRECT_URL']);
+      $uri = html_escape($arrUri[1]);
 
-      if (is_numeric($clubIdx)) {
-        $loginData['clubIdx'] = html_escape($clubIdx);
+      if (empty($uri) || $uri == 'login' || $uri == 'place' || $uri == 'club') {
+        define('BASE_URL', $header . $_SERVER['HTTP_HOST']);
+      } else {
+        $result = $this->club_model->getDomain($_SERVER['HTTP_HOST']);
+        if (empty($result)) {
+          define('BASE_URL', $header . $_SERVER['HTTP_HOST'] . '/' . $uri);
+        } else {
+          define('BASE_URL', $header . $_SERVER['HTTP_HOST']);
+        }
       }
+    } else {
+      define('BASE_URL', $header . $_SERVER['HTTP_HOST']);
     }
 
     // 회원 로그인 설정
     if (!empty($this->session->userData['idx'])) {
-      $loginData['userData'] = $this->member_model->viewMember($loginData['clubIdx'], html_escape($this->session->userData['idx']));
+      $loginData['userData'] = $this->member_model->viewMember(html_escape($this->session->userData['idx']));
       $loginData['userLevel'] = memberLevel($loginData['userData']['rescount'], $loginData['userData']['penalty'], $loginData['userData']['level'], $loginData['userData']['admin']);
+
+      if (!empty($loginData['userData']['icon'])) {
+        $loginData['userData']['icon'] = $loginData['userData']['icon_thumbnail'];
+      } else {
+        $loginData['userData']['icon'] = base_url() . PHOTO_URL . $loginData['userData']['idx'];
+      }
     }
 
-    $this->load->vars($loginData);
+    if (!empty($loginData)) {
+      $this->load->vars($loginData);
+    }
   }
 }
 
@@ -38,17 +56,48 @@ class Admin_Controller extends CI_Controller
     parent::__construct();
     $this->load->helper(array('cookie', 'security', 'url', 'my_array_helper'));
     $this->load->library('session');
-    $this->load->model('member_model');
+    $this->load->model(array('club_model', 'member_model'));
+
+    // 클럽 도메인 설정
+    if ($_SERVER['SERVER_PORT'] == '80') $header = 'http://'; else $header = 'https://';
+    if (!empty($_SERVER['REDIRECT_URL'])) {
+      $arrUri = explode('/', $_SERVER['REDIRECT_URL']);
+      $uri = html_escape($arrUri[1]);
+      if (empty($uri)) {
+        define('BASE_URL', $header . $_SERVER['HTTP_HOST']);
+      } else {
+        $result = $this->club_model->getDomain($_SERVER['HTTP_HOST']);
+        if (empty($result)) {
+          define('BASE_URL', $header . $_SERVER['HTTP_HOST'] . '/' . $uri);
+        } else {
+          define('BASE_URL', $header . $_SERVER['HTTP_HOST']);
+        }
+      }
+    } else {
+      define('BASE_URL', $header . $_SERVER['HTTP_HOST']);
+    }
+
+    // 회원 로그인 설정
+    if (!empty($this->session->userData['idx'])) {
+      $loginData['userData'] = $this->member_model->viewMember(html_escape($this->session->userData['idx']));
+      $loginData['userLevel'] = memberLevel($loginData['userData']['rescount'], $loginData['userData']['penalty'], $loginData['userData']['level'], $loginData['userData']['admin']);
+
+      if (!empty($loginData['userData']['icon'])) {
+        $loginData['userData']['icon'] = $loginData['userData']['icon_thumbnail'];
+      } else {
+        $loginData['userData']['icon'] = base_url() . PHOTO_URL . $loginData['userData']['idx'];
+      }
+    }
 
     $clubIdx = html_escape($this->session->userData['club_idx']);
     $userIdx = html_escape($this->session->userData['idx']);
     $adminCheck = html_escape($this->session->userData['admin']);
 
     // 모든 페이지에 로그인 체크
-    if (!empty($adminCheck) && ($clubIdx == 1 && $adminCheck == 1)) {
-      $loginData['userData'] = $this->member_model->viewMember($clubIdx, $userIdx);
+    if (!empty($adminCheck)) {
+      $loginData['userData'] = $this->member_model->viewMember($userIdx);
     } else {
-      redirect(base_url() . 'login/?r=/admin');
+      redirect(BASE_URL . '/login/?r=' . BASE_URL . '/admin');
     }
 
     $this->load->vars($loginData);

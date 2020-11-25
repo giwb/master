@@ -16,9 +16,9 @@ if (!function_exists('reset_html_escape')) {
 
 // serialize
 if (!function_exists('make_serialize')) {
-  function make_serialize($data) {
+  function make_serialize($data, $blank=FALSE) {
     foreach ($data as $value) {
-      if ($value != '') {
+      if ($value != '' && $blank == FALSE) {
         $result[] = $value;
       }
     }
@@ -31,36 +31,135 @@ if (!function_exists('make_serialize')) {
   }
 }
 
+// substr
+if (!function_exists('ksubstr'))
+{
+  function ksubstr($str, $n=500, $end='...')
+  {
+    $CI =& get_instance();
+    $charset = $CI->config->item('charset');
+     
+    if ( mb_strlen( $str , $charset) < $n ) {
+      return $str ;
+    }
+   
+    $str = preg_replace( "/\s+/iu", ' ', str_replace( array( "\r\n", "\r", "\n" ), ' ', $str ) );
+   
+    if ( mb_strlen( $str , $charset) <= $n ) {
+      return $str;
+    }
+    return mb_substr(trim($str), 0, $n ,$charset) . $end;
+  }
+}
+
+// 여행 포인트
+if (!function_exists('getPoint')) {
+  function getPoint($point) {
+    $result = '';
+    $arr = unserialize($point);
+
+    if ($arr != '') {
+      foreach ($arr as $value) {
+        if ($result != '') $result .= ' / ';
+        switch ($value) {
+          case 'point1':
+            $result .= '문화재';
+          break;
+          case 'point2':
+            $result .= '천연기념물';
+          break;
+          case 'point3':
+            $result .= '보물';
+          break;
+        }
+      }
+    }
+    return $result;
+  }
+}
+
+// 해발
+if (!function_exists('getHeight'))
+{
+  function getHeight($n, $d = 1)
+  {
+    if (!empty($n)) {
+      $result = number_format($n, $d);
+      $result = rtrim($result, 0);
+      $result = rtrim($result, '.');
+      $result = '해발 ' . $result . 'm<br>';
+    } else {
+      $result = '해발 0m<br>';
+    }
+    return $result;
+  }
+}
+
+// 지역
+if (!function_exists('getAreaName')) {
+  function getAreaName($sido, $gugun, $limit=NULL) {
+    $result = NULL;
+    if ($sido != '' || $gugun != '') {
+      $result = '';
+      $arr_sido = unserialize($sido);
+      $arr_gugun = unserialize($gugun);
+
+      foreach ($arr_sido as $key => $value) {
+        if ($key >= 1) $result .= ', ';
+        $sido = $GLOBALS['CI']->area_model->getName($value);
+        $gugun = $GLOBALS['CI']->area_model->getName($arr_gugun[$key]);
+        $result .= $sido['name'] . ' ' . $gugun['name'];
+        if (!is_null($limit)) break;
+      }
+    }
+    return $result;
+  }
+}
+
+// 클럽 홈 URL
+if (!function_exists('goHome')) {
+  function goHome($domain) {
+    if (strstr($domain, '.')) {
+      $result = 'http://' . $domain;
+    } else {
+      $result = base_url() . $domain;
+    }
+    return $result;
+  }
+}
+
 // 방문자 기록
 if (!function_exists('setVisitor')) {
   function setVisitor() {
     $CI =& get_instance();
-    $clubIdx = $CI->load->get_var('clubIdx');
-    $userData = $CI->load->get_var('userData');
-    $ipAddress = $_SERVER['REMOTE_ADDR'];
+    if (!empty($_COOKIE['COOKIE_CLUBIDX'])) {
+      $clubIdx = $_COOKIE['COOKIE_CLUBIDX'];
+      $userData = $CI->load->get_var('userData');
+      $ipAddress = $_SERVER['REMOTE_ADDR'];
 
-    if (!empty($clubIdx)) {
-      $visitor = $GLOBALS['CI']->member_model->viewVisitor($clubIdx, NULL, $ipAddress);
+      if (!empty($clubIdx)) {
+        $visitor = $GLOBALS['CI']->member_model->viewVisitor($clubIdx, NULL, $ipAddress);
 
-      // 최근 30분 이내 접속했다면 동일 접속으로 취급
-      $limitTime = time() - (60 * 30);
+        // 최근 30분 이내 접속했다면 동일 접속으로 취급
+        $limitTime = time() - (60 * 30);
 
-      if ($visitor['ip_address'] == $ipAddress && empty($visitor['created_by']) && !empty($userData['idx'])) {
-        // 직전 접속한 같은 IP의 사람이 로그인 했다면 닉네임으로 변경
-        $updateValues = array(
-          'created_by' => $userData['idx']
-        );
-        $GLOBALS['CI']->member_model->updateVisitor($updateValues, $visitor['idx']);
-      } elseif ($visitor['created_at'] <= $limitTime) {
-        $insertValues = array(
-          'club_idx'      => $clubIdx,
-          'ip_address'    => $ipAddress,
-          'user_agent'    => $_SERVER['HTTP_USER_AGENT'],
-          'http_referer'  => !empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : NULL,
-          'created_by'    => $userData['idx'],
-          'created_at'    => time()
-        );
-        $GLOBALS['CI']->member_model->insertVisitor($insertValues);
+        if ($visitor['ip_address'] == $ipAddress && empty($visitor['created_by']) && !empty($userData['idx'])) {
+          // 직전 접속한 같은 IP의 사람이 로그인 했다면 닉네임으로 변경
+          $updateValues = array(
+            'created_by' => $userData['idx']
+          );
+          $GLOBALS['CI']->member_model->updateVisitor($updateValues, $visitor['idx']);
+        } elseif ($visitor['created_at'] <= $limitTime) {
+          $insertValues = array(
+            'club_idx'      => $clubIdx,
+            'ip_address'    => $ipAddress,
+            'user_agent'    => $_SERVER['HTTP_USER_AGENT'],
+            'http_referer'  => !empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : NULL,
+            'created_by'    => $userData['idx'],
+            'created_at'    => time()
+          );
+          $GLOBALS['CI']->member_model->insertVisitor($insertValues);
+        }
       }
     }
   }
@@ -70,21 +169,21 @@ if (!function_exists('setVisitor')) {
 if (!function_exists('checkUserLogin')) {
   function checkUserLogin() {
     $CI =& get_instance();
-    $clubIdx = $CI->load->get_var('clubIdx');
+    $clubIdx = $_COOKIE['COOKIE_CLUBIDX'];
     $userData = $CI->load->get_var('userData');
     if (empty($userData['idx'])) {
-      redirect(base_url() . 'login/' . $clubIdx . '?r=' . $_SERVER['REQUEST_URI']);
+      redirect(BASE_URL . '/login/?r=' . $_SERVER['REQUEST_URI']);
     }
   }
 }
 
 // 로그인이 필요없는 페이지에 로그인 했을 경우 메인 페이지로 되돌리기
 if (!function_exists('checkUserLoginRedirect')) {
-  function checkUserLoginRedirect($clubIdx) {
+  function checkUserLoginRedirect($redirectUrl=NULL) {
     $CI =& get_instance();
     $idx = $CI->session->userData['idx'];
-    if (!empty($clubIdx) && !empty($idx)) {
-      redirect(base_url() . $clubIdx);
+    if (!empty($idx)) {
+      redirect(!empty($redirectUrl) ? $redirectUrl : BASE_URL);
     }
   }
 }
@@ -93,10 +192,10 @@ if (!function_exists('checkUserLoginRedirect')) {
 if (!function_exists('checkAdminLogin')) {
   function checkAdminLogin() {
     $CI =& get_instance();
-    $clubIdx = $CI->load->get_var('clubIdx');
+    $clubIdx = $_COOKIE['COOKIE_CLUBIDX'];
     $userData = $CI->load->get_var('userData');
     if (empty($userData['idx']) || empty($userData['admin']) || $clubIdx != $userData['club_idx']) {
-      redirect(base_url() . 'login/' . $clubIdx . '?r=' . $_SERVER['REQUEST_URI']);
+      redirect(BASE_URL . '/login/?r=' . $_SERVER['REQUEST_URI']);
     }
   }
 }
@@ -155,8 +254,16 @@ if (!function_exists('calcDate')) {
 // 산행 예약자 카운트
 if (!function_exists('cntRes')) {
   function cntRes($resCode, $bus=NULL) {
-    $result = $GLOBALS['CI']->admin_model->cntReservation($resCode, $bus);
-    return $result['CNT'];
+    $cnt1 = $GLOBALS['CI']->admin_model->cntReservation($resCode, $bus);
+    $cnt2 = $GLOBALS['CI']->admin_model->cntReservationHonor($resCode, $bus);
+
+    if ($cnt2 > 0) {
+      $result = $cnt1['CNT'] - ($cnt2['CNT'] / 2);
+    } else {
+      $result = $cnt1['CNT'];
+    }
+
+    return $result;
   }
 }
 
@@ -189,7 +296,12 @@ if (!function_exists('calcTerm')) {
           $result = ($dTerm - 1) . '박 ' . $dTerm . '일';
         } else {
           // 22시 이후 출발은 1일 무박
-          $result = '1무 ' . ($dTerm - 2) . '박 ' . $dTerm . '일';
+          $sleepDay = $dTerm - 2;
+          if ($sleepDay == 0) {
+            $result = '무박';
+          } else {
+            $result = '1무 ' . ($sleepDay) . '박 ' . $dTerm . '일';
+          }
         }
       }
     }
@@ -234,7 +346,7 @@ if (!function_exists('calcEndDate')) {
   }
 }
 
-// 거리, 산행분담금
+// 거리, 요금
 if (!function_exists('calcSchedule')) {
   function calcSchedule($schedule) {
     switch ($schedule) {
@@ -252,7 +364,7 @@ if (!function_exists('calcSchedule')) {
   }
 }
 
-// 거리, 산행분담금
+// 거리, 요금
 if (!function_exists('calcDistance')) {
   function calcDistance($distance) {
     /*
@@ -349,6 +461,31 @@ if (!function_exists('arrBreakfast')) {
   }
 }
 
+// 행사 유형
+if (!function_exists('getNoticeType')) {
+  function getNoticeType($type) {
+    switch ($type) {
+      case TYPE_WALKING: $result = '도보'; break;
+      case TYPE_TOUR: $result = '여행'; break;
+      default: $result = '산행';
+    }
+    return $result;
+  }
+}
+
+// 산행 옵션
+if (!function_exists('getOptions')) {
+  function getOptions($options) {
+    $arr = unserialize($options);
+    $result = '';
+    foreach ($arr as $key => $value) {
+      if ($key != 0) $result .= ', ';
+      $result .= $value;
+    }
+    return $result;
+  }
+}
+
 // 해당 산행에 등록된 버스
 if (!function_exists('getBusType')) {
   function getBusType($busType, $bus) {
@@ -400,11 +537,13 @@ if (!function_exists('getBusTableMake')) {
         if ($seat != 1 && $seat%4 == 1 && $seat < 23) $result = '</tr><tr>';
         elseif ($seat%4 == 3 && $seat < 23) $result = '<td colspan="2" class="table-blank"></td>';
         break;
-      case '13': // 13석
-      case '10': // 10석
-        if ($seat == 1) $result = '<td colspan="4">운전석</td>';
-        elseif ($seat == 2) $result = '</tr><tr>';
-        elseif ($seat <= 5 && $seat%4 == 1 || $seat == 8 || $seat == 11) $result = '</tr><tr>';
+      case '15': // 15석
+      case '12': // 12석
+        if ($seat%3 == 1) $result = '</tr><tr>';
+        break;
+      case '5': // 5석
+        if ($seat == 2) $result = '<td colspan="2"></td>';
+        elseif ($seat%3 == 0) $result = '</tr><tr>';
         break;
     }
     return $result;
@@ -461,16 +600,26 @@ if (!function_exists('getReserveAdmin')) {
         $result['idx'] = $value['idx'];
         $result['userid'] = $value['userid'];
         $result['nickname'] = $value['nickname'];
+
         if ($value['status'] == RESERVE_PAY) {
-          $result['class'] .= '';
+          $result['class'] .= ' paid';
         } elseif ($value['status'] == RESERVE_WAIT) {
           $result['class'] .= ' wait';
         } else {
-          if ($value['gender'] == 'M') {
-            $result['class'] .= ' male';
-          } elseif ($value['gender'] == 'F') {
-            $result['class'] .= ' female';
+          if ($value['nickname'] != '1인우등' && $value['nickname'] != '2인우선') {
+            if ($value['gender'] == 'M') {
+              $result['class'] .= ' male';
+            } elseif ($value['gender'] == 'F') {
+              $result['class'] .= ' female';
+            }
           }
+        }
+        if (!empty($value['priority'])) {
+          $result['class'] .= ' priority';
+          $result['priority'] = $value['priority'];
+        } elseif (!empty($value['honor'])) {
+          $result['class'] .= ' honor';
+          $result['honor'] = $value['honor'];
         }
       }
       $checkGender[$value['bus']][$value['seat']] = $value['gender'];
@@ -491,7 +640,13 @@ if (!function_exists('getReserve')) {
     foreach ($reserve as $key => $value) {
       if ($value['bus'] == $bus && $value['seat'] == $seat) {
         if (!empty($value['userid']) && $userData['userid'] == $value['userid']) {
-          $value['class'] = 'seat';
+          if (!empty($value['priority'])) {
+            $value['class'] = 'my-priority';
+          } elseif (!empty($value['honor'])) {
+            $value['class'] = 'my-honor';
+          } else {
+            $value['class'] = 'my-seat';
+          }
         } else {
           $value['class'] = '';
         }
@@ -500,7 +655,17 @@ if (!function_exists('getReserve')) {
         } elseif ($value['status'] == RESERVE_WAIT) {
           $value['class'] .= ' wait';
         } else {
-          $value['class'] .= ' reserved';
+          if ($value['nickname'] != '1인우등' && $value['nickname'] != '2인우선') {
+            $value['class'] .= ' reserved';
+          } else {
+            if (!empty($value['priority'])) {
+              $value['class'] .= ' priority';
+            } elseif (!empty($value['honor'])) {
+              if (empty($value['status'])) {
+                $value['class'] .= ' honor';
+              }
+            }
+          }
         }
         $result = $value;
       }
@@ -723,20 +888,6 @@ if (!function_exists('getClubGetonoff')) {
 // 로그 기록
 if (!function_exists('setHistory')) {
   function setHistory($action, $fkey, $userid, $nickname, $subject, $regdate, $point=NULL) {
-    /*
-      action
-      1 - 회원가입
-      2 - 산행예약
-      3 - 산행취소
-      4 - 포인트 적립
-      5 - 포인트 감소
-      6 - 페널티 추가
-      7 - 페널티 감소
-      8 - 관리자 예약
-      9 - 관리자 취소
-      10 - 관리자 입금확인
-      11 - 관리자 입금취소
-    */
     $data = array(
       'action' => $action,
       'fkey' => $fkey,
@@ -764,15 +915,15 @@ if (!function_exists('memberLevel')) {
         $result['levelType'] = 2;
         $result['levelName'] = '두그루 회원';
         $result['point'] = 2000;
-      } else if ($result['level'] >= 30 && $result['level'] <= 49) {
+      } elseif ($result['level'] >= 30 && $result['level'] <= 49) {
         $result['levelType'] = 3;
         $result['levelName'] = '세그루 회원';
         $result['point'] = 3000;
-      } else if ($result['level'] >= 50 && $result['level'] <= 99) {
+      } elseif ($result['level'] >= 50 && $result['level'] <= 99) {
         $result['levelType'] = 4;
         $result['levelName'] = '네그루 회원';
         $result['point'] = 4000;
-      } else if ($result['level'] >= 100) {
+      } elseif ($result['level'] >= 100) {
         $result['levelType'] = 5;
         $result['levelName'] = '다섯그루 회원';
         $result['point'] = 5000;
@@ -781,14 +932,22 @@ if (!function_exists('memberLevel')) {
         $result['levelName'] = '한그루 회원';
         $result['point'] = 1000;
       }
-    } else if ($admin == '1') {
+    } elseif ($admin == '1') {
       $result['levelType'] = 9;
       $result['levelName'] = '관리자';
       $result['point'] = 0;
-    } else if ($level == '1') {
+    } elseif ($level == '1') {
       $result['levelType'] = 8;
       $result['levelName'] = '평생회원';
       $result['point'] = 1000;
+    } elseif ($level == '2') {
+      $result['levelType'] = 7;
+      $result['levelName'] = '무료회원';
+      $result['point'] = 0;
+    } elseif ($level == '3') {
+      $result['levelType'] = 6;
+      $result['levelName'] = '드라이버';
+      $result['point'] = 0;
     } else {
       $result['levelType'] = 0;
       $result['levelName'] = '비회원';
@@ -806,7 +965,7 @@ if (!function_exists('calcStoryTime')) {
     $s = 60;
     $h = $s * 60;
     $d = $h * 24;
-    $y = $d * 10;
+    $y = $d * 30;
 
     if ($diff < $s) {
       $result = gmdate('s', $diff)+0 . '초전';
@@ -817,9 +976,22 @@ if (!function_exists('calcStoryTime')) {
     } elseif ($y > $diff && $diff >= $d) {
       $result = round($diff/$d) . '일전';
     } else {
-      $result = date('Y/m/d', $date);
+      $result = date('Y년 m월 d일', $date);
     }
 
+    return $result;
+  }
+}
+
+// 구매 입금체크
+if (!function_exists('getPurchaseStatus')) {
+  function getPurchaseStatus($status) {
+    switch ($status) {
+      case ORDER_PAY: $result = '<strong class="text-info">[입금완료]</strong>'; break;
+      case ORDER_CANCEL: $result = '<strong class="text-secondary">[구매취소]</strong>'; break;
+      case ORDER_END: $result = '<strong class="text-primary">[인수완료]</strong>'; break;
+      default: $result = '<strong class="text-danger">[입금대기]</strong>';
+    }
     return $result;
   }
 }
@@ -834,8 +1006,8 @@ if (!function_exists('checkWait')) {
 
 // 대기자 카운트
 if (!function_exists('cntWait')) {
-  function cntWait($clubIdx, $noticeIdx) {
-    $result = $GLOBALS['CI']->reserve_model->cntReserveWait($clubIdx, $noticeIdx);
+  function cntWait($noticeIdx) {
+    $result = $GLOBALS['CI']->reserve_model->cntReserveWait($noticeIdx);
     return $result['cnt'];
   }
 }
@@ -863,13 +1035,25 @@ if (!function_exists('getUserAgent')) {
     if (strstr($agent, 'SM-G'))         $result .= '갤럭시 ';
     if (strstr($agent, 'Chrome'))       $result .= '구글 크롬 브라우저 ';
     elseif (strstr($agent, 'Safari'))   $result .= '애플 사파리 브라우저 ';
-    if (strstr($agent, 'Trident/7'))    $result .= 'MS 인터넷 익스플로러 ';
+    if (strstr($agent, 'MSIE 10'))  $result .= 'MS 인터넷 익스플로러 10';
+    elseif (strstr($agent, 'MSIE 9'))   $result .= 'MS 인터넷 익스플로러 9';
+    elseif (strstr($agent, 'MSIE 8'))   $result .= 'MS 인터넷 익스플로러 8';
+    elseif (strstr($agent, 'MSIE 7'))   $result .= 'MS 인터넷 익스플로러 7';
+    elseif (strstr($agent, 'rv:11'))    $result .= 'MS 인터넷 익스플로러 11';
+    if (strstr($agent, 'Firefox'))      $result .= '파이어폭스 ';
     if (strstr($agent, 'Googlebot'))    $result .= '구글 검색엔진 로봇 ';
     if (strstr($agent, 'msnbot'))       $result .= 'MS 검색엔진 로봇 ';
     if (strstr($agent, 'BingPreview'))  $result .= 'Bing 검색엔진 로봇 ';
+    if (strstr($agent, 'bingbot'))      $result .= 'Bing 검색엔진 로봇 ';
     if (strstr($agent, 'yandex'))       $result .= 'Yandex 검색엔진 로봇 ';
+    if (strstr($agent, 'MJ12bot'))      $result .= 'MJ12BOT 검색엔진 로봇 ';
     if (strstr($agent, 'DaumApps'))     $result .= '다음앱 ';
-    if ($result == '') $result = $agent;
+    if (strstr($agent, 'AppleWebKit') && strstr($agent, 'Mobile/15E148')) $result .= '다음앱 ';
+    if (strstr($agent, 'kakaotalk'))    $result .= '카카오톡 ';
+    if (strstr($agent, 'facebook'))     $result .= '페이스북 ';
+    if (empty($result)) {
+      $result = strlen($agent) > 35 ? substr($agent, 0, 35) . '...' : $agent;
+    }
 
     return $result;
   }

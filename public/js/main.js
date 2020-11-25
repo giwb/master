@@ -28,14 +28,10 @@
   // Back to top button
   $(window).scroll(function() {
     if ($(this).scrollTop() > 100) {
-      $('.back-to-top').fadeIn('slow');
+      $('.scroll-to-top').fadeIn('slow');
     } else {
-      $('.back-to-top').fadeOut('slow');
+      $('.scroll-to-top').fadeOut('slow');
     }
-  });
-  $('.back-to-top').click(function(){
-    $('html, body').animate({scrollTop : 0},1500, 'easeInOutExpo');
-    return false;
   });
 
   // Initiate the wowjs animation library
@@ -221,7 +217,6 @@
   $(document).on('change', '.file', function() {
     // 파일 업로드
     var $dom = $(this);
-    var baseUrl = $('input[name=baseUrl]').val();
     var page = $('input[name=page]').val();
     var fileType = $dom.data('type');
     var formData = new FormData($('form')[0]);
@@ -230,9 +225,9 @@
 
     if (size > maxSize) {
       $dom.val('');
-      $('#messageModal .modal-message').text('파일의 용량은 20MB를 넘을 수 없습니다.');
-      $('#messageModal').modal('show');
-      return;
+      $('#storyModal .error-message').text('파일의 용량은 20MB를 넘을 수 없습니다.').slideDown();
+      setTimeout(function() { $('#storyModal .error-message').text('').slideUp(); }, 2000);
+      return false;
     }
 
     // 사진 형태 추가
@@ -240,7 +235,7 @@
     formData.append('file_obj', $dom[0].files[0]);
 
     $.ajax({
-      url: baseUrl + page + '/upload',
+      url: '/file/upload',
       processData: false,
       contentType: false,
       data: formData,
@@ -248,10 +243,12 @@
       type: 'post',
       beforeSend: function() {
         $('.btn-upload').css('opacity', '0.5').prop('disabled', true).text('업로드중.....');
+        $('.btn-photo').css('opacity', '0.5').prop('disabled', true).find('.text').text('업로드중..');
         $dom.val('');
       },
       success: function(result) {
         $('.btn-upload').css('opacity', '1').prop('disabled', false).text('사진올리기');
+        $('.btn-photo').css('opacity', '1').prop('disabled', false).find('.text').text('사진추가');
         if (result.error == 1) {
           $('.btn-list, .btn-refresh, .btn-delete').hide();
           $('#messageModal .modal-message').text(result.message);
@@ -265,7 +262,7 @@
             // 회원가입
             $('.photo').attr('src', result.message);
             $('input[name=filename]').val(result.filename);
-            $('.btn-photo-delete').removeClass('d-none');
+            $('.btn-entry-photo-delete').removeClass('d-none');
             $('.btn-modify-photo-delete').removeClass('d-none');
           } else if (page == 'club') {
             // 클럽
@@ -284,7 +281,7 @@
         }
       }
     });
-  }).on('click', '.btn-photo-delete', function() {
+  }).on('click', '.btn-entry-photo-delete', function() {
     // 회원가입 사진 삭제
     var $btn = $(this);
     var baseUrl = $('input[name=baseUrl]').val();
@@ -303,19 +300,59 @@
   }).on('click', '.btn-modify-photo-delete', function() {
     // 개인정보수정 사진 삭제
     var $btn = $(this);
-    var baseUrl = $('input[name=baseUrl]').val();
-
     $.ajax({
-      url: baseUrl + '/member/photo_delete',
+      url: '/member/photo_delete',
       data: 'userIdx=' + $('input[name=userIdx]').val() + '&filename=' + $('input[name=filename]').val(),
       dataType: 'json',
       type: 'post',
       success: function() {
         $('input[name=filename]').val('');
-        $('.photo').attr('src', baseUrl + 'public/images/noimage.png');
+        $('.photo').attr('src', '/public/images/noimage.png');
         $btn.addClass('d-none');
       }
     });
+  }).on('click', '.btn-photo-delete', function() {
+    // 팝업창 사진 삭제
+    var $btn = $(this);
+    var baseUrl = $('input[name=baseUrl]').val();
+    var photoName = $('#photoModal input[name=photo_name]').val();
+    $.ajax({
+      url: '/member/photo_delete',
+      data: 'filename=' + photoName,
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('삭제중.....');
+      },
+      success: function(result) {
+        $btn.css('opacity', '1').prop('disabled', false).text('삭제합니다');
+        if (result.error != 1) {
+          // 사진 삭제
+          $('.btn-photo-modal[data-photo="' + photoName + '"]').remove();
+          var files = $('input[name=photos]').val();
+          var newFiles = '';
+          var file = files.split(',');
+          for (var i in file) {
+            if (photoName != file[i] && file[i] != '') newFiles += file[i] + ',';
+          }
+          $('input[name=photos]').val(newFiles);
+          $('#photoModal').modal('hide');
+        }
+      }
+    });
+  }).on('click', '.btn-photo-modal', function() {
+    // 사진 모달
+    $('#photoModal .btn-list, #photoModal .btn-refresh').hide();
+    $('#photoModal .modal-message').empty().append('<img class="w-100" src="' + $(this).attr('src') + '">');
+    $('#photoModal input[name=photo_name]').val($(this).data('photo'))
+    $('#photoModal').modal('show');
+  }).on('click', '.btn-mypage', function() {
+    var $dom = $('.nav-sp-mypage');
+    if ($dom.css('display') == 'none') {
+      $('.nav-sp-mypage').slideDown();
+    } else {
+      $('.nav-sp-mypage').slideUp();
+    }
   }).on('click', '.login-popup', function() {
     // 로그인 모달
     $('#loginModal').modal('show');
@@ -324,12 +361,16 @@
     e.preventDefault();
     var $dom = $(this);
     var formData = new FormData($('.loginForm')[0]);
-    var baseUrl = $('input[name=baseUrl]').val();
-    var clubIdx = $('input[name=clubIdx]').val();
     var redirectUrl = $('input[name=redirectUrl]').val();
 
+    if ($('input[name=userid]').val() == '' || $('input[name=password]').val() == '') {
+      $('.error-message').slideDown().text('아이디와 비밀번호는 꼭 입력해주세요.');
+      return false;
+    }
+    if (typeof redirectUrl == 'undefined') redirectUrl = '';
+
     $.ajax({
-      url: baseUrl + 'login/' + clubIdx + '?r=' + redirectUrl,
+      url: '/login/?r=' + redirectUrl,
       data: formData,
       processData: false,
       contentType: false,
@@ -343,7 +384,7 @@
           $dom.css('opacity', '1').prop('disabled', false).text('로그인');
           $('.error-message').slideDown().text(result.message);
         } else {
-          location.replace(result.url)
+          location.replace(result.message)
         }
       }
     });
@@ -352,10 +393,21 @@
     $('.error-message').slideUp();
   }).on('click', '.logout', function() {
     // 로그아웃
+    var baseUrl = $('input[name=baseUrl]').val();
     $.ajax({
-      url: $('input[name=baseUrl]').val() + 'logout',
+      url: '/login/logout',
       dataType: 'json',
-      success: function() {
+      success: function(result) {
+        location.reload();
+      }
+    });
+  }).on('click', '.logout', function() {
+    // 로그아웃
+    var baseUrl = $('input[name=baseUrl]').val();
+    $.ajax({
+      url: '/login/logout',
+      dataType: 'json',
+      success: function(result) {
         location.reload();
       }
     });
@@ -373,7 +425,7 @@
         return false;
       }
       $.ajax({
-        url: $('input[name=baseUrl]').val() + 'login/check_userid/' + clubIdx,
+        url: '/login/check_userid',
         data: 'userid=' + userid,
         dataType: 'json',
         type: 'post',
@@ -411,7 +463,7 @@
     var clubIdx = $('input[name=clubIdx]').val();
     var phone = $('input[name=phone1]').val() + '-' + $('input[name=phone2]').val() + '-' + $('input[name=phone3]').val();
     $.ajax({
-      url: $('input[name=baseUrl]').val() + 'login/check_phone/' + clubIdx,
+      url: $('input[name=baseUrl]').val() + '/login/check_phone',
       data: 'phone=' + phone,
       dataType: 'json',
       type: 'post',
@@ -462,14 +514,16 @@
       $.openMsgModal('전화번호는 꼭 입력해주세요.');
       return false;
     }
+    if ($('select[name=location]').val() == '0') {
+      $.openMsgModal('승차위치는 꼭 선택해주세요.');
+      return false;
+    }
 
     var $btn = $(this);
     var formData = new FormData($('#entryForm')[0]);
-    var baseUrl = $('input[name=baseUrl]').val();
-    var clubIdx = $('input[name=clubIdx]').val();
 
     $.ajax({
-      url: baseUrl + 'login/insert/' + clubIdx,
+      url: '/login/insert',
       data: formData,
       processData: false,
       contentType: false,
@@ -542,13 +596,9 @@
     });
   }).on('click', '.btn-quit', function() {
     // 회원 탈퇴
-    var baseUrl = $('input[name=baseUrl]').val();
-    var clubIdx = $('input[name=clubIdx]').val();
-    var userIdx = $('input[name=userIdx]').val();
-
     $.ajax({
-      url: $('input[name=baseUrl]').val() + 'member/quit/' + clubIdx,
-      data: 'userIdx=' + userIdx,
+      url: '/member/quit',
+      data: 'userIdx=' + $('input[name=userIdx]').val(),
       dataType: 'json',
       type: 'post',
       success: function(result) {
@@ -566,64 +616,65 @@
   }).on('click', '.nav-aside-close', function() {
     $('#nav-aside').removeClass('active');
     $('#nav').removeClass('shadow-active');
-  }).on('click', '.nav-menu .img-profile', function() {
+  }).on('click', '.btn-list', function() {
+    // 모달 돌아가기 버튼
+    location.replace($('input[name=baseUrl]').val() + $(this).data('action'));
+  }).on('click', '.scroll-to-top', function() {
+    // 상단 스크롤
+    $('html, body').animate({scrollTop : 0}, 1000, 'easeInOutExpo');
+  }).on('click', '.photo-zoom', function() {
+    // 사진 확대
+    var $dom = $(this);
+    var filename = $dom.data('filename');
+    var width = $dom.data('width');
+    var height = $dom.data('height');
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    var items = [{ src: filename, w: width, h: height }];
+    var options = {
+      index: 0,
+      bgOpacity: 0.8,
+      showHideOpacity: true,
+      getThumbBoundsFn: function(index) {
+        var thumbnail = $dom[0],
+        pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
+        rect = thumbnail.getBoundingClientRect(); 
+        return {x:rect.left, y:rect.top + pageYScroll, w:rect.width};
+      }
+    };
+    var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
+    gallery.init();
+  }).on('click', '.btn-page-next', function() {
+    // 페이징
+    var $btn = $(this);
+    var $dom = $('#formList');
+    var formData = new FormData($dom[0]);
+    $.ajax({
+      url: $dom.attr('action'),
+      data: formData,
+      processData: false,
+      contentType: false,
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('불러오는 중.....');
+      },
+      success: function(result) {
+        if (result.html == '') {
+          $btn.css('opacity', '1').prop('disabled', true).text('마지막 페이지 입니다.');
+        } else {
+          $btn.css('opacity', '1').prop('disabled', false).text('다음 페이지 보기 ▼');
+          $('input[name=p]').val(result.page);
+          if (result != '') $('.area-append').append(result.html);
+        }
+      }
+    });
+  }).on('click', '.img-profile', function() {
     // 로그인 아이콘
     var $dom = $('.profile-box');
     if ($dom.css('display') == 'none') {
       $dom.slideDown();
     } else {
       $dom.slideUp();
-    }
-  }).on('click', '.area-bus-table .seat', function() {
-    // 산행 예약/수정 버튼
-    var userIdx = $('input[name=userIdx]').val();
-
-    if (userIdx == '') {
-      // 로그인
-      $('input[name=redirectUrl]').val($(location).attr('href'));
-      $('#loginModal').modal('show');
-      return false;
-    }
-
-    var resIdx = $(this).data('id');
-    var bus = $(this).data('bus');
-    var seat = $(this).data('seat');
-    var chk = false;
-
-    // 예약/수정 중에는 대기자 예약을 숨긴다
-    $('.area-wait').hide();
-
-    // 좌석 토글
-    if ($(this).hasClass('active')) {
-      // 비활성화
-      $('.seat[data-bus=' + bus + '][data-seat=' + seat + ']').removeClass('active');
-      $('#addedInfo .reserve[data-seat=' + seat + ']').remove();
-
-      // 예약 내용이 없으면 버튼 삭제
-      if ($('#addedInfo .reserve').length == 0) {
-        $('.btn-reserve-confirm').text('예약합니다').hide();
-        $('.btn-reserve-cancel').addClass('d-none'); // 취소버튼 숨기기
-      }
-    } else {
-      // 활성화
-      $('.resIdx').each(function(n) {
-        if ($(this).val() != '') chk = true;
-      });
-      if ($(this).hasClass('reserved')) {
-        if (typeof $('.resIdx').css('display') != 'undefined' && chk == false) {
-          $.openMsgModal('예약중에는 수정을 할 수 없습니다.');
-          return false;
-        }
-        $('.btn-reserve-confirm').text('수정합니다');
-      } else {
-        if (chk == true) {
-          $.openMsgModal('수정중에는 예약을 할 수 없습니다.');
-          return false;
-        }
-      }
-      $('.seat[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
-      $('html, body').animate( { scrollTop : $('#reserveForm').offset().top - 100 }, 1000 ); // 하단으로 스크롤
-      $.viewReserveInfo(resIdx, bus, seat); // 예약 정보
     }
   }).on('change', '.btn-search-month', function() {
     // 검색
@@ -668,15 +719,210 @@
         $('#messageModal').modal({backdrop: 'static', keyboard: false});
       }
     });
+  }).on('click', '.area-bus-table .seat, .area-bus-table .my-seat', function() {
+    // 산행 예약/수정 버튼
+    if ($('input[name=userIdx]').val() == '') {
+      // 로그인 확인
+      $('input[name=redirectUrl]').val($(location).attr('href'));
+      $('#loginModal').modal('show');
+      return false;
+    }
+
+    var resIdx = $(this).data('id');
+    var bus = $(this).data('bus');
+    var seat = $(this).data('seat');
+    var chk = false;
+
+    // 예약/수정 중에는 대기자 예약을 숨긴다
+    $('.area-wait').hide();
+
+    // 좌석 토글
+    if ($(this).hasClass('active')) {
+      // 비활성화
+      $('.seat[data-bus=' + bus + '][data-seat=' + seat + ']').removeClass('active');
+      $('.my-seat[data-bus=' + bus + '][data-seat=' + seat + ']').removeClass('active');
+      $('#addedInfo .reserve[data-seat=' + seat + ']').remove();
+
+      // 예약 내용이 없으면 버튼 삭제
+      if ($('#addedInfo .reserve').length == 0) {
+        $('.btn-reserve-confirm').text('예약합니다').hide();
+        $('.btn-reserve-cancel').addClass('d-none'); // 취소버튼 숨기기
+      }
+    } else {
+      // 활성화
+      $('.resIdx').each(function(n) {
+        if ($(this).val() != '') chk = true;
+      });
+      if ($(this).hasClass('reserved')) {
+        if (typeof $('.resIdx').css('display') != 'undefined' && chk == false) {
+          $.openMsgModal('예약중에는 수정을 할 수 없습니다.');
+          return false;
+        }
+        $('.btn-reserve-confirm').text('수정합니다');
+      } else {
+        if (chk == true) {
+          $.openMsgModal('수정중에는 예약을 할 수 없습니다.');
+          return false;
+        }
+      }
+      $('.seat[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
+      $('.my-seat[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
+      $('html, body').animate( { scrollTop : $('#reserveForm').offset().top - 100 }, 1000 ); // 하단으로 스크롤
+      $.viewReserveInfo(resIdx, bus, seat, 0); // 예약 정보
+    }
+  }).on('click', '.area-bus-table .priority, .area-bus-table .my-priority', function() {
+    // 2인우선 예약 버튼
+    if ($('input[name=userIdx]').val() == '') {
+      // 로그인 확인
+      $('input[name=redirectUrl]').val($(location).attr('href'));
+      $('#loginModal').modal('show');
+      return false;
+    }
+
+    var resIdx = $(this).data('id');
+    var priorityIdx = $(this).data('priority');
+    var bus = $(this).data('bus');
+    var seat = $(this).data('seat');
+    var chk = false;
+
+    // 우선석 정보가 있는지 확인하고, 없으면 종료
+    if (typeof priorityIdx == 'undefined') {
+      return false;
+    }
+    var prioritySeat = $('.priority[data-bus=' + bus + '][data-id=' + priorityIdx + ']').attr('data-seat');
+    if (typeof prioritySeat == 'undefined') {
+      var prioritySeat = $('.my-priority[data-bus=' + bus + '][data-id=' + priorityIdx + ']').attr('data-seat');
+    }
+
+    // 예약/수정 중에는 대기자 예약을 숨긴다
+    $('.area-wait').hide();
+
+    // 좌석 토글
+    if ($(this).hasClass('active')) {
+      // 비활성화
+      $('.priority[data-bus=' + bus + '][data-seat=' + seat + ']').removeClass('active');
+      $('.priority[data-bus=' + bus + '][data-id=' + priorityIdx + ']').removeClass('active');
+      $('.my-priority[data-bus=' + bus + '][data-seat=' + seat + ']').removeClass('active');
+      $('.my-priority[data-bus=' + bus + '][data-id=' + priorityIdx + ']').removeClass('active');
+      $('#addedInfo .reserve[data-seat=' + seat + ']').remove();
+      $('#addedInfo .reserve[data-seat=' + prioritySeat + ']').remove();
+
+      // 예약 내용이 없으면 버튼 삭제
+      if ($('#addedInfo .reserve').length == 0) {
+        $('.btn-reserve-confirm').text('예약합니다').hide();
+        $('.btn-reserve-cancel').addClass('d-none'); // 취소버튼 숨기기
+      }
+    } else {
+      // 활성화
+      $('.resIdx').each(function(n) {
+        if ($(this).val() != '') chk = true;
+      });
+      if (chk == true || typeof $('.resIdx').css('display') != 'undefined') {
+        $.openMsgModal('일반예약과 2인예약을 동시에 할 수 없습니다.');
+        return false;
+      }
+      if ($(this).hasClass('reserved')) {
+        $('.btn-reserve-confirm').text('수정합니다');
+      }
+      $('.priority[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
+      $('.priority[data-bus=' + bus + '][data-id=' + priorityIdx + ']').addClass('active');
+      $('.my-priority[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
+      $('.my-priority[data-bus=' + bus + '][data-id=' + priorityIdx + ']').addClass('active');
+      $('html, body').animate( { scrollTop : $('#reserveForm').offset().top - 100 }, 1000 ); // 하단으로 스크롤
+      $.viewReserveInfo(resIdx, bus, seat, priorityIdx);
+      $.viewReserveInfo(priorityIdx, bus, prioritySeat, priorityIdx);
+    }
+  }).on('click', '.area-bus-table .honor, .area-bus-table .my-honor', function() {
+    // 1인우등 예약 버튼
+    if ($('input[name=userIdx]').val() == '') {
+      // 로그인 확인
+      $('input[name=redirectUrl]').val($(location).attr('href'));
+      $('#loginModal').modal('show');
+      return false;
+    }
+
+    var resIdx = $(this).data('id');
+    var honorIdx = $(this).data('honor');
+    var bus = $(this).data('bus');
+    var seat = $(this).data('seat');
+    var chk = false;
+
+    // 우선석 정보가 있는지 확인하고, 없으면 종료
+    if (typeof honorIdx == 'undefined') {
+      return false;
+    }
+    var honorSeat = $('.honor[data-bus=' + bus + '][data-id=' + honorIdx + ']').attr('data-seat');
+    if (typeof honorSeat == 'undefined') {
+      var honorSeat = $('.my-honor[data-bus=' + bus + '][data-id=' + honorIdx + ']').attr('data-seat');
+    }
+
+    // 예약/수정 중에는 대기자 예약을 숨긴다
+    $('.area-wait').hide();
+
+    // 좌석 토글
+    if ($(this).hasClass('active')) {
+      // 비활성화
+      $('.honor[data-bus=' + bus + '][data-seat=' + seat + ']').removeClass('active');
+      $('.honor[data-bus=' + bus + '][data-id=' + honorIdx + ']').removeClass('active');
+      $('.my-honor[data-bus=' + bus + '][data-seat=' + seat + ']').removeClass('active');
+      $('.my-honor[data-bus=' + bus + '][data-id=' + honorIdx + ']').removeClass('active');
+      $('#addedInfo .reserve[data-seat=' + seat + ']').remove();
+      $('#addedInfo .reserve[data-seat=' + honorSeat + ']').remove();
+
+      // 예약 내용이 없으면 버튼 삭제
+      if ($('#addedInfo .reserve').length == 0) {
+        $('.btn-reserve-confirm').text('예약합니다').hide();
+        $('.btn-reserve-cancel').addClass('d-none'); // 취소버튼 숨기기
+      }
+    } else {
+      // 활성화
+      $('.resIdx').each(function(n) {
+        if ($(this).val() != '') chk = true;
+      });
+      if (chk == true || typeof $('.resIdx').css('display') != 'undefined') {
+        $.openMsgModal('일반예약과 2인예약을 동시에 할 수 없습니다.');
+        return false;
+      }
+      if ($(this).hasClass('reserved')) {
+        $('.btn-reserve-confirm').text('수정합니다');
+      }
+      $('.honor[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
+      $('.honor[data-bus=' + bus + '][data-id=' + honorIdx + ']').addClass('active');
+      $('.my-honor[data-bus=' + bus + '][data-seat=' + seat + ']').addClass('active');
+      $('.my-honor[data-bus=' + bus + '][data-id=' + honorIdx + ']').addClass('active');
+      $('html, body').animate( { scrollTop : $('#reserveForm').offset().top - 100 }, 1000 ); // 하단으로 스크롤
+      $.viewReserveInfo(resIdx, bus, seat, honorIdx);
+      $.viewReserveInfo(honorIdx, bus, honorSeat, honorIdx, 1);
+    }
+  }).on('change', '.reserve .busSelect', function() {
+    // 버스 선택시 해당 버스의 좌석으로 변경
+    var $dom = $(this);
+    var $domSeat = $dom.parent().find('.busSeat');
+    var seat = $domSeat.val();
+    var bus = $dom.val();
+    var selectSeat = '';
+    var selected = '';
+    $.ajax({
+      url: '/reserve/information_bus',
+      data: 'idx=' + $('input[name=noticeIdx]').val(),
+      dataType: 'json',
+      type: 'post',
+      success: function(result) {
+        console.log(result);
+        $.each(result.seat[bus], function(i, v) { if ((i+1) == seat) selected = ' selected'; else selected = ''; selectSeat += '<option' + selected + ' value="' + (i+1) + '">' + v + '번</option>'; });
+        $domSeat.empty().append(selectSeat);
+      }
+    });
   }).on('click', '.btn-reserve-confirm', function() {
     // 좌석 예약
     var $btn = $(this);
+    var baseUrl = $('input[name=baseUrl]').val();
     var formCheck = true;
     var formData = new FormData($('#reserveForm')[0]);
     var cnt = 0;
 
     // 승차위치 선택 확인
-    $('.location').each(function() {
+    $('.location:visible').each(function() {
       if ($(this).val() == 0) {
         cnt++;
       }
@@ -704,7 +950,7 @@
             $('#messageModal .modal-message').text(result.message);
             $('#messageModal').modal({backdrop: 'static', keyboard: false});
           } else {
-            location.replace(result.message);
+            location.replace(baseUrl + result.message);
           }
         }
       });
@@ -713,6 +959,8 @@
     // 예약 취소 모달
     var $dom;
     var resIdx = new Array();
+    var penalty = 0;
+    var msg_penalty = '';
 
     if (typeof $('input[name=noticeIdx]').val() != 'undefined') {
       $dom = $('.resIdx'); // 예약페이지
@@ -722,20 +970,36 @@
 
     $dom.each(function() {
       resIdx.push( $(this).val() );
+      if ($(this).data('penalty')) {
+        penalty += Number($(this).data('penalty'));
+      }
     });
+
+    if (penalty > 0) {
+      msg_penalty = '<br>' + penalty + '점의 페널티가 발생합니다.';
+    }
 
     if (resIdx.length > 0) {
       $('#reserveCancelModal input[name=resIdx]').val(resIdx);
+      $('#reserveCancelModal input[name=resType]').val(1); // 결제 형식은 예약
+      $('#reserveCancelModal .modal-message').html('정말로 취소하시겠습니까?' + msg_penalty);
       $('#reserveCancelModal').modal({backdrop: 'static', keyboard: false});
     } else {
       $.openMsgModal('취소할 예약 내역을 선택해주세요.');
     }
   }).on('click', '.btn-reserve-cancel-confirm', function() {
-    // 예약좌석 취소 처리
+    // 취소 처리
     var $btn = $(this);
+    var resType = $('#reserveCancelModal input[name=resType]').val();
+    var action = '';
+    if (resType == 1) {
+      action = '/reserve/cancel';
+    } else {
+      action = '/shop/cancel';
+    }
     $.ajax({
-      url: $('input[name=baseUrl]').val() + 'reserve/cancel/' + $('input[name=clubIdx]').val(),
-      data: 'resIdx=' + $('input[name=resIdx]').val(),
+      url: action,
+      data: 'clubIdx=' + $('input[name=clubIdx]').val() + '&resIdx=' + $('input[name=resIdx]').val(),
       dataType: 'json',
       type: 'post',
       beforeSend: function() {
@@ -751,35 +1015,43 @@
       }
     });
   }).on('click', '.btn-refresh', function() {
+    // 새로고침
     location.reload();
   });
 
   // 예약 정보
-  $.viewReserveInfo = function(resIdx, bus, seat) {
+  $.viewReserveInfo = function(resIdx, bus, seat, priorityIdx, hide) {
     $.ajax({
-      url: $('input[name=baseUrl]').val() + 'reserve/information/' + $('input[name=clubIdx]').val(),
-      data: 'idx=' + $('input[name=noticeIdx]').val() + '&bus=' + bus + '&seat=' + seat + '&resIdx=' + resIdx,
+      url: '/reserve/information',
+      data: 'clubIdx=' + $('input[name=clubIdx]').val() + '&idx=' + $('input[name=noticeIdx]').val() + '&bus=' + bus + '&seat=' + seat + '&resIdx=' + resIdx,
       dataType: 'json',
       type: 'post',
       beforeSend: function() {
-        $('#addedInfo').append('<img src="/public/images/ajax-loader.gif" class="ajax-loader">');
+        if (typeof hide != 'undefined') {
+          $('#addedInfo').append('<img src="/public/images/ajax-loader.gif" class="ajax-loader">');
+        }
       },
       success: function(reserveInfo) {
-        var header = '<div class="reserve" data-seat="' + seat + '"><input type="hidden" name="resIdx[]" value="' + resIdx + '" class="resIdx">';
-        var location = '<select name="location[]" class="location">'; $.each(reserveInfo.location, function(i, v) { if (v.stitle == '') v.stitle = '승차위치'; location += '<option'; if ((reserveInfo.reserve.loc == '' && reserveInfo.userLocation == v.no) || (reserveInfo.reserve.loc != '' && reserveInfo.reserve.loc == v.no)) location += ' selected'; location += ' value="' + v.no + '">' + v.stitle + '</option>'; }); location += '</select> ';
+        var header = '<div class="reserve" data-seat="' + seat + '"><input type="hidden" name="resIdx[]" value="' + resIdx + '" class="resIdx" data-penalty="' + reserveInfo.penalty + '">';
+        var location = '<select name="location[]" class="location">'; $.each(reserveInfo.location, function(i, v) { if (v.stitle == '') v.stitle = '승차위치'; location += '<option'; if ((reserveInfo.reserve.loc == 0 && reserveInfo.userLocation == v.no) || (reserveInfo.reserve.loc != 0 && reserveInfo.reserve.loc == v.no)) location += ' selected'; location += ' value="' + v.no + '">' + v.stitle + '</option>'; }); location += '</select> ';
         var memo = '<input type="text" name="memo[]" size="20" placeholder="요청사항" value="' + reserveInfo.reserve.memo + '">';
+        //var footer = ' <select><option>할인선택</option><option>-------</option><option>초등생 할인</option><option>중고생 할인</option></select> </div>';
         var footer = '</div>';
 
         if (resIdx != '') {
           // 수정
           var busType = '';
           if (reserveInfo.busType.length > 1) {
-            busType += '<select name="bus[]">'; $.each(reserveInfo.busType, function(i, v) { busType += '<option'; if ((i+1) == bus) busType += ' selected'; busType += ' value="' + (i+1) + '">' + (i+1) + '호차</option>'; }); busType += '</select> ';
+            busType += '<select name="bus[]" class="busSelect">'; $.each(reserveInfo.busType, function(i, v) { busType += '<option'; if ((i+1) == bus) busType += ' selected'; busType += ' value="' + (i+1) + '">' + (i+1) + '호차</option>'; }); busType += '</select> ';
           } else {
             busType += '<input type="hidden" name="bus[]" value="' + bus + '">';
           }
-          var selectSeat = '<select name="seat[]">'; $.each(reserveInfo.seat, function(i, v) { selectSeat += '<option'; if ((i+1) == seat) selectSeat += ' selected'; selectSeat += ' value="' + (i+1) + '">' + v + '번</option>'; }); selectSeat += '</select> ';
-          $('.btn-reserve-cancel').removeClass('d-none').show();
+          //var selectSeat = '<select name="seat[]" class="busSeat">'; $.each(reserveInfo.seat[bus], function(i, v) { selectSeat += '<option'; if ((i+1) == seat) selectSeat += ' selected'; selectSeat += ' value="' + (i+1) + '">' + v + '번</option>'; }); selectSeat += '</select> ';
+          var selectSeat = seat + '번<input type="hidden" name="seat[]" value="' + seat + '"> ';
+
+          if (reserveInfo.reserve.nickname != '1인우등' && reserveInfo.reserve.nickname != '2인우선') {
+            $('.btn-reserve-cancel').removeClass('d-none').show();
+          }
         } else {
           // 등록
           var busNumber = '';
@@ -792,6 +1064,9 @@
 
         $('.ajax-loader').remove();
         $('#addedInfo').append(header + busType + selectSeat + location + memo + footer);
+        if (typeof hide != 'undefined') {
+          $('#addedInfo .reserve[data-seat=' + seat + ']').hide();
+        }
 
         // 예약 확정 버튼
         if ($('.btn-reserve-confirm').is(':visible') == false) $('.btn-reserve-confirm').show();
@@ -814,7 +1089,6 @@
 
   // 닉네임 확인
   $.checkNickname = function() {
-    var clubIdx = $('input[name=clubIdx]').val();
     var userid = $('input[name=userid]').val();
     var nickname = $('input[name=nickname]').val();
 
@@ -825,7 +1099,7 @@
         return false;
       }
       $.ajax({
-        url: $('input[name=baseUrl]').val() + 'login/check_nickname/' + clubIdx,
+        url: '/login/check_nickname',
         data: 'userid=' + userid + '&nickname=' + nickname,
         dataType: 'json',
         type: 'post',
@@ -852,7 +1126,7 @@ $(document).on('click', '.btn-reply', function() {
 
   if ($dom.css('display') == 'none') {
     $.ajax({
-      url: $('input[name=baseUrl]').val() + 'story/reply/' + $('input[name=clubIdx]').val(),
+      url: '/story/reply',
       data: 'storyIdx=' + storyIdx + '&replyType=' + replyType,
       dataType: 'json',
       type: 'post',
@@ -868,9 +1142,27 @@ $(document).on('click', '.btn-reply', function() {
   } else {
     $dom.slideUp();
   }
+}).on('click', '.btn-reply-response', function() {
+  // 댓글에 대한 답글 쓰기
+  var $dom = $('.story-reply-input');
+  var $dom_response = $('.club-story-reply-response');
+  var clubIdx = $('input[name=clubIdx]', $dom).val();
+  var storyIdx = $('input[name=storyIdx]', $dom).val();
+  var replyType = $('input[name=replyType]', $dom).val();
+  var replyParentIdx = $(this).data('idx');
+  var nickname = $('.story-reply-item[data-idx=' + replyParentIdx + '] .nickname').text();
+
+  if ($dom_response.length) {
+    $('input[name=replyParentIdx]', $dom).val('');
+    $dom_response.remove();
+  } else {
+    $('input[name=replyParentIdx]', $dom).val(replyParentIdx);
+    $('.club-story-reply').focus();
+    $dom.after('<div class="club-story-reply-response">' + nickname + '님의 댓글에 대한 답글 달기</div>');
+  }
 }).on('click', '.btn-share', function() {
   // 공유하기
-  var $dom = $('.area-share');
+  var $dom = $('.area-share[data-idx="' + $(this).data('idx') + '"]');
   var userIdx = $('input[name=userIdx]').val();
 
   if (userIdx == '') {
@@ -892,8 +1184,8 @@ $(document).on('click', '.btn-reply', function() {
   var shareType = $dom.data('type');
   window.open(url, 'share-window', 'width=626, height=436');
   $.ajax({
-    url: $('input[name=baseUrl]').val() + 'story/share/' + $('input[name=clubIdx]').val(),
-    data: 'storyIdx=' + storyIdx + '&reactionType=' + reactionType + '&shareType=' + shareType,
+    url: '/story/share',
+    data: 'clubIdx=' + $('input[name=clubIdx]').val() + '&storyIdx=' + storyIdx + '&reactionType=' + reactionType + '&shareType=' + shareType,
     dataType: 'json',
     type: 'post',
     success: function(result) {
@@ -915,8 +1207,8 @@ $(document).on('click', '.btn-reply', function() {
   $dom.tooltip('hide').attr('data-original-title', '복사했습니다!').tooltip('show');
   setTimeout(function() { $dom.tooltip('hide'); }, 2000);
   $.ajax({
-    url: $('input[name=baseUrl]').val() + 'story/share/' + $('input[name=clubIdx]').val(),
-    data: 'storyIdx=' + storyIdx + '&reactionType=' + reactionType + '&shareType=' + shareType,
+    url: '/story/share',
+    data: 'clubIdx=' + $('input[name=clubIdx]').val() + '&storyIdx=' + storyIdx + '&reactionType=' + reactionType + '&shareType=' + shareType,
     dataType: 'json',
     type: 'post',
     success: function(result) {
@@ -950,7 +1242,7 @@ $(document).on('click', '.btn-reply', function() {
   }
 
   if ($btn.prev().val() == '') {
-    return false;
+    return false; // 내용이 없으면 종료
   }
 
   $.ajax({
@@ -961,17 +1253,34 @@ $(document).on('click', '.btn-reply', function() {
     dataType: 'json',
     type: 'post',
     beforeSend: function() {
-      $btn.css('opacity', '0.5').prop('disabled', true).text('등록중..');
+      $btn.css('opacity', '0.5').prop('disabled', true).text('처리중..');
     },
     success: function(result) {
-      $btn.css('opacity', '1').prop('disabled', false).text('댓글달기');
       if (result.error == 1) {
         $.openMsgModal('댓글 등록에 실패했습니다. 다시 시도해주세요.');
       } else {
+        var replyIdx = $('input[name=replyIdx]').val();
+        var replyParentIdx = $('input[name=replyParentIdx]').val();
+        if (typeof replyIdx == 'undefined' || replyIdx == '') {
+          if (typeof replyParentIdx == 'undefined' || replyParentIdx == '') {
+            // 댓글 등록
+            $('.story-reply[data-idx=' + storyIdx + '] .story-reply-content').append(result.message);
+            $('.cnt-reply[data-idx=' + storyIdx + ']').text(result.reply_cnt);
+          } else {
+            // 댓글에 대한 답글 등록
+            $('.story-reply[data-idx=' + storyIdx + '] .story-reply-content .story-reply-item[data-parent=' + replyParentIdx + ']').last().after(result.message);
+            $('.cnt-reply[data-idx=' + storyIdx + ']').text(result.reply_cnt);
+            $('input[name=replyParentIdx]').val('');
+            $('.club-story-reply-response').remove();
+          }
+        } else {
+          // 댓글 수정
+          $('.reply-content[data-idx=' + replyIdx + ']').text($('.club-story-reply', $form).val());
+          $('input[name=replyIdx]').val('');
+        }
         $('.club-story-reply').val('');
-        $('.story-reply[data-idx=' + storyIdx + '] .story-reply-content').append(result.message);
-        $('.cnt-reply[data-idx=' + storyIdx + ']').text(result.reply_cnt);
       }
+      $btn.css('opacity', '1').prop('disabled', false).text('댓글등록');
     }
   });
 }).on('click', '.btn-like', function() {
@@ -985,8 +1294,8 @@ $(document).on('click', '.btn-reply', function() {
   }
   
   $.ajax({
-    url: $('input[name=baseUrl]').val() + 'story/like/' + $('input[name=clubIdx]').val(),
-    data: 'storyIdx=' + $(this).data('idx') + '&reactionType=' + $(this).data('type'),
+    url: '/story/like',
+    data: 'clubIdx=' + $('input[name=clubIdx]').val() + '&storyIdx=' + $(this).data('idx') + '&reactionType=' + $(this).data('type'),
     dataType: 'json',
     type: 'post',
     success: function(result) {
@@ -1010,7 +1319,7 @@ $(document).on('click', '.btn-reply', function() {
   // 삭제하기
   var $btn = $(this);
   $.ajax({
-    url: $('input[name=baseUrl]').val() + 'story/' + $('#messageModal input[name=action]').val() + '/' + $('input[name=clubIdx]').val(),
+    url: '/story/' + $('#messageModal input[name=action]').val(),
     data: 'idx=' + $('input[name=deleteIdx]').val(),
     dataType: 'json',
     type: 'post',
@@ -1025,50 +1334,102 @@ $(document).on('click', '.btn-reply', function() {
         $('#messageModal .modal-message').text(result.message);
         $('#messageModal').modal();
       } else {
-        location.reload();
+        if (result.message == 'delete_reply') {
+          // 댓글 삭제시에는 해당 댓글만 사라지게
+          $btn.css('opacity', '1').prop('disabled', false).text('삭제합니다');
+
+          // 댓글에 대한 답글 정보 삭제
+          $('input[name=replyParentIdx]').val('');
+          $('.club-story-reply-response').remove();
+
+          $('.story-reply-item[data-idx=' + $('input[name=deleteIdx]').val() + ']').remove();
+          $('.story-reply-item[data-parent=' + $('input[name=deleteIdx]').val() + ']').remove();
+          $('.cnt-reply[data-idx=' + result.story_idx + ']').text(result.reply_cnt);
+          $('#messageModal input[name=action]').val('');
+          $('#messageModal input[name=deleteIdx]').val('');
+          $('#messageModal').modal('hide');
+        } else if (result.message == 'reload') {
+          location.reload();
+        } else {
+          location.replace($('input[name=baseUrl]').val());
+        }
       }
     }
   });
+}).on('click', '.btn-post-modal', function() {
+  if ($('input[name=userIdx]').val() == '') {
+    $('#loginModal').modal('show'); // 로그인
+    return false;
+  }
+  $('#storyModal').modal('show');
 }).on('click', '.btn-post', function() {
   // 스토리 작성
   var $dom = $(this);
+  var baseUrl = $('input[name=baseUrl]').val();
   var content = $('#club-story-content').val();
   var photo = $('.icon-photo-delete').data('filename');
   var page = $('input[name=page]').val();
   var userIdx = $('input[name=userIdx]').val();
+  var idx = $('#your-story-form input[name=idx]').val();
 
   if (userIdx == '') {
     $('#loginModal').modal('show'); // 로그인
     return false;
   }
 
-  if (content == '') { return false; }
   if (typeof(photo) == 'undefined') { photo = ''; }
+  if (content == '' && photo == '') { 
+    $('#storyModal .error-message').text('내용을 입력해주세요.').slideDown();
+    setTimeout(function() { $('#storyModal .error-message').text('').slideUp(); }, 2000);
+    return false;
+  }
+
+  if (typeof(idx) != 'undefined') {
+    var data = 'clubIdx=' + $('input[name=clubIdx]').val() + '&page=' + $('input[name=page]').val() + '&idx=' + idx + '&photo=' + photo + '&content=' + encodeURIComponent(content)
+  } else {
+    var data = 'clubIdx=' + $('input[name=clubIdx]').val() + '&page=' + $('input[name=page]').val() + '&photo=' + photo + '&content=' + encodeURIComponent(content)
+  }
 
   $.ajax({
-    url: $('input[name=baseUrl]').val() + 'story/insert/' + $('input[name=clubIdx]').val(),
-    data: 'page=' + $('input[name=page]').val() + '&photo=' + photo + '&content=' + content,
+    url: '/story/insert',
+    data: data,
     dataType: 'json',
     type: 'post',
     beforeSend: function() {
-      $dom.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+      $dom.css('opacity', '0.5').prop('disabled', true).text('전송중..');
       $('#club-story-content').prop('disabled', true);
     },
     success: function(result) {
       if (result.error == 1) {
-        $dom.css('opacity', '1').prop('disabled', false).text('등록합니다');
+        $dom.css('opacity', '1').prop('disabled', false).text('전송');
         $('#club-story-content').prop('disabled', false).val('');
         $('#messageModal .btn').hide();
         $('#messageModal .btn-refresh, #messageModal .btn-close').show();
         $('#messageModal .modal-message').text(result.message);
         $('#messageModal').modal();
       } else {
-        /*$('#club-story-content').prop('disabled', false).val('');
-        $dom.css('opacity', '1').prop('disabled', false).text('등록합니다');*/
-        location.reload();
+        if (typeof(idx) != 'undefined') {
+          location.replace(baseUrl + '/story/view/' + idx);
+        } else {
+          location.replace(baseUrl);
+        }
       }
     }
   });
+}).on('click', '.btn-reply-update', function() {
+  // 댓글 수정
+  var replyIdx = $(this).data('idx');
+  var $dom = $('.reply-content[data-idx=' + replyIdx + ']');
+  var content = $dom.text();
+
+  // 댓글에 대한 답글 정보 삭제
+  $('input[name=replyParentIdx]').val('');
+  $('.club-story-reply-response').remove();
+
+  // 수정 관련 정보 설정
+  $('input[name=replyIdx]').val(replyIdx);
+  $('.club-story-reply').val(content);
+  $('.btn-post-reply').text('댓글수정');
 }).on('click', '#club-story-content', function() {
   // 스토리 작성 텍스트 박스 클릭
   if ($('input[name=userIdx]').val() == '') {
@@ -1088,7 +1449,7 @@ $(document).on('click', '.btn-reply', function() {
   var page = $('input[name=page]').val();
 
   $.ajax({
-    url: $('input[name=baseUrl]').val() + 'story/delete_photo/' + $('input[name=clubIdx]').val(),
+    url: '/story/delete_photo',
     data: 'page=' + $('input[name=page]').val() + '&photo=' + $(this).data('filename'),
     dataType: 'json',
     type: 'post',
@@ -1099,35 +1460,61 @@ $(document).on('click', '.btn-reply', function() {
       }
     }
   });
-});
-
-$(window).scroll(function() {
-  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-    var paging = $('input[name=p]').val();
-    if (typeof paging != 'undefined') {
-      $('input[name=p]').val(Number(paging) + 1);
-      $.loadStory();
+}).on('click', '.story-photo', function() {
+  // 스토리 사진 확대
+  var $dom = $(this);
+  var filename = $dom.data('filename');
+  var width = $dom.data('width');
+  var height = $dom.data('height');
+  var pswpElement = document.querySelectorAll('.pswp')[0];
+  var items = [
+    {
+      src: filename,
+      w: width,
+      h: height
     }
-  }
-});
-
-$.loadStory = function() {
+  ];
+  var options = {
+    index: 0,
+    bgOpacity: 0.8,
+    showHideOpacity: true,
+    getThumbBoundsFn: function(index) {
+      var thumbnail = $dom[0],
+      pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
+      rect = thumbnail.getBoundingClientRect(); 
+      return {x:rect.left, y:rect.top + pageYScroll, w:rect.width};
+    }
+  };
+  var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
+  gallery.init();
+}).on('click', '.btn-story-more', function() {
+  // 더보기
+  var $btn = $(this);
   var storyIdx = $('input[name=n]').val();
   var paging = $('input[name=p]').val();
-  var data;
+  var data = '';
 
-  if (storyIdx != '') {
-    data = 'n=' + storyIdx;
-  } else {
-    data = 'p=' + paging;
-  }
-  $.ajax({
-    url: $('input[name=baseUrl]').val() + 'story/index/' + $('input[name=clubIdx]').val(),
-    data: data,
-    dataType: 'json',
-    type: 'post',
-    success: function(result) {
-      if (result != '') $('.story-article').append(result);
+  if (typeof storyIdx != 'undefined' && typeof paging != 'undefined') {
+    $('input[name=p]').val(Number(paging) + 1);
+    if (storyIdx == '') {
+      data = 'p=' + $('input[name=p]').val();
     }
-  });
-}
+    $.ajax({
+      url: $('input[name=baseUrl]').val() + '/story/index/' + storyIdx,
+      data: data,
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('불러오는 중.....');
+      },
+      success: function(result) {
+        if (result == '') {
+          $btn.css('opacity', '1').prop('disabled', true).text('마지막 페이지 입니다.');
+        } else {
+          $btn.css('opacity', '1').prop('disabled', false).text('더 보기 ▼');
+          if (result != '') $('.club-story-article').append(result);
+        }
+      }
+    });
+  }
+});

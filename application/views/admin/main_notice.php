@@ -1,132 +1,83 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
-      <!-- Main Content -->
-      <div id="content">
-        <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between">
-          <h1 class="h3 mb-0 text-gray-800">신규 산행 등록</h1>
-        </div>
-      </div>
-    </div>
-
-    <div class="area-reservation border-top border-bottom w-100 mt-4 mb-4 pb-4">
-      <div class="area-btn">
-        <div class="float-left">
-          <a href="<?=base_url()?>admin/main_entry/<?=$view['idx']?>"><button type="button" class="btn btn-primary">수정</button></a>
-          <a href="<?=base_url()?>admin/main_notice/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">공지</button></a>
-          <a href="<?=base_url()?>admin/main_view_progress/<?=$view['idx']?>"><button type="button" class="btn btn-primary">예약</button></a>
-          <a href="<?=base_url()?>admin/main_view_boarding/<?=$view['idx']?>"><button type="button" class="btn btn-primary">승차</button></a>
-          <a href="<?=base_url()?>admin/main_view_sms/<?=$view['idx']?>"><button type="button" class="btn btn-primary">문자</button></a>
-          <a href="<?=base_url()?>admin/main_view_adjust/<?=$view['idx']?>"><button type="button" class="btn btn-primary">정산</button></a>
-        </div>
-        <div class="float-right">
-          <select name="status" class="form-control form-control-sm change-status">
-            <option value="">산행 상태</option>
-            <option value="">------------</option>
-            <option<?=$view['status'] == STATUS_PLAN ? ' selected' : ''?> value="<?=STATUS_PLAN?>">계획</option>
-            <option<?=$view['status'] == STATUS_ABLE ? ' selected' : ''?> value="<?=STATUS_ABLE?>">예정</option>
-            <option<?=$view['status'] == STATUS_CONFIRM ? ' selected' : ''?> value="<?=STATUS_CONFIRM?>">확정</option>
-            <option<?=$view['status'] == STATUS_CANCEL ? ' selected' : ''?> value="<?=STATUS_CANCEL?>">취소</option>
-            <option<?=$view['status'] == STATUS_CLOSED ? ' selected' : ''?> value="<?=STATUS_CLOSED?>">종료</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <div class="sub-contents">
-      <form id="myForm" method="post" action="<?=base_url()?>admin/main_notice_update" enctype="multipart/form-data">
-        <input type="hidden" name="idx" value="<?=$view['idx']?>">
-        <input type="hidden" name="notice" value="1">
-        <div class="row">
-          <div class="col-sm-9">
-            <h2>■ 산행 공지</h2>
-          </div>
-          <div class="col-sm-3 pb-2 text-right">
-            <select class="form-control form-control-sm search-notice">
-              <option value="">▼ 다른 산행 공지 불러오기</option>
-              <?php foreach ($listNotice as $value): ?>
-              <option value='<?=$value['idx']?>'><?=$value['subject']?></option>
-              <?php endforeach; ?>
-            </select>
+        <?php if ($view['status'] != STATUS_PLAN) echo $headerMenuView; ?>
+        <div id="content" class="mb-5">
+          <div class="sub-contents">
+              <h2 class="m-0 p-0 pb-2"><b><?=viewStatus($view['status'])?></b> <?=$view['subject']?></h2>
+            <?php if (!empty($view['type'])): ?><div class="ti"><strong>・유형</strong> : <?=$view['type']?></div><?php endif; ?>
+            <div class="ti"><strong>・일시</strong> : <?=$view['startdate']?> (<?=calcWeek($view['startdate'])?>) <?=$view['starttime']?></div>
+            <?php $view['cost'] = $view['cost_total'] == 0 ? $view['cost'] : $view['cost_total']; if (!empty($view['cost'])): ?>
+            <?php if (!empty($view['sido'])): ?>
+            <div class="ti"><strong>・지역</strong> : <?php foreach ($view['sido'] as $key => $value): if ($key != 0): ?>, <?php endif; ?><?=$value?> <?=!empty($view['gugun'][$key]) ? $view['gugun'][$key] : ''?><?php endforeach; ?></div>
+            <?php endif; ?>
+            <div class="ti"><strong>・요금</strong> : <?=number_format($view['cost_total'] == 0 ? $view['cost'] : $view['cost_total'])?>원 (<?=calcTerm($view['startdate'], $view['starttime'], $view['enddate'], $view['schedule'])?><?=!empty($view['distance']) ? ', ' . calcDistance($view['distance']) : ''?><?=!empty($view['options']) ? ', ' . getOptions($view['options']) : ''?><?=!empty($view['options_etc']) ? ', ' . $view['options_etc'] : ''?><?=!empty($view['options']) || !empty($view['options_etc']) ? ' 제공' : ''?><?=!empty($view['costmemo']) ? ', ' . $view['costmemo'] : ''?>)</div>
+            <?php endif; ?>
+            <?=!empty($view['content']) ? '<div class="ti"><strong>・코스</strong> : ' . nl2br($view['content']) . '</div>' : ''?>
+            <?=!empty($view['kilometer']) ? '<div class="ti"><strong>・거리</strong> : ' . $view['kilometer'] . '</div>' : ''?>
+            <div class="ti"><strong>・예약</strong> : <?=cntRes($view['idx'])?>명</div>
+            <form id="myForm" method="post" action="<?=BASE_URL?>/admin/main_notice_update" enctype="multipart/form-data" class="mb-0">
+              <input type="hidden" name="noticeIdx" value="<?=$view['idx']?>">
+              <div class="row align-items-center">
+                <div class="col-sm-3 pb-2 text-right">
+                  <!--
+                  <select class="form-control form-control-sm search-notice">
+                    <option value="">▼ 다른 산행 공지 불러오기</option>
+                    <?php foreach ($listNotice as $value): ?>
+                    <option value='<?=$value['idx']?>'><?=$value['subject']?></option>
+                    <?php endforeach; ?>
+                  </select>
+                  -->
+                </div>
+              </div>
+              <div class="area-notice">
+                <?php foreach ($listNoticeDetail as $key => $value): ?>
+                <div class="item-notice pt-3">
+                  <div class="row align-items-center mb-2">
+                    <div class="col-10 col-sm-11 p-0 pr-2"><input type="hidden" name="idx[]" value="<?=$value['idx']?>"><input type="text" name="title[]" value="<?=$value['title']?>" class="form-control form-control-sm"></div>
+                    <div class="col-2 col-sm-1 p-0 text-right"><button type="button" class="btn btn-sm btn-danger btn-delete-notice pl-2 pr-2">삭제</button></div>
+                  </div>
+                  <textarea name="content[]" rows="10" cols="100" id="content_<?=$key?>" class="content"><?=$value['content']?></textarea>
+                </div>
+                <?php endforeach; ?>
+              </div>
+              <div class="area-button">
+                <button type="button" class="btn btn-sm btn-info btn-add-notice mr-2">항목추가</button>
+                <a target="_blank" href="<?=BASE_URL?>/admin/main_notice_view/<?=$view['idx']?>"><button type="button" class="btn btn-sm btn-secondary ml-2 mr-2">복사하기</button></a>
+                <button type="submit" class="btn btn-sm btn-default ml-2 mr-4">저장하기</button>
+              </div>
+            </form>
           </div>
         </div>
-        <table class="table table-notice">
-          <colgroup>
-            <col width="150">
-          </colgroup>
-          <tbody>
-            <tr>
-              <th>산행 제목</th>
-              <td><?=$view['subject']?></td>
-            </tr>
-            <tr>
-              <th>기획의도</th>
-              <td><textarea name="plan" id="plan" rows="10" cols="100"><?=$view['plan']?></textarea></td>
-            </tr>
-            <tr>
-              <th>산행개요</th>
-              <td><textarea name="point" id="point" rows="10" cols="100"><?=$view['point']?></textarea></td>
-            </tr>
-            <tr>
-              <th>산행지 소개</th>
-              <td><textarea name="intro" id="intro" rows="10" cols="100"><?=$view['intro']?></textarea></td>
-            </tr>
-            <tr>
-              <th>일정안내</th>
-              <td><textarea name="timetable" id="timetable" rows="10" cols="100"><?=$view['timetable']?></textarea></td>
-            </tr>
-            <tr>
-              <th>산행안내</th>
-              <td><textarea name="information" id="information" rows="10" cols="100"><?=$view['information']?></textarea></td>
-            </tr>
-            <tr>
-              <th>코스안내</th>
-              <td><textarea name="course" id="course" rows="10" cols="100"><?=$view['course']?></textarea></td>
-            </tr>
-<!--
-            <tr>
-              <th>산행지 사진</th>
-              <td><input type="file" name="photo"></td>
-            </tr>
-            <tr>
-              <th>산행 지도 사진</th>
-              <td><input type="file" name="map"></td>
-            </tr>
--->
-            <tr><td colspan="2"></td></tr>
-          </tbody>
-        </table>
 
-        <div class="area-button">
-          <button type="submit" class="btn btn-primary">확인합니다</button>
-        </div>
-      </form>
-    </div>
-
-    <script type="text/javascript">
-      CKEDITOR.replace('plan');
-      CKEDITOR.replace('point');
-      CKEDITOR.replace('intro');
-      CKEDITOR.replace('timetable');
-      CKEDITOR.replace('information');
-      CKEDITOR.replace('course');
-
-      $(document).on('change', '.search-notice', function() {
-        $.ajax({
-          url: $('input[name=base_url]').val() + 'admin/main_entry_notice',
-          data: 'idx=' + $(this).val(),
-          dataType: 'json',
-          type: 'post',
-          success: function(result) {
-            CKEDITOR.instances.plan.setData(result.plan);
-            CKEDITOR.instances.point.setData(result.point);
-            CKEDITOR.instances.intro.setData(result.intro);
-            CKEDITOR.instances.timetable.setData(result.timetable);
-            CKEDITOR.instances.information.setData(result.information);
-            CKEDITOR.instances.course.setData(result.course);
-          }
-        });
-      });
-    </script>
+        <script type="text/javascript">
+          CKEDITOR.replaceAll();
+          $('#sortable').disableSelection().sortable();
+          $(document).on('change', '.search-notice', function() {
+            $.ajax({
+              url: '/admin/main_entry_notice',
+              data: 'idx=' + $(this).val(),
+              dataType: 'json',
+              type: 'post',
+              success: function(result) {
+                CKEDITOR.instances.plan.setData(result.plan);
+                CKEDITOR.instances.point.setData(result.point);
+                CKEDITOR.instances.intro.setData(result.intro);
+                CKEDITOR.instances.timetable.setData(result.timetable);
+                CKEDITOR.instances.information.setData(result.information);
+                CKEDITOR.instances.course.setData(result.course);
+              }
+            });
+          }).on('click', '.btn-add-notice', function() {
+            // 항목 추가
+            var cnt = 0;
+            $('.content').each(function() { cnt++; });
+            var content = '<div class="item-notice pt-3"><div class="row align-items-center mb-2"><div class="col-10 col-sm-11 p-0 pr-2"><input type="text" name="title[]" class="form-control form-control-sm"></div><div class="col-2 col-sm-1 p-0 text-right"><button type="button" class="btn btn-sm btn-danger btn-delete-notice pl-2 pr-2">삭제</button></div></div><textarea name="content[]" rows="10" cols="100" id="content_' + cnt + '" class="content"></textarea></div>';
+            $('.area-notice').append(content);
+            CKEDITOR.replace('content_' + cnt);
+            $('html, body').animate({ scrollTop: $(document).height() }, 800);
+          }).on('click', '.btn-delete-notice', function() {
+            // 항목 삭제
+            var html = '<div class="w-100 text-center">저장 후 삭제됩니다.</div>';
+            $(this).closest('.item-notice').animate({ height: 50 }, 'slow').html(html);
+          });
+        </script>

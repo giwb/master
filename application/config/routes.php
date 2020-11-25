@@ -49,13 +49,49 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples: my-controller/index -> my_controller/index
 |       my-controller/my-method -> my_controller/my_method
 */
-$route['default_controller']    = 'club';
 $route['404_override']          = '';
 $route['translate_uri_dashes']  = FALSE;
 
-$route['(:num)']                = 'club/index';
-$route['club/(:num)']           = 'club/index';
-$route['reserve/(:num)']        = 'reserve/index';
-$route['login/(:num)']          = 'login/index';
-$route['logout']                = 'login/logout';
-$route['member/(:num)']         = 'member/index';
+// route에서 데이터베이스 사용
+require_once (BASEPATH . 'database/DB.php');
+$db =& DB();
+
+// 각 클럽 도메인별 이동
+$domain = $_SERVER['HTTP_HOST'];
+$query = $db->query("SELECT idx FROM clubs WHERE domain='$domain'");
+$result = $query->row_array(1);
+
+if (empty($result) && !empty($_SERVER['REDIRECT_URL'])) {
+  $arrUrl = explode('/', $_SERVER['REDIRECT_URL']);
+  $domain = html_escape($arrUrl[1]);
+  $query = $db->query("SELECT idx FROM clubs WHERE domain='$domain'");
+  $result = $query->row_array(1);
+}
+
+if (!empty($result['idx'])) {
+  setcookie('COOKIE_CLUBIDX', $result['idx']);
+
+  // 도메인이 있을 경우
+  $route['default_controller'] = 'club/index';
+  $route[$domain] = 'club/index';
+  $uri = '';
+  if (!empty($arrUrl)) {
+    foreach ($arrUrl as $key => $value) {
+      if ($key > 1 && !empty($value)) {
+        if ($key > 2) $uri .= '/';
+        $uri .= $value;
+      }
+    }
+  }
+  $route[$domain . '/' . $uri] = $uri;
+} else {
+  $route['default_controller']  = 'welcome';
+  $route['top']                 = 'welcome';
+  $route['login']               = 'login/index';
+  $route['logout']              = 'login/logout';
+  $route['member']              = 'member/index';
+  $route['club']                = 'welcome/club_listing';
+  $route['club/entry']          = 'welcome/club_entry';
+  $route['club/insert']         = 'welcome/club_insert';
+  $route['club/check_domain']   = 'welcome/check_domain';
+}

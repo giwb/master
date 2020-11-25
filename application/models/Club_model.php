@@ -66,12 +66,77 @@ class Club_model extends CI_Model
   // 백산백소 닉네임별 정보
   public function listAuthNotice($nickname)
   {
-    $this->db->select('ANY_VALUE(a.idx) AS idx, ANY_VALUE(a.rescode) AS rescode, ANY_VALUE(a.userid) AS userid, ANY_VALUE(a.nickname) AS nickname, ANY_VALUE(a.photo) AS photo, ANY_VALUE(a.title) AS title, ANY_VALUE(a.regdate) AS regdate')
+    $this->db->select('ANY_VALUE(a.idx) AS idx, ANY_VALUE(a.rescode) AS rescode, ANY_VALUE(a.userid) AS userid, ANY_VALUE(a.nickname) AS nickname, ANY_VALUE(a.photo) AS photo, ANY_VALUE(a.title) AS title, ANY_VALUE(a.regdate) AS regdate, ANY_VALUE(b.startdate) AS startdate')
           ->from(DB_AUTH . ' a')
-          ->from(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
+          ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
           ->where('a.nickname', $nickname)
-          ->group_by('a.title');
+          ->group_by('a.title')
+          ->order_by('startdate', 'asc');
     return $this->db->get()->result_array();
+  }
+
+  // 앨범 목록
+  public function listAlbum($clubIdx, $paging)
+  {
+    $this->db->select('a.*, b.nickname')
+          ->from(DB_ALBUM . ' a')
+          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
+          ->where('a.club_idx', $clubIdx)
+          ->where('a.deleted_at', NULL)
+          ->order_by('a.idx', 'desc');
+
+    if (!empty($paging['keyword'])) {
+      $this->db->like('a.subject', $paging['keyword']);
+    }
+    if (!empty($paging)) {
+      $this->db->limit($paging['perPage'], $paging['nowPage']);
+    }
+
+    return $this->db->get()->result_array();
+  }
+
+  // 앨범 카운트
+  public function cntAlbum($clubIdx)
+  {
+    $this->db->select('COUNT(*) AS cnt')
+          ->from(DB_ALBUM)
+          ->where('club_idx', $clubIdx)
+          ->where('deleted_at', NULL);
+    return $this->db->get()->row_array(1);
+  }
+
+  // 앨범 상세
+  public function viewAlbum($idx)
+  {
+    $this->db->select('*')
+          ->from(DB_ALBUM)
+          ->where('deleted_at', NULL)
+          ->where('idx', $idx);
+    return $this->db->get()->row_array(1);
+  }
+
+  // 앨범 등록
+  public function insertAlbum($data)
+  {
+    $this->db->insert(DB_ALBUM, $data);
+    return $this->db->insert_id();
+  }
+
+  // 앨범 수정
+  public function updateAlbum($data, $idx)
+  {
+    $this->db->set($data);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_ALBUM);
+  }
+
+  // 도메인 찾기
+  public function getDomain($domain)
+  {
+    $this->db->select('idx')
+          ->from(DB_CLUBS)
+          ->where('domain', $domain);
+    return $this->db->get()->row_array(1);
   }
 }
 ?>

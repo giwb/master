@@ -13,22 +13,22 @@
 
     <div class="sub-contents">
       <h2><b><?=viewStatus($view['status'])?></b> <?=$view['subject']?></h2>
-      산행분담금 : <?=number_format($view['cost_total'] == 0 ? $view['cost'] : $view['cost_total'])?>원 (<?=calcTerm($view['startdate'], $view['starttime'], $view['enddate'], $view['schedule'])?>)<br>
       산행일시 : <?=$view['startdate']?> (<?=calcWeek($view['startdate'])?>) <?=$view['starttime']?><br>
+      참가비용 : <?=number_format($view['cost_total'] == 0 ? $view['cost'] : $view['cost_total'])?>원 (<?=calcTerm($view['startdate'], $view['starttime'], $view['enddate'], $view['schedule'])?>)<br>
       예약인원 : <?=cntRes($view['idx'])?>명<br>
 
       <div class="area-reservation">
         <div class="area-btn">
           <div class="float-left">
-            <a href="<?=base_url()?>admin/main_view_progress/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">예약</button></a>
-            <a href="<?=base_url()?>admin/main_view_boarding/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">승차</button></a>
-            <a href="<?=base_url()?>admin/main_view_adjust/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">정산</button></a>
-            <a href="<?=base_url()?>admin/main_view_sms/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">문자</button></a>
+            <a href="/admin/main_view_progress/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">예약</button></a>
+            <a href="/admin/main_view_boarding/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">승차</button></a>
+            <a href="/admin/main_view_adjust/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">정산</button></a>
+            <a href="/admin/main_view_sms/<?=$view['idx']?>"><button type="button" class="btn btn-secondary">문자</button></a>
           </div>
           <div class="float-right">
           </div>
         </div>
-        <form id="changeSeatForm" method="post" action="<?=base_url()?>admin/reserve_change_seat">
+        <form id="changeSeatForm" method="post" action="/admin/reserve_change_seat">
 <?php
   // 이번 산행에 등록된 버스 루프
   $bus = 0;

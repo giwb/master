@@ -32,13 +32,13 @@
               <?php
                   else:
                     if ($value['status'] >= 1):
-                      $url = base_url() . 'reserve/' . $view['idx'] . '?n=' . $value['idx'];
+                      $url = BASE_URL . '/reserve/index/' . $value['idx'];
                     else:
                       $url = 'javascript:;';
                     endif;
               ?>
               {
-                title: '<?=$value['starttime']?>\n<?=$value['mname']?>',
+                title: '<?=$value['status'] != STATUS_PLAN ? $value['starttime'] . "\\n" : "[계획]\\n"?><?=$value['mname']?>',
                 start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>T00:00:01'),
                 end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>T23:59:59'),
                 url: '<?=$url?>',
@@ -58,23 +58,32 @@
 
       <div id="fb-root"></div>
       <div class="club-main">
-        <div id="calendar"></div>
+        <!-- 모바일 대표 사진 -->
+        <div class="d-block d-sm-none mt-1">
+          <?php if (!empty($view['main_photo'])): ?>
+          <a href="javascript:;" class="photo-zoom" data-filename="<?=$view['main_photo']?>" data-width="<?=$view['main_photo_width']?>" data-height="<?=$view['main_photo_height']?>"><img src="<?=$view['main_photo']?>" class="main-image"></a>
+          <?php endif; ?>
+        </div>
+        <div id="calendar" class="d-none d-sm-block"></div>
         <div class="your-story">
-          <form id="your-story-form" method="post" action="<?=base_url()?>club/upload">
-            <textarea id="club-story-content" placeholder="회원들에게 안부를 남겨주세요~"></textarea>
+          <form id="your-story-form" method="post" action="/story/insert">
+            <textarea id="club-story-content" placeholder="그저 온전히 행복해질 수 있는 하루.. 그런 산행..."></textarea>
             <div class="area-photo"></div>
             <div class="area-btn">
               <input type="file" class="file">
               <button type="button" class="btn btn-photo"><i class="fa fa-camera" aria-hidden="true"></i> 사진추가</button>
-              <button type="button" class="btn btn-post">등록합니다</button>
+              <button type="button" class="btn btn-post btn-<?=$view['main_color']?>">등록합니다</button>
               <input type="hidden" name="clubIdx" value="<?=$view['idx']?>">
               <input type="hidden" name="userIdx" value="<?=$userData['idx']?>">
               <input type="hidden" name="page" value="story">
             </div>
           </form>
-          <?=$listStory?>
-          <div class="story-article">
+          <div class="club-story-article">
+            <?=$listStory?>
           </div>
+          <?php if ($maxStory['cnt'] > $perPage): ?>
+          <button class="btn btn-story-more">더 보기 ▼</button>
+          <?php endif; ?>
           <input type="hidden" name="p" value="1">
           <input type="hidden" name="n" value="<?=!empty($storyIdx) ? $storyIdx : ''?>">
         </div>

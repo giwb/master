@@ -2,12 +2,12 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 // 로그인 클래스
-class Login extends CI_Controller
+class Login extends MY_Controller
 {
   function __construct()
   {
     parent::__construct();
-    $this->load->helper(array('url', 'my_array_helper'));
+    $this->load->helper(array('cookie', 'my_array_helper', 'url'));
     $this->load->library(array('image_lib', 'session'));
     $this->load->model(array('club_model', 'file_model', 'member_model', 'reserve_model'));
   }
@@ -18,34 +18,43 @@ class Login extends CI_Controller
    * @return view
    * @author bjchoi
    **/
-  public function index($clubIdx=NULL)
+  public function index()
   {
-    if (is_null($clubIdx)) {
-      $clubIdx = 1; // 최초는 경인웰빙
-    } else {
-      $clubIdx = html_escape($clubIdx);
+    $viewData['redirect_url'] = html_escape($this->input->get('r'));
+    checkUserLoginRedirect($viewData['redirect_url']); // 로그인 상태의 회원은 메인 페이지로
+
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+    if (empty($viewData['clubIdx']) && !empty($viewData['redirect_url'])) {
+      redirect(BASE_URL . '/login/?r=' . $viewData['redirect_url']);
+      exit;
     }
 
-    checkUserLoginRedirect($clubIdx); // 로그인 상태의 회원은 메인 페이지로
-
-    $viewData['view'] = $this->club_model->viewClub($clubIdx);
-    $viewData['redirect_url'] = html_escape($this->input->get('r'));
-
+    $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
     $userid = html_escape($this->input->post('userid'));
     $password = html_escape($this->input->post('password'));
+    $save = html_escape($this->input->post('save'));
 
     if (empty($userid) || empty($password)) {
+      // 페이지 타이틀
+      $viewData['pageTitle'] = '로그인';
+
       // 아이디와 패스워드가 없을때는 로그인 페이지를 보여준다.
       $this->_viewPage('login', $viewData);
     } else {
       // 아이디와 패스워드를 입력하면 로그인 처리를 실행한다.
-      $userData = $this->member_model->checkLogin($clubIdx, $userid, md5($password));
+      $userData = $this->member_model->checkLogin($userid);
 
       if (empty($userData['idx'])) {
         // 정보가 없으면 로그인 실패
         $result = array(
           'error' => 1,
-          'message' => '로그인에 실패했습니다. 다시 로그인 해주세요.'
+          'message' => '등록되지 않은 아이디입니다.'
+        );
+      } elseif ($userData['password'] != md5($password)) {
+        // 비밀번호가 다르면 로그인 실패
+        $result = array(
+          'error' => 1,
+          'message' => '비밀번호가 일치하지 않습니다.'
         );
       } else {
         // 로그인에 성공하면 회원정보 업데이트
@@ -54,10 +63,20 @@ class Login extends CI_Controller
         $updateValues['connect'] = $userData['connect'] + 1;
         $updateValues['lastdate'] = time();
 
-        $this->member_model->updateMember($updateValues, $clubIdx, $userData['idx']);
+        $this->member_model->updateMember($updateValues, $userData['idx']);
 
         // 세션 저장
         $this->session->set_userdata('userData', $userData);
+
+        if (empty($save)) {
+          // 쿠키 삭제
+          delete_cookie('cookie_userid');
+          delete_cookie('cookie_passwd');
+        } else {
+          // 쿠키 저장
+          set_cookie('cookie_userid', $userid, COOKIE_STRAGE_PERIOD);
+          set_cookie('cookie_passwd', $password, COOKIE_STRAGE_PERIOD);
+        }
 
         // 아이콘 사이즈 변경 (가로 사이즈가 200보다 클 경우)
         $filename = PHOTO_PATH . $userData['idx'];
@@ -75,11 +94,7 @@ class Login extends CI_Controller
           }
         }
 
-        $result = array(
-          'error' => 0,
-          'message' => '',
-          'url' => empty($viewData['redirect_url']) ? base_url() . $clubIdx : $viewData['redirect_url']
-        );
+        $result = array('error' => 0, 'message' => !empty($viewData['redirect_url']) ? $viewData['redirect_url'] : BASE_URL);
       }
 
       $this->output->set_output(json_encode($result));
@@ -94,6 +109,7 @@ class Login extends CI_Controller
    **/
   public function logout()
   {
+    // 세션 삭제
     $this->session->unset_userdata('userData');
     $this->output->set_output(0);
   }
@@ -104,11 +120,10 @@ class Login extends CI_Controller
    * @return json
    * @author bjchoi
    **/
-  public function check_userid($clubIdx)
+  public function check_userid()
   {
-    $clubIdx = html_escape($clubIdx);
     $userid = html_escape($this->input->post('userid'));
-    $check = $this->member_model->checkUserid($clubIdx, $userid);
+    $check = $this->member_model->checkUserid($userid);
 
     if (empty($check['idx'])) {
       $result = array(
@@ -131,12 +146,11 @@ class Login extends CI_Controller
    * @return json
    * @author bjchoi
    **/
-  public function check_nickname($clubIdx)
+  public function check_nickname()
   {
-    $clubIdx = html_escape($clubIdx);
     $userid = html_escape($this->input->post('userid'));
     $nickname = html_escape($this->input->post('nickname'));
-    $check = $this->member_model->checkNickname($clubIdx, $userid, $nickname);
+    $check = $this->member_model->checkNickname($userid, $nickname);
 
     if (empty($check)) {
       $result = array(
@@ -159,9 +173,9 @@ class Login extends CI_Controller
    * @return json
    * @author bjchoi
    **/
-  public function check_phone($clubIdx)
+  public function check_phone()
   {
-    $clubIdx = html_escape($clubIdx);
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $phone = html_escape($this->input->post('phone'));
     $check = $this->member_model->checkPhone($clubIdx, $phone);
 
@@ -180,17 +194,16 @@ class Login extends CI_Controller
    * @return view
    * @author bjchoi
    **/
-  public function entry($clubIdx=NULL)
+  public function entry()
   {
-    if (is_null($clubIdx)) {
-      $clubIdx = 1; // 최초는 경인웰빙
-    } else {
-      $clubIdx = html_escape($clubIdx);
-    }
-
-    checkUserLoginRedirect($clubIdx); // 로그인 상태의 회원은 메인 페이지로
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
+    checkUserLoginRedirect(BASE_URL); // 로그인 상태의 회원은 메인 페이지로
 
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '회원가입';
+
     $this->_viewPage('member/entry', $viewData);
   }
 
@@ -217,6 +230,7 @@ class Login extends CI_Controller
       'birthday'      => html_escape($inputData['birthday_year']) . '/' . html_escape($inputData['birthday_month']) . '/' . html_escape($inputData['birthday_day']),
       'birthday_type' => html_escape($inputData['birthday_type']),
       'phone'         => html_escape($inputData['phone1']) . '-' . html_escape($inputData['phone2']) . '-' . html_escape($inputData['phone3']),
+      'location'      => html_escape($inputData['location']),
       'connect'       => 1,
       'regdate'       => $now
     );
@@ -266,17 +280,16 @@ class Login extends CI_Controller
    * @return view
    * @author bjchoi
    **/
-  public function forgot($clubIdx)
+  public function forgot()
   {
-    if (is_null($clubIdx)) {
-      $clubIdx = 1; // 최초는 경인웰빙
-    } else {
-      $clubIdx = html_escape($clubIdx);
-    }
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
+    checkUserLoginRedirect(BASE_URL); // 로그인 상태의 회원은 메인 페이지로
 
-    checkUserLoginRedirect($clubIdx); // 로그인 상태의 회원은 메인 페이지로
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
-    $viewData['view'] = $this->club_model->viewclub($clubIdx);
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '아이디/비밀번호 찾기';
+
     $this->_viewPage('member/forgot', $viewData);
   }
 
@@ -320,7 +333,7 @@ class Login extends CI_Controller
   public function change_pw()
   {
     $clubIdx        = html_escape($this->input->post('clubIdx'));
-    $userid         = html_escape($this->input->post('userid'));
+    $userid         = html_escape($this->input->post('uid'));
     $realname       = html_escape($this->input->post('realname'));
     $gender         = html_escape($this->input->post('gender'));
     $birthday_year  = html_escape($this->input->post('birthday_year'));
@@ -329,7 +342,7 @@ class Login extends CI_Controller
     $phone1         = html_escape($this->input->post('phone1'));
     $phone2         = html_escape($this->input->post('phone2'));
     $phone3         = html_escape($this->input->post('phone3'));
-    $updateValues['password'] = md5(html_escape($this->input->post('password')));
+    $updateValues['password'] = md5(html_escape($this->input->post('new_password')));
 
     // 에러 메세지
     $result = array('error' => 1, 'message' => $this->lang->line('error_search_id'));
@@ -339,7 +352,7 @@ class Login extends CI_Controller
 
     if (!empty($userData['idx']) && !empty($updateValues['password'])) {
       // 비밀번호 변경
-      $rtn = $this->member_model->updateMember($updateValues, $clubIdx, $userData['idx']);
+      $rtn = $this->member_model->updateMember($updateValues, $userData['idx']);
 
       if (!empty($rtn)) {
         $result = array('error' => 0, 'message' => $this->lang->line('msg_change_password'));
@@ -347,6 +360,134 @@ class Login extends CI_Controller
     }
 
     $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * OAuth 로그인
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function oauth()
+  {
+    $provider = html_escape($this->input->get('provider'));
+    $redirectUrl = html_escape($this->input->get('redirectUrl'));
+    $state = md5('TRIPKOREA_' . time());
+
+    // OAuth State 세션 저장
+    $this->session->set_userdata('OAuthState', $state);
+
+    // Redirect Url 세션 저장
+    $this->session->set_userdata('redirectUrl', $redirectUrl);
+
+    switch ($provider) {
+      case 'kakao':
+        $url = 'https://kauth.kakao.com/oauth/authorize?client_id=' . API_KAKAO . '&redirect_uri=' . base_url() . API_KAKAO_URL . '&response_type=code&state=' . $state;
+        break;
+    }
+
+    redirect($url);
+  }
+
+  /**
+   * OAuth : 카카오 로그인
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function kakao()
+  {
+    $now = time();
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
+    $code = html_escape($this->input->get('code'));
+    $state = html_escape($this->input->get('state'));
+
+    // OAuth State 세션 불러오기
+    $OAuthState = $this->session->userdata('OAuthState');
+
+    // 리턴값이 정상이고 세션값이 일치하면 통과
+    if (empty($code) || $state != $OAuthState) {
+      echo '로그인에 실패했습니다.';
+      exit;
+    }
+
+    // POST 형식으로 토큰값 받아오기
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'https://kauth.kakao.com/oauth/token');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_POST, TRUE);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, 'grant_type=authorization_code&client_id=' . API_KAKAO . '&redirect_uri=' . base_url() . API_KAKAO_URL . '&code=' . $code);
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    // OAuth State 세션 제거
+    $this->session->unset_userdata('OAuthState');
+
+    // OAuth Access Token 세션 저장
+    $accessToken = array(
+      'response' => json_decode($response, TRUE),
+      'created' => $now
+    );
+    $this->session->set_userdata('OAuthAccessToken', $accessToken);
+
+    // 사용자 정보 받아오기
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'https://kapi.kakao.com/v2/user/me');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_POST, TRUE);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: Bearer ' . $accessToken['response']['access_token']));
+    $response = curl_exec($ch);
+    curl_close($ch);
+    $response = json_decode($response, TRUE);
+
+    // 신규 사용자인지 확인
+    $userData = $this->member_model->checkOAuthUser(PROVIDER_KAKAO, $response['kakao_account']['email']);
+
+    if (empty($userData)) {
+      // 신규 사용자는 가입
+      $insertValues = array(
+        'provider'      => PROVIDER_KAKAO,
+        'userid'        => $response['kakao_account']['email'],
+        'email'         => $response['kakao_account']['email'],
+        'nickname'      => $response['kakao_account']['profile']['nickname'],
+        'realname'      => $response['kakao_account']['profile']['nickname'],
+        'password'      => md5($response['id'] . $now),
+        'gender'        => !empty($response['kakao_account']['gender']) && $response['kakao_account']['gender'] == 'male' ? 'M' : 'F',
+        'birthday'      => !empty($response['kakao_account']['birthday']) ? $response['kakao_account']['birthday'] : NULL,
+        'birthday_type' => !empty($response['kakao_account']['birthday_type']) && $response['kakao_account']['birthday_type'] == 'SOLAR' ? '1' : '2',
+        'icon'          => !empty($response['kakao_account']['profile']['profile_image_url']) ? $response['kakao_account']['profile']['profile_image_url'] : NULL,
+        'icon_thumbnail' => !empty($response['kakao_account']['profile']['thumbnail_image_url']) ? $response['kakao_account']['profile']['thumbnail_image_url'] : NULL,
+        'connect'       => 1,
+        'regdate'       => $now
+      );
+
+      $idx = $this->member_model->insertMember($insertValues);
+
+      // 세션 저장
+      $userData = $this->member_model->viewMember($idx);
+      $this->session->set_userdata('userData', $userData);
+    } else {
+      // 기존 사용자는 로그인
+      $rescount = $this->admin_model->cntMemberReservation($userData['userid']);
+      $updateValues['rescount'] = $rescount['cnt']; // 예약 횟수 갱신 (회원 레벨 체크를 위해)
+      $updateValues['connect'] = $userData['connect'] + 1;
+      $updateValues['lastdate'] = $now;
+
+      $this->member_model->updateMember($updateValues, $userData['clubIdx'], $userData['idx']);
+
+      // 세션 저장
+      $this->session->set_userdata('userData', $userData);
+    }
+
+    // Redirect Url
+    $redirectUrl = $this->session->userdata('redirectUrl');
+
+    if (!empty($redirectUrl)) {
+      $this->session->unset_userdata('redirectUrl');
+      redirect($redirectUrl);
+    } else {
+      redirect(base_url());
+    }
   }
 
   /**
@@ -365,38 +506,68 @@ class Login extends CI_Controller
     $viewData['userData'] = $this->load->get_var('userData');
     $viewData['userLevel'] = $this->load->get_var('userLevel');
 
-    // 진행 중 산행
-    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
+    if (!empty($viewData['view'])) {
+      // 진행 중 산행
+      $viewData['listFooterNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
 
-    // 회원수
-    $viewData['view']['cntMember'] = $this->member_model->cntMember($viewData['view']['idx']);
-    $viewData['view']['cntMemberToday'] = $this->member_model->cntMemberToday($viewData['view']['idx']);
+      // 최신 댓글
+      $paging['perPage'] = 5; $paging['nowPage'] = 0;
+      $viewData['listFooterReply'] = $this->admin_model->listReply($viewData['view']['idx'], $paging);
 
-    // 방문자수
-    $viewData['view']['cntVisitor'] = $this->member_model->cntVisitor($viewData['view']['idx']);
-    $viewData['view']['cntVisitorToday'] = $this->member_model->cntVisitorToday($viewData['view']['idx']);
+      foreach ($viewData['listFooterReply'] as $key => $value) {
+        if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/story/view/' . $value['story_idx']; endif;
+        if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/reserve/list/' . $value['story_idx']; endif;
+        if ($value['reply_type'] == REPLY_TYPE_SHOP):   $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/shop/item/' . $value['story_idx']; endif;
+      }
 
-    // 클럽 대표이미지
-    $files = $this->file_model->getFile('club', $viewData['view']['idx']);
+      // 최신 사진첩
+      $paging['perPage'] = 2; $paging['nowPage'] = 0;
+      $viewData['listFooterAlbum'] = $this->club_model->listAlbum($viewData['view']['idx'], $paging);
 
-    if (empty($files)) {
-      $viewData['view']['photo'][0] = 'noimage.png';
-    } else {
-      foreach ($files as $key => $value) {
-        if (!empty($value['filename'])) {
-          $viewData['view']['photo'][$key] = $value['filename'];
+      foreach ($viewData['listFooterAlbum'] as $key => $value) {
+        $photo = $this->file_model->getFile('album', $value['idx'], NULL, 1);
+        if (!empty($photo[0]['filename'])) {
+          //$viewData['listAlbum'][$key]['photo'] = PHOTO_URL . 'thumb_' . $photo[0]['filename'];
+          $viewData['listFooterAlbum'][$key]['photo'] = PHOTO_URL . $photo[0]['filename'];
         } else {
-          $viewData['view']['photo'][$key] = 'noimage.png';
+          $viewData['listFooterAlbum'][$key]['photo'] = '/public/images/noimage.png';
         }
       }
+
+      // 클럽 대표이미지
+      $files = $this->file_model->getFile('club', $viewData['view']['idx']);
+      if (!empty($files[0]['filename']) && file_exists(PHOTO_PATH . $files[0]['filename'])) {
+        $size = getImageSize(PHOTO_PATH . $files[0]['filename']);
+        $viewData['view']['main_photo'] = PHOTO_URL . $files[0]['filename'];
+        $viewData['view']['main_photo_width'] = $size[0];
+        $viewData['view']['main_photo_height'] = $size[1];
+      }
+
+      $dir = '/club/';
+    } else $dir = '';
+
+    // 로그인 쿠키 처리
+    if (!empty(get_cookie('cookie_userid'))) {
+      $viewData['cookieUserid'] = get_cookie('cookie_userid');
+    } else {
+      $viewData['cookieUserid'] = '';
     }
+    if (!empty(get_cookie('cookie_passwd'))) {
+      $viewData['cookiePasswd'] = get_cookie('cookie_passwd');
+    } else {
+      $viewData['cookiePasswd'] = '';
+    }
+
+    // 리다이렉트 URL 추출
+    if ($_SERVER['SERVER_PORT'] == '80') $HTTP_HEADER = 'http://'; else $HTTP_HEADER = 'https://';
+    $viewData['redirectUrl'] = $HTTP_HEADER . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
     // 방문자 기록
     setVisitor();
 
-    $this->load->view('header', $viewData);
+    $this->load->view($dir . 'header', $viewData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view('footer', $viewData);
+    $this->load->view($dir . 'footer', $viewData);
   }
 }
 ?>

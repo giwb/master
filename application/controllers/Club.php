@@ -8,8 +8,8 @@ class Club extends MY_Controller
   {
     parent::__construct();
     $this->load->helper(array('cookie', 'security', 'url', 'my_array_helper'));
-    $this->load->library('image_lib');
-    $this->load->model(array('admin_model', 'area_model', 'club_model', 'file_model', 'notice_model', 'member_model', 'reserve_model', 'story_model'));
+    $this->load->library(array('cart', 'image_lib'));
+    $this->load->model(array('admin_model', 'area_model', 'club_model', 'file_model', 'notice_model', 'member_model', 'reserve_model', 'shop_model', 'story_model'));
   }
 
   /**
@@ -20,15 +20,30 @@ class Club extends MY_Controller
    **/
   public function index()
   {
-    $clubIdx = $this->load->get_var('clubIdx');
     $userData = $this->load->get_var('userData');
     if (empty($userData['idx'])) $userData['idx'] = NULL;
+
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
+    if (empty($clubIdx)) {
+      // 각 클럽 도메인별 이동
+      $domain = $_SERVER['HTTP_HOST'];
+      $result = $this->club_model->getDomain($domain);
+
+      if (!empty($result)) {
+        $clubIdx = $result['idx'];
+      } elseif (!empty($_SERVER['REDIRECT_URL'])) {
+        $arrUrl = explode('/', $_SERVER['REDIRECT_URL']);
+        $domain = html_escape($arrUrl[1]);
+        $result = $this->club_model->getDomain($domain);
+        $clubIdx = $result['idx'];
+      }
+    }
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
     if (empty($viewData['view'])) {
-      redirect(base_url());
+      redirect(BASE_URL);
       exit;
     }
 
@@ -56,28 +71,12 @@ class Club extends MY_Controller
     }
 
     // 최초 스토리 로딩
-    $paging['perPage'] = 5;
+    $paging['perPage'] = $viewData['perPage'] = 5;
     $paging['nowPage'] = (1 * $paging['perPage']) - $paging['perPage'];
+    $viewData['maxStory'] = $this->story_model->cntStory($clubIdx);
     $viewData['listStory'] = $this->story_model->listStory($clubIdx, $paging);
     $viewData['listStory'] = $this->load->view('story/index', $viewData, true);
 
-    // 클럽 스토리
-    //$viewData['listStory'] = $this->story_model->listStory($clubIdx, 5);
-
-/*
-    // 클럽 스토리 좋아요 확인 (로그인시에만)
-    if (!empty($userData['idx'])) {
-      $listStoryReaction = $this->story_model->listStoryReaction($clubIdx, $userData['idx']);
-
-      foreach ($viewData['listStory'] as $key => $value) {
-        foreach ($listStoryReaction as $reaction) {
-          if ($value['idx'] == $reaction['story_idx']) {
-            $viewData['listStory'][$key]['like'] = $reaction['created_by'];
-          }
-        }
-      }
-    }
-*/
     $this->_viewPage('club/index', $viewData);
   }
 
@@ -90,7 +89,7 @@ class Club extends MY_Controller
   public function past()
   {
     $now = time();
-    $clubIdx = $this->load->get_var('clubIdx');
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $sdate = html_escape($this->input->get('sdate'));
     $edate = html_escape($this->input->get('edate'));
@@ -110,6 +109,9 @@ class Club extends MY_Controller
     // 지난 산행
     $viewData['listPastNotice'] = $this->reserve_model->listNotice($clubIdx, array(STATUS_CLOSED), 'desc', $viewData['searchData']);
 
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '지난 산행보기';
+
     $this->_viewPage('club/past', $viewData);
   }
 
@@ -121,11 +123,14 @@ class Club extends MY_Controller
    **/
   public function about()
   {
-    $clubIdx = $this->load->get_var('clubIdx');
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '산악회 소개';
 
     $this->_viewPage('club/about', $viewData);
   }
@@ -138,11 +143,14 @@ class Club extends MY_Controller
    **/
   public function guide()
   {
-    $clubIdx = $this->load->get_var('clubIdx');
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '등산 안내인 소개';
 
     $this->_viewPage('club/guide', $viewData);
   }
@@ -155,11 +163,14 @@ class Club extends MY_Controller
    **/
   public function howto()
   {
-    $clubIdx = $this->load->get_var('clubIdx');
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '이용안내';
 
     $this->_viewPage('club/howto', $viewData);
   }
@@ -172,11 +183,14 @@ class Club extends MY_Controller
    **/
   public function auth_about()
   {
-    $clubIdx = $this->load->get_var('clubIdx');
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '백산백소 소개';
 
     $this->_viewPage('club/auth_about', $viewData);
   }
@@ -189,7 +203,7 @@ class Club extends MY_Controller
    **/
   public function auth()
   {
-    $clubIdx = $this->load->get_var('clubIdx');
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $sDate = '2019-04-06';
     $nDate = date('Y-m-d');
@@ -214,205 +228,10 @@ class Club extends MY_Controller
       $buf = $value['cnt'];
     }
 
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '백산백소 인증현황';
+
     $this->_viewPage('club/auth', $viewData);
-  }
-
-  /**
-   * 설정
-   *
-   * @return json
-   * @author bjchoi
-   **/
-  public function setup()
-  {
-    checkAdminLogin();
-    $clubIdx = $this->load->get_var('clubIdx');
-
-    // 클럽 정보
-    $viewData['view'] = $this->club_model->viewClub($clubIdx);
-    $viewData['view']['club_type'] = is_null($viewData['view']['club_type']) || strlen($viewData['view']['club_type']) <= 3 ? array() : unserialize($viewData['view']['club_type']);
-    $viewData['view']['club_option'] = is_null($viewData['view']['club_option']) || strlen($viewData['view']['club_option']) <= 3 ? array() : unserialize($viewData['view']['club_option']);
-    $viewData['view']['club_cycle'] = is_null($viewData['view']['club_cycle']) || strlen($viewData['view']['club_cycle']) <= 3 ? array() : unserialize($viewData['view']['club_cycle']);
-    $viewData['view']['club_week'] = is_null($viewData['view']['club_week']) || strlen($viewData['view']['club_week']) <= 3 ? array() : unserialize($viewData['view']['club_week']);
-    $viewData['view']['club_geton'] = is_null($viewData['view']['club_geton']) || strlen($viewData['view']['club_geton']) <= 3 ? array() : unserialize($viewData['view']['club_geton']);
-    $viewData['view']['club_getoff'] = is_null($viewData['view']['club_getoff']) || strlen($viewData['view']['club_getoff']) <= 3 ? array() : unserialize($viewData['view']['club_getoff']);
-    $files = $this->file_model->getFile('club', $clubIdx);
-
-    if (empty($files)) {
-      $viewData['view']['photo'][0] = '';
-    } else {
-      foreach ($files as $key => $value) {
-        if (!$value['filename'] == '') {
-          $viewData['view']['photo'][$key] = $value['filename'];
-        } else {
-          $viewData['view']['photo'][$key] = '';
-        }
-      }
-    }
-
-    $viewData['area_sido'] = $this->area_model->listSido();
-    if (!empty($viewData['view']['area_sido'])) {
-      $area_sido = unserialize($viewData['view']['area_sido']);
-      $area_gugun = unserialize($viewData['view']['area_gugun']);
-
-      foreach ($area_sido as $key => $value) {
-        $sido = $this->area_model->getName($value);
-        $gugun = $this->area_model->getName($area_gugun[$key]);
-        $viewData['list_sido'] = $this->area_model->listSido();
-        $viewData['list_gugun'][$key] = $this->area_model->listGugun($value);
-        $viewData['view']['sido'][$key] = $sido['name'];
-        $viewData['view']['gugun'][$key] = $gugun['name'];
-      }
-
-      $viewData['area_gugun'] = $this->area_model->listGugun($viewData['view']['area_sido']);
-    } else {
-      $viewData['area_gugun'] = array();
-    }
-
-    $this->_viewPage('club/setup', $viewData);
-  }
-
-  /**
-   * 설정 수정
-   *
-   * @return json
-   * @author bjchoi
-   **/
-  public function setup_update()
-  {
-    $now = time();
-    $input_data = $this->input->post();
-    $clubIdx = html_escape($input_data['clubIdx']);
-    $file = html_escape($input_data['file']);
-    $page = html_escape($input_data['page']);
-
-    $update_values = array(
-      'title'             => html_escape($input_data['title']),
-      'homepage'          => html_escape($input_data['homepage']),
-      'phone'             => html_escape($input_data['phone']),
-      'area_sido'         => make_serialize($input_data['area_sido']),
-      'area_gugun'        => make_serialize($input_data['area_gugun']),
-      'establish'         => html_escape($input_data['establish']),
-      'club_type'         => make_serialize($input_data['club_type']),
-      'club_option'       => make_serialize($input_data['club_option']),
-      'club_option_text'  => html_escape($input_data['club_option_text']),
-      'club_cycle'        => make_serialize($input_data['club_cycle']),
-      'club_week'         => make_serialize($input_data['club_week']),
-      'club_geton'        => make_serialize($input_data['club_geton']),
-      'club_getoff'       => make_serialize($input_data['club_getoff']),
-      'about'             => html_escape($input_data['about']),
-      'guide'             => html_escape($input_data['guide']),
-      'howto'             => html_escape($input_data['howto']),
-      'auth'              => html_escape($input_data['auth']),
-      'updated_by'        => 1,
-      'updated_at'        => $now
-    );
-    $result = $this->club_model->updateClub($update_values, $clubIdx);
-
-    // 로고 파일 등록
-    if (!empty($file)) {
-      // 기존 로고 파일이 있는 경우 삭제
-      $files = $this->file_model->getFile($page, $clubIdx);
-      foreach ($files as $value) {
-        $this->file_model->deleteFile($value['filename']);
-        if (file_exists(PHOTO_PATH . $value['filename'])) unlink(PHOTO_PATH . $value['filename']);
-      }
-
-      // 업로드 된 로고 파일이 있을 경우에만 등록 후 이동
-      if (file_exists(UPLOAD_PATH . $file)) {
-        $file_values = array(
-          'page' => $page,
-          'page_idx' => $clubIdx,
-          'filename' => $file,
-          'created_at' => $now
-        );
-        $this->file_model->insertFile($file_values);
-
-        // 파일 이동
-        rename(UPLOAD_PATH . $file, PHOTO_PATH . $file);
-
-        // 썸네일 만들기
-        $this->image_lib->clear();
-        $config['image_library'] = 'gd2';
-        $config['source_image'] = PHOTO_PATH . $file;
-        $config['new_image'] = PHOTO_PATH . 'thumb_' . $file;
-        $config['create_thumb'] = TRUE;
-        $config['maintain_ratio'] = FALSE;
-        $config['thumb_marker'] = '';
-        $config['width'] = 200;
-        $config['height'] = 200;
-        $this->image_lib->initialize($config);
-        $this->image_lib->resize();
-      }
-    }
-
-    if (empty($result)) {
-      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
-    } else {
-      $result = array('error' => 0, 'message' => '');
-    }
-
-    $this->output->set_output(json_encode($result));
-  }
-
-  /**
-   * 구군 목록
-   *
-   * @return json
-   * @author bjchoi
-   **/
-  public function list_gugun()
-  {
-    $parent = html_escape($this->input->post('parent'));
-    $result = $this->area_model->listGugun($parent);
-    $this->output->set_output(json_encode($result));
-  }
-
-  /**
-   * 파일 업로드
-   *
-   * @return json
-   * @author bjchoi
-   **/
-  public function upload()
-  {
-    if ($_FILES['file_obj']['type'] == 'image/jpeg') {
-      $filename = time() . mt_rand(10000, 99999) . ".jpg";
-
-      if (move_uploaded_file($_FILES['file_obj']['tmp_name'], UPLOAD_PATH . $filename)) {
-        // 사진 사이즈 줄이기 (가로가 사이즈가 1024보다 클 경우)
-        $maxSize = 800;
-        $size = getImageSize(UPLOAD_PATH . $filename);
-        if ($size[0] >= $maxSize) {
-          $this->image_lib->clear();
-          $config['image_library'] = 'gd2';
-          $config['source_image'] = UPLOAD_PATH . $filename;
-          //$config['new_image'] = UPLOAD_PATH . 'thumb_' . $filename;
-          $config['maintain_ratio'] = TRUE;
-          $config['width'] = $maxSize;
-          $this->image_lib->initialize($config);
-          $this->image_lib->resize();
-        }
-
-        $result = array(
-          'error' => 0,
-          'message' => base_url() . UPLOAD_URL . $filename,
-          'filename' => $filename
-        );
-      } else {
-        $result = array(
-          'error' => 1,
-          'message' => '사진 업로드에 실패했습니다.'
-        );
-      }
-    } else {
-      $result = array(
-        'error' => 1,
-        'message' => 'jpg 형식의 사진만 업로드 할 수 있습니다.'
-      );
-    }
-
-    $this->output->set_output(json_encode($result));
   }
 
   /**
@@ -432,37 +251,63 @@ class Club extends MY_Controller
     $viewData['userLevel'] = $this->load->get_var('userLevel');
 
     // 진행 중 산행
-    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
+    $viewData['listFooterNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
 
-    // 회원수
-    $viewData['view']['cntMember'] = $this->member_model->cntMember($viewData['view']['idx']);
-    $viewData['view']['cntMemberToday'] = $this->member_model->cntMemberToday($viewData['view']['idx']);
+    // 최신 댓글
+    $paging['perPage'] = 5; $paging['nowPage'] = 0;
+    $viewData['listFooterReply'] = $this->admin_model->listReply($viewData['view']['idx'], $paging);
 
-    // 방문자수
-    $viewData['view']['cntVisitor'] = $this->member_model->cntVisitor($viewData['view']['idx']);
-    $viewData['view']['cntVisitorToday'] = $this->member_model->cntVisitorToday($viewData['view']['idx']);
+    foreach ($viewData['listFooterReply'] as $key => $value) {
+      if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/story/view/' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/reserve/list/' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_SHOP):   $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/shop/item/' . $value['story_idx']; endif;
+    }
+
+    // 최신 사진첩
+    $paging['perPage'] = 2; $paging['nowPage'] = 0;
+    $viewData['listFooterAlbum'] = $this->club_model->listAlbum($viewData['view']['idx'], $paging);
+
+    foreach ($viewData['listFooterAlbum'] as $key => $value) {
+      $photo = $this->file_model->getFile('album', $value['idx'], NULL, 1);
+      if (!empty($photo[0]['filename'])) {
+        //$viewData['listAlbum'][$key]['photo'] = PHOTO_URL . 'thumb_' . $photo[0]['filename'];
+        $viewData['listFooterAlbum'][$key]['photo'] = PHOTO_URL . $photo[0]['filename'];
+      } else {
+        $viewData['listFooterAlbum'][$key]['photo'] = '/public/images/noimage.png';
+      }
+    }
 
     // 클럽 대표이미지
     $files = $this->file_model->getFile('club', $viewData['view']['idx']);
-
-    if (empty($files)) {
-      $viewData['view']['photo'][0] = 'noimage.png';
-    } else {
-      foreach ($files as $key => $value) {
-        if (!empty($value['filename'])) {
-          $viewData['view']['photo'][$key] = $value['filename'];
-        } else {
-          $viewData['view']['photo'][$key] = 'noimage.png';
-        }
-      }
+    if (!empty($files[0]['filename']) && file_exists(PHOTO_PATH . $files[0]['filename'])) {
+      $size = getImageSize(PHOTO_PATH . $files[0]['filename']);
+      $viewData['view']['main_photo'] = PHOTO_URL . $files[0]['filename'];
+      $viewData['view']['main_photo_width'] = $size[0];
+      $viewData['view']['main_photo_height'] = $size[1];
     }
+
+    // 로그인 쿠키 처리
+    if (!empty(get_cookie('cookie_userid'))) {
+      $viewData['cookieUserid'] = get_cookie('cookie_userid');
+    } else {
+      $viewData['cookieUserid'] = '';
+    }
+    if (!empty(get_cookie('cookie_passwd'))) {
+      $viewData['cookiePasswd'] = get_cookie('cookie_passwd');
+    } else {
+      $viewData['cookiePasswd'] = '';
+    }
+
+    // 리다이렉트 URL 추출
+    if ($_SERVER['SERVER_PORT'] == '80') $HTTP_HEADER = 'http://'; else $HTTP_HEADER = 'https://';
+    $viewData['redirectUrl'] = $HTTP_HEADER . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
     // 방문자 기록
     setVisitor();
 
-    $this->load->view('header', $viewData);
+    $this->load->view('club/header', $viewData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view('footer', $viewData);
+    $this->load->view('club/footer', $viewData);
   }
 }
 ?>

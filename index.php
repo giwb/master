@@ -55,11 +55,8 @@
  */
 
 //define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
-
-if (strstr($_SERVER['HTTP_HOST'], 'giwb.localhost') == true) {
+if (strstr($_SERVER['HTTP_HOST'], 'tripkorea.localhost') == true) {
 	define('ENVIRONMENT', 'development');
-} elseif (strstr($_SERVER['HTTP_HOST'], 'testing.giwb.kr') == true) {
-	define('ENVIRONMENT', 'testing');
 } else {
 	define('ENVIRONMENT', 'production');
 }

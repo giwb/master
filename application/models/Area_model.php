@@ -33,10 +33,31 @@ class Area_model extends CI_Model
   // 지역명
   public function getName($idx)
   {
-    $this->db->select('name')
+    $this->db->select('name, regid, nx, ny')
           ->from(DB_AREAS)
           ->where('idx', $idx);
     return $this->db->get()->row_array(1);
+  }
+
+  // 날씨 불러오기
+  public function getWeather($noticeIdx)
+  {
+    $this->db->select('json_data')
+          ->from(DB_WEATHER)
+          ->where('notice_idx', $noticeIdx);
+    return $this->db->get()->row_array(1);
+  }
+
+  // 날씨 저장
+  public function insertWeather($data)
+  {
+    $this->db->insert(DB_WEATHER, $data);
+  }
+
+  // 날씨 비우기
+  public function emptyWeather()
+  {
+    $this->db->truncate(DB_WEATHER);
   }
 }
 ?>
