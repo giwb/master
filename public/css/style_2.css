@@ -286,6 +286,8 @@ textarea.input {
 ===========================================================*/
 .container {
   max-width: 100%;
+  padding-right: 50px;
+  padding-left: 50px;
 }
 
 
@@ -1935,9 +1937,9 @@ h1.nav-logo small {
 
 /* Club Main */
 #club { width: 100%; margin: 0 0 30px 0; }
-#club .container { display: flex; display: -webkit-flex; margin: 0 auto; padding: 0 10px; }
+#club .container { display: flex; display: -webkit-flex; margin: 0 auto; padding: 0 30px; }
 #club .club-left { flex: 1; -webkit-flex: 1; }
-#club .club-main { flex: 3; -webkit-flex: 3; margin: 0 20px; }
+#club .club-main { flex: 3; -webkit-flex: 3; margin: 0 20px 0 0; }
 #club .club-right { flex: 1; -webkit-flex: 1; min-height: 825px; }
 
 #club .club-left .club-left-layer { position: fixed; }
@@ -2048,17 +2050,18 @@ h1.nav-logo small {
 #club .club-right ul.club-gallery li img { -webkit-transition: 1.6s -webkit-transform; transition: 1.6s -webkit-transform; transition: 1.6s transform; transition: 1.6s transform, 1.6s -webkit-transform; }
 #club .club-right ul.club-gallery li img:hover { transform: scale(1.2); }
 
-#club .list-schedule { font-size: 11px; margin: 0 0 20px 0; padding: 0px; }
-#club .list-schedule a { font-size: 14px; color: #000; display: block; border-bottom: 1px solid #eee; margin: 0px; padding: 10px 5px; }
+#club .list-schedule { font-size: 14px; margin: 0 0 20px 0; padding: 0px; }
+#club .list-schedule a { color: #000; min-height: 100px; display: block; margin: 0px; padding: 10px 5px; }
 #club .list-schedule a strong { color: #FF6C00; margin: 0px; padding: 0px; }
+#club .list-schedule .notice-photo { width: 145px; max-height: 134px; padding: 0 10px 0 0; }
 #club span.status-confirm { font-weight: bold; color: #000; }
 #club span.status-wait { font-weight: bold; color: #999; }
 #club span.status-plan, #club span.status-closed, #club span.status-cancel { font-weight: bold; color: #CCC; }
 #club .club-main .list-schedule { border: 1px solid #d9d9d9; border-width: 1px 0; }
 #club .club-main .list-schedule a { padding: 10px; }
 #club .club-main .area-schedule { display: none; }
-#club .list-reply a { font-size: 12px; }
-#club .list-reply a span { color: #FF6C00; }
+#club .list-reply a { min-height: auto; font-size: 12px; padding: 8px 5px; }
+#club .list-reply a span { font-size: 14px; color: #FF6C00; }
 
 #club .sub-contents { width: 100%!important; clear: both; margin: 0px; font-size: 14px; }
 #club .sub-contents h2.notice-title { font-size: 24px; font-family: "Malgun Gothic"; font-weight: bold; margin: 0px; padding: 0px; }
@@ -2337,7 +2340,7 @@ h1.nav-logo small {
   #nav-footer li { width: 20%; font-size: 12px; display: table-cell; vertical-align: middle; text-align: center; }
   #nav-footer li i { font-size: 20px; color: #666; }
 
-  #club .container { flex: auto; display: block; }
+  #club .container { flex: auto; display: block; padding: 0 15px; }
   #club .club-left { display: none; }
   #club .club-main { width: 100%; flex: auto; -webkit-flex: auto; display: block; margin: 0px; }
   #club .club-right { width: 100%; flex: auto; -webkit-flex: auto; display: block; margin: 0px; }

@@ -180,6 +180,21 @@
     $('#messageModal input[name=action]').val('log_reply_delete');
     $('#messageModal input[name=delete_idx]').val($(this).data('idx'));
     $('#messageModal').modal({backdrop: 'static', keyboard: false});
+  }).on('click', '.btn-notice-photo-delete', function() {
+    // 공지사항 메인 사진 삭제
+    var filename = $('input[name=filename]').val();
+    if (filename != '' && typeof(filename) != 'undefined') {
+      $(this).css('opacity', '0.5').prop('disabled', true);
+      $.ajax({
+        url: '/admin/main_notice_photo_delete',
+        data: 'idx=' + $('input[name=noticeIdx]').val() + '&filename=' + filename,
+        dataType: 'json',
+        type: 'post',
+        success: function(result) {
+          if (result != 1) location.reload();
+        }
+      });
+    }
   }).on('click', '.btn-delete', function() {
     // 삭제
     var $btn = $(this);

@@ -30,6 +30,24 @@
                 </div>
               </div>
               <div class="area-notice">
+                <div class="mt-3 border-top border-bottom">
+                  <div class="row align-items-center mt-3 mb-3">
+                    <div class="col-3 col-sm-2 p-0 pl-2">대표 사진</div>
+                    <div class="col-7 col-sm-7 p-0 pr-2">
+                      <?php if (!empty($view['photo']) && file_exists(PHOTO_PATH . 'thumb_' . $view['photo'])): ?>
+                      <a target="_blank" href="<?=PHOTO_URL . $view['photo']?>"><img src="<?=PHOTO_URL . 'thumb_' . $view['photo']?>"></a>
+                      <input type="hidden" name="filename" value="<?=$view['photo']?>">
+                      <?php else: ?>
+                      <input type="file" name="photo">
+                      <?php endif; ?>
+                    </div>
+                    <div class="col-2 col-sm-3 p-0 text-right">
+                      <?php if (!empty($view['photo'])): ?>
+                      <button type="button" class="btn btn-sm btn-danger btn-notice-photo-delete pl-2 pr-2">삭제</button>
+                      <?php endif; ?>
+                    </div>
+                  </div>
+                </div>
                 <?php foreach ($listNoticeDetail as $key => $value): ?>
                 <div class="item-notice pt-3">
                   <div class="row align-items-center mb-2">

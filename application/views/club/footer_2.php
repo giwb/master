@@ -5,7 +5,13 @@
         <h3><i class="fa fa-calendar" aria-hidden="true"></i> 현재 진행중인 산행</h3>
         <div class="list-schedule">
           <?php foreach ($listFooterNotice as $value): ?>
-          <a href="<?=BASE_URL?>/reserve/list/<?=$value['idx']?>"><?=viewStatus($value['status'])?> <strong><?=$value['subject']?></strong><br><small><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명</small></a>
+          <a href="<?=BASE_URL?>/reserve/list/<?=$value['idx']?>">
+            <?php if (!empty($value['photo']) && file_exists(PHOTO_PATH . 'thumb_' . $value['photo'])): ?>
+            <img class="notice-photo" align="left" src="<?=PHOTO_URL . 'thumb_' . $value['photo']?>">
+            <?php endif; ?>
+            <div class="mt-0"><?=viewStatus($value['status'])?> <strong><?=$value['subject']?></strong></div>
+            <small><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명</small>
+          </a>
           <?php endforeach; ?>
         </div>
         <?php endif; ?>
