@@ -2293,7 +2293,7 @@ h1.nav-logo small {
 
 /* 사진첩 */
 #album .album-item { position: relative; text-align: center; }
-#album .album-photo { width: 100%; height: 140px; border-radius: 10px; }
+#album .album-photo { width: 100%; height: 210px; border-radius: 10px; }
 #album .album-photo:hover { box-shadow: #ddd 3px 3px 3px; }
 #album .album-item .ajax-loader { position: absolute; top: 25px; left: 55px; z-index: 90; }
 
