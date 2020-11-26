@@ -82,28 +82,43 @@
             <div class="col-sm-3"><a href="<?=BASE_URL?>"><h1 class="nav-logo"><?=!empty($view['title']) ? $view['title'] : '한국여행 <small>TripKorea.net</small>'?></h1></a></div>
             <div class="col-sm-9 text-right">
               <ul>
-                <li class="mr-4"><a href="<?=BASE_URL?>/club/about">산악회</a></li>
-                <li class="mr-4"><a href="<?=BASE_URL?>/club/guide">안내인</a></li>
 
-                <?php if (!empty($userLevel['levelType']) && $userLevel['levelType'] >= 1): ?>
-                <li class="mr-4"><a href="<?=BASE_URL?>/club/past">지난산행</a></li>
-                <?php endif; ?>
+                <?php if (!empty($view['idx']) && $view['idx'] == 1): // 경인웰빙 메뉴 ?>
 
-                <li class="mr-4"><a href="<?=BASE_URL?>/club/howto">이용안내</a></li>
+                  <li class="mr-4">
+                    <a href="javascript:;" class="submenu-nav" data-nav-idx="1">경인웰빙</a>
+                    <div class="submenu d-none" data-nav-idx="1">
+                      <a href="<?=BASE_URL?>/club/about">산악회 소개</a><br>
+                      <a href="<?=BASE_URL?>/club/guide">등산안내인 소개</a><br>
+                      <a href="<?=BASE_URL?>/club/howto">이용안내</a><br>
+                      <?php if (!empty($userLevel['levelType']) && $userLevel['levelType'] >= 1): ?>
+                      <a href="<?=BASE_URL?>/club/past">지난산행</a><br>
+                      <?php endif; ?>
+                    </div>
+                  </li>
+                  <li class="mr-4">
+                    <a href="javascript:;" class="submenu-nav" data-nav-idx="2">백산백소</a>
+                    <div class="submenu d-none" data-nav-idx="2">
+                      <a href="<?=BASE_URL?>/club/auth_about">백산백소 소개</a><br>
+                      <a href="<?=BASE_URL?>/club/auth">인증현황</a><br>
+                    </div>
+                  </li>
+                  <li class="mr-4"><a href="<?=BASE_URL?>/album">산행앨범</a></li>
+                  <li class="mr-4"><a href="<?=BASE_URL?>/shop">구매대행</a></li>
+                  <li class="mr-4"><a target="_blank" href="http://giwb.co.kr">다음카페</a></li>
+                  <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN): ?>
+                  <li class="mr-4"><a href="<?=BASE_URL?>/member/driver">드라이버</a></li>
+                  <?php endif; ?>
 
-                <?php if (!empty($view['idx']) && $view['idx'] == 1): // 경인웰빙 한정 ?>
-                <li class="mr-4"><a href="<?=BASE_URL?>/club/auth_about">백산백소</a></li>
-                <li class="mr-4"><a href="<?=BASE_URL?>/club/auth">인증현황</a></li>
-                <?php endif; ?>
+                <?php else: // 일반 산악회 메뉴 ?>
 
-                <li class="mr-4"><a href="<?=BASE_URL?>/album">사진첩</a></li>
-                <li class="mr-4"><a href="<?=BASE_URL?>/shop">구매대행</a></li>
+                  <li class="mr-4"><a href="<?=BASE_URL?>/club/about">산악회 소개</a></li>
+                  <li class="mr-4"><a href="<?=BASE_URL?>/club/howto">이용안내</a></li>
+                  <?php if (!empty($userLevel['levelType']) && $userLevel['levelType'] >= 1): ?>
+                  <li class="mr-4"><a href="<?=BASE_URL?>/club/past">지난산행</a></li>
+                  <?php endif; ?>
+                  <li class="mr-4"><a href="<?=BASE_URL?>/album">산행앨범</a></li>
 
-                <?php if (!empty($view['idx']) && $view['idx'] == 1): // 경인웰빙 한정 ?>
-                <li class="mr-4"><a target="_blank" href="http://giwb.co.kr">다음카페</a></li>
-                <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN): ?>
-                <li class="mr-4"><a href="<?=BASE_URL?>/member/driver">드라이버</a></li>
-                <?php endif; ?>
                 <?php endif; ?>
 
                 <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>

@@ -668,6 +668,15 @@
         }
       }
     });
+  }).on('click', '.submenu-nav', function() {
+    // TOP 네비게이션
+    var $dom = $('.submenu[data-nav-idx=' + $(this).data('nav-idx') + ']');
+    if ($dom.css('display') == 'none') {
+      $dom.removeClass('d-none');
+      $dom.slideDown();
+    } else {
+      $dom.slideUp();
+    }
   }).on('click', '.img-profile', function() {
     // 로그인 아이콘
     var $dom = $('.profile-box');
