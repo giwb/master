@@ -1492,6 +1492,29 @@ exit;
     $inputData = $this->input->post();
     $noticeIdx = html_escape($inputData['noticeIdx']);
 
+    // 사진 처리
+    if (!empty($_FILES['photo']['tmp_name'])) {
+      $filename = time() . mt_rand(10000, 99999) . ".jpg";
+      if (move_uploaded_file($_FILES['photo']['tmp_name'], PHOTO_PATH . $filename)) {
+        // 사진 정보 입력
+        $updateValues = array('photo' => $filename);
+        $this->admin_model->updateEntry($updateValues, $noticeIdx);
+
+        // 썸네일 만들기
+        $this->image_lib->clear();
+        $config['image_library'] = 'gd2';
+        $config['source_image'] = PHOTO_PATH . $filename;
+        $config['new_image'] = PHOTO_PATH . 'thumb_' . $filename;
+        $config['create_thumb'] = TRUE;
+        $config['maintain_ratio'] = TRUE;
+        $config['thumb_marker'] = '';
+        $config['width'] = 200;
+        $config['height'] = 200;
+        $this->image_lib->initialize($config);
+        $this->image_lib->resize();
+      }
+    }
+
     if (!empty($noticeIdx)) {
       // 삭제
       $listNoticeDetail = $this->admin_model->listNoticeDetail($noticeIdx);
@@ -1536,9 +1559,39 @@ exit;
   }
 
   /**
+   * 공지사항 대표 사진 삭제
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function main_notice_photo_delete()
+  {
+    $idx = html_escape($this->input->post('idx'));
+    $filename = html_escape($this->input->post('filename'));
+
+    // 사진 파일 삭제
+    if (!empty($idx) && !empty($filename)) {
+      if (file_exists(PHOTO_PATH . $filename)) unlink(PHOTO_PATH . $filename);
+      if (file_exists(PHOTO_PATH . 'thumb_' . $filename)) unlink(PHOTO_PATH . 'thumb_' . $filename);
+
+      // 사진 정보 삭제
+      $updateValues = array('photo' => NULL);
+      $rtn = $this->admin_model->updateEntry($updateValues, $idx);
+    }
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+    } else {
+      $result = array('error' => 0, 'message' => '');
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 산행 삭제
    *
-   * @return view
+   * @return json
    * @author bjchoi
    **/
   public function main_notice_delete()
