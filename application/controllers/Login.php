@@ -543,8 +543,12 @@ class Login extends MY_Controller
         $viewData['view']['main_photo_height'] = $size[1];
       }
 
-      $dir = '/club/';
-    } else $dir = '';
+      $pageHeader = '/club/header_' . $viewData['view']['main_design'];
+      $pageFooter = '/club/footer_' . $viewData['view']['main_design'];
+    } else {
+      $pageHeader = 'header';
+      $pageFooter = 'footer';
+    }
 
     // 로그인 쿠키 처리
     if (!empty(get_cookie('cookie_userid'))) {
@@ -565,9 +569,9 @@ class Login extends MY_Controller
     // 방문자 기록
     setVisitor();
 
-    $this->load->view($dir . 'header', $viewData);
+    $this->load->view($pageHeader, $viewData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view($dir . 'footer', $viewData);
+    $this->load->view($pageFooter, $viewData);
   }
 }
 ?>
