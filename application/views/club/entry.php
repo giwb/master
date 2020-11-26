@@ -108,6 +108,15 @@
               </div>
             </div>
             <div class="row align-items-center border-bottom mb-3 pb-3">
+              <div class="col-sm-3 font-weight-bold">디자인 <span class="text-require">(*)</span></div>
+              <div class="col-sm-9">
+                <div class="row">
+                  <div class="col-2 pl-0 pr-5 text-center"><label><input type="radio" name="main_design" value="1" checked> 1번</label></div>
+                  <div class="col-2 pl-0 pr-5 text-center"><label><input type="radio" name="main_design" value="2"> 2번</label></div>
+                </div>
+              </div>
+            </div>
+            <div class="row align-items-center border-bottom mb-3 pb-3">
               <div class="col-sm-3 font-weight-bold">기본 색상 <span class="text-require">(*)</span></div>
               <div class="col-sm-9">
                 <div class="row">

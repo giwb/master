@@ -849,9 +849,9 @@ class Reserve extends MY_Controller
     // 방문자 기록
     setVisitor();
 
-    $this->load->view('club/header', $viewData);
+    $this->load->view('club/header_' . $viewData['view']['main_design'], $viewData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view('club/footer', $viewData);
+    $this->load->view('club/footer_' . $viewData['view']['main_design'], $viewData);
   }
 }
 ?>

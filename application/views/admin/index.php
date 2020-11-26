@@ -17,6 +17,7 @@
                 <?php
                   foreach ($listNoticeSchedule as $value):
                     $startDate = strtotime($value['startdate']);
+                    $value['mname'] = htmlspecialchars_decode($value['mname']);
                     if (!empty($value['enddate'])): $endDate = calcEndDate($value['startdate'], $value['enddate']);
                     else: $endDate = calcEndDate($value['startdate'], $value['schedule']);
                     endif;

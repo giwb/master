@@ -40,7 +40,7 @@
     #club a:hover { color: #0AB031; }
   </style>
   <?php endif; ?>
-  <link href="/public/css/style.css?<?=time()?>" rel="stylesheet">
+  <link href="/public/css/style_<?=$view['main_design']?>.css?<?=time()?>" rel="stylesheet">
 
   <script src="/public/js/jquery-2.1.4.min.js" type="text/javascript"></script>
   <script src="/public/js/jquery-ui.custom.min.js" type="text/javascript"></script>
