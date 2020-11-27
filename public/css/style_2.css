@@ -2417,6 +2417,7 @@ h1.nav-logo small {
   #club .club-main .story-reply .btn-post-reply { font-size: 12px; white-space: nowrap; }
   #storyModal button { font-size: 12px; }
 
+  #album .album-photo { width: 100%; height: 100px; }
   #album .album-item .ajax-loader { position: absolute; top: 38%; left: 43%; z-index: 90; }
 
   #shop .btn-cart-insert { font-size: 12px; }
