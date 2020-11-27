@@ -1,6 +1,6 @@
 <?php foreach ($listItem as $key => $value): ?>
-  <?php if ($key == 0): ?><div class="row d-flex justify-content-left"><?php elseif ($key%3 == 0): ?></div><div class="row d-flex justify-content-left"><?php endif; ?>
-  <div class="col-sm-4 text-center mb-4 pl-2 pr-2">
+  <?php if ($key == 0): ?><div class="row d-flex justify-content-left"><?php elseif ($key%4 == 0): ?></div><div class="row d-flex justify-content-left"><?php endif; ?>
+  <div class="col-sm-3 text-center mb-4 pl-2 pr-2">
     <div class="shop-item p-3 h-100" data-idx="<?=$value['idx']?>">
       <div class="item-photo"><img src="<?=$value['item_photo']?>"></div>
       <div class="item-category"><?php if (!empty($value['item_category_name'])): foreach ($value['item_category_name'] as $cnt => $cname): ?><?=$cnt != 0 ? ' &gt; ' : ''?><?=$cname?><?php endforeach; endif; ?></div>
