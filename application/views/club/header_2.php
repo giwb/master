@@ -77,8 +77,7 @@
   <header id="header">
     <div id="nav">
       <div id="nav-top" class="bg-<?=$view['main_color']?>">
-        <div class="container">
-          <div class="row align-items-center pt-3">
+          <div class="row align-items-center pt-3 pl-5 pr-5">
             <div class="col-sm-3"><a href="<?=BASE_URL?>"><h1 class="nav-logo"><?=!empty($view['title']) ? $view['title'] : '한국여행 <small>TripKorea.net</small>'?></h1></a></div>
             <div class="col-sm-9 text-right">
               <ul>
