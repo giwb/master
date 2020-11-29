@@ -17,7 +17,7 @@ class MY_Controller extends CI_Controller
       $arrUri = explode('/', $_SERVER['REDIRECT_URL']);
       $uri = html_escape($arrUri[1]);
 
-      if (empty($uri) || $uri == 'login' || $uri == 'place' || $uri == 'club') {
+      if (empty($uri) || $uri == 'login' || $uri == 'place' || $uri == 'club' || $uri == 'admin') {
         define('BASE_URL', $header . $_SERVER['HTTP_HOST']);
       } else {
         $result = $this->club_model->getDomain($_SERVER['HTTP_HOST']);

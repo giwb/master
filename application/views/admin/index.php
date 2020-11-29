@@ -47,7 +47,13 @@
           });
         </script>
 
-        <h2 class="sub-header mb-4">관리자 페이지</h2>
+        <h2 class="text-center d-none d-sm-block">관리자 페이지</h2>
+
+        <form method="post" action="<?=BASE_URL?>/admin/log_reserve" class="row mt-2 mb-3">
+          <div class="col-9 col-sm-11 pr-0"><input type="text" name="k" value="<?=!empty($keyword) ? $keyword : ''?>" class="form-control form-control-sm"></div>
+          <div class="col-3 col-sm-1"><button class="btn btn-sm btn-<?=$viewClub['main_color']?> w-100">검색</button></div>
+        </form>
+
         <div class="row mt-2">
           <div class="col-xl-6 col-md-6 mb-4">
             <div class="card border-left-primary shadow py-2" onClick="location.href=('<?=BASE_URL?>/admin/member_list')">

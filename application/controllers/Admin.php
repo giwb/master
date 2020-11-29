@@ -65,7 +65,7 @@ class Admin extends Admin_Controller
     $viewData['cntTodayVisitor'] = $this->admin_model->cntTodayVisitor($viewData['clubIdx']);
 
     // 페이지 타이틀
-    $viewData['pageTitle'] = '대시보드';
+    $viewData['pageTitle'] = '관리자 페이지';
 
     $this->_viewPage('admin/index', $viewData);
   }

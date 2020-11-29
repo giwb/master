@@ -8,6 +8,8 @@
           <a href="<?=BASE_URL?>/reserve/list/<?=$value['idx']?>">
             <?php if (!empty($value['photo']) && file_exists(PHOTO_PATH . 'thumb_' . $value['photo'])): ?>
             <img class="notice-photo" align="left" src="<?=PHOTO_URL . 'thumb_' . $value['photo']?>">
+            <?php else: ?>
+            <img class="notice-photo" align="left" src="/public/images/nophoto.png">
             <?php endif; ?>
             <div class="mt-0"><?=viewStatus($value['status'])?> <strong><?=$value['subject']?></strong></div>
             <small><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명</small>

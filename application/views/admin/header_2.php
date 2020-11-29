@@ -83,10 +83,10 @@
       <div id="nav-top" class="bg-<?=$viewClub['main_color']?>">
         <div class="container">
           <div class="row align-items-center pt-3">
-            <div class="col-sm-4"><a href="<?=goHome($viewClub['domain'])?>"><h1 class="nav-logo"><?=!empty($viewClub['title']) ? $viewClub['title'] : ''?></h1></a></div>
+            <div class="col-sm-4"><a href="<?=BASE_URL?>/admin"><h1 class="nav-logo"><?=!empty($viewClub['title']) ? $viewClub['title'] : ''?></h1></a></div>
             <div class="col-sm-8 text-right">
               <ul class="navi">
-                <li><a href="<?=BASE_URL?>/admin"><i class="fas fa-chalkboard" aria-hidden="true"></i> 관리자 홈</a></li>
+                <li><a href="<?=goHome($viewClub['domain'])?>"><i class="fas fa-chalkboard" aria-hidden="true"></i> 산악회 홈</a></li>
                 <li><a href="<?=BASE_URL?>/admin/main_list_progress"><i class="fas fa-mountain" aria-hidden="true"></i> 산행관리</a></li>
                 <?php if ($viewClub['idx'] == 1): ?>
                 <li><a href="<?=BASE_URL?>/ShopAdmin/order"><i class="fas fa-shopping-cart" aria-hidden="true"></i> 구매대행</a></li>
@@ -95,13 +95,6 @@
                 <li><a href="<?=BASE_URL?>/admin/log_user"><i class="fas fa-exchange-alt" aria-hidden="true"></i> 활동관리</a></li>
                 <li><a href="<?=BASE_URL?>/admin/attendance_auth"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소</a></li>
                 <li><a href="<?=BASE_URL?>/admin/setup_information"><i class="fas fa-cog" aria-hidden="true"></i> 설정</a></li>
-              <!--
-              <div class="club-search">
-                <form method="post" action="<?=BASE_URL?>/admin/log_reserve">
-                  <div class="club-search-item1"><input type="text" name="k" value="<?=!empty($keyword) ? $keyword : ''?>" class="form-control form-control-sm"></div>
-                  <div class="club-search-item2"><button class="btn btn-sm btn-<?=$viewClub['main_color']?>">검색</button></div>
-                </form>
-              </div>-->
 
                 <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
                 <li><img class="img-profile" src="<?=PHOTO_URL . $userData['idx']?>"></li>

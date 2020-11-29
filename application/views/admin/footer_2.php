@@ -7,8 +7,16 @@
         <?php if (empty($listNotice)): ?>
         <div class="text-center border-bottom mb-3 pt-5 pb-5">등록된 산행이 없습니다.</div>
         <?php else: foreach ($listNotice as $value): ?>
-        <a href="<?=BASE_URL?>/admin/main_view_progress/<?=$value['idx']?>"><?=viewStatus($value['status'])?> <strong><?=$value['subject']?></strong><br><small><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명</small></a>
-        <?php endforeach; endif; ?>
+          <a href="<?=BASE_URL?>/admin/main_view_progress/<?=$value['idx']?>">
+          <?php if (!empty($value['photo']) && file_exists(PHOTO_PATH . 'thumb_' . $value['photo'])): ?>
+          <img class="notice-photo" align="left" src="<?=PHOTO_URL . 'thumb_' . $value['photo']?>">
+          <?php else: ?>
+          <img class="notice-photo" align="left" src="/public/images/nophoto.png">
+          <?php endif; ?>
+          <?=viewStatus($value['status'])?> <strong><?=$value['subject']?></strong><br><small><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명</small>
+          <?php endforeach; ?>
+          </a>
+        <?php endif; ?>
       </div>
       <h3><i class="fas fa-reply" aria-hidden="true"></i> 최신 댓글</h3>
       <div class="list-schedule list-reply">

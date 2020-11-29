@@ -1592,6 +1592,7 @@ h1.nav-logo small {
   #nav-sp ul li img.img-profile { left: 3px; bottom: 8px; width: 35px; height: 35px; }
   #nav-sp ul li a { display: inline-block; }
   .nav-sp-mypage { position: absolute; top: 52px; right: 0px; width: 220px; font-size: 14px; background-color: #fff; border: 1px solid #d9d9d9; padding: 10px; z-index: 100; }
+  .nav-sp-mypage a { color: #505050; }
   .page-header h1 {
     font-size: 32.437px;
   }
@@ -1926,6 +1927,7 @@ h1.nav-logo small {
 .club-list .list ul li .text a { font-size: 16px; display: block; padding-bottom: 3px; }
 
 .profile-box { width: 170px; font-size: 14px; position: absolute; top: 57px; right: 10px; border: 1px solid #d9d9d9; background-color: #fff; padding: 10px; text-align: left; display: none; z-index: 99; }
+.profile-box a { color: #505050!important; }
 .profile-box hr { margin: 10px 0; }
 .login-popup span { font-weight: bold; }
 
@@ -1942,9 +1944,6 @@ h1.nav-logo small {
 #club .club-left .url { font-size: 12px; }
 #club .club-left .desc { font-size: 13px; text-align: justify; }
 #club .club-left .banner { width: 100%; border: 1px solid #999; margin: 10px 0; padding: 10px 0; text-align: center; cursor: pointer; }
-#club .club-left .club-search { width: 200px; display: table; margin: 0px; padding: 0px; }
-#club .club-left .club-search .club-search-item1 { width: 135px; display: table-cell; vertical-align: middle; }
-#club .club-left .club-search .club-search-item2 { width: 60px; display: table-cell; vertical-align: middle; padding-left: 5px; }
 
 #club .club-main .main-image { width: 100%; margin-bottom: 10px; }
 #club .club-main .your-story { width: 100%!important; clear: both; text-align: justify; overflow: hidden; }
@@ -2045,17 +2044,18 @@ h1.nav-logo small {
 #club .club-right ul.club-gallery li img { -webkit-transition: 1.6s -webkit-transform; transition: 1.6s -webkit-transform; transition: 1.6s transform; transition: 1.6s transform, 1.6s -webkit-transform; }
 #club .club-right ul.club-gallery li img:hover { transform: scale(1.2); }
 
-#club .list-schedule { font-size: 11px; margin: 0 0 20px 0; padding: 0px; }
-#club .list-schedule a { font-size: 14px; color: #000; display: block; border-bottom: 1px solid #eee; margin: 0px; padding: 10px 5px; }
+#club .list-schedule { font-size: 16px; margin: 0 0 20px 0; padding: 0px; }
+#club .list-schedule a { color: #000; min-height: 90px; display: block; margin: 0px; padding: 10px 5px; }
 #club .list-schedule a strong { color: #FF6C00; margin: 0px; padding: 0px; }
+#club .list-schedule .notice-photo { width: 145px; max-height: 76px; padding: 0 10px 0 0; }
 #club span.status-confirm { font-weight: bold; color: #000; }
 #club span.status-wait { font-weight: bold; color: #999; }
 #club span.status-plan, #club span.status-closed, #club span.status-cancel { font-weight: bold; color: #CCC; }
 #club .club-main .list-schedule { border: 1px solid #d9d9d9; border-width: 1px 0; }
 #club .club-main .list-schedule a { padding: 10px; }
 #club .club-main .area-schedule { display: none; }
-#club .list-reply a { font-size: 12px; }
-#club .list-reply a span { color: #FF6C00; }
+#club .list-reply a { min-height: auto; font-size: 12px; padding: 8px 5px; }
+#club .list-reply a span { font-size: 14px; color: #FF6C00; }
 
 #club .sub-contents { width: 100%!important; clear: both; margin: 0px; font-size: 14px; }
 #club .sub-contents h2.notice-title { font-size: 24px; font-family: "Malgun Gothic"; font-weight: bold; margin: 0px; padding: 0px; }
