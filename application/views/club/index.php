@@ -65,7 +65,7 @@
           <a href="javascript:;" class="photo-zoom" data-filename="<?=$view['main_photo']?>" data-width="<?=$view['main_photo_width']?>" data-height="<?=$view['main_photo_height']?>"><img src="<?=$view['main_photo']?>" class="main-image"></a>
           <?php endif; ?>
         </div>
-        <div id="calendar" class="d-none d-sm-block"></div>
+        <div id="calendar"></div>
         <div class="your-story">
           <form id="your-story-form" method="post" action="/story/insert">
             <textarea id="club-story-content" placeholder="그저 온전히 행복해질 수 있는 하루.. 그런 산행..."></textarea>
