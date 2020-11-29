@@ -143,12 +143,14 @@
           <a href="<?=BASE_URL?>/admin">・설정</a><br>
           <?php endif; ?>
           <a href="javascript:;" class="logout" title="로그아웃">・로그아웃</a><br>
+          <!--
           <div class="container">
             <form method="post" action="<?=BASE_URL?>/admin/log_reserve" class="row align-items-center">
               <div class="col-9 p-0 p-2"><input type="text" name="k" value="<?=!empty($keyword) ? $keyword : ''?>" class="form-control form-control-sm"></div>
               <div class="col-3 p-0"><button class="btn btn-sm btn-<?=$viewClub['main_color']?>">검색</button></div>
             </form>
           </div>
+          -->
         </div>
       </div>
     </div>
