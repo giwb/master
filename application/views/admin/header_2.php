@@ -41,7 +41,7 @@
     #club a:hover { color: #0AB031; }
   </style>
   <?php endif; ?>
-  <link href="/public/css/admin.css?<?=time()?>" rel="stylesheet">
+  <link href="/public/css/admin_<?=$viewClub['main_design']?>.css?<?=time()?>" rel="stylesheet">
 
   <script src="/public/js/jquery-2.1.4.min.js" type="text/javascript"></script>
   <script src="/public/js/jquery-ui.custom.min.js" type="text/javascript"></script>
@@ -83,28 +83,43 @@
       <div id="nav-top" class="bg-<?=$viewClub['main_color']?>">
         <div class="container">
           <div class="row align-items-center pt-3">
-            <div class="col-sm-8"><a href="<?=goHome($viewClub['domain'])?>"><h1 class="nav-logo"><?=!empty($viewClub['title']) ? $viewClub['title'] : ''?></h1></a></div>
-            <div class="col-sm-4 text-right">
-              <?php if (empty($userData['idx'])): ?>
-              <a href="javascript:;" class="login-popup">로그인</a>
-              <?php else: ?>
-              <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
-              <img class="img-profile" src="<?=PHOTO_URL . $userData['idx']?>">
-              <?php elseif (!empty($userData['icon_thumbnail'])): ?>
-              <img class="img-profile" src="<?=$userData['icon_thumbnail']?>">
-              <?php else: ?>
-              <img class="img-profile" src="/public/images/user.png">
-              <?php endif; ?>
-              <div class="profile-box">
-                <strong><?=$userData['nickname']?></strong> (<?=$userLevel['levelName']?>)<hr>
-                <a href="<?=BASE_URL?>/member">마이페이지</a><br>
-                <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
-                <a href="<?=BASE_URL?>/member/driver">드라이버 페이지</a><br>
+            <div class="col-sm-4"><a href="<?=goHome($viewClub['domain'])?>"><h1 class="nav-logo"><?=!empty($viewClub['title']) ? $viewClub['title'] : ''?></h1></a></div>
+            <div class="col-sm-8 text-right">
+              <ul class="navi">
+                <li><a href="<?=BASE_URL?>/admin"><i class="fas fa-chalkboard" aria-hidden="true"></i> 관리자 홈</a></li>
+                <li><a href="<?=BASE_URL?>/admin/main_list_progress"><i class="fas fa-mountain" aria-hidden="true"></i> 산행관리</a></li>
+                <?php if ($viewClub['idx'] == 1): ?>
+                <li><a href="<?=BASE_URL?>/ShopAdmin/order"><i class="fas fa-shopping-cart" aria-hidden="true"></i> 구매대행</a></li>
                 <?php endif; ?>
-                <a href="<?=BASE_URL?>/member/modify">개인정보수정</a><br>
-                <a href="javascript:;" class="logout">로그아웃</a>
-              </div>
-              <?php endif; ?>
+                <li><a href="<?=BASE_URL?>/admin/member_list"><i class="fas fa-users" aria-hidden="true"></i> 회원관리</a></li>
+                <li><a href="<?=BASE_URL?>/admin/log_user"><i class="fas fa-exchange-alt" aria-hidden="true"></i> 활동관리</a></li>
+                <li><a href="<?=BASE_URL?>/admin/attendance_auth"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소</a></li>
+                <li><a href="<?=BASE_URL?>/admin/setup_information"><i class="fas fa-cog" aria-hidden="true"></i> 설정</a></li>
+              <!--
+              <div class="club-search">
+                <form method="post" action="<?=BASE_URL?>/admin/log_reserve">
+                  <div class="club-search-item1"><input type="text" name="k" value="<?=!empty($keyword) ? $keyword : ''?>" class="form-control form-control-sm"></div>
+                  <div class="club-search-item2"><button class="btn btn-sm btn-<?=$viewClub['main_color']?>">검색</button></div>
+                </form>
+              </div>-->
+
+                <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
+                <li><img class="img-profile" src="<?=PHOTO_URL . $userData['idx']?>"></li>
+                <?php elseif (!empty($userData['icon_thumbnail'])): ?>
+                <li><img class="img-profile" src="<?=$userData['icon_thumbnail']?>"></li>
+                <?php else: ?>
+                <li><img class="img-profile" src="/public/images/user.png"></li>
+                <?php endif; ?>
+                <div class="profile-box">
+                  <strong><?=$userData['nickname']?></strong> (<?=$userLevel['levelName']?>)<hr>
+                  <a href="<?=BASE_URL?>/member">마이페이지</a><br>
+                  <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
+                  <a href="<?=BASE_URL?>/member/driver">드라이버 페이지</a><br>
+                  <?php endif; ?>
+                  <a href="<?=BASE_URL?>/member/modify">개인정보수정</a><br>
+                  <a href="javascript:;" class="logout">로그아웃</a>
+                </div>
+              </ul>
             </div>
           </div>
         </div>
@@ -149,33 +164,4 @@
 
   <section id="club">
     <div class="container">
-      <div class="club-left">
-        <div class="club-left-layer">
-          <div class="club-header">
-            <?php if (!empty($viewClub['main_photo'])): ?>
-            <!-- 대표 사진 -->
-            <a href="javascript:;" class="photo-zoom" data-filename="<?=$viewClub['main_photo']?>" data-width="<?=$viewClub['main_photo_width']?>" data-height="<?=$viewClub['main_photo_height']?>"><img src="<?=$viewClub['main_photo']?>"></a>
-            <?php endif; ?>
-            <h3><?=!empty($viewClub['title']) ? $viewClub['title'] : ''?></h3>
-          </div>
-          <?=!empty($viewClub['homepage']) ? '<a href="' . $viewClub['homepage'] . '" class="url">' . $viewClub['homepage'] . '</a>' : ''?>
-          <ul class="navi">
-            <li class="mb-1"><a href="<?=BASE_URL?>/admin"><i class="fas fa-chalkboard" aria-hidden="true"></i> 대시보드</a></li>
-            <li class="mb-1"><a href="<?=BASE_URL?>/admin/main_list_progress"><i class="fas fa-mountain" aria-hidden="true"></i> 산행관리</a></li>
-            <?php if ($viewClub['idx'] == 1): ?>
-            <li class="mb-1"><a href="<?=BASE_URL?>/ShopAdmin/order"><i class="fas fa-shopping-cart" aria-hidden="true"></i> 구매대행관리</a></li>
-            <?php endif; ?>
-            <li class="mb-1"><a href="<?=BASE_URL?>/admin/member_list"><i class="fas fa-users" aria-hidden="true"></i> 회원관리</a></li>
-            <li class="mb-1"><a href="<?=BASE_URL?>/admin/log_user"><i class="fas fa-exchange-alt" aria-hidden="true"></i> 활동관리</a></li>
-            <li class="mb-1"><a href="<?=BASE_URL?>/admin/attendance_auth"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소 인증</a></li>
-            <li><a href="<?=BASE_URL?>/admin/setup_information"><i class="fas fa-cog" aria-hidden="true"></i> 설정</a></li>
-          </ul>
-          <div class="club-search">
-            <form method="post" action="<?=BASE_URL?>/admin/log_reserve">
-              <div class="club-search-item1"><input type="text" name="k" value="<?=!empty($keyword) ? $keyword : ''?>" class="form-control form-control-sm"></div>
-              <div class="club-search-item2"><button class="btn btn-sm btn-<?=$viewClub['main_color']?>">검색</button></div>
-            </form>
-          </div>
-        </div>
-      </div>
       <div class="club-main">

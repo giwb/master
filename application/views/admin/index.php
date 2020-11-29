@@ -47,7 +47,7 @@
           });
         </script>
 
-        <h2 class="sub-header mb-4">대시보드</h2>
+        <h2 class="sub-header mb-4">관리자 페이지</h2>
         <div class="row mt-2">
           <div class="col-xl-6 col-md-6 mb-4">
             <div class="card border-left-primary shadow py-2" onClick="location.href=('<?=BASE_URL?>/admin/member_list')">

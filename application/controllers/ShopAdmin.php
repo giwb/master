@@ -627,7 +627,9 @@ class ShopAdmin extends Admin_Controller
     $viewData['viewClub'] = $this->club_model->viewClub($viewData['clubIdx']);
 
     // 진행중 산행
-    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['clubIdx'], array(STATUS_ABLE, STATUS_CONFIRM));
+    $search['clubIdx'] = $viewData['clubIdx'];
+    $search['status'] = array(STATUS_ABLE, STATUS_CONFIRM);
+    $viewData['listNotice'] = $this->admin_model->listNotice($search);
 
     // 클럽 대표이미지
     $files = $this->file_model->getFile('club', $viewData['clubIdx']);
@@ -638,14 +640,24 @@ class ShopAdmin extends Admin_Controller
       $viewData['viewClub']['main_photo_height'] = $size[1];
     }
 
+    // 최신 댓글
+    $paging['perPage'] = 5; $paging['nowPage'] = 0;
+    $viewData['listFooterReply'] = $this->admin_model->listReply($viewData['clubIdx'], $paging);
+
+    foreach ($viewData['listFooterReply'] as $key => $value) {
+      if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/story/view/' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/admin/main_view_progress/' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_SHOP):   $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/shop/item/' . $value['story_idx']; endif;
+    }
+
     // 리다이렉트 URL 추출
     if ($_SERVER['SERVER_PORT'] == '80') $HTTP_HEADER = 'http://'; else $HTTP_HEADER = 'https://';
     $viewData['redirectUrl'] = $HTTP_HEADER . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
-    $this->load->view('admin/header', $viewData);
+    $this->load->view('admin/header_' . $viewData['viewClub']['main_design'], $viewData);
     if (!empty($viewData['headerMenu'])) $this->load->view('admin/' . $viewData['headerMenu'], $viewData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view('admin/footer');
+    $this->load->view('admin/footer_' . $viewData['viewClub']['main_design'], $viewData);
   }
 }
 ?>
