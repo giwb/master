@@ -346,10 +346,10 @@ textarea.input {
 .scroll-to-top {
   position: fixed;
   right: 0.5rem;
-  bottom: 4.3rem;
+  bottom: 4.5rem;
   display: none;
-  width: 2rem;
-  height: 2rem;
+  width: 3rem;
+  height: 3rem;
   text-align: center;
   color: #fff;
   background: rgba(90, 92, 105, 0.5);
@@ -366,7 +366,7 @@ textarea.input {
 }
 
 .scroll-to-top i {
-  font-size: 30px;
+  font-size: 43px;
   font-weight: 800;
 }
 
@@ -1963,7 +1963,7 @@ h1.nav-logo small {
 #club .club-main .your-story .area-btn .btn-photo:hover { border: 1px solid #d9d9d9; box-shadow: 1px 1px 3px #ddd; }
 #club .club-main .your-story .area-btn .btn-post { font-size: 14px; color: #fff; padding: 3px 15px; float: right; }
 
-#club .club-main .your-story .file { width: 0px; }
+#club .club-main .your-story .file { width: 0px; display: none; }
 #club .club-main .your-story .area-photo { width: 100%; overflow: hidden; position: relative; }
 #club .club-main .your-story .area-photo img { width: 100%; }
 #club .club-main .your-story .area-photo .icon-photo-delete { position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; background-color: rgba(0, 0, 0, 0.77); border-radius: 100px; cursor: pointer; }
