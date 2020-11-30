@@ -14,7 +14,8 @@ class Welcome extends MY_Controller
   public function index()
   {
     $viewData['userData'] = $this->load->get_var('userData');
-    $this->_viewPage('index', $viewData);
+    $this->load->view('index', $viewData);
+    //$this->_viewPage('index', $viewData);
   }
 
   /**
