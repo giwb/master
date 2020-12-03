@@ -138,17 +138,12 @@ class Place extends MY_Controller
     $files = array();
     $input_data = $this->input->post();
 
-    if (empty($input_data['title']) || empty($input_data['content']) || empty($input_data['file_' . TYPE_MAIN])) {
-      $return = array(
-        'error' => 1,
-        'message' => '필수 항목은 꼭 입력해주세요.'
-      );
-    } else {
+    if (!empty($input_data['title']) || !empty($input_data['content']) || !empty($input_data['file_' . TYPE_MAIN])) {
       if (!empty($input_data['file_' . TYPE_MAIN])) $files[TYPE_MAIN] = explode(',', html_escape($input_data['file_' . TYPE_MAIN]));
       if (!empty($input_data['file_' . TYPE_ADDED])) $files[TYPE_ADDED] = explode(',', html_escape($input_data['file_' . TYPE_ADDED]));
       if (!empty($input_data['file_' . TYPE_ADDED])) $files[TYPE_ADDED] = explode(',', html_escape($input_data['file_' . TYPE_MAP]));
 
-      $insert_values  = array(
+      $insertValues  = array(
         'title'       => html_escape($input_data['title']),
         'area_sido'   => make_serialize($input_data['area_sido']),
         'area_gugun'  => make_serialize($input_data['area_gugun']),
@@ -163,14 +158,9 @@ class Place extends MY_Controller
         'created_at'  => $now
       );
 
-      $idx = $this->place_model->insertPlace($insert_values);
+      $idx = $this->place_model->insertPlace($insertValues);
 
-      if (!$idx) {
-        $return = array(
-          'error' => 1,
-          'message' => '등록에 실패했습니다.'
-        );
-      } else {
+      if (!empty($idx)) {
         // 파일 등록
         foreach ($files as $key => $file) {
           if ($file[0] != '') {
@@ -206,14 +196,9 @@ class Place extends MY_Controller
           }
         }
 
-        $return = array(
-          'error' => 0,
-          'message' => '등록이 완료되었습니다.'
-        );
+        redirect('/place');
       }
     }
-
-    $this->output->set_output(json_encode($return));
   }
 
   /**

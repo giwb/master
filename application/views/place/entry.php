@@ -90,7 +90,7 @@
           <div class="col-sm-10"><textarea name="course" id="course"><?=$view['course']?></textarea></div>
         </div>
         <div class="row align-items-center border-bottom mb-3 pb-3">
-          <div class="col-sm-2 font-weight-bold">대표 사진 <span class="require">(*)</span></div>
+          <div class="col-sm-2 font-weight-bold">대표 사진 <span class="text-require">(*)</span><br><small>※ 최적 사이즈 250 x 160</small></div>
           <div class="col-sm-10">
             <input type="hidden" name="file_<?=TYPE_MAIN?>">
             <input type="file" name="file" class="file" data-type="<?=TYPE_MAIN?>">
@@ -110,7 +110,7 @@
           </div>
         </div>
         <div class="row align-items-center border-bottom mb-3 pb-3">
-          <div class="col-sm-2 font-weight-bold">추가 사진 <span class="require">(*)</span></div>
+          <div class="col-sm-2 font-weight-bold">추가 사진 <span class="text-require">(*)</span></div>
           <div class="col-sm-10">
             <input type="hidden" name="file_<?=TYPE_ADDED?>">
             <input type="file" name="file" class="file" data-type="<?=TYPE_ADDED?>">
