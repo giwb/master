@@ -1,4 +1,7 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php
+  defined('BASEPATH') OR exit('No direct script access allowed');
+  $location = arrLocation($notice['starttime']);
+?>
 
       <div class="club-main">
         <?php if (empty($notice['idx'])): ?>
@@ -14,11 +17,12 @@
           </div>
           <?php if (!empty($notice['type'])): ?><div class="ti"><strong>・유형</strong> : <?=$notice['type']?></div><?php endif; ?>
           <div class="ti"><strong>・일시</strong> : <?=$notice['startdate']?> (<?=calcWeek($notice['startdate'])?>) <?=$notice['starttime']?></div>
+          <div class="ti"><strong>・노선</strong> : <?php foreach ($location as $key => $value): if ($key > 0): ?> - <?php endif; ?><?=$value['time']?> <?=$value['stitle']?><?php endforeach; ?></div>
           <?php $notice['cost'] = $notice['cost_total'] == 0 ? $notice['cost'] : $notice['cost_total']; if (!empty($notice['cost'])): ?>
           <?php if (!empty($notice['sido'])): ?>
           <div class="ti"><strong>・지역</strong> : <?php foreach ($notice['sido'] as $key => $value): if ($key != 0): ?>, <?php endif; ?><?=$value?> <?=!empty($notice['gugun'][$key]) ? $notice['gugun'][$key] : ''?><?php endforeach; ?></div>
           <?php endif; ?>
-          <div class="ti"><strong>・요금</strong> : <?=number_format($notice['cost_total'] == 0 ? $notice['cost'] : $notice['cost_total'])?>원 (<?=calcTerm($notice['startdate'], $notice['starttime'], $notice['enddate'], $notice['schedule'])?><?=!empty($notice['distance']) ? ', ' . calcDistance($notice['distance']) : ''?><?=!empty($notice['options']) ? ', ' . getOptions($notice['options']) : ''?><?=!empty($notice['options_etc']) ? ', ' . $notice['options_etc'] : ''?><?=!empty($notice['options']) || !empty($notice['options_etc']) ? ' 제공' : ''?><?=!empty($notice['costmemo']) ? ', ' . $notice['costmemo'] : ''?>)</div>
+          <div class="ti"><strong>・요금</strong> : <?=number_format($notice['cost_total'] == 0 ? $notice['cost'] : $notice['cost_total'])?>원 / 1인우등 <?=number_format($notice['cost_total'] == 0 ? $notice['cost'] + 10000 : $notice['cost_total'] + 10000)?>원 (<?=calcTerm($notice['startdate'], $notice['starttime'], $notice['enddate'], $notice['schedule'])?><?=!empty($notice['distance']) ? ', ' . calcDistance($notice['distance']) : ''?><?=!empty($notice['options']) ? ', ' . getOptions($notice['options']) : ''?><?=!empty($notice['options_etc']) ? ', ' . $notice['options_etc'] : ''?><?=!empty($notice['options']) || !empty($notice['options_etc']) ? ' 제공' : ''?><?=!empty($notice['costmemo']) ? ', ' . $notice['costmemo'] : ''?>)</div>
           <?php endif; ?>
           <?=!empty($notice['content']) ? '<div class="ti"><strong>・코스</strong> : ' . nl2br($notice['content']) . '</div>' : ''?>
           <?=!empty($notice['kilometer']) ? '<div class="ti"><strong>・거리</strong> : ' . $notice['kilometer'] . '</div>' : ''?>
