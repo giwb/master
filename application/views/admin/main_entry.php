@@ -136,13 +136,18 @@
                 <button type="button" class="btn btn-sm btn-default btn-add-bus">추가</button><br>
                 <div class="mt-2">
                   <?php if (!$view['idx']): // 등록 ?>
-                  <div id="area-init-bus">
-                    <select name="bustype[]" class="form-control mb-1">
-                      <option value="">버스 종류를 선택해주세요.</option>
-                      <?php foreach ($listBustype as $value): ?>
-                      <option value="<?=$value['idx']?>"><?=$value['bus_name']?><?=!empty($value['bus_owner']) ? ' / ' . $value['bus_owner'] : ''?></option>
-                      <?php endforeach; ?>
-                    </select>
+                  <div id="area-init-bus" class="row">
+                    <div class="col-6 pl-0">
+                      <select name="bustype[]" class="form-control mb-1">
+                        <option value="">버스 종류를 선택해주세요.</option>
+                        <?php foreach ($listBustype as $value): ?>
+                        <option value="<?=$value['idx']?>"><?=$value['bus_name']?><?=!empty($value['bus_owner']) ? ' / ' . $value['bus_owner'] : ''?></option>
+                        <?php endforeach; ?>
+                      </select>
+                    </div>
+                    <div class="col-6 pr-0">
+                      <input type="text" name="bus_assist[]" class="form-control" value="보조석">
+                    </div>
                   </div>
                   <?php
                     else:
@@ -150,21 +155,33 @@
                       for ($i=0; $i<count($view['bustype']); $i++):
                         if ($i == 0):
                   ?>
-                  <div id="area-init-bus" class="d-none">
-                    <select name="bustype[]" class="form-control mb-1">
-                      <option value="">버스 종류를 선택해주세요.</option>
-                      <?php foreach ($listBustype as $value): ?>
-                      <option value="<?=$value['idx']?>"><?=$value['bus_name']?><?=!empty($value['bus_owner']) ? ' / ' . $value['bus_owner'] : ''?></option>
-                      <?php endforeach; ?>
-                    </select>
+                  <div id="area-init-bus" class="row d-none">
+                    <div class="col-6 pl-0">
+                      <select name="bustype[]" class="form-control mb-1">
+                        <option value="">버스 종류를 선택해주세요.</option>
+                        <?php foreach ($listBustype as $value): ?>
+                        <option value="<?=$value['idx']?>"><?=$value['bus_name']?><?=!empty($value['bus_owner']) ? ' / ' . $value['bus_owner'] : ''?></option>
+                        <?php endforeach; ?>
+                      </select>
+                    </div>
+                    <div class="col-6 pr-0">
+                      <input type="text" name="bus_assist[]" class="form-control" value="보조석">
+                    </div>
                   </div>
                   <?php endif; ?>
-                  <select name="bustype[]" class="form-control mb-1">
-                    <option value="">버스 종류를 선택해주세요.</option>
-                    <?php foreach ($listBustype as $value): ?>
-                    <option<?=$value['idx'] == $view['bustype'][$i] ? ' selected' : ''?> value="<?=$value['idx']?>"><?=$value['bus_name']?><?=!empty($value['bus_owner']) ? ' / ' . $value['bus_owner'] : ''?></option>
-                    <?php endforeach; ?>
-                  </select>
+                  <div class="row">
+                    <div class="col-6 pl-0">
+                      <select name="bustype[]" class="form-control mb-1">
+                        <option value="">버스 종류를 선택해주세요.</option>
+                        <?php foreach ($listBustype as $value): ?>
+                        <option<?=$value['idx'] == $view['bustype'][$i] ? ' selected' : ''?> value="<?=$value['idx']?>"><?=$value['bus_name']?><?=!empty($value['bus_owner']) ? ' / ' . $value['bus_owner'] : ''?></option>
+                        <?php endforeach; ?>
+                      </select>
+                    </div>
+                    <div class="col-6 pr-0">
+                      <input type="text" name="bus_assist[]" class="form-control" value="<?=getBusAssist($view['bus_assist'], $i+1)?>">
+                    </div>
+                  </div>
                   <?php
                       endfor;
                     endif;

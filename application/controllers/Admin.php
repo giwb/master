@@ -1373,6 +1373,7 @@ class Admin extends Admin_Controller
         'content'         => html_escape($this->input->post('content')),          // 산행코스
         'kilometer'       => html_escape($this->input->post('kilometer')),        // 정상까지의 거리 (km)
         'bustype'         => make_serialize($this->input->post('bustype')),       // 차량
+        'bus_assist'      => make_serialize($this->input->post('bus_assist')),    // 차량별 보조석 닉네임
         'options'         => !empty($this->input->post('options')) ? make_serialize($this->input->post('options')) : NULL, // 옵션
         'options_etc'     => html_escape($this->input->post('options_etc')),      // 옵션 기타
         'article'         => html_escape($this->input->post('article')),          // 메모

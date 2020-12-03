@@ -47,14 +47,15 @@
                 </colgroup>
                 <thead>
                   <tr>
-                    <th colspan="10"><?=count($busType) >= 2 ? $bus . '호차 - ' : ''?><?=$value['bus_name']?> <?=!empty($value['bus_license']) ? '(' . $value['bus_license'] . ')' : ''?></td>
+                    <th colspan="4" style="border-right: 0px;"><?=count($busType) >= 2 ? $bus . '호차 - ' : ''?><?=$value['bus_name']?> <?=!empty($value['bus_license']) ? '(' . $value['bus_license'] . ')' : ''?></td>
+                    <th colspan="6" style="border-left: 0px;" class="text-right">출입구 (예약 : <?=$maxRes?>명)</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php if ($value['seat'] > 13): ?>
                   <tr>
-                    <th colspan="4" class="text-left">운전석<?=!empty($value['bus_owner']) ? ' (' . $value['bus_owner'] . ' 기사님)' : ''?></th>
-                    <th colspan="6" class="text-right">출입구 (예약 : <?=$maxRes?>명)</th>
+                    <th colspan="4" style="border-right: 0px;">운전석<?=!empty($value['bus_owner']) ? ' (' . $value['bus_owner'] . ' 기사님)' : ''?></th>
+                    <th colspan="6" style="border-left: 0px;" class="text-right">보조석 (<?=getBusAssist($notice['bus_assist'], $bus)?>)</th>
                   </tr>
                   <?php endif; ?>
                   <?php

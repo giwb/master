@@ -549,6 +549,18 @@ if (!function_exists('getBusTableMake')) {
   }
 }
 
+// 버스별 보조석
+if (!function_exists('getBusAssist')) {
+  function getBusAssist($assist, $i) {
+    $result = '보조석';
+    $value = unserialize($assist);
+    if (!empty($value[$i])) {
+      $result = $value[$i];
+    }
+    return $result;
+  }
+}
+
 // 순방향/역방향 좌석 번호 확인
 if (!function_exists('checkDirection')) {
   function checkDirection($seat, $bus, $noticeBusType, $noticeBus) {
