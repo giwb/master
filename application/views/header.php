@@ -94,40 +94,40 @@
 <main>
   <nav>
     <ul>
-      <li class="title"><i class="fas fa-home"></i> 홈</li>
+      <li class="title"><a href="<?=BASE_URL?>"><i class="fas fa-home"></i> 홈</a></li>
     </ul>
     <ul class="mt-3 pt-3 border-top">
       <li class="title"><i class="fas fa-map-marked-alt"></i> 여행정보</li>
-      <li>전체보기</li>
-      <li>산림청 100대 명산</li>
-      <li>블랙야크 명산100</li>
-      <li>국내여행 1001</li>
-      <li>백두대간</li>
-      <li>도보 트레킹</li>
-      <li>유명 관광지</li>
-      <li>섬 여행</li>
-      <li>자연 휴양림</li>
-      <li>캠핑장</li>
+      <li><a href="/place">전체보기</a></li>
+      <li><a href="/place/?search=type&keyword=type1">산림청 100대 명산</a></li>
+      <li><a href="/place/?search=type&keyword=type2">블랙야크 명산100</a></li>
+      <li><a href="/place/?search=type&keyword=type3">국내여행 1001</a></li>
+      <li><a href="/place/?search=type&keyword=type4">백두대간</a></li>
+      <li><a href="/place/?search=type&keyword=type5">도보 트레킹</a></li>
+      <li><a href="/place/?search=type&keyword=type6">유명 관광지</a></li>
+      <li><a href="/place/?search=type&keyword=type7">섬 여행</a></li>
+      <li><a href="/place/?search=type&keyword=type8">자연 휴양림</a></li>
+      <li><a href="/place/?search=type&keyword=type9">캠핑장</a></li>
     </ul>
     <ul class="mt-3 pt-3 border-top">
       <li class="title"><i class="fas fa-mountain"></i> 산악회</li>
-      <li>전체보기</li>
-      <li>서울특별시</li>
-      <li>부산광역시</li>
-      <li>대구광역시</li>
-      <li>인천광역시</li>
-      <li>광주광역시</li>
-      <li>대전광역시</li>
-      <li>울산광역시</li>
-      <li>세종특별자치시</li>
-      <li>경기도</li>
-      <li>강원도</li>
-      <li>충청북도</li>
-      <li>충청남도</li>
-      <li>전라북도</li>
-      <li>전라남도</li>
-      <li>경상북도</li>
-      <li>경상남도</li>
-      <li>제주도</li>
+      <li><a href="/club">전체보기</a></li>
+      <li><a href="/club/?s=area_sido&k=11000">서울특별시</a><li>
+      <li><a href="/club/?s=area_sido&k=12000">부산광역시</a><li>
+      <li><a href="/club/?s=area_sido&k=13000">대구광역시</a><li>
+      <li><a href="/club/?s=area_sido&k=14000">인천광역시</a><li>
+      <li><a href="/club/?s=area_sido&k=15000">광주광역시</a><li>
+      <li><a href="/club/?s=area_sido&k=16000">대전광역시</a><li>
+      <li><a href="/club/?s=area_sido&k=17000">울산광역시</a><li>
+      <li><a href="/club/?s=area_sido&k=18000">세종특별자치시</a><li>
+      <li><a href="/club/?s=area_sido&k=19000">경기도</a><li>
+      <li><a href="/club/?s=area_sido&k=20000">강원도</a><li>
+      <li><a href="/club/?s=area_sido&k=21000">충청북도</a><li>
+      <li><a href="/club/?s=area_sido&k=22000">충청남도</a><li>
+      <li><a href="/club/?s=area_sido&k=23000">전라북도</a><li>
+      <li><a href="/club/?s=area_sido&k=24000">전라남도</a><li>
+      <li><a href="/club/?s=area_sido&k=25000">경상북도</a><li>
+      <li><a href="/club/?s=area_sido&k=26000">경상남도</a><li>
+      <li><a href="/club/?s=area_sido&k=27000">제주도</a><li>
     </ul>
   </nav>

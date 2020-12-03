@@ -1,6 +1,6 @@
 body { font-family: "Malgun Gothic", "Sans-Serif"; font-size: 16px; color: #505050; background-color: #e9e9e9; overflow-x: hidden; }
 a:link, a:visited { color: #505050; }
-a:hover { text-decoration: none; }
+a:hover { color: #007bff; text-decoration: none; }
 ul { margin: 0px; padding: 0px; list-style: none; }
 
 h1 { font-size: 34px; font-weight: bold; margin: 0px; }

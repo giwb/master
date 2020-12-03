@@ -38,9 +38,6 @@ class Place extends MY_Controller
       default: $viewData['pageTitle'] = '전체보기';
     }
 
-    // 공통 메뉴
-    $viewData['commonMenu'] = $this->load->view('place/menu', $viewData, true);
-
     $this->_viewPage('place/index', $viewData);
   }
 
