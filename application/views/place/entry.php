@@ -11,48 +11,37 @@
           <div class="col-sm-10"><input type="text" name="title" value="<?=$view['title']?>" class="form-control"></div>
         </div>
         <div class="row align-items-center border-bottom mb-3 pb-3">
-          <div class="col-sm-2 font-weight-bold">지역 <span class="text-require">(*)</span></div>
+          <div class="col-sm-2 font-weight-bold">지역 <span class="text-require">(*)</span><br><button type="button" class="btn btn-sm btn-primary btn-add-area mb-2">추가</button></div>
           <div class="col-sm-10">
-            <button type="button" class="btn btn-sm btn-primary btn-add-area mb-2">추가</button><br>
-            <?php if (empty($view['sido'])): ?>
             <div class="row">
-              <div class="col p-0 pr-3">
-                <select name="area_sido[]" class="form-control area-sido">
-                  <option value=''>시/도</option>
-                  <?php foreach ($area_sido as $value): ?>
-                  <option<?=$value['idx'] == $view['area_sido'] ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
-                  <?php endforeach; ?>
-                </select>
-              </div>
-              <div class="col p-0">
-                <select name="area_gugun[]" class="form-control area-gugun">
-                  <option value=''>시/군/구</option>
-                  <?php foreach ($area_gugun as $value): ?>
-                  <option<?=$value['idx'] == $view['area_gugun'] ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
-                  <?php endforeach; ?>
-                </select>
-              </div>
+              <?php if (empty($view['sido'])): ?>
+              <select name="area_sido[]" class="form-control area-sido col-4 mr-2">
+                <option value=''>시/도</option>
+                <?php foreach ($area_sido as $value): ?>
+                <option<?=$value['idx'] == $view['area_sido'] ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
+                <?php endforeach; ?>
+              </select>
+              <select name="area_gugun[]" class="form-control area-gugun col-4">
+                <option value=''>시/군/구</option>
+                <?php foreach ($area_gugun as $value): ?>
+                <option<?=$value['idx'] == $view['area_gugun'] ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
+                <?php endforeach; ?>
+              </select>
+              <?php else: foreach ($view['sido'] as $key => $val): ?>
+              <select name="area_sido[]" class="form-control area-sido col-4 mr-2">
+                <option value=''>시/도</option>
+                <?php foreach ($list_sido as $value): ?>
+                <option<?=$value['name'] == $val ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
+                <?php endforeach; ?>
+              </select>
+              <select name="area_gugun[]" class="form-control area-gugun col-4">
+                <option value=''>시/군/구</option>
+                <?php foreach ($list_gugun[$key] as $value): ?>
+                <option<?=$value['name'] == $view['gugun'][$key] ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
+                <?php endforeach; ?>
+              </select>
+              <?php endforeach; endif; ?>
             </div>
-            <?php else: foreach ($view['sido'] as $key => $val): ?>
-            <div class="row">
-              <div class="col p-0 pr-3">
-                <select name="area_sido[]" class="form-control area-sido">
-                  <option value=''>시/도</option>
-                  <?php foreach ($list_sido as $value): ?>
-                  <option<?=$value['name'] == $val ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
-                  <?php endforeach; ?>
-                </select>
-              </div>
-              <div class="col p-0">
-                <select name="area_gugun[]" class="form-control area-gugun">
-                  <option value=''>시/군/구</option>
-                  <?php foreach ($list_gugun[$key] as $value): ?>
-                  <option<?=$value['name'] == $view['gugun'][$key] ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
-                  <?php endforeach; ?>
-                </select>
-              </div>
-            </div>
-            <?php endforeach; endif; ?>
             <div class="added-area">
             </div>
           </div>
@@ -198,13 +187,13 @@
       });
 
       $(document).on('click', '.btn-add-area', function() {
-        var data = '<div class="mt-1"><select name="area_sido[]" class="area-sido">';
+        var data = '<div class="row mt-1"><select name="area_sido[]" class="form-control area-sido col-4 mr-2">';
         data += '<option value="">시/도</option>';
         <?php foreach ($area_sido as $value): ?>
         data += '<option<?=$value['idx'] == $view['area_sido'] ? " selected" : ""?> value="<?=$value['idx']?>""><?=$value['name']?></option>';
         <?php endforeach; ?>
         data += '</select> ';
-        data += '<select name="area_gugun[]" class="area-gugun">';
+        data += '<select name="area_gugun[]" class="form-control area-gugun col-4">';
         data += '<option value="">시/군/구</option>';
         <?php foreach ($area_gugun as $value): ?>
         data += '<option<?=$value['idx'] == $view['area_gugun'] ? " selected" : ""?> value="<?=$value['idx']?>""><?=$value['name']?></option>';
@@ -216,7 +205,7 @@
         var parent = $dom.val();
 
         $.ajax({
-          url: $('input[name=base_url]').val() + 'place/list_gugun',
+          url: '/place/list_gugun',
           data: 'parent=' + parent,
           dataType: 'json',
           type: 'post',
