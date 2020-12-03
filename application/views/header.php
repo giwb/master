@@ -98,16 +98,16 @@
     </ul>
     <ul class="mt-3 pt-3 border-top">
       <li class="title"><i class="fas fa-map-marked-alt"></i> 여행정보</li>
-      <li><a href="/place">전체보기</a></li>
-      <li><a href="/place/?search=type&keyword=type1">산림청 100대 명산</a></li>
-      <li><a href="/place/?search=type&keyword=type2">블랙야크 명산100</a></li>
-      <li><a href="/place/?search=type&keyword=type3">국내여행 1001</a></li>
-      <li><a href="/place/?search=type&keyword=type4">백두대간</a></li>
-      <li><a href="/place/?search=type&keyword=type5">도보 트레킹</a></li>
-      <li><a href="/place/?search=type&keyword=type6">유명 관광지</a></li>
-      <li><a href="/place/?search=type&keyword=type7">섬 여행</a></li>
+      <li><a href="/place/?search=type&keyword=type1">전체보기</a></li>
+      <li><a href="/place/?search=type&keyword=type2">산림청 100대 명산</a></li>
+      <li><a href="/place/?search=type&keyword=type3">블랙야크 명산100</a></li>
+      <li><a href="/place/?search=type&keyword=type4">국내여행 1001</a></li>
+      <li><a href="/place/?search=type&keyword=type5">백두대간</a></li>
+      <li><a href="/place/?search=type&keyword=type6">도보 트레킹</a></li>
+      <li><a href="/place/?search=type&keyword=type7">유명 관광지</a></li>
+      <li><a href="/place/?search=type&keyword=type8">섬 여행</a></li>
       <li><a href="/place/?search=type&keyword=type8">자연 휴양림</a></li>
-      <li><a href="/place/?search=type&keyword=type9">캠핑장</a></li>
+      <li><a href="/place/?search=type&keyword=type8">캠핑장</a></li>
     </ul>
     <ul class="mt-3 pt-3 border-top">
       <li class="title"><i class="fas fa-mountain"></i> 산악회</li>
