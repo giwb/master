@@ -60,9 +60,6 @@ class Place extends MY_Controller
       }
     }
 
-    // 공통 메뉴
-    $viewData['commonMenu'] = $this->load->view('place/menu', $viewData, true);
-
     $this->_viewPage('place/view', $viewData);
   }
 
@@ -125,9 +122,6 @@ class Place extends MY_Controller
     } else {
       $viewData['area_gugun'] = array();
     }
-
-    // 공통 메뉴
-    $viewData['commonMenu'] = $this->load->view('place/menu', $viewData, true);
 
     $this->_viewPage('place/entry', $viewData);
   }
