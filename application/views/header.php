@@ -56,34 +56,78 @@
 </head>
 <body>
 
-  <header>
-    <div class="container p-0">
-      <div class="row align-items-center">
-        <div class="col-sm-9"><a href="<?=BASE_URL?>"><h1 class="text-white">한국여행 <small>TripKorea.net</small></h1></a></div>
-        <div class="col-sm-3 text-right d-none d-sm-block">
-          <ul class="row align-items-center">
-            <li class="col p-0"><a href="/place" class="text-white font-weight-bold">여행정보</a></li>
-            <li class="col p-0"><a href="/club" class="text-white font-weight-bold">산악회</a></li>
-            <?php if (!empty($userData['idx'])): ?>
-            <li class="col p-0 pr-3">
-              <img class="img-profile" src="<?=$userData['icon']?>">
-              <div class="profile-box">
-                <strong><?=$userData['nickname']?></strong><hr>
-                <a href="#">내 정보</a><br>
-                <a href="#">내 클럽</a><hr>
-                <a href="#">초대 확인</a><br>
-                <a href="#">공지사항</a><br>
-                <a href="#">설정</a><hr>
-                <a href="javascript:;" class="logout">로그아웃</a>
-              </div>
-            </li>
-            <?php else: ?>
-            <li class="col p-0 pr-3"><a href="javascript:;" class="text-white font-weight-bold login-popup">로그인</a></li>
-            <?php endif; ?>
-          </ul>
-        </div>
+<header>
+  <div class="container p-0">
+    <div class="row align-items-center">
+      <div class="col-sm-3 pl-4"><a href="<?=BASE_URL?>"><h1>한국여행 <small>TripKorea.net</small></h1></a></div>
+      <div class="col-sm-6 row">
+        <div class="col-sm-11"><input type="text" class="form-control form-control-sm"></div>
+        <div class="col-sm-1 pl-0"><button class="btn btn-sm btn-secondary w-100">검색</button></div>
+      </div>
+      <div class="col-sm-3 text-right d-none d-sm-block">
+        <ul class="row align-items-center">
+          <li class="col p-0"></li>
+          <li class="col p-0"><a href="/place" class="font-weight-bold">여행정보</a></li>
+          <li class="col p-0"><a href="/club" class="font-weight-bold">산악회</a></li>
+          <?php if (!empty($userData['idx'])): ?>
+          <li class="col p-0 pr-3">
+            <img class="img-profile" src="<?=$userData['icon']?>">
+            <div class="profile-box">
+              <strong><?=$userData['nickname']?></strong><hr>
+              <a href="#">내 정보</a><br>
+              <a href="#">내 클럽</a><hr>
+              <a href="#">초대 확인</a><br>
+              <a href="#">공지사항</a><br>
+              <a href="#">설정</a><hr>
+              <a href="javascript:;" class="logout">로그아웃</a>
+            </div>
+          </li>
+          <?php else: ?>
+          <li class="col p-0 pr-3"><a href="javascript:;" class="font-weight-bold login-popup">로그인</a></li>
+          <?php endif; ?>
+        </ul>
       </div>
     </div>
-  </header>
+  </div>
+</header>
 
-  <main>
+<main>
+  <nav>
+    <ul>
+      <li class="title"><i class="fas fa-home"></i> 홈</li>
+    </ul>
+    <ul class="mt-3 pt-3 border-top">
+      <li class="title"><i class="fas fa-map-marked-alt"></i> 여행정보</li>
+      <li>전체보기</li>
+      <li>산림청 100대 명산</li>
+      <li>블랙야크 명산100</li>
+      <li>국내여행 1001</li>
+      <li>백두대간</li>
+      <li>도보 트레킹</li>
+      <li>유명 관광지</li>
+      <li>섬 여행</li>
+      <li>자연 휴양림</li>
+      <li>캠핑장</li>
+    </ul>
+    <ul class="mt-3 pt-3 border-top">
+      <li class="title"><i class="fas fa-mountain"></i> 산악회</li>
+      <li>전체보기</li>
+      <li>서울특별시</li>
+      <li>부산광역시</li>
+      <li>대구광역시</li>
+      <li>인천광역시</li>
+      <li>광주광역시</li>
+      <li>대전광역시</li>
+      <li>울산광역시</li>
+      <li>세종특별자치시</li>
+      <li>경기도</li>
+      <li>강원도</li>
+      <li>충청북도</li>
+      <li>충청남도</li>
+      <li>전라북도</li>
+      <li>전라남도</li>
+      <li>경상북도</li>
+      <li>경상남도</li>
+      <li>제주도</li>
+    </ul>
+  </nav>

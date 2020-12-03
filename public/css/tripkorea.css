@@ -1,25 +1,31 @@
-body { font-family: "Malgun Gothic", "Sans-Serif"; font-size: 14px; color: #505050; background-color: #e9e9e9; overflow-x: hidden; }
+body { font-family: "Malgun Gothic", "Sans-Serif"; font-size: 16px; color: #505050; background-color: #e9e9e9; overflow-x: hidden; }
+a:link { color: #505050; }
 a:hover { text-decoration: none; }
 ul { margin: 0px; padding: 0px; list-style: none; }
 
 h1 { font-size: 34px; font-weight: bold; margin: 0px; }
 h2 { font-size: 24px; }
 h3 { font-size: 20px; }
-h4 { font-size: 16px; }
+h4 { font-size: 16px; font-weight: bold; margin: 0; padding: 0px; }
 
 h1 small, h2 small, h3 small { font-size: 16px; }
 span.text-require { font-size: 11px; font-family: "Gulim"; color: red; }
 
-header { width: 100%; font-size: 16px; position: fixed; background-color: #007bff; padding: 1rem 0; z-index: 100; }
+.container { max-width: 100%; }
+
+header { width: 100%; position: fixed; background-color: #fff; border-bottom: 1px solid #d9d9d9; padding: 1rem 0; z-index: 100; }
+header a { color: #505050; }
 header .img-profile { width: 2.5rem; height: 2.5rem; border-radius: 50%; cursor: pointer; }
 header .profile-box { width: 170px; font-size: 14px; position: absolute; top: 56px; right: -1px; border: 1px solid #d9d9d9; background-color: #fff; padding: 10px; text-align: left; display: none; z-index: 99; }
-header .profile-box a { color: #505050; }
 header .profile-box hr { margin: 10px 0; }
 
-main .container { background-color: #fff; padding: 4.5rem 0 0 0; }
-main .container .nav-place { width: 100%; font-size: 13px; border-right: 10px solid #e9e9e9; padding-top: 1rem; padding-right: 0rem; }
-main .container .nav-place a { padding: 0.5rem 1rem; }
-main .container .nav-place a.active { color: #505050; background-color: #C0DEFF; }
+main { display: flex; background-color: #f9f9f9; }
+main nav { min-width: 240px; background-color: #fff; line-height: 1.8rem; padding: 90px 0 0 0; flex: 1; }
+main nav ul { padding-left: 30px; }
+main nav ul li { font-size: 14px; padding-left: 27px; }
+main nav ul li.title { font-size: 16px; font-weight: bold; padding-left: 0px; }
+main section { padding: 90px 0 0 0; flex: 7; }
+
 
 .row { margin: 0px; padding: 0px; }
 .hot-post { padding-right: 0px; }

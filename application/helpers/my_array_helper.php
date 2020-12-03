@@ -87,9 +87,9 @@ if (!function_exists('getHeight'))
       $result = number_format($n, $d);
       $result = rtrim($result, 0);
       $result = rtrim($result, '.');
-      $result = '해발 ' . $result . 'm<br>';
+      $result = '해발 ' . $result . 'm';
     } else {
-      $result = '해발 0m<br>';
+      $result = '해발 0m';
     }
     return $result;
   }
