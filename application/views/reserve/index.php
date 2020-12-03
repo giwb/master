@@ -54,7 +54,7 @@
                 <tbody>
                   <?php if ($value['seat'] > 13): ?>
                   <tr>
-                    <th colspan="4" style="border-right: 0px;">운전석<?=!empty($value['bus_owner']) ? ' (' . $value['bus_owner'] . ' 기사님)' : ''?></th>
+                    <th colspan="4" style="border-right: 0px;">운전석<?=!empty($value['bus_owner']) ? ' (' . $value['bus_owner'] . ' 기사)' : ''?></th>
                     <th colspan="6" style="border-left: 0px;" class="text-right">보조석 (<?=getBusAssist($notice['bus_assist'], $bus)?>)</th>
                   </tr>
                   <?php endif; ?>
