@@ -146,7 +146,7 @@
                       </select>
                     </div>
                     <div class="col-6 pr-0">
-                      <input type="text" name="bus_assist[]" class="form-control" value="보조석">
+                      <input type="text" name="bus_assist[]" class="form-control" value="가이드석">
                     </div>
                   </div>
                   <?php
@@ -165,7 +165,7 @@
                       </select>
                     </div>
                     <div class="col-6 pr-0">
-                      <input type="text" name="bus_assist[]" class="form-control" value="보조석">
+                      <input type="text" name="bus_assist[]" class="form-control" value="가이드석">
                     </div>
                   </div>
                   <?php endif; ?>
