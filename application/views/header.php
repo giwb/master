@@ -30,7 +30,7 @@
   <link href="/public/css/fullcalendar.print.css" rel="stylesheet">
 
   <!-- Main Stylesheet File -->
-  <link href="/public/css/tripkorea.css" rel="stylesheet">
+  <link href="/public/css/tripkorea.css?<?=time()?>" rel="stylesheet">
 
   <script src="/public/js/jquery-1.11.1.min.js" type="text/javascript"></script>
   <script src="/public/js/jquery-ui.custom.min.js" type="text/javascript"></script>
