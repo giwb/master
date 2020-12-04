@@ -199,8 +199,8 @@
           </button>
         </div>
         <form id="your-story-form" method="post" action="/story/insert">
-        <input type="hidden" name="clubIdx" value="<?=$view['idx']?>">
-        <input type="hidden" name="userIdx" value="<?=$userData['idx']?>">
+        <input type="hidden" name="clubIdx" value="<?=!empty($view['idx']) ? $view['idx'] : ''?>">
+        <input type="hidden" name="userIdx" value="<?=!empty($userData['idx']) ? $userData['idx'] : ''?>">
         <input type="hidden" name="page" value="story">
         <div class="modal-body text-center">
           <textarea id="club-story-content" rows="10" class="form-control" placeholder="당신의 이야기를 들려주세요~"></textarea>

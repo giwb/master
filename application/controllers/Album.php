@@ -22,8 +22,8 @@ class Album extends MY_Controller
   {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
-    $viewData['userIdx'] = $userData['idx'];
-    $viewData['adminCheck'] = $userData['admin'];
+    $viewData['userIdx'] = !empty($userData['idx']) ? $userData['idx'] : '';
+    $viewData['adminCheck'] = !empty($userData['admin']) ? $userData['admin'] : '';
 
     $viewData['keyword'] = $paging['keyword'] = html_escape($this->input->post('k'));
     $page = html_escape($this->input->post('p'));

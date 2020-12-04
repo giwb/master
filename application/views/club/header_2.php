@@ -105,7 +105,7 @@
                   <li class="mr-4"><a href="<?=BASE_URL?>/album"><i class="fas fa-camera"></i> 산행앨범</a></li>
                   <li class="mr-4"><a href="<?=BASE_URL?>/shop"><i class="fas fa-shopping-cart"></i> 구매대행</a></li>
                   <li class="mr-4"><a target="_blank" href="http://giwb.co.kr"><i class="fa fa-desktop" aria-hidden="true"></i> 다음카페</a></li>
-                  <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN): ?>
+                  <?php if (!empty($userData['idx']) && ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN)): ?>
                   <li class="mr-4"><a href="<?=BASE_URL?>/member/driver"><i class="fas fa-bus"></i> 드라이버</a></li>
                   <?php endif; ?>
 
@@ -156,7 +156,7 @@
           <li><a href="<?=BASE_URL?>"><i class="fa fa-home btn-header"></i></a></li>
           <li><a href="<?=BASE_URL?>"><h1><?=!empty($pageTitle) ? $pageTitle : $view['title'] ?></h1></a></li>
           <li>
-            <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN): ?>
+            <?php if (!empty($userData['idx']) && ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN)): ?>
             <a href="<?=BASE_URL?>/member/driver"><h3 class="m-0 p-0"><i class="fa fa-bus text-white"></i></h3></a>
             <?php else: ?>
             <?php if (strstr($_SERVER['REQUEST_URI'], 'member')): ?>
@@ -175,7 +175,7 @@
         <div class="nav-sp-mypage">
           <a href="<?=BASE_URL?>/member">・마이페이지</a><br>
           <a href="<?=BASE_URL?>/member/modify">・개인정보수정</a><br>
-          <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
+          <?php if (!empty($userData['idx']) && ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN) || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
           <a href="<?=BASE_URL?>/member/driver">・드라이버 페이지</a><br>
           <?php endif; ?>
           <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>

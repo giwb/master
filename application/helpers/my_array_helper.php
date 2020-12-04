@@ -137,13 +137,13 @@ if (!function_exists('setVisitor')) {
       $userData = $CI->load->get_var('userData');
       $ipAddress = $_SERVER['REMOTE_ADDR'];
 
-      if (!empty($clubIdx)) {
+      if (!empty($clubIdx) && !empty($userData['idx'])) {
         $visitor = $GLOBALS['CI']->member_model->viewVisitor($clubIdx, NULL, $ipAddress);
 
         // 최근 30분 이내 접속했다면 동일 접속으로 취급
         $limitTime = time() - (60 * 30);
 
-        if ($visitor['ip_address'] == $ipAddress && empty($visitor['created_by']) && !empty($userData['idx'])) {
+        if ($visitor['ip_address'] == $ipAddress && empty($visitor['created_by'])) {
           // 직전 접속한 같은 IP의 사람이 로그인 했다면 닉네임으로 변경
           $updateValues = array(
             'created_by' => $userData['idx']

@@ -32,15 +32,29 @@ class MY_Controller extends CI_Controller
     }
 
     // 회원 로그인 설정
-    if (!empty($this->session->userData['idx'])) {
+    $userIdx = $this->session->userData['idx'];
+    if (!empty($userIdx)) {
       $loginData['userData'] = $this->member_model->viewMember(html_escape($this->session->userData['idx']));
       $loginData['userLevel'] = memberLevel($loginData['userData']['rescount'], $loginData['userData']['penalty'], $loginData['userData']['level'], $loginData['userData']['admin']);
+    } else {
+      // 로그인 세션이 끊겼을 경우, 쿠키를 확인해서 로그인 유지
+      $userid = get_cookie('cookie_userid');
+      if (!empty($userid)) {
+        $loginData['userData'] = $this->member_model->checkLogin(html_escape($userid));
+        $loginData['userLevel'] = memberLevel($loginData['userData']['rescount'], $loginData['userData']['penalty'], $loginData['userData']['level'], $loginData['userData']['admin']);
 
-      if (!empty($loginData['userData']['icon'])) {
-        $loginData['userData']['icon'] = $loginData['userData']['icon_thumbnail'];
-      } else {
-        $loginData['userData']['icon'] = base_url() . PHOTO_URL . $loginData['userData']['idx'];
+        // 세션에 새롭게 저장
+        $this->session->set_userdata('userData', $loginData['userData']);
       }
+    }
+
+    // 유저 아이콘 설정
+    if (!empty($loginData['userData']['icon'])) {
+      $loginData['userData']['icon'] = $loginData['userData']['icon_thumbnail'];
+    } elseif (!empty($loginData['userData']['idx'])) {
+      $loginData['userData']['icon'] = base_url() . PHOTO_URL . $loginData['userData']['idx'];
+    } else {
+      $loginData['userData']['icon'] = '';
     }
 
     if (!empty($loginData)) {

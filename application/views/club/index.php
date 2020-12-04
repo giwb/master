@@ -74,8 +74,8 @@
               <input type="file" class="file">
               <button type="button" class="btn btn-photo"><i class="fa fa-camera" aria-hidden="true"></i> 사진추가</button>
               <button type="button" class="btn btn-post btn-<?=$view['main_color']?>">등록합니다</button>
-              <input type="hidden" name="clubIdx" value="<?=$view['idx']?>">
-              <input type="hidden" name="userIdx" value="<?=$userData['idx']?>">
+              <input type="hidden" name="clubIdx" value="<?=!empty($view['idx']) ? $view['idx'] : ''?>">
+              <input type="hidden" name="userIdx" value="<?=!empty($userData['idx']) ? $userData['idx'] : ''?>">
               <input type="hidden" name="page" value="story">
             </div>
           </form>

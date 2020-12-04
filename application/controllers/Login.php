@@ -109,6 +109,10 @@ class Login extends MY_Controller
    **/
   public function logout()
   {
+    // 쿠키 삭제
+    delete_cookie('cookie_userid');
+    delete_cookie('cookie_passwd');
+
     // 세션 삭제
     $this->session->unset_userdata('userData');
     $this->output->set_output(0);
