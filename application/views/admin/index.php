@@ -35,7 +35,7 @@
                   title: '<?=$value['status'] != STATUS_PLAN ? $value['starttime'] . "\\n" : "[계획]\\n"?><?=$value['mname']?>',
                   start: new Date('<?=date('Y', $startDate)?>/<?=date('m', $startDate)?>/<?=date('d', $startDate)?>/00:00:01'),
                   end: new Date('<?=date('Y', $endDate)?>/<?=date('m', $endDate)?>/<?=date('d', $endDate)?>/23:59:59'),
-                  url: '/admin/main_view_progress/<?=$value['idx']?>',
+                  url: '<?=BASE_URL?>/admin/main_view_progress/<?=$value['idx']?>',
                   className: 'notice-status<?=$value['status']?>'
                 },
                 <?php
