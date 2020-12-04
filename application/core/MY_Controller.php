@@ -53,8 +53,6 @@ class MY_Controller extends CI_Controller
       $loginData['userData']['icon'] = $loginData['userData']['icon_thumbnail'];
     } elseif (!empty($loginData['userData']['idx'])) {
       $loginData['userData']['icon'] = base_url() . PHOTO_URL . $loginData['userData']['idx'];
-    } else {
-      $loginData['userData']['icon'] = '';
     }
 
     if (!empty($loginData)) {
