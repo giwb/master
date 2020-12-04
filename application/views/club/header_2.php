@@ -24,7 +24,7 @@
 
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
   <link href="/public/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/public/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/public/css/fontawesome/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="/public/lib/animate/animate.min.css" rel="stylesheet">
   <link href="/public/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
   <link href="/public/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
@@ -85,7 +85,7 @@
                 <?php if (!empty($view['idx']) && $view['idx'] == 1): // 경인웰빙 메뉴 ?>
 
                   <li class="mr-4">
-                    <a href="javascript:;" class="submenu-nav" data-nav-idx="1">경인웰빙</a>
+                    <a href="javascript:;" class="submenu-nav" data-nav-idx="1"><i class="fas fa-chalkboard"></i> 경인웰빙</a>
                     <div class="submenu d-none" data-nav-idx="1">
                       <a href="<?=BASE_URL?>/club/about">산악회 소개</a><br>
                       <a href="<?=BASE_URL?>/club/guide">등산안내인 소개</a><br>
@@ -96,17 +96,17 @@
                     </div>
                   </li>
                   <li class="mr-4">
-                    <a href="javascript:;" class="submenu-nav" data-nav-idx="2">백산백소</a>
+                    <a href="javascript:;" class="submenu-nav" data-nav-idx="2"><i class="fas fa-mountain"></i> 백산백소</a>
                     <div class="submenu d-none" data-nav-idx="2">
                       <a href="<?=BASE_URL?>/club/auth_about">백산백소 소개</a><br>
                       <a href="<?=BASE_URL?>/club/auth">인증현황</a><br>
                     </div>
                   </li>
-                  <li class="mr-4"><a href="<?=BASE_URL?>/album">산행앨범</a></li>
-                  <li class="mr-4"><a href="<?=BASE_URL?>/shop">구매대행</a></li>
-                  <li class="mr-4"><a target="_blank" href="http://giwb.co.kr">다음카페</a></li>
+                  <li class="mr-4"><a href="<?=BASE_URL?>/album"><i class="fas fa-camera"></i> 산행앨범</a></li>
+                  <li class="mr-4"><a href="<?=BASE_URL?>/shop"><i class="fas fa-shopping-cart"></i> 구매대행</a></li>
+                  <li class="mr-4"><a target="_blank" href="http://giwb.co.kr"><i class="fa fa-desktop" aria-hidden="true"></i> 다음카페</a></li>
                   <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN): ?>
-                  <li class="mr-4"><a href="<?=BASE_URL?>/member/driver">드라이버</a></li>
+                  <li class="mr-4"><a href="<?=BASE_URL?>/member/driver"><i class="fas fa-bus"></i> 드라이버</a></li>
                   <?php endif; ?>
 
                 <?php else: // 일반 산악회 메뉴 ?>
@@ -121,7 +121,7 @@
                 <?php endif; ?>
 
                 <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
-                <li class="mr-4"><a href="<?=BASE_URL?>/admin">설정</a></li>
+                <li class="mr-4"><a href="<?=BASE_URL?>/admin"><i class="fas fa-cog"></i> 설정</a></li>
                 <?php endif; ?>
 
                 <?php if (empty($userData['idx'])): ?>
