@@ -424,6 +424,7 @@ if (!function_exists('arrLocation')) {
       $starttime = strtotime($starttime);
     }
     $result = array(
+      array('no' => '0', 'time' => '', 'title' => '', 'stitle' => ''),
       array('no' => '1', 'time' => !is_null($starttime) ? date('H:i', $starttime) : '', 'title' => '계산역 4번출구', 'stitle' => '계산'),
       array('no' => '2', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 4)) : '', 'title' => '작전역 5번출구', 'stitle' => '작전'),
       array('no' => '3', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 8)) : '', 'title' => '갈산역 4번출구', 'stitle' => '갈산'),
@@ -434,7 +435,7 @@ if (!function_exists('arrLocation')) {
       array('no' => '8', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 30)) : '', 'title' => '송내남부 맥도날드', 'stitle' => '송내'),
     );
     if (is_null($start)) { // 원종동은 정규 노선이 아니기 때문에 회원 가입시에만 기록할 수 있도록 한다
-      $arr = array('no' => '0', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * -20)) : '', 'title' => '원종동', 'stitle' => '원종');
+      $arr = array('no' => '9', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * -20)) : '', 'title' => '원종동', 'stitle' => '원종');
       array_push($result, $arr);
     }
     if (!empty($location)) {
