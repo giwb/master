@@ -125,7 +125,7 @@
                 <?php endif; ?>
 
                 <?php if (empty($userData['idx'])): ?>
-                <li><a href="javascript:;" class="login-popup"><span class="text-white">로그인</span></a></li>
+                <li><a href="javascript:;" class="login-popup"><i class="fas fa-user-circle"></i> 로그인</a></li>
                 <?php else: ?>
                 <li>
                 <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
