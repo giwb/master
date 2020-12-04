@@ -531,9 +531,13 @@ if (!function_exists('getBusTableMake')) {
         if ($seat != 1 && $seat%4 == 1 && $seat < 43) $result = '</tr><tr>';
         elseif ($seat%4 == 3 && $seat < 43) $result = '<td colspan="2" class="table-blank"></td>';
         break;
+      case '31': // 31석
+        if ($seat != 1 && $seat%3 == 1 && $seat < 29) $result = '</tr><tr>';
+        elseif ($seat%3 == 0 && $seat < 29) $result = '<td colspan="2" class="table-blank"></td>';
+        break;
       case '28': // 28석
-        if ($seat != 1 && $seat%4 == 1) $result = '</tr><tr>';
-        elseif ($seat%4 == 3) $result = '<td colspan="2" class="table-blank"></td>';
+        if ($seat != 1 && $seat%3 == 1 && $seat < 26) $result = '</tr><tr>';
+        elseif ($seat%3 == 0 && $seat < 26) $result = '<td colspan="2" class="table-blank"></td>';
         break;
       case '25': // 25석
         if ($seat != 1 && $seat%4 == 1 && $seat < 23) $result = '</tr><tr>';
