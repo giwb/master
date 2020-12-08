@@ -368,7 +368,6 @@
         <script type="text/javascript">
           $(document).ready(function(){
             var totalDistance = $.calcTotalDistance(); // 총 거리 계산
-            $.calcSchedule($('#startDatePicker').val(), $('#startTime').val(), $('#endDatePicker').val()) // 여행기간 계산
             $.calcRoadCost(); // 통행료 계산
             $.calcFuel(); // 연비 계산 (총주행 / 3.5)
             $.calcBusCost(totalDistance); // 버스비용/요금 기본비용 계산
@@ -376,6 +375,7 @@
             $.calcTotalFuel(); // 주유비 합계
             $.calcAdd(); // 추가비용 합계
             $.calcTotalBus(); // 추가비용 합계
+            $.calcSchedule($('#startDatePicker').val(), $('#startTime').val(), $('#endDatePicker').val()) // 여행기간 계산
             $.calcCost(); // 요금 계산
             <?php if (empty($view['idx']) || $view['status'] == STATUS_PLAN): ?>
             // 통행료 계산
