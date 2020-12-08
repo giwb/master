@@ -67,9 +67,18 @@ class Member extends MY_Controller
       $viewData['userReserve'] = $this->reserve_model->userReserve($clubIdx, $userData['userid'], NULL, $paging);
 
       foreach ($viewData['userReserve'] as $key => $value) {
+        $busType = getBusType($value['notice_bustype'], $value['notice_bus']); // 버스 형태별 좌석 배치
+
         if (empty($value['cost_total'])) {
           $value['cost_total'] = $value['cost'];
         }
+
+        if (!empty($busType[$value['bus']-1]['bus_type']) && $busType[$value['bus']-1]['bus_type'] == 1) {
+          // 우등버스 할증 (2020/12/08 추가)
+          $viewData['userReserve'][$key]['cost'] = $value['cost'] = $viewData['userReserve'][$key]['cost'] + 10000;
+          $viewData['userReserve'][$key]['cost_total'] = $value['cost_total'] = $viewData['userReserve'][$key]['cost_total'] + 10000;
+        }
+
         if ($userData['level'] == LEVEL_LIFETIME) {
           // 평생회원 할인
           $viewData['userReserve'][$key]['view_cost'] = '<s class="text-secondary">' . number_format($value['cost_total']) . '원</s> → ' . number_format($value['cost_total'] - 5000) . '원';
@@ -92,6 +101,7 @@ class Member extends MY_Controller
           $viewData['userReserve'][$key]['view_cost'] = number_format($value['cost_total']) . '원';
           $viewData['userReserve'][$key]['real_cost'] = $value['cost_total'];
         }
+
         // 페널티 체크
         $startTime = explode(':', $value['starttime']);
         $startDate = explode('-', $value['startdate']);

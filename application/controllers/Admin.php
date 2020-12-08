@@ -458,6 +458,12 @@ class Admin extends Admin_Controller
         // 요금 합계 (기존 버젼 호환용)
         $viewEntry['cost'] = $viewEntry['cost_total'] == 0 ? $viewEntry['cost'] : $viewEntry['cost_total'];
 
+        // 우등버스 할증 (2020/12/08 추가)
+        if (!empty($busType[$viewReserve['bus']-1]['bus_type']) && $busType[$viewReserve['bus']-1]['bus_type'] == 1) {
+          $viewEntry['cost'] = $viewEntry['cost'] + 10000;
+          $viewEntry['cost_total'] = $viewEntry['cost_total'] + 10000;
+        }
+
         // 비회원 입금취소의 경우, 환불내역 기록
         if (empty($viewReserve['userid'])) {
           setHistory(LOG_ADMIN_REFUND, $viewReserve['rescode'], '', $viewReserve['nickname'], $viewEntry['subject'], $now);
@@ -808,6 +814,20 @@ class Admin extends Admin_Controller
     $search['honor'] = 1;
     $viewData['view']['honor'] = $this->admin_model->cntReserve($search);
 
+    // 우등버스 수량
+    $cntHonorBus = 0;
+    $busType = getBusType($viewData['view']['bustype'], $viewData['view']['bus']); // 버스 형태별 좌석 배치
+    $reserveData = $this->admin_model->viewReserve($search); // 예약 목록
+
+    foreach ($reserveData as $value) {
+      if (!empty($busType[$value['bus']-1]['bus_type']) && $busType[$value['bus']-1]['bus_type'] == 1) {
+        $cntHonorBus++;
+      }
+    }
+
+    // 우등수량
+    $viewData['view']['cntHonor'] = ($viewData['view']['honor']['cnt'] / 2) + $cntHonorBus;
+
     // 평생회원 수량
     $search['honor'] = NULL;
     $search['vip'] = 1;
@@ -822,7 +842,7 @@ class Admin extends Admin_Controller
     $viewData['view']['point_cost'] = $this->admin_model->viewReservePoint($search);
 
     // 초기 합계 금액
-    $viewData['view']['total'] = ($viewData['view']['cntRes'] * $viewData['view']['cost']) - (($viewData['view']['vip']['cnt'] * 5000) + $viewData['view']['point_cost']['total']);
+    $viewData['view']['total'] = (($viewData['view']['cntRes'] * $viewData['view']['cost']) + ($viewData['view']['cntHonor'] * 10000)) - (($viewData['view']['vip']['cnt'] * 5000) + $viewData['view']['point_cost']['total']);
 
     // 페이지 타이틀
     $viewData['pageTitle'] = '정산 관리';
@@ -3403,6 +3423,7 @@ exit;
     $bus_license  = $this->input->post('bus_license') != '' ? html_escape($this->input->post('bus_license')) : NULL;
     $bus_color    = $this->input->post('bus_color') != '' ? html_escape($this->input->post('bus_color')) : NULL;
     $bus_seat     = $this->input->post('bus_seat') != '' ? html_escape($this->input->post('bus_seat')) : NULL;
+    $bus_type     = $this->input->post('bus_type') != '' ? html_escape($this->input->post('bus_type')) : NULL;
     $memo         = $this->input->post('memo') != '' ? html_escape($this->input->post('memo')) : NULL;
 
     $insertData = array(
@@ -3411,6 +3432,7 @@ exit;
       'bus_license' => $bus_license,
       'bus_color'   => $bus_color,
       'bus_seat'    => $bus_seat,
+      'bus_type'    => $bus_type,
       'memo'        => $memo,
       'created_at'  => $now,
     );
@@ -3427,23 +3449,25 @@ exit;
    **/
   public function setup_bustype_update()
   {
-    $idx        = $this->input->post('idx') != '' ? html_escape($this->input->post('idx')) : NULL;
-    $bus_name   = $this->input->post('bus_name') != '' ? html_escape($this->input->post('bus_name')) : NULL;
-    $bus_owner  = $this->input->post('bus_owner') != '' ? html_escape($this->input->post('bus_owner')) : NULL;
-    $bus_license  = $this->input->post('bus_license') != '' ? html_escape($this->input->post('bus_license')) : NULL;
-    $bus_color  = $this->input->post('bus_color') != '' ? html_escape($this->input->post('bus_color')) : NULL;
-    $bus_seat   = $this->input->post('bus_seat') != '' ? html_escape($this->input->post('bus_seat')) : NULL;
-    $memo       = $this->input->post('memo') != '' ? html_escape($this->input->post('memo')) : NULL;
-    $result     = 0;
+    $idx            = $this->input->post('idx') != '' ? html_escape($this->input->post('idx')) : NULL;
+    $bus_name       = $this->input->post('bus_name') != '' ? html_escape($this->input->post('bus_name')) : NULL;
+    $bus_owner      = $this->input->post('bus_owner') != '' ? html_escape($this->input->post('bus_owner')) : NULL;
+    $bus_license    = $this->input->post('bus_license') != '' ? html_escape($this->input->post('bus_license')) : NULL;
+    $bus_color      = $this->input->post('bus_color') != '' ? html_escape($this->input->post('bus_color')) : NULL;
+    $bus_seat       = $this->input->post('bus_seat') != '' ? html_escape($this->input->post('bus_seat')) : NULL;
+    $bus_type       = $this->input->post('bus_type') != '' ? html_escape($this->input->post('bus_type')) : NULL;
+    $memo           = $this->input->post('memo') != '' ? html_escape($this->input->post('memo')) : NULL;
+    $result         = 0;
 
     if (!is_null($idx)) {
       $updateData = array(
-        'bus_name' => $bus_name,
-        'bus_owner' => $bus_owner,
+        'bus_name'    => $bus_name,
+        'bus_owner'   => $bus_owner,
         'bus_license' => $bus_license,
-        'bus_color' => $bus_color,
-        'bus_seat' => $bus_seat,
-        'memo' => $memo,
+        'bus_color'   => $bus_color,
+        'bus_seat'    => $bus_seat,
+        'bus_type'    => $bus_type,
+        'memo'        => $memo,
       );
 
       $result = $this->admin_model->updateBustype($updateData, $idx);

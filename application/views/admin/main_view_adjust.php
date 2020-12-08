@@ -1,4 +1,7 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php
+  defined('BASEPATH') OR exit('No direct script access allowed');
+  $location = arrLocation($view['starttime'], NULL, NULL, 1);
+?>
 
         <?=$headerMenuView?>
         <div id="content" class="mb-5">
@@ -6,11 +9,12 @@
             <h2 class="m-0 p-0 pb-2"><b><?=viewStatus($view['status'])?></b> <?=$view['subject']?></h2>
             <?php if (!empty($view['type'])): ?><div class="ti"><strong>・유형</strong> : <?=$view['type']?></div><?php endif; ?>
             <div class="ti"><strong>・일시</strong> : <?=$view['startdate']?> (<?=calcWeek($view['startdate'])?>) <?=$view['starttime']?></div>
+            <div class="ti"><strong>・노선</strong> : <?php foreach ($location as $key => $value): if ($key > 1): ?> - <?php endif; ?><?=$value['time']?> <?=$value['stitle']?><?php endforeach; ?></div>
             <?php $view['cost'] = $view['cost_total'] == 0 ? $view['cost'] : $view['cost_total']; if (!empty($view['cost'])): ?>
             <?php if (!empty($view['sido'])): ?>
             <div class="ti"><strong>・지역</strong> : <?php foreach ($view['sido'] as $key => $value): if ($key != 0): ?>, <?php endif; ?><?=$value?> <?=!empty($view['gugun'][$key]) ? $view['gugun'][$key] : ''?><?php endforeach; ?></div>
             <?php endif; ?>
-            <div class="ti"><strong>・요금</strong> : <?=number_format($view['cost'])?>원 (<?=calcTerm($view['startdate'], $view['starttime'], $view['enddate'], $view['schedule'])?><?=!empty($view['distance']) ? ', ' . calcDistance($view['distance']) : ''?><?=!empty($view['options']) ? ', ' . getOptions($view['options']) : ''?><?=!empty($view['options_etc']) ? ', ' . $view['options_etc'] : ''?><?=!empty($view['options']) || !empty($view['options_etc']) ? ' 제공' : ''?><?=!empty($view['costmemo']) ? ', ' . $view['costmemo'] : ''?>)</div>
+            <div class="ti"><strong>・요금</strong> : <?=number_format($view['cost_total'] == 0 ? $view['cost'] : $view['cost_total'])?>원 / 1인우등 <?=number_format($view['cost_total'] == 0 ? $view['cost'] + 10000 : $view['cost_total'] + 10000)?>원 (<?=calcTerm($view['startdate'], $view['starttime'], $view['enddate'], $view['schedule'])?><?=!empty($view['distance']) ? ', ' . calcDistance($view['distance']) : ''?><?=!empty($view['options']) ? ', ' . getOptions($view['options']) : ''?><?=!empty($view['options_etc']) ? ', ' . $view['options_etc'] : ''?><?=!empty($view['options']) || !empty($view['options_etc']) ? ' 제공' : ''?><?=!empty($view['costmemo']) ? ', ' . $view['costmemo'] : ''?>)</div>
             <?php endif; ?>
             <?=!empty($view['content']) ? '<div class="ti"><strong>・코스</strong> : ' . nl2br($view['content']) . '</div>' : ''?>
             <?=!empty($view['kilometer']) ? '<div class="ti"><strong>・거리</strong> : ' . $view['kilometer'] . '</div>' : ''?>
@@ -37,10 +41,10 @@
             </div>
             <div class="row align-items-center p-1">
               <div class="col-1 p-0">산행비</div>
-              <div class="col-3 pl-1 pr-1"><input type="text" name="title31" class="form-control form-control-sm" value="<?=empty($viewAdjust['title31']) ? '1인우등' : $viewAdjust['title31']?>"></div>
-              <div class="col-1 pl-1 pr-1"><input readonly type="text" name="amount31" class="form-control form-control-sm text-right auto-calc" value="<?=empty($viewAdjust['amount31']) ? ($view['honor']['cnt'] / 2) : $viewAdjust['amount31']?>"></div>
+              <div class="col-3 pl-1 pr-1"><input type="text" name="title31" class="form-control form-control-sm" value="<?=empty($viewAdjust['title31']) ? '우등요금' : $viewAdjust['title31']?>"></div>
+              <div class="col-1 pl-1 pr-1"><input readonly type="text" name="amount31" class="form-control form-control-sm text-right auto-calc" value="<?=empty($viewAdjust['amount31']) ? ($view['cntHonor']) : $viewAdjust['amount31']?>"></div>
               <div class="col-2 pl-1 pr-1"><input readonly type="text" name="cost31" class="form-control form-control-sm text-right auto-calc" value="<?=empty($viewAdjust['cost31']) ? '10000' : $viewAdjust['cost31']?>"></div>
-              <div class="col-2 pl-1 pr-1"><input readonly type="text" name="total31" class="form-control form-control-sm text-right total-cost" value="<?=empty($viewAdjust['total31']) ? ($view['honor']['cnt'] / 2) * 10000 : $viewAdjust['total31']?>"></div>
+              <div class="col-2 pl-1 pr-1"><input readonly type="text" name="total31" class="form-control form-control-sm text-right total-cost" value="<?=empty($viewAdjust['total31']) ? $view['cntHonor'] * 10000 : $viewAdjust['total31']?>"></div>
               <div class="col-3 pl-1 pr-1"><input type="text" name="memo31" class="form-control form-control-sm" value="<?=empty($viewAdjust['memo31']) ? '' : $viewAdjust['memo31']?>"></div>
             </div>
             <div class="row align-items-center p-1">

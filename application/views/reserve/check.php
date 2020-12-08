@@ -148,7 +148,7 @@
           var result = 0;
           var message = '';
           var point = Number($(this).val());
-          var userPoint = Number($('input[name=userPoint]').val());
+          var userPoint = Number($('#reservePaymentModal input[name=userPoint]').val());
           var originCost = Number($('#reservePaymentModal input[name=originCost]').val());
           <?php if ($viewMember['level'] == LEVEL_LIFETIME): // 평생회원은 5천원 할인 ?>
           message = ' (평생회원 할인)';
@@ -169,16 +169,16 @@
           // 포인트 전액 사용
           var result = 0;
           var message = '';
-          var userPoint = Number($('input[name=userPoint]').val());
+          var userPoint = Number($('#reservePaymentModal input[name=userPoint]').val());
           var originCost = Number($('#reservePaymentModal input[name=originCost]').val());
           <?php if ($viewMember['level'] == LEVEL_LIFETIME): // 평생회원은 5천원 할인 ?>
           message = ' (평생회원 할인)';
           <?php endif; ?>
 
           if (originCost > userPoint) {
-            result = originCost - userPoint;
+            result = Number($('#reservePaymentModal input[name=originCost]').val()) - Number($('#reservePaymentModal input[name=userPoint]').val());
           } else {
-            userPoint = originCost;
+            userPoint = Number($('#reservePaymentModal input[name=originCost]').val());
           }
 
           if ($(this).is(':checked') == true) {

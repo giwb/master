@@ -55,10 +55,7 @@ class Reserve extends MY_Controller
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
-    if (empty($checkIdx)) {
-      // 페이지 타이틀
-      $viewData['pageTitle'] = '산행 예약';
-
+    if (empty($checkIdx)) { // 산행 예약
       // 등록된 산행 목록
       $viewData['listNotice'] = $this->reserve_model->listNotice($clubIdx);
 
@@ -123,10 +120,7 @@ class Reserve extends MY_Controller
       $viewData['listReply'] = $this->load->view('story/reply', $viewData, true);
 
       $this->_viewPage('reserve/index', $viewData);
-    } else {
-      // 페이지 타이틀
-      $viewData['pageTitle'] = '산행 예약확인';
-
+    } else { // 산행 예약확인
       $viewData['view']['noticeIdx'] = $noticeIdx;
 
       // 회원 정보
@@ -139,9 +133,18 @@ class Reserve extends MY_Controller
       $viewData['listReserve'] = $this->reserve_model->listReserve($clubIdx, $reserveIdx);
 
       foreach ($viewData['listReserve'] as $key => $value) {
+        $busType = getBusType($value['notice_bustype'], $value['notice_bus']); // 버스 형태별 좌석 배치
+
         if (empty($value['cost_total'])) {
           $value['cost_total'] = $value['cost'];
         }
+
+        if (!empty($busType[$value['bus']-1]['bus_type']) && $busType[$value['bus']-1]['bus_type'] == 1) {
+          // 우등버스 할증 (2020/12/08 추가)
+          $viewData['listReserve'][$key]['cost'] = $value['cost'] = $viewData['listReserve'][$key]['cost'] + 10000;
+          $viewData['listReserve'][$key]['cost_total'] = $value['cost_total'] = $viewData['listReserve'][$key]['cost_total'] + 10000;
+        }
+
         if ($userData['level'] == LEVEL_LIFETIME) {
           // 평생회원 할인
           $viewData['listReserve'][$key]['view_cost'] = '<s class="text-secondary">' . number_format($value['cost_total']) . '원</s> → ' . number_format($value['cost_total'] - 5000) . '원';

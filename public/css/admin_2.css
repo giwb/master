@@ -297,6 +297,12 @@ textarea.input {
   height: 90px;
 }
 
+#header .container {
+  max-width: 100%;
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
 #nav {
   width: 100%;
   position: fixed;

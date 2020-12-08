@@ -28,9 +28,9 @@
             <div class="row align-items-center border-bottom mb-3 pb-3">
               <div class="col-sm-2">전화번호</div>
               <div class="col-sm-10 row">
-                <div class="pl-0"><input type="text" size="4" name="phone1" value="<?=$viewMember['phone'][0]?>" class="form-control"></div>
-                <div class="pl-2"><input type="text" size="4" name="phone2" value="<?=$viewMember['phone'][1]?>" class="form-control"></div>
-                <div class="pl-2"><input type="text" size="4" name="phone3" value="<?=$viewMember['phone'][2]?>" class="form-control"></div>
+                <div class="pl-0"><input type="text" size="4" name="phone1" value="<?=!empty($viewMember['phone'][0]) ? $viewMember['phone'][0] : ''?>" class="form-control"></div>
+                <div class="pl-2"><input type="text" size="4" name="phone2" value="<?=!empty($viewMember['phone'][1]) ? $viewMember['phone'][1] : ''?>" class="form-control"></div>
+                <div class="pl-2"><input type="text" size="4" name="phone3" value="<?=!empty($viewMember['phone'][2]) ? $viewMember['phone'][2] : ''?>" class="form-control"></div>
               </div>
             </div>
             <div class="row align-items-center border-bottom mb-3 pb-3">
@@ -40,21 +40,21 @@
                   <div class="pl-0">
                     <select name="birthday_year" class="form-control">
                       <?php foreach (range(1900, date('Y')) as $value): ?>
-                      <option<?=$viewMember['birthday'][0] == $value ? ' selected' : ''?> value="<?=$value?>"><?=$value?>년</option>
+                      <option<?=!empty($viewMember['birthday'][0]) ? $viewMember['birthday'][0] == $value : '' ? ' selected' : ''?> value="<?=$value?>"><?=$value?>년</option>
                       <?php endforeach; ?>
                     </select>
                   </div>
                   <div class="pl-2">
                     <select name="birthday_month" class="form-control">
                       <?php foreach (range(1, 12) as $value): ?>
-                      <option<?=$viewMember['birthday'][1] == $value ? ' selected' : ''?> value="<?=$value?>"><?=$value?>월</option>
+                      <option<?=!empty($viewMember['birthday'][1]) ? $viewMember['birthday'][1] == $value : '' ? ' selected' : ''?> value="<?=$value?>"><?=$value?>월</option>
                       <?php endforeach; ?>
                     </select>
                   </div>
                   <div class="pl-2">
                     <select name="birthday_day" class="form-control">
                       <?php foreach (range(1, 31) as $value): ?>
-                      <option<?=$viewMember['birthday'][2] == $value ? ' selected' : ''?> value="<?=$value?>"><?=$value?>일</option>
+                      <option<?=!empty($viewMember['birthday'][2]) ? $viewMember['birthday'][2] == $value : '' ? ' selected' : ''?> value="<?=$value?>"><?=$value?>일</option>
                       <?php endforeach; ?>
                     </select>
                   </div>

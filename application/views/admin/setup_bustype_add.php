@@ -30,6 +30,13 @@
               </div>
             </div>
             <div class="row align-items-center pt-2 pb-2">
+              <div class="col-sm-2"><strong>버스 형태</strong></div>
+              <div class="col-sm-10">
+                <label><input type="radio" name="bus_type" value=''<?=empty($viewBustype['bus_type']) ? ' checked' : ''?>> 일반버스</label><br>
+                <label><input type="radio" name="bus_type" value='1'<?=!empty($viewBustype['bus_type']) ? ' checked' : ''?>> 우등버스 (요금 1만원 추가)</label>
+              </div>
+            </div>
+            <div class="row align-items-center pt-2 pb-2">
               <div class="col-sm-2"><strong>메모</strong></div>
               <div class="col-sm-10"><textarea name="memo" rows="10" class="w-100 form-control"><?=!empty($viewBustype['memo']) ? $viewBustype['memo'] : ''?></textarea></div>
             </div>
