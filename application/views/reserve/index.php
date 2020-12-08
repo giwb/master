@@ -17,7 +17,9 @@
           </div>
 
           <!-- 안내문 -->
+          <?php if (!empty($notice['information'])): ?>
           <div class="border border-danger p-4 mb-3"><?=$notice['information']?></div>
+          <?php endif; ?>
 
           <?php if (!empty($notice['type'])): ?><div class="ti"><strong>・유형</strong> : <?=$notice['type']?></div><?php endif; ?>
           <div class="ti"><strong>・일시</strong> : <?=$notice['startdate']?> (<?=calcWeek($notice['startdate'])?>) <?=$notice['starttime']?></div>
