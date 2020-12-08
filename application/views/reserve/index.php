@@ -15,6 +15,10 @@
               <div class="col-6 col-sm-2 p-0"><a href="<?=BASE_URL?>/reserve/notice/<?=$notice['idx']?>"><button type="button" class="btn btn-sm btn-default btn-notice">공지</button></a></div>
             </div>
           </div>
+
+          <!-- 안내문 -->
+          <div class="border border-danger p-4 mb-3"><?=$notice['information']?></div>
+
           <?php if (!empty($notice['type'])): ?><div class="ti"><strong>・유형</strong> : <?=$notice['type']?></div><?php endif; ?>
           <div class="ti"><strong>・일시</strong> : <?=$notice['startdate']?> (<?=calcWeek($notice['startdate'])?>) <?=$notice['starttime']?></div>
           <div class="ti"><strong>・노선</strong> : <?php foreach ($location as $key => $value): if ($key > 1): ?> - <?php endif; ?><?=$value['time']?> <?=$value['stitle']?><?php endforeach; ?></div>

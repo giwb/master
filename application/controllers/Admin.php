@@ -1397,6 +1397,7 @@ class Admin extends Admin_Controller
         'options'         => !empty($this->input->post('options')) ? make_serialize($this->input->post('options')) : NULL, // 옵션
         'options_etc'     => html_escape($this->input->post('options_etc')),      // 옵션 기타
         'article'         => html_escape($this->input->post('article')),          // 메모
+        'information'     => html_escape($this->input->post('information')),      // 안내문
         'distance'        => html_escape($this->input->post('distance')),         // 운행거리
         'road_course'     => make_serialize($this->input->post('road_course')),   // 운행구간
         'road_address'    => make_serialize($this->input->post('road_address')),  // 도착지주소
@@ -1468,11 +1469,6 @@ foreach ($viewData['listNotice'] as $value) {
   }
   if (!empty($value['timetable'])) {
     $insertValues = array('notice_idx' => $value['idx'], 'sort_idx' => $sort, 'title' => '일정안내', 'content' => $value['timetable'], 'created_by' => 1, 'created_at' => $value['regdate']);
-    $this->admin_model->insertNoticeDetail($insertValues);
-    $sort++;
-  }
-  if (!empty($value['information'])) {
-    $insertValues = array('notice_idx' => $value['idx'], 'sort_idx' => $sort, 'title' => '산행안내', 'content' => $value['information'], 'created_by' => 1, 'created_at' => $value['regdate']);
     $this->admin_model->insertNoticeDetail($insertValues);
     $sort++;
   }

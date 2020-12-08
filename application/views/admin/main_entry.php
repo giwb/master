@@ -205,6 +205,10 @@
               <div class="col-sm-2 font-weight-bold">메모</div>
               <div class="col-sm-10"><textarea name="article" rows="5" cols="100" class="form-control"><?=$view['article']?></textarea></div>
             </div>
+            <div class="row align-items-center border-top mt-3 pt-3">
+              <div class="col-sm-2 font-weight-bold">안내문</div>
+              <div class="col-sm-10"><textarea name="information" rows="5" cols="100" class="form-control"><?=$view['information']?></textarea></div>
+            </div>
 
             <div class="mt-5">
               <h4>■ 운행거리 및 통행료 산출</h4>
