@@ -342,17 +342,6 @@ class Welcome extends MY_Controller
   }
 
   /**
-   * 카카오링크 콜백
-   *
-   * @return json
-   * @author bjchoi
-   **/
-  public function kakao_callback()
-  {
-    echo 'test';
-  }
-
-  /**
    * 페이지 표시
    *
    * @param $viewPage

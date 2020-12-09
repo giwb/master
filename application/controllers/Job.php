@@ -11,6 +11,17 @@ class Job extends MY_Controller
     $this->load->model(array('admin_model', 'area_model'));
   }
 
+  /**
+   * 카카오링크 콜백
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function kakao_callback()
+  {
+    echo 'test';
+  }
+
   // 중기예보 가져오기
   public function weather()
   {
