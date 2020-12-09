@@ -690,6 +690,7 @@ if (!function_exists('getReserve')) {
       }
       $checkGender[$value['bus']][$value['seat']] = $value['gender'];
     }
+    /* 여성우선 관련 알고리즘인데, 코로나 대응과 우등버스 대응으로 인해 잠시 가려둠. 추후 우등버스에 여성우선 관련 알고리즘이 제대로 작동할 수 있도록 수정 (2020/12/09)
     if ($result['idx'] == '') {
       // 붙어있는 좌석은 같은 성별로만
       if ($status == STATUS_CLOSED) {
@@ -718,6 +719,7 @@ if (!function_exists('getReserve')) {
         }
       }
     }
+    */
     return $result;
   }
 }
