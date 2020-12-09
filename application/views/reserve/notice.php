@@ -101,7 +101,7 @@
           },
           buttons: [
             {
-              title: '예약 페이지로 이동',
+              title: '공지 페이지로 이동',
               link: {
                 webUrl: '<?=BASE_URL?>/reserve/notice/<?=$notice['idx']?>',
                 mobileWebUrl: '<?=BASE_URL?>/reserve/notice/<?=$notice['idx']?>',
