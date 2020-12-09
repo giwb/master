@@ -156,7 +156,8 @@
           });
         <?php endif; ?>
 
-        Kakao.init('bc341ce483d209b1712bf3a88b598ddb');
+        // 카카오톡 공유
+        Kakao.init('<?=API_KAKAO_JS?>');
         Kakao.Link.createDefaultButton({
           container: '#kakao-link-btn',
           objectType: 'feed',

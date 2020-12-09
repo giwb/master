@@ -247,4 +247,5 @@ defined('PROVIDER_GMAIL') OR define('PROVIDER_GMAIL', 3);
 
 // API
 defined('API_KAKAO')      OR define('API_KAKAO', 'ac8c155b86aa3885c643ba50a7cd4442');
+defined('API_KAKAO_JS')   OR define('API_KAKAO_JS', 'bc341ce483d209b1712bf3a88b598ddb');
 defined('API_KAKAO_URL')  OR define('API_KAKAO_URL', 'login/kakao');
