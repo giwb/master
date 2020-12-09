@@ -164,20 +164,17 @@
             title: '<?=$view['title']?> 산행 공유',
             description: '<?=htmlspecialchars_decode($notice['subject'])?>',
             <?php if (!empty($notice['photo'])): ?>imageUrl: '<?=BASE_URL . PHOTO_URL . 'thumb_' . $notice['photo']?>',<?php endif; ?>
+
             link: {
+              webUrl: '<?=BASE_URL?>/reserve/<?=$notice['idx']?>',
               mobileWebUrl: '<?=BASE_URL?>/reserve/<?=$notice['idx']?>',
             },
           },
           buttons: [
             {
-              title: '웹으로 이동',
+              title: '예약 페이지로 이동',
               link: {
-                mobileWebUrl: '<?=BASE_URL?>/reserve/<?=$notice['idx']?>',
-              },
-            },
-            {
-              title: '앱으로 이동',
-              link: {
+                webUrl: '<?=BASE_URL?>/reserve/<?=$notice['idx']?>',
                 mobileWebUrl: '<?=BASE_URL?>/reserve/<?=$notice['idx']?>',
               },
             },
