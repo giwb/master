@@ -166,16 +166,16 @@
             <?php if (!empty($notice['photo'])): ?>imageUrl: '<?=BASE_URL . PHOTO_URL . 'thumb_' . $notice['photo']?>',<?php endif; ?>
 
             link: {
-              webUrl: '<?=BASE_URL?>/reserve/<?=$notice['idx']?>',
-              mobileWebUrl: '<?=BASE_URL?>/reserve/<?=$notice['idx']?>',
+              webUrl: '<?=BASE_URL?>/reserve/list/<?=$notice['idx']?>',
+              mobileWebUrl: '<?=BASE_URL?>/reserve/list/<?=$notice['idx']?>',
             },
           },
           buttons: [
             {
               title: '예약 페이지로 이동',
               link: {
-                webUrl: '<?=BASE_URL?>/reserve/<?=$notice['idx']?>',
-                mobileWebUrl: '<?=BASE_URL?>/reserve/<?=$notice['idx']?>',
+                webUrl: '<?=BASE_URL?>/reserve/list/<?=$notice['idx']?>',
+                mobileWebUrl: '<?=BASE_URL?>/reserve/list/<?=$notice['idx']?>',
               },
             },
           ]
