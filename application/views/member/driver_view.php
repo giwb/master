@@ -42,16 +42,40 @@
           </div>
           <div class="mt-2"><strong>・운행견적총액</strong> : <?=number_format($viewNotice['driving_total'])?>원</div>
 
-          <h3 class="mb-3">■ 운행거리 및 통행료</h3>
-          <?php if (!empty($viewNotice['road_course'])): foreach ($viewNotice['road_course'] as $key => $value): if (!empty($value)): ?>
-          <div class="border-bottom pb-2 mb-2">
-            <strong>・제<?=$key+1?>운행구간</strong> : <?=$value?><br>
-            <strong>・도착지 주소</strong> : <?=!empty($viewNotice['road_address'][$key]) ? $viewNotice['road_address'][$key] : ''?><br>
-            <strong>・운행거리</strong> : <?=!empty($viewNotice['road_distance'][$key]) ? $viewNotice['road_distance'][$key] : '0'?>km<br>
-            <strong>・소요시간</strong> : <?=!empty($viewNotice['road_runtime'][$key]) ? $viewNotice['road_runtime'][$key] : ''?><br>
-            <strong>・통행료</strong> : <?=!empty($viewNotice['road_cost'][$key]) ? number_format($viewNotice['road_cost'][$key]) : '0'?>원<br>
+          <div class="mt-5">
+            <h4>■ 운행거리 및 통행료</h4>
           </div>
-          <?php endif; endforeach; endif; ?>
+          <div class="row align-items-center font-weight-bold bg-light border-top pt-2 pb-2">
+            <div class="col-sm-3">운행구간</div>
+            <div class="col-sm-3">도착지주소</div>
+            <div class="col-sm-2">거리 (km)</div>
+            <div class="col-sm-2">소요시간</div>
+            <div class="col-sm-2 pl-0">통행료 (원)</div>
+          </div>
+          <?php
+            $totalDistance = $totalCost = 0;
+            foreach ($viewNotice['road_course'] as $key => $value):
+          ?>
+          <div class="row align-items-center border-top pt-2 pb-2 row-course">
+            <div class="col-sm-3 pr-0"><?=!empty($viewNotice['road_course'][$key]) ? $viewNotice['road_course'][$key] : ''?></div>
+            <div class="col-sm-3 pr-0"><?=!empty($viewNotice['road_address'][$key]) ? $viewNotice['road_address'][$key] : '-'?></div>
+            <div class="col-sm-2 pr-0"><?=!empty($viewNotice['road_distance'][$key]) ? $viewNotice['road_distance'][$key] : ''?></div>
+            <div class="col-sm-2"><?=array_key_exists($key, $viewNotice['road_runtime']) ? $viewNotice['road_runtime'][$key] : ''?></div>
+            <div class="col-sm-2 pl-0"><?=array_key_exists($key, $viewNotice['road_cost']) ? number_format($viewNotice['road_cost'][$key]) : ''?></div>
+          </div>
+          <?php
+              $totalDistance += $viewNotice['road_distance'][$key];
+              $totalCost += $viewNotice['road_cost'][$key];
+            endforeach;
+          ?>
+          <div class="added-course"></div>
+          <div class="row align-items-center bg-light border-top border-bottom pt-2 pb-2">
+            <div class="col-sm-6 font-weight-bold">합계</div>
+            <div class="col-sm-2 pr-0"><?=$totalDistance?></div>
+            <div class="col-sm-2"></div>
+            <div class="col-sm-2 pl-0"><?=number_format($totalCost)?></div>
+          </div>
+
           <div class="text-center mt-4">
             <a href="<?=BASE_URL?>/member"><button class="btn btn-default">목록으로</button></a>
           </div>
