@@ -162,8 +162,8 @@
           objectType: 'feed',
           content: {
             title: '<?=$view['title']?> 산행 공유',
-            description: '<?=urlencode($notice['subject'])?>',
-            <?php if (!empty($notice['photo'])): ?>imageUrl: '<?=PHOTO_URL . 'thumb_' . $notice['photo']?>',<?php endif; ?>
+            description: '<?=htmlspecialchars_decode($notice['subject'])?>',
+            <?php if (!empty($notice['photo'])): ?>imageUrl: '<?=BASE_URL . PHOTO_URL . 'thumb_' . $notice['photo']?>',<?php endif; ?>
             link: {
               mobileWebUrl: '<?=BASE_URL?>/reserve/<?=$notice['idx']?>',
             },
