@@ -327,7 +327,7 @@ class Reserve extends MY_Controller
     foreach ($result['busType'] as $key => $busType) {
       foreach (range(1, $busType['seat']) as $seat) {
         $bus = $key + 1;
-        $seat = checkDirection($seat, ($bus), $notice['bustype'], $notice['bus']);
+        $seat = checkDirection($seat, $bus, $notice['bustype'], $notice['bus']);
         $result['seat'][$bus][] = $seat;
       }
     }
@@ -336,6 +336,12 @@ class Reserve extends MY_Controller
     $result['breakfast'] = arrBreakfast(); // 아침식사
     $result['nowSeat'] = checkDirection($nowSeat, $nowBus, $notice['bustype'], $notice['bus']);
     $result['userLocation'] = $userData['location'];
+
+    if ( (!empty($result['busType'][$nowBus-1]['bus_type']) && $result['busType'][$nowBus-1]['bus_type'] == 1) || !empty($result['reserve']['honor']) ) {
+      $result['cost'] = number_format($notice['cost_total'] + 10000) . '원'; // 1인우등, 우등버스의 경우 1만원 추가
+    } else {
+      $result['cost'] = number_format($notice['cost_total']) . '원';
+    }
 
     // 페널티 계산
     $startTime = explode(':', $notice['starttime']);
