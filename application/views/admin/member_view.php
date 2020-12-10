@@ -139,7 +139,8 @@
             </div>
             <div class="pt-2 pb-5 text-center">
               <div class="error-message"></div>
-              <input type="hidden" name="back_url" value="member_list">
+              <input type="hidden" name="baseUrl" value="<?=BASE_URL?>">
+              <input type="hidden" name="back_url" value="admin/member_list">
               <button type="button" class="btn btn-primary btn-member-update">수정합니다</button>
               <button type="button" class="btn btn-secondary btn-member-delete-modal">삭제합니다</button>
             </div>

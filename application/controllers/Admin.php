@@ -2355,8 +2355,63 @@ exit;
    **/
   public function member_entry()
   {
-    $viewData = array();
+    // 클럽ID
+    $viewData['clubIdx'] = $viewData['search']['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
     $this->_viewPage('admin/member_entry', $viewData);
+  }
+
+  /**
+   * 회원 등록 처리
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function member_insert()
+  {
+    $now = time();
+    $inputData = $this->input->post();
+    $userid = html_escape($inputData['userid']);
+    $nickname = html_escape($inputData['nickname']);
+
+    $insertValues = array(
+      'club_idx'      => html_escape($inputData['clubIdx']),
+      'userid'        => $userid,
+      'password'      => md5(html_escape($inputData['password'])),
+      'nickname'      => $nickname,
+      'realname'      => html_escape($inputData['realname']),
+      'phone'         => html_escape($inputData['phone1']) . '-' . html_escape($inputData['phone2']) . '-' . html_escape($inputData['phone3']),
+      'birthday'      => html_escape($inputData['birthday_year']) . '/' . html_escape($inputData['birthday_month']) . '/' . html_escape($inputData['birthday_day']),
+      'birthday_type' => html_escape($inputData['birthday_type']),
+      'gender'        => html_escape($inputData['gender']),
+      'location'      => !empty($inputData['location']) ? html_escape($inputData['location']) : NULL,
+      'connect'       => html_escape($inputData['connect']),
+      'rescount'      => html_escape($inputData['rescount']),
+      'point'         => html_escape($inputData['point']),
+      'penalty'       => html_escape($inputData['penalty']),
+      'level'         => !empty($inputData['level']) ? html_escape($inputData['level']) : 0,
+      'admin'         => !empty($inputData['admin']) ? html_escape($inputData['admin']) : 0,
+      'regdate'       => $now
+    );
+
+    $idx = $this->member_model->insertMember($insertValues);
+
+    if (empty($idx)) {
+      $result = array('error' => 1, 'message' => '등록에 실패했습니다.');
+    } else {
+      $result = array('error' => 0, 'message' => '');
+/*
+      // 사진 등록
+      if (!empty($inputData['filename']) && file_exists(UPLOAD_PATH . $inputData['filename'])) {
+        // 파일 이동
+        rename(UPLOAD_PATH . html_escape($inputData['filename']), PHOTO_PATH . $idx);
+      }
+*/
+      // 회원 가입 기록
+      setHistory(LOG_ENTRY, $idx, $userid, $nickname, '', $now);
+    }
+
+    $this->output->set_output(json_encode($result));
   }
 
   /** ---------------------------------------------------------------------------------------
