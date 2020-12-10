@@ -1094,6 +1094,13 @@ class Admin extends Admin_Controller
           // 요금 합계 (기존 버젼 호환용)
           $viewEntry['cost'] = $viewEntry['cost_total'] == 0 ? $viewEntry['cost'] : $viewEntry['cost_total'];
 
+          // 우등버스 할증 (2020/12/08 추가)
+          $busType = getBusType($viewEntry['bustype'], $viewEntry['bus']);
+          if (!empty($busType[$viewReserve['bus']-1]['bus_type']) && $busType[$viewReserve['bus']-1]['bus_type'] == 1) {
+            $viewEntry['cost'] = $viewEntry['cost'] + 10000;
+            $viewEntry['cost_total'] = $viewEntry['cost_total'] + 10000;
+          }
+
           // 이미 입금을 마친 상태라면, 전액 포인트로 환불 (무료회원은 환불 안함)
           if (empty($userData['level']) || $userData['level'] != 2) {
             if ($userData['level'] == 1) {
