@@ -15,9 +15,6 @@
             40명이상 : <?=number_format($viewNotice['total_driving_cost3'])?>원<?=$viewNotice['cost_standard'] == 2 ? ' <span class="text-danger">☜ 현재예약인원</span>' : ''?><br>
             만차요금 : <?=number_format($viewNotice['total_driving_cost4'])?>원<?=$viewNotice['cost_standard'] == 3 ? ' <span class="text-danger">☜ 현재예약인원</span>' : ''?>
           </div>
-          <?php foreach ($viewNotice['road_address'] as $key => $value): if ($key == 0) $title = '만나는 장소 (' . date('H:i', strtotime($viewNotice['starttime']) - (60*30)) . ')'; elseif (count($viewNotice['road_address']) == ($key +1)) $title = '하차지 주소'; else $title = '행선지 ' . $key; ?>
-          <div class="ti mb-2">・<strong><?=$title?></strong><br><?=$value?></div>
-          <?php endforeach; ?>
 
           <h3 class="mb-3">■ 버스비용 산출</h3>
           <strong>・기본요금</strong> : <?=number_format($viewNotice['cost_total'] == 0 ? $viewNotice['cost'] : $viewNotice['cost_total'])?>원 (<?=!empty($viewNotice['distance']) ? calcDistance($viewNotice['distance']) : ''?>)<br>
@@ -46,22 +43,20 @@
             <h4>■ 운행거리 및 통행료</h4>
           </div>
           <div class="row align-items-center font-weight-bold bg-light border-top pt-2 pb-2">
-            <div class="col-sm-3">운행구간</div>
-            <div class="col-sm-3">도착지주소</div>
-            <div class="col-sm-2">거리 (km)</div>
-            <div class="col-sm-2">소요시간</div>
-            <div class="col-sm-2 pl-0">통행료 (원)</div>
+            <div class="col-3 col-sm-3">운행구간</div>
+            <div class="col-3 col-sm-3">거리 (km)</div>
+            <div class="col-3 col-sm-3">소요시간</div>
+            <div class="col-3 col-sm-3">통행료 (원)</div>
           </div>
           <?php
             $totalDistance = $totalCost = 0;
             foreach ($viewNotice['road_course'] as $key => $value):
           ?>
           <div class="row align-items-center border-top pt-2 pb-2 row-course">
-            <div class="col-sm-3 pr-0"><?=!empty($viewNotice['road_course'][$key]) ? $viewNotice['road_course'][$key] : ''?></div>
-            <div class="col-sm-3 pr-0"><?=!empty($viewNotice['road_address'][$key]) ? $viewNotice['road_address'][$key] : '-'?></div>
-            <div class="col-sm-2 pr-0"><?=!empty($viewNotice['road_distance'][$key]) ? $viewNotice['road_distance'][$key] : ''?></div>
-            <div class="col-sm-2"><?=array_key_exists($key, $viewNotice['road_runtime']) ? $viewNotice['road_runtime'][$key] : ''?></div>
-            <div class="col-sm-2 pl-0"><?=array_key_exists($key, $viewNotice['road_cost']) ? number_format($viewNotice['road_cost'][$key]) : ''?></div>
+            <div class="col-3 col-sm-3"><?=!empty($viewNotice['road_course'][$key]) ? $viewNotice['road_course'][$key] : ''?></div>
+            <div class="col-3 col-sm-3"><?=!empty($viewNotice['road_distance'][$key]) ? $viewNotice['road_distance'][$key] : ''?></div>
+            <div class="col-3 col-sm-3"><?=array_key_exists($key, $viewNotice['road_runtime']) ? $viewNotice['road_runtime'][$key] : ''?></div>
+            <div class="col-3 col-sm-3"><?=array_key_exists($key, $viewNotice['road_cost']) ? number_format($viewNotice['road_cost'][$key]) : ''?></div>
           </div>
           <?php
               $totalDistance += $viewNotice['road_distance'][$key];
@@ -70,11 +65,33 @@
           ?>
           <div class="added-course"></div>
           <div class="row align-items-center bg-light border-top border-bottom pt-2 pb-2">
-            <div class="col-sm-6 font-weight-bold">합계</div>
-            <div class="col-sm-2 pr-0"><?=$totalDistance?></div>
-            <div class="col-sm-2"></div>
-            <div class="col-sm-2 pl-0"><?=number_format($totalCost)?></div>
+            <div class="col-3 col-sm-3 font-weight-bold">합계</div>
+            <div class="col-3 col-sm-3"><?=$totalDistance?></div>
+            <div class="col-3 col-sm-3"></div>
+            <div class="col-3 col-sm-3"><?=number_format($totalCost)?></div>
           </div>
+
+          <div class="mt-5">
+            <h4>■ 도착지 주소</h4>
+          </div>
+          <div class="row align-items-center font-weight-bold bg-light border-top border-bottom pt-2 pb-2">
+            <div class="col-4 col-sm-4">도착지명</div>
+            <div class="col-8 col-sm-8">주소</div>
+          </div>
+          <?php
+            foreach ($viewNotice['road_course'] as $key => $value):
+          ?>
+          <div class="row align-items-center border-bottom pt-2 pb-2 row-course">
+            <div class="col-4 col-sm-4">
+              <?php if ($key == 0): ?>만나는 장소 (<?=date('H:i', strtotime($viewNotice['starttime']) - (60*30))?>)
+              <?php elseif (count($viewNotice['road_address']) == ($key+1)): ?>하차지 주소
+              <?php else: ?>행선지 <?=$key?><?php endif; ?>
+            </div>
+            <div class="col-8 col-sm-8"><?=!empty($viewNotice['road_address'][$key]) ? $viewNotice['road_address'][$key] : '-'?></div>
+          </div>
+          <?php
+            endforeach;
+          ?>
 
           <div class="text-center mt-4">
             <a href="<?=BASE_URL?>/member"><button class="btn btn-default">목록으로</button></a>
