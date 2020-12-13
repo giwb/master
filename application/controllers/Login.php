@@ -23,8 +23,8 @@ class Login extends MY_Controller
     $viewData['redirect_url'] = html_escape($this->input->get('r'));
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
     $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
-    $userid = html_escape($this->input->post('userid'));
-    $password = html_escape($this->input->post('password'));
+    $userid = html_escape($this->input->post('login_userid'));
+    $password = html_escape($this->input->post('login_password'));
     $save = html_escape($this->input->post('save'));
 
     if (empty($userid) || empty($password)) {

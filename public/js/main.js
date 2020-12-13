@@ -363,7 +363,7 @@
     var formData = new FormData($('.loginForm')[0]);
     var redirectUrl = $('input[name=redirectUrl]').val();
 
-    if ($('input[name=userid]').val() == '' || $('input[name=password]').val() == '') {
+    if ($('input[name=login_userid]').val() == '' || $('input[name=login_password]').val() == '') {
       $('.error-message').slideDown().text('아이디와 비밀번호는 꼭 입력해주세요.');
       return false;
     }

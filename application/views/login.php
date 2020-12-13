@@ -8,11 +8,11 @@
           <h2 class="mt-4 mb-4 pb-4 border-bottom text-center">로그인</h2>
           <div class="row mb-2">
             <div class="col-sm-3">아이디</div>
-            <div class="col-sm-9"><input type="text" name="userid" class="form-control input-login" value="<?=get_cookie('cookie_userid')?>"></div>
+            <div class="col-sm-9"><input type="text" name="login_userid" class="form-control input-login" value="<?=get_cookie('cookie_userid')?>"></div>
           </div>
           <div class="row align-items-center mb-2">
             <div class="col-sm-3">비밀번호</div>
-            <div class="col-sm-9"><input type="password" name="password" class="form-control input-login" value="<?=get_cookie('cookie_passwd')?>"></div>
+            <div class="col-sm-9"><input type="password" name="login_password" class="form-control input-login" value="<?=get_cookie('cookie_passwd')?>"></div>
           </div>
           <div class="row align-items-center mb-2">
             <div class="col-sm-3"></div>
