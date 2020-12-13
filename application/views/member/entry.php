@@ -76,7 +76,7 @@
             <dt>승차위치</dt>
             <dd>
               <select name="location" class="form-control">
-                <?php foreach (arrLocation() as $value): ?>
+                <?php foreach (arrLocation(NULL, NULL, NULL, 1) as $value): ?>
                 <option value="<?=$value['no']?>"><?=$value['title']?></option>
                 <?php endforeach; ?>
               </select>
