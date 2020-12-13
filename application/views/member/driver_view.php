@@ -1,5 +1,25 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<?php $maxRes = cntRes($viewNotice['idx']); ?>
+<?php
+  defined('BASEPATH') OR exit('No direct script access allowed');
+
+  $maxRes = cntRes($viewNotice['idx']);
+
+  if (!empty($viewNotice['driving_add'][0])) {
+    $driving_add1 = $viewNotice['driving_add'][0];
+  } else {
+    $driving_add1 = 0;
+  }
+  if (!empty($viewNotice['driving_add'][1])) {
+    $driving_add2 = $viewNotice['driving_add'][1];
+  } else {
+    $driving_add2 = 0;
+  }
+  if (!empty($viewNotice['cost_driver'])) {
+    $driving_add3 = $viewNotice['cost_driver'];
+  } else {
+    $driving_add3 = 0;
+  }
+  $total_add = $driving_add1 + $driving_add2 + $driving_add3;
+?>
 
       <div class="club-main">
         <div class="mypage mt-2">
@@ -16,104 +36,91 @@
             만차요금 : <?=number_format($viewNotice['total_driving_cost4'])?>원<?=$viewNotice['cost_standard'] == 3 ? ' <span class="text-danger">☜ 현재예약인원</span>' : ''?>
           </div>
 
-          <h3 class="mb-3">■ 버스비용 산출</h3>
-          <strong>・기본요금</strong> : <?=number_format($viewNotice['cost_total'] == 0 ? $viewNotice['cost'] : $viewNotice['cost_total'])?>원 (<?=!empty($viewNotice['distance']) ? calcDistance($viewNotice['distance']) : ''?>)<br>
-          <div class="ti mt-2">
-            <strong>・주유비</strong> : <?=!empty($viewNotice['total_fuel']) ? number_format($viewNotice['total_fuel']) : '0'?>원<br>
-            총주행 : <?=!empty($viewNotice['driving_fuel'][0]) ? number_format($viewNotice['driving_fuel'][0]) : '0'?>km<br>
-            연　비 : <?=!empty($viewNotice['driving_fuel'][1]) ? number_format($viewNotice['driving_fuel'][1]) : '0'?>ℓ<br>
-            시　세 : <?=!empty($viewNotice['driving_fuel'][2]) ? number_format($viewNotice['driving_fuel'][2]) : '0'?>원/ℓ<br>
-          </div>
-          <div class="ti mt-2">
-            <strong>・운행비</strong> : <?=number_format($viewNotice['total_cost'])?>원<br>
-            통행료 : <?=!empty($viewNotice['driving_cost'][0]) ? number_format($viewNotice['driving_cost'][0]) : '0'?>원<br>
-            주차비 : <?=!empty($viewNotice['driving_cost'][1]) ? number_format($viewNotice['driving_cost'][1]) : '0'?>원<br>
-            식　대 : <?=!empty($viewNotice['driving_cost'][2]) ? number_format($viewNotice['driving_cost'][2]) : '0'?>원<br>
-            숙　박 : <?=!empty($viewNotice['driving_cost'][3]) ? number_format($viewNotice['driving_cost'][3]) : '0'?>원<br>
-          </div>
-          <div class="ti mt-2">
-            <strong>・추가비용</strong> : <?=number_format($viewNotice['total_add'])?>원<br>
-            추가일정 : <?=!empty($viewNotice['driving_add'][0]) ? number_format($viewNotice['driving_add'][0]) : '0'?>원 (<?=calcTerm($viewNotice['startdate'], $viewNotice['starttime'], $viewNotice['enddate'], $viewNotice['schedule'])?>)<br>
-            여행시기 : <?=!empty($viewNotice['driving_add'][1]) ? number_format($viewNotice['driving_add'][1]) . '원 (성수기)' : '0원 (비수기)'?><br>
-            승객수당 : <?=number_format($viewNotice['cost_driver'])?>원 (예약인원 <?=$maxRes?>명)<br>
-          </div>
-          <div class="mt-2"><strong>・운행견적총액</strong> : <?=number_format($viewNotice['driving_total'])?>원</div>
-
           <div class="mt-5">
             <h4>■ 버스비용 산출</h4>
           </div>
           <div class="row align-items-center border-top mt-2 pt-2">
-            <div class="col-sm-1 font-weight-bold">기본요금</div>
-            <div class="col-sm-11"><?=number_format($viewNotice['cost_total'] == 0 ? $viewNotice['cost'] : $viewNotice['cost_total'])?>원 (<?=!empty($viewNotice['distance']) ? calcDistance($viewNotice['distance']) : ''?>)</div>
+            <div class="col-3 col-sm-1 font-weight-bold">기본요금</div>
+            <div class="col-9 col-sm-11"><?=number_format($viewNotice['cost_total'] == 0 ? $viewNotice['cost'] : $viewNotice['cost_total'])?>원 (<?=!empty($viewNotice['distance']) ? calcDistance($viewNotice['distance']) : ''?>)</div>
           </div>
-
-          <div class="row align-items-center font-weight-bold border-top mt-2 pt-2">
-            <div class="col-sm-4 pr-0">주유비</div>
-            <div class="col-sm-4 pr-0">운행비</div>
-            <div class="col-sm-4 pr-0">추가비용</div>
+          <div class="row align-items-top border-top mt-2">
+            <div class="col-sm-4 p-0">
+              <div class="row border-bottom pt-2 pb-2">
+                <div class="col-sm-12 font-weight-bold">주유비</div>
+              </div>
+              <div class="row border-bottom pt-2 pb-2">
+                <div class="col-3">총주행</div>
+                <div class="col-9"><?=!empty($viewNotice['driving_fuel'][0]) ? number_format($viewNotice['driving_fuel'][0]) : '0'?>km</div>
+              </div>
+              <div class="row border-bottom pt-2 pb-2">
+                <div class="col-3">연비</div>
+                <div class="col-9"><?=!empty($viewNotice['driving_fuel'][1]) ? number_format($viewNotice['driving_fuel'][1]) : '0'?>ℓ</div>
+              </div>
+              <div class="row border-bottom pt-2 pb-2">
+                <div class="col-3">시세</div>
+                <div class="col-9"><?=!empty($viewNotice['driving_fuel'][2]) ? $viewNotice['driving_fuel'][2] : 0?>원/ℓ</div>
+              </div>
+              <div class="row border-bottom pt-2 pb-2 d-none d-sm-block">
+                <div class="col-sm-12">&nbsp;</div>
+              </div>
+              <div class="row border-bottom pt-2 pb-2">
+                <div class="col-3 font-weight-bold">합계</div>
+                <div class="col-9"><?=!empty($viewNotice['total_fuel']) ? number_format($viewNotice['total_fuel']) : '0'?>원</div>
+              </div>
+            </div>
+            <div class="col-sm-4 p-0">
+              <div class="row border-bottom pt-2 pb-2">
+                <div class="col-sm-12 font-weight-bold">운행비</div>
+              </div>
+              <div class="row border-bottom pt-2 pb-2">
+                <div class="col-3">통행료</div>
+                <div class="col-9"><?=!empty($viewNotice['driving_cost'][0]) ? number_format($viewNotice['driving_cost'][0]) : '0'?>원</div>
+              </div>
+              <div class="row border-bottom pt-2 pb-2">
+                <div class="col-3">주차비</div>
+                <div class="col-9"><?=!empty($viewNotice['driving_cost'][1]) ? number_format($viewNotice['driving_cost'][1]) : '0'?>원</div>
+              </div>
+              <div class="row border-bottom pt-2 pb-2">
+                <div class="col-3">식대</div>
+                <div class="col-9"><?=!empty($viewNotice['driving_cost'][2]) ? number_format($viewNotice['driving_cost'][2]) : '10,000'?>원</div>
+              </div>
+              <div class="row border-bottom pt-2 pb-2">
+                <div class="col-3">숙박</div>
+                <div class="col-9"><?=!empty($viewNotice['driving_cost'][3]) ? number_format($viewNotice['driving_cost'][3]) : '0'?>원</div>
+              </div>
+              <div class="row border-bottom pt-2 pb-2">
+                <div class="col-3 font-weight-bold">합계</div>
+                <div class="col-9"><?=!empty($viewNotice['total_cost']) ? number_format($viewNotice['total_cost']) : '0'?>원</div>
+              </div>
+            </div>
+            <div class="col-sm-4 p-0">
+              <div class="row border-bottom pt-2 pb-2">
+                <div class="col-sm-12 font-weight-bold">추가비용</div>
+              </div>
+              <div class="row border-bottom pt-2 pb-2">
+                <div class="col-3">추가일정</div>
+                <div class="col-9"><?=number_format($driving_add1)?>원 (<?=calcTerm($viewNotice['startdate'], $viewNotice['starttime'], $viewNotice['enddate'], $viewNotice['schedule'])?>)</div>
+              </div>
+              <div class="row border-bottom pt-2 pb-2">
+                <div class="col-3">여행시기</div>
+                <div class="col-9"><?=!empty($driving_add2) ? number_format($driving_add2) . '원 (성수기)' : '0원 (비수기)'?></div>
+              </div>
+              <div class="row border-bottom pt-2 pb-2">
+                <div class="col-3">승객수당</div>
+                <div class="col-9"><?=number_format($driving_add3)?>원 (<?=$maxRes?>명)</div>
+              </div>
+              <div class="row border-bottom pt-2 pb-2 d-none d-sm-block">
+                <div class="col-sm-12">&nbsp;</div>
+              </div>
+              <div class="row border-bottom pt-2 pb-2">
+                <div class="col-3 font-weight-bold">합계</div>
+                <div class="col-9"><?=number_format($total_add)?>원</div>
+              </div>
+            </div>
           </div>
-
-          <div class="row align-items-center border-top mt-2 pt-2">
-            <div class="col-sm-1">총주행</div>
-            <div class="col-sm-3"><?=!empty($viewNotice['driving_fuel'][0]) ? number_format($viewNotice['driving_fuel'][0]) : '0'?>km</div>
-            <div class="col-sm-1">통행료</div>
-            <div class="col-sm-3"><?=!empty($viewNotice['driving_cost'][0]) ? number_format($viewNotice['driving_cost'][0]) : '0'?>원</div>
-            <div class="col-sm-1">추가일정</div>
-            <div class="col-sm-3"><?=!empty($viewNotice['driving_add'][0]) ? number_format($viewNotice['driving_add'][0]) : '0'?>원 (<?=calcTerm($viewNotice['startdate'], $viewNotice['starttime'], $viewNotice['enddate'], $viewNotice['schedule'])?>)</div>
-          </div>
-          <div class="row align-items-center border-top mt-2 pt-2">
-            <div class="col-sm-1">연비</div>
-            <div class="col-sm-3"><?=!empty($viewNotice['driving_fuel'][1]) ? number_format($viewNotice['driving_fuel'][1]) : '0'?>ℓ</div>
-            <div class="col-sm-1">주차비</div>
-            <div class="col-sm-3"><?=!empty($viewNotice['driving_cost'][1]) ? number_format($viewNotice['driving_cost'][1]) : '0'?>원</div>
-            <div class="col-sm-1">여행시기</div>
-            <div class="col-sm-3"><?=!empty($viewNotice['driving_add'][1]) ? number_format($viewNotice['driving_add'][1]) . '원 (성수기)' : '0원 (비수기)'?></div>
-          </div><br><br>
-
-          <div class="row align-items-center border-top mt-2 pt-2 small">
-            <div class="col-sm-3 p-0 row align-items-center">
-              <div class="col-sm-6 pr-0">시세 (원/L)</div>
-              <div class="col-sm-6 p-0"><input class="form-control form-control-sm cost-gas" type="text" size="3" name="driving_fuel[]" value="<?=!empty($viewNotice['driving_fuel'][2]) ? $viewNotice['driving_fuel'][2] : 0?>"></div>
-            </div>
-            <div class="col-sm-3 p-0 row align-items-center">
-              <div class="col-sm-6 pr-0">식대 (원)</div>
-              <div class="col-sm-6 p-0"><input class="form-control form-control-sm driving-cost" type="text" size="4" name="driving_cost[]" value="<?=!empty($viewNotice['driving_cost'][2]) ? $viewNotice['driving_cost'][2] : '10000'?>"></div>
-            </div>
-            <div class="col-sm-3 p-0 row align-items-center">
-              <div class="col-sm-6 pr-0">승객수당</div>
-              <div class="col-sm-6 p-0"><input class="form-control form-control-sm driving-add" type="text" size="4" name="driving_add[]" value="<?=!empty($viewNotice['cost_driver']) ? $viewNotice['cost_driver'] : ''?>"></div>
-            </div>
-          </div>
-          <div class="row align-items-center border-top mt-2 pt-2 small">
-            <div class="col-sm-3 p-0 row"></div>
-            <div class="col-sm-3 p-0 row align-items-center">
-              <div class="col-sm-6 pr-0">숙박 (원)</div>
-              <div class="col-sm-6 p-0"><input class="form-control form-control-sm driving-cost" type="text" size="4" name="driving_cost[]" value="<?=!empty($viewNotice['driving_cost'][3]) ? $viewNotice['driving_cost'][3] : ''?>"></div>
-            </div>
-            <div class="col-sm-3 p-0 row"></div>
-          </div>
-          <div class="row align-items-center border-top mt-2 pt-2 small">
-            <div class="col-sm-3 p-0 row align-items-center">
-              <div class="col-sm-6 pr-0">합계 (원)</div>
-              <div class="col-sm-6 p-0"><input class="form-control form-control-sm total-driving-fuel" readonly type="text" size="3"></div>
-            </div>
-            <div class="col-sm-3 p-0 row align-items-center">
-              <div class="col-sm-6 pr-0">합계 (원)</div>
-              <div class="col-sm-6 p-0"><input class="form-control form-control-sm total-driving-cost" readonly type="text" size="4"></div>
-            </div>
-            <div class="col-sm-3 p-0 row align-items-center">
-              <div class="col-sm-6 pr-0">합계 (원)</div>
-              <div class="col-sm-6 p-0"><input class="form-control form-control-sm total-driving-add" readonly type="text" size="4"></div>
-            </div>
-          </div>
-          <div class="row align-items-center border-top mt-2 pt-2 small">
-            <div class="col-sm-3 p-0 row"></div>
-            <div class="col-sm-3 p-0 row"></div>
-            <div class="col-sm-2 p-0 row"></div>
-            <div class="col-sm-4 p-0 row align-items-center">
-              <div class="col-sm-6 p-0 font-weight-bold">운행견적총액 (원)</div>
-              <div class="col-sm-6 p-0"><input class="form-control form-control-sm total-bus-cost" readonly type="text" size="4" name="driving_total" value="<?=$viewNotice['driving_total'] != '' ? $viewNotice['driving_total'] : ''?>"></div>
-            </div>
+          <div class="row align-items-center border-bottom pt-2 pb-2">
+            <div class="col-3 col-sm-1 font-weight-bold">견적총액</div>
+            <div class="col-9 col-sm-11"><?=number_format($viewNotice['driving_total'])?>원</div>
           </div>
 
           <div class="mt-5">
