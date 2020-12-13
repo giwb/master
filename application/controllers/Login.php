@@ -21,80 +21,89 @@ class Login extends MY_Controller
   public function index()
   {
     $viewData['redirect_url'] = html_escape($this->input->get('r'));
-    checkUserLoginRedirect($viewData['redirect_url']); // 로그인 상태의 회원은 메인 페이지로
-
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
-    if (empty($viewData['clubIdx']) && !empty($viewData['redirect_url'])) {
-      redirect(BASE_URL . '/login/?r=' . $viewData['redirect_url']);
-      exit;
-    }
-
     $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
     $userid = html_escape($this->input->post('userid'));
     $password = html_escape($this->input->post('password'));
     $save = html_escape($this->input->post('save'));
 
     if (empty($userid) || empty($password)) {
+      // 잘못된 접근을 한 사람은 되돌려 보내기
+      if (empty($viewData['clubIdx']) && !empty($viewData['redirect_url'])) {
+        redirect(BASE_URL . '/login/?r=' . $viewData['redirect_url']);
+        exit;
+      }
+
+      // 로그인 상태의 회원은 되돌려 보내기
+      checkUserLoginRedirect($viewData['redirect_url']);
+
       // 페이지 타이틀
       $viewData['pageTitle'] = '로그인';
 
       // 아이디와 패스워드가 없을때는 로그인 페이지를 보여준다.
       $this->_viewPage('login', $viewData);
     } else {
-      // 아이디와 패스워드를 입력하면 로그인 처리를 실행한다.
-      $userData = $this->member_model->checkLogin($userid);
+      // 이미 로그인 되어 있는지 확인
+      $userIdx = $this->session->userData['idx'];
 
-      if (empty($userData['idx'])) {
-        // 정보가 없으면 로그인 실패
-        $result = array(
-          'error' => 1,
-          'message' => '등록되지 않은 아이디입니다.'
-        );
-      } elseif ($userData['password'] != md5($password)) {
-        // 비밀번호가 다르면 로그인 실패
-        $result = array(
-          'error' => 1,
-          'message' => '비밀번호가 일치하지 않습니다.'
-        );
-      } else {
-        // 로그인에 성공하면 회원정보 업데이트
-        $rescount = $this->admin_model->cntMemberReservation($userData['userid']);
-        $updateValues['rescount'] = $rescount['cnt']; // 예약 횟수 갱신 (회원 레벨 체크를 위해)
-        $updateValues['connect'] = $userData['connect'] + 1;
-        $updateValues['lastdate'] = time();
-
-        $this->member_model->updateMember($updateValues, $userData['idx']);
-
-        // 세션 저장
-        $this->session->set_userdata('userData', $userData);
-
-        if (empty($save)) {
-          // 쿠키 삭제
-          delete_cookie('cookie_userid');
-          delete_cookie('cookie_passwd');
-        } else {
-          // 쿠키 저장
-          set_cookie('cookie_userid', $userid, COOKIE_STRAGE_PERIOD);
-          set_cookie('cookie_passwd', $password, COOKIE_STRAGE_PERIOD);
-        }
-
-        // 아이콘 사이즈 변경 (가로 사이즈가 200보다 클 경우)
-        $filename = PHOTO_PATH . $userData['idx'];
-        if (file_exists($filename)) {
-          $size = getImageSize($filename);
-          if ($size[0] > 200) {
-            $this->image_lib->clear();
-            $config['image_library'] = 'gd2';
-            $config['source_image'] = $filename;
-            $config['maintain_ratio'] = FALSE;
-            $config['width'] = 200;
-            $config['height'] = 200;
-            $this->image_lib->initialize($config);
-            $this->image_lib->resize();
-          }
-        }
-
+      if (!empty($userIdx)) {
         $result = array('error' => 0, 'message' => !empty($viewData['redirect_url']) ? $viewData['redirect_url'] : BASE_URL);
+      } else {
+        // 아이디와 패스워드를 입력하면 로그인 처리를 실행한다.
+        $userData = $this->member_model->checkLogin($userid);
+
+        if (empty($userData['idx'])) {
+          // 정보가 없으면 로그인 실패
+          $result = array(
+            'error' => 1,
+            'message' => '등록되지 않은 아이디입니다.'
+          );
+        } elseif ($userData['password'] != md5($password)) {
+          // 비밀번호가 다르면 로그인 실패
+          $result = array(
+            'error' => 1,
+            'message' => '비밀번호가 일치하지 않습니다.'
+          );
+        } else {
+          // 로그인에 성공하면 회원정보 업데이트
+          $rescount = $this->admin_model->cntMemberReservation($userData['userid']);
+          $updateValues['rescount'] = $rescount['cnt']; // 예약 횟수 갱신 (회원 레벨 체크를 위해)
+          $updateValues['connect'] = $userData['connect'] + 1;
+          $updateValues['lastdate'] = time();
+
+          $this->member_model->updateMember($updateValues, $userData['idx']);
+
+          // 세션 저장
+          $this->session->set_userdata('userData', $userData);
+
+          if (empty($save)) {
+            // 쿠키 삭제
+            delete_cookie('cookie_userid');
+            delete_cookie('cookie_passwd');
+          } else {
+            // 쿠키 저장
+            set_cookie('cookie_userid', $userid, COOKIE_STRAGE_PERIOD);
+            set_cookie('cookie_passwd', $password, COOKIE_STRAGE_PERIOD);
+          }
+
+          // 아이콘 사이즈 변경 (가로 사이즈가 200보다 클 경우)
+          $filename = PHOTO_PATH . $userData['idx'];
+          if (file_exists($filename)) {
+            $size = getImageSize($filename);
+            if ($size[0] > 200) {
+              $this->image_lib->clear();
+              $config['image_library'] = 'gd2';
+              $config['source_image'] = $filename;
+              $config['maintain_ratio'] = FALSE;
+              $config['width'] = 200;
+              $config['height'] = 200;
+              $this->image_lib->initialize($config);
+              $this->image_lib->resize();
+            }
+          }
+
+          $result = array('error' => 0, 'message' => !empty($viewData['redirect_url']) ? $viewData['redirect_url'] : BASE_URL);
+        }
       }
 
       $this->output->set_output(json_encode($result));
