@@ -41,7 +41,7 @@
           </div>
           <div class="row align-items-center border-top">
             <div class="col-3 col-sm-1 font-weight-bold bg-light pt-2 pb-2">기본요금</div>
-            <div class="col-9 col-sm-11 pt-2 pb-2"><?=number_format($viewNotice['cost_total'] == 0 ? $viewNotice['cost'] : $viewNotice['cost_total'])?>원 (<?=!empty($viewNotice['distance']) ? calcDistance($viewNotice['distance']) : ''?>)</div>
+            <div class="col-9 col-sm-11 pt-2 pb-2"><?=!empty($viewNotice['driving_default']) ? number_format($viewNotice['driving_default']) : '0'?>원 (<?=!empty($viewNotice['distance']) ? calcDistance($viewNotice['distance']) : ''?>)</div>
           </div>
           <div class="row align-items-top border-top">
             <div class="col-sm-4 p-0">
