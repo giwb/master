@@ -193,7 +193,7 @@
           ?>
 
           <div class="text-center mt-4">
-            <a href="<?=BASE_URL?>/member"><button class="btn btn-default">목록으로</button></a>
+            <a href="<?=BASE_URL?>/member/driver"><button class="btn btn-default">목록으로</button></a>
           </div>
         </div>
       </div>
