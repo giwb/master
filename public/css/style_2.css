@@ -285,7 +285,7 @@ textarea.input {
   CONTAINER
 ===========================================================*/
 .container {
-  max-width: 1706px;
+  max-width: 1520px;
   margin: 0 auto;
 }
 
@@ -327,7 +327,7 @@ textarea.input {
 #nav-sp { display: none; }
 .nav-sp-mypage { display: none; }
 
-#nav-top { height: 73px; }
+#nav-top { font-size: 0.9rem; height: 73px; padding-left: 3rem; padding-right: 3rem; }
 #nav-top ul { display: block; }
 #nav-top ul li { display: inline-block; }
 #nav-top ul li a { color: #fff; }
@@ -1549,40 +1549,12 @@ h1.nav-logo small {
   RESPONSIVE
 ===========================================================*/
 
-@media only screen and (max-width: 991px) {
-  #nav-bottom, .nav-menu {
-    display: none;
-  }
-  .nav-btns {
-    display: block;
-    position: absolute;
-    top: 2px;
-    right: 4px;
-  }
-  .nav-btns>button {
-    font-size: 26px;
-    color: #fff;
-    width: 50px;
-    height: 50px;
-    display: inline-block;
-    padding: 0;
-  }
-  .nav-logo {
-    position: static;
-    -webkit-transform: none;
-    -ms-transform: none;
-    transform: none;
-    left: 0;
-    display: inline-block;
-    float: left;
-  }
-  .footer-nav {
-    text-align: left;
-    margin-bottom: 30px;
-  }
+@media only screen and (max-width: 1500px) {
+  .container { width: 95%; }
+  #nav-top { padding-left: 1.5rem; padding-right: 1.5rem; }
 }
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 1100px) {
   #nav-top { display: none; }
   #nav-sp { position: relative; width: 100%; background-color: #E0552A; display: block; padding: 0 10px; }
   #nav-sp h1 { font-size: 22px; color: #fff; margin: 0px; padding: 0px; }
@@ -1936,10 +1908,10 @@ h1.nav-logo small {
 
 /* Club Main */
 #club { width: 100%; margin: 0 0 30px 0; }
-#club .container { display: flex; display: -webkit-flex; margin: 0 auto; padding: 0 30px; }
+#club .container { display: flex; display: -webkit-flex; margin: 0 auto; padding: 0px; }
 #club .club-left { flex: 1; -webkit-flex: 1; }
 #club .club-main { flex: 3; -webkit-flex: 3; margin: 0 20px 0 0; }
-#club .club-right { flex: 1; -webkit-flex: 1; min-height: 825px; }
+#club .club-right { flex: 1; -webkit-flex: 1; min-width: 400px; min-height: 825px; }
 
 #club .club-left .club-left-layer { position: fixed; }
 #club .club-left .club-header img { max-width: 200px; vertical-align: middle; margin-bottom: 10px; }
@@ -2330,8 +2302,7 @@ h1.nav-logo small {
 
 .ad-sp { display: none; }
 
-/* Responsive */
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1100px) {
   .ad-sp { display: block; margin: 0 0 20px 0; }
 
   #header { height: 60px; }

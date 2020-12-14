@@ -4,9 +4,9 @@
         <div class="sub-contents">
           <div class="row align-items-center border-bottom pb-2 mb-3">
             <div class="col-8 col-sm-9 p-0 pt-1"><h2 class="notice-title"><b><?=viewStatus($notice['status'])?></b> <?=$notice['subject']?></h2></div>
-            <div class="col-4 col-sm-3 p-0 text-right row align-items-center">
-              <div class="col-6 col-sm-10 p-0"><?=!empty($notice['weather']) ? '<a target="_blank" href="' . $notice['weather'] . '"><button type="button" class="btn btn-sm btn-primary">날씨</button></a>' : ''?></div>
-              <div class="col-6 col-sm-2 p-0"><a href="<?=BASE_URL?>/reserve/list/<?=$notice['idx']?>"><button type="button" class="btn btn-sm btn-default btn-notice">좌석</button></a></div>
+            <div class="col-4 col-sm-3 p-0 text-right">
+              <?=!empty($notice['weather']) ? '<a target="_blank" href="' . $notice['weather'] . '"><button type="button" class="btn btn-sm btn-primary">날씨</button></a>' : ''?>
+              <a href="<?=BASE_URL?>/reserve/list/<?=$notice['idx']?>"><button type="button" class="btn btn-sm btn-default btn-notice">좌석</button></a>
             </div>
           </div>
 
