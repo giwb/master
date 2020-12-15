@@ -49,7 +49,7 @@
             <div class="col-9 col-sm-11 pt-2 pb-2"><?=number_format($viewNotice['total_driving_cost4'])?>원<?=$viewNotice['cost_standard'] == 3 ? ' <span class="text-danger">☜ 현재예약인원</span>' : ''?></div>
           </div>
 
-          <div class="mt-5">
+          <div class="mt-4">
             <h4>■ 버스비용 산출</h4>
           </div>
           <div class="row align-items-center border-top">
@@ -138,7 +138,7 @@
             <div class="col-9 col-sm-11 pt-2 pb-2"><?=number_format($viewNotice['driving_total'])?>원</div>
           </div>
 
-          <div class="mt-5">
+          <div class="mt-4">
             <h4>■ 운행거리 및 통행료</h4>
           </div>
           <div class="row align-items-center font-weight-bold bg-light border-top pt-2 pb-2">
@@ -170,16 +170,14 @@
             <div class="col-3 col-sm-3"><?=number_format($totalCost)?></div>
           </div>
 
-          <div class="mt-5">
+          <div class="mt-4">
             <h4>■ 도착지 주소</h4>
           </div>
           <div class="row align-items-center font-weight-bold bg-light border-top border-bottom pt-2 pb-2">
             <div class="col-4 col-sm-4 pr-0">도착지명</div>
             <div class="col-8 col-sm-8">주소</div>
           </div>
-          <?php
-            foreach ($viewNotice['road_course'] as $key => $value):
-          ?>
+          <?php foreach ($viewNotice['road_course'] as $key => $value): ?>
           <div class="row align-items-center border-bottom pt-2 pb-2 row-course">
             <div class="col-4 col-sm-4 pr-0">
               <?php if ($key == 0): ?>만나는 장소 (<?=date('H:i', strtotime($viewNotice['starttime']) - (60*30))?>)
@@ -188,9 +186,26 @@
             </div>
             <div class="col-8 col-sm-8"><?=!empty($viewNotice['road_address'][$key]) ? $viewNotice['road_address'][$key] : '-'?></div>
           </div>
-          <?php
-            endforeach;
-          ?>
+          <?php endforeach; ?>
+
+          <div class="mt-4">
+            <h4>■ 승차 위치 <small>(총 <?=$maxRes?>명)</small></h4>
+          </div>
+          <?php foreach ($busType as $key => $value): $bus = $key + 1;  ?>
+          <div class="row align-items-center border-top border-bottom mt-3">
+            <div class="col-12 font-weight-bold bg-light pt-2 pb-2"><?=$bus?>호차 (<?=$value['total']?>명)</div>
+          </div>
+            <?php foreach ($value['listLocation'] as $cnt => $location): if ($cnt == 0): $lastData = $location; else: ?>
+            <div class="row align-items-center border-bottom">
+              <div class="col-2 font-weight-bold bg-light pt-2 pb-2"><?=$location['time']?> <?=$location['stitle']?> (<?=!empty($location['nickname']) ? count($location['nickname']) : 0?>명)</div>
+              <div class="col-10 pt-2 pb-2"><?php if (!empty($location['nickname'])): foreach ($location['nickname'] as $n => $nickname): if ($n != 0): ?> / <?php endif; ?><?=$nickname?><?php endforeach; endif; ?></div>
+            </div>
+            <?php endif; endforeach; ?>
+            <div class="row align-items-center border-bottom">
+              <div class="col-2 font-weight-bold bg-light pt-2 pb-2">미지정 (<?=!empty($lastData['nickname']) ? count($lastData['nickname']) : 0?>명)</div>
+              <div class="col-10 pt-2 pb-2"><?php if (!empty($lastData['nickname'])): foreach ($lastData['nickname'] as $n => $nickname): if ($n != 0): ?> / <?php endif; ?><?=$nickname?><?php endforeach; endif; ?></div>
+            </div>
+          <?php endforeach; ?>
 
           <div class="text-center mt-4">
             <a href="<?=BASE_URL?>/member/driver"><button class="btn btn-default">목록으로</button></a>

@@ -283,6 +283,35 @@ class Member extends MY_Controller
       $viewData['viewNotice']['total_driving_cost2'] = ceil((($viewData['viewNotice']['driving_default'] + $viewData['viewNotice']['total_fuel'] + $viewData['viewNotice']['total_cost'] + $viewData['viewNotice']['driving_add'][0] + $viewData['viewNotice']['driving_add'][1]) + 40000) / 10000) * 10000;
       $viewData['viewNotice']['total_driving_cost3'] = ceil((($viewData['viewNotice']['driving_default'] + $viewData['viewNotice']['total_fuel'] + $viewData['viewNotice']['total_cost'] + $viewData['viewNotice']['driving_add'][0] + $viewData['viewNotice']['driving_add'][1]) + 80000) / 10000) * 10000;
       $viewData['viewNotice']['total_driving_cost4'] = ceil((($viewData['viewNotice']['driving_default'] + $viewData['viewNotice']['total_fuel'] + $viewData['viewNotice']['total_cost'] + $viewData['viewNotice']['driving_add'][0] + $viewData['viewNotice']['driving_add'][1]) + 120000) / 10000) * 10000;
+
+      // 버스 형태별 좌석 배치
+      $viewData['busType'] = getBusType($viewData['viewNotice']['bustype'], $viewData['viewNotice']['bus']);
+
+      // 시간별 승차위치
+      $listLocation = arrLocation($viewData['viewNotice']['starttime']);
+      $cnt = 0;
+
+      foreach ($viewData['busType'] as $key1 => $bus) {
+        $busNumber = $key1 + 1;
+        $viewData['busType'][$key1]['total'] = 0;
+        foreach ($listLocation as $key2 => $value) {
+          $viewData['busType'][$key1]['listLocation'][] = $value;
+          $resData = $this->admin_model->listReserveLocation($noticeIdx, $busNumber, $value['no']);
+          foreach ($resData as $people) {
+            if (!empty($people['honor'])) {
+              $cnt++;
+              if ($cnt > 1) {
+                $viewData['busType'][$key1]['listLocation'][$key2]['nickname'][] = $people['nickname'] . '(우등)';
+                $cnt = 0;
+                $viewData['busType'][$key1]['total']++;
+              }
+            } else {
+              $viewData['busType'][$key1]['listLocation'][$key2]['nickname'][] = $people['nickname'];
+              $viewData['busType'][$key1]['total']++;
+            }
+          }
+        }
+      }
     }
 
     // 페이지 타이틀
