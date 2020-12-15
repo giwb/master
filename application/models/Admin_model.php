@@ -228,6 +228,9 @@ class Admin_model extends CI_Model
     if (!empty($search['nickname'])) {
       $this->db->like('a.nickname', $search['nickname']);
     }
+    if (!empty($search['keyword'])) {
+      $this->db->like('a.nickname', $search['keyword']);
+    }
     if (!empty($search['clubIdx'])) {
       $this->db->where('b.club_idx', $search['clubIdx']);
     }
