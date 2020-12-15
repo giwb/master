@@ -2021,10 +2021,10 @@ h1.nav-logo small {
 #club .club-right ul.club-gallery li img { -webkit-transition: 1.6s -webkit-transform; transition: 1.6s -webkit-transform; transition: 1.6s transform; transition: 1.6s transform, 1.6s -webkit-transform; }
 #club .club-right ul.club-gallery li img:hover { transform: scale(1.2); }
 
-#club .list-schedule { font-size: 16px; margin: 0 0 20px 0; padding: 0px; }
+#club .list-schedule { font-size: 0.9rem; margin: 0 0 20px 0; padding: 0px; }
 #club .list-schedule a { color: #000; min-height: 90px; display: block; margin: 0px; padding: 10px 5px; }
-#club .list-schedule a strong { color: #FF6C00; margin: 0px; padding: 0px; }
-#club .list-schedule .notice-photo { width: 145px; max-height: 76px; padding: 0 10px 0 0; }
+#club .list-schedule a strong { font-size: 1rem; color: #FF6C00; margin: 0px; padding: 0px; }
+#club .list-schedule .notice-photo { width: 135px; max-height: 76px; padding: 0 10px 0 0; }
 #club span.status-confirm { font-weight: bold; color: #000; }
 #club span.status-wait { font-weight: bold; color: #999; }
 #club span.status-plan, #club span.status-closed, #club span.status-cancel { font-weight: bold; color: #CCC; }
