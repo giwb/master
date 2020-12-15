@@ -196,14 +196,14 @@
             <div class="col-12 font-weight-bold pt-2 pb-2"><?=$bus?>호차 (<?=$value['total']?>명)</div>
           </div>
           <?php foreach ($value['listLocation'] as $cnt => $location): if ($cnt == 0): $lastData = $location; else: ?>
-          <div class="row align-items-center border-bottom">
-            <div class="col-12 col-sm-2 font-weight-bold bg-light pt-2 pb-2"><?=$location['time']?> <?=$location['stitle']?> (<?=!empty($location['nickname']) ? count($location['nickname']) : 0?>명)</div>
-            <div class="col-12 col-sm-10 bg-white pt-2 pb-2"><?php if (!empty($location['nickname'])): foreach ($location['nickname'] as $n => $nickname): if ($n != 0): ?> / <?php endif; ?><?=$nickname?><?php endforeach; else: echo "&nbsp;"; endif; ?></div>
+          <div class="row align-items-center border-bottom bg-light">
+            <div class="col-5 col-sm-2 font-weight-bold pt-2 pb-2"><?=$location['time']?> <?=$location['stitle']?> (<?=!empty($location['nickname']) ? count($location['nickname']) : 0?>명)</div>
+            <div class="col-7 col-sm-10 bg-white pt-2 pb-2"><?php if (!empty($location['nickname'])): foreach ($location['nickname'] as $n => $nickname): if ($n != 0): ?> / <?php endif; ?><?=$nickname?><?php endforeach; else: echo "&nbsp;"; endif; ?></div>
           </div>
           <?php endif; endforeach; ?>
-          <div class="row align-items-center border-bottom">
-            <div class="col-12 col-sm-2 font-weight-bold bg-light pt-2 pb-2">미지정 (<?=!empty($lastData['nickname']) ? count($lastData['nickname']) : 0?>명)</div>
-            <div class="col-12 col-sm-10 bg-white pt-2 pb-2"><?php if (!empty($lastData['nickname'])): foreach ($lastData['nickname'] as $n => $nickname): if ($n != 0): ?> / <?php endif; ?><?=$nickname?><?php endforeach; else: echo "&nbsp;"; endif; ?></div>
+          <div class="row align-items-center border-bottom bg-light">
+            <div class="col-5 col-sm-2 font-weight-bold pt-2 pb-2">미지정 (<?=!empty($lastData['nickname']) ? count($lastData['nickname']) : 0?>명)</div>
+            <div class="col-7 col-sm-10 bg-white pt-2 pb-2"><?php if (!empty($lastData['nickname'])): foreach ($lastData['nickname'] as $n => $nickname): if ($n != 0): ?> / <?php endif; ?><?=$nickname?><?php endforeach; else: echo "&nbsp;"; endif; ?></div>
           </div>
           <?php endforeach; ?>
 
