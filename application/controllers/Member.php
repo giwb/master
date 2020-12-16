@@ -298,8 +298,17 @@ class Member extends MY_Controller
           $viewData['busType'][$key1]['listLocation'][] = $value;
           $resData = $this->admin_model->listReserveLocation($noticeIdx, $busNumber, $value['no']);
           foreach ($resData as $people) {
-            $viewData['busType'][$key1]['listLocation'][$key2]['nickname'][] = $people['nickname'];
-            $viewData['busType'][$key1]['total']++;
+            if (!empty($people['honor'])) {
+              $cnt++;
+              if ($cnt > 1) {
+                $viewData['busType'][$key1]['listLocation'][$key2]['nickname'][] = $people['nickname'];
+                $cnt = 0;
+                $viewData['busType'][$key1]['total']++;
+              }
+            } else {
+              $viewData['busType'][$key1]['listLocation'][$key2]['nickname'][] = $people['nickname'];
+              $viewData['busType'][$key1]['total']++;
+            }
           }
         }
       }
