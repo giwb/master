@@ -46,7 +46,7 @@
     <li><a href="<?=BASE_URL?>/reserve/schedule"><i class="fa fa-calendar" aria-hidden="true"></i><br>일정</a></li>
     <li><a href="<?=BASE_URL?>/shop"><i class="fa fa-shopping-cart" aria-hidden="true"></i><br>구매</a></li>
     <li><a href="<?=BASE_URL?>/album"><i class="fa fa-camera-retro" aria-hidden="true"></i><br>사진</a></li>
-    <li><a href="<?=BASE_URL?>/club/about"><i class="fa fa-sitemap" aria-hidden="true"></i><br>소개</a></li>
+    <li><a href="<?=BASE_URL?>/club/about?p=top"><i class="fa fa-sitemap" aria-hidden="true"></i><br>소개</a></li>
     <?php if (!empty($userData['idx'])): ?>
     <li><a href="<?=BASE_URL?>/member"><i class="fa fa-user-circle" aria-hidden="true"></i><br>내정보</a></li>
     <?php else: ?>

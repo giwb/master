@@ -125,74 +125,35 @@ class Club extends MY_Controller
   {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
+    $pageTitle = html_escape($this->input->get('p'));
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
     // 페이지 타이틀
-    $viewData['pageTitle'] = '산악회 소개';
+    switch ($pageTitle) {
+      case 'guide':
+        $viewData['pageTitle'] = '등산 안내인 소개';
+        $viewData['pageContent'] = $viewData['view']['guide'];
+        break;
+      case 'howto':
+        $viewData['pageTitle'] = '이용안내';
+        $viewData['pageContent'] = $viewData['view']['howto'];
+        break;
+      case 'mountain':
+        $viewData['pageTitle'] = '경인웰빙 100대명산';
+        $viewData['pageContent'] = $viewData['view']['mountain'];
+        break;
+      case 'place':
+        $viewData['pageTitle'] = '경인웰빙 100대명소';
+        $viewData['pageContent'] = $viewData['view']['place'];
+        break;
+      default:
+        $viewData['pageTitle'] = '산악회 소개';
+        $viewData['pageContent'] = $viewData['view']['about'];
+    }
 
     $this->_viewPage('club/about', $viewData);
-  }
-
-  /**
-   * 안내인 소개
-   *
-   * @return view
-   * @author bjchoi
-   **/
-  public function guide()
-  {
-    $clubIdx = get_cookie('COOKIE_CLUBIDX');
-    $userData = $this->load->get_var('userData');
-
-    // 클럽 정보
-    $viewData['view'] = $this->club_model->viewClub($clubIdx);
-
-    // 페이지 타이틀
-    $viewData['pageTitle'] = '등산 안내인 소개';
-
-    $this->_viewPage('club/guide', $viewData);
-  }
-
-  /**
-   * 이용안내
-   *
-   * @return view
-   * @author bjchoi
-   **/
-  public function howto()
-  {
-    $clubIdx = get_cookie('COOKIE_CLUBIDX');
-    $userData = $this->load->get_var('userData');
-
-    // 클럽 정보
-    $viewData['view'] = $this->club_model->viewClub($clubIdx);
-
-    // 페이지 타이틀
-    $viewData['pageTitle'] = '이용안내';
-
-    $this->_viewPage('club/howto', $viewData);
-  }
-
-  /**
-   * 백산백소 소개
-   *
-   * @return view
-   * @author bjchoi
-   **/
-  public function auth_about()
-  {
-    $clubIdx = get_cookie('COOKIE_CLUBIDX');
-    $userData = $this->load->get_var('userData');
-
-    // 클럽 정보
-    $viewData['view'] = $this->club_model->viewClub($clubIdx);
-
-    // 페이지 타이틀
-    $viewData['pageTitle'] = '백산백소 소개';
-
-    $this->_viewPage('club/auth_about', $viewData);
   }
 
   /**

@@ -88,9 +88,9 @@
                   <li class="mr-3">
                     <a href="javascript:;" class="submenu-nav" data-nav-idx="1"><i class="fas fa-chalkboard"></i> 경인웰빙</a>
                     <div class="submenu d-none" data-nav-idx="1">
-                      <a href="<?=BASE_URL?>/club/about">산악회 소개</a><br>
-                      <a href="<?=BASE_URL?>/club/guide">등산안내인 소개</a><br>
-                      <a href="<?=BASE_URL?>/club/howto">이용안내</a><br>
+                      <a href="<?=BASE_URL?>/club/about/?p=top">산악회 소개</a><br>
+                      <a href="<?=BASE_URL?>/club/about/?p=guide">등산안내인 소개</a><br>
+                      <a href="<?=BASE_URL?>/club/about/?p=howto">이용안내</a><br>
                       <?php if (!empty($userLevel['levelType']) && $userLevel['levelType'] >= 1): ?>
                       <a href="<?=BASE_URL?>/club/past">지난산행</a><br>
                       <?php endif; ?>
@@ -99,7 +99,8 @@
                   <li class="mr-3">
                     <a href="javascript:;" class="submenu-nav" data-nav-idx="2"><i class="fas fa-mountain"></i> 백산백소</a>
                     <div class="submenu d-none" data-nav-idx="2">
-                      <a href="<?=BASE_URL?>/club/auth_about">백산백소 소개</a><br>
+                      <a href="<?=BASE_URL?>/club/about/?p=mountain">경인웰빙 100대명산</a><br>
+                      <a href="<?=BASE_URL?>/club/about/?p=place">경인웰빙 100대명소</a><br>
                       <a href="<?=BASE_URL?>/club/auth">인증현황</a><br>
                     </div>
                   </li>
@@ -112,8 +113,8 @@
 
                 <?php else: // 일반 산악회 메뉴 ?>
 
-                  <li class="mr-3"><a href="<?=BASE_URL?>/club/about">산악회 소개</a></li>
-                  <li class="mr-3"><a href="<?=BASE_URL?>/club/howto">이용안내</a></li>
+                  <li class="mr-3"><a href="<?=BASE_URL?>/club/about/?p=top">산악회 소개</a></li>
+                  <li class="mr-3"><a href="<?=BASE_URL?>/club/about/?p=howto">이용안내</a></li>
                   <?php if (!empty($userLevel['levelType']) && $userLevel['levelType'] >= 1): ?>
                   <li class="mr-3"><a href="<?=BASE_URL?>/club/past">지난산행</a></li>
                   <?php endif; ?>
