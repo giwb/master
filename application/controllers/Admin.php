@@ -722,7 +722,7 @@ class Admin extends Admin_Controller
           if (!empty($people['honor'])) {
             $cnt++;
             if ($cnt > 1) {
-              $viewData['busType'][$key1]['listLocation'][$key2]['nickname'][] = $people['nickname'] . '(우등)';
+              $viewData['busType'][$key1]['listLocation'][$key2]['nickname'][] = $people['nickname'];
               $cnt = 0;
             }
           } else {
