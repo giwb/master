@@ -15,8 +15,12 @@
               <div class="col-sm-12"><textarea name="howto" id="howto" rows="10" cols="100"><?=!empty($view['howto']) ? reset_html_escape($view['howto']) : ''?></textarea></div>
             </div>
             <div class="row align-items-center mt-3 mb-5 pt-3 pb-5">
-              <div class="col-sm-12 font-weight-bold mb-2">■ 백산백소 소개</div>
-              <div class="col-sm-12"><textarea name="auth" id="auth" rows="10" cols="100"><?=!empty($view['auth']) ? reset_html_escape($view['auth']) : ''?></textarea></div>
+              <div class="col-sm-12 font-weight-bold mb-2">■ 경인웰빙 100대명산</div>
+              <div class="col-sm-12"><textarea name="mountain" id="mountain" rows="10" cols="100"><?=!empty($view['mountain']) ? reset_html_escape($view['mountain']) : ''?></textarea></div>
+            </div>
+            <div class="row align-items-center mt-3 mb-5 pt-3 pb-5">
+              <div class="col-sm-12 font-weight-bold mb-2">■ 경인웰빙 100대명소</div>
+              <div class="col-sm-12"><textarea name="place" id="place" rows="10" cols="100"><?=!empty($view['place']) ? reset_html_escape($view['place']) : ''?></textarea></div>
             </div>
             <div class="area-button">
               <input type="hidden" name="base_url" value="<?=BASE_URL?>">
@@ -28,5 +32,6 @@
           CKEDITOR.replace('about');
           CKEDITOR.replace('guide');
           CKEDITOR.replace('howto');
-          CKEDITOR.replace('auth');
+          CKEDITOR.replace('mountain');
+          CKEDITOR.replace('place');
         </script>

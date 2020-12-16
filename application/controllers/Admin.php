@@ -3274,7 +3274,8 @@ exit;
       'about'       => html_escape($input_data['about']),
       'guide'       => html_escape($input_data['guide']),
       'howto'       => html_escape($input_data['howto']),
-      'auth'        => html_escape($input_data['auth']),
+      'mountain'    => html_escape($input_data['mountain']),
+      'place'       => html_escape($input_data['place']),
       'updated_by'  => $userIdx,
       'updated_at'  => $now
     );
