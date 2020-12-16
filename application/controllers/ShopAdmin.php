@@ -654,6 +654,8 @@ class ShopAdmin extends Admin_Controller
     if ($_SERVER['SERVER_PORT'] == '80') $HTTP_HEADER = 'http://'; else $HTTP_HEADER = 'https://';
     $viewData['redirectUrl'] = $HTTP_HEADER . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
+    if (empty($viewData['viewClub']['main_design'])) $viewData['viewClub']['main_design'] = 1;
+
     $this->load->view('admin/header_' . $viewData['viewClub']['main_design'], $viewData);
     if (!empty($viewData['headerMenu'])) $this->load->view('admin/' . $viewData['headerMenu'], $viewData);
     $this->load->view($viewPage, $viewData);
