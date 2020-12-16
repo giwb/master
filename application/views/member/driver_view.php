@@ -170,9 +170,9 @@
           <div class="mt-4">
             <h4>■ 승차 위치 <small>(총 <?=$maxRes?>명)</small></h4>
           </div>
-          <?php foreach ($busType as $key => $value): $bus = $key + 1;  ?>
+          <?php foreach ($busType as $key => $value): $bus = $key + 1; ?>
           <div class="row align-items-center border-top border-bottom mt-3 bg-light">
-            <div class="col-12 font-weight-bold pt-2 pb-2"><?=$bus?>호차 (<?=$value['total']?>명)</div>
+            <div class="col-12 font-weight-bold pt-2 pb-2"><?=$bus?>호차 (<?=$value['total']?>명) / <?=$value['bus_name']?> <?=$value['bus_owner']?> (<?=$value['bus_license']?>)</div>
           </div>
           <?php foreach ($value['listLocation'] as $cnt => $location): if ($cnt == 0): $lastData = $location; else: ?>
           <div class="row align-items-center border-bottom bg-light">
