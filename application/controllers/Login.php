@@ -378,7 +378,7 @@ class Login extends MY_Controller
   /**
    * OAuth 로그인
    *
-   * @return json
+   * @return redirect
    * @author bjchoi
    **/
   public function oauth()

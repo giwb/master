@@ -25,11 +25,11 @@
           </div>
           <div class="text-center mt-3 mb-5">
             <button type="button" class="btn btn-default btn-login pl-5 pr-5 pt-2 pb-2">로그인</button>
-          </div>
+          </div><!--
           <div class="text-center mt-3">
             <a href="<?=BASE_URL?>/login/oauth/?provider=kakao&redirectUrl=<?=BASE_URL?>/<?=API_KAKAO_URL?>"><img src="https://developers.kakao.com/assets/img/about/logos/kakaologin/kr/kakao_account_login_btn_medium_narrow.png"></a><br>
             <a href="https://kauth.kakao.com/oauth/logout?client_id=<?=API_KAKAO?>&logout_redirect_uri=<?=BASE_URL?>">카카오 로그아웃</a>
-          </div>
+          </div>-->
         </form>
       </div>
       <div class="col-sm-3"></div>
