@@ -28,7 +28,7 @@
           </div>
           <div class="text-center mt-3">
             <a href="<?=BASE_URL?>/login/oauth/?provider=kakao&redirectUrl=<?=BASE_URL?>/<?=API_KAKAO_URL?>"><img src="https://developers.kakao.com/assets/img/about/logos/kakaologin/kr/kakao_account_login_btn_medium_narrow.png"></a><br>
-            <a href="https://kauth.kakao.com/oauth/logout?client_id=<?=API_KAKAO?>&logout_redirect_uri=<?=BASE_URL?>/<?=API_KAKAO_URL?>">카카오 로그아웃</a>
+            <a href="https://kauth.kakao.com/oauth/logout?client_id=<?=API_KAKAO?>&logout_redirect_uri=<?=BASE_URL?>">카카오 로그아웃</a>
           </div>
         </form>
       </div>
