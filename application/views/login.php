@@ -26,11 +26,9 @@
           <div class="text-center mt-3 mb-5">
             <button type="button" class="btn btn-default btn-login pl-5 pr-5 pt-2 pb-2">로그인</button>
           </div>
-          <!--
           <div class="text-center mt-3">
             <a href="<?=base_url()?>login/oauth/?provider=kakao&redirectUrl=<?=$redirect_url?>"><img src="https://developers.kakao.com/assets/img/about/logos/kakaologin/kr/kakao_account_login_btn_medium_narrow.png"></a>
           </div>
-          -->
         </form>
       </div>
       <div class="col-sm-3"></div>
