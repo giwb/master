@@ -384,18 +384,18 @@ class Login extends MY_Controller
   public function oauth()
   {
     $provider = html_escape($this->input->get('provider'));
-    $redirectUri = html_escape($this->input->get('redirectUri'));
+    $redirectUrl = html_escape($this->input->get('redirectUrl'));
     $state = md5('TRIPKOREA_' . time());
 
     // OAuth State 세션 저장
     $this->session->set_userdata('OAuthState', $state);
 
     // Redirect Url 세션 저장
-    $this->session->set_userdata('redirectUri', $redirectUri);
+    $this->session->set_userdata('redirectUrl', $redirectUrl);
 
     switch ($provider) {
       case 'kakao':
-        $url = 'https://kauth.kakao.com/oauth/authorize?client_id=' . API_KAKAO . '&redirect_uri=' . $redirectUri. '&response_type=code&state=' . $state;
+        $url = 'https://kauth.kakao.com/oauth/authorize?client_id=' . API_KAKAO . '&redirect_uri=' . $redirectUrl. '&response_type=code&state=' . $state;
         break;
     }
 
@@ -429,7 +429,7 @@ class Login extends MY_Controller
     curl_setopt($ch, CURLOPT_URL, 'https://kauth.kakao.com/oauth/token');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($ch, CURLOPT_POST, TRUE);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, 'grant_type=authorization_code&client_id=' . API_KAKAO . '&redirect_uri=' . base_url() . API_KAKAO_URL . '&code=' . $code);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, 'grant_type=authorization_code&client_id=' . API_KAKAO . '&redirect_uri=' . BASE_URL . '/' . API_KAKAO_URL . '&code=' . $code);
     $response = curl_exec($ch);
     curl_close($ch);
 
@@ -499,7 +499,7 @@ class Login extends MY_Controller
       $this->session->unset_userdata('redirectUrl');
       redirect($redirectUrl);
     } else {
-      redirect(base_url());
+      redirect(BASE_URL());
     }
   }
 
