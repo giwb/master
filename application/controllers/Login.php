@@ -20,7 +20,7 @@ class Login extends MY_Controller
    **/
   public function index()
   {
-    $viewData['redirect_url'] = html_escape($this->input->get('r'));
+    $viewData['redirect_url'] = !empty($this->input->get('r')) ? html_escape($this->input->get('r')) : BASE_URL;
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
     $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
     $userid = html_escape($this->input->post('login_userid'));
@@ -47,7 +47,7 @@ class Login extends MY_Controller
       $userIdx = $this->session->userData['idx'];
 
       if (!empty($userIdx)) {
-        $result = array('error' => 0, 'message' => !empty($viewData['redirect_url']) ? $viewData['redirect_url'] : BASE_URL);
+        $result = array('error' => 0, 'message' => $viewData['redirect_url']);
       } else {
         // 아이디와 패스워드를 입력하면 로그인 처리를 실행한다.
         $userData = $this->member_model->checkLogin($userid);
@@ -102,7 +102,7 @@ class Login extends MY_Controller
             }
           }
 
-          $result = array('error' => 0, 'message' => !empty($viewData['redirect_url']) ? $viewData['redirect_url'] : BASE_URL);
+          $result = array('error' => 0, 'message' => $viewData['redirect_url']);
         }
       }
 
