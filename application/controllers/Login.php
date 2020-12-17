@@ -398,7 +398,7 @@ class Login extends MY_Controller
         $url = 'https://kauth.kakao.com/oauth/authorize?client_id=' . API_KAKAO . '&redirect_uri=' . BASE_URL . '/' . API_KAKAO_URL . '/?response_type=code&state=' . $state;
         break;
     }
-echo $url;exit;
+
     redirect($url);
   }
 
