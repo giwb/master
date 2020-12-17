@@ -398,7 +398,7 @@ class Login extends MY_Controller
         $url = 'https://kauth.kakao.com/oauth/authorize?client_id=' . API_KAKAO . '&redirect_uri=' . BASE_URL . '/' . API_KAKAO_URL . '&response_type=code&state=' . $state;
         break;
     }
-
+echo $url;exit;
     redirect($url);
   }
 
@@ -417,7 +417,7 @@ class Login extends MY_Controller
 
     // OAuth State 세션 불러오기
     $OAuthState = $this->session->userdata('OAuthState');
-print_r($this->input->post());
+
     // 리턴값이 정상이고 세션값이 일치하면 통과
     if (empty($code) || $state != $OAuthState) {
       echo '로그인에 실패했습니다.';
