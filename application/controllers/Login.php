@@ -384,18 +384,18 @@ class Login extends MY_Controller
   public function oauth()
   {
     $provider = html_escape($this->input->get('provider'));
-    $redirectUrl = html_escape($this->input->get('redirectUrl'));
+    $redirectUri = html_escape($this->input->get('redirectUri'));
     $state = md5('TRIPKOREA_' . time());
 
     // OAuth State 세션 저장
     $this->session->set_userdata('OAuthState', $state);
 
     // Redirect Url 세션 저장
-    $this->session->set_userdata('redirectUrl', $redirectUrl);
+    $this->session->set_userdata('redirectUri', $redirectUri);
 
     switch ($provider) {
       case 'kakao':
-        $url = 'https://kauth.kakao.com/oauth/authorize?client_id=' . API_KAKAO . '&redirect_uri=' . BASE_URL . '/' . API_KAKAO_URL . '&response_type=code&state=' . $state;
+        $url = 'https://kauth.kakao.com/oauth/authorize?client_id=' . API_KAKAO . '&redirect_uri=' . $redirectUri. '&response_type=code&state=' . $state;
         break;
     }
 
