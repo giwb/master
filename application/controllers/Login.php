@@ -395,7 +395,7 @@ class Login extends MY_Controller
 
     switch ($provider) {
       case 'kakao':
-        $url = 'https://kauth.kakao.com/oauth/authorize?client_id=' . API_KAKAO . '&response_type=code&state=' . $state . '&redirect_uri=' . BASE_URL . '/' . API_KAKAO_URL;
+        $url = 'https://kauth.kakao.com/oauth/authorize?response_type=code&state=' . $state . '&client_id=' . API_KAKAO . '&redirect_uri=' . BASE_URL . '/' . API_KAKAO_URL;
         break;
     }
 
