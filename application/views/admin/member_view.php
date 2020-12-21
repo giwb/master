@@ -26,7 +26,7 @@
               <div class="col-sm-10"><input type="text" name="realname" value="<?=$viewMember['realname']?>" class="form-control"></div>
             </div>
             <div class="row align-items-center border-bottom mb-3 pb-3">
-              <div class="col-sm-2">전화번호</div>
+              <div class="col-sm-2">휴대폰</div>
               <div class="col-sm-10 row">
                 <div class="pl-0"><input type="text" size="4" name="phone1" value="<?=!empty($viewMember['phone'][0]) ? $viewMember['phone'][0] : ''?>" class="form-control"></div>
                 <div class="pl-2"><input type="text" size="4" name="phone2" value="<?=!empty($viewMember['phone'][1]) ? $viewMember['phone'][1] : ''?>" class="form-control"></div>
@@ -79,6 +79,7 @@
               <div class="col-sm-2">승차위치</div>
               <div class="col-sm-10">
                 <select name="location" class="form-control">
+                  <option value=''></option>
                   <?php foreach (arrLocation() as $value): ?>
                   <option<?=$viewMember['location'] == $value['no'] ? ' selected' : ''?> value="<?=$value['no']?>"><?=$value['title']?></option>
                   <?php endforeach; ?>

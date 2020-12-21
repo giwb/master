@@ -12,7 +12,7 @@
             <dd><input readonly type="text" class="form-control" value="<?=$nickname?>"><input type="hidden" name="nickname" value="<?=$nickname?>"></dd>
           </dl>
           <dl>
-            <dt>전화번호</dt>
+            <dt>핸드폰</dt>
             <dd>
               <div class="row w-100">
                 <div class="col-sm-2 mr-2 p-0"><input readonly type="text" class="form-control" value="<?=$phone1?>"><input type="hidden" name="phone1" value="<?=$phone1?>"></div>
