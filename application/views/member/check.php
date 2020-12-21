@@ -9,7 +9,7 @@
           <dd><input type="text" name="nickname" maxlength="10" class="form-control"></dd>
         </dl>
         <dl>
-          <dt>핸드폰 번호</dt>
+          <dt>휴대폰 번호</dt>
           <dd>
             <div class="row w-100 p-0">
               <div class="col-2 mr-2 p-0"><input type="text" name="phone1" maxlength="3" class="form-control"></div>
