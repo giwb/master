@@ -340,7 +340,7 @@ class Welcome extends MY_Controller
 
     $this->output->set_output(json_encode($result));
   }
-
+/*
   public function test_db()
   {
     $history = $this->club_model->listHistory();
@@ -367,7 +367,7 @@ class Welcome extends MY_Controller
       }
     }
   }
-
+*/
   /**
    * 페이지 표시
    *

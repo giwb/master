@@ -139,7 +139,7 @@ class Club_model extends CI_Model
     return $this->db->get()->row_array(1);
   }
 
-
+/*
   public function getMember($userid)
   {
     $this->db->select('idx')
@@ -175,5 +175,6 @@ class Club_model extends CI_Model
     $this->db->where('idx', $idx);
     return $this->db->update(DB_RESERVATION);
   }
+*/
 }
 ?>
