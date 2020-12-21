@@ -3273,6 +3273,8 @@ exit;
       'howto'       => html_escape($input_data['howto']),
       'mountain'    => html_escape($input_data['mountain']),
       'place'       => html_escape($input_data['place']),
+      'agreement'   => html_escape($input_data['agreement']),
+      'personal'    => html_escape($input_data['personal']),
       'updated_by'  => $userIdx,
       'updated_at'  => $now
     );

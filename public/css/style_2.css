@@ -2105,6 +2105,10 @@ h1.nav-logo small {
 .fc-event.notice-status9 { background-color: #EFEFEF!important; }
 .fc-event.holiday { color: #fff!important; background-color: #dc3545!important; }
 .fc-event.dayname { color: #fff!important; background-color: #999!important; }
+.agree-box { width: 500px; height: 200px; overflow-y: scroll; }
+.agree-box::-webkit-scrollbar { width: 10px; display: block; }
+.agree-box::-webkit-scrollbar-thumb { background-color: #a9a9a9; }
+.agree-box::-webkit-scrollbar-track { background-color: #dee2e6; }
 .admin-main { width: 700px; }
 
 .status-wait { color: #000; }
