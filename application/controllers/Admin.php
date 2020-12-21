@@ -3265,7 +3265,7 @@ exit;
     $now = time();
     $input_data = $this->input->post();
     $userIdx = $this->session->userData['idx'];
-    $clubIdx = html_escape($input_data['club_idx'])
+    $clubIdx = html_escape($input_data['club_idx']);
 
     $updateValues = array(
       'about'       => html_escape($input_data['about']),
