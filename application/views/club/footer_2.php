@@ -1,9 +1,9 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
       <div class="club-right">
-        <?php if (!empty($listFooterNotice)): ?>
-        <h3><i class="fa fa-calendar" aria-hidden="true"></i> 현재 진행중인 산행</h3>
+        <h3><i class="fas fa-calendar-alt" aria-hidden="true"></i> 현재 진행중인 산행</h3>
         <div class="list-schedule">
+          <?php if (!empty($listFooterNotice)): ?>
           <?php foreach ($listFooterNotice as $value): ?>
           <a href="<?=BASE_URL?>/reserve/list/<?=$value['idx']?>">
             <?php if (!empty($value['photo']) && file_exists(PHOTO_PATH . 'thumb_' . $value['photo'])): ?>
@@ -15,24 +15,27 @@
             <small><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명</small>
           </a>
           <?php endforeach; ?>
+          <?php else: ?><div class="text-center pt-5 pb-5">등록된 산행이 없습니다.</div>
+          <?php endif; ?>
         </div>
-        <?php endif; ?>
-        <?php if (!empty($listFooterReply)): ?>
-        <h3><i class="fa fa-mail-reply" aria-hidden="true"></i> 최신 댓글</h3>
+        <h3><i class="fas fa-reply" aria-hidden="true"></i> 최신 댓글</h3>
         <div class="list-schedule list-reply">
+          <?php if (!empty($listFooterReply)): ?>
           <?php foreach ($listFooterReply as $value): ?>
-            <a href="<?=$value['url']?>"><span class="content"><?=ksubstr($value['content'], 35)?></span><br><?=$value['nickname']?> · <?=calcStoryTime($value['created_at'])?></a>
+          <a href="<?=$value['url']?>"><span class="content"><?=ksubstr($value['content'], 35)?></span><br><?=$value['nickname']?> · <?=calcStoryTime($value['created_at'])?></a>
           <?php endforeach; ?>
+          <?php else: ?><div class="text-center pt-5 pb-5">등록된 댓글이 없습니다.</div>
+          <?php endif; ?>
         </div>
-        <?php endif; ?>
-        <?php if (!empty($listFooterAlbum)): ?>
-        <h3><i class="fa fa-photo" aria-hidden="true"></i> 최신 사진첩</h3>
+        <h3><i class="fas fa-camera" aria-hidden="true"></i> 최신 사진첩</h3>
         <div class="list-schedule list-reply">
+          <?php if (!empty($listFooterAlbum)): ?>
           <?php foreach ($listFooterAlbum as $value): ?>
-            <a href="<?=BASE_URL?>/album"><img class="w-100 mt-2" src="<?=$value['photo']?>"><div class="mt-2 mb-1"><span class="content"><?=$value['subject']?></span></div><?=$value['nickname']?> · <?=calcStoryTime($value['created_at'])?></a>
+          <a href="<?=BASE_URL?>/album"><img class="w-100 mt-2" src="<?=$value['photo']?>"><div class="mt-2 mb-1"><span class="content"><?=$value['subject']?></span></div><?=$value['nickname']?> · <?=calcStoryTime($value['created_at'])?></a>
           <?php endforeach; ?>
+          <?php else: ?><div class="text-center pt-5 pb-5">등록된 사진이 없습니다.</div>
+          <?php endif; ?>
         </div>
-        <?php endif; ?>
         <!-- GOOGLE ADSENSE -->
         <?php if (ENVIRONMENT == 'production' && $_SERVER['REMOTE_ADDR'] != '49.166.0.82'): ?>
         <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2424708381875991" data-ad-slot="1285643193" data-ad-format="auto" data-full-width-responsive="true"></ins>
