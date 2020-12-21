@@ -3,7 +3,7 @@
     <div class="club-main memberForm row mt-4 mb-4">
       <div class="col-sm-3 d-none d-sm-block">&nbsp;</div>
       <div class="col-12 col-sm-6">
-        <h2 class="border-bottom mb-4 pb-3">회원가입 확인</h2>
+        <h2 class="border-bottom mb-4 pb-3">가입여부 확인</h2>
         <dl>
           <dt>사용할 닉네임</dt>
           <dd><input type="text" name="nickname" maxlength="10" class="form-control"></dd>
