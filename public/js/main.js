@@ -1039,7 +1039,6 @@
         }
       },
       success: function(reserveInfo) {
-        console.log(reserveInfo);
         var header = '<div class="reserve" data-seat="' + seat + '"><input type="hidden" name="resIdx[]" value="' + resIdx + '" class="resIdx" data-penalty="' + reserveInfo.penalty + '">';
         var location = '<select name="location[]" class="location">'; $.each(reserveInfo.location, function(i, v) { if (v.stitle == '') v.stitle = '승차위치'; location += '<option'; if (reserveInfo.userLocation == v.no) location += ' selected'; location += ' value="' + v.no + '">' + v.stitle + '</option>'; }); location += '</select> ';
         var memo = '<input type="text" name="memo[]" size="20" placeholder="요청사항" value="' + reserveInfo.reserve.memo + '">';
