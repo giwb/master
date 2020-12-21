@@ -97,7 +97,7 @@
     var $btn = $(this);
     $.ajax({
       url: $('input[name=baseUrl]').val() + '/admin/member_view_modal',
-      data: 'userid=' + $(this).data('userid'),
+      data: 'userIdx=' + $(this).data('userIdx'),
       dataType: 'json',
       type: 'post',
       beforeSend: function() {
@@ -481,8 +481,8 @@
         }
       }
     });
-  }).on('blur', '.search-userid', function() {
-    // 닉네임으로 아이디 검색
+  }).on('blur', '.search-user', function() {
+    // 닉네임으로 회원 고유번호 검색
     var $dom = $(this);
     var nickname = $(this).val();
 
@@ -492,19 +492,19 @@
 
     $.ajax({
       url: '/admin/search_by_nickname',
-      data: 'nickname=' + nickname,
+      data: 'club_idx=' + $('input[name=clubIdx]').val() + '&nickname=' + nickname,
       dataType: 'json',
       type: 'post',
       success: function(result) {
         if (result.error != 1) {
-          if (typeof $('.search-userid-result').css('display') == 'undefined') {
-            $dom.next().val(result.message.userid);
+          if (typeof $('.search-user-result').css('display') == 'undefined') {
+            $dom.next().val(result.message.idx);
             $dom.parent().parent().find('.gender').val(result.message.gender);
             $dom.parent().parent().find('.location').val(result.message.location);
             $dom.tooltip('hide').attr('data-original-title', '회원입니다!').tooltip('show');
             setTimeout(function() { $dom.attr('data-original-title', '').tooltip('hide'); }, 2000);
           } else {
-            $('.search-userid-result').val(result.message.userid);
+            $('.search-user-result').val(result.message.idx);
           }
         } else {
           $dom.next().val('');
@@ -516,7 +516,7 @@
     var $btn = $(this);
     var nickname = $('input[name=nickname]').val();
     var location = $('select[name=location]').val();
-    var data = 'idx=' + $('input[name=idx]').val() + '&userid=' + $('input[name=userid]').val() + '&nickname=' + nickname + '&location=' + location + '&gender=' + $('select[name=gender]').val() + '&memo=' + $('input[name=memo]').val();
+    var data = 'idx=' + $('input[name=idx]').val() + '&clubIdx=' + $('input[name=clubIdx]').val() + '&userIdx=' + $('input[name=userIdx]').val() + '&nickname=' + nickname + '&location=' + location + '&gender=' + $('select[name=gender]').val() + '&memo=' + $('input[name=memo]').val();
     if (nickname == '') return false;
 
     $.ajax({
@@ -775,7 +775,7 @@
       if ($(this).val() == '') {
         $('#messageModal .modal-footer .btn').hide();
         $('#messageModal .modal-footer .btn-close').show();
-        $('#messageModal .modal-message').text('닉네임은 꼭 모두 입력해주세요.');
+        $('#messageModal .modal-message').text('닉네임은 꼭 입력해주세요.');
         $('#messageModal').modal('show');
         formCheck = false;
         return false;
@@ -908,12 +908,12 @@
   }).on('click', '.btn-member-more', function() {
     // 회원관리 - 포인트/페널티 내역 더보기
     var $dom = $(this);
-    var userid = $dom.data('userid');
+    var userIdx = $dom.data('userIdx');
     var type = $dom.data('type');
     var page = $('.page[data-type=' + type + ']').val();
     $.ajax({
       url: '/admin/member_more',
-      data: 'userid=' + userid + '&type=' + type + '&page=' + page,
+      data: 'userIdx=' + userIdx + '&type=' + type + '&page=' + page,
       dataType: 'json',
       type: 'post',
       success: function(result) {
@@ -1162,7 +1162,7 @@
       type: 'post',
       success: function(reserveInfo) {
         var header = '<div class="reserve" data-seat="' + seat + '"><input type="hidden" name="resIdx[]" value="' + resIdx + '">';
-        var nickname = '<input type="text" name="nickname[]" size="20" placeholder="닉네임" class="nickname search-userid" value="' + reserveInfo.reserve.nickname + '"><input type="hidden" name="userid[]" class="userid" value="' + reserveInfo.reserve.userid + '"> ';
+        var nickname = '<input type="text" name="nickname[]" size="20" placeholder="닉네임" class="nickname search-user" value="' + reserveInfo.reserve.nickname + '"><input type="hidden" name="userIdx[]" class="userIdx" value="' + reserveInfo.reserve.user_idx + '"> ';
         var gender = '<select name="gender[]" class="gender"><option'; if (reserveInfo.reserve.gender == 'M') gender += ' selected'; gender += ' value="M">남</option><option '; if (reserveInfo.reserve.gender == 'F') gender += ' selected'; gender +=' value="F">여</option></select> ';
         var busType = '<select name="bus[]" class="busSelect">'; $.each(reserveInfo.busType, function(i, v) { if (v.idx == '') v.idx = '버스'; cnt = i + 1; if (cnt == bus) selected = ' selected'; else selected = ''; busType += '<option' + selected + ' value="' + cnt + '">' + cnt + '호차</option>'; }); busType += '</select> ';
         var selectSeat = '<select name="seat[]" class="busSeat">'; $.each(reserveInfo.seat[bus], function(i, v) { if ((i+1) == seat) selected = ' selected'; else selected = ''; selectSeat += '<option' + selected + ' value="' + (i+1) + '">' + v + '번</option>'; }); selectSeat += '</select> ';
@@ -1175,8 +1175,8 @@
           if (reserveInfo.reserve.status == 1) button += '입금취소'; else button += '입금확인';
           button += '</button> ';
           button += '<button type="button" class="btn btn-secondary btn-reserve-cancel" data-idx="' + resIdx + '">예약취소</button> ';
-          if (reserveInfo.reserve.userid != '') {
-            button += '<button type="button" class="btn btn-info btn-member-modal" data-userid="' + reserveInfo.reserve.userid + '">회원정보</button> ';
+          if (reserveInfo.reserve.user_idx != '') {
+            button += '<button type="button" class="btn btn-info btn-member-modal" data-userIdx="' + reserveInfo.reserve.user_idx + '">회원정보</button> ';
           }
         } else {
           var button = '';

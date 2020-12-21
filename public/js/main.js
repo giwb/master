@@ -438,7 +438,7 @@
       $('img', $dom).remove();
     }
   }).on('blur', '.check-nickname', function() {
-    $.checkNickname();
+    //$.checkNickname();
   }).on('blur', '.check-password', function() {
     // 비밀번호 확인
     var password = $('input[name=password]').val();
@@ -459,6 +459,7 @@
       }
     }
   }).on('blur', '.check-phone', function() {
+    /*
     var $dom = $('.check-phone');
     var clubIdx = $('input[name=clubIdx]').val();
     var phone = $('input[name=phone1]').val() + '-' + $('input[name=phone2]').val() + '-' + $('input[name=phone3]').val();
@@ -476,13 +477,14 @@
         }
       }
     });
+    */
   }).on('click', '.btn-entry', function() {
     // 회원가입
     if ($('.check-userid img').hasClass('check-userid-complete') == false) {
       $.openMsgModal('아이디를 확인해주세요.');
       return false;
     }
-    if ($('.check-nickname img').hasClass('check-nickname-complete') == false) {
+    if ($('input[name=nickname]').val() == '') {
       $.openMsgModal('닉네임을 확인해주세요.');
       return false;
     }
@@ -506,12 +508,8 @@
       $.openMsgModal('양력/음력은 꼭 선택해주세요.');
       return false;
     }
-    if ($('.check-phone img').hasClass('check-phone-error') == true) {
-      $.openMsgModal('전화번호를 확인해주세요.');
-      return false;
-    }
     if ($('input[name=phone1]').val() == '' || $('input[name=phone2]').val() == '' || $('input[name=phone3]').val() == '') {
-      $.openMsgModal('전화번호는 꼭 입력해주세요.');
+      $.openMsgModal('전화번호를 확인해주세요.');
       return false;
     }
     if ($('select[name=location]').val() == '0') {
@@ -1041,8 +1039,9 @@
         }
       },
       success: function(reserveInfo) {
+        console.log(reserveInfo);
         var header = '<div class="reserve" data-seat="' + seat + '"><input type="hidden" name="resIdx[]" value="' + resIdx + '" class="resIdx" data-penalty="' + reserveInfo.penalty + '">';
-        var location = '<select name="location[]" class="location">'; $.each(reserveInfo.location, function(i, v) { if (v.stitle == '') v.stitle = '승차위치'; location += '<option'; if ((reserveInfo.reserve.loc == 0 && reserveInfo.userLocation == v.no) || (reserveInfo.reserve.loc != 0 && reserveInfo.reserve.loc == v.no)) location += ' selected'; location += ' value="' + v.no + '">' + v.stitle + '</option>'; }); location += '</select> ';
+        var location = '<select name="location[]" class="location">'; $.each(reserveInfo.location, function(i, v) { if (v.stitle == '') v.stitle = '승차위치'; location += '<option'; if (reserveInfo.userLocation == v.no) location += ' selected'; location += ' value="' + v.no + '">' + v.stitle + '</option>'; }); location += '</select> ';
         var memo = '<input type="text" name="memo[]" size="20" placeholder="요청사항" value="' + reserveInfo.reserve.memo + '">';
         //var footer = ' <select><option>할인선택</option><option>-------</option><option>초등생 할인</option><option>중고생 할인</option></select> </div>';
         var footer = ' ' + reserveInfo.cost + '</div>';
