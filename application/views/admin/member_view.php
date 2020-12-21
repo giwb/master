@@ -40,6 +40,7 @@
                   <div class="pl-0">
                     <select name="birthday_year" class="form-control">
                       <?php foreach (range(1900, date('Y')) as $value): ?>
+                      <option value=''></option>
                       <option<?=!empty($viewMember['birthday'][0]) ? $viewMember['birthday'][0] == $value : '' ? ' selected' : ''?> value="<?=$value?>"><?=$value?>년</option>
                       <?php endforeach; ?>
                     </select>
@@ -47,6 +48,7 @@
                   <div class="pl-2">
                     <select name="birthday_month" class="form-control">
                       <?php foreach (range(1, 12) as $value): ?>
+                      <option value=''></option>
                       <option<?=!empty($viewMember['birthday'][1]) ? $viewMember['birthday'][1] == $value : '' ? ' selected' : ''?> value="<?=$value?>"><?=$value?>월</option>
                       <?php endforeach; ?>
                     </select>
@@ -54,6 +56,7 @@
                   <div class="pl-2">
                     <select name="birthday_day" class="form-control">
                       <?php foreach (range(1, 31) as $value): ?>
+                      <option value=''></option>
                       <option<?=!empty($viewMember['birthday'][2]) ? $viewMember['birthday'][2] == $value : '' ? ' selected' : ''?> value="<?=$value?>"><?=$value?>일</option>
                       <?php endforeach; ?>
                     </select>
