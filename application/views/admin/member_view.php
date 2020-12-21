@@ -199,11 +199,11 @@
                 </div>
               </div>
               <?php endforeach; ?>
-            </div>
+            </div><!--
             <div class="border-top text-right small pt-2">
               <a href="javascript:;" class="btn-member-more" data-userIdx="<?=$viewMember['idx']?>" data-type="point">더보기 ▼</a>
               <input type="hidden" class="page" data-type="point" value="1">
-            </div>
+            </div>-->
 
             <h5 class="mt-4">■ 페널티 내역</h5>
             <div class="area-list" data-type="penalty">
@@ -222,11 +222,11 @@
                 </div>
               </div>
               <?php endforeach; ?>
-            </div>
+            </div><!--
             <div class="border-top text-right small pt-2">
               <a href="javascript:;" class="btn-member-more" data-userIdx="<?=$viewMember['idx']?>" data-type="penalty">더보기 ▼</a>
               <input type="hidden" class="page" data-type="penalty" value="1">
-            </div>
+            </div>-->
           </div>
         </div>
 
