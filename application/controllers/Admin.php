@@ -2377,14 +2377,11 @@ exit;
   {
     $now = time();
     $inputData = $this->input->post();
-    $userid = html_escape($inputData['userid']);
+    $clubIdx = html_escape($inputData['clubIdx']);
     $nickname = html_escape($inputData['nickname']);
 
     $insertValues = array(
-      'club_idx'      => html_escape($inputData['clubIdx']),
-      'provider'      => PROVIDER_ADMIN,
-      'userid'        => $userid,
-      'password'      => md5(html_escape($inputData['password'])),
+      'club_idx'      => $clubIdx,
       'nickname'      => $nickname,
       'realname'      => html_escape($inputData['realname']),
       'phone'         => html_escape($inputData['phone1']) . '-' . html_escape($inputData['phone2']) . '-' . html_escape($inputData['phone3']),

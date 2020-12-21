@@ -7,20 +7,8 @@
           </div>
           <form>
             <div class="row align-items-center border-bottom mb-3 pb-3">
-              <div class="col-sm-2 font-weight-bold">아이디 <span class="required">(*)</span></div>
-              <div class="col-sm-10"><input type="text" name="userid" class="form-control check-userid"><div class="check-message"></div></div>
-            </div>
-            <div class="row align-items-center border-bottom mb-3 pb-3">
-              <div class="col-sm-2 font-weight-bold">비밀번호 <span class="required">(*)</span></div>
-              <div class="col-sm-10"><input type="text" name="password" class="form-control check-password"><div class="check-message"></div></div>
-            </div>
-            <div class="row align-items-center border-bottom mb-3 pb-3">
               <div class="col-sm-2 font-weight-bold">닉네임 <span class="required">(*)</span></div>
               <div class="col-sm-10"><input type="text" name="nickname" class="form-control check-nickname"><div class="check-message"></div></div>
-            </div>
-            <div class="row align-items-center border-bottom mb-3 pb-3">
-              <div class="col-sm-2 font-weight-bold">실명</div>
-              <div class="col-sm-10"><input type="text" name="realname" class="form-control"></div>
             </div>
             <div class="row align-items-center border-bottom mb-3 pb-3">
               <div class="col-sm-2 font-weight-bold">전화번호 <span class="required">(*)</span></div>
@@ -32,6 +20,10 @@
                 </div>
                 <div class="check-message text-phone"></div>
               </div>
+            </div>
+            <div class="row align-items-center border-bottom mb-3 pb-3">
+              <div class="col-sm-2 font-weight-bold">실명</div>
+              <div class="col-sm-10"><input type="text" name="realname" class="form-control"></div>
             </div>
             <div class="row align-items-center border-bottom mb-3 pb-3">
               <div class="col-sm-2 font-weight-bold">생년월일</div>
@@ -111,10 +103,6 @@
             <div class="row align-items-center border-bottom mb-3 pb-3">
               <div class="col-sm-2 font-weight-bold">페널티</div>
               <div class="col-sm-10"><input type="text" name="penalty" class="form-control" value="0"></div>
-            </div>
-            <div class="row align-items-center border-bottom mb-3 pb-3">
-              <div class="col-sm-2 font-weight-bold">아이콘</div>
-              <div class="col-sm-10"><input type="file" name="filename"></div>
             </div>
             <div class="pt-2 pb-5 text-center">
               <div class="error-message"></div>
