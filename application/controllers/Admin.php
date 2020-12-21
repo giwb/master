@@ -2075,7 +2075,7 @@ exit;
 
     // 예약 내역
     $paging['perPage'] = 5; $paging['nowPage'] = 0;
-    $viewData['userReserve'] = $this->reserve_model->userReserve($viewData['clubIdx'], $viewData['viewMember']['userid'], NULL, $paging);
+    $viewData['userReserve'] = $this->reserve_model->userReserve($viewData['clubIdx'], $viewData['viewMember']['idx'], NULL, $paging);
 
     foreach ($viewData['userReserve'] as $key => $value) {
       if (empty($value['cost_total'])) {
