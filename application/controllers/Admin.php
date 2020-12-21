@@ -2274,6 +2274,9 @@ exit;
    **/
   public function member_update_point($idx)
   {
+    // 클럽ID
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
+
     $now = time();
     $search['idx'] = html_escape($idx);
     $type = html_escape($this->input->post('type'));
