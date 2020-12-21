@@ -432,6 +432,10 @@
         success: function(result) {
           $('img', $dom).remove();
           $dom.append(result.message);
+
+          if (result.error == 1) {
+            $.openMsgModal('이미 사용중인 아이디 입니다.');
+          }
         }
       });
     } else {
