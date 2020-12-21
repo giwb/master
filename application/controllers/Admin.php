@@ -326,7 +326,7 @@ class Admin extends Admin_Controller
   public function reserve_cancel()
   {
     $now = time();
-    $clubIdx = 1; // 경인웰빙
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $inputData['idx'] = html_escape($this->input->post('idx'));
     $subject = !empty($this->input->post('subject')) ? '<br>' . html_escape($this->input->post('subject')) : '';
 
@@ -1058,7 +1058,7 @@ class Admin extends Admin_Controller
   public function change_status()
   {
     $now = time();
-    $clubIdx = 1;
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $search['rescode'] = html_escape($this->input->post('idx'));
     $updateValues['status'] = html_escape($this->input->post('status'));
 
@@ -3263,9 +3263,9 @@ exit;
   public function setup_pages_update()
   {
     $now = time();
-    $clubIdx = 1; // 경인웰빙
-    $userIdx = $this->session->userData['idx'];
     $input_data = $this->input->post();
+    $userIdx = $this->session->userData['idx'];
+    $clubIdx = html_escape($input_data['club_idx'])
 
     $updateValues = array(
       'about'       => html_escape($input_data['about']),

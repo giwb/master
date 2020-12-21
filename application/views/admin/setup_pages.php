@@ -14,7 +14,7 @@
               <div class="col-sm-12 font-weight-bold mb-2">■ 이용안내</div>
               <div class="col-sm-12"><textarea name="howto" id="howto" rows="10" cols="100"><?=!empty($view['howto']) ? reset_html_escape($view['howto']) : ''?></textarea></div>
             </div>
-            <div class="row align-items-center mt-3 mb-5 pt-3 pb-5">
+            <div class="row align-items-center mt-3 pt-3">
               <div class="col-sm-12 font-weight-bold mb-2">■ 경인웰빙 100대명산</div>
               <div class="col-sm-12"><textarea name="mountain" id="mountain" rows="10" cols="100"><?=!empty($view['mountain']) ? reset_html_escape($view['mountain']) : ''?></textarea></div>
             </div>
@@ -24,6 +24,7 @@
             </div>
             <div class="area-button">
               <input type="hidden" name="base_url" value="<?=BASE_URL?>">
+              <input type="hidden" name="club_idx" value="<?=$clubIdx?>">
               <button type="submit" class="btn btn-primary">확인합니다</button>
             </div>
           </form>
