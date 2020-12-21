@@ -67,22 +67,6 @@ class Member_model extends CI_Model
     return $this->db->get()->row_array(1);
   }
 
-  // 총 예약 횟수
-  public function cntReserve($userData, $status, $group=NULL)
-  {
-    $this->db->select('COUNT(idx) AS cntReserve')
-          ->from(DB_RESERVATION)
-          ->where('club_idx', $userData['club_idx'])
-          ->where('userid', $userData['userid'])
-          ->where('status', $status);
-
-    if (!is_null($group)) {
-      $this->db->group_by('rescode');
-    }
-
-    return $this->db->get()->row_array(1);
-  }
-
   // 회원 정보
   public function viewMember($userIdx)
   {
@@ -116,12 +100,12 @@ class Member_model extends CI_Model
   }
 
   // 사용자 포인트 기록
-  public function userPointLog($clubIdx, $userId, $paging=NULL)
+  public function userPointLog($clubIdx, $userIdx, $paging=NULL)
   {
     $this->db->select('*')
           ->from(DB_HISTORY)
           ->where('club_idx', $clubIdx)
-          ->where('userid', $userId)
+          ->where('user_idx', $userIdx)
           ->where_in('action', array(LOG_POINTUP, LOG_POINTDN))
           ->order_by('regdate', 'desc');
 
@@ -135,23 +119,23 @@ class Member_model extends CI_Model
   }
 
   // 사용자 포인트 카운트
-  public function maxPointLog($clubIdx, $userId)
+  public function maxPointLog($clubIdx, $userIdx)
   {
     $this->db->select('COUNT(*) AS cnt')
           ->from(DB_HISTORY)
           ->where('club_idx', $clubIdx)
-          ->where('userid', $userId)
+          ->where('user_idx', $userIdx)
           ->where_in('action', array(LOG_POINTUP, LOG_POINTDN));
     return $this->db->get()->row_array(1);
   }
 
   // 사용자 페널티 기록
-  public function userPenaltyLog($clubIdx, $userId, $paging=NULL)
+  public function userPenaltyLog($clubIdx, $userIdx, $paging=NULL)
   {
     $this->db->select('*')
           ->from(DB_HISTORY)
           ->where('club_idx', $clubIdx)
-          ->where('userid', $userId)
+          ->where('user_idx', $userIdx)
           ->where_in('action', array(LOG_PENALTYUP, LOG_PENALTYDN))
           ->order_by('regdate', 'desc');
 
@@ -165,28 +149,31 @@ class Member_model extends CI_Model
   }
 
   // 사용자 페널티 카운트
-  public function maxPenaltyLog($userid)
+  public function maxPenaltyLog($clubIdx, $userIdx)
   {
     $this->db->select('COUNT(*) AS cnt')
           ->from(DB_HISTORY)
-          ->where('userid', $userid)
+          ->where('club_idx', $clubIdx)
+          ->where('user_idx', $userIdx)
           ->where_in('action', array(LOG_PENALTYUP, LOG_PENALTYDN));
     return $this->db->get()->row_array(1);
   }
 
   // 포인트 수정
-  public function updatePoint($userid, $point)
+  public function updatePoint($clubIdx, $userIdx, $point)
   {
     $this->db->set('point', $point);
-    $this->db->where('userid', $userid);
+    $this->db->where('club_idx', $clubIdx);
+    $this->db->where('idx', $userIdx);
     $this->db->update(DB_MEMBER);
   }
 
   // 페널티 수정
-  public function updatePenalty($userid, $penalty)
+  public function updatePenalty($clubIdx, $userIdx, $penalty)
   {
     $this->db->set('penalty', $penalty);
-    $this->db->where('userid', $userid);
+    $this->db->where('club_idx', $clubIdx);
+    $this->db->where('idx', $userIdx);
     $this->db->update(DB_MEMBER);
   }
 

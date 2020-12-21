@@ -6,6 +6,7 @@
         <?=$headerMenuView?>
         <div id="content" class="mb-5">
           <div class="sub-contents">
+            <input type="hidden" name="clubIdx" value="<?=$view['club_idx']?>">
             <h2 class="m-0 p-0 pb-2"><b><?=viewStatus($view['status'])?></b> <?=$view['subject']?></h2>
 
             <!-- 안내문 -->
@@ -111,7 +112,7 @@
 
               <div class="text-dark">■ <strong>대기자 추가</strong></div>
               <div class="wait row align-items-center">
-                <div class="col-3 col-sm-3 p-0 pr-1"><input type="text" name="nickname" class="search-userid form-control form-control-sm" placeholder="닉네임" data-placement="bottom"><input type="hidden" name="userid"></div>
+                <div class="col-3 col-sm-3 p-0 pr-1"><input type="text" name="nickname" class="search-user form-control form-control-sm" placeholder="닉네임" data-placement="bottom"><input type="hidden" name="userIdx"></div>
                 <div class="col-2 col-sm-2 p-0 pr-1">
                   <select name="gender" class="gender form-control form-control-sm pl-0 pr-0">
                     <option value='M'>남성</option>
@@ -154,7 +155,7 @@
               <div class="modal-footer">
                 <input type="hidden" name="waitIdx">
                 <button type="button" class="btn btn-sm btn-default btn-wait-delete">삭제합니다</button>
-                <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-sm btn-secondary btn-close" data-dismiss="modal">닫기</button>
               </div>
             </div>
           </div>

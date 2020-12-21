@@ -66,7 +66,7 @@ class Login extends MY_Controller
           );
         } else {
           // 로그인에 성공하면 회원정보 업데이트
-          $rescount = $this->admin_model->cntMemberReservation($userData['userid']);
+          $rescount = $this->reserve_model->cntMemberReserve($viewData['clubIdx'], $userData['idx']);
           $updateValues['rescount'] = $rescount['cnt']; // 예약 횟수 갱신 (회원 레벨 체크를 위해)
           $updateValues['connect'] = $userData['connect'] + 1;
           $updateValues['lastdate'] = time();
@@ -202,6 +202,59 @@ class Login extends MY_Controller
   }
 
   /**
+   * 회원가입 체크
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function check()
+  {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
+    checkUserLoginRedirect(BASE_URL); // 로그인 상태의 회원은 메인 페이지로
+
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    $this->_viewPage('member/check', $viewData);
+  }
+
+  /**
+   * 회원가입 체크 처리
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function check_member()
+  {
+    $clubIdx = html_escape($this->input->post('club_idx'));
+    $nickname = html_escape($this->input->post('nickname'));
+    $phone = html_escape($this->input->post('phone'));
+
+    $checkMember = $this->member_model->checkPhone($clubIdx, $phone);
+
+    if (!empty($checkMember['idx']) && $checkMember['nickname'] == $nickname && empty($checkMember['userid'])) {
+      // 관리자 등록 회원 (정보 수정 페이지로)
+      $result = array('error' => 2, 'message' => $checkMember['idx']);
+    } elseif (!empty($checkMember['idx']) && $checkMember['nickname'] == $nickname && !empty($checkMember['userid'])) {
+      // 이미 등록된 회원
+      $result = array('error' => 1, 'message' => $this->lang->line('error_member_duplicate'));
+    } elseif (!empty($checkMember['idx']) && $checkMember['nickname'] != $nickname) {
+      // 이미 등록되었지만 닉네임이 다른 경우
+      $result = array('error' => 1, 'message' => $this->lang->line('error_admin_duplicate'));
+    } else {
+      // 신규회원
+      $checkNickname = $this->member_model->checkNickname($clubIdx, $nickname);
+
+      if (!empty($checkNickname['idx'])) {
+        $result = array('error' => 1, 'message' => $this->lang->line('error_nickname_duplicate'));
+      } else {
+        $result = array('error' => 0, 'message' => '');
+      }
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 회원가입 페이지
    *
    * @return view
@@ -212,12 +265,42 @@ class Login extends MY_Controller
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
     checkUserLoginRedirect(BASE_URL); // 로그인 상태의 회원은 메인 페이지로
 
+    $viewData['nickname'] = html_escape($this->input->post('nickname'));
+    $viewData['phone1'] = html_escape($this->input->post('phone1'));
+    $viewData['phone2'] = html_escape($this->input->post('phone2'));
+    $viewData['phone3'] = html_escape($this->input->post('phone3'));
+
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
-    // 페이지 타이틀
-    $viewData['pageTitle'] = '회원가입';
-
     $this->_viewPage('member/entry', $viewData);
+  }
+
+  /**
+   * 회원가입 수정 페이지 (관리자 등록시)
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function entry_update()
+  {
+    $userIdx = html_escape($this->input->post('userIdx'));
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
+    checkUserLoginRedirect(BASE_URL); // 로그인 상태의 회원은 메인 페이지로
+
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+    $viewData['viewMember'] = $this->member_model->viewMember($userIdx);
+
+    $phone = explode('-', $viewData['viewMember']['phone']);
+    $viewData['viewMember']['phone1'] = $phone[0];
+    $viewData['viewMember']['phone2'] = $phone[1];
+    $viewData['viewMember']['phone3'] = $phone[2];
+
+    $birthday = explode('/', $viewData['viewMember']['birthday']);
+    $viewData['viewMember']['birthday_year'] = $birthday[0];
+    $viewData['viewMember']['birthday_month'] = $birthday[1];
+    $viewData['viewMember']['birthday_day'] = $birthday[2];
+
+    $this->_viewPage('member/entry_update', $viewData);
   }
 
   /**
@@ -230,12 +313,12 @@ class Login extends MY_Controller
   {
     $now = time();
     $inputData = $this->input->post();
-    $userid = html_escape($inputData['userid']);
+    $clubIdx = html_escape($inputData['club_idx']);
     $nickname = html_escape($inputData['nickname']);
 
     $insertValues = array(
-      'club_idx'      => html_escape($inputData['club_idx']),
-      'userid'        => $userid,
+      'club_idx'      => $clubIdx,
+      'userid'        => html_escape($inputData['userid']),
       'nickname'      => $nickname,
       'password'      => md5(html_escape($inputData['password'])),
       'realname'      => html_escape($inputData['realname']),
@@ -263,7 +346,52 @@ class Login extends MY_Controller
       }
 
       // 회원 가입 기록
-      setHistory(LOG_ENTRY, $idx, $userid, $nickname, '', $now);
+      setHistory($clubIdx, LOG_ENTRY, $idx, $idx, $nickname, '', $now);
+
+      $result = array('error' => 0, 'message' => '');
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 가등록 회원 정식 등록
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function update()
+  {
+    $now = time();
+    $inputData = $this->input->post();
+    $clubIdx = html_escape($inputData['club_idx']);
+    $idx = html_escape($inputData['idx']);
+    $nickname = html_escape($inputData['nickname']);
+
+    $updateValues = array(
+      'userid'        => html_escape($inputData['userid']),
+      'password'      => md5(html_escape($inputData['password'])),
+      'realname'      => html_escape($inputData['realname']),
+      'gender'        => html_escape($inputData['gender']),
+      'birthday'      => html_escape($inputData['birthday_year']) . '/' . html_escape($inputData['birthday_month']) . '/' . html_escape($inputData['birthday_day']),
+      'birthday_type' => html_escape($inputData['birthday_type']),
+      'location'      => html_escape($inputData['location']),
+      'lastdate'      => $now
+    );
+
+    $rtn = $this->member_model->updateMember($updateValues, $idx);
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => '등록에 실패했습니다.');
+    } else {
+      // 사진 등록
+      if (!empty($inputData['filename']) && file_exists(UPLOAD_PATH . $inputData['filename'])) {
+        // 파일 이동
+        rename(UPLOAD_PATH . html_escape($inputData['filename']), PHOTO_PATH . $idx);
+      }
+
+      // 회원 가입 기록
+      setHistory($clubIdx, LOG_ENTRY, $idx, $idx, $nickname, '', $now);
 
       $result = array('error' => 0, 'message' => '');
     }
@@ -417,12 +545,7 @@ class Login extends MY_Controller
 
     // OAuth State 세션 불러오기
     $OAuthState = $this->session->userdata('OAuthState');
-print_r($code);
-echo "<br>";
-print_r($state);
-echo "<br>";
-print_r($OAuthState);
-echo "<br>";
+
     // 리턴값이 정상이고 세션값이 일치하면 통과
     if (empty($code) || $state != $OAuthState) {
       echo '로그인에 실패했습니다.';
@@ -486,7 +609,7 @@ echo "<br>";
       $this->session->set_userdata('userData', $userData);
     } else {
       // 기존 사용자는 로그인
-      $rescount = $this->admin_model->cntMemberReservation($userData['userid']);
+      $rescount = $this->reserve_model->cntMemberReserve($clubIdx, $userData['idx']);
       $updateValues['rescount'] = $rescount['cnt']; // 예약 횟수 갱신 (회원 레벨 체크를 위해)
       $updateValues['connect'] = $userData['connect'] + 1;
       $updateValues['lastdate'] = $now;
@@ -561,8 +684,8 @@ echo "<br>";
         $viewData['view']['main_photo_height'] = $size[1];
       }
 
-      $pageHeader = '/club/header_' . $viewData['view']['main_design'];
-      $pageFooter = '/club/footer_' . $viewData['view']['main_design'];
+      $pageHeader = '/member/header';
+      $pageFooter = '/member/footer';
     } else {
       $pageHeader = 'header';
       $pageFooter = 'footer';

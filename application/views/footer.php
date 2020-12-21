@@ -72,7 +72,7 @@
         </div>
         <div class="modal-footer">
           <div class="modal-footer-left">
-            <a href="/login/entry"><button type="button" class="btn btn-primary">회원가입</button></a>
+            <a href="/login/check"><button type="button" class="btn btn-primary">회원가입</button></a>
             <a href="/login/forgot"><button type="button" class="btn btn-secondary">아이디/비밀번호 찾기</button></a>
           </div>
           <div class="modal-footer-right">

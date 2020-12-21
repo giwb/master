@@ -138,5 +138,42 @@ class Club_model extends CI_Model
           ->where('domain', $domain);
     return $this->db->get()->row_array(1);
   }
+
+
+  public function getMember($userid)
+  {
+    $this->db->select('idx')
+          ->from(DB_MEMBER)
+          ->where('userid', $userid);
+    return $this->db->get()->row_array(1);
+  }
+
+  public function listHistory()
+  {
+    $this->db->select('*')
+          ->from(DB_HISTORY);
+    return $this->db->get()->result_array();
+  }
+
+  public function updateHistory($data, $idx)
+  {
+    $this->db->set($data);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_HISTORY);
+  }
+
+  public function listReserve()
+  {
+    $this->db->select('*')
+          ->from(DB_RESERVATION);
+    return $this->db->get()->result_array();
+  }
+
+  public function updateReserve($data, $idx)
+  {
+    $this->db->set($data);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_RESERVATION);
+  }
 }
 ?>

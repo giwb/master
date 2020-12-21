@@ -85,18 +85,6 @@ class Admin_model extends CI_Model
     return $this->db->get()->row_array(1);
   }
 
-  // 회원 예약횟수
-  public function cntMemberReservation($userid)
-  {
-    $this->db->select('COUNT(a.userid) as cnt')
-          ->from(DB_RESERVATION . ' a')
-          ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
-          ->where('a.userid', $userid)
-          ->where('a.status', 1)
-          ->where('b.status', STATUS_CLOSED);
-    return $this->db->get()->row_array(1);
-  }
-
   // 산행 목록
   public function listNotice($search=NULL, $order='asc')
   {
@@ -217,7 +205,7 @@ class Admin_model extends CI_Model
   // 회원 예약 목록
   public function listReserve($paging, $search)
   {
-    $this->db->select('a.rescode, a.userid, a.nickname, a.bus, a.seat, a.loc, a.memo, b.startdate, b.starttime, b.subject, b.bus AS notice_bus, b.bustype AS notice_bustype, b.status AS notice_status, b.cost, b.cost_total, c.idx AS member_idx')
+    $this->db->select('a.rescode, a.user_idx, a.nickname, a.bus, a.seat, a.loc, a.memo, b.startdate, b.starttime, b.subject, b.bus AS notice_bus, b.bustype AS notice_bustype, b.status AS notice_status, b.cost, b.cost_total, c.idx AS member_idx')
           ->from(DB_RESERVATION . ' a')
           ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
           ->join(DB_MEMBER . ' c', 'a.nickname=c.nickname', 'left')
@@ -294,23 +282,23 @@ class Admin_model extends CI_Model
   // 예약 정보 보기 : 종료시
   public function viewReserveClosed($rescode)
   {
-    $this->db->select('userid, honor')
+    $this->db->select('user_idx, honor')
           ->from(DB_RESERVATION)
           ->where('rescode', $rescode)
-          ->where('userid !=', '')
+          ->where('user_idx !=', '')
           ->where('status', RESERVE_PAY)
           ->where('penalty', 0)
-          ->group_by('userid');
+          ->group_by('user_idx');
     return $this->db->get()->result_array();
   }
 
   // 예약 정보 보기 : 종료시 추가 예약
-  public function viewReserveClosedAdded($rescode, $userid)
+  public function viewReserveClosedAdded($rescode, $userIdx)
   {
     $this->db->select('COUNT(*) AS cnt')
           ->from(DB_RESERVATION)
           ->where('rescode', $rescode)
-          ->where('userid', $userid)
+          ->where('user_idx', $userIdx)
           ->where('status', RESERVE_PAY)
           ->where('penalty', 0);
     return $this->db->get()->row_array(1);
@@ -319,7 +307,7 @@ class Admin_model extends CI_Model
   // 좌석 예약 확인
   public function checkReserve($idx, $bus, $seat)
   {
-    $this->db->select('idx, userid, nickname, priority, status')
+    $this->db->select('idx, user_idx, nickname, priority, status')
           ->from(DB_RESERVATION)
           ->where('rescode', $idx)
           ->where('bus', $bus)
@@ -511,6 +499,9 @@ class Admin_model extends CI_Model
           ->from(DB_MEMBER)
           ->where('quitdate', NULL);
 
+    if (!empty($search['club_idx'])) {
+      $this->db->where('club_idx', $search['club_idx']);
+    }
     if (!empty($search['idx'])) {
       $this->db->where('idx', $search['idx']);
     }
@@ -533,12 +524,12 @@ class Admin_model extends CI_Model
   }
 
   // 산행횟수
-  public function cntPersonalReservation($userid)
+  public function cntPersonalReservation($userIdx)
   {
     $this->db->select('COUNT(b.idx) AS cnt')
           ->from(DB_RESERVATION . ' a')
           ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
-          ->where('a.userid', $userid)
+          ->where('a.user_idx', $userIdx)
           ->where('a.status', 1)
           ->where('b.status', 9)
           ->group_by('b.idx');
@@ -652,7 +643,7 @@ class Admin_model extends CI_Model
       $this->db->limit($paging['perPage'], $paging['nowPage']);
     }
     if (!empty($search['refund'])) {
-      $this->db->where('userid', '');
+      $this->db->where('user_idx', '');
     }
 
     return $this->db->get()->result_array();
@@ -678,7 +669,7 @@ class Admin_model extends CI_Model
       $this->db->like('nickname', $search['nickname']);
     }
     if (!empty($search['refund'])) {
-      $this->db->where('userid', '');
+      $this->db->where('user_idx', '');
     }
 
     return $this->db->get()->row_array(1);

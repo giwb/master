@@ -244,6 +244,7 @@ defined('PROVIDER_NONE')  OR define('PROVIDER_NONE', 0);
 defined('PROVIDER_KAKAO') OR define('PROVIDER_KAKAO', 1);
 defined('PROVIDER_NAVER') OR define('PROVIDER_NAVER', 2);
 defined('PROVIDER_GMAIL') OR define('PROVIDER_GMAIL', 3);
+defined('PROVIDER_ADMIN') OR define('PROVIDER_ADMIN', 9); // 관리자 등록
 
 // API
 defined('API_KAKAO')      OR define('API_KAKAO', 'ac8c155b86aa3885c643ba50a7cd4442');

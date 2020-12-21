@@ -434,10 +434,12 @@ if (!function_exists('arrLocation')) {
       array('no' => '7', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 25)) : '', 'title' => '복사골 문화센터', 'stitle' => '복사'),
       array('no' => '8', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 30)) : '', 'title' => '송내남부 맥도날드', 'stitle' => '송내'),
     );
+    /*
     if (is_null($start)) { // 원종동은 정규 노선이 아니기 때문에 문자 발송시 참조만 한다
       $arr = array('no' => '9', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * -20)) : '', 'title' => '원종동', 'stitle' => '원종');
       array_push($result, $arr);
     }
+    */
     if (!empty($location)) {
       if (!empty($stitle)) {
         $result = $result[$location]['stitle'];
@@ -609,15 +611,15 @@ if (!function_exists('checkDirection')) {
 if (!function_exists('getReserveAdmin')) {
   function getReserveAdmin($reserve, $bus, $seat, $userData, $boarding=0) {
     if ($boarding == 1) {
-      $result = array('idx' => '', 'userid' => '', 'nickname' => '', 'class' => '');
+      $result = array('idx' => '', 'user_idx' => '', 'nickname' => '', 'class' => '');
     } else {
-      $result = array('idx' => '', 'userid' => '', 'nickname' => '', 'class' => 'seat');
+      $result = array('idx' => '', 'user_idx' => '', 'nickname' => '', 'class' => 'seat');
     }
 
     foreach ($reserve as $key => $value) {
       if ($value['bus'] == $bus && $value['seat'] == $seat) {
         $result['idx'] = $value['idx'];
-        $result['userid'] = $value['userid'];
+        $result['user_idx'] = $value['user_idx'];
         $result['nickname'] = $value['nickname'];
 
         if ($value['status'] == RESERVE_PAY) {
@@ -652,13 +654,13 @@ if (!function_exists('getReserveAdmin')) {
 if (!function_exists('getReserve')) {
   function getReserve($reserve, $bus, $seat, $userData, $status) {
     if ($status == STATUS_CLOSED) {
-      $result = array('idx' => '', 'userid' => '', 'nickname' => '', 'class' => '');
+      $result = array('idx' => '', 'user_idx' => '', 'nickname' => '', 'class' => '');
     } else {
-      $result = array('idx' => '', 'userid' => '', 'nickname' => '예약가능', 'class' => 'seat');
+      $result = array('idx' => '', 'user_idx' => '', 'nickname' => '예약가능', 'class' => 'seat');
     }
     foreach ($reserve as $key => $value) {
       if ($value['bus'] == $bus && $value['seat'] == $seat) {
-        if (!empty($value['userid']) && $userData['userid'] == $value['userid']) {
+        if (!empty($value['user_idx']) && $userData['idx'] == $value['user_idx']) {
           if (!empty($value['priority'])) {
             $value['class'] = 'my-priority';
           } elseif (!empty($value['honor'])) {
@@ -908,11 +910,12 @@ if (!function_exists('getClubGetonoff')) {
 
 // 로그 기록
 if (!function_exists('setHistory')) {
-  function setHistory($action, $fkey, $userid, $nickname, $subject, $regdate, $point=NULL) {
+  function setHistory($clubIdx, $action, $fkey, $userIdx, $nickname, $subject, $regdate, $point=NULL) {
     $data = array(
+      'club_idx' => $clubIdx,
       'action' => $action,
       'fkey' => $fkey,
-      'userid' => $userid,
+      'user_idx' => $userIdx,
       'nickname' => $nickname,
       'subject' => $subject,
       'regdate' => $regdate,

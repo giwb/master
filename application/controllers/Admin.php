@@ -88,11 +88,11 @@ class Admin extends Admin_Controller
 
     if (!empty($viewData['idx'])) {
       $result['reserve'] = $this->admin_model->viewReserve($viewData);
-      if (empty($result['reserve']['userid'])) $result['reserve']['userid'] = '';
+      if (empty($result['reserve']['user_idx'])) $result['reserve']['user_idx'] = '';
       if (empty($result['reserve']['depositname'])) $result['reserve']['depositname'] = '';
       if (empty($result['reserve']['memo'])) $result['reserve']['memo'] = '';
     } else {
-      $result['reserve']['userid'] = '';
+      $result['reserve']['user_idx'] = '';
       $result['reserve']['nickname'] = '';
       $result['reserve']['gender'] = 'M';
       $result['reserve']['loc'] = '';
@@ -155,11 +155,14 @@ class Admin extends Admin_Controller
    **/
   public function reserve_complete()
   {
+    // 클럽ID
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
+
     $now = time();
     $idx = html_escape($this->input->post('idx'));
     $arrResIdx = $this->input->post('resIdx');
     $arrSeat = $this->input->post('seat');
-    $arrUserid = $this->input->post('userid');
+    $arrUseridx = $this->input->post('userIdx');
     $arrNickname = $this->input->post('nickname');
     $arrGender = $this->input->post('gender');
     $arrBus = $this->input->post('bus');
@@ -175,7 +178,7 @@ class Admin extends Admin_Controller
     $viewEntry = $this->admin_model->viewEntry($idx);
 
     foreach ($arrSeat as $key => $seat) {
-      $nowUserid = html_escape($arrUserid[$key]);
+      $nowUseridx = html_escape($arrUseridx[$key]);
       $nowNick = html_escape($arrNickname[$key]);
       $nowBus = html_escape($arrBus[$key]);
       $nowSeat = html_escape($seat);
@@ -185,7 +188,7 @@ class Admin extends Admin_Controller
 
       $postData = array(
         'rescode' => $idx,
-        'userid' => $nowUserid,
+        'user_idx' => $nowUseridx,
         'nickname' => $nowNick,
         'gender' => html_escape($arrGender[$key]),
         'bus' => $nowBus,
@@ -198,8 +201,8 @@ class Admin extends Admin_Controller
         'regdate' => $now
       );
 
-      if (!empty($nowUserid)) {
-        $search['userid'] = $nowUserid;
+      if (!empty($nowUseridx)) {
+        $search['idx'] = $nowUseridx;
         $nowUserInfo = $this->admin_model->viewMember($search);
       }
 
@@ -220,7 +223,7 @@ class Admin extends Admin_Controller
 
           if (!empty($result) && empty($nowPriority) && empty($nowHonor) && empty($nowManager)) {
             // 관리자 예약 기록
-            setHistory(LOG_ADMIN_RESERVE, $idx, $nowUserid, $nowNick, $viewEntry['subject'], $now);
+            setHistory($clubIdx, LOG_ADMIN_RESERVE, $idx, $nowUseridx, $nowNick, $viewEntry['subject'], $now);
           }
         }
       } else {
@@ -233,7 +236,7 @@ class Admin extends Admin_Controller
           // 이동하려는 좌석이 대기자우선석인 경우, 기존 좌석을 대기자우선석으로 변경
           if ($checkReserve['status'] == RESERVE_WAIT) {
             $updateWait = array(
-              'userid' => NULL,
+              'user_idx' => NULL,
               'nickname' => '대기자우선',
               'bus' => $viewOldReserve['bus'],
               'seat' => $viewOldReserve['seat'],
@@ -331,7 +334,7 @@ class Admin extends Admin_Controller
     $viewReserve = $this->admin_model->viewReserve($inputData);
 
     // 회원 정보
-    $search['userid'] = $viewReserve['userid'];
+    $search['idx'] = $viewReserve['user_idx'];
     $userData = $this->admin_model->viewMember($search);
 
     // 산행 정보
@@ -354,7 +357,7 @@ class Admin extends Admin_Controller
     if ($cntReservation['CNT'] >= $maxSeat[$viewReserve['bus']] || $cntWait['cnt'] >= 1) {
       // 예약 삭제 처리
       $updateValues = array(
-        'userid' => NULL,
+        'user_idx' => NULL,
         'nickname' => '대기자우선',
         'gender' => '',
         'loc' => NULL,
@@ -381,12 +384,12 @@ class Admin extends Admin_Controller
       if (!empty($viewReserve['priority']) && $viewReserve['nickname'] != '2인우선') {
         // 2인우선석이었던 경우 변경
         $updateValues = array(
-          'userid' => '',
+          'user_idx' => NULL,
           'nickname' => '2인우선',
           'gender' => 'M',
           'loc' => 0,
-          'memo' => '',
-          'depositname' => '',
+          'memo' => NULL,
+          'depositname' => NULL,
           'point' => 0,
           'vip' => 0,
           'manager' => 0,
@@ -398,12 +401,12 @@ class Admin extends Admin_Controller
       } elseif (!empty($viewReserve['honor']) && $viewReserve['nickname'] != '1인우등') {
         // 1인우등석이었던 경우 변경
         $updateValues = array(
-          'userid' => '',
+          'user_idx' => NULL,
           'nickname' => '1인우등',
           'gender' => 'M',
           'loc' => 0,
-          'memo' => '',
-          'depositname' => '',
+          'memo' => NULL,
+          'depositname' => NULL,
           'point' => 0,
           'vip' => 0,
           'manager' => 0,
@@ -447,11 +450,11 @@ class Admin extends Admin_Controller
           $penalty = 1;
         }
       }
-      $this->member_model->updatePenalty($viewReserve['userid'], ($userData['penalty'] + $penalty));
+      $this->member_model->updatePenalty($clubIdx, $viewReserve['user_idx'], ($userData['penalty'] + $penalty));
 
       // 예약 페널티 로그 기록
       if ($penalty > 0) {
-        setHistory(LOG_PENALTYUP, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'] . ' 관리자 예약 취소', $now, $penalty);
+        setHistory($clubIdx, LOG_PENALTYUP, $viewReserve['rescode'], $viewReserve['user_idx'], $viewReserve['nickname'], $viewEntry['subject'] . ' 관리자 예약 취소', $now, $penalty);
       }
 
       if ($viewReserve['status'] == RESERVE_PAY) {
@@ -465,8 +468,8 @@ class Admin extends Admin_Controller
         }
 
         // 비회원 입금취소의 경우, 환불내역 기록
-        if (empty($viewReserve['userid'])) {
-          setHistory(LOG_ADMIN_REFUND, $viewReserve['rescode'], '', $viewReserve['nickname'], $viewEntry['subject'], $now);
+        if (empty($viewReserve['user_idx'])) {
+          setHistory($clubIdx, LOG_ADMIN_REFUND, $viewReserve['rescode'], '', $viewReserve['nickname'], $viewEntry['subject'], $now);
         }
 
         // 이미 입금을 마친 상태라면, 전액 포인트로 환불 (무료회원은 환불 안함)
@@ -475,37 +478,37 @@ class Admin extends Admin_Controller
             if ($viewReserve['honor'] > 0) {
               // 1인우등 좌석 취소
               $viewEntry['cost'] = $viewEntry['cost'] + 5000;
-              $this->member_model->updatePoint($viewReserve['userid'], ($userData['point'] + $viewEntry['cost']));
+              $this->member_model->updatePoint($clubIdx, $viewReserve['user_idx'], ($userData['point'] + $viewEntry['cost']));
             } else {
               // 평생회원은 할인 적용된 가격을 환불
               $viewEntry['cost'] = $viewEntry['cost'] - 5000;
-              $this->member_model->updatePoint($viewReserve['userid'], ($userData['point'] + $viewEntry['cost']));
+              $this->member_model->updatePoint($clubIdx, $viewReserve['user_idx'], ($userData['point'] + $viewEntry['cost']));
             }
           } else {
             if ($viewReserve['honor'] > 0) {
               // 1인우등 좌석의 취소는 1만원 추가 환불
               $viewEntry['cost'] = $viewEntry['cost'] + 10000;
-              $this->member_model->updatePoint($viewReserve['userid'], ($userData['point'] + $viewEntry['cost']));
+              $this->member_model->updatePoint($clubIdx, $viewReserve['user_idx'], ($userData['point'] + $viewEntry['cost']));
             } else {
-              $this->member_model->updatePoint($viewReserve['userid'], ($userData['point'] + $viewEntry['cost']));
+              $this->member_model->updatePoint($clubIdx, $viewReserve['user_idx'], ($userData['point'] + $viewEntry['cost']));
             }
           }
           // 포인트 반환 로그 기록
-          setHistory(LOG_POINTUP, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'] . ' 관리자 예약 취소', $now, $viewEntry['cost']);
+          setHistory($clubIdx, LOG_POINTUP, $viewReserve['rescode'], $viewReserve['user_idx'], $viewReserve['nickname'], $viewEntry['subject'] . ' 관리자 예약 취소', $now, $viewEntry['cost']);
         }
       } elseif ($viewReserve['status'] == RESERVE_ON && $viewReserve['point'] > 0) {
         // 예약정보에 포인트가 있을때 반환
-        $this->member_model->updatePoint($viewReserve['userid'], ($userData['point'] + $viewReserve['point']));
+        $this->member_model->updatePoint($clubIdx, $viewReserve['user_idx'], ($userData['point'] + $viewReserve['point']));
 
         // 포인트 반환 로그 기록
-        setHistory(LOG_POINTUP, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'] . ' 관리자 예약 취소', $now, $viewReserve['point']);
+        setHistory($clubIdx, LOG_POINTUP, $viewReserve['rescode'], $viewReserve['user_idx'], $viewReserve['nickname'], $viewEntry['subject'] . ' 관리자 예약 취소', $now, $viewReserve['point']);
       }
 
       // 관리자 예약취소 기록
-      setHistory(LOG_ADMIN_CANCEL, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'] . $subject, $now);
+      setHistory($clubIdx, LOG_ADMIN_CANCEL, $viewReserve['rescode'], $viewReserve['user_idx'], $viewReserve['nickname'], $viewEntry['subject'] . $subject, $now);
 
       // 예약 취소 로그 기록
-      setHistory(LOG_CANCEL, $viewReserve['rescode'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'] . $subject, $now);
+      setHistory($clubIdx, LOG_CANCEL, $viewReserve['rescode'], $viewReserve['user_idx'], $viewReserve['nickname'], $viewEntry['subject'] . $subject, $now);
     }
 
     $result['reload'] = true;
@@ -520,6 +523,9 @@ class Admin extends Admin_Controller
    **/
   public function reserve_deposit()
   {
+    // 클럽ID
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
+
     $now = time();
     $viewData['idx'] = html_escape($this->input->post('idx'));
     $viewReserve = $this->admin_model->viewReserve($viewData);
@@ -536,11 +542,11 @@ class Admin extends Admin_Controller
       }
 
       // 관리자 입금취소 기록
-      setHistory(LOG_ADMIN_DEPOSIT_CANCEL, $viewEntry['idx'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'], $now);
+      setHistory($clubIdx, LOG_ADMIN_DEPOSIT_CANCEL, $viewEntry['idx'], $viewReserve['user_idx'], $viewReserve['nickname'], $viewEntry['subject'], $now);
 
       // 비회원 입금취소의 경우, 환불내역 기록
-      if (empty($viewReserve['userid'])) {
-        setHistory(LOG_ADMIN_REFUND, $viewEntry['idx'], '', $viewReserve['nickname'], $viewEntry['subject'], $now);
+      if (empty($viewReserve['user_idx'])) {
+        setHistory($clubIdx, LOG_ADMIN_REFUND, $viewEntry['idx'], '', $viewReserve['nickname'], $viewEntry['subject'], $now);
       }
     } else {
       // 입금확인 날짜 체크
@@ -559,7 +565,7 @@ class Admin extends Admin_Controller
       }
 
       // 관리자 입금확인 기록
-      setHistory(LOG_ADMIN_DEPOSIT_CONFIRM, $viewEntry['idx'], $viewReserve['userid'], $viewReserve['nickname'], $viewEntry['subject'], $now);
+      setHistory($clubIdx, LOG_ADMIN_DEPOSIT_CONFIRM, $viewEntry['idx'], $viewReserve['user_idx'], $viewReserve['nickname'], $viewEntry['subject'], $now);
     }
 
     $result['reload'] = true;
@@ -676,7 +682,7 @@ class Admin extends Admin_Controller
     $viewData['list'] = $this->admin_model->listNotice($search);
 
     // 댓글
-    $viewData['listReply'] = $this->admin_model->listReply($viewData['clubIdx'], NULL, $viewData['rescode']);
+    $viewData['listReply'] = $this->admin_model->listReply($viewData['view']['club_idx'], NULL, $viewData['rescode']);
     $viewData['listReply'] = $this->load->view('admin/log_reply_append', $viewData, true);
 
     // 페이지 타이틀
@@ -1061,23 +1067,23 @@ class Admin extends Admin_Controller
       $viewReserve = $this->admin_model->viewReserveClosed($search['rescode']);
 
       foreach ($viewReserve as $value) {
-        $search['userid'] = $value['userid'];
+        $search['idx'] = $value['user_idx'];
         $userData = $this->admin_model->viewMember($search);
 
         if ($userData['level'] != 2 && $userData['admin'] != 1) { // 무료회원과 관리자는 적립금 없음
           // 최초 1회는 자신의 레벨에 맞게 포인트 지급
           $memberLevel = memberLevel($userData['rescount'], $userData['penalty'], $userData['level'], $userData['admin']);
-          $this->member_model->updatePoint($userData['userid'], ($userData['point'] + $memberLevel['point']));
-          setHistory(LOG_POINTUP, $search['rescode'], $userData['userid'], $userData['nickname'], $viewEntry['subject'] . ' 본인 예약 포인트', $now, $memberLevel['point']);
+          $this->member_model->updatePoint($clubIdx, $userData['idx'], ($userData['point'] + $memberLevel['point']));
+          setHistory($clubIdx, LOG_POINTUP, $search['rescode'], $userData['idx'], $userData['nickname'], $viewEntry['subject'] . ' 본인 예약 포인트', $now, $memberLevel['point']);
 
           // 같은 아이디로 추가 예약을 했을 경우 포인트 1000씩 지급 (1인우등은 제외)
           if (empty($value['honor'])) {
-            $addedReserve = $this->admin_model->viewReserveClosedAdded($search['rescode'], $userData['userid']);
+            $addedReserve = $this->admin_model->viewReserveClosedAdded($search['rescode'], $userData['idx']);
             if ($addedReserve['cnt'] > 1) {
               $addedPoint = ($addedReserve['cnt'] - 1) * 1000;
               $userData = $this->admin_model->viewMember($search); // 갱신된 정보를 다시 불러옴
-              $this->member_model->updatePoint($userData['userid'], ($userData['point'] + $addedPoint));
-              setHistory(LOG_POINTUP, $search['rescode'], $userData['userid'], $userData['nickname'], $viewEntry['subject'] . ' 일행 예약 포인트', $now, $addedPoint);
+              $this->member_model->updatePoint($clubIdx, $userData['idx'], ($userData['point'] + $addedPoint));
+              setHistory($clubIdx, LOG_POINTUP, $search['rescode'], $userData['idx'], $userData['nickname'], $viewEntry['subject'] . ' 일행 예약 포인트', $now, $addedPoint);
             }
           }
         }
@@ -1087,7 +1093,7 @@ class Admin extends Admin_Controller
       $viewReserve = $this->admin_model->viewReserve($search);
 
       foreach ($viewReserve as $value) {
-        $search['userid'] = $value['userid'];
+        $search['idx'] = $value['user_idx'];
         $userData = $this->admin_model->viewMember($search);
 
         if ($value['status'] == RESERVE_PAY) {
@@ -1107,37 +1113,37 @@ class Admin extends Admin_Controller
               if ($value['honor'] > 0) {
                 // 1인우등 좌석의 취소는 2개 좌석의 합을 반으로 나눠서
                 $viewEntry['cost'] = ($viewEntry['cost'] + 5000) / 2;
-                $this->member_model->updatePoint($value['userid'], ($userData['point'] + $viewEntry['cost']));
+                $this->member_model->updatePoint($clubIdx, $value['user_idx'], ($userData['point'] + $viewEntry['cost']));
               } else {
                 // 평생회원은 할인 적용된 가격을 환불
                 $viewEntry['cost'] = $viewEntry['cost'] - 5000;
-                $this->member_model->updatePoint($value['userid'], ($userData['point'] + $viewEntry['cost']));
+                $this->member_model->updatePoint($clubIdx, $value['user_idx'], ($userData['point'] + $viewEntry['cost']));
               }
             } else {
               if ($value['honor'] > 0) {
                 // 1인우등 좌석의 취소는 2개 좌석의 합을 반으로 나눠서
                 $viewEntry['cost'] = ($viewEntry['cost'] + 10000) / 2;
-                $this->member_model->updatePoint($value['userid'], ($userData['point'] + $viewEntry['cost']));
+                $this->member_model->updatePoint($clubIdx, $value['user_idx'], ($userData['point'] + $viewEntry['cost']));
               } else {
-                $this->member_model->updatePoint($value['userid'], ($userData['point'] + $viewEntry['cost']));
+                $this->member_model->updatePoint($clubIdx, $value['user_idx'], ($userData['point'] + $viewEntry['cost']));
               }
             }
             // 포인트 반환 로그 기록
-            setHistory(LOG_POINTUP, $value['rescode'], $value['userid'], $value['nickname'], $viewEntry['subject'] . ' 산행 취소', $now, $viewEntry['cost']);
+            setHistory($clubIdx, LOG_POINTUP, $value['rescode'], $value['user_idx'], $value['nickname'], $viewEntry['subject'] . ' 산행 취소', $now, $viewEntry['cost']);
           }
         } elseif ($value['status'] == RESERVE_ON && $value['point'] > 0) {
           // 예약정보에 포인트가 있을때 반환
-          $this->member_model->updatePoint($value['userid'], ($userData['point'] + $value['point']));
+          $this->member_model->updatePoint($clubIdx, $value['user_idx'], ($userData['point'] + $value['point']));
 
           // 포인트 반환 로그 기록
-          setHistory(LOG_POINTUP, $value['rescode'], $value['userid'], $value['nickname'], $viewEntry['subject'] . ' 산행 취소', $now, $value['point']);
+          setHistory($clubIdx, LOG_POINTUP, $value['rescode'], $value['user_idx'], $value['nickname'], $viewEntry['subject'] . ' 산행 취소', $now, $value['point']);
         }
 
         // 관리자 예약취소 기록
-        setHistory(LOG_ADMIN_CANCEL, $value['rescode'], $value['userid'], $value['nickname'], $viewEntry['subject'] . ' 산행 취소', $now);
+        setHistory($clubIdx, LOG_ADMIN_CANCEL, $value['rescode'], $value['user_idx'], $value['nickname'], $viewEntry['subject'] . ' 산행 취소', $now);
 
         // 예약 취소 로그 기록
-        setHistory(LOG_CANCEL, $value['rescode'], $value['userid'], $value['nickname'], $viewEntry['subject'] . ' 산행 취소', $now);
+        setHistory($clubIdx, LOG_CANCEL, $value['rescode'], $value['user_idx'], $value['nickname'], $viewEntry['subject'] . ' 산행 취소', $now);
       }
     }
 
@@ -1677,24 +1683,17 @@ exit;
   public function main_wait_insert()
   {
     $now = time();
-    $clubIdx = 1;
     $postData = $this->input->post();
-    $search['userid'] = html_escape($postData['userid']);
-
     $insertValues  = array(
-      'club_idx'    => $clubIdx,
+      'club_idx'    => html_escape($postData['clubIdx']),
       'notice_idx'  => html_escape($postData['idx']),
       'nickname'    => html_escape($postData['nickname']),
       'location'    => html_escape($postData['location']),
       'gender'      => html_escape($postData['gender']),
       'memo'        => html_escape($postData['memo']),
+      'created_by'  => html_escape($postData['userIdx']),
       'created_at'  => $now
     );
-
-    if (!empty($search['userid'])) {
-      $viewMember = $this->admin_model->viewMember($search);
-      $insertValues['created_by'] = $viewMember['idx'];
-    }
 
     $rtn = $this->admin_model->insertWait($insertValues);
 
@@ -2120,19 +2119,19 @@ exit;
     }
 
     // 예약 취소 내역 (로그)
-    $viewData['userReserveCancel'] = $this->reserve_model->userReserveCancel($viewData['clubIdx'], $viewData['viewMember']['userid']);
+    $viewData['userReserveCancel'] = $this->reserve_model->userReserveCancel($viewData['clubIdx'], $viewData['viewMember']['idx']);
 
     // 산행 내역
-    $viewData['userVisit'] = $this->reserve_model->userVisit($viewData['clubIdx'], $viewData['viewMember']['userid']);
+    $viewData['userVisit'] = $this->reserve_model->userVisit($viewData['clubIdx'], $viewData['viewMember']['idx']);
 
     // 산행 횟수
-    $viewData['userVisitCount'] = $this->reserve_model->userVisitCount($viewData['clubIdx'], $viewData['viewMember']['userid']);
+    $viewData['userVisitCount'] = $this->reserve_model->userVisitCount($viewData['clubIdx'], $viewData['viewMember']['idx']);
 
     // 포인트 내역
-    $viewData['userPoint'] = $this->member_model->userPointLog($viewData['clubIdx'], $viewData['viewMember']['userid']);
+    $viewData['userPoint'] = $this->member_model->userPointLog($viewData['clubIdx'], $viewData['viewMember']['idx']);
 
     // 페널티 내역
-    $viewData['userPenalty'] = $this->member_model->userPenaltyLog($viewData['clubIdx'], $viewData['viewMember']['userid']);
+    $viewData['userPenalty'] = $this->member_model->userPenaltyLog($viewData['clubIdx'], $viewData['viewMember']['idx']);
 
     // 페이지 타이틀
     $viewData['pageTitle'] = '회원관리';
@@ -2151,7 +2150,7 @@ exit;
     // 클럽ID
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
 
-    $search = array('userid' => html_escape($this->input->post('userid')));
+    $search = array('idx' => html_escape($this->input->post('userIdx')));
     $viewMember = $this->admin_model->viewMember($search);
     $viewMember['memberLevel'] = memberLevel($viewMember['rescount'], $viewMember['penalty'], $viewMember['level'], $viewMember['admin']);
     if ($viewMember['gender'] == 'M') $viewMember['gender'] = '남성'; else $viewMember['gender'] = '여성';
@@ -2183,7 +2182,7 @@ exit;
     // 클럽ID
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
 
-    $userid = html_escape($this->input->post('userid')); // 회원 아이디
+    $userIdx = html_escape($this->input->post('userIdx')); // 회원 아이디
     $type = html_escape($this->input->post('type')); // 더보기 타입 (포인트 : point, 페널티 : penalty)
 
     // 페이징
@@ -2196,7 +2195,7 @@ exit;
     switch ($type) {
       case 'point':
         // 포인트 내역
-        $arr = $this->member_model->userPointLog($viewData['clubIdx'], $userid, $paging);
+        $arr = $this->member_model->userPointLog($viewData['clubIdx'], $userIdx, $paging);
         foreach ($arr as $value) {
           $result['html'] .= '<div class="border-top pt-2 pb-2 row align-items-center"><div class="col-10 p-0">';
           if ($value['action'] == LOG_POINTUP) {
@@ -2210,7 +2209,7 @@ exit;
         break;
       case 'penalty':
         // 페널티 내역
-        $arr = $this->member_model->userPenaltyLog($viewData['clubIdx'], $userid, $paging);
+        $arr = $this->member_model->userPenaltyLog($viewData['clubIdx'], $userIdx, $paging);
         foreach ($arr as $value) {
           $result['html'] .= '<div class="border-top pt-2 pb-2 row align-items-center"><div class="col-10 p-0">';
           if ($value['action'] == LOG_PENALTYUP) {
@@ -2288,19 +2287,19 @@ exit;
     switch ($type) {
       case 1: // 포인트 추가
         $updateValues['point'] = $viewMember['point'] + $point;
-        setHistory(LOG_POINTUP, $search['idx'], $viewMember['userid'], $viewMember['nickname'], $subject, $now, $point);
+        setHistory($clubIdx, LOG_POINTUP, $search['idx'], $viewMember['idx'], $viewMember['nickname'], $subject, $now, $point);
         break;
       case 2: // 포인트 감소
         $updateValues['point'] = $viewMember['point'] - $point;
-        setHistory(LOG_POINTDN, $search['idx'], $viewMember['userid'], $viewMember['nickname'], $subject, $now, $point);
+        setHistory($clubIdx, LOG_POINTDN, $search['idx'], $viewMember['idx'], $viewMember['nickname'], $subject, $now, $point);
         break;
       case 3: // 페널티 추가
         $updateValues['penalty'] = $viewMember['penalty'] + $penalty;
-        setHistory(LOG_PENALTYUP, $search['idx'], $viewMember['userid'], $viewMember['nickname'], $subject, $now, $penalty);
+        setHistory($clubIdx, LOG_PENALTYUP, $search['idx'], $viewMember['idx'], $viewMember['nickname'], $subject, $now, $penalty);
         break;
       case 4: // 페널티 감소
         $updateValues['penalty'] = $viewMember['penalty'] - $penalty;
-        setHistory(LOG_PENALTYDN, $search['idx'], $viewMember['userid'], $viewMember['nickname'], $subject, $now, $penalty);
+        setHistory($clubIdx, LOG_PENALTYDN, $search['idx'], $viewMember['idx'], $viewMember['nickname'], $subject, $now, $penalty);
         break;
     }
 
@@ -2383,6 +2382,7 @@ exit;
 
     $insertValues = array(
       'club_idx'      => html_escape($inputData['clubIdx']),
+      'provider'      => PROVIDER_ADMIN,
       'userid'        => $userid,
       'password'      => md5(html_escape($inputData['password'])),
       'nickname'      => $nickname,
@@ -2415,7 +2415,7 @@ exit;
       }
 */
       // 회원 가입 기록
-      setHistory(LOG_ENTRY, $idx, $userid, $nickname, '', $now);
+      setHistory($clubIdx, LOG_ENTRY, $idx, $idx, $nickname, '', $now);
     }
 
     $this->output->set_output(json_encode($result));
@@ -2702,8 +2702,8 @@ exit;
     $viewData['headerMenu'] = 'log_header';
 
     foreach ($viewData['listHistory'] as $key => $value) {
-      if (!empty($value['userid'])) {
-        $search_member['userid'] = $value['userid'];
+      if (!empty($value['user_idx'])) {
+        $search_member['idx'] = $value['user_idx'];
         $viewData['listHistory'][$key]['userData'] = $this->admin_model->viewMember($search_member);
       } else {
         $viewData['listHistory'][$key]['userData']['nickname'] = $value['nickname'];
@@ -2712,7 +2712,7 @@ exit;
       switch ($value['action']) {
         case LOG_ENTRY: // 회원등록
           $viewData['listHistory'][$key]['header'] = '[회원등록]';
-          $viewData['listHistory'][$key]['subject'] = $value['userid'];
+          $viewData['listHistory'][$key]['subject'] = $viewData['listHistory'][$key]['userData']['userid'];
           break;
         case LOG_RESERVE: // 예약
           $viewData['listHistory'][$key]['header'] = '<span class="text-primary">[예약완료]</span>';
@@ -3691,13 +3691,14 @@ exit;
   }
 
   /**
-   * 닉네임으로 아이디 찾기
+   * 닉네임으로 회원 정보 불러오기
    *
    * @return json
    * @author bjchoi
    **/
   public function search_by_nickname()
   {
+    $search['club_idx'] = html_escape($this->input->post('clubIdx'));
     $search['nickname'] = html_escape($this->input->post('nickname'));
     $rtn = $this->admin_model->viewMember($search);
 

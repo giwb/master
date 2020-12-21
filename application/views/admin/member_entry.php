@@ -5,7 +5,7 @@
           <div class="border-bottom mt-3 mb-3 pb-2">
             <div class="text-right"><a href="<?=BASE_URL?>/admin/member_list"><button type="button" class="btn btn-sm btn-secondary">목록으로</button></a></div>
           </div>
-          <form id="formMember" method="post" action="/admin/member_update">
+          <form>
             <div class="row align-items-center border-bottom mb-3 pb-3">
               <div class="col-sm-2 font-weight-bold">아이디 <span class="required">(*)</span></div>
               <div class="col-sm-10"><input type="text" name="userid" class="form-control check-userid"><div class="check-message"></div></div>

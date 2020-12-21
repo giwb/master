@@ -427,7 +427,7 @@ class Reserve extends MY_Controller
       $processData  = array(
         'club_idx'  => $clubIdx,
         'rescode'   => $noticeIdx,
-        'userid'    => $userData['userid'],
+        'user_idx'  => $userData['idx'],
         'nickname'  => $userData['nickname'],
         'gender'    => $userData['gender'],
         'bus'       => $nowBus,
@@ -451,14 +451,14 @@ class Reserve extends MY_Controller
         $reserveIdx[] = $result;
 
         // 로그 기록
-        setHistory(LOG_RESERVE, $noticeIdx, $userData['userid'], $userData['nickname'], $viewNotice['subject'], $now);
+        setHistory($clubIdx, LOG_RESERVE, $noticeIdx, $userData['idx'], $userData['nickname'], $viewNotice['subject'], $now);
       } else {
         // 수정
         // 선택한 좌석 예약 여부 확인
         $checkReserve = $this->reserve_model->checkReserve($noticeIdx, $nowBus, $seat);
 
         // 자신이 예약한 좌석만 수정 가능, 2인우선석/1인우등석은 수정
-        if (  $checkReserve['userid'] == $userData['userid']
+        if (  $checkReserve['user_idx'] == $userData['idx']
             || empty($checkReserve['idx'])
             || (!empty($checkReserve['priority']) && $checkReserve['nickname'] == '2인우선')
             || (!empty($checkReserve['honor']) && $checkReserve['nickname'] == '1인우등')
@@ -490,7 +490,7 @@ class Reserve extends MY_Controller
       }
 
       // 회원 예약 횟수 갱신 (회원 레벨 체크를 위해)
-      $rescount = $this->reserve_model->cntMemberReserve($userData['userid']);
+      $rescount = $this->reserve_model->cntMemberReserve($clubIdx, $userData['idx']);
       $updateValues['rescount'] = $rescount['cnt'];
       $this->member_model->updateMember($updateValues, $userData['idx']);
 
@@ -594,12 +594,12 @@ class Reserve extends MY_Controller
       if ($cntReserve['cnt'] >= $maxSeat[$userBus] || $cntReserveWait['cnt'] >= 1) {
         // 예약 삭제 처리
         $updateValues = array(
-          'userid' => '',
+          'user_idx' => NULL,
           'nickname' => '대기자 우선',
           'gender' => 'M',
           'loc' => 0,
-          'memo' => '',
-          'depositname' => '',
+          'memo' => NULL,
+          'depositname' => NULL,
           'point' => 0,
           'priority' => 0,
           'honor' => 0,
@@ -615,12 +615,12 @@ class Reserve extends MY_Controller
         if (!empty($userReserve['priority'])) {
           // 2인우선석이었던 경우 변경
           $updateValues = array(
-            'userid' => '',
+            'user_idx' => NULL,
             'nickname' => '2인우선',
             'gender' => 'M',
             'loc' => 0,
-            'memo' => '',
-            'depositname' => '',
+            'memo' => NULL,
+            'depositname' => NULL,
             'point' => 0,
             'vip' => 0,
             'manager' => 0,
@@ -632,12 +632,11 @@ class Reserve extends MY_Controller
         } elseif (!empty($userReserve['honor'])) {
           // 1인우등석이었던 경우 변경
           $updateValues = array(
-            'userid' => '',
             'nickname' => '1인우등',
             'gender' => 'M',
             'loc' => 0,
-            'memo' => '',
-            'depositname' => '',
+            'memo' => NULL,
+            'depositname' => NULL,
             'point' => 0,
             'vip' => 0,
             'manager' => 0,
@@ -683,11 +682,11 @@ class Reserve extends MY_Controller
           }
         }
 
-        $this->member_model->updatePenalty($userReserve['userid'], ($userData['penalty'] + $penalty));
+        $this->member_model->updatePenalty($clubIdx, $userReserve['user_idx'], ($userData['penalty'] + $penalty));
 
         // 예약 페널티 로그 기록
         if ($penalty > 0) {
-          setHistory(LOG_PENALTYUP, $userReserve['resCode'], $userReserve['userid'], $userReserve['nickname'], $userReserve['subject'] . ' 예약 취소', $nowDate, $penalty);
+          setHistory($clubIdx, LOG_PENALTYUP, $userReserve['resCode'], $userReserve['user_idx'], $userReserve['nickname'], $userReserve['subject'] . ' 예약 취소', $nowDate, $penalty);
         }
 
         if ($userReserve['status'] == RESERVE_PAY) {
@@ -700,34 +699,34 @@ class Reserve extends MY_Controller
               if ($userReserve['honor'] > 0) {
                 // 1인우등 좌석 취소
                 $userReserve['cost'] = $userReserve['cost'] + 5000;
-                $this->member_model->updatePoint($userReserve['userid'], ($userData['point'] + $userReserve['cost']));
+                $this->member_model->updatePoint($clubIdx, $userReserve['user_idx'], ($userData['point'] + $userReserve['cost']));
               } else {
                 // 평생회원은 할인 적용된 가격을 환불
                 $userReserve['cost'] = $userReserve['cost'] - 5000;
-                $this->member_model->updatePoint($userReserve['userid'], ($userData['point'] + $userReserve['cost']));
+                $this->member_model->updatePoint($clubIdx, $userReserve['user_idx'], ($userData['point'] + $userReserve['cost']));
               }
             } else {
               if ($userReserve['honor'] > 0) {
                 // 1인우등 좌석의 취소는 1만원 추가 환불
                 $userReserve['cost'] = $userReserve['cost'] + 10000;
-                $this->member_model->updatePoint($userReserve['userid'], ($userData['point'] + $userReserve['cost']));
+                $this->member_model->updatePoint($clubIdx, $userReserve['user_idx'], ($userData['point'] + $userReserve['cost']));
               } else {
-                $this->member_model->updatePoint($userReserve['userid'], ($userData['point'] + $userReserve['cost']));
+                $this->member_model->updatePoint($clubIdx, $userReserve['user_idx'], ($userData['point'] + $userReserve['cost']));
               }
             }
             // 포인트 반환 로그 기록
-            setHistory(LOG_POINTUP, $userReserve['resCode'], $userReserve['userid'], $userReserve['nickname'], $userReserve['subject'] . ' 예약 취소', $nowDate, $userReserve['cost']);
+            setHistory($clubIdx, LOG_POINTUP, $userReserve['resCode'], $userReserve['user_idx'], $userReserve['nickname'], $userReserve['subject'] . ' 예약 취소', $nowDate, $userReserve['cost']);
           }
         } elseif ($userReserve['status'] == RESERVE_ON && $userReserve['point'] > 0) {
           // 예약정보에 포인트가 있을때 반환
-          $this->member_model->updatePoint($userReserve['userid'], ($userData['point'] + $userReserve['point']));
+          $this->member_model->updatePoint($clubIdx, $userReserve['user_idx'], ($userData['point'] + $userReserve['point']));
 
           // 포인트 반환 로그 기록
-          setHistory(LOG_POINTUP, $userReserve['resCode'], $userReserve['userid'], $userReserve['nickname'], $userReserve['subject'] . ' 예약 취소', $nowDate, $userReserve['point']);
+          setHistory($clubIdx, LOG_POINTUP, $userReserve['resCode'], $userReserve['user_idx'], $userReserve['nickname'], $userReserve['subject'] . ' 예약 취소', $nowDate, $userReserve['point']);
         }
 
         // 예약 취소 로그 기록
-        setHistory(LOG_CANCEL, $userReserve['resCode'], $userReserve['userid'], $userReserve['nickname'], $userReserve['subject'], $nowDate);
+        setHistory($clubIdx, LOG_CANCEL, $userReserve['resCode'], $userReserve['user_idx'], $userReserve['nickname'], $userReserve['subject'], $nowDate);
 
         $result = array('error' => 0, 'message' => '');
       }
@@ -769,10 +768,10 @@ class Reserve extends MY_Controller
         $userReserve = $this->reserve_model->userReserve($clubIdx, NULL, $idx);
 
         // 포인트 차감
-        $this->member_model->updatePoint($userReserve['userid'], ($userData['point'] - $processData['point']));
+        $this->member_model->updatePoint($clubIdx, $userReserve['user_idx'], ($userData['point'] - $processData['point']));
 
         // 포인트 차감 로그 기록
-        setHistory(LOG_POINTDN, $userReserve['resCode'], $userReserve['userid'], $userReserve['nickname'], $userReserve['subject'] . ' 예약', $nowDate, $processData['point']);
+        setHistory($clubIdx, LOG_POINTDN, $userReserve['resCode'], $userReserve['user_idx'], $userReserve['nickname'], $userReserve['subject'] . ' 예약', $nowDate, $processData['point']);
       }
 
       $rtn = $this->reserve_model->updateReserve($processData, $idx);

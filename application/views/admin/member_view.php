@@ -197,7 +197,7 @@
               <?php endforeach; ?>
             </div>
             <div class="border-top text-right small pt-2">
-              <a href="javascript:;" class="btn-member-more" data-userid="<?=$viewMember['userid']?>" data-type="point">더보기 ▼</a>
+              <a href="javascript:;" class="btn-member-more" data-userIdx="<?=$viewMember['idx']?>" data-type="point">더보기 ▼</a>
               <input type="hidden" class="page" data-type="point" value="1">
             </div>
 
@@ -220,7 +220,7 @@
               <?php endforeach; ?>
             </div>
             <div class="border-top text-right small pt-2">
-              <a href="javascript:;" class="btn-member-more" data-userid="<?=$viewMember['userid']?>" data-type="penalty">더보기 ▼</a>
+              <a href="javascript:;" class="btn-member-more" data-userIdx="<?=$viewMember['idx']?>" data-type="penalty">더보기 ▼</a>
               <input type="hidden" class="page" data-type="penalty" value="1">
             </div>
           </div>

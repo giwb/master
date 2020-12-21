@@ -1,8 +1,8 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
     <div class="club-main row">
-      <div class="col-sm-3"></div>
-      <div class="col-12 col-sm-6">
+      <div class="col-sm-4 d-none d-sm-block">&nbsp;</div>
+      <div class="col-12 col-sm-4">
         <form class="loginForm pl-4 pr-4" method="post">
           <input type="hidden" name="redirectUrl" value="<?=$redirect_url?>">
           <h2 class="mt-4 mb-4 pb-4 border-bottom text-center">로그인</h2>
@@ -20,7 +20,7 @@
           </div>
           <div class="error-message text-danger text-center"></div>
           <div class="text-center mt-3 mr-3 ml-3">
-            <a href="<?=BASE_URL?>/login/entry"><button type="button" class="btn btn-default"><span class="small">회원가입</span></button></a>
+            <a href="<?=BASE_URL?>/login/check"><button type="button" class="btn btn-default"><span class="small">회원가입</span></button></a>
             <a href="<?=BASE_URL?>/login/forgot"><button type="button" class="btn btn-secondary"><span class="small">아이디/비밀번호 찾기</span></button></a>
           </div>
           <div class="text-center mt-3 mb-5">
@@ -32,5 +32,5 @@
           </div>-->
         </form>
       </div>
-      <div class="col-sm-3"></div>
+      <div class="col-sm-4 d-none d-sm-block">&nbsp;</div>
     </div>

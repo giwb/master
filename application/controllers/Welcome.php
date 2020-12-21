@@ -341,6 +341,33 @@ class Welcome extends MY_Controller
     $this->output->set_output(json_encode($result));
   }
 
+  public function test_db()
+  {
+    $history = $this->club_model->listHistory();
+
+    foreach ($history as $value) {
+      if (!empty($value['userid'])) {
+        $member = $this->club_model->getMember($value['userid']);
+        if (!empty($member['idx'])) {
+          $data['user_idx'] = $member['idx'];
+          $this->club_model->updateHistory($data, $value['idx']);
+        }
+      }
+    }
+
+    $reserve = $this->club_model->listReserve();
+
+    foreach ($reserve as $value) {
+      if (!empty($value['userid'])) {
+        $member = $this->club_model->getMember($value['userid']);
+        if (!empty($member['idx'])) {
+          $data['user_idx'] = $member['idx'];
+          $this->club_model->updateReserve($data, $value['idx']);
+        }
+      }
+    }
+  }
+
   /**
    * 페이지 표시
    *

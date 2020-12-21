@@ -123,13 +123,13 @@ class Shop_model extends CI_Model
   }
 
   // 구매진행 - 예약된 산행보기
-  public function listMemberReserve($clubIdx, $userid)
+  public function listMemberReserve($clubIdx, $userIdx)
   {
     $this->db->select('b.idx, b.startdate, b.mname')
           ->from(DB_RESERVATION . ' a')
           ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
           ->where('a.club_idx', $clubIdx)
-          ->where('a.userid', $userid)
+          ->where('a.user_idx', $userIdx)
           ->where('b.visible', VISIBLE_ABLE)
           ->where('b.startdate >', date('Y-m-d'))
           ->where_in('b.status', array(STATUS_ABLE, STATUS_CONFIRM))

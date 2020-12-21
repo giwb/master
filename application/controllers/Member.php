@@ -40,7 +40,7 @@ class Member extends MY_Controller
       $viewData['viewMember'] = $this->member_model->viewMember($userData['idx']);
 
       // 용품 인수를 위한 회원 예약 내역
-      $viewData['listMemberReserve'] = $this->shop_model->listMemberReserve($clubIdx, $userData['userid']);
+      $viewData['listMemberReserve'] = $this->shop_model->listMemberReserve($clubIdx, $userData['idx']);
 
       // 구매 내역
       $paging['perPage'] = 5; $paging['nowPage'] = 0;
@@ -63,8 +63,8 @@ class Member extends MY_Controller
 
       // 예약 내역
       $paging['perPage'] = 5; $paging['nowPage'] = 0;
-      $viewData['maxReserve'] = $this->reserve_model->maxReserve($clubIdx, $userData['userid']);
-      $viewData['userReserve'] = $this->reserve_model->userReserve($clubIdx, $userData['userid'], NULL, $paging);
+      $viewData['maxReserve'] = $this->reserve_model->maxReserve($clubIdx, $userData['idx']);
+      $viewData['userReserve'] = $this->reserve_model->userReserve($clubIdx, $userData['idx'], NULL, $paging);
 
       foreach ($viewData['userReserve'] as $key => $value) {
         $busType = getBusType($value['notice_bustype'], $value['notice_bus']); // 버스 형태별 좌석 배치
@@ -118,21 +118,21 @@ class Member extends MY_Controller
       }
 
       // 예약 취소 내역 (로그)
-      $viewData['maxReserveCancel'] = $this->reserve_model->maxReserveCancel($clubIdx, $userData['userid']);
-      $viewData['userReserveCancel'] = $this->reserve_model->userReserveCancel($clubIdx, $userData['userid']);
+      $viewData['maxReserveCancel'] = $this->reserve_model->maxReserveCancel($clubIdx, $userData['idx']);
+      $viewData['userReserveCancel'] = $this->reserve_model->userReserveCancel($clubIdx, $userData['idx']);
 
       // 산행 내역
-      $viewData['maxVisit'] = $this->reserve_model->maxVisit($clubIdx, $userData['userid']);
-      $viewData['userVisit'] = $this->reserve_model->userVisit($clubIdx, $userData['userid']);
+      $viewData['maxVisit'] = $this->reserve_model->maxVisit($clubIdx, $userData['idx']);
+      $viewData['userVisit'] = $this->reserve_model->userVisit($clubIdx, $userData['idx']);
 
       // 산행 횟수
-      $viewData['userVisitCount'] = $this->reserve_model->userVisitCount($clubIdx, $userData['userid']);
+      $viewData['userVisitCount'] = $this->reserve_model->userVisitCount($clubIdx, $userData['idx']);
 
       // 포인트 내역
-      $viewData['userPoint'] = $this->member_model->userPointLog($clubIdx, $userData['userid']);
+      $viewData['userPoint'] = $this->member_model->userPointLog($clubIdx, $userData['idx']);
 
       // 페널티 내역
-      $viewData['userPenalty'] = $this->member_model->userPenaltyLog($clubIdx, $userData['userid']);
+      $viewData['userPenalty'] = $this->member_model->userPenaltyLog($clubIdx, $userData['idx']);
 
       // 페이지 타이틀
       $viewData['pageTitle'] = '마이페이지';
@@ -358,7 +358,7 @@ class Member extends MY_Controller
       $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
     } else {
       // 로그 남기기
-      setHistory(LOG_DRIVER_CHANGE, $noticeIdx, $userData['userid'], $userData['nickname'], $oldBus['bus_name'] . ' → ' . $newBus['bus_name'], $now);
+      setHistory($clubIdx, LOG_DRIVER_CHANGE, $noticeIdx, $userData['idx'], $userData['nickname'], $oldBus['bus_name'] . ' → ' . $newBus['bus_name'], $now);
       $result = array('error' => 0, 'message' => $this->lang->line('msg_change_complete'));
     }
 
@@ -406,7 +406,7 @@ class Member extends MY_Controller
     $viewData['viewMember'] = $this->member_model->viewMember($userData['idx']);
 
     // 용품 인수를 위한 회원 예약 내역
-    $viewData['listMemberReserve'] = $this->shop_model->listMemberReserve($clubIdx, $userData['userid']);
+    $viewData['listMemberReserve'] = $this->shop_model->listMemberReserve($clubIdx, $userData['idx']);
 
     // 페이지 타이틀
     $viewData['pageTitle'] = '구매 내역';
@@ -447,8 +447,8 @@ class Member extends MY_Controller
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
 
     // 예약 내역
-    $viewData['maxReserve'] = $this->reserve_model->maxReserve($clubIdx, $userData['userid']);
-    $viewData['userReserve'] = $this->reserve_model->userReserve($clubIdx, $userData['userid'], NULL, $paging);
+    $viewData['maxReserve'] = $this->reserve_model->maxReserve($clubIdx, $userData['idx']);
+    $viewData['userReserve'] = $this->reserve_model->userReserve($clubIdx, $userData['idx'], NULL, $paging);
 
     foreach ($viewData['userReserve'] as $key => $value) {
       if (empty($value['cost_total'])) {
@@ -533,8 +533,8 @@ class Member extends MY_Controller
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
 
     // 예약취소 내역 (로그)
-    $viewData['maxReserveCancel'] = $this->reserve_model->maxReserveCancel($clubIdx, $userData['userid']);
-    $viewData['userReserveCancel'] = $this->reserve_model->userReserveCancel($clubIdx, $userData['userid'], $paging);
+    $viewData['maxReserveCancel'] = $this->reserve_model->maxReserveCancel($clubIdx, $userData['idx']);
+    $viewData['userReserveCancel'] = $this->reserve_model->userReserveCancel($clubIdx, $userData['idx'], $paging);
 
     // 회원 정보
     $viewData['viewMember'] = $this->member_model->viewMember($userData['idx']);
@@ -578,8 +578,8 @@ class Member extends MY_Controller
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
 
     // 산행 내역
-    $viewData['maxVisit'] = $this->reserve_model->maxVisit($clubIdx, $userData['userid']);
-    $viewData['userVisit'] = $this->reserve_model->userVisit($clubIdx, $userData['userid'], $paging);
+    $viewData['maxVisit'] = $this->reserve_model->maxVisit($clubIdx, $userData['idx']);
+    $viewData['userVisit'] = $this->reserve_model->userVisit($clubIdx, $userData['idx'], $paging);
 
     // 회원 정보
     $viewData['viewMember'] = $this->member_model->viewMember($userData['idx']);
@@ -623,8 +623,8 @@ class Member extends MY_Controller
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
 
     // 포인트 내역
-    $viewData['maxPoint'] = $this->member_model->maxPointLog($clubIdx, $userData['userid']);
-    $viewData['userPoint'] = $this->member_model->userPointLog($clubIdx, $userData['userid'], $paging);
+    $viewData['maxPoint'] = $this->member_model->maxPointLog($clubIdx, $userData['idx']);
+    $viewData['userPoint'] = $this->member_model->userPointLog($clubIdx, $userData['idx'], $paging);
 
     // 회원 정보
     $viewData['viewMember'] = $this->member_model->viewMember($userData['idx']);
@@ -668,8 +668,8 @@ class Member extends MY_Controller
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
 
     // 포인트 내역
-    $viewData['maxPenalty'] = $this->member_model->maxPenaltyLog($clubIdx, $userData['userid']);
-    $viewData['userPenalty'] = $this->member_model->userPenaltyLog($clubIdx, $userData['userid'], $paging);
+    $viewData['maxPenalty'] = $this->member_model->maxPenaltyLog($clubIdx, $userData['idx']);
+    $viewData['userPenalty'] = $this->member_model->userPenaltyLog($clubIdx, $userData['idx'], $paging);
 
     // 회원 정보
     $viewData['viewMember'] = $this->member_model->viewMember($userData['idx']);
