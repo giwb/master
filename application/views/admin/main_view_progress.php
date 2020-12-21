@@ -76,8 +76,13 @@
                     <?php
                         // 버스 형태 좌석 배치
                         foreach (range(1, $value['seat']) as $seat):
+                          if (!empty($reserveInfo['priority']) || !empty($reserveInfo['honor'])) {
+                            $boarding = 1;
+                          } else {
+                            $boarding = 0;
+                          }
                           $tableMake = getBusTableMake($value['seat'], $seat); // 버스 좌석 테이블 만들기
-                          $reserveInfo = getReserveAdmin($reserve, $bus, $seat, $userData); // 예약자 정보
+                          $reserveInfo = getReserveAdmin($reserve, $bus, $seat, $userData, $boarding); // 예약자 정보
                           $seatNumber = checkDirection($seat, $bus, $view['bustype'], $view['bus']);
                     ?>
                       <?=$tableMake?>
