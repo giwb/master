@@ -114,9 +114,9 @@
                 <?php else: // 일반 산악회 메뉴 ?>
 
                   <li class="mr-3"><a href="<?=BASE_URL?>/club/about/?p=top"><i class="fas fa-mountain"></i> 산악회 소개</a></li>
-                  <li class="mr-3"><a href="<?=BASE_URL?>/club/about/?p=howto">이용안내</a></li>
+                  <li class="mr-3"><a href="<?=BASE_URL?>/club/about/?p=howto"><i class="fas fa-chalkboard-teacher"></i> 이용안내</a></li>
                   <?php if (!empty($userLevel['levelType']) && $userLevel['levelType'] >= 1): ?>
-                  <li class="mr-3"><a href="<?=BASE_URL?>/club/past">지난산행</a></li>
+                  <li class="mr-3"><a href="<?=BASE_URL?>/club/past"><i class="fas fa-book"></i> 지난산행</a></li>
                   <?php endif; ?>
                   <li class="mr-3"><a href="<?=BASE_URL?>/album"><i class="fas fa-camera"></i> 산행앨범</a></li>
 
