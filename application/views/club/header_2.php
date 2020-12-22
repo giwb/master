@@ -153,7 +153,7 @@
           </div>
         </div>
       </div>
-      <div id="nav-sp">
+      <div id="nav-sp" class="bg-<?=$view['main_color']?>">
         <ul>
           <li><a href="<?=BASE_URL?>"><i class="fa fa-home btn-header"></i></a></li>
           <li><a href="<?=BASE_URL?>"><h1><?=!empty($pageTitle) ? $pageTitle : $view['title'] ?></h1></a></li>
