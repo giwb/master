@@ -70,6 +70,9 @@ if (empty($result) && !empty($_SERVER['REDIRECT_URL'])) {
 
 if (!empty($result['idx'])) {
   setcookie('COOKIE_CLUBIDX', $result['idx']);
+  if (empty($_COOKIE['COOKIE_CLUBIDX'])) {
+    $_COOKIE['COOKIE_CLUBIDX'] = $result['idx'];
+  }
 
   // 도메인이 있을 경우
   $route['default_controller'] = 'club/index';
