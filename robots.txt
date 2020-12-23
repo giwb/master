@@ -3,4 +3,3 @@ Allow: /
 Disallow: /admin
 Disallow: /login
 Disallow: /member
-Disallow: /club/auth
