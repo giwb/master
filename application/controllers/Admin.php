@@ -33,7 +33,8 @@ class Admin extends Admin_Controller
     $viewData['userLevel'] = $this->load->get_var('userLevel');
 
     // 등록된 산행 목록
-    $viewData['listNoticeSchedule'] = $this->admin_model->listNotice();
+    $search['clubIdx'] = $viewData['clubIdx'];
+    $viewData['listNoticeSchedule'] = $this->admin_model->listNotice($search);
 
     // 캘린더 설정
     $listCalendar = $this->admin_model->listCalendar();
