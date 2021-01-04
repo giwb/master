@@ -1,48 +1,48 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
         <div id="content" class="mb-5">
-          <form id="setupForm" method="post" action="<?=BASE_URL?>/admin/setup_pages_update">
-            <div class="row align-items-center mt-3 pt-3">
-              <div class="col-sm-12 font-weight-bold mb-2">■ 산악회 소개</div>
-              <div class="col-sm-12"><textarea name="about" id="about" rows="10" cols="100"><?=!empty($view['about']) ? reset_html_escape($view['about']) : ''?></textarea></div>
-            </div>
-            <div class="row align-items-center mt-3 pt-3">
-              <div class="col-sm-12 font-weight-bold mb-2">■ 등산 안내인 소개</div>
-              <div class="col-sm-12"><textarea name="guide" id="guide" rows="10" cols="100"><?=!empty($view['guide']) ? reset_html_escape($view['guide']) : ''?></textarea></div>
-            </div>
-            <div class="row align-items-center mt-3 pt-3">
-              <div class="col-sm-12 font-weight-bold mb-2">■ 이용안내</div>
-              <div class="col-sm-12"><textarea name="howto" id="howto" rows="10" cols="100"><?=!empty($view['howto']) ? reset_html_escape($view['howto']) : ''?></textarea></div>
-            </div>
-            <div class="row align-items-center mt-3 pt-3">
-              <div class="col-sm-12 font-weight-bold mb-2">■ 경인웰빙 100대명산</div>
-              <div class="col-sm-12"><textarea name="mountain" id="mountain" rows="10" cols="100"><?=!empty($view['mountain']) ? reset_html_escape($view['mountain']) : ''?></textarea></div>
-            </div>
-            <div class="row align-items-center mt-3 pt-3">
-              <div class="col-sm-12 font-weight-bold mb-2">■ 경인웰빙 100대명소</div>
-              <div class="col-sm-12"><textarea name="place" id="place" rows="10" cols="100"><?=!empty($view['place']) ? reset_html_escape($view['place']) : ''?></textarea></div>
-            </div>
-            <div class="row align-items-center mt-3 pt-3">
-              <div class="col-sm-12 font-weight-bold mb-2">■ 이용약관</div>
-              <div class="col-sm-12"><textarea name="agreement" id="agreement" rows="10" cols="100"><?=!empty($view['agreement']) ? reset_html_escape($view['agreement']) : ''?></textarea></div>
-            </div>
-            <div class="row align-items-center mt-3 mb-5 pt-3 pb-5">
-              <div class="col-sm-12 font-weight-bold mb-2">■ 개인정보 취급방침</div>
-              <div class="col-sm-12"><textarea name="personal" id="personal" rows="10" cols="100"><?=!empty($view['personal']) ? reset_html_escape($view['personal']) : ''?></textarea></div>
+          <form id="setupForm" method="post" action="<?=BASE_URL?>/admin/setup_pages_update" enctype="multipart/form-data" class="mb-0">
+          <input type="hidden" name="clubIdx" value="<?=$view['idx']?>">
+            <div class="area-page">
+              <?php foreach ($listClubDetail as $key => $value): ?>
+              <div class="item-notice pt-3">
+                <div class="row align-items-center mb-2">
+                  <div class="col-2 col-sm-1 p-0">페이지명</div>
+                  <div class="col-8 col-sm-10 p-0 pr-2"><input type="hidden" name="idx[]" value="<?=$value['idx']?>"><input type="text" name="title[]" value="<?=$value['title']?>" class="form-control form-control-sm"></div>
+                  <div class="col-2 col-sm-1 p-0 text-right"><button type="button" class="btn btn-sm btn-danger btn-delete-page pl-2 pr-2">삭제</button></div>
+                </div>
+                <textarea name="content[]" rows="10" cols="100" id="content_<?=$key?>" class="content"><?=$value['content']?></textarea>
+              </div>
+              <?php endforeach; ?>
+              <div class="item-notice pt-3">
+                <div class="row align-items-center mb-2">
+                  <div class="col-2 col-sm-1 p-0">페이지명</div>
+                  <div class="col-10 col-sm-11 p-0"><input type="text" name="title[]" class="form-control form-control-sm"></div>
+                </div>
+                <textarea name="content[]" rows="10" cols="100" class="content"></textarea>
+              </div>
             </div>
             <div class="area-button">
-              <input type="hidden" name="base_url" value="<?=BASE_URL?>">
-              <input type="hidden" name="club_idx" value="<?=$clubIdx?>">
-              <button type="submit" class="btn btn-primary">확인합니다</button>
+              <button type="button" class="btn btn-sm btn-info btn-add-page mr-2">항목추가</button>
+              <button type="submit" class="btn btn-sm btn-default ml-2 mr-4">저장하기</button>
             </div>
           </form>
         </div>
+
         <script type="text/javascript">
-          CKEDITOR.replace('about');
-          CKEDITOR.replace('guide');
-          CKEDITOR.replace('howto');
-          CKEDITOR.replace('mountain');
-          CKEDITOR.replace('place');
-          CKEDITOR.replace('agreement');
-          CKEDITOR.replace('personal');
+          CKEDITOR.replaceAll();
+          $('#sortable').disableSelection().sortable();
+          $(document).on('click', '.btn-add-page', function() {
+            // 항목 추가
+            var cnt = 0;
+            $('.content').each(function() { cnt++; });
+            var content = '<div class="item-notice pt-3"><div class="row align-items-center mb-2"><div class="col-2 col-sm-1 p-0">페이지명</div><div class="col-8 col-sm-10 p-0"><input type="text" name="title[]" class="form-control form-control-sm"></div><div class="col-2 col-sm-1 p-0 text-right"><button type="button" class="btn btn-sm btn-danger btn-delete-page pl-2 pr-2">삭제</button></div></div><textarea name="content[]" rows="10" cols="100" id="content_' + cnt + '" class="content"></textarea></div>';
+            $('.area-page').append(content);
+            CKEDITOR.replace('content_' + cnt);
+            //$('html, body').animate({ scrollTop: $(document).height() }, 800);
+          }).on('click', '.btn-delete-page', function() {
+            // 항목 삭제
+            var html = '<div class="w-100 text-center">저장 후 삭제됩니다.</div>';
+            $(this).closest('.item-notice').animate({ height: 50 }, 'slow').html(html);
+          });
         </script>

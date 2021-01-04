@@ -2399,13 +2399,15 @@ h1.nav-logo small {
 
   #shop .btn-cart-insert { font-size: 12px; }
   #shop .btn-buy { font-size: 12px; }
-
+/*
   .row-category { border-top: 3px solid #FF6C00; display: block; }
   .row-category a { color: #333; border-bottom: 1px solid #dee2e6; display: block; }
   .row-category a:hover, .row-category a.active { color: #000!important; background-color: #F0AA94; }
   .row-category a:nth-child(5) { border-bottom: 0px; }
   .row-category a:nth-child(6) { border-bottom: 0px; }
-
+*/
+  .row-category { display: block; }
+  .row-category a.active { color: #000!important; background-color: #e9e9e9; }
   #club .club-main .sub-header, .mypage h2 { display: none; }
 
   /* Admin */

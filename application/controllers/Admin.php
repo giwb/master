@@ -1296,7 +1296,7 @@ class Admin extends Admin_Controller
       $viewData['area_gugun'] = array();
     }
 
-    if ($viewData['view']['status'] < 8 && empty($viewData['view']['driving_fuel'][2]) && ENVIRONMENT != 'development') {
+    if (!empty($viewData['view']['status']) && ($viewData['view']['status'] < 8 && empty($viewData['view']['driving_fuel'][2]) && ENVIRONMENT != 'development')) {
       // 전국 유가 정보 (오피넷 Key : F657191209)
       $url = 'http://www.opinet.co.kr/api/avgSidoPrice.do?out=xml&code=F657191209';
       $ch = cURL_init();
@@ -1315,7 +1315,9 @@ class Admin extends Admin_Controller
         }
       }
     } else {
-      $viewData['costGas'] = $viewData['view']['driving_fuel'][2];
+      if (!empty($viewData['view']['driving_fuel'][2])) {
+        $viewData['costGas'] = $viewData['view']['driving_fuel'][2];
+      }
     }
 
     // 페이지 타이틀
@@ -1462,38 +1464,7 @@ class Admin extends Admin_Controller
 
     // 산행 목록
     $viewData['listNotice'] = $this->admin_model->listNotice(NULL, 'desc');
-/*
-foreach ($viewData['listNotice'] as $value) {
-  echo $value['idx'] . "<br>";
-  $sort = 1;
-  if (!empty($value['plan'])) {
-    $insertValues = array('notice_idx' => $value['idx'], 'sort_idx' => $sort, 'title' => '기획의도', 'content' => $value['plan'], 'created_by' => 1, 'created_at' => $value['regdate']);
-    $this->admin_model->insertNoticeDetail($insertValues);
-    $sort++;
-  }
-  if (!empty($value['point'])) {
-    $insertValues = array('notice_idx' => $value['idx'], 'sort_idx' => $sort, 'title' => '산행개요', 'content' => $value['point'], 'created_by' => 1, 'created_at' => $value['regdate']);
-    $this->admin_model->insertNoticeDetail($insertValues);
-    $sort++;
-  }
-  if (!empty($value['intro'])) {
-    $insertValues = array('notice_idx' => $value['idx'], 'sort_idx' => $sort, 'title' => '산행지 소개', 'content' => $value['intro'], 'created_by' => 1, 'created_at' => $value['regdate']);
-    $this->admin_model->insertNoticeDetail($insertValues);
-    $sort++;
-  }
-  if (!empty($value['timetable'])) {
-    $insertValues = array('notice_idx' => $value['idx'], 'sort_idx' => $sort, 'title' => '일정안내', 'content' => $value['timetable'], 'created_by' => 1, 'created_at' => $value['regdate']);
-    $this->admin_model->insertNoticeDetail($insertValues);
-    $sort++;
-  }
-  if (!empty($value['course'])) {
-    $insertValues = array('notice_idx' => $value['idx'], 'sort_idx' => $sort, 'title' => '코스안내', 'content' => $value['course'], 'created_by' => 1, 'created_at' => $value['regdate']);
-    $this->admin_model->insertNoticeDetail($insertValues);
-    $sort++;
-  }
-}
-exit;
-*/
+
     // 산행 정보 상세
     $viewData['view'] = $this->admin_model->viewEntry($idx);
 
@@ -3249,8 +3220,11 @@ exit;
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
 
+    // 소개화면
+    $viewData['listClubDetail'] = $this->admin_model->listClubDetail($viewData['clubIdx']);
+
     // 페이지 타이틀
-    $viewData['pageTitle'] = '소개화면 수정';
+    $viewData['pageTitle'] = '소개화면 만들기';
 
     // 헤더 메뉴
     $viewData['headerMenu'] = 'setup_header';
@@ -3267,23 +3241,50 @@ exit;
   public function setup_pages_update()
   {
     $now = time();
-    $input_data = $this->input->post();
-    $userIdx = $this->session->userData['idx'];
-    $clubIdx = html_escape($input_data['club_idx']);
+    $inputData = $this->input->post();
+    $clubIdx = html_escape($inputData['clubIdx']);
+    $userIdx = html_escape($this->session->userData['idx']);
 
-    $updateValues = array(
-      'about'       => html_escape($input_data['about']),
-      'guide'       => html_escape($input_data['guide']),
-      'howto'       => html_escape($input_data['howto']),
-      'mountain'    => html_escape($input_data['mountain']),
-      'place'       => html_escape($input_data['place']),
-      'agreement'   => html_escape($input_data['agreement']),
-      'personal'    => html_escape($input_data['personal']),
-      'updated_by'  => $userIdx,
-      'updated_at'  => $now
-    );
+    if (!empty($clubIdx)) {
+      // 삭제
+      $listClubDetail = $this->admin_model->listClubDetail($clubIdx);
+      foreach ($listClubDetail as $value) {
+        if (!in_array($value['idx'], $inputData['idx'])) {
+          $updateValues = array(
+            'deleted_by' => $userIdx,
+            'deleted_at' => $now
+          );
+          $this->admin_model->updateClubDetail($updateValues, $value['idx']);
+        }
+      }
 
-    $this->club_model->updateClub($updateValues, $clubIdx);
+      foreach ($inputData['title'] as $key => $value) {
+        if (!empty($value)) {
+          if (!empty($inputData['idx'][$key])) {
+            // 수정
+            $updateValues = array(
+              'sort_idx' => $key + 1,
+              'title' => $value,
+              'content' => html_escape($inputData['content'][$key]),
+              'updated_by' => $userIdx,
+              'updated_at' => $now
+            );
+            $this->admin_model->updateClubDetail($updateValues, $inputData['idx'][$key]);
+          } else {
+            // 등록
+            $insertValues = array(
+              'club_idx' => $clubIdx,
+              'sort_idx' => $key + 1,
+              'title' => html_escape($value),
+              'content' => html_escape($inputData['content'][$key]),
+              'created_by' => $userIdx,
+              'created_at' => $now
+            );
+            $this->admin_model->insertClubDetail($insertValues);
+          }
+        }
+      }
+    }
 
     redirect(BASE_URL . '/admin/setup_pages');
   }

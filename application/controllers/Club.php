@@ -121,37 +121,17 @@ class Club extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function about()
+  public function about($idx)
   {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
-    $pageTitle = html_escape($this->input->get('p'));
+    $viewData['pageIdx'] = html_escape($idx);
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
-    // 페이지 타이틀
-    switch ($pageTitle) {
-      case 'guide':
-        $viewData['pageTitle'] = '등산 안내인 소개';
-        $viewData['pageContent'] = $viewData['view']['guide'];
-        break;
-      case 'howto':
-        $viewData['pageTitle'] = '이용안내';
-        $viewData['pageContent'] = $viewData['view']['howto'];
-        break;
-      case 'mountain':
-        $viewData['pageTitle'] = '경인웰빙 100대명산';
-        $viewData['pageContent'] = $viewData['view']['mountain'];
-        break;
-      case 'place':
-        $viewData['pageTitle'] = '경인웰빙 100대명소';
-        $viewData['pageContent'] = $viewData['view']['place'];
-        break;
-      default:
-        $viewData['pageTitle'] = '산악회 소개';
-        $viewData['pageContent'] = $viewData['view']['about'];
-    }
+    // 클럽 메뉴
+    $viewData['viewAbout'] = $this->club_model->viewAbout($clubIdx, $viewData['pageIdx']);
 
     $this->_viewPage('club/about', $viewData);
   }
@@ -210,6 +190,9 @@ class Club extends MY_Controller
     // 회원 정보
     $viewData['userData'] = $this->load->get_var('userData');
     $viewData['userLevel'] = $this->load->get_var('userLevel');
+
+    // 클럽 메뉴
+    $viewData['listAbout'] = $this->club_model->listAbout($viewData['view']['idx']);
 
     // 진행 중 산행
     $viewData['listFooterNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));

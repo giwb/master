@@ -51,6 +51,28 @@ class Club_model extends CI_Model
     return $this->db->update(DB_CLUBS);
   }
 
+  // 산악회정보 - 소개 메뉴
+  public function listAbout($clubIdx)
+  {
+    $this->db->select('idx, title, content')
+          ->from(DB_CLUB_DETAIL)
+          ->where('deleted_at', NULL)
+          ->where('club_idx', $clubIdx)
+          ->order_by('sort_idx', 'asc');
+    return $this->db->get()->result_array();
+  }
+
+  // 산악회정보 - 소개 메뉴 보기
+  public function viewAbout($clubIdx, $idx)
+  {
+    $this->db->select('idx, title, content')
+          ->from(DB_CLUB_DETAIL)
+          ->where('deleted_at', NULL)
+          ->where('club_idx', $clubIdx)
+          ->where('idx', $idx);
+    return $this->db->get()->row_array(1);
+  }
+
   // 백산백소
   public function listAuth()
   {

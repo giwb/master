@@ -83,43 +83,28 @@
             <div class="col-sm-9 text-right">
               <ul>
 
-                <?php if (!empty($view['idx']) && $view['idx'] == 1): // 경인웰빙 메뉴 ?>
+                <li class="mr-3">
+                  <a href="javascript:;" class="submenu-nav" data-nav-idx="1"><i class="fas fa-chalkboard"></i> 산악회 소개</a>
+                  <div class="submenu d-none" data-nav-idx="1">
+                    <?php foreach ($listAbout as $value): ?>
+                    <a href="<?=BASE_URL?>/club/about/<?=$value['idx']?>"><?=$value['title']?></a><br>
+                    <?php endforeach; ?>
+                    <?php if (!empty($userLevel['levelType']) && $userLevel['levelType'] >= 1): ?>
+                    <a href="<?=BASE_URL?>/club/past">지난산행</a><br>
+                    <?php endif; ?>
+                  </div>
+                </li>
+                <?php if (!empty($userLevel['levelType']) && $userLevel['levelType'] >= 1): ?>
+                <li class="mr-3"><a href="<?=BASE_URL?>/club/past"><i class="fas fa-book"></i> 지난산행</a></li>
+                <?php endif; ?>
+                <li class="mr-3"><a href="<?=BASE_URL?>/album"><i class="fas fa-camera"></i> 산행앨범</a></li>
 
-                  <li class="mr-3">
-                    <a href="javascript:;" class="submenu-nav" data-nav-idx="1"><i class="fas fa-chalkboard"></i> 경인웰빙</a>
-                    <div class="submenu d-none" data-nav-idx="1">
-                      <a href="<?=BASE_URL?>/club/about/?p=top">산악회 소개</a><br>
-                      <a href="<?=BASE_URL?>/club/about/?p=guide">등산안내인 소개</a><br>
-                      <a href="<?=BASE_URL?>/club/about/?p=howto">이용안내</a><br>
-                      <?php if (!empty($userLevel['levelType']) && $userLevel['levelType'] >= 1): ?>
-                      <a href="<?=BASE_URL?>/club/past">지난산행</a><br>
-                      <?php endif; ?>
-                    </div>
-                  </li>
-                  <li class="mr-3">
-                    <a href="javascript:;" class="submenu-nav" data-nav-idx="2"><i class="fas fa-mountain"></i> 백산백소</a>
-                    <div class="submenu d-none" data-nav-idx="2">
-                      <a href="<?=BASE_URL?>/club/about/?p=mountain">경인웰빙 100대명산</a><br>
-                      <a href="<?=BASE_URL?>/club/about/?p=place">경인웰빙 100대명소</a><br>
-                      <a href="<?=BASE_URL?>/club/auth">인증현황</a><br>
-                    </div>
-                  </li>
-                  <li class="mr-3"><a href="<?=BASE_URL?>/album"><i class="fas fa-camera"></i> 산행앨범</a></li>
-                  <li class="mr-3"><a href="<?=BASE_URL?>/shop"><i class="fas fa-shopping-cart"></i> 구매대행</a></li>
-                  <li class="mr-3"><a target="_blank" href="http://giwb.co.kr"><i class="fa fa-desktop" aria-hidden="true"></i> 다음카페</a></li>
-                  <?php if ($view['idx'] == 1 && (!empty($userData['idx']) && ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN))): ?>
-                  <li class="mr-3"><a href="<?=BASE_URL?>/member/driver"><i class="fas fa-bus"></i> 드라이버</a></li>
-                  <?php endif; ?>
-
-                <?php else: // 일반 산악회 메뉴 ?>
-
-                  <li class="mr-3"><a href="<?=BASE_URL?>/club/about/?p=top"><i class="fas fa-mountain"></i> 산악회 소개</a></li>
-                  <li class="mr-3"><a href="<?=BASE_URL?>/club/about/?p=howto"><i class="fas fa-chalkboard-teacher"></i> 이용안내</a></li>
-                  <?php if (!empty($userLevel['levelType']) && $userLevel['levelType'] >= 1): ?>
-                  <li class="mr-3"><a href="<?=BASE_URL?>/club/past"><i class="fas fa-book"></i> 지난산행</a></li>
-                  <?php endif; ?>
-                  <li class="mr-3"><a href="<?=BASE_URL?>/album"><i class="fas fa-camera"></i> 산행앨범</a></li>
-
+                <?php if ($view['idx'] == 1): // 경인웰빙 메뉴 ?>
+                <li class="mr-3"><a href="<?=BASE_URL?>/shop"><i class="fas fa-shopping-cart"></i> 구매대행</a></li>
+                <li class="mr-3"><a target="_blank" href="http://giwb.co.kr"><i class="fa fa-desktop" aria-hidden="true"></i> 다음카페</a></li>
+                <?php if ($view['idx'] == 1 && (!empty($userData['idx']) && ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN))): ?>
+                <li class="mr-3"><a href="<?=BASE_URL?>/member/driver"><i class="fas fa-bus"></i> 드라이버</a></li>
+                <?php endif; ?>
                 <?php endif; ?>
 
                 <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>

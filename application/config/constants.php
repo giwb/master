@@ -113,6 +113,7 @@ defined('DB_BUSDATA')         OR define('DB_BUSDATA', 'busdata'); // 버스 좌�
 defined('DB_BUSTYPE')         OR define('DB_BUSTYPE', 'bustype'); // 버스 형태
 defined('DB_CALENDAR')        OR define('DB_CALENDAR', 'calendar'); // 캘린더 휴일 (관리자 작성)
 defined('DB_CLUBS')           OR define('DB_CLUBS', 'clubs'); // 클럽
+defined('DB_CLUB_DETAIL')     OR define('DB_CLUB_DETAIL', 'club_detail'); // 클럽 소개페이지
 defined('DB_FILES')           OR define('DB_FILES', 'files'); // 파일
 defined('DB_FRONT')           OR define('DB_FRONT', 'front'); // 대문사진 (OLD)
 defined('DB_HISTORY')         OR define('DB_HISTORY', 'history'); // 활동기록

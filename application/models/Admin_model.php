@@ -439,6 +439,32 @@ class Admin_model extends CI_Model
     return $this->db->update(DB_ADJUST);
   }
 
+  // 소개화면
+  public function listClubDetail($clubIdx)
+  {
+    $this->db->select('idx, title, content')
+          ->from(DB_CLUB_DETAIL)
+          ->where('club_idx', $clubIdx)
+          ->where('deleted_at', NULL)
+          ->order_by('sort_idx', 'asc');
+    return $this->db->get()->result_array();
+  }
+
+  // 소개화면 등록
+  public function insertClubDetail($data)
+  {
+    $this->db->insert(DB_CLUB_DETAIL, $data);
+    return $this->db->insert_id();
+  }
+
+  // 소개화면 수정
+  public function updateClubDetail($data, $idx)
+  {
+    $this->db->set($data);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_CLUB_DETAIL);
+  }
+
   // 문자양식
   public function listSMS($rescode)
   {

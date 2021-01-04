@@ -1,22 +1,16 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
     <div class="club-main">
-      <div class="mt-3 mb-3">
-        <?php if ($view['idx'] == 1): ?>
-        <div class="row-category">
-          <div class="row border-right small text-center m-0 p-0">
-            <a href="<?=BASE_URL?>" class="col-6 border-left pt-2 pb-2 pl-0 pr-0">TOP</a>
-            <a href="<?=BASE_URL?>/club/about/?p=top" class="col-6 border-left pt-2 pb-2 pl-0 pr-0<?=strstr($_SERVER['REQUEST_URI'], '=top') ? ' active' : ''?>">산악회 소개</a>
-            <a href="<?=BASE_URL?>/club/about/?p=guide" class="col-6 border-left pt-2 pb-2 pl-0 pr-0<?=strstr($_SERVER['REQUEST_URI'], '=guide') ? ' active' : ''?>">등산안내인</a>
-            <a href="<?=BASE_URL?>/club/past" class="col-6 border-left pt-2 pb-2 pl-0 pr-0<?=strstr($_SERVER['REQUEST_URI'], '/past') ? ' active' : ''?>">지난 산행보기</a>
-            <a href="<?=BASE_URL?>/club/about/?p=howto" class="col-6 border-left pt-2 pb-2 pl-0 pr-0<?=strstr($_SERVER['REQUEST_URI'], '=howto') ? ' active' : ''?>">이용안내</a>
-            <a href="<?=BASE_URL?>/club/about/?p=mountain" class="col-6 border-left pt-2 pb-2 pl-0 pr-0<?=strstr($_SERVER['REQUEST_URI'], '=mountain') ? ' active' : ''?>">100대명산</a>
-            <a href="<?=BASE_URL?>/club/about/?p=place" class="col-6 border-top border-left pt-2 pb-2 pl-0 pr-0<?=strstr($_SERVER['REQUEST_URI'], '=place') ? ' active' : ''?>">100대명소</a>
-            <a href="<?=BASE_URL?>/club/auth" class="col-6 border-top border-left pt-2 pb-2 pl-0 pr-0<?=strstr($_SERVER['REQUEST_URI'], '/auth') ? ' active' : ''?>">인증현황</a>
-          </div>
+      <div class="row-category mt-3 mb-3">
+        <div class="bg-<?=$view['main_color']?> pt-1"></div>
+        <div class="row border-right small text-center m-0 p-0">
+          <?php foreach ($listAbout as $value): ?>
+          <a href="<?=BASE_URL?>/club/about/<?=$value['idx']?>" class="col-6 border-left border-bottom pt-2 pb-2 pl-0 pr-0"><?=$value['title']?></a><br>
+          <?php endforeach; ?>
+          <?php if (!empty($userLevel['levelType']) && $userLevel['levelType'] >= 1): ?>
+          <a href="<?=BASE_URL?>/club/past" class="<?=count($listAbout)%2 == 0 ? 'col-12' : 'col-6'?> border-left border-bottom pt-2 pb-2 pl-0 pr-0 active">지난산행</a><br>
+          <?php endif; ?>
         </div>
-        <?php else: ?>
-        <?php endif; ?>
       </div>
       <h2 class="sub-header"><?=$pageTitle?></h2>
       <form id="formSearch" method="get" action="<?=BASE_URL?>/club/past" class="row border no-gutters align-items-center text-center pt-2 pb-2 pr-2 mt-3 mb-3">
