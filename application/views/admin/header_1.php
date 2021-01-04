@@ -167,7 +167,9 @@
             <?php endif; ?>
             <li class="mb-1"><a href="<?=BASE_URL?>/admin/member_list"><i class="fas fa-users" aria-hidden="true"></i> 회원관리</a></li>
             <li class="mb-1"><a href="<?=BASE_URL?>/admin/log_user"><i class="fas fa-exchange-alt" aria-hidden="true"></i> 활동관리</a></li>
+            <?php if ($viewClub['idx'] == 1): ?>
             <li class="mb-1"><a href="<?=BASE_URL?>/admin/attendance_auth"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소 인증</a></li>
+            <?php endif; ?>
             <li><a href="<?=BASE_URL?>/admin/setup_information"><i class="fas fa-cog" aria-hidden="true"></i> 설정</a></li>
           </ul>
           <div class="club-search">
