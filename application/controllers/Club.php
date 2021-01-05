@@ -127,6 +127,11 @@ class Club extends MY_Controller
     $userData = $this->load->get_var('userData');
     $viewData['pageIdx'] = html_escape($idx);
 
+    if (empty($viewData['pageIdx'])) {
+      redirect(BASE_URL);
+      exit;
+    }
+
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
