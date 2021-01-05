@@ -143,6 +143,17 @@ class Club extends MY_Controller
   }
 
   /**
+   * 임시 페이지
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function howto()
+  {
+    redirect('https://giwb.kr');
+  }
+
+  /**
    * 백산백소 인증현황
    *
    * @return view
