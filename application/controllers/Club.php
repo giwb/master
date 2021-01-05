@@ -125,11 +125,12 @@ class Club extends MY_Controller
   {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
-    $viewData['pageIdx'] = html_escape($idx);
 
-    if (empty($viewData['pageIdx'])) {
+    if (empty($idx)) {
       redirect(BASE_URL);
       exit;
+    } else {
+      $viewData['pageIdx'] = html_escape($idx);
     }
 
     // 클럽 정보
