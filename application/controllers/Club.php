@@ -121,13 +121,13 @@ class Club extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function about($idx)
+  public function about($idx=NULL)
   {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
 
-    if (empty($idx)) {
-      redirect(BASE_URL);
+    if (is_null($idx)) {
+      redirect('https://giwb.kr');
       exit;
     } else {
       $viewData['pageIdx'] = html_escape($idx);
