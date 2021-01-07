@@ -19,8 +19,8 @@
       <div class="text-center">등록된 데이터가 없습니다.</div>
       <?php else: foreach ($list as $value): ?>
         <li class="row align-items-top border-bottom mb-3 pr-3 pb-3">
-          <div class="col-4 col-sm-2 pr-0"><a target="_blank" href="<?=$value['domain']?>"><img src="<?=PHOTO_URL?><?=$value['photo']?>" class="w-100"></a></div>
-          <div class="col-8 col-sm-10 text-justify"><a target="_blank" href="<?=$value['domain']?>"><h3 class="font-weight-bold"><?=$value['title']?></h3></a><?=ksubstr(strip_tags(reset_html_escape($value['about'])), 200)?></div>
+          <div class="col-4 col-sm-2 pr-0"><a target="_blank" href="<?=goHome($value)?>"><img src="<?=PHOTO_URL?><?=$value['photo']?>" class="w-100"></a></div>
+          <div class="col-8 col-sm-10 text-justify"><a target="_blank" href="<?=goHome($value)?>"><h3 class="font-weight-bold"><?=$value['title']?></h3></a><?=ksubstr(strip_tags(reset_html_escape($value['about'])), 200)?></div>
         </li>
       <?php endforeach; endif; ?>
       </ul>

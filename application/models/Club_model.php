@@ -152,7 +152,16 @@ class Club_model extends CI_Model
     return $this->db->update(DB_ALBUM);
   }
 
-  // 도메인 찾기
+  // 페이지 주소로 찾기
+  public function getUrl($url)
+  {
+    $this->db->select('idx')
+          ->from(DB_CLUBS)
+          ->where('url', $url);
+    return $this->db->get()->row_array(1);
+  }
+
+  // 도메인으로 찾기
   public function getDomain($domain)
   {
     $this->db->select('idx')

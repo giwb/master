@@ -86,7 +86,7 @@
             <div class="col-sm-3"><a href="<?=BASE_URL?>/admin"><h1 class="nav-logo"><?=!empty($viewClub['title']) ? $viewClub['title'] : ''?></h1></a></div>
             <div class="col-sm-9 text-right">
               <ul class="navi">
-                <li><a href="<?=goHome($viewClub['domain'])?>"><i class="fas fa-chalkboard" aria-hidden="true"></i> 산악회 홈</a></li>
+                <li><a href="<?=goHome($viewClub)?>"><i class="fas fa-chalkboard" aria-hidden="true"></i> 산악회 홈</a></li>
                 <li><a href="<?=BASE_URL?>/admin/main_list_progress"><i class="fas fa-mountain" aria-hidden="true"></i> 산행관리</a></li>
                 <?php if ($viewClub['idx'] == 1): ?>
                 <li><a href="<?=BASE_URL?>/ShopAdmin/order"><i class="fas fa-shopping-cart" aria-hidden="true"></i> 구매대행</a></li>
@@ -135,7 +135,7 @@
         </ul>
         <div class="nav-sp-mypage">
           <strong><?=$userData['nickname']?></strong> (<?=$userLevel['levelName']?>)<hr>
-          <a href="<?=goHome($viewClub['domain'])?>">HOME</a><br>
+          <a href="<?=goHome($viewClub)?>">HOME</a><br>
           <a href="<?=BASE_URL?>/member">마이페이지</a><br>
           <a href="<?=BASE_URL?>/member/modify">개인정보수정</a><br>
           <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>

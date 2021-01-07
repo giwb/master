@@ -33,8 +33,8 @@ class Club extends MY_Controller
         $clubIdx = $result['idx'];
       } elseif (!empty($_SERVER['REDIRECT_URL'])) {
         $arrUrl = explode('/', $_SERVER['REDIRECT_URL']);
-        $domain = html_escape($arrUrl[1]);
-        $result = $this->club_model->getDomain($domain);
+        $url = html_escape($arrUrl[1]);
+        $result = $this->club_model->getUrl($url);
         $clubIdx = $result['idx'];
       }
     }

@@ -83,7 +83,7 @@
       <div id="nav-top" class="bg-<?=$viewClub['main_color']?>">
         <div class="container">
           <div class="row align-items-center pt-3">
-            <div class="col-sm-8"><a href="<?=goHome($viewClub['domain'])?>"><h1 class="nav-logo"><?=!empty($viewClub['title']) ? $viewClub['title'] : ''?></h1></a></div>
+            <div class="col-sm-8"><a href="<?=goHome($viewClub)?>"><h1 class="nav-logo"><?=!empty($viewClub['title']) ? $viewClub['title'] : ''?></h1></a></div>
             <div class="col-sm-4 text-right">
               <?php if (empty($userData['idx'])): ?>
               <a href="javascript:;" class="login-popup">로그인</a>
@@ -125,7 +125,7 @@
         </ul>
         <div class="nav-sp-mypage">
           <strong><?=$userData['nickname']?></strong> (<?=$userLevel['levelName']?>)<hr>
-          <a href="<?=goHome($viewClub['domain'])?>">・HOME</a><br>
+          <a href="<?=goHome($viewClub)?>">・HOME</a><br>
           <a href="<?=BASE_URL?>/member">・마이페이지</a><br>
           <a href="<?=BASE_URL?>/member/modify">・개인정보수정</a><br>
           <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>

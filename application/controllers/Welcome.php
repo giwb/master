@@ -50,13 +50,6 @@ class Welcome extends MY_Controller
     }
 
     foreach ($viewData['list'] as $key => $value) {
-      // 도메인
-      if (strstr($value['domain'], '.')) {
-        $viewData['list'][$key]['domain'] = 'http://' . $value['domain'];
-      } else {
-        $viewData['list'][$key]['domain'] = base_url() . $value['domain'];
-      }
-
       // 사진
       $file = $this->file_model->getFile('club', $value['idx'], NULL, 1);
       if (!empty($file[0]['filename'])) {
@@ -102,6 +95,7 @@ class Welcome extends MY_Controller
     } else {
       $viewData['view']['idx'] = '';
       $viewData['view']['title'] = '';
+      $viewData['view']['url'] = '';
       $viewData['view']['domain'] = '';
       $viewData['view']['homepage'] = '';
       $viewData['view']['main_color'] = '';
@@ -156,6 +150,7 @@ class Welcome extends MY_Controller
 
     $insert_values = array(
       'title'             => html_escape($input_data['title']),
+      'url'               => html_escape($input_data['url']),
       'domain'            => html_escape($input_data['domain']),
       'homepage'          => html_escape($input_data['homepage']),
       'phone'             => html_escape($input_data['phone']),
@@ -227,6 +222,7 @@ class Welcome extends MY_Controller
 
     $update_values = array(
       'title'             => html_escape($input_data['title']),
+      'url'               => html_escape($input_data['url']),
       'domain'            => html_escape($input_data['domain']),
       'homepage'          => html_escape($input_data['homepage']),
       'phone'             => html_escape($input_data['phone']),
@@ -321,53 +317,20 @@ class Welcome extends MY_Controller
    * @return json
    * @author bjchoi
    **/
-  public function check_domain()
+  public function check_url()
   {
-    $domain = html_escape($this->input->post('domain'));
-    $check = $this->club_model->getDomain($domain);
+    $url = html_escape($this->input->post('url'));
+    $check = $this->club_model->getUrl($url);
 
     if (empty($check['idx'])) {
-      $result = array(
-        'error' => 0,
-        'message' => '<img class="check-domain-complete" src="/public/images/icon_check.png">'
-      );
+      $result = array('error' => 0, 'message' => '');
     } else {
-      $result = array(
-        'error' => 1,
-        'message' => '<img src="/public/images/icon_cross.png">'
-      );
+      $result = array('error' => 1, 'message' => '');
     }
 
     $this->output->set_output(json_encode($result));
   }
-/*
-  public function test_db()
-  {
-    $history = $this->club_model->listHistory();
 
-    foreach ($history as $value) {
-      if (!empty($value['userid'])) {
-        $member = $this->club_model->getMember($value['userid']);
-        if (!empty($member['idx'])) {
-          $data['user_idx'] = $member['idx'];
-          $this->club_model->updateHistory($data, $value['idx']);
-        }
-      }
-    }
-
-    $reserve = $this->club_model->listReserve();
-
-    foreach ($reserve as $value) {
-      if (!empty($value['userid'])) {
-        $member = $this->club_model->getMember($value['userid']);
-        if (!empty($member['idx'])) {
-          $data['user_idx'] = $member['idx'];
-          $this->club_model->updateReserve($data, $value['idx']);
-        }
-      }
-    }
-  }
-*/
   /**
    * 페이지 표시
    *

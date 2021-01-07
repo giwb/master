@@ -118,11 +118,11 @@ if (!function_exists('getAreaName')) {
 
 // 클럽 홈 URL
 if (!function_exists('goHome')) {
-  function goHome($domain) {
-    if (strstr($domain, '.')) {
-      $result = 'http://' . $domain;
-    } else {
-      $result = base_url() . $domain;
+  function goHome($club) {
+    if (!empty($club['url'])) {
+      $result = base_url() . $club['url'];
+    } elseif (!empty($club['domain'])) {
+      $result = 'http://' . $club['domain'];
     }
     return $result;
   }
