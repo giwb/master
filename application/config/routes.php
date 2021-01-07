@@ -64,7 +64,7 @@ $result = $query->row_array(1);
 if (empty($result) && !empty($_SERVER['REDIRECT_URL'])) {
   $arrUrl = explode('/', $_SERVER['REDIRECT_URL']);
   $domain = html_escape($arrUrl[1]);
-  $query = $db->query("SELECT idx FROM clubs WHERE domain='$domain'");
+  $query = $db->query("SELECT idx FROM clubs WHERE url='$domain'");
   $result = $query->row_array(1);
 }
 
