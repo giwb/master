@@ -644,9 +644,10 @@ if (!function_exists('getReserveAdmin')) {
           $result['honor'] = $value['honor'];
         }
       }
-      if (empty($result['class'])) $result['class'] = 'seat';
       $checkGender[$value['bus']][$value['seat']] = $value['gender'];
     }
+
+    if (empty($result['class'])) $result['class'] = 'seat';
 
     return $result;
   }
