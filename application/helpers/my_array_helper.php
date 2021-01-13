@@ -564,8 +564,9 @@ if (!function_exists('getBusAssist')) {
   function getBusAssist($assist, $i) {
     $result = '가이드석';
     $value = unserialize($assist);
-    if (!empty($value[$i])) {
-      $result = $value[$i];
+    $bus = $i - 1;
+    if (!empty($value[$bus])) {
+      $result = $value[$bus];
     }
     return $result;
   }

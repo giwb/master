@@ -4,6 +4,7 @@
         <div id="content" class="mb-5">
           <form id="myForm" method="post" action="/admin/main_entry_update">
             <input type="hidden" name="idx" value="<?=$view['idx']?>">
+            <input type="hidden" name="club_idx" value="<?=$clubIdx?>">
             <input type="hidden" name="peak" class="peak" value="<?=$view['peak']?>">
             <input type="hidden" name="winter" class="winter" value="<?=$view['winter']?>">
             <input type="hidden" name="back_url" value="admin/main_list_progress">

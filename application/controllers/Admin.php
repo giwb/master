@@ -1251,6 +1251,7 @@ class Admin extends Admin_Controller
       $viewData['view']['options'] = '';
       $viewData['view']['options_etc'] = '';
       $viewData['view']['article'] = '';
+      $viewData['view']['information'] = '';
       $viewData['view']['peak'] = '';
       $viewData['view']['winter'] = '';
       $viewData['view']['distance'] = '';
@@ -1397,6 +1398,7 @@ class Admin extends Admin_Controller
       $result = array('error' => 1, 'message' => '에러가 발생했습니다.');
     } else {
       $postData = array(
+        'club_idx'        => html_escape($this->input->post('club_idx')),     // 지역 시/도
         'area_sido'       => make_serialize($this->input->post('area_sido')),     // 지역 시/도
         'area_gugun'      => make_serialize($this->input->post('area_gugun')),    // 지역 구/군
         'startdate'       => html_escape($this->input->post('startdate')),        // 출발일시
