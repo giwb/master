@@ -645,6 +645,8 @@ if (!function_exists('getReserveAdmin')) {
         } else {
           $result['class'] .= ' seat';
         }
+      } else {
+        $result['class'] .= ' seat';
       }
       $checkGender[$value['bus']][$value['seat']] = $value['gender'];
     }
