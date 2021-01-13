@@ -642,12 +642,9 @@ if (!function_exists('getReserveAdmin')) {
         } elseif (!empty($value['honor'])) {
           $result['class'] .= ' honor';
           $result['honor'] = $value['honor'];
-        } else {
-          $result['class'] .= ' seat';
         }
-      } else {
-        $result['class'] .= ' seat';
       }
+      if (empty($result['class'])) $result['class'] = 'seat';
       $checkGender[$value['bus']][$value['seat']] = $value['gender'];
     }
 
