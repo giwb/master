@@ -614,7 +614,7 @@ if (!function_exists('getReserveAdmin')) {
     if ($boarding == 1) {
       $result = array('idx' => '', 'user_idx' => '', 'nickname' => '', 'class' => '');
     } else {
-      $result = array('idx' => '', 'user_idx' => '', 'nickname' => '', 'class' => 'seat');
+      $result = array('idx' => '', 'user_idx' => '', 'nickname' => '', 'class' => '');
     }
 
     foreach ($reserve as $key => $value) {
@@ -642,6 +642,8 @@ if (!function_exists('getReserveAdmin')) {
         } elseif (!empty($value['honor'])) {
           $result['class'] .= ' honor';
           $result['honor'] = $value['honor'];
+        } else {
+          $result['class'] .= ' seat';
         }
       }
       $checkGender[$value['bus']][$value['seat']] = $value['gender'];
