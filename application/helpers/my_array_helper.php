@@ -624,15 +624,15 @@ if (!function_exists('getReserveAdmin')) {
         $result['nickname'] = $value['nickname'];
 
         if ($value['status'] == RESERVE_PAY) {
-          $result['class'] .= 'seat paid';
+          $result['class'] .= 'seat paid ';
         } elseif ($value['status'] == RESERVE_WAIT) {
-          $result['class'] .= 'seat wait';
+          $result['class'] .= 'seat wait ';
         } else {
           if ($value['nickname'] != '1인우등' && $value['nickname'] != '2인우선') {
             if ($value['gender'] == 'M') {
-              $result['class'] .= 'seat male';
+              $result['class'] .= 'seat male ';
             } elseif ($value['gender'] == 'F') {
-              $result['class'] .= 'seat female';
+              $result['class'] .= 'seat female ';
             }
           }
         }
