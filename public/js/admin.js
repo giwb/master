@@ -95,9 +95,10 @@
   }).on('click', '.btn-member-modal', function() {
     // 회원정보 모달
     var $btn = $(this);
+    var useridx = $btn.data('useridx');
     $.ajax({
       url: $('input[name=baseUrl]').val() + '/admin/member_view_modal',
-      data: 'userIdx=' + $(this).data('userIdx'),
+      data: 'userIdx=' + useridx,
       dataType: 'json',
       type: 'post',
       beforeSend: function() {
