@@ -79,8 +79,7 @@
               <div class="col-sm-2">승차위치</div>
               <div class="col-sm-10">
                 <select name="location" class="form-control">
-                  <option value=''></option>
-                  <?php foreach (arrLocation() as $value): ?>
+                  <?php foreach (arrLocation($viewClub['club_geton']) as $value): ?>
                   <option<?=$viewMember['location'] == $value['no'] ? ' selected' : ''?> value="<?=$value['no']?>"><?=$value['title']?></option>
                   <?php endforeach; ?>
                 </select>

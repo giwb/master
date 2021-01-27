@@ -419,32 +419,41 @@ if (!function_exists('calcDistance')) {
 
 // 승차위치
 if (!function_exists('arrLocation')) {
-  function arrLocation($starttime=NULL, $location=NULL, $stitle=NULL, $start=NULL) {
-    if (!is_null($starttime)) {
-      $starttime = strtotime($starttime);
-    }
-    $result = array(
-      array('no' => '0', 'time' => '', 'title' => '', 'stitle' => ''),
-      array('no' => '1', 'time' => !is_null($starttime) ? date('H:i', $starttime) : '', 'title' => '계산역 4번출구', 'stitle' => '계산'),
-      array('no' => '2', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 4)) : '', 'title' => '작전역 5번출구', 'stitle' => '작전'),
-      array('no' => '3', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 8)) : '', 'title' => '갈산역 4번출구', 'stitle' => '갈산'),
-      array('no' => '4', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 12)) : '', 'title' => '부평구청역 4번출구', 'stitle' => '부평'),
-      array('no' => '5', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 15)) : '', 'title' => '삼산체육관 맞은편', 'stitle' => '삼산'),
-      array('no' => '6', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 20)) : '', 'title' => '부천터미널 소풍', 'stitle' => '소풍'),
-      array('no' => '7', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 25)) : '', 'title' => '복사골 문화센터', 'stitle' => '복사'),
-      array('no' => '8', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 30)) : '', 'title' => '송내남부 맥도날드', 'stitle' => '송내'),
-    );
-    /*
-    if (is_null($start)) { // 원종동은 정규 노선이 아니기 때문에 문자 발송시 참조만 한다
-      $arr = array('no' => '9', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * -20)) : '', 'title' => '원종동', 'stitle' => '원종');
-      array_push($result, $arr);
-    }
-    */
-    if (!empty($location)) {
-      if (!empty($stitle)) {
-        $result = $result[$location]['stitle'];
-      } else {
-        $result = $result[$location]['title'];
+  function arrLocation($club_geton=NULL, $starttime=NULL, $location=NULL, $stitle=NULL, $start=NULL) {
+    $result = array(array('no' => '0', 'time' => '', 'title' => '', 'stitle' => ''));
+    if (!empty($club_geton)) {
+      if (!is_null($starttime)) {
+        $starttime = strtotime($starttime);
+      }
+      $arrGeton = unserialize($club_geton);
+
+      foreach ($arrGeton as $key => $value) {
+        $arr = array('no' => $key+1, 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * ($key*5))) : '', 'title' => $value, 'stitle' => substr($value, 0, 6));
+        array_push($result, $arr);
+      }
+/*
+      $result = array(
+        array('no' => '0', 'time' => '', 'title' => '', 'stitle' => ''),
+        array('no' => '1', 'time' => !is_null($starttime) ? date('H:i', $starttime) : '', 'title' => '계산역 4번출구', 'stitle' => '계산'),
+        array('no' => '2', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 4)) : '', 'title' => '작전역 5번출구', 'stitle' => '작전'),
+        array('no' => '3', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 8)) : '', 'title' => '갈산역 4번출구', 'stitle' => '갈산'),
+        array('no' => '4', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 12)) : '', 'title' => '부평구청역 4번출구', 'stitle' => '부평'),
+        array('no' => '5', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 15)) : '', 'title' => '삼산체육관 맞은편', 'stitle' => '삼산'),
+        array('no' => '6', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 20)) : '', 'title' => '부천터미널 소풍', 'stitle' => '소풍'),
+        array('no' => '7', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 25)) : '', 'title' => '복사골 문화센터', 'stitle' => '복사'),
+        array('no' => '8', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 30)) : '', 'title' => '송내남부 맥도날드', 'stitle' => '송내'),
+      );
+      if (is_null($start)) { // 원종동은 정규 노선이 아니기 때문에 문자 발송시 참조만 한다
+        $arr = array('no' => '9', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * -20)) : '', 'title' => '원종동', 'stitle' => '원종');
+        array_push($result, $arr);
+      }
+      */
+      if (!empty($location)) {
+        if (!empty($stitle)) {
+          $result = $result[$location]['stitle'];
+        } else {
+          $result = $result[$location]['title'];
+        }
       }
     }
     return $result;

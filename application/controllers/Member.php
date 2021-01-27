@@ -288,7 +288,7 @@ class Member extends MY_Controller
       $viewData['busType'] = getBusType($viewData['viewNotice']['bustype'], $viewData['viewNotice']['bus']);
 
       // 시간별 승차위치
-      $listLocation = arrLocation($viewData['viewNotice']['starttime']);
+      $listLocation = arrLocation($viewData['view']['club_geton'], $viewData['viewNotice']['starttime']);
       $cnt = 0;
 
       foreach ($viewData['busType'] as $key1 => $bus) {

@@ -68,10 +68,10 @@
               </div>
             </div>
             <div class="row align-items-center border-bottom mb-3 pb-3">
-              <div class="col-sm-2 font-weight-bold">승차위치</div>
+              <div class="col-sm-2 font-weight-bold">승차위치1</div>
               <div class="col-sm-10">
                 <select name="location" class="form-control">
-                  <?php foreach (arrLocation() as $value): ?>
+                  <?php foreach (arrLocation($viewClub['club_geton']) as $value): ?>
                   <option value="<?=$value['no']?>"><?=$value['title']?></option>
                   <?php endforeach; ?>
                 </select>

@@ -95,7 +95,7 @@ class Reserve extends MY_Controller
       }
 
       // 탑승 위치
-      $viewData['arrLocation'] = arrLocation();
+      $viewData['arrLocation'] = arrLocation($viewData['view']['club_geton']);
 
       $cntReply = $this->story_model->cntStoryReply($noticeIdx, REPLY_TYPE_NOTICE);
       $cntLike = $this->story_model->cntStoryReaction($noticeIdx, REACTION_TYPE_NOTICE, REACTION_KIND_LIKE);
@@ -118,6 +118,9 @@ class Reserve extends MY_Controller
       }
 
       $viewData['listReply'] = $this->load->view('story/reply', $viewData, true);
+
+      // 시간대별 버스 승차위치
+      $viewData['location'] = arrLocation($viewData['view']['club_geton'], $viewData['notice']['starttime'], NULL, NULL, 1);
 
       $this->_viewPage('reserve/index', $viewData);
     } else { // 산행 예약확인
@@ -310,6 +313,10 @@ class Reserve extends MY_Controller
     $nowBus = html_escape($this->input->post('bus'));
     $nowSeat = html_escape($this->input->post('seat'));
 
+    // 클럽 정보
+    $clubData = $this->club_model->viewClub($clubIdx);
+
+    // 산행 정보
     $notice = $this->reserve_model->viewNotice($noticeIdx);
 
     if (!empty($resIdx)) {
@@ -332,7 +339,7 @@ class Reserve extends MY_Controller
       }
     }
 
-    $result['location'] = arrLocation(); // 승차위치
+    $result['location'] = arrLocation($clubData['club_geton']); // 승차위치
     $result['breakfast'] = arrBreakfast(); // 아침식사
     $result['nowSeat'] = checkDirection($nowSeat, $nowBus, $notice['bustype'], $notice['bus']);
     $result['userLocation'] = $userData['location'];

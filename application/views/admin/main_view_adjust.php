@@ -1,7 +1,4 @@
-<?php
-  defined('BASEPATH') OR exit('No direct script access allowed');
-  $location = arrLocation($view['starttime'], NULL, NULL, 1);
-?>
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
         <?=$headerMenuView?>
         <div id="content" class="mb-5">

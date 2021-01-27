@@ -265,12 +265,12 @@ class Login extends MY_Controller
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
     checkUserLoginRedirect(BASE_URL); // 로그인 상태의 회원은 메인 페이지로
 
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
     $viewData['nickname'] = html_escape($this->input->post('nickname'));
     $viewData['phone1'] = html_escape($this->input->post('phone1'));
     $viewData['phone2'] = html_escape($this->input->post('phone2'));
     $viewData['phone3'] = html_escape($this->input->post('phone3'));
-
-    $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
     $this->_viewPage('member/entry', $viewData);
   }

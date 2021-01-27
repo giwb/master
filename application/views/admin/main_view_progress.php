@@ -1,7 +1,4 @@
-<?php
-  defined('BASEPATH') OR exit('No direct script access allowed');
-  $location = arrLocation($view['starttime'], NULL, NULL, 1);
-?>
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
         <?=$headerMenuView?>
         <div id="content" class="mb-5">
@@ -107,7 +104,7 @@
               <div class="text-dark">■ <strong>대기자 목록</strong></div>
               <?php foreach ($wait as $key => $value): ?>
               <div class="mt-1">
-                <a href="javascript:;" class="btn-wait-delete-modal" data-idx="<?=$value['idx']?>">[<?=$key + 1?>] <?=$value['nickname']?> (<?=getGender($value['gender'])?>) <?=!empty($value['location']) ? arrLocation(NULL, $value['location'], 1) : '미정'?>
+                <a href="javascript:;" class="btn-wait-delete-modal" data-idx="<?=$value['idx']?>">[<?=$key + 1?>] <?=$value['nickname']?> (<?=getGender($value['gender'])?>) <?=!empty($value['location']) ? arrLocation($viewClub['club_geton'], NULL, $value['location'], 1) : '미정'?>
                 <?=!empty($value['memo']) ? ' - ' . $value['memo'] : ''?> <span class="small">(<?=substr(date('Y-m-d H:i:s', $value['created_at']), 5, 11)?>)</span></a>
               </div>
               <?php endforeach; ?>

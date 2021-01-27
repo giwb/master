@@ -77,7 +77,7 @@
               <dt>주 승차위치</dt>
               <dd>
                 <select name="location" class="form-control">
-                  <?php foreach (arrLocation() as $value): ?>
+                  <?php foreach (arrLocation($view['club_geton']) as $value): ?>
                   <option<?=$viewMember['location'] == $value['no'] ? ' selected' : ''?> value='<?=$value['no']?>'><?=$value['title']?></option>
                   <?php endforeach; ?>
                 </select>

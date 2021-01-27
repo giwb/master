@@ -1,7 +1,4 @@
-<?php
-  defined('BASEPATH') OR exit('No direct script access allowed');
-  $location = arrLocation($notice['starttime'], NULL, NULL, 1);
-?>
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
       <div class="club-main">
         <?php if (empty($notice['idx'])): ?>

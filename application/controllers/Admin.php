@@ -84,8 +84,12 @@ class Admin extends Admin_Controller
   public function reserve_information()
   {
     $idx = html_escape($this->input->post('idx'));
+    $viewData['clubIdx'] = html_escape($this->input->post('clubIdx'));
     $viewData['idx'] = html_escape($this->input->post('resIdx'));
     $viewData['view'] = $this->admin_model->viewEntry($idx);
+
+    // 클럽 정보
+    $viewData['viewClub'] = $this->club_model->viewClub($viewData['clubIdx']);
 
     if (!empty($viewData['idx'])) {
       $result['reserve'] = $this->admin_model->viewReserve($viewData);
@@ -117,7 +121,7 @@ class Admin extends Admin_Controller
       }
     }
 
-    $result['location'] = arrLocation(); // 승차위치
+    $result['location'] = arrLocation($viewData['viewClub']['club_geton']); // 승차위치
     $result['breakfast'] = arrBreakfast(); // 아침식사
 
     $this->output->set_output(json_encode($result));
@@ -660,11 +664,17 @@ class Admin extends Admin_Controller
     // 클럽ID
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
 
+    // 클럽 정보
+    $viewData['viewClub'] = $this->club_model->viewClub($viewData['clubIdx']);
+
     // 예약ID
     $viewData['rescode'] = html_escape($idx);
 
     // 공지 정보
     $viewData['view'] = $this->admin_model->viewEntry($viewData['rescode']);
+
+    // 시간대별 버스 승차위치
+    $viewData['location'] = arrLocation($viewData['viewClub']['club_geton'], $viewData['view']['starttime'], NULL, NULL, 1);
 
     // 버스 형태별 좌석 배치
     $viewData['busType'] = getBusType($viewData['view']['bustype'], $viewData['view']['bus']);
@@ -675,8 +685,8 @@ class Admin extends Admin_Controller
     // 대기자 정보
     $viewData['wait'] = $this->admin_model->listWait($viewData['rescode']);
 
-    // 승차위치
-    $viewData['arrLocation'] = arrLocation();
+    // 클럽 승차위치
+    $viewData['arrLocation'] = arrLocation($viewData['viewClub']['club_geton']);
 
     // 진행중 산행 목록
     $search['status'] = array(STATUS_ABLE, STATUS_CONFIRM);
@@ -707,6 +717,9 @@ class Admin extends Admin_Controller
     // 클럽ID
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
 
+    // 클럽 정보
+    $clubData = $this->club_model->viewClub($viewData['clubIdx']);
+
     $viewData['rescode'] = html_escape($idx);
     $viewData['view'] = $this->admin_model->viewEntry($viewData['rescode']);
 
@@ -717,7 +730,7 @@ class Admin extends Admin_Controller
     $viewData['reserve'] = $this->admin_model->viewReserve($viewData);
 
     // 시간별 승차위치
-    $listLocation = arrLocation($viewData['view']['starttime']);
+    $listLocation = arrLocation($clubData['club_geton'], $viewData['view']['starttime']);
     $cnt = 0;
 
     foreach ($viewData['busType'] as $key1 => $bus) {
@@ -805,12 +818,18 @@ class Admin extends Admin_Controller
     // 클럽ID
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
 
+    // 클럽 정보
+    $viewData['viewClub'] = $this->club_model->viewClub($viewData['clubIdx']);
+
     $idx = html_escape($idx);
     $viewData['view'] = $this->admin_model->viewEntry($idx);
     $viewData['view']['cntRes'] = cntRes($idx);
 
     // 정산 내역
     $viewData['viewAdjust'] = $this->admin_model->viewAdjust($idx);
+
+    // 시간대별 버스 승차위치
+    $viewData['location'] = arrLocation($viewData['viewClub']['club_geton'], $viewData['view']['starttime'], NULL, NULL, 1);
 
     // 산행예약 금액
     if ($viewData['view']['cost_total'] != 0) $viewData['view']['cost'] = $viewData['view']['cost_total'];
@@ -913,6 +932,9 @@ class Admin extends Admin_Controller
     // 클럽ID
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
 
+    // 클럽 정보
+    $clubData = $this->club_model->viewClub($viewData['clubIdx']);
+
     $idx = html_escape($idx);
     $viewData['view'] = $this->admin_model->viewEntry($idx);
 
@@ -928,7 +950,7 @@ class Admin extends Admin_Controller
     $list = $this->admin_model->listSMS($idx);
 
     foreach ($list as $key => $value) {
-      $location = arrLocation($value['starttime']);
+      $location = arrLocation($clubData['club_geton'], $value['starttime']);
       $viewData['list'][$key]['date'] = date('m/d', strtotime($value['startdate']));
       $viewData['list'][$key]['week'] = calcWeek($value['startdate']);
       $viewData['list'][$key]['dist'] = calcSchedule($value['schedule']);
@@ -1957,6 +1979,9 @@ class Admin extends Admin_Controller
     // 클럽ID
     $viewData['clubIdx'] = $viewData['search']['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
 
+    // 클럽 정보
+    $viewData['viewClub'] = $this->club_model->viewClub($viewData['clubIdx']);
+
     $viewData['search']['keyword'] = html_escape($this->input->post('keyword'));
     $viewData['search']['levelType'] = html_escape($this->input->post('levelType'));
 
@@ -2033,6 +2058,9 @@ class Admin extends Admin_Controller
     // 클럽ID
     $nowDate = time();
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
+    // 클럽 정보
+    $viewData['viewClub'] = $this->club_model->viewClub($viewData['clubIdx']);
 
     $keyword = html_escape(urldecode($keyword));
     $search = array('idx' => $keyword);
@@ -2340,6 +2368,9 @@ class Admin extends Admin_Controller
   {
     // 클럽ID
     $viewData['clubIdx'] = $viewData['search']['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
+    // 클럽 정보
+    $viewData['viewClub'] = $this->club_model->viewClub($viewData['clubIdx']);
 
     $this->_viewPage('admin/member_entry', $viewData);
   }
@@ -3401,6 +3432,9 @@ class Admin extends Admin_Controller
   {
     // 클럽ID
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
+    // 클럽 정보
+    $viewData['viewClub'] = $this->club_model->viewClub($viewData['clubIdx']);
 
     $search['status'] = array(STATUS_PLAN, STATUS_ABLE, STATUS_CONFIRM);
     $viewData['list'] = $this->admin_model->listNotice($search);
