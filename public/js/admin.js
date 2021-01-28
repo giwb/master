@@ -1156,9 +1156,10 @@
   $.viewReserveInfo = function(resIdx, bus, seat) {
     var cnt = 0;
     var selected = '';
+    var clubIdx = $('input[name=clubIdx]').val();
     $.ajax({
       url: '/admin/reserve_information',
-      data: 'idx=' + $('input[name=idx]').val() + '&resIdx=' + resIdx,
+      data: 'clubIdx=' + clubIdx + '&idx=' + $('input[name=idx]').val() + '&resIdx=' + resIdx,
       dataType: 'json',
       type: 'post',
       success: function(reserveInfo) {
