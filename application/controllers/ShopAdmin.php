@@ -430,6 +430,7 @@ class ShopAdmin extends Admin_Controller
    **/
   public function change_status()
   {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $now = time();
     $adminIdx = html_escape($this->session->userData['idx']);
     $idx = html_escape($this->input->post('idx'));
@@ -455,25 +456,25 @@ class ShopAdmin extends Admin_Controller
     switch ($status) {
       case ORDER_PAY: // 입금확인
         // 관리자 입금확인 로그 기록
-        setHistory(LOG_ADMIN_SHOP_DEPOSIT_CONFIRM, $idx, $viewPurchase['userid'], $viewPurchase['nickname'], $subject, $now);
+        setHistory($clubIdx, LOG_ADMIN_SHOP_DEPOSIT_CONFIRM, $idx, $viewPurchase['userid'], $viewPurchase['nickname'], $subject, $now);
         break;
 
       case ORDER_CANCEL: // 구매취소
         // 관리자 구매 취소 로그 기록
-        setHistory(LOG_ADMIN_SHOP_CANCEL, $idx, $viewPurchase['userid'], $viewPurchase['nickname'], $subject, $now);
+        setHistory($clubIdx, LOG_ADMIN_SHOP_CANCEL, $idx, $viewPurchase['userid'], $viewPurchase['nickname'], $subject, $now);
 
         if ($viewPurchase['point'] > 0) {
           // 사용했던 포인트 환불
           $this->member_model->updatePoint(1, $viewPurchase['userid'], ($viewPurchase['userPoint'] + $viewPurchase['point']));
 
           // 포인트 환불 로그 기록
-          setHistory(LOG_POINTUP, $idx, $viewPurchase['userid'], $viewPurchase['nickname'], '관리자 구매 취소', $now, $viewPurchase['point']);
+          setHistory($clubIdx, LOG_POINTUP, $idx, $viewPurchase['userid'], $viewPurchase['nickname'], '관리자 구매 취소', $now, $viewPurchase['point']);
         }
         break;
 
       case ORDER_END: // 판매완료
         // 관리자 판매완료 로그 기록
-        setHistory(LOG_ADMIN_SHOP_COMPLETE, $idx, $viewPurchase['userid'], $viewPurchase['nickname'], $subject, $now);
+        setHistory($clubIdx, LOG_ADMIN_SHOP_COMPLETE, $idx, $viewPurchase['userid'], $viewPurchase['nickname'], $subject, $now);
         break;
     }
 

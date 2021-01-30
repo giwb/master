@@ -17,6 +17,7 @@
         </div>
         <div class="sub-content">
           <form id="formCheckout" method="post" action="/shop/insert">
+            <input type="hidden" name="clubIdx" value="<?=$view['idx']?>">
             <input type="hidden" name="userPoint" value="<?=!empty($userData['point']) ? $userData['point'] : 0?>">
             <input type="hidden" name="totalCost" value="<?=!empty($total_cost) ? $total_cost : 0?>">
             <input type="hidden" name="paymentCost" value="<?=!empty($total_cost) ? $total_cost : 0?>">
