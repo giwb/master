@@ -15,7 +15,7 @@
 
           <!-- 안내문 -->
           <?php if (!empty($notice['information'])): ?>
-          <div class="border border-danger p-4 mb-3"><?=reset_html_escape($notice['information'])?></div>
+          <div class="border border-danger p-4 mb-3"><?=nl2br(reset_html_escape($notice['information']))?></div>
           <?php endif; ?>
 
           <?php if (!empty($notice['type'])): ?><div class="ti"><strong>・유형</strong> : <?=$notice['type']?></div><?php endif; ?>
