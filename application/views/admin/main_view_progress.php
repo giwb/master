@@ -8,7 +8,7 @@
 
             <!-- 안내문 -->
             <?php if (!empty($view['information'])): ?>
-            <div class="border border-danger p-4 mt-2 mb-3"><?=nl2br($view['information'])?></div>
+            <div class="border border-danger p-4 mt-2 mb-3"><?=nl2br(reset_html_escape($notice['information']))?></div>
             <?php endif; ?>
 
             <?php if (!empty($view['type'])): ?><div class="ti"><strong>・유형</strong> : <?=$view['type']?></div><?php endif; ?>
