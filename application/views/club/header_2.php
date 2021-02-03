@@ -101,7 +101,7 @@
 
                 <?php if ($view['idx'] == 1): // 경인웰빙 메뉴 ?>
                 <li class="mr-3"><a href="<?=BASE_URL?>/shop"><i class="fas fa-shopping-cart"></i> 구매대행</a></li>
-                <li class="mr-3"><a href="<?=BASE_URL?>/club/auth"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소 인증현황</a></li>
+                <li class="mr-3"><a href="<?=BASE_URL?>/club/auth"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소인증</a></li>
                 <li class="mr-3"><a target="_blank" href="http://giwb.co.kr"><i class="fa fa-desktop" aria-hidden="true"></i> 다음카페</a></li>
                 <?php if ($view['idx'] == 1 && (!empty($userData['idx']) && ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN))): ?>
                 <li class="mr-3"><a href="<?=BASE_URL?>/member/driver"><i class="fas fa-bus"></i> 드라이버</a></li>
