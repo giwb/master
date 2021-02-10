@@ -1319,7 +1319,7 @@ class Admin extends Admin_Controller
       $viewData['area_gugun'] = array();
     }
 
-    if (!empty($viewData['view']['status']) && ($viewData['view']['status'] < 8 && empty($viewData['view']['driving_fuel'][2]) && ENVIRONMENT != 'development')) {
+    if (!empty($viewData['view']['status']) && ($viewData['view']['status'] <= 9 && empty($viewData['view']['driving_fuel'][2]) && ENVIRONMENT != 'development')) {
       // 전국 유가 정보 (오피넷 Key : F657191209)
       $url = 'http://www.opinet.co.kr/api/avgSidoPrice.do?out=xml&code=F657191209';
       $ch = cURL_init();

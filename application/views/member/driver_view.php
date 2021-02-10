@@ -60,7 +60,7 @@
             <div class="col-sm-4 p-0">
               <div class="row border-bottom pt-2 pb-2 bg-light">
                 <div class="col-3 font-weight-bold pr-0">주유비</div>
-                <div class="col-9"><strong class="text-danger"><?=!empty($viewNotice['total_fuel']) ? number_format($viewNotice['total_fuel']) : 0?>원</strong></div>
+                <div class="col-9"><strong class="text-danger"><?=!empty($viewNotice['total_fuel']) ? number_format($viewNotice['total_fuel']) : '0'?>원</strong></div>
               </div>
               <div class="row border-bottom">
                 <div class="col-3 pt-2 pb-2 pr-0 bg-light">총주행</div>
@@ -72,7 +72,7 @@
               </div>
               <div class="row border-bottom">
                 <div class="col-3 pt-2 pb-2 pr-0 bg-light">시세</div>
-                <div class="col-9 pt-2 pb-2"><?=!empty($viewNotice['driving_fuel'][2]) ? $viewNotice['driving_fuel'][2] : 0?>원/ℓ</div>
+                <div class="col-9 pt-2 pb-2"><?=!empty($viewNotice['driving_fuel'][2]) ? $viewNotice['driving_fuel'][2] : '0'?>원/ℓ</div>
               </div>
             </div>
             <div class="col-sm-4 p-0">
