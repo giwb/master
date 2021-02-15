@@ -81,6 +81,7 @@
             </div>
             <div class="error-message"></div>
             <div class="modal-footer">
+              <input type="hidden" name="paymentType">
               <button type="button" class="btn btn-default btn-reserve-payment">입력완료</button>
               <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
             </div>
@@ -148,10 +149,11 @@
           var result = 0;
           var message = '';
           var point = Number($(this).val());
-          var userPoint = Number($('#reservePaymentModal input[name=userPoint]').val());
+          var userPoint = Number($('input[name=userPoint]').val());
           var originCost = Number($('#reservePaymentModal input[name=originCost]').val());
+          var paymentType = $('input[name=paymentType]').val();
           <?php if ($viewMember['level'] == LEVEL_LIFETIME): // 평생회원은 5천원 할인 ?>
-          message = ' (평생회원 할인)';
+          if (paymentType == 1) message = ' (평생회원 할인)'; // 예약 결제일 경우에만 적용
           <?php endif; ?>
 
           if (point > userPoint) {
@@ -169,16 +171,17 @@
           // 포인트 전액 사용
           var result = 0;
           var message = '';
-          var userPoint = Number($('#reservePaymentModal input[name=userPoint]').val());
+          var userPoint = Number($('input[name=userPoint]').val());
           var originCost = Number($('#reservePaymentModal input[name=originCost]').val());
+          var paymentType = $('input[name=paymentType]').val();
           <?php if ($viewMember['level'] == LEVEL_LIFETIME): // 평생회원은 5천원 할인 ?>
-          message = ' (평생회원 할인)';
+          if (paymentType == 1) message = ' (평생회원 할인)'; // 예약 결제일 경우에만 적용
           <?php endif; ?>
 
           if (originCost > userPoint) {
-            result = Number($('#reservePaymentModal input[name=originCost]').val()) - Number($('#reservePaymentModal input[name=userPoint]').val());
+            result = originCost - userPoint;
           } else {
-            userPoint = Number($('#reservePaymentModal input[name=originCost]').val());
+            userPoint = originCost;
           }
 
           if ($(this).is(':checked') == true) {
@@ -190,6 +193,8 @@
             $('#reservePaymentModal input[name=paymentCost]').val(originCost);
             $('#reservePaymentModal .paymentCost').html($.setNumberFormat(originCost) + '원' + message);
           }
+        }).on('click', '.shop-item', function() {
+          // 용품 상세 페이지
+          location.href = ( $('input[name=baseUrl]').val() + '/shop/item/' + $(this).data('idx') );
         });
       </script>
-      <script type="text/javascript" src="/public/js/shop.js"></script>
