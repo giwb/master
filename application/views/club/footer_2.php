@@ -1,6 +1,10 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
       <div class="club-right">
+        <!-- Kakao AdFit Start -->
+        <ins class="kakao_ad_area" style="display:none;" data-ad-unit    = "DAN-CMBlCe8nHsLwMdHn" data-ad-width   = "320" data-ad-height  = "100"></ins>
+        <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+        <!-- Kakao AdFit End -->
         <h3><i class="fas fa-calendar-alt" aria-hidden="true"></i> 현재 진행중인 산행</h3>
         <div class="list-schedule">
           <?php if (!empty($listFooterNotice)): ?>
