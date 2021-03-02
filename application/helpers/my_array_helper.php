@@ -419,8 +419,8 @@ if (!function_exists('calcDistance')) {
 
 // 승차위치
 if (!function_exists('arrLocation')) {
-  function arrLocation($club_geton=NULL, $starttime=NULL, $location=NULL, $stitle=NULL, $start=NULL) {
-    $result = array(array('no' => '0', 'time' => '', 'title' => '', 'stitle' => ''));
+  function arrLocation($club_geton=NULL, $starttime=NULL, $start=NULL) {
+    $result = array(array('no' => '0', 'time' => '', 'title' => '', 'short' => ''));
     if (!empty($club_geton)) {
       if (!is_null($starttime)) {
         $starttime = strtotime($starttime);
@@ -430,7 +430,7 @@ if (!function_exists('arrLocation')) {
       foreach ($arrGeton as $key => $value) {
         $buf = explode('|', $value);
         if (empty($buf[2])) $buf[2] = 0;
-        $arr = array('no' => $key+1, 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * ($key*$buf[2]))) : '', 'title' => $buf[1], 'stitle' => $buf[0]);
+        $arr = array('no' => $key+1, 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * ($key*$buf[2]))) : '', 'title' => $buf[1], 'short' => $buf[0]);
         array_push($result, $arr);
       }
       /*
@@ -450,13 +450,6 @@ if (!function_exists('arrLocation')) {
         array_push($result, $arr);
       }
       */
-      if (!empty($location)) {
-        if (!empty($stitle)) {
-          $result = $result[$location]['stitle'];
-        } else {
-          $result = $result[$location]['title'];
-        }
-      }
     }
     return $result;
   }

@@ -80,7 +80,7 @@
               <div class="col-sm-10">
                 <select name="location" class="form-control">
                   <?php foreach (arrLocation($viewClub['club_geton']) as $value): ?>
-                  <option<?=$viewMember['location'] == $value['no'] ? ' selected' : ''?> value="<?=$value['no']?>"><?=$value['title']?></option>
+                  <option<?=$viewMember['location'] == $value['short'] ? ' selected' : ''?> value="<?=$value['short']?>"><?=$value['title']?></option>
                   <?php endforeach; ?>
                 </select>
               </div>

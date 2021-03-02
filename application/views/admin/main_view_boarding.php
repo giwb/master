@@ -78,7 +78,7 @@
                     else:
                 ?>
                 <dl>
-                  <dt><?=$location['time']?> <?=$location['stitle']?> (<?=!empty($location['nickname']) ? count($location['nickname']) : 0?>명)</dt>
+                  <dt><?=$location['time']?> <?=$location['short']?> (<?=!empty($location['nickname']) ? count($location['nickname']) : 0?>명)</dt>
                   <dd><?php if (!empty($location['nickname'])): foreach ($location['nickname'] as $n => $nickname): if ($n != 0): ?> / <?php endif; ?><?=$nickname?><?php endforeach; endif; ?></dd>
                 </dl>
                 <?php

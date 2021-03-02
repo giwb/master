@@ -13,7 +13,7 @@
 
             <?php if (!empty($view['type'])): ?><div class="ti"><strong>・유형</strong> : <?=$view['type']?></div><?php endif; ?>
             <div class="ti"><strong>・일시</strong> : <?=$view['startdate']?> (<?=calcWeek($view['startdate'])?>) <?=$view['starttime']?></div>
-            <div class="ti"><strong>・노선</strong> : <?php foreach ($location as $key => $value): if ($key > 1): ?> - <?php endif; ?><?=$value['time']?> <?=$value['stitle']?><?php endforeach; ?></div>
+            <div class="ti"><strong>・노선</strong> : <?php foreach ($location as $key => $value): if ($key > 1): ?> - <?php endif; ?><?=$value['time']?> <?=$value['short']?><?php endforeach; ?></div>
             <?php $view['cost'] = $view['cost_total'] == 0 ? $view['cost'] : $view['cost_total']; if (!empty($view['cost'])): ?>
             <?php if (!empty($view['sido'])): ?>
             <div class="ti"><strong>・지역</strong> : <?php foreach ($view['sido'] as $key => $value): if ($key != 0): ?>, <?php endif; ?><?=$value?> <?=!empty($view['gugun'][$key]) ? $view['gugun'][$key] : ''?><?php endforeach; ?></div>
@@ -123,8 +123,8 @@
                 </div>
                 <div class="col-2 col-sm-2 p-0 pr-1">
                   <select name="location" class="location form-control form-control-sm pl-0 pr-0">
-                    <?php foreach ($arrLocation as $key => $value): if ($key == 0) $value['stitle'] = '선택'; ?>
-                    <option value='<?=$value['no']?>'><?=$value['stitle']?></option>
+                    <?php foreach ($arrLocation as $key => $value): if ($key == 0) $value['short'] = '선택'; ?>
+                    <option value='<?=$value['no']?>'><?=$value['short']?></option>
                     <?php endforeach; ?>
                   </select>
                 </div>

@@ -176,7 +176,7 @@
           </div>
           <?php foreach ($value['listLocation'] as $cnt => $location): if ($cnt == 0): $lastData = $location; else: ?>
           <div class="row align-items-center border-bottom bg-light">
-            <div class="col-5 col-sm-2 font-weight-bold pt-2 pb-2"><?=$location['time']?> <?=$location['stitle']?> (<?=!empty($location['nickname']) ? count($location['nickname']) : 0?>명)</div>
+            <div class="col-5 col-sm-2 font-weight-bold pt-2 pb-2"><?=$location['time']?> <?=$location['short']?> (<?=!empty($location['nickname']) ? count($location['nickname']) : 0?>명)</div>
             <div class="col-7 col-sm-10 bg-white pt-2 pb-2"><?php if (!empty($location['nickname'])): foreach ($location['nickname'] as $n => $nickname): if ($n != 0): ?> / <?php endif; ?><?=$nickname?><?php endforeach; else: echo "&nbsp;"; endif; ?></div>
           </div>
           <?php endif; endforeach; ?>
