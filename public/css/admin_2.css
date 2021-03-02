@@ -1913,7 +1913,7 @@ h1.nav-logo small {
 #club .container { display: flex; display: -webkit-flex; margin: 0 auto; padding: 0px; }
 #club .club-left { flex: 1; -webkit-flex: 1; }
 #club .club-main { flex: 3; -webkit-flex: 3; margin: 0 20px; }
-#club .club-right { flex: 1; -webkit-flex: 1; min-width: 370px; min-height: 825px; }
+#club .club-right { flex: 1; -webkit-flex: 1; min-height: 825px; }
 
 #club .club-left .club-left-layer { position: fixed; }
 #club .club-left .club-header img { max-width: 200px; vertical-align: middle; margin-bottom: 10px; }

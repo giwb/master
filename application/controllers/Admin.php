@@ -3176,23 +3176,34 @@ class Admin extends Admin_Controller
     $now = time();
     $page = 'club';
     $userIdx = $this->session->userData['idx'];
-    $input_data = $this->input->post();
-    $file = html_escape($input_data['file']);
+    $inputData = $this->input->post();
+    $file = html_escape($inputData['file']);
+
+    if (!empty($inputData['geton_short'])) {
+      foreach ($inputData['geton_short'] as $key => $value) {
+        $geton[] = html_escape($value) . '|' . html_escape($inputData['geton_title'][$key]) . '|' . html_escape($inputData['geton_time'][$key]);
+      }
+    }
+    if (!empty($inputData['getoff_short'])) {
+      foreach ($inputData['getoff_short'] as $key => $value) {
+        $getoff[] = html_escape($value) . '|' . html_escape($inputData['getoff_title'][$key]) . '|' . html_escape($inputData['getoff_time'][$key]);
+      }
+    }
 
     $updateValues = array(
-      'title'             => html_escape($input_data['title']),
-      'homepage'          => html_escape($input_data['homepage']),
-      'phone'             => html_escape($input_data['phone']),
-      'area_sido'         => make_serialize($input_data['area_sido']),
-      'area_gugun'        => make_serialize($input_data['area_gugun']),
-      'establish'         => html_escape($input_data['establish']),
-      'club_type'         => make_serialize($input_data['club_type']),
-      'club_option'       => make_serialize($input_data['club_option']),
-      'club_option_text'  => html_escape($input_data['club_option_text']),
-      'club_cycle'        => make_serialize($input_data['club_cycle']),
-      'club_week'         => make_serialize($input_data['club_week']),
-      'club_geton'        => make_serialize($input_data['club_geton']),
-      'club_getoff'       => make_serialize($input_data['club_getoff']),
+      'title'             => html_escape($inputData['title']),
+      'area_sido'         => make_serialize($inputData['area_sido']),
+      'area_gugun'        => make_serialize($inputData['area_gugun']),
+      'homepage'          => html_escape($inputData['homepage']),
+      'phone'             => html_escape($inputData['phone']),
+      'establish'         => html_escape($inputData['establish']),
+      'club_type'         => !empty($inputData['club_type']) ? make_serialize($inputData['club_type']) : NULL,
+      'club_option'       => !empty($inputData['club_option']) ? make_serialize($inputData['club_option']) : NULL,
+      'club_option_text'  => html_escape($inputData['club_option_text']),
+      'club_cycle'        => !empty($inputData['club_cycle']) ? make_serialize($inputData['club_cycle']) : NULL,
+      'club_week'         => !empty($inputData['club_week']) ? make_serialize($inputData['club_week']) : NULL,
+      'club_geton'        => !empty($geton) ? serialize($geton) : NULL,
+      'club_getoff'       => !empty($getoff) ? serialize($getoff) : NULL,
       'updated_by'        => $userIdx,
       'updated_at'        => $now
     );
@@ -3236,7 +3247,8 @@ class Admin extends Admin_Controller
       }
     }
 
-    redirect(BASE_URL . '/admin/setup_information');
+    $result = array('error' => 0, 'message' => '');
+    $this->output->set_output(json_encode($result));
   }
 
   /**
