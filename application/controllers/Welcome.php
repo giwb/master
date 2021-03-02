@@ -331,6 +331,33 @@ class Welcome extends MY_Controller
     $this->output->set_output(json_encode($result));
   }
 
+  public function test_db()
+  {
+    $res = $this->admin_model->listReserves();
+
+    $clubIdx = 1;
+    $view = $this->club_model->viewClub($clubIdx);
+    $geton = unserialize($view['club_geton']);
+
+    foreach ($res as $value) {
+      if (!empty(trim($value['loc'])) && (trim($value['loc']) > 0 && trim($value['loc']) <= 8) ) {
+        echo $value['nickname']." / ";
+        echo $value['loc']." => ";
+
+        $location = trim($value['loc']) - 1;
+        $buf = explode('|', $geton[$location]);
+
+        echo $buf[0] . "<br>";
+
+        $updateValues['loc'] = $buf[0];
+        $this->admin_model->updateReserve($updateValues, $value['idx']);
+      } else {
+        $updateValues['loc'] = NULL;
+        $this->admin_model->updateReserve($updateValues, $value['idx']);
+      }
+    }
+  }
+
   /**
    * 페이지 표시
    *

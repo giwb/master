@@ -205,7 +205,7 @@ class Admin_model extends CI_Model
   // 회원 예약 목록
   public function listReserve($paging, $search)
   {
-    $this->db->select('a.rescode, a.user_idx, a.nickname, a.bus, a.seat, a.loc, a.memo, b.startdate, b.starttime, b.subject, b.bus AS notice_bus, b.bustype AS notice_bustype, b.status AS notice_status, b.cost, b.cost_total, c.idx AS member_idx')
+    $this->db->select('a.idx, a.rescode, a.user_idx, a.nickname, a.bus, a.seat, a.loc, a.memo, b.startdate, b.starttime, b.subject, b.bus AS notice_bus, b.bustype AS notice_bustype, b.status AS notice_status, b.cost, b.cost_total, c.idx AS member_idx')
           ->from(DB_RESERVATION . ' a')
           ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
           ->join(DB_MEMBER . ' c', 'a.nickname=c.nickname', 'left')
@@ -226,6 +226,15 @@ class Admin_model extends CI_Model
       $this->db->limit($paging['perPage'], $paging['nowPage']);
     }
 
+    return $this->db->get()->result_array();
+  }
+
+  // 회원 예약 목록
+  public function listReserves()
+  {
+    $this->db->select('*')
+          ->from(DB_RESERVATION)
+          ->order_by('regdate', 'asc');
     return $this->db->get()->result_array();
   }
 
