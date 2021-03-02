@@ -78,7 +78,7 @@
               <dd>
                 <select name="location" class="form-control">
                   <?php foreach (arrLocation($view['club_geton']) as $value): ?>
-                  <option<?=$viewMember['location'] == $value['no'] ? ' selected' : ''?> value='<?=$value['no']?>'><?=$value['title']?></option>
+                  <option<?=$viewMember['location'] == $value['stitle'] ? ' selected' : ''?> value='<?=$value['stitle']?>'><?=$value['title']?></option>
                   <?php endforeach; ?>
                 </select>
               </dd>
