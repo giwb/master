@@ -229,15 +229,6 @@ class Admin_model extends CI_Model
     return $this->db->get()->result_array();
   }
 
-  // 회원 예약 목록
-  public function listReserves()
-  {
-    $this->db->select('*')
-          ->from(DB_RESERVATION)
-          ->order_by('regdate', 'asc');
-    return $this->db->get()->result_array();
-  }
-
   // 예약 수량
   public function cntReserve($search)
   {

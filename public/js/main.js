@@ -703,7 +703,7 @@
     $(this).removeClass('btn-primary').addClass('btn-secondary').text('일행 추가');
     $('.btn-reserve-wait').removeClass('d-none');
     var header = '<div class="reserve">';
-    var location = '<select name="location[]" class="location">'; $.each(arrLocation, function(i, v) { if (v == '') v = '승차위치'; location += '<option'; if ($('input[name=userLocation]').val() == i) location += ' selected'; location += ' value="' + i + '">' + v + '</option>'; }); location += '</select> ';
+    var location = '<select name="location[]" class="location">'; $.each(arrLocation, function(i, v) { if (v == '') v = '승차위치'; location += '<option'; if ($('input[name=userLocation]').val() == v.short) location += ' selected'; location += ' value="' + v.short + '">' + v + '</option>'; }); location += '</select> ';
     var gender = '<select name="gender[]" class="location"><option'; if ($('input[name=userGender]').val() == 'M') gender += ' selected'; gender += ' value="M">남성</option><option'; if ($('input[name=userGender]').val() == 'F') gender += ' selected'; gender += ' value="F">여성</option></select> ';
     var memo = '<input type="text" name="memo[]" size="20" placeholder="요청사항" value="">';
     var footer = '</div>';
@@ -1044,7 +1044,7 @@
       },
       success: function(reserveInfo) {
         var header = '<div class="reserve" data-seat="' + seat + '"><input type="hidden" name="resIdx[]" value="' + resIdx + '" class="resIdx" data-penalty="' + reserveInfo.penalty + '">';
-        var location = '<select name="location[]" class="location">'; $.each(reserveInfo.location, function(i, v) { if (v.short == '') v.short = '승차위치'; location += '<option'; if (reserveInfo.userLocation == v.no) location += ' selected'; location += ' value="' + v.no + '">' + v.short + '</option>'; }); location += '</select> ';
+        var location = '<select name="location[]" class="location">'; $.each(reserveInfo.location, function(i, v) { if (v.short == '') v.short = '승차위치'; location += '<option'; if (reserveInfo.userLocation == v.short) location += ' selected'; location += ' value="' + v.short + '">' + v.short + '</option>'; }); location += '</select> ';
         var memo = '<input type="text" name="memo[]" size="20" placeholder="요청사항" value="' + reserveInfo.reserve.memo + '">';
         //var footer = ' <select><option>할인선택</option><option>-------</option><option>초등생 할인</option><option>중고생 할인</option></select> </div>';
         var footer = ' ' + reserveInfo.cost + '</div>';
