@@ -950,7 +950,6 @@ class Admin extends Admin_Controller
     $list = $this->admin_model->listSMS($idx);
 
     foreach ($list as $key => $value) {
-      $location = arrLocation($clubData['club_geton'], $value['starttime']);
       $viewData['list'][$key]['date'] = date('m/d', strtotime($value['startdate']));
       $viewData['list'][$key]['week'] = calcWeek($value['startdate']);
       $viewData['list'][$key]['dist'] = calcSchedule($value['schedule']);
@@ -959,8 +958,13 @@ class Admin extends Admin_Controller
       $viewData['list'][$key]['bus'] = $value['nowbus'];
       $viewData['list'][$key]['seat'] = $value['seat'];
       if (!empty($value['loc'])) {
-        $viewData['list'][$key]['time'] = $location[$value['loc']]['time'];
-        $viewData['list'][$key]['title'] = $location[$value['loc']]['title'];
+        $location = arrLocation($clubData['club_geton'], $value['starttime'], $value['loc']);
+        foreach ($location as $locationValue) {
+          if ($locationValue['short'] == $value['loc']) {
+            $viewData['list'][$key]['time'] = $locationValue['time'];
+            $viewData['list'][$key]['title'] = $locationValue['title'];
+          }
+        }
       } else {
         $viewData['list'][$key]['time'] = '';
         $viewData['list'][$key]['title'] = '';
