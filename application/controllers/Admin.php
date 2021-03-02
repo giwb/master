@@ -737,7 +737,7 @@ class Admin extends Admin_Controller
       $busNumber = $key1 + 1;
       foreach ($listLocation as $key2 => $value) {
         $viewData['busType'][$key1]['listLocation'][] = $value;
-        $resData = $this->admin_model->listReserveLocation($viewData['rescode'], $busNumber, $value['no']);
+        $resData = $this->admin_model->listReserveLocation($viewData['rescode'], $busNumber, $value['short']);
         foreach ($resData as $people) {
           if (!empty($people['honor'])) {
             $cnt++;
