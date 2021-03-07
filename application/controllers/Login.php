@@ -9,7 +9,7 @@ class Login extends MY_Controller
     parent::__construct();
     $this->load->helper(array('cookie', 'my_array_helper', 'url'));
     $this->load->library(array('image_lib', 'session'));
-    $this->load->model(array('club_model', 'file_model', 'member_model', 'reserve_model'));
+    $this->load->model(array('club_model', 'desk_model', 'file_model', 'member_model', 'reserve_model'));
   }
 
   /**
@@ -766,6 +766,15 @@ class Login extends MY_Controller
     // 리다이렉트 URL 추출
     if ($_SERVER['SERVER_PORT'] == '80') $HTTP_HEADER = 'http://'; else $HTTP_HEADER = 'https://';
     $viewData['redirectUrl'] = $HTTP_HEADER . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+    // 분류별 기사
+    $viewData['listCategory'] = $this->desk_model->listCategory();
+
+    // 분류별 기사 카운트
+    foreach ($viewData['listCategory'] as $key => $value) {
+      $cnt = $this->desk_model->cntArticle($value['code']);
+      $viewData['listCategory'][$key]['cnt'] = $cnt['cnt'];
+    }
 
     // 방문자 기록
     setVisitor();
