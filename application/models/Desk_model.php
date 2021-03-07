@@ -17,16 +17,27 @@ class Desk_model extends CI_Model
           ->from(DB_ARTICLE . ' a')
           ->join(DB_ARTICLE_CATEGORY . ' b', 'a.category=b.code', 'left')
           ->join(DB_MEMBER . ' c', 'a.created_by=c.idx', 'left')
-          ->where('deleted_at', NULL)
-          ->order_by('viewing_at', $order);
+          ->where('a.deleted_at', NULL)
+          ->order_by('a.viewing_at', $order);
 
-    if (!empty($search['category'])) {
-      $this->db->where('a.category', $search['category']);
+    if (!empty($search['keyword'])) {
+      $this->db->like('a.title', $search['keyword']);
+    }
+    if (!empty($search['code'])) {
+      $this->db->where('a.category', $search['code']);
     }
 
     return $this->db->get()->result_array();
   }
 
+  // 분류별 기사 개수
+  public function cntArticle($code)
+  {
+    $this->db->select('COUNT(*) as cnt')
+          ->from(DB_ARTICLE)
+          ->where('category', $code);
+    return $this->db->get()->row_array(1);
+  }
 
   // 기사 목록
   public function listArticle($search=NULL, $order='desc')
@@ -58,6 +69,15 @@ class Desk_model extends CI_Model
           ->from(DB_ARTICLE_CATEGORY)
           ->order_by('idx', 'asc');
     return $this->db->get()->result_array();
+  }
+
+  // 분류 이름
+  public function viewCategory($code)
+  {
+    $this->db->select('name')
+          ->from(DB_ARTICLE_CATEGORY)
+          ->where('code', $code);
+    return $this->db->get()->row_array(1);
   }
 
   // 등록

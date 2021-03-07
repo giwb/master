@@ -2151,7 +2151,7 @@ body.postpage-v5 .article{font-size:.9rem;line-height:1.8}
 body { font-family: 'Noto Sans KR', sans-serif; }
 #mainContent { padding-top: 75px; }
 .navbar { width: 100%; position: fixed; z-index: 100; }
-.dropdown-search { left: -250px!important; }
+.dropdown-search { left: -300px!important; }
 .listing-section .view{height:250px;}
 .viewContent { text-align: justify; padding: 0 30px 15px 30px; }
 .page-footer p { margin-bottom: 0.2rem; }

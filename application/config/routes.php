@@ -89,6 +89,9 @@ if (!empty($result['idx'])) {
   $route['default_controller']  = 'welcome';
   $route['top']                 = 'welcome';
   $route['article/(:num)']      = 'welcome/article/$1';
+  $route['search']              = 'welcome/search';
+  $route['area']                = 'welcome/area';
+  $route['list']                = 'welcome/list';
   $route['login']               = 'login/index';
   $route['logout']              = 'login/logout';
   $route['member']              = 'member/index';

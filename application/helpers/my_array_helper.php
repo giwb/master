@@ -1086,7 +1086,8 @@ if (!function_exists('getThumb')) {
   function getThumbnail($content) {
     preg_match("/<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i", reset_html_escape($content), $match);
     if (empty($match[1])) {
-      $match[1] = '/public/images/noimage.png';
+      //$match[1] = '/public/images/noimage.png';
+      $match[1] = '';
     }
     return $match[1];
   }

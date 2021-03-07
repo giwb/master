@@ -11,14 +11,50 @@ class Welcome extends MY_Controller
     $this->load->model(array('desk_model'));
   }
 
+  /**
+   * 메인 인덱스
+   *
+   * @return view
+   * @author bjchoi
+   **/
   public function index()
   {
-    $viewData['userData'] = $this->load->get_var('userData');
+    // 최신 기사
     $viewData['listArticle'] = $this->desk_model->listMainArticle();
 
     $this->_viewPage('index', $viewData);
   }
 
+  /**
+   * 기사 검색 페이지
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function search()
+  {
+    if (!empty($this->input->get('keyword'))) {
+      $search['keyword'] = html_escape($this->input->get('keyword'));
+      $viewData['type'] = $search['keyword'];
+    }
+    if (!empty($this->input->get('code'))) {
+      $search['code'] = html_escape($this->input->get('code'));
+      $type = $this->desk_model->viewCategory($search['code']);
+      $viewData['type'] = $type['name'];
+    }
+
+    // 기사 검색
+    $viewData['listArticle'] = $this->desk_model->listMainArticle($search);
+
+    $this->_viewPage('search', $viewData);
+  }
+
+  /**
+   * 개별 기사 페이지
+   *
+   * @return view
+   * @author bjchoi
+   **/
   public function article($idx=NULL)
   {
     if (is_null($idx)) {
@@ -32,6 +68,28 @@ class Welcome extends MY_Controller
     $viewData['listArticle'] = $this->desk_model->listMainArticle($search);
 
     $this->_viewPage('article', $viewData);
+  }
+
+  /**
+   * 산행 목록
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function list()
+  {
+    $this->_viewPage('list');
+  }
+
+  /**
+   * 산악회 목록
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function area()
+  {
+    $this->_viewPage('area');
   }
 
   /**
@@ -347,6 +405,18 @@ class Welcome extends MY_Controller
     // 리다이렉트 URL 추출
     if ($_SERVER['SERVER_PORT'] == '80') $HTTP_HEADER = 'http://'; else $HTTP_HEADER = 'https://';
     $viewData['redirectUrl'] = $HTTP_HEADER . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+    // 회원 정보
+    $viewData['userData'] = $this->load->get_var('userData');
+
+    // 분류별 기사
+    $viewData['listCategory'] = $this->desk_model->listCategory();
+
+    // 분류별 기사 카운트
+    foreach ($viewData['listCategory'] as $key => $value) {
+      $cnt = $this->desk_model->cntArticle($value['code']);
+      $viewData['listCategory'][$key]['cnt'] = $cnt['cnt'];
+    }
 
     $this->load->view('header', $viewData);
     $this->load->view($viewPage, $viewData);

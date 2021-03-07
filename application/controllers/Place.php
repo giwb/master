@@ -9,7 +9,7 @@ class Place extends MY_Controller
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
     $this->load->library(array('image_lib'));
-    $this->load->model(array('area_model', 'file_model', 'place_model'));
+    $this->load->model(array('area_model', 'desk_model', 'file_model', 'place_model'));
   }
 
   public function index()
@@ -399,9 +399,21 @@ class Place extends MY_Controller
     if ($_SERVER['SERVER_PORT'] == '80') $HTTP_HEADER = 'http://'; else $HTTP_HEADER = 'https://';
     $viewData['redirectUrl'] = $HTTP_HEADER . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
-    $this->load->view('header', $viewData);
+    // 회원 정보
+    $viewData['userData'] = $this->load->get_var('userData');
+
+    // 분류별 기사
+    $viewData['listCategory'] = $this->desk_model->listCategory();
+
+    // 분류별 기사 카운트
+    foreach ($viewData['listCategory'] as $key => $value) {
+      $cnt = $this->desk_model->cntArticle($value['code']);
+      $viewData['listCategory'][$key]['cnt'] = $cnt['cnt'];
+    }
+
+    $this->load->view('/header', $viewData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view('footer');
+    $this->load->view('/footer');
   }
 }
 ?>
