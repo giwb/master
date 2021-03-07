@@ -21,7 +21,7 @@
                   <p>동학사와 갑사로 유명한, 계룡산 하늘공원에 다녀오다</p>
                 </li>
                 <li>
-                  <a href="detail.html" class="btn btn-info" rel="nofollow">더 보기</a>
+                  <a href="/article" class="btn btn-info" rel="nofollow">더 보기</a>
                 </li>
               </ul>
             </div>
@@ -42,7 +42,7 @@
                   <p>해발 1,577m의 계방산은 태백산맥의 한줄기로 동쪽으로 오대산을 바라보고 우뚝 서 있으며<br>한라, 지리, 설악, 덕유산에 이은 남한 제 5위봉이다.</p>
                 </li>
                 <li>
-                  <a href="detail.html" class="btn btn-info" rel="nofollow">더 보기</a>
+                  <a href="/article" class="btn btn-info" rel="nofollow">더 보기</a>
                 </li>
               </ul>
             </div>
@@ -62,7 +62,7 @@
                   <p>대한민국 화첩산행 100의 네번째 산은 지리산이다.<br>지금부터 성삼재에서 출발하는 32.5km 종주코스를 소개한다.</p>
                 </li>
                 <li>
-                  <a href="detail.html" class="btn btn-default" rel="nofollow">더 보기</a>
+                  <a href="/article" class="btn btn-default" rel="nofollow">더 보기</a>
                 </li>
               </ul>
             </div>
@@ -93,18 +93,18 @@
                 <div class="card">
                   <div class="view overlay">
                     <!--<img src="/public/images/tripkorea/article1.jpg" class="card-img-top">-->
-                    <a href="detail.html"><div class="mask rgba-white-slight"></div></a>
+                    <a href="/article/<?=$value['idx']?>"><div class="mask rgba-white-slight"></div></a>
                   </div>
                   <div class="card-body">
-                    <h4 class="card-title"><strong><a href="/article"><?=$value['title']?></a></strong></h4><hr>
+                    <h4 class="card-title"><strong><a href="/article/<?=$value['idx']?>"><?=$value['title']?></a></strong></h4><hr>
                     <p class="card-text text-justify"><?=articleContent($value['content'])?></p>
                   </div>
                   <div class="mdb-color lighten-3 text-center">
                     <ul class="list-unstyled list-inline font-small mt-3">
                       <li class="list-inline-item pr-1 white-text"><?=$value['category_name']?></li>
                       <li class="list-inline-item pr-1 white-text"><i class="far fa-clock-o pr-1"></i><?=date('Y-m-d', $value['viewing_at'])?></li>
-                      <li class="list-inline-item pr-1"><a href="detail.html" class="white-text"><i class="far fa-comments pr-1"></i>0</a></li>
-                      <li class="list-inline-item pr-1"><a href="detail.html" class="white-text"><i class="far fa-eye pr-1"></i>24</a></li>
+                      <li class="list-inline-item pr-1"><a href="/article" class="white-text"><i class="far fa-comments pr-1"></i>0</a></li>
+                      <li class="list-inline-item pr-1"><a href="/article" class="white-text"><i class="far fa-eye pr-1"></i>24</a></li>
                     </ul>
                   </div>
                 </div>
@@ -225,12 +225,12 @@
 
             <div class="card card-body pb-5">
               <div class="single-post pb-4 mb-4">
-                <h6 class="mt-0 mb-3"><a href="detail.html"><strong>[경인웰빙] 태백산 장군봉 눈꽃</strong></a></h6>
+                <h6 class="mt-0 mb-3"><a href="/article"><strong>[경인웰빙] 태백산 장군봉 눈꽃</strong></a></h6>
                 <div class="row">
                   <div class="col-4">
                     <div class="view overlay">
                       <img width="126" height="84" src="https://giwb.kr/public/uploads/editor/161248371254205.jpg">
-                      <a href="detail.html">
+                      <a href="/article">
                         <div class="mask waves-light"></div>
                       </a>
                     </div>
@@ -248,12 +248,12 @@
                 </div>
               </div>
               <div class="single-post pb-4 mb-4">
-                <h6 class="mt-0 mb-3"><a href="detail.html"><strong>[한국여행] 오대산 비로봉 & 두로령 옛길</strong></a></h6>
+                <h6 class="mt-0 mb-3"><a href="/article"><strong>[한국여행] 오대산 비로봉 & 두로령 옛길</strong></a></h6>
                 <div class="row">
                   <div class="col-4">
                     <div class="view overlay">
                       <img width="126" height="84" src="https://giwb.kr/public/uploads/editor/161248267682782.jpg">
-                      <a href="detail.html">
+                      <a href="/article">
                         <div class="mask waves-light"></div>
                       </a>
                     </div>
@@ -271,12 +271,12 @@
                 </div>
               </div>
               <div class="single-post pb-4 mb-4">
-                <h6 class="mt-0 mb-3"><a href="detail.html"><strong>덕유산 향적봉 눈꽃산행</strong></a></h6>
+                <h6 class="mt-0 mb-3"><a href="/article"><strong>덕유산 향적봉 눈꽃산행</strong></a></h6>
                 <div class="row">
                   <div class="col-4">
                     <div class="view overlay">
                       <img width="126" height="84" src="https://giwb.kr/public/uploads/editor/161050582585413.jpg">
-                      <a href="detail.html">
+                      <a href="/article">
                         <div class="mask waves-light"></div>
                       </a>
                     </div>
@@ -294,12 +294,12 @@
                 </div>
               </div>
               <div class="single-post pb-4 mb-4">
-                <h6 class="mt-0 mb-3"><a href="detail.html"><strong>소백산 비로봉 칼바람 눈꽃산행</strong></a></h6>
+                <h6 class="mt-0 mb-3"><a href="/article"><strong>소백산 비로봉 칼바람 눈꽃산행</strong></a></h6>
                 <div class="row">
                   <div class="col-4">
                     <div class="view overlay">
                       <img width="126" height="84" src="https://giwb.kr/public/uploads/editor/161049859367645.jpg">
-                      <a href="detail.html">
+                      <a href="/article">
                         <div class="mask waves-light"></div>
                       </a>
                     </div>
@@ -317,12 +317,12 @@
                 </div>
               </div>
               <div class="single-post">
-                <h6 class="mt-0 mb-3"><a href="detail.html"><strong>계방산 눈꽃산행</strong></a></h6>
+                <h6 class="mt-0 mb-3"><a href="/article"><strong>계방산 눈꽃산행</strong></a></h6>
                 <div class="row">
                   <div class="col-4">
                     <div class="view overlay">
                       <img width="126" height="84" src="https://giwb.kr/public/uploads/editor/161049470999541.jpg">
-                      <a href="detail.html">
+                      <a href="/article">
                         <div class="mask waves-light"></div>
                       </a>
                     </div>

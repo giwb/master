@@ -19,6 +19,17 @@ class Welcome extends MY_Controller
     $this->_viewPage('index', $viewData);
   }
 
+  public function article($idx=NULL)
+  {
+    if (is_null($idx)) {
+      $viewData['view']['title'] = '';
+      $viewData['view']['content'] = '<div style="pt-5 pb-5">관련 기사가 없습니다.</div>';
+    } else {
+      $viewData['view'] = $this->desk_model->viewArticle($idx);
+    }
+    $this->_viewPage('article', $viewData);
+  }
+
   /**
    * 클럽 리스트 페이지
    *

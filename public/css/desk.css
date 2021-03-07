@@ -11256,3 +11256,15 @@ body.sidebar-toggled footer.sticky-footer {
   font-size: 12px;
   color: red;
 }
+.article-data {
+  font-family: 'Noto Sans KR', sans-serif!important;
+  color: #212529;
+  width: 968px;
+  text-align: justify;
+}
+.article-data p { margin: 0px; padding: 0px; }
+.article-data img { max-width: 100%; }
+
+@media (max-width:1000px) {
+  .article-data { width: 100%; }
+}

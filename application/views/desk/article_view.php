@@ -7,9 +7,11 @@
                     </div>
                     <div class="card shadow pt-3 mb-3">
                         <div class="card-body">
-                            <h3><?=$view['title']?></h3>
-                            <div class="border p-4">
-                                <?=reset_html_escape($view['content'])?>
+                            <div class="article-data">
+                                <h3><?=$view['title']?></h3>
+                                <div class="border p-4">
+                                    <?=reset_html_escape($view['content'])?>
+                                </div>
                             </div>
                         </div>
                     </div>
