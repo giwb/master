@@ -24,7 +24,7 @@
 
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark stylish-color-dark">
-      <a class="navbar-brand" href="<?=BASE_URL?>"><h2><img width="40" src="/public/images/tripkorea/south-korea.png"> 한국여행</h2></a>
+      <a class="navbar-brand" href="/"><h2><img width="40" src="/public/images/tripkorea/south-korea.png"> 한국여행</h2></a>
 
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
