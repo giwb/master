@@ -66,4 +66,6 @@ $(document).on('click', '.login-popup', function() {
       location.reload();
     }
   });
+}).on('click', '.area-article', function() {
+  location.href = ('/article/' + $(this).data('idx'));
 });

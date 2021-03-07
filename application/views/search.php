@@ -11,8 +11,8 @@
               <div class="col-md-12 my-2">
                 <div class="card">
                   <div class="card-body">
-                    <div class="row" onClick="location.href=('/article/<?=$value['idx']?>');">
-                      <div class="col-2"><img style="width: 100%; max-height: 100px;" src="<?=getThumbnail($value['content'])?>"></div>
+                    <div class="row area-article" data-idx="<?=$value['idx']?>">
+                      <div class="col-2 area-photo"><img src="<?=getThumbnail($value['content'])?>"></div>
                       <div class="col-10">
                         <h5><strong><?=$value['title']?></strong></h5>
                         <p class="card-text text-justify"><?=articleContent($value['content'])?> <span class="small">(<?=date('Y-m-d H:i', $value['viewing_at'])?>)</span></p>
