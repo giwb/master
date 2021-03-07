@@ -186,33 +186,21 @@
             </div>
           </section>
 
-          <!-- Section: Advertisment -->
+          <!--
           <section class="section mt-5">
-
-            <!--Jumbotron-->
             <div class="jumbotron text-center">
-
-              <!--Title-->
               <h1 class="card-title h2-responsive mt-2"><strong>이곳에는 광고가 들어갑니다</strong></h1>
-              <!--Subtitle-->
               <p class="blue-text mb-4 mt-5 font-weight-bold">여기는 광고 섹션입니다.</p>
-
-              <!--Text-->
               <div class="d-flex justify-content-center">
                 <p class="card-text mb-3" style="max-width: 43rem;">여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.
                 </p>
               </div>
-
               <hr class="my-4">
-
               <button type="button" class="btn btn-primary btn-sm waves-effect">Buy now <span class="far fa-gem ml-1"></span></button>
               <button type="button" class="btn btn-outline-primary btn-sm waves-effect">Download <i class="fas fa-download ml-1"></i></button>
-
             </div>
-            <!--Jumbotron-->
-
           </section>
-          <!--/ Section: Advertisment -->
+          -->
 
           <!-- Section: Featured posts -->
           <section class="section widget-content mt-5">
