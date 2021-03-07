@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 // 데스크 페이지 클래스
-class Desk extends Admin_Controller
+class Desk extends Desk_Controller
 {
   function __construct()
   {
