@@ -1088,6 +1088,8 @@ if (!function_exists('getThumb')) {
     if (empty($match[1])) {
       //$match[1] = '/public/images/noimage.png';
       $match[1] = '';
+    } else {
+      $match[1] = str_replace('/article/', '/article/thumb_', $match[1]);
     }
     return $match[1];
   }
