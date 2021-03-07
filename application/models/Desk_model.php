@@ -19,6 +19,11 @@ class Desk_model extends CI_Model
           ->join(DB_MEMBER . ' c', 'a.created_by=c.idx', 'left')
           ->where('deleted_at', NULL)
           ->order_by('viewing_at', $order);
+
+    if (!empty($search['category'])) {
+      $this->db->where('a.category', $search['category']);
+    }
+
     return $this->db->get()->result_array();
   }
 

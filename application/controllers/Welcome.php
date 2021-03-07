@@ -27,6 +27,10 @@ class Welcome extends MY_Controller
     } else {
       $viewData['view'] = $this->desk_model->viewArticle($idx);
     }
+
+    $search['category'] = $viewData['view']['category'];
+    $viewData['listArticle'] = $this->desk_model->listMainArticle($search);
+
     $this->_viewPage('article', $viewData);
   }
 
