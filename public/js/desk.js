@@ -112,30 +112,4 @@ $(document).on('click', '.btn-modal-article', function() {
       }
     }
   });
-}).on('click', '.btn-post-article', function() {
-  // 기사 등록
-  var $btn = $(this);
-  var formData = new FormData($('#postArticle')[0]);
-  var content = CKEDITOR.instances.articleContent.getData();
-  formData.append('content', content);
-  $.ajax({
-    processData: false,
-    contentType: false,
-    url: '/desk/article_update',
-    data: formData,
-    dataType: 'json',
-    type: 'post',
-    beforeSend: function() {
-      $btn.css('opacity', '0.5').prop('disabled', true);
-    },
-    success: function(result) {
-      $btn.css('opacity', '1').prop('disabled', false);
-      if (result.error == 1) {
-        $('.error-message').text(result.message);
-        setTimeout(function() { $('.error-message').text(''); }, 2000);
-      } else {
-        location.replace('/desk/article');
-      }
-    }
-  });
 });

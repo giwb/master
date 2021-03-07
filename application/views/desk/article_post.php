@@ -1,5 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
+                <script type="text/javascript" src="/public/se2/js/HuskyEZCreator.js" charset="utf-8"></script>
+
                 <form id="postArticle" method="post" action="/desk/article_update">
                 <input type="hidden" name="idx" value="<?=!empty($view['idx']) ? $view['idx'] : ''?>">
                 <input type="hidden" name="useridx" value="<?=!empty($userData['idx']) ? $userData['idx'] : ''?>">
@@ -109,5 +111,44 @@
                     </div>
                 </div>
 
-                <script src="/public/ckeditor/ckeditor.js" type="text/javascript" charset="utf-8"></script>
-                <script> CKEDITOR.replace('articleContent'); </script>
+                <script type="text/javascript">
+                    var oEditors = [];
+                    nhn.husky.EZCreator.createInIFrame({
+                        oAppRef: oEditors,
+                        elPlaceHolder: 'articleContent',
+                        sSkinURI: '/public/se2/SmartEditor2Skin.html',
+                        fCreator: 'createSEditor2'
+                    });
+                    function pasteHTML(filepath){
+                        var sHTML = '<img src="/public/uploads/editor/' + filepath + '">';
+                        oEditors.getById['articleContent'].exec('PASTE_HTML', [sHTML]);
+                    }
+                    $(document).on('click', '.btn-post-article', function() {
+                      // 기사 등록
+                      oEditors.getById['articleContent'].exec('UPDATE_CONTENTS_FIELD', []);
+                      var $btn = $(this);
+                      var formData = new FormData($('#postArticle')[0]);
+                      var content = $('#articleContent').val();
+                      formData.append('content', content);
+                      $.ajax({
+                        processData: false,
+                        contentType: false,
+                        url: '/desk/article_update',
+                        data: formData,
+                        dataType: 'json',
+                        type: 'post',
+                        beforeSend: function() {
+                          $btn.css('opacity', '0.5').prop('disabled', true);
+                        },
+                        success: function(result) {
+                          $btn.css('opacity', '1').prop('disabled', false);
+                          if (result.error == 1) {
+                            $('.error-message').text(result.message);
+                            setTimeout(function() { $('.error-message').text(''); }, 2000);
+                          } else {
+                            location.replace('/desk/article');
+                          }
+                        }
+                      });
+                    });
+                </script>

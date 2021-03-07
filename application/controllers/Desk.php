@@ -178,6 +178,59 @@ class Desk extends Desk_Controller
   }
 
   /**
+   * 멀티 사진 업로드
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function upload()
+  {
+    $this->load->view('desk/upload');
+  }
+
+  /**
+   * 멀티 사진 업로드 처리
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function upload_process()
+  {
+    $result = array();
+    $files = $_FILES['files'];
+    foreach ($files['tmp_name'] as $key => $value) {
+      if (!empty($value)) {
+        if ($files['type'][$key] == 'image/jpeg') {
+          $ext = ".jpg";
+        } else {
+          $ext = ".jpg";
+        }
+        $filename = time() . mt_rand(10000, 99999) . $ext;
+        if (move_uploaded_file($value, PHOTO_ARTICLE_PATH . $filename)) {
+          // 썸네일 만들기
+          $this->image_lib->clear();
+          $config['image_library'] = 'gd2';
+          $config['source_image'] = PHOTO_ARTICLE_PATH . $filename;
+          $config['new_image'] = PHOTO_ARTICLE_PATH . 'thumb_' . $filename;
+          $config['create_thumb'] = TRUE;
+          $config['maintain_ratio'] = TRUE;
+          $config['thumb_marker'] = '';
+          $config['width'] = 500;
+          $this->image_lib->initialize($config);
+          $this->image_lib->resize();
+        }
+        $buf = array(
+          'sFileName' => $filename,
+          'sFileURL' => PHOTO_ARTICLE_URL . $filename,
+          'bNewLine' => 'true'
+        );
+        array_push($result, $buf);
+      }
+    }
+    $this->output->set_output(json_encode($result));    
+  }
+
+  /**
    * 페이지 표시
    *
    * @param $viewPage

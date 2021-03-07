@@ -102,6 +102,10 @@ defined('EDITOR_PATH')        OR define('EDITOR_PATH', BASE_PATH . EDITOR_URL);
 defined('PHOTO_URL')          OR define('PHOTO_URL', '/public/photos/');
 defined('PHOTO_PATH')         OR define('PHOTO_PATH', BASE_PATH . PHOTO_URL);
 
+// 기사 사진 업로드 디렉토리
+defined('PHOTO_ARTICLE_URL')  OR define('PHOTO_ARTICLE_URL', PHOTO_URL . 'article/');
+defined('PHOTO_ARTICLE_PATH') OR define('PHOTO_ARTICLE_PATH', BASE_PATH . PHOTO_ARTICLE_URL);
+
 // 테이블명
 defined('DB_ADJUST')          OR define('DB_ADJUST', 'adjust'); // 정산
 defined('DB_ALBUM')           OR define('DB_ALBUM', 'album'); // 사진첩
