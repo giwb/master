@@ -29,13 +29,13 @@ class Login extends MY_Controller
 
     if (empty($userid) || empty($password)) {
       // 잘못된 접근을 한 사람은 되돌려 보내기
-      if (empty($viewData['clubIdx']) && !empty($viewData['redirect_url'])) {
+      /*if (empty($viewData['clubIdx']) && !empty($viewData['redirect_url'])) {
         redirect(BASE_URL . '/login/?r=' . $viewData['redirect_url']);
         exit;
       }
 
       // 로그인 상태의 회원은 되돌려 보내기
-      checkUserLoginRedirect($viewData['redirect_url']);
+      checkUserLoginRedirect($viewData['redirect_url']);*/
 
       // 페이지 타이틀
       $viewData['pageTitle'] = '로그인';

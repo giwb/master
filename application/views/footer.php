@@ -32,7 +32,7 @@
             </dl>
             <dl>
               <dt>비밀번호</dt>
-              <dd><input type="password" name="password" class="form-control input-login" value="<?=!empty($cookiePasswd) ? $cookiePasswd : ''?>"></dd>
+              <dd><input type="password" name="login_password" class="form-control input-login" value="<?=!empty($cookiePasswd) ? $cookiePasswd : ''?>"></dd>
             </dl>
             <label class="small pl-5"><input type="checkbox" name="save"> 아이디/비밀번호 저장</label>
           </form>
