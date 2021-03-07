@@ -1072,4 +1072,12 @@ if (!function_exists('getUserAgent')) {
     return $result;
   }
 }
+
+
+if (!function_exists('articleContent')) {
+  function articleContent($content) {
+    $content = ksubstr(strip_tags(reset_html_escape($content)), 200);
+    return $content;
+  }
+}
 ?>

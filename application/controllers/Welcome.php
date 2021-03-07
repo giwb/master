@@ -8,25 +8,13 @@ class Welcome extends MY_Controller
   {
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
-    $this->load->model(array('admin_model', 'area_model', 'club_model', 'file_model', 'place_model'));
+    $this->load->model(array('desk_model'));
   }
 
   public function index()
   {
     $viewData['userData'] = $this->load->get_var('userData');
-
-    $viewData['search'] = $this->input->get('search');
-    $viewData['keyword'] = $this->input->get('keyword');
-    $viewData['list'] = $this->place_model->listPlace($viewData['search'], $viewData['keyword']);
-
-    foreach ($viewData['list'] as $key => $value) {
-      $file = $this->file_model->getFile('place', $value['idx'], TYPE_MAIN, 1);
-      if (!empty($file[0]['filename'])) {
-        $viewData['list'][$key]['photo'] = PHOTO_URL . 'thumb_' . $file[0]['filename'];
-      } else {
-        $viewData['list'][$key]['photo'] = '/public/images/noimage.png';
-      }
-    }
+    $viewData['listArticle'] = $this->desk_model->listMainArticle();
 
     $this->_viewPage('index', $viewData);
   }

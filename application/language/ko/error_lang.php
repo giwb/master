@@ -27,3 +27,7 @@ $lang['error_photo_delete']       = '사진 삭제에 문제가 발생했습니�
 $lang['error_photo_ext']          = 'jpg / png 형식의 사진만 업로드 할 수 있습니다.';
 $lang['error_member_duplicate']   = '이미 등록되어 있는 회원입니다.';
 $lang['error_admin_duplicate']    = '이미 등록된 정보입니다. 관리자에게 문의해주세요.';
+$lang['error_no_title']           = '타이틀을 입력해주세요.';
+$lang['error_no_category']        = '분류를 선택해주세요.';
+$lang['error_no_content']         = '내용을 입력해주세요.';
+$lang['error_no_viewing']         = '공개일시를 입력해주세요.';

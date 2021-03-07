@@ -111,6 +111,66 @@ class Login extends MY_Controller
   }
 
   /**
+   * 한국여행 로그인
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function process()
+  {
+    $viewData['redirect_url'] = !empty($this->input->get('r')) ? html_escape($this->input->get('r')) : BASE_URL;
+    $userid = html_escape($this->input->post('login_userid'));
+    $password = html_escape($this->input->post('login_password'));
+    $save = html_escape($this->input->post('save'));
+
+    if (empty($userid) && empty($password)) {
+      // 아이디와 패스워드가 없을때는 로그인 페이지를 보여준다.
+      $result = array('error' => 1, 'message' => '아이디와 비밀번호를 입력해주세요.');
+    } else {
+      // 이미 로그인 되어 있는지 확인
+      $userIdx = $this->session->userData['idx'];
+
+      if (!empty($userIdx)) {
+        $result = array('error' => 0, 'message' => $viewData['redirect_url']);
+      } else {
+        // 아이디와 패스워드를 입력하면 로그인 처리를 실행한다.
+        $userData = $this->member_model->checkLogin($userid);
+
+        if (empty($userData['idx'])) {
+          // 정보가 없으면 로그인 실패
+          $result = array('error' => 1, 'message' => '등록되지 않은 아이디입니다.');
+        } elseif ($userData['password'] != md5($password)) {
+          // 비밀번호가 다르면 로그인 실패
+          $result = array('error' => 1, 'message' => '비밀번호가 일치하지 않습니다.');
+        } else {
+          // 로그인에 성공하면 회원정보 업데이트
+          $updateValues['connect'] = $userData['connect'] + 1;
+          $updateValues['lastdate'] = time();
+
+          $this->member_model->updateMember($updateValues, $userData['idx']);
+
+          // 세션 저장
+          $this->session->set_userdata('userData', $userData);
+
+          if (empty($save)) {
+            // 쿠키 삭제
+            delete_cookie('cookie_userid');
+            delete_cookie('cookie_passwd');
+          } else {
+            // 쿠키 저장
+            set_cookie('cookie_userid', $userid, COOKIE_STRAGE_PERIOD);
+            set_cookie('cookie_passwd', $password, COOKIE_STRAGE_PERIOD);
+          }
+
+          $result = array('error' => 0, 'message' => $viewData['redirect_url']);
+        }
+      }
+
+      $this->output->set_output(json_encode($result));
+    }
+  }
+
+  /**
    * 로그아웃
    *
    * @return json

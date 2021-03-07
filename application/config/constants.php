@@ -133,6 +133,8 @@ defined('DB_SHOP_PURCHASE')   OR define('DB_SHOP_PURCHASE', 'shop_purchase'); //
 defined('DB_VISITOR')         OR define('DB_VISITOR', 'visitor'); // 방문자
 defined('DB_WAIT')            OR define('DB_WAIT', 'wait'); // 대기자 명단
 defined('DB_WEATHER')         OR define('DB_WEATHER', 'weather'); // 날씨
+defined('DB_ARTICLE')         OR define('DB_ARTICLE', 'article'); // 한국여행 기사
+defined('DB_ARTICLE_CATEGORY') OR define('DB_ARTICLE_CATEGORY', 'article_category'); // 한국여행 기사 카테고리
 
 // 사진 형식
 defined('TYPE_MAIN')          OR define('TYPE_MAIN', 1);
