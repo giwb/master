@@ -92,7 +92,7 @@
               <div class="col-md-6 my-3">
                 <div class="card">
                   <div class="view overlay">
-                    <!--<img src="/public/images/tripkorea/article1.jpg" class="card-img-top">-->
+                    <img src="<?=getThumbnail($value['content'])?>" class="card-img-top">
                     <a href="/article/<?=$value['idx']?>"><div class="mask rgba-white-slight"></div></a>
                   </div>
                   <div class="card-body">
