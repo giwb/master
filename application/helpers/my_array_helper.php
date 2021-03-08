@@ -1082,7 +1082,7 @@ if (!function_exists('articleContent')) {
 }
 
 // 기사 썸네일 가져오기
-if (!function_exists('getThumb')) {
+if (!function_exists('getThumbnail')) {
   function getThumbnail($content) {
     preg_match("/<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i", reset_html_escape($content), $match);
     if (empty($match[1])) {
