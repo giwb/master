@@ -2161,7 +2161,7 @@ body { font-family: 'Noto Sans KR', sans-serif; }
 .area-article { cursor: pointer; }
 .area-photo { max-height: 100px; overflow: hidden; }
 .area-photo img { width: 100%; min-height: 100px; }
-.post-article { padding: 50px 50px 0 50px; text-align: justify; }
+.post-article { padding: 50px; text-align: justify; }
 .post-article p { margin: 0px; padding: 0px; }
 .post-article img { max-width: 100%; }
 
