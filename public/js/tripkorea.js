@@ -68,4 +68,32 @@ $(document).on('click', '.login-popup', function() {
   });
 }).on('click', '.area-article', function() {
   location.href = ('/article/' + $(this).data('idx'));
+}).on('click', '.btn-more', function() {
+  // 더보기
+  var $btn = $(this);
+  var paging = $('input[name=p]').val();
+  var data = '';
+
+  if (typeof paging != 'undefined') {
+    $('input[name=p]').val(Number(paging) + 1);
+    data = 'p=' + $('input[name=p]').val();
+
+    $.ajax({
+      url: '/welcome/article_list',
+      data: data,
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('불러오는 중.....');
+      },
+      success: function(result) {
+        if (result == '') {
+          $btn.css('opacity', '1').prop('disabled', true).text('마지막 페이지 입니다.');
+        } else {
+          $btn.css('opacity', '1').prop('disabled', false).text('더 보기');
+          if (result != '') $('.article-list').append(result);
+        }
+      }
+    });
+  }
 });

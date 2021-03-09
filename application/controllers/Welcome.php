@@ -19,14 +19,41 @@ class Welcome extends MY_Controller
    **/
   public function index()
   {
+    $paging['perPage'] = $viewData['perPage'] = 10;
+    $paging['nowPage'] = (1 * $paging['perPage']) - $paging['perPage'];
+    $viewData['maxArticle'] = $this->desk_model->cntArticle();
+
     // 최신 기사
-    $viewData['listArticle'] = $this->desk_model->listMainArticle();
+    $viewData['listArticle'] = $this->desk_model->listMainArticle(NULL, $paging);
+    $viewData['listArticle'] = $this->load->view('/article_list', $viewData, true);
 
     // 메인 기사
     $search['main_status'] = 'Y';
     $viewData['listArticleMain'] = $this->desk_model->listMainArticle($search);
 
     $this->_viewPage('index', $viewData);
+  }
+
+  /**
+   * 기사 목록
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function article_list()
+  {
+    $page = html_escape($this->input->post('p'));
+    $result = '';
+
+    $paging['perPage'] = 10;
+    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
+    $viewData['listArticle'] = $this->desk_model->listMainArticle(NULL, $paging);
+
+    if (!empty($viewData['listArticle'])) {
+      $result = $this->load->view('/article_list', $viewData, true);
+    }
+
+    $this->output->set_output(json_encode($result));
   }
 
   /**

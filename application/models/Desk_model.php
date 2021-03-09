@@ -18,7 +18,7 @@ class Desk_model extends CI_Model
   **/
 
   // 메인 페이지 기사 목록
-  public function listMainArticle($search=NULL, $order='desc')
+  public function listMainArticle($search=NULL, $paging=NULL, $order='desc')
   {
     $this->db->select('a.*, b.name AS category_name, c.nickname')
           ->from(DB_ARTICLE . ' a')
@@ -36,16 +36,23 @@ class Desk_model extends CI_Model
     if (!empty($search['main_status'])) {
       $this->db->where('a.main_status', $search['main_status']);
     }
+    if (!is_null($paging)) {
+      $this->db->limit($paging['perPage'], $paging['nowPage']);
+    }
 
     return $this->db->get()->result_array();
   }
 
-  // 분류별 기사 개수
-  public function cntArticle($code)
+  // 기사 개수
+  public function cntArticle($code=NULL)
   {
     $this->db->select('COUNT(*) as cnt')
-          ->from(DB_ARTICLE)
-          ->where('category', $code);
+          ->from(DB_ARTICLE);
+
+    if (!empty($code)) {
+      $this->db->where('category', $code);
+    }
+
     return $this->db->get()->row_array(1);
   }
 
