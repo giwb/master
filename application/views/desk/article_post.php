@@ -2,7 +2,7 @@
 
                 <script type="text/javascript" src="/public/se2/js/HuskyEZCreator.js" charset="utf-8"></script>
 
-                <form id="postArticle" method="post" action="/desk/article_update">
+                <form id="postArticle" method="post" action="/desk/article_update" enctype="multipart/form-data">
                 <input type="hidden" name="idx" value="<?=!empty($view['idx']) ? $view['idx'] : ''?>">
                 <input type="hidden" name="useridx" value="<?=!empty($userData['idx']) ? $userData['idx'] : ''?>">
                 <div class="container-fluid">
@@ -54,11 +54,22 @@
                                             <td><textarea name="content" rows="10" cols="100" id="articleContent"><?=!empty($view['content']) ? $view['content'] : ''?></textarea></td>
                                         </tr>
                                         <tr>
+                                            <th class="text-center">메인 사진</th>
+                                            <td>
+                                                <input type="file" name="main_image">
+                                                <div class="pt-2 pb-2 text-danger">※ 메인 페이지에 올리는 사진은 2000 x 800 사이즈에 최적화되어 있습니다.</div>
+                                                <?php if (!empty($view['main_image'])): ?>
+                                                    <div class="pt-2 pb-2"><img src="<?=PHOTO_ARTICLE_URL . $view['main_image']?>" style="max-width: 600px;"></div>
+                                                    <input type="hidden" name="main_image_uploaded" value="<?=$view['main_image']?>">
+                                                <?php endif; ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
                                             <th class="text-center">공개일시</th>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-6"><input type="text" name="viewing_date" id="datePicker" class="form-control" autocomplete="off" value="<?=!empty($view['viewing_at']) ? date('Y-m-d', $view['viewing_at']) : ''?>"></div>
-                                                    <div class="col-6"><input type="text" name="viewing_time" class="form-control" placeholder="00:00" value="<?=!empty($view['viewing_at']) ? date('H:i', $view['viewing_at']) : ''?>"></div>
+                                                    <div class="col-6"><input type="text" name="viewing_date" id="datePicker" class="form-control" autocomplete="off" value="<?=!empty($view['viewing_at']) ? date('Y-m-d', $view['viewing_at']) : date('Y-m-d')?>"></div>
+                                                    <div class="col-6"><input type="text" name="viewing_time" class="form-control" placeholder="00:00" value="<?=!empty($view['viewing_at']) ? date('H:i', $view['viewing_at']) : date('H:i')?>"></div>
                                                 </div>
                                             </td>
                                         </tr>

@@ -26,6 +26,9 @@ class Desk_model extends CI_Model
     if (!empty($search['code'])) {
       $this->db->where('a.category', $search['code']);
     }
+    if (!empty($search['main_status'])) {
+      $this->db->where('a.main_status', $search['main_status']);
+    }
 
     return $this->db->get()->result_array();
   }

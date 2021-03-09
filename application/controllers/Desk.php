@@ -89,11 +89,24 @@ class Desk extends Desk_Controller
     if (empty($inputData['viewing_date']) || empty($inputData['viewing_time'])) {
       $result = array('error' => 1, 'message' => $this->lang->line('error_no_viewing'));
     }
+
     if (empty($result)) {
+      if (!empty($_FILES['main_image']['tmp_name'])) {
+        // 메인 이미지 처리
+        if ($_FILES['main_image']['type'] == 'image/jpeg') {
+          $ext = ".jpg";
+        } else {
+          $ext = ".jpg";
+        }
+        $inputData['main_image_uploaded'] = time() . mt_rand(10000, 99999) . $ext;
+        move_uploaded_file($_FILES['main_image']['tmp_name'], PHOTO_ARTICLE_PATH . $inputData['main_image_uploaded']);
+      }
+
       if (!empty($inputData['idx'])) {
         $idx = html_escape($inputData['idx']);
         $updateValues = array(
           'category'    => html_escape($inputData['category']),
+          'main_image'  => !empty($inputData['main_image_uploaded']) ? html_escape($inputData['main_image_uploaded']) : NULL,
           'title'       => html_escape($inputData['title']),
           'content'     => html_escape($inputData['content']),
           'viewing_at'  => strtotime(html_escape($inputData['viewing_date']) . ' ' . html_escape($inputData['viewing_time'])),
@@ -104,6 +117,7 @@ class Desk extends Desk_Controller
       } else {
         $updateValues = array(
           'category'    => html_escape($inputData['category']),
+          'main_image'  => !empty($inputData['main_image_uploaded']) ? html_escape($inputData['main_image_uploaded']) : NULL,
           'title'       => html_escape($inputData['title']),
           'content'     => html_escape($inputData['content']),
           'viewing_at'  => strtotime(html_escape($inputData['viewing_date']) . ' ' . html_escape($inputData['viewing_time'])),
@@ -116,6 +130,19 @@ class Desk extends Desk_Controller
     }
 
     $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 기사 메인 등록
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function article_main()
+  {
+    $updateValues['main_status'] = html_escape($this->input->post('value'));
+    $this->desk_model->update(DB_ARTICLE, $updateValues, html_escape($this->input->post('idx')));
+    redirect('/desk/article');
   }
 
   /**

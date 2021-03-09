@@ -69,20 +69,38 @@ $(function() {
   });
 });
 
-$(document).on('click', '.btn-modal-article', function() {
+$(document).on('click', '.btn-modal-delete-article', function() {
   // 기사 삭제 모달
-  var $dom = $('#deleteArticleModal');
+  var $dom = $('#messageModal');
+  $('#formModal').attr('action', '/desk/article_delete');
+  $('.modal-message', $dom).text('정말로 삭제하시겠습니까?');
+  $('.btn-modal-submit', $dom).text('삭제').addClass('btn-danger');
   $('input[name=idx]', $dom).val($(this).data('idx'));
   $dom.modal();
-}).on('click', '.btn-delete-article', function() {
-  // 기사 삭제
-  $('#deleteArticle').submit();
-}).on('click', '.view-article', function() {
-  // 기사 보기
-  location.href = ('/desk/article_view/' + $(this).parent().data('idx'));
+}).on('click', '.btn-modal-main', function() {
+  // 메인 확인 모달 열기
+  var $dom = $('#messageModal');
+  $('#formModal').attr('action', '/desk/article_main');
+  if ($(this).data('status') == 'Y') {
+    $('input[name=value]', $dom).val('N');
+    $('.modal-message', $dom).text('이 기사를 메인에서 내릴까요?');
+    $('.btn-modal-submit', $dom).text('확인').addClass('btn-danger');
+  } else {
+    $('input[name=value]', $dom).val('Y');
+    $('.modal-message', $dom).text('이 기사를 메인에 등록할까요?');
+    $('.btn-modal-submit', $dom).text('등록').addClass('btn-primary');
+  }
+  $('input[name=idx]', $dom).val($(this).data('idx'));
+  $dom.modal();
 }).on('click', '.btn-modal-category', function() {
   // 분류 편집 모달 열기
   $('#editCategoryModal').modal();
+}).on('click', '.btn-modal-submit', function() {
+  // 모달 확인
+  $('#formModal').submit();
+}).on('click', '.view-article', function() {
+  // 기사 보기
+  location.href = ('/desk/article_view/' + $(this).parent().data('idx'));
 }).on('click', '.btn-add-category', function() {
   // 분류 항목 추가
   $('.area-category').append('<div class="row p-1"><div class="col-6"><input type="text" name="category_code[]" class="form-control"></div><div class="col-6"><input type="text" name="category_name[]" class="form-control"></div></div>');
@@ -108,7 +126,6 @@ $(document).on('click', '.btn-modal-article', function() {
       } else {
         $('.article-category').empty().append(result.message);
         $('#editCategoryModal').modal('hide');
-        
       }
     }
   });

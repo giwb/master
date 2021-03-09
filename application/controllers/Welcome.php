@@ -22,6 +22,10 @@ class Welcome extends MY_Controller
     // 최신 기사
     $viewData['listArticle'] = $this->desk_model->listMainArticle();
 
+    // 메인 기사
+    $search['main_status'] = 'Y';
+    $viewData['listArticleMain'] = $this->desk_model->listMainArticle($search);
+
     $this->_viewPage('index', $viewData);
   }
 

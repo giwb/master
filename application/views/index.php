@@ -1,80 +1,41 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-  <div id="carousel-example-1z" class="carousel slide carousel-fade" data-ride="carousel">
+  <div id="carousel-main" class="carousel slide carousel-fade" data-ride="carousel">
     <ol class="carousel-indicators">
-      <li data-target="#carousel-example-1z" data-slide-to="0" class="active"></li>
-      <li data-target="#carousel-example-1z" data-slide-to="1"></li>
-      <li data-target="#carousel-example-1z" data-slide-to="2"></li>
+      <?php foreach($listArticleMain as $key => $value): ?>
+      <li data-target="#carousel-main" data-slide-to="<?=$key?>"<?=$key == 0 ? ' class="active"' : ''?>></li>
+      <?php endforeach; ?>
     </ol>
     <div class="carousel-inner" role="listbox">
-      <div class="carousel-item active">
+      <?php foreach($listArticleMain as $key => $value): ?>
+      <div class="carousel-item<?=$key == 0 ? ' active' : ''?>">
         <div class="view h-100 d-flex justify-content-center">
-          <img class="d-block h-100 w-lg-100" src="/public/images/tripkorea/1.jpg" alt="First slide">
+          <img class="d-block h-100 w-lg-100" src="<?=PHOTO_ARTICLE_URL . $value['main_image']?>">
           <div class="mask rgba-black-light">
             <!-- Caption -->
             <div class="full-bg-img flex-center white-text">
               <ul class="list-unstyled animated fadeIn col-10">
                 <li>
-                  <h1 class="h1-responsive font-weight-bold">계룡산 국립공원의 비경</h1>
+                  <h1 class="h1-responsive font-weight-bold"><?=$value['title']?></h1>
                 </li>
                 <li>
-                  <p>동학사와 갑사로 유명한, 계룡산 하늘공원에 다녀오다</p>
+                  <p class="carousel-content"><?=articleContent($value['content'])?></p>
                 </li>
                 <li>
-                  <a href="/article" class="btn btn-info" rel="nofollow">더 보기</a>
+                  <a href="/article/<?=$value['idx']?>" class="btn btn-info" rel="nofollow">더 보기</a>
                 </li>
               </ul>
             </div>
           </div>
         </div>
       </div>
-      <div class="carousel-item h-100">
-        <div class="view h-100 d-flex justify-content-center">
-          <img class="d-block h-100 w-lg-100" src="/public/images/tripkorea/2.jpg" alt="Second slide">
-          <div class="mask rgba-stylish-strong">
-            <!-- Caption -->
-            <div class="full-bg-img flex-center white-text">
-              <ul class="list-unstyled animated fadeIn col-10">
-                <li>
-                  <h1 class="h1-responsive font-weight-bold">겨울왕국으로 변한 계방산의 아름다움</h1>
-                </li>
-                <li>
-                  <p>해발 1,577m의 계방산은 태백산맥의 한줄기로 동쪽으로 오대산을 바라보고 우뚝 서 있으며<br>한라, 지리, 설악, 덕유산에 이은 남한 제 5위봉이다.</p>
-                </li>
-                <li>
-                  <a href="/article" class="btn btn-info" rel="nofollow">더 보기</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <div class="view h-100 d-flex justify-content-center">
-          <img class="d-block h-100 w-lg-100" src="/public/images/tripkorea/3.jpg" alt="Third slide">
-          <div class="mask rgba-black-light">
-            <div class="full-bg-img flex-center white-text">
-              <ul class="list-unstyled animated fadeIn col-md-12">
-                <li>
-                  <h1 class="h1-responsive font-weight-bold">지리산.. 어머니 품처럼 넓고 포근한 영산</h1>
-                </li>
-                <li>
-                  <p>대한민국 화첩산행 100의 네번째 산은 지리산이다.<br>지금부터 성삼재에서 출발하는 32.5km 종주코스를 소개한다.</p>
-                </li>
-                <li>
-                  <a href="/article" class="btn btn-default" rel="nofollow">더 보기</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+      <?php endforeach; ?>
     </div>
-    <a class="carousel-control-prev" href="#carousel-example-1z" role="button" data-slide="prev">
+    <a class="carousel-control-prev" href="#carousel-main" role="button" data-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="sr-only">Previous</span>
     </a>
-    <a class="carousel-control-next" href="#carousel-example-1z" role="button" data-slide="next">
+    <a class="carousel-control-next" href="#carousel-main" role="button" data-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="sr-only">Next</span>
     </a>

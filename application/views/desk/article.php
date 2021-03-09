@@ -33,8 +33,9 @@
                                             <td class="view-article"><?=$value['title']?></td>
                                             <td class="view-article text-center"><?=$value['nickname']?></td>
                                             <td class="text-center">
+                                                <button type="button" data-idx="<?=$value['idx']?>" data-status="<?=$value['main_status']?>" class="btn btn-sm<?=$value['main_status'] == 'Y' ? ' btn-primary' : ' btn-secondary'?> btn-modal-main">메인</button>
                                                 <a href="/desk/article_post/<?=$value['idx']?>"><button class="btn btn-sm btn-secondary">수정</button></a>
-                                                <button type="button" data-idx="<?=$value['idx']?>" class="btn btn-sm btn-danger btn-modal-article">삭제</button>
+                                                <button type="button" data-idx="<?=$value['idx']?>" class="btn btn-sm btn-danger btn-modal-delete-article">삭제</button>
                                             </td>
                                         </tr>
                                         <?php endforeach; ?>

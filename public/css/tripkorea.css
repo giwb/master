@@ -2152,6 +2152,7 @@ body { font-family: 'Noto Sans KR', sans-serif; }
 #mainContent { padding-top: 75px; }
 .navbar { width: 100%; position: fixed; z-index: 100; }
 .dropdown-search { left: -300px!important; }
+.carousel-content { width: 600px; text-align: justify; margin: 0 auto!important; }
 .listing-section .view{height:250px;}
 .viewContent { text-align: justify; padding: 0 30px 15px 30px; }
 .page-footer p { margin-bottom: 0.2rem; }
@@ -2165,8 +2166,9 @@ body { font-family: 'Noto Sans KR', sans-serif; }
 .post-data img { max-width: 100%; }
 
 @media (max-width:740px) {
-	#mainContent { padding-top: 65px; }
+	#mainContent { padding-top: 50px; }
 	.dropdown-search { left: 0px!important; }
+	.carousel-content { width: 100%!important; font-size: 0.8em; }
 	.h2, h2 { font-size: 1.5rem; }
 	.h4, h4 { font-size: 1.2rem; }
 	.listing-section .view{height:auto;}
