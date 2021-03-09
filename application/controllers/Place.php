@@ -14,51 +14,22 @@ class Place extends MY_Controller
 
   public function index()
   {
-    $viewData['search'] = $this->input->get('search');
-    $viewData['keyword'] = $this->input->get('keyword');
-    $viewData['list'] = $this->place_model->listPlace($viewData['search'], $viewData['keyword']);
-
-    foreach ($viewData['list'] as $key => $value) {
-      $file = $this->file_model->getFile('place', $value['idx'], TYPE_MAIN, 1);
-      if (!empty($file[0]['filename'])) {
-        $viewData['list'][$key]['photo'] = PHOTO_URL . 'thumb_' . $file[0]['filename'];
-      } else {
-        $viewData['list'][$key]['photo'] = '/public/images/noimage.png';
-      }
-    }
-
-    switch ($viewData['keyword']) {
-      case 'type2': $viewData['pageTitle'] = '산림청 선정 100대 명산'; break;
-      case 'type3': $viewData['pageTitle'] = '블랙야크 명산100'; break;
-      case 'type4': $viewData['pageTitle'] = '죽기전에 꼭 가봐야 할 국내여행 1001'; break;
-      case 'type5': $viewData['pageTitle'] = '백두대간'; break;
-      case 'type6': $viewData['pageTitle'] = '도보트레킹'; break;
-      case 'type7': $viewData['pageTitle'] = '투어'; break;
-      case 'type8': $viewData['pageTitle'] = '섬'; break;
-      default: $viewData['pageTitle'] = '전체보기';
-    }
+    $viewData['listPlace'] = $this->place_model->listPlace();
 
     $this->_viewPage('place/index', $viewData);
   }
 
   public function view($idx)
   {
-    $viewData['view'] = $this->place_model->viewPlace($idx);
-    $viewData['view']['photo'] = array();
-    $viewData['view']['reason'] = reset_html_escape($viewData['view']['reason']);
-    $viewData['view']['content'] = reset_html_escape($viewData['view']['content']);
-    $viewData['view']['around'] = reset_html_escape($viewData['view']['around']);
-    $viewData['view']['course'] = reset_html_escape($viewData['view']['course']);
-
-    $files = $this->file_model->getFile('place', $idx);
-
-    foreach ($files as $key => $value) {
-      if ($value['filename'] != '') {
-        $viewData['view']['photo_' . $value['type']][$key] = $value['filename'];
-      } else {
-        $viewData['view']['photo_' . $value['type']][$key] = '';
-      }
+    if (is_null($idx)) {
+      $viewData['view']['title'] = '';
+      $viewData['view']['content'] = '<div style="pt-5 pb-5">관련 기사가 없습니다.</div>';
+    } else {
+      $viewData['view'] = $this->place_model->viewPlace($idx);
     }
+
+    $search['category'] = $viewData['view']['category'];
+    $viewData['listPlace'] = $this->place_model->listPlace($search);
 
     $this->_viewPage('place/view', $viewData);
   }
