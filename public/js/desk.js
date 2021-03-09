@@ -101,6 +101,9 @@ $(document).on('click', '.btn-modal-delete-article', function() {
 }).on('click', '.view-article', function() {
   // 기사 보기
   location.href = ('/desk/article_view/' + $(this).parent().data('idx'));
+}).on('click', '.view-place', function() {
+  // 여행정보 보기
+  location.href = ('/desk/place_view/' + $(this).parent().data('idx'));
 }).on('click', '.btn-add-category', function() {
   // 분류 항목 추가
   $('.area-category').append('<div class="row p-1"><div class="col-6"><input type="text" name="category_code[]" class="form-control"></div><div class="col-6"><input type="text" name="category_name[]" class="form-control"></div></div>');
@@ -111,7 +114,7 @@ $(document).on('click', '.btn-modal-delete-article', function() {
   $.ajax({
     processData: false,
     contentType: false,
-    url: '/desk/category_update',
+    url: '/desk/article_category_update',
     data: formData,
     dataType: 'json',
     type: 'post',

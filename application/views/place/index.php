@@ -10,25 +10,27 @@
               <div class="col-6 text-right" style="color: #3e4551;"><h4><i class="fas fa-th-list" title="목록"></i> <i class="fas fa-th-large ml-2" title="사진"></i></i></h4></div>
             </div>
             <hr class="red mt-2">
-            <div class="row mb-4">
-              <div class="col-md-12 my-3">
+            <div class="row card no-gutters mt-4 mb-2">
+              <div class="col-md-12">
                 <div class="row">
-                  <div class="col-md-6">
+                  <div class="col-md-6 view overlay">
                     <img src="https://tripkorea.net/public/photos/156764919843927.jpg" class="card-img-top">
                     <a href="detail.html"><div class="mask rgba-white-slight"></div></a>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-6 pl-0 pb-0 pr-4">
                     <div class="card-body">
                       <h4 class="card-title"><strong><a href="detail.html"><i class="fas fa-crown pr-1" style="color:gold;"></i> 가리산<br><small class="grey-text">강원 춘천시, 홍천군 / 1,051m</small></a></strong></h4><hr>
-                      <p class="card-text text-justify">강원도에서 진달래가 가장 많이 피는 산으로 알려져 있고, 참나무 중심의 울창한 산림과 부드러운 산줄기 등 우리나라 산의 전형적인 모습을 갖추고 있으며, 홍천강의 발원지 및 소양강의 수원(水源)을 이루고 있는 점 등을...</p>
+                      <p class="card-text text-justify">강원도에서 진달래가 가장 많이 피는 산으로 알려져 있고, 참나무 중심의 울창한 산림과 부드러운 산줄기 등 우리나라 산의 전형적인 모습을 갖추고 있으며, 홍천강의 발원지 및 소양강의 수원(水源)을 이루고 있는 점 등을 강원도에서 진달래가 가장 많이 피는 산으로 알려져 있고, 참나무 중심의 울창한 산림과 부드러운 산줄기 등 우리나라 산의 전형적인 모습을 갖추고...</p>
                     </div>
-                    <div class="mdb-color lighten-3 text-center">
-                      <ul class="list-unstyled list-inline font-small mt-3">
-                        <li class="list-inline-item pr-2"><a href="detail.html" class="white-text"><i class="far fa-eye pr-1"></i>조회 24</a></li>
-                        <li class="list-inline-item pr-2"><a href="detail.html" class="white-text"><i class="far fa-comments pr-1"></i>댓글 0</a></li>
-                        <li class="list-inline-item"><a href="detail.html" class="white-text"><i class="fas fa-crown pr-1"></i>랭킹 1위</a></li>
-                      </ul>
-                    </div>
+                  </div>
+                </div>
+                <div class="row no-gutters">
+                  <div class="col-md-12 mdb-color lighten-3 text-center">
+                    <ul class="list-unstyled list-inline font-small mt-3">
+                      <li class="list-inline-item pr-2"><a href="detail.html" class="white-text"><i class="far fa-eye pr-1"></i>조회 24</a></li>
+                      <li class="list-inline-item pr-2"><a href="detail.html" class="white-text"><i class="far fa-comments pr-1"></i>댓글 0</a></li>
+                      <li class="list-inline-item"><a href="detail.html" class="white-text"><i class="fas fa-crown pr-1"></i>랭킹 1위</a></li>
+                    </ul>
                   </div>
                 </div>
               </div>
