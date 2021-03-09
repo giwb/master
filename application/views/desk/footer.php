@@ -2,7 +2,7 @@
 
             </div>
 
-            <footer class="sticky-footer bg-white">
+            <footer class="sticky-footer bg-white mt-3">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
                         Copyright &copy; <script>document.write(new Date().getFullYear());</script> <strong>한국여행</strong>. All Rights Reserved.<br>
