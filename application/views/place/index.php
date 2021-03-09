@@ -9,7 +9,7 @@
               <div class="col-6"><h4 class="font-weight-bold"><strong>산림청 100대 명산</strong></h4></div>
               <div class="col-6 text-right" style="color: #3e4551;"><h4><i class="fas fa-th-list" title="목록"></i> <i class="fas fa-th-large ml-2" title="사진"></i></i></h4></div>
             </div>
-            <hr class="red">
+            <hr class="red mt-2">
             <div class="row mb-4">
               <div class="col-md-12 my-3">
                 <div class="row">

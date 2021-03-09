@@ -4,7 +4,7 @@
         <section class="section mb-4">
           <h4 class="font-weight-bold"><strong>분류별 기사</strong></h4>
           <hr class="red">
-          <ul class="list-group z-depth-1 mt-4">
+          <ul class="list-group z-depth-1 mt-4 mb-5">
             <?php foreach ($listCategory as $value): ?>
             <li class="list-group-item d-flex justify-content-between align-items-center">
               <a href="/search/?code=<?=$value['code']?>"><?=$value['name']?></a>
@@ -14,14 +14,15 @@
           </ul>
         </section>
 
-        <section class="section">
-          <div class="jumbotron text-center">
-            <ins class="kakao_ad_area" style="display:none;" data-ad-unit    = "DAN-vmKgrkeNJQjRcNJm" data-ad-width   = "300" data-ad-height  = "250"></ins>
-            <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+        <section class="section mb-5">
+          <div class="card text-center">
+            <img src="/public/images/tripkorea/ad.jpg"><!--
+            <ins class="kakao_ad_area" style="display: none;" data-ad-unit="DAN-vmKgrkeNJQjRcNJm" data-ad-width="320" data-ad-height="100"></ins>
+            <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>-->
           </div>
         </section>
 
-        <section class="section mb-3">
+        <section class="section mb-5">
           <h4 class="row font-weight-bold">
             <div class="col-6"><strong>월간 산악회 랭킹</strong></div>
             <div class="col-6 text-right"><!--<a href="javascript:;" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a>--></div>
@@ -50,7 +51,7 @@
           </div>
         </section>
 
-        <section class="section widget-content mt-5">
+        <section class="section widget-content">
           <h4 class="row font-weight-bold">
             <div class="col-6"><strong>산행 정보</strong></div>
             <div class="col-6 text-right"><a href="/list" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a></div>
@@ -203,26 +204,25 @@
       </div>
       <div class="modal-body text-center">
         <form class="loginForm" method="post">
-          <dl>
-            <dt>아이디</dt>
-            <dd><input type="text" name="login_userid" class="form-control input-login" value="<?=!empty($cookieUserid) ? $cookieUserid : ''?>"></dd>
-          </dl>
-          <dl>
-            <dt>비밀번호</dt>
-            <dd><input type="password" name="login_password" class="form-control input-login" value="<?=!empty($cookiePasswd) ? $cookiePasswd : ''?>"></dd>
-          </dl>
-          <label class="small pl-5"><input type="checkbox" name="save"> 아이디/비밀번호 저장</label>
+          <div class="row align-items-center">
+            <div class="col-3">아이디</div>
+            <div class="col-9"><input type="text" name="login_userid" class="form-control input-login" value="<?=!empty($cookieUserid) ? $cookieUserid : ''?>"></div>
+          </div>
+          <div class="row align-items-center pt-2">
+            <div class="col-3">비밀번호</div>
+            <div class="col-9"><input type="password" name="login_password" class="form-control input-login" value="<?=!empty($cookiePasswd) ? $cookiePasswd : ''?>"></div>
+          </div>
+          <div class="row align-items-center pt-2">
+            <div class="col-3"></div>
+            <div class="col-9 text-left"><label class="small"><input type="checkbox" name="save"> 아이디/비밀번호 저장</label></div>
+          </div>
         </form>
         <div class="error-message"></div>
       </div>
-      <div class="modal-footer">
-        <div class="modal-footer-left">
-          <a href="<?=BASE_URL?>/login/check"><button type="button" class="btn btn-default">회원가입</button></a>
-          <a href="<?=BASE_URL?>/login/forgot"><button type="button" class="btn btn-secondary">아이디/비밀번호 찾기</button></a>
-        </div>
-        <div class="modal-footer-right">
-          <button type="button" class="btn btn-default btn-login">로그인</button>
-        </div>
+      <div class="border-top text-center p-3">
+        <a href="<?=BASE_URL?>/login/check"><button type="button" class="btn btn-default">회원가입</button></a>
+        <a href="<?=BASE_URL?>/login/forgot"><button type="button" class="btn btn-secondary">아이디/비밀번호 찾기</button></a>
+        <button type="button" class="btn btn-default btn-login">로그인</button>
       </div>
     </div>
   </div>
