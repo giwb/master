@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
       <div class="col-xl-4 col-md-12 widget-column mt-0">
-        <section class="section mb-5">
+        <section class="section mb-4">
           <h4 class="font-weight-bold"><strong>분류별 기사</strong></h4>
           <hr class="red">
           <ul class="list-group z-depth-1 mt-4">
@@ -12,6 +12,13 @@
             </li>
             <?php endforeach; ?>
           </ul>
+        </section>
+
+        <section class="section">
+          <div class="jumbotron text-center">
+            <ins class="kakao_ad_area" style="display:none;" data-ad-unit    = "DAN-vmKgrkeNJQjRcNJm" data-ad-width   = "300" data-ad-height  = "250"></ins>
+            <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+          </div>
         </section>
 
         <section class="section mb-3">
@@ -42,22 +49,6 @@
             </div>
           </div>
         </section>
-
-        <!--
-        <section class="section mt-5">
-          <div class="jumbotron text-center">
-            <h1 class="card-title h2-responsive mt-2"><strong>이곳에는 광고가 들어갑니다</strong></h1>
-            <p class="blue-text mb-4 mt-5 font-weight-bold">여기는 광고 섹션입니다.</p>
-            <div class="d-flex justify-content-center">
-              <p class="card-text mb-3" style="max-width: 43rem;">여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.여기는 광고 섹션입니다.
-              </p>
-            </div>
-            <hr class="my-4">
-            <button type="button" class="btn btn-primary btn-sm waves-effect">Buy now <span class="far fa-gem ml-1"></span></button>
-            <button type="button" class="btn btn-outline-primary btn-sm waves-effect">Download <i class="fas fa-download ml-1"></i></button>
-          </div>
-        </section>
-        -->
 
         <section class="section widget-content mt-5">
           <h4 class="row font-weight-bold">
