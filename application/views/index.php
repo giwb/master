@@ -22,7 +22,7 @@
                   <p class="carousel-content"><?=articleContent($value['content'])?></p>
                 </li>
                 <li>
-                  <a href="/article/<?=$value['idx']?>" class="btn btn-info" rel="nofollow">더 보기</a>
+                  <a href="/article/<?=$value['idx']?>" class="btn btn-default" rel="nofollow">더 보기</a>
                 </li>
               </ul>
             </div>
