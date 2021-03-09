@@ -407,7 +407,7 @@ class Place extends MY_Controller
 
     // 분류별 기사 카운트
     foreach ($viewData['listCategory'] as $key => $value) {
-      $cnt = $this->desk_model->cntPlaceArticle($value['code']);
+      $cnt = $this->desk_model->cntPlace($value['code']);
       $viewData['listCategory'][$key]['cnt'] = $cnt['cnt'];
     }
 

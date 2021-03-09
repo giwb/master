@@ -2,7 +2,13 @@
 
       <div class="col-xl-4 col-md-12 widget-column mt-0">
         <section class="section mb-4">
-          <h4 class="font-weight-bold"><strong>분류별 기사</strong></h4>
+          <h4 class="font-weight-bold"><strong>
+            <?php if (strstr($_SERVER['REQUEST_URI'], 'place')): ?>
+            여행정보 분류
+            <?php else: ?>
+            분류별 기사
+            <?php endif; ?>
+          </strong></h4>
           <hr class="red">
           <ul class="list-group z-depth-1 mt-4 mb-5">
             <?php foreach ($listCategory as $value): ?>
