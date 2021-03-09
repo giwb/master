@@ -9,7 +9,7 @@
               <div class="post-data mb-4">
                 <h2 class="font-weight-bold mt-3 pl-3 pr-3"><strong><?=$view['title']?></strong></h2>
                 <hr class="red title-hr">
-                <div class="pt-3 pb-3">
+                <div class="post-article">
                   <?=nl2br(reset_html_escape($view['content']))?>
                 </div><!--
                 <hr>
