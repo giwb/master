@@ -374,17 +374,17 @@ class Place extends MY_Controller
     $viewData['userData'] = $this->load->get_var('userData');
 
     // 분류별 기사
-    $viewData['listCategory'] = $this->desk_model->listPlaceCategory();
+    $viewData['listPlaceCategory'] = $this->desk_model->listPlaceCategory();
 
     // 분류별 기사 카운트
-    foreach ($viewData['listCategory'] as $key => $value) {
+    foreach ($viewData['listPlaceCategory'] as $key => $value) {
       $cnt = $this->desk_model->cntPlace($value['code']);
-      $viewData['listCategory'][$key]['cnt'] = $cnt['cnt'];
+      $viewData['listPlaceCategory'][$key]['cnt'] = $cnt['cnt'];
     }
 
     $this->load->view('/header', $viewData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view('/footer');
+    $this->load->view('/place/footer');
   }
 }
 ?>

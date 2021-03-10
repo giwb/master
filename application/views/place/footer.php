@@ -11,7 +11,7 @@
           </strong></h4>
           <hr class="red">
           <ul class="list-group z-depth-1 mt-4 mb-5">
-            <?php foreach ($listArticleCategory as $value): ?>
+            <?php foreach ($listPlaceCategory as $value): ?>
             <li class="list-group-item d-flex justify-content-between align-items-center">
               <a href="/search/?code=<?=$value['code']?>"><?=$value['name']?></a>
               <span class="badge badge-danger badge-pill"><?=$value['cnt']?>건</span>

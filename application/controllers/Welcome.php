@@ -441,12 +441,12 @@ class Welcome extends MY_Controller
     $viewData['userData'] = $this->load->get_var('userData');
 
     // 분류별 기사
-    $viewData['listCategory'] = $this->desk_model->listArticleCategory();
+    $viewData['listArticleCategory'] = $this->desk_model->listArticleCategory();
 
     // 분류별 기사 카운트
-    foreach ($viewData['listCategory'] as $key => $value) {
+    foreach ($viewData['listArticleCategory'] as $key => $value) {
       $cnt = $this->desk_model->cntArticle($value['code']);
-      $viewData['listCategory'][$key]['cnt'] = $cnt['cnt'];
+      $viewData['listArticleCategory'][$key]['cnt'] = $cnt['cnt'];
     }
 
     $this->load->view('header', $viewData);

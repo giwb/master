@@ -768,12 +768,12 @@ class Login extends MY_Controller
     $viewData['redirectUrl'] = $HTTP_HEADER . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
     // 분류별 기사
-    $viewData['listCategory'] = $this->desk_model->listCategory();
+    $viewData['listArticleCategory'] = $this->desk_model->listArticleCategory();
 
     // 분류별 기사 카운트
-    foreach ($viewData['listCategory'] as $key => $value) {
+    foreach ($viewData['listArticleCategory'] as $key => $value) {
       $cnt = $this->desk_model->cntArticle($value['code']);
-      $viewData['listCategory'][$key]['cnt'] = $cnt['cnt'];
+      $viewData['listArticleCategory'][$key]['cnt'] = $cnt['cnt'];
     }
 
     // 방문자 기록
