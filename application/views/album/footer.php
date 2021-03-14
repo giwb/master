@@ -1,5 +1,26 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
+
+          <div class="text-center pt-4">
+            <!-- 애드핏 -->
+            <section class="section mb-4">
+              <div class="card">
+                <ins class="kakao_ad_area" style="display:none;" data-ad-unit    = "DAN-CMBlCe8nHsLwMdHn" data-ad-width   = "320" data-ad-height  = "100"></ins>
+                <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+              </div>
+            </section>
+
+            <!-- 구글 광고 -->
+            <section class="section">
+              <div class="card text-center">
+                <!-- GOOGLE ADSENSE -->
+                <?php if (ENVIRONMENT == 'production' && $_SERVER['REMOTE_ADDR'] != '49.166.0.82'): ?>
+                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2424708381875991" data-ad-slot="1285643193" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
+                <?php endif; ?>
+              </div>
+            </section>
+          </div>
         </div>
       </div>
     </div>
