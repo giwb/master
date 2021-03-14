@@ -90,7 +90,7 @@
             <hr class="text-default">
             <div class="row mb-4">
               <div class="col-md-6 my-3">
-                <div class="card">
+                <div class="card main-card">
                   <div class="view overlay">
                     <img src="<?=PHOTO_URL . $listNotice[0]['photo']?>" class="card-img-top">
                     <a href="<?=BASE_URL?>/reserve/list/<?=$listNotice[0]['idx']?>"><div class="mask rgba-white-slight"></div></a>
@@ -113,7 +113,7 @@
                 </div>
               </div>
               <div class="col-md-6 my-3">
-                <div class="card">
+                <div class="card main-card">
                   <div class="view overlay">
                     <img src="<?=PHOTO_URL . $listNotice[1]['photo']?>" class="card-img-top">
                     <a href="<?=BASE_URL?>/reserve/list/<?=$listNotice[1]['idx']?>"><div class="mask rgba-white-slight"></div></a>
@@ -147,7 +147,7 @@
                 </h4>
               <hr class="text-default">
               <div class="text-left mt-3">
-                <div class="card">
+                <div class="card main-card">
                   <div class="view overlay">
                     <img src="<?=getThumbnail($viewNews['content'])?>" class="card-img-top">
                     <a href="<?=BASE_URL?>travelog/view/$viewNews['idx']?type=<?=$viewNews['category']?>" target="_blank"><div class="mask rgba-white-slight"></div></a>
@@ -175,7 +175,7 @@
               </h4>
               <hr class="text-default">
               <div class="text-left mt-3">
-                <div class="card">
+                <div class="card main-card">
                   <div class="view overlay">
                     <img src="<?=getThumbnail($viewLogs['content'])?>" class="card-img-top">
                     <a href="<?=BASE_URL?>travelog/view/$viewLogs['idx']?type=<?=$viewLogs['category']?>" target="_blank"><div class="mask rgba-white-slight"></div></a>
