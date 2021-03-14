@@ -70,9 +70,9 @@
             <?php if (!empty($notice['sido'])): ?>
             <div class="ti"><strong>・지역</strong> : <?php foreach ($notice['sido'] as $key => $value): if ($key != 0): ?>, <?php endif; ?><?=$value?> <?=!empty($notice['gugun'][$key]) ? $notice['gugun'][$key] : ''?><?php endforeach; ?></div>
             <?php endif; ?>
-            <div class="ti"><strong>・요금</strong> : <?=number_format($notice['cost_total'] == 0 ? $notice['cost'] : $notice['cost_total'])?>원
+            <div class="ti"><strong>・요금</strong> : <?=number_format($notice['cost_total'] == 0 ? $notice['cost'] : $notice['cost_total'])?>원 (<?=calcTerm($notice['startdate'], $notice['starttime'], $notice['enddate'], $notice['schedule'])?><?=!empty($notice['distance']) ? ', ' . calcDistance($notice['distance']) : ''?><?=!empty($notice['options']) ? ', ' . getOptions($notice['options']) : ''?><?=!empty($notice['options_etc']) ? ', ' . $notice['options_etc'] : ''?><?=!empty($notice['options']) || !empty($notice['options_etc']) ? ' 제공' : ''?><?=!empty($notice['costmemo']) ? ', ' . $notice['costmemo'] : ''?>)
             <?php
-            /* / 1인우등 <?=number_format($notice['cost_total'] == 0 ? $notice['cost'] + 10000 : $notice['cost_total'] + 10000)?>원 (<?=calcTerm($notice['startdate'], $notice['starttime'], $notice['enddate'], $notice['schedule'])?><?=!empty($notice['distance']) ? ', ' . calcDistance($notice['distance']) : ''?><?=!empty($notice['options']) ? ', ' . getOptions($notice['options']) : ''?><?=!empty($notice['options_etc']) ? ', ' . $notice['options_etc'] : ''?><?=!empty($notice['options']) || !empty($notice['options_etc']) ? ' 제공' : ''?><?=!empty($notice['costmemo']) ? ', ' . $notice['costmemo'] : ''?>)*/?></div>
+            /* / 1인우등 <?=number_format($notice['cost_total'] == 0 ? $notice['cost'] + 10000 : $notice['cost_total'] + 10000)?>원 */?></div>
             <?php endif; ?>
             <?=!empty($notice['content']) ? '<div class="ti"><strong>・코스</strong> : ' . nl2br($notice['content']) . '</div>' : ''?>
             <?=!empty($notice['kilometer']) ? '<div class="ti"><strong>・거리</strong> : ' . $notice['kilometer'] . '</div>' : ''?>
