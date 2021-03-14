@@ -297,7 +297,7 @@
 
   <footer class="page-footer stylish-color-dark mt-4 text-center p-4">
     <div class="white-text">
-      Copyright© 2021 한국여행, All Rights Reserved.<br>
+      Copyright© 2021 경인웰빙투어, All Rights Reserved.<br>
       <a href="<?=BASE_URL?>/club/page?type=agreement">이용약관</a> |
       <a href="<?=BASE_URL?>/club/page?type=personal">개인정보 취급방침</a>
     </div>
