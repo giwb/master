@@ -141,7 +141,7 @@
             <div class="row align-items-center border-top border-bottom pt-2 pb-2">
               <div class="col-sm-2 font-weight-bold">승차위치명 <span class="required">(필수)</span></div>
               <div class="col-sm-6 font-weight-bold">승차위치 설명</div>
-              <div class="col-sm-2 font-weight-bold">앞 정류장과 몇분</div>
+              <div class="col-sm-2 font-weight-bold">정류장 시간간격</div>
               <div class="col-sm-2 font-weight-bold">편집</div>
             </div>
             <div class="row align-items-center border-bottom pt-2 pb-2" data-type="geton">
@@ -170,7 +170,7 @@
             <div class="row align-items-center border-top border-bottom pt-2 pb-2">
               <div class="col-sm-2 font-weight-bold">승차위치명 <span class="required">(필수)</span></div>
               <div class="col-sm-6 font-weight-bold">승차위치 설명</div>
-              <div class="col-sm-2 font-weight-bold">앞 정류장과 몇분</div>
+              <div class="col-sm-2 font-weight-bold">정류장 시간간격</div>
               <div class="col-sm-2 font-weight-bold">편집</div>
             </div>
             <div class="row align-items-center border-bottom pt-2 pb-2" data-type="getoff">
