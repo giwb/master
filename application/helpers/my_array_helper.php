@@ -1076,7 +1076,7 @@ if (!function_exists('getUserAgent')) {
 // 기사 콘텐츠 깔끔하게 가져오기
 if (!function_exists('articleContent')) {
   function articleContent($content) {
-    $content = ksubstr(trim(str_replace('&nbsp;', ' ', strip_tags(reset_html_escape($content)))), 190);
+    $content = ksubstr(trim(str_replace('&nbsp;', ' ', strip_tags(reset_html_escape($content)))), 100);
     return $content;
   }
 }
