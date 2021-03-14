@@ -430,7 +430,8 @@ if (!function_exists('arrLocation')) {
       foreach ($arrGeton as $key => $value) {
         $buf = explode('|', $value);
         if (empty($buf[2])) $buf[2] = 0; // 시간이 비었을때는 계산을 위해 0으로 고정
-        $arr = array('time' => !is_null($starttime) ? date('H:i', $starttime + (60 * ($key*$buf[2]))) : '', 'title' => $buf[1], 'short' => $buf[0]);
+
+        $arr = array('time' => !is_null($starttime) ? date('H:i', strtotime(date('H:i', $starttime) . '+' . $buf[2] . ' minutes')) : '', 'title' => $buf[1], 'short' => $buf[0]);
         array_push($result, $arr);
       }
     }
