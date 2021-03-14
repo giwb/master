@@ -142,11 +142,12 @@ class Reserve extends MY_Controller
           $value['cost_total'] = $value['cost'];
         }
 
+        /*
         if (!empty($busType[$value['bus']-1]['bus_type']) && $busType[$value['bus']-1]['bus_type'] == 1) {
           // 우등버스 할증 (2020/12/08 추가)
           $viewData['listReserve'][$key]['cost'] = $value['cost'] = $viewData['listReserve'][$key]['cost'] + 10000;
           $viewData['listReserve'][$key]['cost_total'] = $value['cost_total'] = $viewData['listReserve'][$key]['cost_total'] + 10000;
-        }
+        }*/
 
         if ($userData['level'] == LEVEL_LIFETIME) {
           // 평생회원 할인
@@ -156,6 +157,7 @@ class Reserve extends MY_Controller
           // 무료회원 할인
           $viewData['listReserve'][$key]['view_cost'] = '<s class="text-secondary">' . number_format($value['cost_total']) . '원</s> → ' . '0원';
           $viewData['listReserve'][$key]['real_cost'] = 0;
+          /*
         } elseif (!empty($value['honor'])) {
           // 1인우등 할인
           if ($key == 1) { // 1인우등의 2번째 좌석은 무조건 1만원
@@ -166,6 +168,7 @@ class Reserve extends MY_Controller
             $viewData['listReserve'][$key]['view_cost'] = number_format($value['cost_total']) . '원';
             $viewData['listReserve'][$key]['real_cost'] = $value['cost_total'];
           }
+          */
         } else {
           $viewData['listReserve'][$key]['view_cost'] = number_format($value['cost_total']) . '원';
           $viewData['listReserve'][$key]['real_cost'] = $value['cost_total'];
@@ -344,11 +347,15 @@ class Reserve extends MY_Controller
     $result['nowSeat'] = checkDirection($nowSeat, $nowBus, $notice['bustype'], $notice['bus']);
     $result['userLocation'] = $userData['location'];
 
+
+    /*
     if ( (!empty($result['busType'][$nowBus-1]['bus_type']) && $result['busType'][$nowBus-1]['bus_type'] == 1) || !empty($result['reserve']['honor']) ) {
       $result['cost'] = number_format($notice['cost_total'] + 10000) . '원'; // 1인우등, 우등버스의 경우 1만원 추가
     } else {
       $result['cost'] = number_format($notice['cost_total']) . '원';
     }
+    */
+    $result['cost'] = number_format($notice['cost_total']) . '원';
 
     // 페널티 계산
     $startTime = explode(':', $notice['starttime']);
@@ -465,6 +472,7 @@ class Reserve extends MY_Controller
         $checkReserve = $this->reserve_model->checkReserve($noticeIdx, $nowBus, $seat);
 
         // 자신이 예약한 좌석만 수정 가능, 2인우선석/1인우등석은 수정
+        /*
         if (  $checkReserve['user_idx'] == $userData['idx']
             || empty($checkReserve['idx'])
             || (!empty($checkReserve['priority']) && $checkReserve['nickname'] == '2인우선')
@@ -479,6 +487,11 @@ class Reserve extends MY_Controller
 
           // 예약 번호 저장
           $reserveIdx[] = $resIdxNow;
+        }
+        */
+        if (  $checkReserve['user_idx'] == $userData['idx'] || empty($checkReserve['idx']) ) {
+          $result = $this->reserve_model->updateReserve($processData, $resIdxNow);
+          $reserveIdx[] = $resIdxNow; // 예약 번호 저장
         }
       }
     }

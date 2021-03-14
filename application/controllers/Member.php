@@ -73,11 +73,13 @@ class Member extends MY_Controller
           $value['cost_total'] = $value['cost'];
         }
 
+        /*
         if (!empty($busType[$value['bus']-1]['bus_type']) && $busType[$value['bus']-1]['bus_type'] == 1) {
           // 우등버스 할증 (2020/12/08 추가)
           $viewData['userReserve'][$key]['cost'] = $value['cost'] = $viewData['userReserve'][$key]['cost'] + 10000;
           $viewData['userReserve'][$key]['cost_total'] = $value['cost_total'] = $viewData['userReserve'][$key]['cost_total'] + 10000;
         }
+        */
 
         if ($userData['level'] == LEVEL_LIFETIME) {
           // 평생회원 할인

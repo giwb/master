@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
   <script type="text/javascript" src="/public/js/shop.js"></script>
-  <main id="shop">
+  <main id="shop" class="shop-main">
     <div class="container-fluid club-main">
       <div class="row mt-1 mb-5">
         <div class="col-xl-8 col-md-12">
