@@ -149,8 +149,8 @@
               <div class="text-left mt-3">
                 <div class="card">
                   <div class="view overlay">
-                    <img src="https://tripkorea.net/public/photos/article/161518554956986.jpg" class="card-img-top">
-                    <a href="https://tripkorea.net/article/11" target="_blank"><div class="mask rgba-white-slight"></div></a>
+                    <img src="<?=getThumbnail($viewNews['content'])?>" class="card-img-top">
+                    <a href="<?=BASE_URL?>travelog/view/$viewNews['idx']?type=<?=$viewNews['category']?>" target="_blank"><div class="mask rgba-white-slight"></div></a>
                   </div>
                   <div class="card-body">
                     <h4 class="card-title"><strong><a href="https://tripkorea.net/article/11" target="_blank"><?=$viewNews['title']?></a></strong></h4><hr>
@@ -177,11 +177,11 @@
               <div class="text-left mt-3">
                 <div class="card">
                   <div class="view overlay">
-                    <img src="/public/uploads/editor/161049368672875.jpg" class="card-img-top">
-                    <a><div class="mask rgba-white-slight"></div></a>
+                    <img src="<?=getThumbnail($viewLogs['content'])?>" class="card-img-top">
+                    <a href="<?=BASE_URL?>travelog/view/$viewLogs['idx']?type=<?=$viewLogs['category']?>" target="_blank"><div class="mask rgba-white-slight"></div></a>
                   </div>
                   <div class="card-body">
-                    <h4 class="card-title"><strong><a><?=$viewLogs['title']?></a></strong></h4><hr>
+                    <h4 class="card-title"><strong><a href="<?=BASE_URL?>travelog/view/$viewLogs['idx']?type=<?=$viewLogs['category']?>" target="_blank"><?=$viewLogs['title']?></a></strong></h4><hr>
                     <p class="card-text text-justify">
                       <?=articleContent($viewLogs['content'])?>
                     </p>
