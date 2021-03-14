@@ -58,6 +58,9 @@
             </div>
             <hr class="text-default mt-1">
 
+            <div class="mt-4"></div>
+            <div class="pt-2"></div>
+
             <!-- 안내문 -->
             <?php if (!empty($notice['information'])): ?>
             <div class="border border-danger p-4 mb-3"><?=nl2br(reset_html_escape($notice['information']))?></div>

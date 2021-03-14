@@ -1,7 +1,14 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-      <div class="club-main">
-        <div class="sub-contents">
+  <main id="club">
+    <div class="container-fluid club-main">
+      <div class="row mt-1 mb-5">
+        <div class="col-xl-8 col-md-12">
+          <h4 class="font-weight-bold">산행 공지사항</h4>
+          <hr class="text-default">
+
+          <div class="p-3">
+
           <div class="row align-items-center border-bottom pb-2 mb-3">
             <div class="col-8 col-sm-9 p-0 pt-1"><h2 class="notice-title"><b><?=viewStatus($notice['status'])?></b> <?=$notice['subject']?></h2></div>
             <div class="col-4 col-sm-3 p-0 text-right">
