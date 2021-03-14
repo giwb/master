@@ -17,21 +17,20 @@
               <div class="col-6 text-right"><!--<a href="javascript:;" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a>--></div>
             </h4>
             <div class="card">
-              <?php if (!empty($userData['idx'])): ?>
-              <div class="row border-bottom no-gutters pt-3 pb-2 pl-4 pr-3">
-                <div class="col-2 pl-0 pr-2"><img src="/public/photos/<?=$userData['idx']?>" class="w-100" style="border-radius: 100%;"></div>
-                <div class="col-8 pl-0 pr-1"><textarea id="club-story-content" rows="3" class="form-control form-control-sm"></textarea></div>
-                <div class="col-2 pt-0 pl-0"><button type="button" class="btn btn-default btn-comment pt-4 pb-4 pl-3 pr-3 w-100">등록</button></div>
-              </div>
-              <?php endif; ?>
               <div id="club-story">
               <?php foreach($listStory as $value): ?>
                 <div class="row pl-3 pr-3 pt-3">
-                  <div class="col-2"><img src="/public/photos/<?=$value['user_idx']?>" class="story-photo"></div>
+                  <div class="col-2"><img src="<?=$value['avatar']?>" class="story-photo"></div>
                   <div class="col-10 pl-0 text-justify"><b><?=$value['user_nickname']?></b> <?=$value['content']?> <span class="small grey-text"><?=calcStoryTime($value['created_at'])?></span></div>
                 </div>
               <?php endforeach; ?>
               </div>
+              <?php if (!empty($userData['idx'])): ?>
+              <div class="row border-bottom no-gutters pt-3 pb-2 pl-4 pr-3">
+                <div class="col-10 pl-0 pr-1"><textarea id="club-story-content" rows="3" class="form-control form-control-sm"></textarea></div>
+                <div class="col-2 pt-0 pl-0"><button type="button" class="btn btn-default btn-comment pt-4 pb-4 pl-3 pr-3 w-100">등록</button></div>
+              </div>
+              <?php endif; ?>
             </div>
           </section>
 
