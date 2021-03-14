@@ -74,7 +74,7 @@ class Story_model extends CI_Model
           ->where('a.story_idx', $storyIdx)
           ->where('a.reply_type', $replyType)
           ->where('a.deleted_at', NULL)
-          ->order_by('a.idx', 'desc');
+          ->order_by('a.idx', 'asc');
 
     if (!is_null($parentIdx)) {
       $this->db->where('a.parent_idx', $parentIdx);
