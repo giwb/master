@@ -72,7 +72,7 @@ class Travelog_model extends CI_Model
   {
     $this->db->set($data);
     $this->db->where('idx', $idx);
-    return $this->db->update(DB_STORY);
+    return $this->db->update(DB_TRAVELOG);
   }
 
   // 여행기 댓글

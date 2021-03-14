@@ -160,7 +160,7 @@
                   </div>
                   <div class="mdb-color lighten-3 text-center">
                     <ul class="list-unstyled list-inline font-small mt-3">
-                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-eye pr-1"></i>조회 0</a></li>
+                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-eye pr-1"></i>조회 <?=$viewNews['refer']?></a></li>
                       <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-heart pr-1"></i>추천 0</a></li>
                       <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-comments pr-1"></i>댓글 0</a></li>
                     </ul>
@@ -188,7 +188,7 @@
                   </div>
                   <div class="mdb-color lighten-3 text-center">
                     <ul class="list-unstyled list-inline font-small mt-3">
-                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-eye pr-1"></i>조회 0</a></li>
+                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-eye pr-1"></i>조회 <?=$viewLogs['refer']?></a></li>
                       <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-heart pr-1"></i>추천 0</a></li>
                       <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-comments pr-1"></i>댓글 0</a></li>
                     </ul>

@@ -55,6 +55,10 @@ class Travelog extends MY_Controller
     $viewData['viewTravelog'] = $this->travelog_model->viewTravelog($clubIdx, $idx);
     $viewData['type'] = $viewData['viewTravelog']['category'];
 
+    // 조회수 올리기
+    $updateValues['refer'] = $viewData['viewTravelog']['refer']+1;
+    $this->travelog_model->update($updateValues, $idx);
+
     $this->_viewPage('travelog/view', $viewData);
   }
 
