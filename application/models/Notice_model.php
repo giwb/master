@@ -52,5 +52,13 @@ class Notice_model extends CI_Model
           ->where('idx', $idx);
     return $this->db->get()->row_array(1);
   }
+
+  // 조회수 올리기
+  public function updateNoticeRefer($idx, $refer)
+  {
+    $this->db->set('refer', $refer);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_NOTICE);
+  }
 }
 ?>

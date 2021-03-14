@@ -51,6 +51,10 @@ class Club extends MY_Controller
     $viewData['listNotice'] = $this->reserve_model->listNotice($clubIdx, array(STATUS_ABLE, STATUS_CONFIRM), 'asc');
 
     foreach ($viewData['listNotice'] as $key1 => $value) {
+      // 댓글수
+      $cntReply = $this->story_model->cntStoryReply($value['idx'], REPLY_TYPE_NOTICE);
+      $viewData['listNotice'][$key1]['reply_cnt'] = $cntReply['cnt'];
+
       // 지역
       $viewData['area_sido'] = $this->area_model->listSido();
       if (!empty($value['area_sido'])) {

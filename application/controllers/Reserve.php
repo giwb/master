@@ -63,6 +63,9 @@ class Reserve extends MY_Controller
         // 예약 공지
         $viewData['notice'] = $this->reserve_model->viewNotice($noticeIdx);
 
+        // 조회수 올리기
+        $this->notice_model->updateNoticeRefer($noticeIdx, $viewData['notice']['refer']+1);
+
         // 버스 형태별 좌석 배치
         $viewData['busType'] = getBusType($viewData['notice']['bustype'], $viewData['notice']['bus']);
 
@@ -268,6 +271,9 @@ class Reserve extends MY_Controller
 
     // 산행 공지
     $viewData['notice'] = $this->reserve_model->viewNotice($noticeIdx);
+
+    // 조회수 올리기
+    $this->notice_model->updateNoticeRefer($noticeIdx, $viewData['notice']['refer']+1);
 
     // 산행 공지 상세
     $viewData['listNoticeDetail'] = $this->reserve_model->listNoticeDetail($noticeIdx);

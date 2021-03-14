@@ -105,9 +105,9 @@
                   </div>
                   <div class="mdb-color lighten-3 text-center">
                     <ul class="list-unstyled list-inline font-small mt-3">
-                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-eye pr-1"></i>조회 70</a></li>
-                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-comments pr-1"></i>댓글 15</a></li>
-                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-calendar-check pr-1"></i>예약 32</a></li>
+                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-eye pr-1"></i>조회 <?=$listNotice[0]['refer']?></a></li>
+                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-comments pr-1"></i>댓글 <?=$listNotice[0]['reply_cnt']?></a></li>
+                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-calendar-check pr-1"></i>예약 <?=cntRes($listNotice[0]['idx'])?></a></li>
                     </ul>
                   </div>
                 </div>
@@ -129,9 +129,9 @@
                   </div>
                   <div class="mdb-color lighten-3 text-center">
                     <ul class="list-unstyled list-inline font-small mt-3">
-                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-eye pr-1"></i>조회 70</a></li>
-                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-comments pr-1"></i>댓글 15</a></li>
-                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-calendar-check pr-1"></i>예약 32</a></li>
+                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-eye pr-1"></i>조회 <?=$listNotice[1]['refer']?></a></li>
+                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-comments pr-1"></i>댓글 <?=$listNotice[1]['reply_cnt']?></a></li>
+                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-calendar-check pr-1"></i>예약 <?=cntRes($listNotice[1]['idx'])?></a></li>
                     </ul>
                   </div>
                 </div>
@@ -160,9 +160,9 @@
                   </div>
                   <div class="mdb-color lighten-3 text-center">
                     <ul class="list-unstyled list-inline font-small mt-3">
-                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-eye pr-1"></i>조회 70</a></li>
-                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-comments pr-1"></i>댓글 15</a></li>
-                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-calendar-check pr-1"></i>예약 32</a></li>
+                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-eye pr-1"></i>조회 0</a></li>
+                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-heart pr-1"></i>추천 0</a></li>
+                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-comments pr-1"></i>댓글 0</a></li>
                     </ul>
                   </div>
                 </div>
@@ -188,9 +188,9 @@
                   </div>
                   <div class="mdb-color lighten-3 text-center">
                     <ul class="list-unstyled list-inline font-small mt-3">
-                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-eye pr-1"></i>조회 70</a></li>
-                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-comments pr-1"></i>댓글 15</a></li>
-                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-calendar-check pr-1"></i>예약 32</a></li>
+                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-eye pr-1"></i>조회 0</a></li>
+                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-heart pr-1"></i>추천 0</a></li>
+                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-comments pr-1"></i>댓글 0</a></li>
                     </ul>
                   </div>
                 </div>
