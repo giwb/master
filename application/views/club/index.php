@@ -150,10 +150,10 @@
                 <div class="card main-card">
                   <div class="view overlay">
                     <img src="<?=getThumbnail($viewNews['content'])?>" class="card-img-top">
-                    <a href="<?=BASE_URL?>travelog/view/<?=$viewNews['idx']?>?type=<?=$viewNews['category']?>"><div class="mask rgba-white-slight"></div></a>
+                    <a href="<?=BASE_URL?>/travelog/view/<?=$viewNews['idx']?>?type=<?=$viewNews['category']?>"><div class="mask rgba-white-slight"></div></a>
                   </div>
                   <div class="card-body">
-                    <h4 class="card-title"><strong><a href="<?=BASE_URL?>travelog/view/$viewNews['idx']?type=<?=$viewNews['category']?>"><?=$viewNews['title']?></a></strong></h4><hr>
+                    <h4 class="card-title"><strong><a href="<?=BASE_URL?>/travelog/view/$viewNews['idx']?type=<?=$viewNews['category']?>"><?=$viewNews['title']?></a></strong></h4><hr>
                     <p class="card-text text-justify">
                       <?=articleContent($viewNews['content'])?>
                     </p>
@@ -178,10 +178,10 @@
                 <div class="card main-card">
                   <div class="view overlay">
                     <img src="<?=getThumbnail($viewLogs['content'])?>" class="card-img-top">
-                    <a href="<?=BASE_URL?>travelog/view/<?=$viewNews['idx']?>?type=<?=$viewLogs['category']?>"><div class="mask rgba-white-slight"></div></a>
+                    <a href="<?=BASE_URL?>/travelog/view/<?=$viewNews['idx']?>?type=<?=$viewLogs['category']?>"><div class="mask rgba-white-slight"></div></a>
                   </div>
                   <div class="card-body">
-                    <h4 class="card-title"><strong><a href="<?=BASE_URL?>travelog/view/$viewLogs['idx']?type=<?=$viewLogs['category']?>"><?=$viewLogs['title']?></a></strong></h4><hr>
+                    <h4 class="card-title"><strong><a href="<?=BASE_URL?>/travelog/view/$viewLogs['idx']?type=<?=$viewLogs['category']?>"><?=$viewLogs['title']?></a></strong></h4><hr>
                     <p class="card-text text-justify">
                       <?=articleContent($viewLogs['content'])?>
                     </p>
