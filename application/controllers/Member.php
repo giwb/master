@@ -876,17 +876,16 @@ class Member extends MY_Controller
 
     // 안부 인사
     $page = 1;
-    $paging['perPage'] = 10;
+    $paging['perPage'] = 8;
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
     $viewData['listStory'] = $this->story_model->listStory($viewData['view']['idx'], $paging);
 
-    // 클럽 대표이미지
-    $files = $this->file_model->getFile('club', $viewData['view']['idx']);
-    if (!empty($files[0]['filename']) && file_exists(PHOTO_PATH . $files[0]['filename'])) {
-      $size = getImageSize(PHOTO_PATH . $files[0]['filename']);
-      $viewData['view']['main_photo'] = PHOTO_URL . $files[0]['filename'];
-      $viewData['view']['main_photo_width'] = $size[0];
-      $viewData['view']['main_photo_height'] = $size[1];
+    foreach ($viewData['listStory'] as $key => $value) {
+      if (file_exists(PHOTO_PATH . $value['user_idx'])) {
+        $viewData['listStory'][$key]['avatar'] = PHOTO_URL . $value['user_idx'];
+      } else {
+        $viewData['listStory'][$key]['avatar'] = '/public/images/user.png';
+      }
     }
 
     // 클럽 대표이미지
