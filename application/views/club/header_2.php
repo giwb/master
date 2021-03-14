@@ -94,8 +94,9 @@
             <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true"
               aria-expanded="false"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소</a>
             <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="<?=BASE_URL?>/club/auth">경인웰빙 100대명산</a>
-              <a class="dropdown-item" href="<?=BASE_URL?>/club/auth">경인웰빙 100대명소</a>
+              <a class="dropdown-item" href="<?=BASE_URL?>/club/auth_page?type=mountain">경인웰빙 100대명산</a>
+              <a class="dropdown-item" href="<?=BASE_URL?>/club/auth_page?type=forest">경인웰빙 100대명소</a>
+              <a class="dropdown-item" href="<?=BASE_URL?>/club/auth">백산백소 인증현황</a>
             </div>
           </li>
           <li class="nav-item">
