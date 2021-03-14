@@ -1070,7 +1070,7 @@ if ($type == 'forest') {
 <p>&nbsp;</p>
 
 <?php
-} elseif ($type == 'agreement') { {
+} elseif ($type == 'agreement') {
 ?>
 
 <p><strong>제1장 총칙</strong></p>
@@ -1240,7 +1240,7 @@ if ($type == 'forest') {
 <p>부칙 본 약관은 2021년 1월 1일부터 적용됩니다.</p>
 
 <?php
-} elseif ($type == 'personal') { {
+} elseif ($type == 'personal') {
 ?>
 
 <p>경인웰빙산악회(이하 &#39;산악회&#39;)는 고객님의 개인정보를 중요시하며, &quot;정보통신망 이용촉진 및 정보보호&quot;에 관한 법률을 준수하고 있습니다.<br />
