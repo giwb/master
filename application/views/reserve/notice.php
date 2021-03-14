@@ -23,7 +23,7 @@
           <?php else: ?>
           <?php foreach ($listNoticeDetail as $value): ?>
           <div class="sub-notice-header"><?=$value['title']?></div>
-          <div class="sub-content"><?=$value['content']?></div><br>
+          <div class="sub-content pt-3"><?=$value['content']?></div><br>
           <?php endforeach; ?>
           <?php endif; ?>
 
