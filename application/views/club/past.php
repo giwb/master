@@ -1,18 +1,24 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-    <div class="club-main">
-      <div class="row-category mt-3 mb-3">
-        <div class="bg-<?=$view['main_color']?> pt-1"></div>
-        <div class="row border-right small text-center m-0 p-0">
-          <?php foreach ($listAbout as $value): ?>
-          <a href="<?=BASE_URL?>/club/about/<?=$value['idx']?>" class="col-6 border-left border-bottom pt-2 pb-2 pl-0 pr-0"><?=$value['title']?></a><br>
-          <?php endforeach; ?>
-          <?php if (!empty($userLevel['levelType']) && $userLevel['levelType'] >= 1): ?>
-          <a href="<?=BASE_URL?>/club/past" class="<?=count($listAbout)%2 == 0 ? 'col-12' : 'col-6'?> border-left border-bottom pt-2 pb-2 pl-0 pr-0 active">지난산행</a><br>
-          <?php endif; ?>
-        </div>
-      </div>
-      <h2 class="sub-header"><?=$pageTitle?></h2>
+  <main id="club">
+    <div class="container-fluid club-main">
+      <div class="row mt-1 mb-5">
+        <div class="col-xl-8 col-md-12">
+
+          <div class="row align-items-center">
+            <div class="col-8 col-sm-9"><h4 class="font-weight-bold">지난 산행보기</h4></div>
+            <div class="col-4 col-sm-3 text-right">
+              <select class="form-control form-control-sm" onChange="location.href=this.value">
+                <?php foreach ($listAbout as $value): ?>
+                <option value="<?=BASE_URL?>/club/about/<?=$value['idx']?>"><?=$value['title']?></option>
+                <?php endforeach; ?>
+                <option selected value="<?=BASE_URL?>/club/past">지난산행</option>
+              </select>
+            </div>
+          </div>
+          <hr class="text-default mt-2">
+
+
       <form id="formSearch" method="get" action="<?=BASE_URL?>/club/past" class="row border no-gutters align-items-center text-center pt-2 pb-2 pr-2 mt-3 mb-3">
         <ul class="box-past-search">
           <li>기간검색</li>
