@@ -80,6 +80,15 @@
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소</a>
+            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="<?=BASE_URL?>/club/page?type=mountain">경인웰빙 100대명산</a>
+              <a class="dropdown-item" href="<?=BASE_URL?>/club/page?type=forest">경인웰빙 100대명소</a>
+              <a class="dropdown-item" href="<?=BASE_URL?>/club/auth">백산백소 인증현황</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true"
               aria-expanded="false"><i class="fas fa-map-marked-alt"></i> 여행기</a>
             <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
               <a class="dropdown-item" href="<?=BASE_URL?>/travelog/?type=news">여행 소식</a>
@@ -89,15 +98,6 @@
           </li>
           <li class="nav-item">
             <a href="<?=BASE_URL?>/shop" class="nav-link"><i class="fas fa-shopping-cart"></i> 용품샵</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true"
-              aria-expanded="false"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소</a>
-            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="<?=BASE_URL?>/club/page?type=mountain">경인웰빙 100대명산</a>
-              <a class="dropdown-item" href="<?=BASE_URL?>/club/page?type=forest">경인웰빙 100대명소</a>
-              <a class="dropdown-item" href="<?=BASE_URL?>/club/auth">백산백소 인증현황</a>
-            </div>
           </li>
           <li class="nav-item">
             <a href="http://giwb.co.kr" target="_blank" class="nav-link"><i class="fa fa-desktop"></i> 다음카페</a>
