@@ -2599,7 +2599,7 @@ body { font-family: 'Noto Sans KR', sans-serif; }
 .auth-gauge { width: 1%; height: 30px; background-color: #FF6600; }
 
 /* 메인페이지 안부글 스크롤 */
-#club-story { width: 100%; height: 230px; overflow-y: scroll; overflow-x: hidden; }
+#club-story { width: 100%; height: 500px; overflow-y: scroll; overflow-x: hidden; }
 #club-story::-webkit-scrollbar { width: 10px; display: block; }
 #club-story::-webkit-scrollbar-thumb { background-color: #a9a9a9; }
 #club-story::-webkit-scrollbar-track { background-color: #dee2e6; }
