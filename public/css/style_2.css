@@ -2638,12 +2638,14 @@ body { font-family: 'Noto Sans KR', sans-serif; }
   .card .area-photo { height: 200px; margin-bottom: 10px; overflow: hidden; }
   .logo-text { font-size: 0.7rem; }
 
+.card.main-card { min-height:auto; }
+.card-title { min-height: auto; }
+
 /* 여행기 */
 #travelogContent { width: 99.8%; min-width: 310px; min-height: 200px; }
 .post-article { padding: 0px; text-align: justify; }
 .post-article p { margin: 0px; padding: 0px; }
 .post-article img { max-width: 100%; }
-.card-title { min-height: 55px; }
 
   .header-nickname { margin-left: 15px; color: #fff; }
   table.fc-header { border: 0px; }
