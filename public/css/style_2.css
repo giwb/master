@@ -2538,6 +2538,8 @@ body { font-family: 'Noto Sans KR', sans-serif; }
 .auth th { background-color: #eee; }
 .auth th, .auth td { border: 1px solid #ddd; padding: 10px; }
 
+.card .area-photo { height: 100px; overflow: hidden; }
+
 /* Setup */
 #setupForm .setup-header { background-color: #d9d9d9; border: 1px solid #999; border-width: 1px 0; margin: 0 0 20px 0; padding: 7px 15px; cursor: pointer; }
 #setupForm .setup-content dl { width: 100%; font-size: 14px; display: table; padding: 0px; }
@@ -2633,6 +2635,7 @@ body { font-family: 'Noto Sans KR', sans-serif; }
   #club .club-main .story-reply .story-reply-input textarea { width: 70%; height: 50px; display: table-cell; vertical-align: middle; float: left; }
   #club .club-main .story-reply .story-reply-input button { width: 22%; height: 50px; display: table-cell; vertical-align: middle; float: right; padding: 0px; }
 
+  .card .area-photo { height: 200px; margin-bottom: 10px; overflow: hidden; }
   .logo-text { font-size: 0.7rem; }
 
   .header-nickname { margin-left: 15px; color: #fff; }

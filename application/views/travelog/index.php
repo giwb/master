@@ -4,7 +4,7 @@
     <div class="container-fluid club-main">
       <div class="row">
         <div class="col-xl-8 col-md-12">
-          <section class="section extra-margins listing-section">
+          <section class="section extra-margins listing-section mb-5">
             <div class="row">
               <div class="col-6"><h4 class="font-weight-bold mb-0"><strong><?=$pageTitle?></strong></h4></div>
               <div class="col-6 text-right pr-4"><a href="<?=BASE_URL?>/travelog/post/?type=<?=$type?>"><span class="text-dark"><i class="fas fa-edit"></i> 글쓰기</a></span></div>
@@ -19,8 +19,8 @@
                 <div class="card">
                   <div class="card-body">
                     <div class="row area-travelog" data-idx="<?=$value['idx']?>">
-                      <div class="col-2 area-photo" style="height: 100px; overflow: hidden;"><img class="w-100" src="<?=getThumbnail($value['content'])?>"></div>
-                      <div class="col-10">
+                      <div class="col-sm-2 area-photo"><img class="w-100" src="<?=getThumbnail($value['content'])?>"></div>
+                      <div class="col-sm-10">
                         <h5><strong><?=$value['title']?></strong></h5>
                         <p class="card-text text-justify"><?=articleContent($value['content'])?> <span class="small">(<?=date('Y-m-d H:i', $value['created_at'])?>)</span></p>
                       </div>
