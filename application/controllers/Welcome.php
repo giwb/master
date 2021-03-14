@@ -102,6 +102,17 @@ class Welcome extends MY_Controller
   }
 
   /**
+   * 현지영상
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function video()
+  {
+    $this->_viewPage('video');
+  }
+
+  /**
    * 산행 목록
    *
    * @return view

@@ -2570,6 +2570,9 @@ body { font-family: 'Noto Sans KR', sans-serif; }
 
 .card.main-card { min-height:500px; }
 
+/* 로고 */
+.logo { font-size: 2rem; line-height: 1.2; float: left; }
+
 /* 용품판매 */
 #shop .shop-main { padding-top: 100px; }
 #shop .area-notice { display: none; }
@@ -2625,6 +2628,8 @@ body { font-family: 'Noto Sans KR', sans-serif; }
   #club .club-right { width: 100%; min-width: 100%; min-height: 100%; flex: auto; -webkit-flex: auto; display: block; margin: 0px; }
   #club .sub-contents h2 { font-size: 1.5rem; margin: 0px; padding: 0px; }
   #club .sub-contents h2.notice-title { font-size: 1.5rem; }
+
+  .logo-text { font-size: 0.7rem; }
 
   .header-nickname { margin-left: 15px; color: #fff; }
   table.fc-header { border: 0px; }

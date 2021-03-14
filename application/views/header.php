@@ -59,6 +59,9 @@
             <a class="dropdown-item" href="/area/?=area_sido&k=27000">제주도</a>
           </div>
         </li>
+        <li class="nav-item">
+          <a href="/video" class="nav-link" aria-haspopup="true" aria-expanded="false"><i class="fas fa-video"></i> 현지영상</a>
+        </li>
         <?php if (!empty($userData['idx'])): ?>
         <li class="nav-item">
           <a href="/mypage" class="nav-link" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle"></i> 마이페이지</a>
