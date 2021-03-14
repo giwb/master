@@ -41,24 +41,24 @@
             </h4>
             <div class="card pb-3">
               <div class="row pl-3 pr-3 pt-3">
-                <div class="col-4"><img src="/public/images/medal1.png" align="left"> 스마일찐이님</div>
-                <div class="col-8 pl-0"><div class="auth-progress-bar"><div id="medal1" class="auth-gauge" cnt="42">42회</div></div></div>
+                <div class="col-5 col-sm-4 small"><img src="/public/images/medal1.png" align="left"> 스마일찐이님</div>
+                <div class="col-7 col-sm-8 pl-0"><div class="auth-progress-bar"><div id="medal1" class="auth-gauge" cnt="42">42회</div></div></div>
               </div>
               <div class="row pl-3 pr-3 pt-2">
-                <div class="col-4"><img src="/public/images/medal2.png" align="left"> 미운사랑님</div>
-                <div class="col-8 pl-0"><div class="auth-progress-bar"><div id="medal2" class="auth-gauge" cnt="37">37회</div></div></div>
+                <div class="col-5 col-sm-4 small"><img src="/public/images/medal2.png" align="left"> 미운사랑님</div>
+                <div class="col-7 col-sm-8 pl-0"><div class="auth-progress-bar"><div id="medal2" class="auth-gauge" cnt="37">37회</div></div></div>
               </div>
               <div class="row pl-3 pr-3 pt-2">
-                <div class="col-4"><img src="/public/images/medal3.png" align="left"> 맑음님</div>
-                <div class="col-8 pl-0"><div class="auth-progress-bar"><div id="medal3" class="auth-gauge" cnt="36">36회</div></div></div>
+                <div class="col-5 col-sm-4 small"><img src="/public/images/medal3.png" align="left"> 맑음님</div>
+                <div class="col-7 col-sm-8 pl-0"><div class="auth-progress-bar"><div id="medal3" class="auth-gauge" cnt="36">36회</div></div></div>
               </div>
               <div class="row pl-3 pr-3 pt-2">
-                <div class="col-4"><img src="/public/images/medal4.png" align="left"> 야나두님</div>
-                <div class="col-8 pl-0"><div class="auth-progress-bar"><div id="medal4" class="auth-gauge" cnt="32">32회</div></div></div>
+                <div class="col-5 col-sm-4 small"><img src="/public/images/medal4.png" align="left"> 야나두님</div>
+                <div class="col-7 col-sm-8 pl-0"><div class="auth-progress-bar"><div id="medal4" class="auth-gauge" cnt="32">32회</div></div></div>
               </div>
               <div class="row pl-3 pr-3 pt-2">
-                <div class="col-4"><img src="/public/images/medal5.png" align="left"> 명산님</div>
-                <div class="col-8 pl-0"><div class="auth-progress-bar"><div id="medal5" class="auth-gauge" cnt="27">27회</div></div></div>
+                <div class="col-5 col-sm-4 small"><img src="/public/images/medal5.png" align="left"> 명산님</div>
+                <div class="col-7 col-sm-8 pl-0"><div class="auth-progress-bar"><div id="medal5" class="auth-gauge" cnt="27">27회</div></div></div>
               </div>
             </div>
           </section>
