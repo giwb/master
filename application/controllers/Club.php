@@ -48,7 +48,23 @@ class Club extends MY_Controller
     }
 
     // 다음 산행
-    $viewData['listNotice'] = $this->reserve_model->listNotice($clubIdx, array(STATUS_ABLE, STATUS_CONFIRM));
+    $viewData['listNotice'] = $this->reserve_model->listNotice($clubIdx, array(STATUS_ABLE, STATUS_CONFIRM), 'asc');
+
+    foreach ($viewData['listNotice'] as $key1 => $value) {
+      // 지역
+      $viewData['area_sido'] = $this->area_model->listSido();
+      if (!empty($value['area_sido'])) {
+        $area_sido = unserialize($value['area_sido']);
+        $area_gugun = unserialize($value['area_gugun']);
+
+        foreach ($area_sido as $key2 => $value2) {
+          $sido = $this->area_model->getName($value2);
+          $gugun = $this->area_model->getName($area_gugun[$key2]);
+          $viewData['listNotice'][$key1]['sido'][$key2] = $sido['name'];
+          $viewData['listNotice'][$key1]['gugun'][$key2] = $gugun['name'];
+        }
+      }
+    }
 
     // 최신 사진첩
     $paging['perPage'] = 8; $paging['nowPage'] = 0;
@@ -201,7 +217,7 @@ class Club extends MY_Controller
     $viewData['listAbout'] = $this->club_model->listAbout($viewData['view']['idx']);
 
     // 등록된 산행 목록
-    $viewData['listNoticeCalendar'] = $this->reserve_model->listNotice($viewData['view']['idx']);
+    $viewData['listNoticeCalendar'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
 
     // 캘린더 설정
     $listCalendar = $this->admin_model->listCalendar();

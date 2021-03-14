@@ -11,7 +11,7 @@ class Reserve_model extends CI_Model
   }
 
   // 등록된 산행 목록
-  public function listNotice($clubIdx, $status=NULL, $order='asc', $searchData=NULL)
+  public function listNotice($clubIdx, $status=NULL, $order='asc', $searchData=NULL, $limit=NULL)
   {
     $this->db->select('*')
           ->from(DB_NOTICE)

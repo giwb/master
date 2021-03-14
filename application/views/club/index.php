@@ -96,7 +96,7 @@
                     <a href="<?=BASE_URL?>/reserve/list/<?=$listNotice[0]['idx']?>"><div class="mask rgba-white-slight"></div></a>
                   </div>
                   <div class="card-body">
-                    <h4 class="card-title"><strong><a><?=$listNotice[0]['subject']?></a></strong></h4><hr>
+                    <h4 class="card-title"><div class="card-text mb-1"><?php foreach ($listNotice[0]['sido'] as $key => $value): if ($key != 0): ?>, <?php endif; ?><?=$value?> <?=!empty($listNotice[0]['gugun'][$key]) ? $listNotice[0]['gugun'][$key] : ''?><?php endforeach; ?></div><strong><a><?=$listNotice[0]['subject']?></a></strong></h4><hr>
                     <p class="card-text text-justify">
                       ・일시 : <?=$listNotice[0]['startdate']?> <?=$listNotice[0]['starttime']?><br>
                       ・요금 : <?=number_format($listNotice[0]['cost_total'] == 0 ? $listNotice[0]['cost'] : $listNotice[0]['cost_total'])?>원<br>
@@ -119,7 +119,8 @@
                     <a href="<?=BASE_URL?>/reserve/list/<?=$listNotice[1]['idx']?>"><div class="mask rgba-white-slight"></div></a>
                   </div>
                   <div class="card-body">
-                    <h4 class="card-title"><strong><a><?=$listNotice[1]['subject']?></a></strong></h4><hr>
+                    <h4 class="card-title"><div class="card-text mb-1"><?php foreach ($listNotice[1]['sido'] as $key => $value): if ($key != 0): ?>, <?php endif; ?><?=$value?> <?=!empty($listNotice[1]['gugun'][$key]) ? $listNotice[1]['gugun'][$key] : ''?><?php endforeach; ?></div><strong><a><?=$listNotice[1]['subject']?></a></strong></h4>
+                    <hr>
                     <p class="card-text text-justify">
                       ・일시 : <?=$listNotice[1]['startdate']?> <?=$listNotice[1]['starttime']?><br>
                       ・요금 : <?=number_format($listNotice[1]['cost_total'] == 0 ? $listNotice[1]['cost'] : $listNotice[1]['cost_total'])?>원<br>
