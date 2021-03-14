@@ -148,12 +148,12 @@ class Club extends MY_Controller
   }
 
   /**
-   * 100대명산/100대명소
+   * 각 페이지
    *
    * @return view
    * @author bjchoi
    **/
-  public function auth_page()
+  public function page()
   {
     $viewData['type'] = html_escape($this->input->get('type'));
 
@@ -161,7 +161,7 @@ class Club extends MY_Controller
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
-    $this->_viewPage('club/auth_page', $viewData);
+    $this->_viewPage('club/page', $viewData);
   }
 
   /**
