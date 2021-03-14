@@ -1,7 +1,12 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-      <div class="club-main">
-        <div class="memberForm">
+  <main id="club">
+    <div class="container-fluid club-main">
+      <div class="row mt-1 mb-5">
+        <div class="col-xl-8 col-md-12 memberForm">
+          <h4 class="font-weight-bold"><?=$pageTitle?></h4>
+          <hr class="text-default">
+
           <form id="entryForm" method="post" action="/member/update">
           <input type="hidden" name="page" value="member">
             <h2>개인정보수정</h2>
@@ -93,31 +98,30 @@
             </div>
           </form>
         </div>
-      </div>
 
-      <div class="modal fade" id="quitModal" tabindex="-1" role="dialog" aria-labelledby="quitModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="smallmodalLabel">회원 탈퇴</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body text-center">
-              <p class="modal-message">회원에서 탈퇴하시면 적립된 포인트가 모두 사라집니다.<br>정말로 탈퇴하시겠습니까?</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary btn-quit">탈퇴합니다</button>
-              <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
-              <a href="<?=BASE_URL?>"><button type="button" class="btn btn-primary btn-top d-none">메인 화면으로</button></a>
+        <div class="modal fade" id="quitModal" tabindex="-1" role="dialog" aria-labelledby="quitModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="smallmodalLabel">회원 탈퇴</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body text-center">
+                <p class="modal-message">회원에서 탈퇴하시면 적립된 포인트가 모두 사라집니다.<br>정말로 탈퇴하시겠습니까?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-quit">탈퇴합니다</button>
+                <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
+                <a href="<?=BASE_URL?>"><button type="button" class="btn btn-primary btn-top d-none">메인 화면으로</button></a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <script>
-        $(document).ready(function() {
-          $.checkNickname();
-        });
-      </script>
+        <script>
+          $(document).ready(function() {
+            $.checkNickname();
+          });
+        </script>

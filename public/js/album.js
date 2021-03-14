@@ -3,17 +3,11 @@ $(document).ready(function() {
     var $dom = $(this).parent();
     $.ajax({
       url: '/album/view',
-      data: 'idx=' + $(this).data('idx'),
+      data: 'source=' + $(this).data('source'),
       dataType: 'json',
       type: 'post',
-      beforeSend: function() {
-        $('.album-photo', $dom).css('opacity', '0.5');
-        $dom.append('<img class="ajax-loader" src="/public/images/preloader.png">')
-      },
       success: function(result) {
         var items = [];
-        $('.album-photo', $dom).css('opacity', '1');
-        $('.ajax-loader', $dom).remove();
         $.each(result, function(i, v) {
           items.push({
             src: v.src,

@@ -9,7 +9,7 @@ class Club extends MY_Controller
     parent::__construct();
     $this->load->helper(array('cookie', 'security', 'url', 'my_array_helper'));
     $this->load->library(array('cart', 'image_lib'));
-    $this->load->model(array('admin_model', 'area_model', 'club_model', 'file_model', 'notice_model', 'member_model', 'reserve_model', 'shop_model', 'story_model'));
+    $this->load->model(array('admin_model', 'area_model', 'club_model', 'file_model', 'notice_model', 'member_model', 'reserve_model', 'shop_model', 'story_model', 'travelog_model'));
   }
 
   /**
@@ -47,35 +47,24 @@ class Club extends MY_Controller
       exit;
     }
 
-    // 등록된 산행 목록
-    $viewData['listNoticeCalendar'] = $this->reserve_model->listNotice($clubIdx);
+    // 다음 산행
+    $viewData['listNotice'] = $this->reserve_model->listNotice($clubIdx, array(STATUS_ABLE, STATUS_CONFIRM));
 
-    // 캘린더 설정
-    $listCalendar = $this->admin_model->listCalendar();
+    // 최신 사진첩
+    $paging['perPage'] = 8; $paging['nowPage'] = 0;
+    $viewData['listAlbum'] = $this->club_model->listAlbum($viewData['view']['idx'], $paging);
 
-    foreach ($listCalendar as $key => $value) {
-      if ($value['holiday'] == 1) {
-        $class = 'holiday';
+    foreach ($viewData['listAlbum'] as $key => $value) {
+      $photo = $this->file_model->getFile('album', $value['idx'], NULL, 1);
+      if (!empty($photo[0]['filename'])) {
+        $viewData['listAlbum'][$key]['photo'] = PHOTO_URL . 'thumb_'. $photo[0]['filename'];
       } else {
-        $class = 'dayname';
+        $viewData['listAlbum'][$key]['photo'] = '/public/images/noimage.png';
       }
-      $viewData['listNoticeCalendar'][] = array(
-        'idx' => 0,
-        'startdate' => $value['nowdate'],
-        'enddate' => $value['nowdate'],
-        'schedule' => 0,
-        'status' => 'schedule',
-        'mname' => $value['dayname'],
-        'class' => $class,
-      );
     }
 
-    // 최초 스토리 로딩
-    $paging['perPage'] = $viewData['perPage'] = 5;
-    $paging['nowPage'] = (1 * $paging['perPage']) - $paging['perPage'];
-    $viewData['maxStory'] = $this->story_model->cntStory($clubIdx);
-    $viewData['listStory'] = $this->story_model->listStory($clubIdx, $paging);
-    $viewData['listStory'] = $this->load->view('story/index', $viewData, true);
+    $viewData['viewNews'] = $this->travelog_model->viewTravelog($clubIdx, NULL, 'news');
+    $viewData['viewLogs'] = $this->travelog_model->viewTravelog($clubIdx, NULL, 'logs');
 
     $this->_viewPage('club/index', $viewData);
   }
@@ -211,32 +200,34 @@ class Club extends MY_Controller
     // 클럽 메뉴
     $viewData['listAbout'] = $this->club_model->listAbout($viewData['view']['idx']);
 
-    // 진행 중 산행
-    $viewData['listFooterNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
+    // 등록된 산행 목록
+    $viewData['listNoticeCalendar'] = $this->reserve_model->listNotice($viewData['view']['idx']);
 
-    // 최신 댓글
-    $paging['perPage'] = 5; $paging['nowPage'] = 0;
-    $viewData['listFooterReply'] = $this->admin_model->listReply($viewData['view']['idx'], $paging);
+    // 캘린더 설정
+    $listCalendar = $this->admin_model->listCalendar();
 
-    foreach ($viewData['listFooterReply'] as $key => $value) {
-      if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/story/view/' . $value['story_idx']; endif;
-      if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/reserve/list/' . $value['story_idx']; endif;
-      if ($value['reply_type'] == REPLY_TYPE_SHOP):   $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/shop/item/' . $value['story_idx']; endif;
-    }
-
-    // 최신 사진첩
-    $paging['perPage'] = 2; $paging['nowPage'] = 0;
-    $viewData['listFooterAlbum'] = $this->club_model->listAlbum($viewData['view']['idx'], $paging);
-
-    foreach ($viewData['listFooterAlbum'] as $key => $value) {
-      $photo = $this->file_model->getFile('album', $value['idx'], NULL, 1);
-      if (!empty($photo[0]['filename'])) {
-        //$viewData['listAlbum'][$key]['photo'] = PHOTO_URL . 'thumb_' . $photo[0]['filename'];
-        $viewData['listFooterAlbum'][$key]['photo'] = PHOTO_URL . $photo[0]['filename'];
+    foreach ($listCalendar as $key => $value) {
+      if ($value['holiday'] == 1) {
+        $class = 'holiday';
       } else {
-        $viewData['listFooterAlbum'][$key]['photo'] = '/public/images/noimage.png';
+        $class = 'dayname';
       }
+      $viewData['listNoticeCalendar'][] = array(
+        'idx' => 0,
+        'startdate' => $value['nowdate'],
+        'enddate' => $value['nowdate'],
+        'schedule' => 0,
+        'status' => 'schedule',
+        'mname' => $value['dayname'],
+        'class' => $class,
+      );
     }
+
+    // 안부 인사
+    $page = 1;
+    $paging['perPage'] = 10;
+    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
+    $viewData['listStory'] = $this->story_model->listStory($viewData['view']['idx'], $paging);
 
     // 클럽 대표이미지
     $files = $this->file_model->getFile('club', $viewData['view']['idx']);

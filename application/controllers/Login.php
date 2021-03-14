@@ -483,10 +483,10 @@ class Login extends MY_Controller
    **/
   public function forgot()
   {
-    $clubIdx = get_cookie('COOKIE_CLUBIDX');
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
     checkUserLoginRedirect(BASE_URL); // 로그인 상태의 회원은 메인 페이지로
 
-    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+    $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
 
     // 페이지 타이틀
     $viewData['pageTitle'] = '아이디/비밀번호 찾기';
@@ -502,7 +502,6 @@ class Login extends MY_Controller
    **/
   public function search_id()
   {
-    $clubIdx        = html_escape($this->input->post('clubIdx'));
     $realname       = html_escape($this->input->post('realname'));
     $gender         = html_escape($this->input->post('gender'));
     $birthday_year  = html_escape($this->input->post('birthday_year'));
@@ -512,7 +511,7 @@ class Login extends MY_Controller
     $phone2         = html_escape($this->input->post('phone2'));
     $phone3         = html_escape($this->input->post('phone3'));
 
-    $userData = $this->member_model->searchId($clubIdx, $realname, $gender, $birthday_year . '/' . $birthday_month . '/' . $birthday_day, $phone1 . '-' . $phone2 . '-' . $phone3);
+    $userData = $this->member_model->searchId($realname, $gender, $birthday_year . '/' . $birthday_month . '/' . $birthday_day, $phone1 . '-' . $phone2 . '-' . $phone3);
 
     if (empty($userData['userid'])) {
       $result = array('error' => 1, 'message' => $this->lang->line('error_search_id'));
@@ -533,7 +532,6 @@ class Login extends MY_Controller
    **/
   public function change_pw()
   {
-    $clubIdx        = html_escape($this->input->post('clubIdx'));
     $userid         = html_escape($this->input->post('uid'));
     $realname       = html_escape($this->input->post('realname'));
     $gender         = html_escape($this->input->post('gender'));
@@ -549,7 +547,7 @@ class Login extends MY_Controller
     $result = array('error' => 1, 'message' => $this->lang->line('error_search_id'));
 
     // 해당 회원이 있는지 검색
-    $userData = $this->member_model->searchId($clubIdx, $realname, $gender, $birthday_year . '/' . $birthday_month . '/' . $birthday_day, $phone1 . '-' . $phone2 . '-' . $phone3, $userid);
+    $userData = $this->member_model->searchId($realname, $gender, $birthday_year . '/' . $birthday_month . '/' . $birthday_day, $phone1 . '-' . $phone2 . '-' . $phone3, $userid);
 
     if (!empty($userData['idx']) && !empty($updateValues['password'])) {
       // 비밀번호 변경
@@ -743,12 +741,6 @@ class Login extends MY_Controller
         $viewData['view']['main_photo_width'] = $size[0];
         $viewData['view']['main_photo_height'] = $size[1];
       }
-
-      $pageHeader = '/member/header';
-      $pageFooter = '/member/footer';
-    } else {
-      $pageHeader = 'header';
-      $pageFooter = 'footer';
     }
 
     // 로그인 쿠키 처리
@@ -779,9 +771,9 @@ class Login extends MY_Controller
     // 방문자 기록
     setVisitor();
 
-    $this->load->view($pageHeader, $viewData);
+    $this->load->view('header', $viewData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view($pageFooter, $viewData);
+    $this->load->view('member/footer', $viewData);
   }
 }
 ?>

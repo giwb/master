@@ -34,17 +34,6 @@
     }
   });
 
-  // Initiate the wowjs animation library
-  new WOW().init();
-
-  // Initiate superfish on nav menu
-  $('.nav-menu').superfish({
-    animation: {
-      opacity: 'show'
-    },
-    speed: 400
-  });
-
   // Mobile Navigation
   if ($('#nav-menu-container').length) {
     var $mobile_nav = $('#nav-menu-container').clone().prop({
@@ -130,88 +119,6 @@
         return false;
       }
     }
-  });
-
-  // Navigation active state on scroll
-  var nav_sections = $('section');
-  var main_nav = $('.nav-menu, #mobile-nav');
-  var main_nav_height = $('#header').outerHeight();
-
-  $(window).on('scroll', function () {
-    var cur_pos = $(this).scrollTop();
-  
-    nav_sections.each(function() {
-      var top = $(this).offset().top - main_nav_height,
-          bottom = top + $(this).outerHeight();
-  
-      if (cur_pos >= top && cur_pos <= bottom) {
-        main_nav.find('li').removeClass('menu-active menu-item-active');
-        main_nav.find('a[href="#'+$(this).attr('id')+'"]').parent('li').addClass('menu-active menu-item-active');
-      }
-    });
-  });
-
-  // Intro carousel
-  var introCarousel = $(".carousel");
-  var introCarouselIndicators = $(".carousel-indicators");
-  introCarousel.find(".carousel-inner").children(".carousel-item").each(function(index) {
-    (index === 0) ?
-    introCarouselIndicators.append("<li data-target='#introCarousel' data-slide-to='" + index + "' class='active'></li>") :
-    introCarouselIndicators.append("<li data-target='#introCarousel' data-slide-to='" + index + "'></li>");
-
-    $(this).css("background-image", "url('" + $(this).children('.carousel-background').children('img').attr('src') +"')");
-    $(this).children('.carousel-background').remove();
-  });
-
-  $(".carousel").swipe({
-    swipe: function(event, direction, distance, duration, fingerCount, fingerData) {
-      if (direction == 'left') $(this).carousel('next');
-      if (direction == 'right') $(this).carousel('prev');
-    },
-    allowPageScroll:"vertical"
-  });
-
-  // Skills section
-  $('#skills').waypoint(function() {
-    $('.progress .progress-bar').each(function() {
-      $(this).css("width", $(this).attr("aria-valuenow") + '%');
-    });
-  }, { offset: '80%'} );
-
-  // jQuery counterUp (used in Facts section)
-  $('[data-toggle="counter-up"]').counterUp({
-    delay: 10,
-    time: 1000
-  });
-
-  // Porfolio isotope and filter
-  var portfolioIsotope = $('.portfolio-container').isotope({
-    itemSelector: '.portfolio-item',
-    layoutMode: 'fitRows'
-  });
-
-  $('#portfolio-flters li').on( 'click', function() {
-    $("#portfolio-flters li").removeClass('filter-active');
-    $(this).addClass('filter-active');
-
-    portfolioIsotope.isotope({ filter: $(this).data('filter') });
-  });
-
-  // Clients carousel (uses the Owl Carousel library)
-  $(".clients-carousel").owlCarousel({
-    autoplay: false,
-    dots: true,
-    loop: true,
-    responsive: { 0: { items: 2 }, 768: { items: 4 }, 900: { items: 6 }
-    }
-  });
-
-  // Testimonials carousel (uses the Owl Carousel library)
-  $(".testimonials-carousel").owlCarousel({
-    autoplay: false,
-    dots: true,
-    loop: true,
-    items: 1
   });
 
   $(document).on('change', '.file', function() {
@@ -1519,3 +1426,57 @@ $(document).on('click', '.btn-reply', function() {
     });
   }
 });
+
+// 2021-03 신규 기능 추가
+$(document).on('click', '.btn-comment', function() {
+  var $btn = $(this);
+  var baseUrl = $('input[name=baseUrl]').val();
+  var clubIdx = $('input[name=clubIdx]').val();
+  var content = $('#club-story-content').val();
+  var userIdx = $('input[name=userIdx]').val();
+
+  if (content == '') { 
+    return false;
+  }
+
+  $.ajax({
+    url: '/story/comment',
+    data: 'clubIdx=' + clubIdx + '&content=' + encodeURIComponent(content),
+    dataType: 'json',
+    type: 'post',
+    beforeSend: function() {
+      $btn.css('opacity', '0.5').prop('disabled', true);
+      $('#club-story-content').prop('disabled', true);
+    },
+    success: function(result) {
+      $btn.css('opacity', '1').prop('disabled', false);
+      $('#club-story-content').prop('disabled', false).val('');
+      if (result.error == 1) {
+        $('#messageModal .btn').hide();
+        $('#messageModal .btn-refresh, #messageModal .btn-close').show();
+        $('#messageModal .modal-message').text(result.message);
+        $('#messageModal').modal();
+      } else {
+        $('#club-story').prepend(result.message);
+      }
+    }
+  });
+}).on('click', '.area-travelog', function() {
+  location.href = ($('input[name=baseUrl]').val() + '/travelog/view/' + $(this).data('idx'));
+  //location.href = ($('input[name=baseUrl]').val() + '/travelog_view/' + $(this).data('idx')) + '?type=' + $(this).data('type');
+});
+/*
+var loadStory = setInterval(function() {
+  $.ajax({
+    url: '/story/comment_list',
+    data: 'clubIdx=' + $('input[name=clubIdx]').val(),
+    dataType: 'json',
+    type: 'post',
+    success: function(result) {
+      if (result.error != 1) {
+        $('#club-story').empty().html(result.message);
+      }
+    }
+  });
+}, 5000);
+*/

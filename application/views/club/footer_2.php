@@ -1,65 +1,91 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-      <div class="club-right">
-        <!-- Kakao AdFit Start -->
-        <ins class="kakao_ad_area" style="display:none;" data-ad-unit    = "DAN-CMBlCe8nHsLwMdHn" data-ad-width   = "320" data-ad-height  = "100"></ins>
-        <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
-        <!-- Kakao AdFit End -->
-        <h3><i class="fas fa-calendar-alt" aria-hidden="true"></i> 현재 진행중인 산행</h3>
-        <div class="list-schedule">
-          <?php if (!empty($listFooterNotice)): ?>
-          <?php foreach ($listFooterNotice as $value): ?>
-          <a href="<?=BASE_URL?>/reserve/list/<?=$value['idx']?>">
-            <?php if (!empty($value['photo']) && file_exists(PHOTO_PATH . 'thumb_' . $value['photo'])): ?>
-            <img class="notice-photo" align="left" src="<?=PHOTO_URL . 'thumb_' . $value['photo']?>">
-            <?php else: ?>
-            <img class="notice-photo" align="left" src="/public/images/nophoto.png">
-            <?php endif; ?>
-            <div class="mt-0"><?=viewStatus($value['status'])?> <strong><?=$value['subject']?></strong></div>
-            <small><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명</small>
-          </a>
-          <?php endforeach; ?>
-          <?php else: ?><div class="text-center pt-5 pb-5">등록된 산행이 없습니다.</div>
-          <?php endif; ?>
+        <div class="col-xl-4 col-md-12 widget-column mt-0">
+          <section class="section">
+            <h4 class="font-weight-bold"><strong>월간 일정</strong></h4>
+            <hr class="text-default" style="margin-bottom: 33px;">
+            <div class="card">
+              <div class="view overlay">
+                <div id="calendar"></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section mt-4">
+            <h4 class="row font-weight-bold">
+              <div class="col-6"><strong>안부 인사</strong></div>
+              <div class="col-6 text-right"><!--<a href="javascript:;" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a>--></div>
+            </h4>
+            <div class="card">
+              <?php if (!empty($userData['idx'])): ?>
+              <div class="row border-bottom no-gutters pt-3 pb-2 pl-4 pr-3">
+                <div class="col-2 pl-0 pr-2"><img src="/public/photos/<?=$userData['idx']?>" class="w-100" style="border-radius: 100%;"></div>
+                <div class="col-8 pl-0 pr-1"><textarea id="club-story-content" rows="3" class="form-control form-control-sm"></textarea></div>
+                <div class="col-2 pt-0 pl-0"><button type="button" class="btn btn-default btn-comment pt-4 pb-4 pl-3 pr-3 w-100">등록</button></div>
+              </div>
+              <?php endif; ?>
+              <div id="club-story">
+              <?php foreach($listStory as $value): ?>
+                <div class="row pl-3 pr-3 pt-3">
+                  <div class="col-2"><img src="/public/photos/<?=$value['user_idx']?>" class="story-photo"></div>
+                  <div class="col-10 pl-0 text-justify"><b><?=$value['user_nickname']?></b> <?=$value['content']?> <span class="small grey-text"><?=calcStoryTime($value['created_at'])?></span></div>
+                </div>
+              <?php endforeach; ?>
+              </div>
+            </div>
+          </section>
+
+          <section class="section mt-4">
+            <h4 class="row font-weight-bold">
+              <div class="col-6"><strong>백산백소 인증현황</strong></div>
+              <div class="col-6 text-right"><!--<a href="javascript:;" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a>--></div>
+            </h4>
+            <div class="card pb-3">
+              <div class="row pl-3 pr-3 pt-3">
+                <div class="col-4"><img src="/public/images/medal1.png" align="left"> 스마일찐이님</div>
+                <div class="col-8 pl-0"><div class="auth-progress-bar"><div id="medal1" class="auth-gauge" cnt="42">42회</div></div></div>
+              </div>
+              <div class="row pl-3 pr-3 pt-2">
+                <div class="col-4"><img src="/public/images/medal2.png" align="left"> 미운사랑님</div>
+                <div class="col-8 pl-0"><div class="auth-progress-bar"><div id="medal2" class="auth-gauge" cnt="37">37회</div></div></div>
+              </div>
+              <div class="row pl-3 pr-3 pt-2">
+                <div class="col-4"><img src="/public/images/medal3.png" align="left"> 맑음님</div>
+                <div class="col-8 pl-0"><div class="auth-progress-bar"><div id="medal3" class="auth-gauge" cnt="36">36회</div></div></div>
+              </div>
+              <div class="row pl-3 pr-3 pt-2">
+                <div class="col-4"><img src="/public/images/medal4.png" align="left"> 야나두님</div>
+                <div class="col-8 pl-0"><div class="auth-progress-bar"><div id="medal4" class="auth-gauge" cnt="32">32회</div></div></div>
+              </div>
+              <div class="row pl-3 pr-3 pt-2">
+                <div class="col-4"><img src="/public/images/medal5.png" align="left"> 명산님</div>
+                <div class="col-8 pl-0"><div class="auth-progress-bar"><div id="medal5" class="auth-gauge" cnt="27">27회</div></div></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 애드핏 -->
+          <section class="section mb-4">
+            <div class="card">
+              <ins class="kakao_ad_area" style="display:none;" data-ad-unit    = "DAN-CMBlCe8nHsLwMdHn" data-ad-width   = "320" data-ad-height  = "100"></ins>
+              <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+            </div>
+          </section>
+
+          <!-- 구글 광고 -->
+          <section class="section">
+            <div class="card text-center">
+              <!-- GOOGLE ADSENSE -->
+              <?php if (ENVIRONMENT == 'production' && $_SERVER['REMOTE_ADDR'] != '49.166.0.82'): ?>
+              <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2424708381875991" data-ad-slot="1285643193" data-ad-format="auto" data-full-width-responsive="true"></ins>
+              <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
+              <?php endif; ?>
+            </div>
+          </section>
         </div>
-        <h3><i class="fas fa-reply" aria-hidden="true"></i> 최신 댓글</h3>
-        <div class="list-schedule list-reply">
-          <?php if (!empty($listFooterReply)): ?>
-          <?php foreach ($listFooterReply as $value): ?>
-          <a href="<?=$value['url']?>"><span class="content"><?=ksubstr($value['content'], 35)?></span><br><?=$value['nickname']?> · <?=calcStoryTime($value['created_at'])?></a>
-          <?php endforeach; ?>
-          <?php else: ?><div class="text-center pt-5 pb-5">등록된 댓글이 없습니다.</div>
-          <?php endif; ?>
-        </div>
-        <h3><i class="fas fa-camera" aria-hidden="true"></i> 최신 사진첩</h3>
-        <div class="list-schedule list-reply">
-          <?php if (!empty($listFooterAlbum)): ?>
-          <?php foreach ($listFooterAlbum as $value): ?>
-          <a href="<?=BASE_URL?>/album"><img class="w-100 mt-2" src="<?=$value['photo']?>"><div class="mt-2 mb-1"><span class="content"><?=$value['subject']?></span></div><?=$value['nickname']?> · <?=calcStoryTime($value['created_at'])?></a>
-          <?php endforeach; ?>
-          <?php else: ?><div class="text-center pt-5 pb-5">등록된 사진이 없습니다.</div>
-          <?php endif; ?>
-        </div>
-        <!-- GOOGLE ADSENSE -->
-        <?php if (ENVIRONMENT == 'production' && $_SERVER['REMOTE_ADDR'] != '49.166.0.82'): ?>
-        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2424708381875991" data-ad-slot="1285643193" data-ad-format="auto" data-full-width-responsive="true"></ins>
-        <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
-        <?php endif; ?>
       </div>
     </div>
-  </section>
-
-  <ul id="nav-footer">
-    <li><a href="<?=BASE_URL?>/reserve/schedule"><i class="fa fa-calendar" aria-hidden="true"></i><br>일정</a></li>
-    <?php if ($view['idx'] == 1): ?><li><a href="<?=BASE_URL?>/shop"><i class="fa fa-shopping-cart" aria-hidden="true"></i><br>구매</a></li><?php endif; ?>
-    <li><a href="<?=BASE_URL?>/album"><i class="fa fa-camera-retro" aria-hidden="true"></i><br>사진</a></li>
-    <li><a href="<?=BASE_URL?>/club/about/<?=$listAbout[0]['idx']?>"><i class="fa fa-sitemap" aria-hidden="true"></i><br>소개</a></li>
-    <?php if (!empty($userData['idx'])): ?>
-    <li><a href="<?=BASE_URL?>/member"><i class="fa fa-user-circle" aria-hidden="true"></i><br>내정보</a></li>
-    <?php else: ?>
-    <li><a href="javascript:;" class="login-popup"><i class="fa fa-user-circle" aria-hidden="true"></i><br>로그인</a></li>
-    <?php endif; ?>
-  </ul>
+  </main>
 
   <input type="hidden" name="baseUrl" value="<?=BASE_URL?>">
   <input type="hidden" name="clubIdx" value="<?=!empty($view['idx']) ? $view['idx'] : ''?>">
@@ -93,11 +119,11 @@
         </div>
         <div class="modal-footer">
           <div class="modal-footer-left">
-            <a href="<?=BASE_URL?>/login/check"><button type="button" class="btn btn-<?=$view['main_color']?>">회원가입</button></a>
-            <a href="<?=BASE_URL?>/login/forgot"><button type="button" class="btn btn-secondary">아이디/비밀번호 찾기</button></a>
+            <a href="<?=BASE_URL?>/login/check"><button type="button" class="btn btn-info pl-3 pr-3">회원가입</button></a>
+            <a href="<?=BASE_URL?>/login/forgot"><button type="button" class="btn btn-secondary pl-3 pr-3">아이디/비밀번호 찾기</button></a>
           </div>
           <div class="modal-footer-right">
-            <button type="button" class="btn btn-<?=$view['main_color']?> btn-login">로그인</button>
+            <button type="button" class="btn btn-<?=$view['main_color']?> btn-login pl-3 pr-3">로그인</button>
           </div>
         </div>
       </div>
@@ -210,7 +236,7 @@
         <input type="hidden" name="userIdx" value="<?=!empty($userData['idx']) ? $userData['idx'] : ''?>">
         <input type="hidden" name="page" value="story">
         <div class="modal-body text-center">
-          <textarea id="club-story-content" rows="10" class="form-control" placeholder="당신의 이야기를 들려주세요~"></textarea>
+          <!--<textarea id="club-story-content" rows="10" class="form-control" placeholder="당신의 이야기를 들려주세요~"></textarea>-->
           <div class="error-message"></div>
         </div>
         <div class="area-photo"></div>
@@ -265,20 +291,94 @@
     </div>
   </div>
 
-  <!-- FOOTER -->
-  <footer id="footer">
-    <div class="text-center">
-      Copyright &copy; <script>document.write(new Date().getFullYear());</script> <strong>SayHome</strong>. All Rights Reserved.
-    </div>
-  </footer>
-  <!-- /FOOTER -->
-
   <!-- Back to Top -->
   <a class="scroll-to-top rounded" href="javascript:;">
     <i class="fa fa-angle-up"></i>
   </a>
 
-  <script src="/public/vendors/chart.js/dist/Chart.bundle.min.js" type="text/javascript"></script>
+  <footer class="page-footer stylish-color-dark mt-4 text-center p-4">
+    <div class="white-text">
+      Copyright© 2021 한국여행, All Rights Reserved.<br>
+      <a href="#">이용약관</a> |
+      <a href="#">개인정보 취급방침</a>
+    </div>
+  </footer>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('#calendar').fullCalendar({
+        header: {
+          left: 'prev',
+          center: 'title',
+          right: 'next'
+        },
+        titleFormat: {
+          month: 'yyyy년 MMMM',
+          week: "yyyy년 MMMM",
+          day: 'yyyy년 MMMM'
+        },
+        events: [
+          <?php
+            foreach ($listNoticeCalendar as $value):
+              $startDate = strtotime($value['startdate']);
+              $value['mname'] = htmlspecialchars_decode($value['mname']);
+              if (!empty($value['enddate'])): $endDate = calcEndDate($value['startdate'], $value['enddate']);
+              else: $endDate = calcEndDate($value['startdate'], $value['schedule']);
+              endif;
+              if ($value['status'] == 'schedule'):
+          ?>
+          {
+            title: '<?=$value['mname']?>',
+            start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>T00:00:00'),
+            end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>T23:59:59'),
+            url: 'javascript:;',
+            className: '<?=$value['class']?>'
+          },
+          <?php
+              else:
+                if ($value['status'] >= 1):
+                  $url = BASE_URL . '/reserve/index/' . $value['idx'];
+                else:
+                  $url = 'javascript:;';
+                endif;
+          ?>
+          {
+            title: '<?=$value['status'] != STATUS_PLAN ? $value['starttime'] . "\\n" : "[계획]\\n"?><?=$value['mname']?>',
+            start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>T00:00:01'),
+            end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>T23:59:59'),
+            url: '<?=$url?>',
+            className: 'notice-status<?=$value['status']?>'
+          },
+          <?php
+              endif;
+            endforeach;
+          ?>
+        ]
+      });
+
+      // 백산백소 인증 프로그래스바
+      $('.auth-gauge').each(function(i) {
+        var elemId = $(this).attr('id');
+        var maxWidth = $(this).attr('cnt');
+        move(i, elemId, maxWidth);
+      });
+      function move(i, elemId, maxWidth) {
+        i = 1;
+        var elem = document.getElementById(elemId);
+        var width = 1;
+        var id = setInterval(frame, 10);
+        function frame() {
+          if (width >= Number(maxWidth * 2)) {
+            clearInterval(id);
+            i = 0;
+          } else {
+            width++;
+            elem.style.width = width + "%";
+          }
+        }
+      }
+    });
+  </script>
 
   <?php if (ENVIRONMENT == 'production' && $_SERVER['REMOTE_ADDR'] != '49.166.0.82'): ?>
   <script>

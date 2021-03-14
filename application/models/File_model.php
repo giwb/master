@@ -23,6 +23,15 @@ class File_model extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  // 파일 보기
+  public function viewFile($filename)
+  {
+    $this->db->select('*')
+          ->from(DB_FILES)
+          ->where('filename', $filename);
+    return $this->db->get()->row_array(1);
+  }
+
   // 파일 등록
   public function insertFile($data)
   {

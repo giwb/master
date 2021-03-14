@@ -1,6 +1,14 @@
 (function($) {
   "use strict"; // Start of use strict
 
+  // 메세지 모달
+  $.openMsgModal = function(msg) {
+    $('#messageModal .modal-footer .btn').hide();
+    $('#messageModal .modal-footer .btn-close').show();
+    $('#messageModal .modal-message').html(msg);
+    $('#messageModal').modal('show');
+  }
+
   // Scroll to top button appear
   $(document).on('scroll',function() {
     var scrollDistance = $(this).scrollTop();

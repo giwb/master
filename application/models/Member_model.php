@@ -21,11 +21,10 @@ class Member_model extends CI_Model
   }
 
   // 아이디 찾기
-  public function searchId($clubIdx, $realname, $gender, $birthday, $phone, $userid=NULL)
+  public function searchId($realname, $gender, $birthday, $phone, $userid=NULL)
   {
     $this->db->select('idx, userid, quitdate')
           ->from(DB_MEMBER)
-          ->where('club_idx', $clubIdx)
           ->where('realname', $realname)
           ->where('gender', $gender)
           ->where('birthday', $birthday)

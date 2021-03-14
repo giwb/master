@@ -2,46 +2,38 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 // 첫 페이지 클래스
-class Story extends MY_Controller
+class Travelog extends MY_Controller
 {
   function __construct()
   {
     parent::__construct();
     $this->load->helper(array('cookie', 'security', 'url', 'my_array_helper'));
     $this->load->library(array('image_lib', 'session'));
-    $this->load->model(array('club_model', 'file_model', 'reserve_model', 'story_model'));
+    $this->load->model(array('club_model', 'file_model', 'story_model', 'travelog_model'));
   }
 
   /**
-   * 스토리 메인 페이지
+   * 여행기 메인 페이지
    *
    * @return json
    * @author bjchoi
    **/
-  public function index($storyIdx=NULL)
+  public function index()
   {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
-    $storyIdx = html_escape($storyIdx);
-    $page = html_escape($this->input->post('p'));
+    $viewData['type'] = html_escape($this->input->get('type'));
     $viewData['userData'] = $this->session->userData;
     $result = '';
+    $page = 1;
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
-    if (!empty($storyIdx)) {
-      $viewData['listStory'] = $this->story_model->viewStory($storyIdx);
-    } else {
-      $paging['perPage'] = 10;
-      $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
-      $viewData['listStory'] = $this->story_model->listStory($clubIdx, $paging);
-    }
+    $paging['perPage'] = 10;
+    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
+    $viewData['listTravelog'] = $this->travelog_model->listTravelog($clubIdx, $viewData['type'], $paging);
 
-    if (!empty($viewData['listStory'])) {
-      $result = $this->load->view('story/index', $viewData, true);
-    }
-
-    $this->output->set_output(json_encode($result));
+    $this->_viewPage('travelog/index', $viewData);
   }
 
   /**
@@ -50,46 +42,38 @@ class Story extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function view($storyIdx=NULL)
+  public function view($idx=NULL)
   {
-    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
-    $viewData['storyIdx'] = html_escape($storyIdx);
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $viewData['userData'] = $this->session->userData;
+    $idx = html_escape($idx);
 
     // 클럽 정보
-    $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
-    // 최초 스토리 출력
-    $viewData['listStory'] = $this->story_model->viewStory($viewData['storyIdx']);
-    $viewData['viewStory'] = $this->load->view('story/index', $viewData, true);
+    // 여행기 불러오기
+    $viewData['viewTravelog'] = $this->travelog_model->viewTravelog($clubIdx, $idx);
+    $viewData['type'] = $viewData['viewTravelog']['category'];
 
-    $this->_viewPage('story/view', $viewData);
+    $this->_viewPage('travelog/view', $viewData);
   }
 
   /**
-   * 스토리 수정
+   * 여행기 작성
    *
    * @return view
    * @author bjchoi
    **/
-  public function edit($storyIdx=NULL)
+  public function post()
   {
-    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
-    $viewData['storyIdx'] = html_escape($storyIdx);
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $viewData['userData'] = $this->session->userData;
+    $viewData['type'] = html_escape($this->input->get('type'));
 
     // 클럽 정보
-    $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
-    // 최초 스토리 출력
-    $viewData['listStory'] = $this->story_model->viewStory($viewData['storyIdx']);
-
-    if ($viewData['userData']['idx'] != $viewData['listStory'][0]['created_by'] && $viewData['userData']['admin'] != 1) {
-      redirect(BASE_URL . '/story/view/' . $viewData['storyIdx']);
-    } else {
-      $viewData['viewStory'] = $this->load->view('story/index', $viewData, true);
-      $this->_viewPage('story/edit', $viewData);
-    }
+    $this->_viewPage('travelog/post', $viewData);
   }
 
   /**
@@ -98,14 +82,12 @@ class Story extends MY_Controller
    * @return json
    * @author bjchoi
    **/
-  public function insert()
+  public function update()
   {
     $now = time();
     $userIdx = $this->session->userData['idx'];
     $inputData = $this->input->post();
-    $clubIdx = html_escape($inputData['clubIdx']);
-    $inputData['photo'] = html_escape($inputData['photo']);
-    $inputData['page'] = html_escape($inputData['page']);
+    $clubIdx = html_escape($inputData['club_idx']);
     $idx = !empty($inputData['idx']) ? html_escape($inputData['idx']) : NULL;
 
     if (empty($userIdx)) {
@@ -113,53 +95,28 @@ class Story extends MY_Controller
     } else {
       if (!empty($idx)) {
         $updateValues = array(
+          'category'    => html_escape($inputData['category']),
+          'title'       => html_escape($inputData['title']),
           'content'     => html_escape($inputData['content']),
           'updated_by'  => html_escape($userIdx),
           'updated_at'  => $now
         );
-        $this->story_model->updateStory($updateValues, $idx);
+        $this->travelog_model->update($updateValues, $idx);
       } else {
         $insertValues = array(
           'club_idx'    => html_escape($clubIdx),
+          'category'    => html_escape($inputData['category']),
+          'title'       => html_escape($inputData['title']),
           'content'     => html_escape($inputData['content']),
           'created_by'  => html_escape($userIdx),
           'created_at'  => $now
         );
-        $idx = $this->story_model->insertStory($insertValues);
+        $idx = $this->travelog_model->insert($insertValues);
       }
 
       if (empty($idx)) {
         $result = array('error' => 1, 'message' => $this->lang->line('error_insert'));
       } else {
-        // 파일 등록
-        //foreach ($files as $value) {
-          // 업로드 된 파일이 있을 경우에만 등록 후 이동
-          if (!empty($inputData['photo']) && file_exists(UPLOAD_PATH . $inputData['photo'])) {
-            $file_values = array(
-              'page' => $inputData['page'],
-              'page_idx' => $idx,
-              'filename' => $inputData['photo'],
-              'created_at' => $now
-            );
-            $this->file_model->insertFile($file_values);
-
-            // 파일 이동
-            rename(UPLOAD_PATH . $inputData['photo'], PHOTO_PATH . $inputData['photo']);
-
-            // 썸네일 만들기
-            $this->image_lib->clear();
-            $config['image_library'] = 'gd2';
-            $config['source_image'] = PHOTO_PATH . $inputData['photo'];
-            $config['new_image'] = PHOTO_PATH . 'thumb_' . $inputData['photo'];
-            $config['create_thumb'] = TRUE;
-            $config['maintain_ratio'] = TRUE;
-            $config['thumb_marker'] = '';
-            $config['width'] = 592;
-            $this->image_lib->initialize($config);
-            $this->image_lib->resize();
-          }
-        //}
-
         $result = array('error' => 0, 'message' => '');
       }
     }
@@ -176,16 +133,16 @@ class Story extends MY_Controller
   public function comment_list()
   {
     $clubIdx = html_escape($this->input->post('clubIdx'));
-    $listStory = $this->story_model->listStory($clubIdx);
+    $listTravelog = $this->travelog_model->listTravelog($clubIdx);
     $message = '';
     $page = 1;
 
     $paging['perPage'] = 10;
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
-    $listStory = $this->story_model->listStory($clubIdx, $paging);
+    $listTravelog = $this->travelog_model->listTravelog($clubIdx, $paging);
 
-    foreach ($listStory as $value) {
-      $message .= '<div class="row pl-3 pr-3 pt-3"><div class="col-2"><img src="/public/photos/' . $value['user_idx'] . '" class="story-photo"></div><div class="col-10 pl-0 text-justify"><b>' . $value['user_nickname'] . '</b> ' . $value['content'] . ' <span class="small grey-text">' . calcStoryTime($value['created_at']) . '</span></div></div>';
+    foreach ($listTravelog as $value) {
+      $message .= '<div class="row pl-3 pr-3 pt-3"><div class="col-2"><img src="/public/photos/' . $value['user_idx'] . '" class="story-photo"></div><div class="col-10 pl-0 text-justify"><b>' . $value['user_nickname'] . '</b> ' . $value['content'] . ' <span class="small grey-text">' . calcTravelogTime($value['created_at']) . '</span></div></div>';
     }
 
     $result = array('error' => 0, 'message' => $message);
@@ -214,13 +171,13 @@ class Story extends MY_Controller
         'created_by'  => html_escape($userIdx),
         'created_at'  => $now
       );
-      $idx = $this->story_model->insertStory($insertValues);
+      $idx = $this->travelog_model->insertTravelog($insertValues);
 
       if (empty($idx)) {
         $result = array('error' => 1, 'message' => $this->lang->line('error_insert'));
       } else {
-        $viewStory = $this->story_model->viewStory($idx);
-        $message = '<div class="row pl-3 pr-3 pt-3"><div class="col-2"><img src="/public/photos/' . $userIdx . '" class="story-photo"></div><div class="col-10 pl-0 text-justify"><b>' . $viewStory[0]['user_nickname'] . '</b> ' . $viewStory[0]['content'] . ' <span class="small grey-text">방금</span></div></div>';
+        $viewTravelog = $this->travelog_model->viewTravelog($idx);
+        $message = '<div class="row pl-3 pr-3 pt-3"><div class="col-2"><img src="/public/photos/' . $userIdx . '" class="story-photo"></div><div class="col-10 pl-0 text-justify"><b>' . $viewTravelog[0]['user_nickname'] . '</b> ' . $viewTravelog[0]['content'] . ' <span class="small grey-text">방금</span></div></div>';
         $result = array('error' => 0, 'message' => $message);
       }
     }
@@ -242,12 +199,12 @@ class Story extends MY_Controller
     $message = '';
 
     // 댓글 목록
-    $reply = $this->story_model->listStoryReply($storyIdx, $replyType);
+    $reply = $this->travelog_model->listTravelogReply($storyIdx, $replyType);
     foreach ($reply as $value) {
       $message .= $this->_viewReplyContent($value, $userData, true);
 
       // 댓글에 대한 답글
-      $replyResponse = $this->story_model->listStoryReply($storyIdx, $replyType, $value['idx']);
+      $replyResponse = $this->travelog_model->listTravelogReply($storyIdx, $replyType, $value['idx']);
       foreach ($replyResponse as $response) {
         $message .= $this->_viewReplyContent($response, $userData, true);
       }
@@ -286,16 +243,16 @@ class Story extends MY_Controller
           'updated_by' => $userData['idx'],
           'updated_at' => $now
         );
-        $this->story_model->updateStoryReply($updateValues, $storyIdx, $replyType, $replyIdx);
+        $this->travelog_model->updateTravelogReply($updateValues, $storyIdx, $replyType, $replyIdx);
 
         // 기존 정보 불러오기
-        $viewStoryReply = $this->story_model->viewStoryReply($replyIdx);
-        $userData['idx'] = $viewStoryReply['created_by'];
-        $userData['nickname'] = $viewStoryReply['nickname'];
+        $viewTravelogReply = $this->travelog_model->viewTravelogReply($replyIdx);
+        $userData['idx'] = $viewTravelogReply['created_by'];
+        $userData['nickname'] = $viewTravelogReply['nickname'];
         $rtn = $replyIdx;
 
         // 스토리 댓글 개수
-        $cntStoryReply = $this->story_model->cntStoryReply($storyIdx, $replyType);
+        $cntTravelogReply = $this->travelog_model->cntTravelogReply($storyIdx, $replyType);
       } elseif (!empty($replyParentIdx)) {
         // 댓글에 대한 답글 등록
         $insertValues = array(
@@ -307,14 +264,14 @@ class Story extends MY_Controller
           'created_by' => $userData['idx'],
           'created_at' => $now
         );
-        $rtn = $this->story_model->insertStoryReply($insertValues);
+        $rtn = $this->travelog_model->insertTravelogReply($insertValues);
 
         // 스토리 댓글 개수 올리기
-        $cntStoryReply = $this->story_model->cntStoryReply($storyIdx, $replyType);
+        $cntTravelogReply = $this->travelog_model->cntTravelogReply($storyIdx, $replyType);
 
         if ($replyType == REPLY_TYPE_STORY) {
-          $updateData['reply_cnt'] = $cntStoryReply['cnt'];
-          $this->story_model->updateStory($updateData, $storyIdx);
+          $updateData['reply_cnt'] = $cntTravelogReply['cnt'];
+          $this->travelog_model->updateTravelog($updateData, $storyIdx);
         }
       } else {
         // 등록
@@ -326,14 +283,14 @@ class Story extends MY_Controller
           'created_by' => $userData['idx'],
           'created_at' => $now
         );
-        $rtn = $this->story_model->insertStoryReply($insertValues);
+        $rtn = $this->travelog_model->insertTravelogReply($insertValues);
 
         // 스토리 댓글 개수 올리기
-        $cntStoryReply = $this->story_model->cntStoryReply($storyIdx, $replyType);
+        $cntTravelogReply = $this->travelog_model->cntTravelogReply($storyIdx, $replyType);
 
         if ($replyType == REPLY_TYPE_STORY) {
-          $updateData['reply_cnt'] = $cntStoryReply['cnt'];
-          $this->story_model->updateStory($updateData, $storyIdx);
+          $updateData['reply_cnt'] = $cntTravelogReply['cnt'];
+          $this->travelog_model->updateTravelog($updateData, $storyIdx);
         }
       }
 
@@ -371,7 +328,7 @@ class Story extends MY_Controller
         $result = array(
           'error' => 0,
           'message' => $html,
-          'reply_cnt' => $cntStoryReply['cnt']
+          'reply_cnt' => $cntTravelogReply['cnt']
         );
       }
     }
@@ -396,16 +353,16 @@ class Story extends MY_Controller
     if (empty($userIdx)) {
       $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
     } else {
-      $cntStoryReaction = $this->story_model->cntStoryReaction($storyIdx, $reactionType, REACTION_KIND_LIKE);
-      $viewStoryReaction = $this->story_model->viewStoryReaction($storyIdx, $reactionType, $userIdx);
+      $cntTravelogReaction = $this->travelog_model->cntTravelogReaction($storyIdx, $reactionType, REACTION_KIND_LIKE);
+      $viewTravelogReaction = $this->travelog_model->viewTravelogReaction($storyIdx, $reactionType, $userIdx);
       $result = array();
 
-      if (!empty($viewStoryReaction['reaction_kind']) && $viewStoryReaction['reaction_kind'] == REACTION_KIND_LIKE) {
+      if (!empty($viewTravelogReaction['reaction_kind']) && $viewTravelogReaction['reaction_kind'] == REACTION_KIND_LIKE) {
         // 데이터가 있으면 삭제
-        $rtn = $this->story_model->deleteStoryReaction($storyIdx, $userIdx, $reactionType);
+        $rtn = $this->travelog_model->deleteTravelogReaction($storyIdx, $userIdx, $reactionType);
 
         if (!empty($rtn)) {
-          $updateData['like_cnt'] = $cntStoryReaction['cnt'] - 1;
+          $updateData['like_cnt'] = $cntTravelogReaction['cnt'] - 1;
           $result = array('type' => 0, 'count' => $updateData['like_cnt']);
         }
       } else {
@@ -418,16 +375,16 @@ class Story extends MY_Controller
           'created_by' => $userIdx,
           'created_at' => $now
         );
-        $rtn = $this->story_model->insertStoryReaction($insertData);
+        $rtn = $this->travelog_model->insertTravelogReaction($insertData);
 
         if (!empty($rtn)) {
-          $updateData['like_cnt'] = $cntStoryReaction['cnt'] + 1;
+          $updateData['like_cnt'] = $cntTravelogReaction['cnt'] + 1;
           $result = array('type' => 1, 'count' => $updateData['like_cnt']);
         }
       }
 
       if (!empty($rtn) && $reactionType == REACTION_TYPE_STORY) {
-        $this->story_model->updateStory($updateData, $storyIdx);
+        $this->travelog_model->updateTravelog($updateData, $storyIdx);
       }
     }
 
@@ -451,9 +408,9 @@ class Story extends MY_Controller
     $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
 
     if (!empty($userIdx)) {
-      $viewStoryReaction = $this->story_model->viewStoryReaction($storyIdx, $reactionType, $userIdx, $shareType);
+      $viewTravelogReaction = $this->travelog_model->viewTravelogReaction($storyIdx, $reactionType, $userIdx, $shareType);
 
-      if (!empty($viewStoryReaction)) {
+      if (!empty($viewTravelogReaction)) {
         $result = array('error' => 1, 'message' => '');
       } else {
         $insertData = array(
@@ -465,17 +422,17 @@ class Story extends MY_Controller
           'created_by' => $userIdx,
           'created_at' => $now
         );
-        $rtn = $this->story_model->insertStoryReaction($insertData);
+        $rtn = $this->travelog_model->insertTravelogReaction($insertData);
 
         if (!empty($rtn)) {
-          $cntStoryReaction = $this->story_model->cntStoryReaction($storyIdx, $reactionType, REACTION_KIND_SHARE);
+          $cntTravelogReaction = $this->travelog_model->cntTravelogReaction($storyIdx, $reactionType, REACTION_KIND_SHARE);
 
           if ($reactionType == REACTION_TYPE_STORY) {
-            $updateData['share_cnt'] = $cntStoryReaction['cnt'];
-            $this->story_model->updateStory($updateData, $storyIdx);
+            $updateData['share_cnt'] = $cntTravelogReaction['cnt'];
+            $this->travelog_model->updateTravelog($updateData, $storyIdx);
           }
 
-          $result = array('type' => 1, 'count' => $cntStoryReaction['cnt']);
+          $result = array('type' => 1, 'count' => $cntTravelogReaction['cnt']);
         }
       }
     }
@@ -500,24 +457,24 @@ class Story extends MY_Controller
       $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
     } else {
       // 해당 글을 작성한 사람이 맞는치 확인 (관리자는 모두 삭제 가능)
-      $viewStory = $this->story_model->viewStory($storyIdx);
+      $viewTravelog = $this->travelog_model->viewTravelog($storyIdx);
       $viewMember = $this->member_model->viewMember($userIdx);
 
-      if (!empty($viewStory[0]['user_idx']) && ($viewStory[0]['user_idx'] == $userIdx || $viewMember['admin'] == 1)) {
+      if (!empty($viewTravelog[0]['user_idx']) && ($viewTravelog[0]['user_idx'] == $userIdx || $viewMember['admin'] == 1)) {
         // DB는 삭제 플래그만 세워줌
         $updateData = array(
           'deleted_by' => $userIdx,
           'deleted_at' => $now
         );
 
-        $rtn = $this->story_model->updateStory($updateData, $storyIdx);
+        $rtn = $this->travelog_model->updateTravelog($updateData, $storyIdx);
 
         if (!empty($rtn)) {
           // 댓글 삭제 플래그 세우기
-          $this->story_model->updateStoryReply($updateData, $storyIdx, REPLY_TYPE_STORY);
+          $this->travelog_model->updateTravelogReply($updateData, $storyIdx, REPLY_TYPE_STORY);
 
           // 리액션 삭제
-          $this->story_model->deleteStoryReaction($storyIdx, $userIdx);
+          $this->travelog_model->deleteTravelogReaction($storyIdx, $userIdx);
 
           // 화상 데이터는 삭제
           $files = $this->file_model->getFile('story', $storyIdx);
@@ -552,26 +509,26 @@ class Story extends MY_Controller
       $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
     } else {
       // 해당 글을 작성한 사람이 맞는치 확인 (관리자는 모두 삭제 가능)
-      $viewStoryReply = $this->story_model->viewStoryReply($storyReplyIdx);
+      $viewTravelogReply = $this->travelog_model->viewTravelogReply($storyReplyIdx);
       $viewMember = $this->member_model->viewMember($userIdx);
 
-      if (!empty($viewStoryReply['created_by']) && ($viewStoryReply['created_by'] == $userIdx || $viewMember['admin'] == 1)) {
+      if (!empty($viewTravelogReply['created_by']) && ($viewTravelogReply['created_by'] == $userIdx || $viewMember['admin'] == 1)) {
         // 삭제는 삭제 플래그만 세워줌
         $updateData = array(
           'deleted_by' => $userIdx,
           'deleted_at' => $now
         );
 
-        $rtn = $this->story_model->updateStoryReply($updateData, $viewStoryReply['story_idx'], $viewStoryReply['reply_type'], $storyReplyIdx);
+        $rtn = $this->travelog_model->updateTravelogReply($updateData, $viewTravelogReply['story_idx'], $viewTravelogReply['reply_type'], $storyReplyIdx);
 
         // 댓글에 대한 답글도 삭제
-        $this->story_model->updateStoryReply($updateData, $viewStoryReply['story_idx'], $viewStoryReply['reply_type'], NULL, $storyReplyIdx);
+        $this->travelog_model->updateTravelogReply($updateData, $viewTravelogReply['story_idx'], $viewTravelogReply['reply_type'], NULL, $storyReplyIdx);
 
         if (!empty($rtn)) {
-          $cntStoryReply = $this->story_model->cntStoryReply($viewStoryReply['story_idx'], $viewStoryReply['reply_type']);
-          $updateData = array('reply_cnt' => $cntStoryReply['cnt']);
-          $this->story_model->updateStory($updateData, $viewStoryReply['story_idx']);
-          $result = array('error' => 0, 'message' => 'delete_reply', 'story_idx' => $viewStoryReply['story_idx'], 'reply_cnt' => $cntStoryReply['cnt']);
+          $cntTravelogReply = $this->travelog_model->cntTravelogReply($viewTravelogReply['story_idx'], $viewTravelogReply['reply_type']);
+          $updateData = array('reply_cnt' => $cntTravelogReply['cnt']);
+          $this->travelog_model->updateTravelog($updateData, $viewTravelogReply['story_idx']);
+          $result = array('error' => 0, 'message' => 'delete_reply', 'story_idx' => $viewTravelogReply['story_idx'], 'reply_cnt' => $cntTravelogReply['cnt']);
         }
       }
     }
@@ -675,9 +632,9 @@ class Story extends MY_Controller
       $delete = '';
     }
     if (!empty($value['updated_at'])) {
-      $date = calcStoryTime($value['created_at']) . ' 작성, ' . calcStoryTime($value['updated_at']) . ' 수정';
+      $date = calcTravelogTime($value['created_at']) . ' 작성, ' . calcTravelogTime($value['updated_at']) . ' 수정';
     } else {
-      $date = calcStoryTime($value['created_at']);
+      $date = calcTravelogTime($value['created_at']);
     }
     if (file_exists(PHOTO_PATH . $value['created_by'])) {
       $size = getImageSize(PHOTO_PATH . $value['created_by']);
@@ -718,32 +675,37 @@ class Story extends MY_Controller
     $viewData['userData'] = $this->session->userData;
     $viewData['userLevel'] = memberLevel($viewData['userData']['rescount'], $viewData['userData']['penalty'], $viewData['userData']['level'], $viewData['userData']['admin']);
 
-    // 진행 중 산행
-    $viewData['listFooterNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
+    // 클럽 메뉴
+    $viewData['listAbout'] = $this->club_model->listAbout($viewData['view']['idx']);
 
-    // 최신 댓글
-    $paging['perPage'] = 5; $paging['nowPage'] = 0;
-    $viewData['listFooterReply'] = $this->admin_model->listReply($viewData['view']['idx'], $paging);
+    // 등록된 산행 목록
+    $viewData['listNoticeCalendar'] = $this->reserve_model->listNotice($viewData['view']['idx']);
 
-    foreach ($viewData['listFooterReply'] as $key => $value) {
-      if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/story/view/' . $value['story_idx']; endif;
-      if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/reserve/list/' . $value['story_idx']; endif;
-      if ($value['reply_type'] == REPLY_TYPE_SHOP):   $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/shop/item/' . $value['story_idx']; endif;
-    }
+    // 캘린더 설정
+    $listCalendar = $this->admin_model->listCalendar();
 
-    // 최신 사진첩
-    $paging['perPage'] = 2; $paging['nowPage'] = 0;
-    $viewData['listFooterAlbum'] = $this->club_model->listAlbum($viewData['view']['idx'], $paging);
-
-    foreach ($viewData['listFooterAlbum'] as $key => $value) {
-      $photo = $this->file_model->getFile('album', $value['idx'], NULL, 1);
-      if (!empty($photo[0]['filename'])) {
-        //$viewData['listAlbum'][$key]['photo'] = PHOTO_URL . 'thumb_' . $photo[0]['filename'];
-        $viewData['listFooterAlbum'][$key]['photo'] = PHOTO_URL . $photo[0]['filename'];
+    foreach ($listCalendar as $key => $value) {
+      if ($value['holiday'] == 1) {
+        $class = 'holiday';
       } else {
-        $viewData['listFooterAlbum'][$key]['photo'] = '/public/images/noimage.png';
+        $class = 'dayname';
       }
+      $viewData['listNoticeCalendar'][] = array(
+        'idx' => 0,
+        'startdate' => $value['nowdate'],
+        'enddate' => $value['nowdate'],
+        'schedule' => 0,
+        'status' => 'schedule',
+        'mname' => $value['dayname'],
+        'class' => $class,
+      );
     }
+
+    // 안부 인사
+    $page = 1;
+    $paging['perPage'] = 10;
+    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
+    $viewData['listStory'] = $this->story_model->listStory($viewData['view']['idx'], $paging);
 
     // 클럽 대표이미지
     $files = $this->file_model->getFile('club', $viewData['view']['idx']);
@@ -752,6 +714,13 @@ class Story extends MY_Controller
       $viewData['view']['main_photo'] = PHOTO_URL . $files[0]['filename'];
       $viewData['view']['main_photo_width'] = $size[0];
       $viewData['view']['main_photo_height'] = $size[1];
+    }
+
+    // 페이지 타이틀
+    switch ($viewData['type']) {
+      case 'news': $viewData['pageTitle'] = '여행 소식'; break;
+      case 'logs': $viewData['pageTitle'] = '여행 후기'; break;
+      default: $viewData['pageTitle'] = '여행기';
     }
 
     // 로그인 쿠키 처리

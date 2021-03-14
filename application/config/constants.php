@@ -135,6 +135,7 @@ defined('DB_STORY_REPLY')     OR define('DB_STORY_REPLY', 'story_reply'); // 스
 defined('DB_SHOP')            OR define('DB_SHOP', 'shop'); // 판매대행
 defined('DB_SHOP_CATEGORY')   OR define('DB_SHOP_CATEGORY', 'shop_category'); // 판매대행 분류
 defined('DB_SHOP_PURCHASE')   OR define('DB_SHOP_PURCHASE', 'shop_purchase'); // 판매대행 주문내역
+defined('DB_TRAVELOG')        OR define('DB_TRAVELOG', 'travelog'); // 여행기
 defined('DB_VISITOR')         OR define('DB_VISITOR', 'visitor'); // 방문자
 defined('DB_WAIT')            OR define('DB_WAIT', 'wait'); // 대기자 명단
 defined('DB_WEATHER')         OR define('DB_WEATHER', 'weather'); // 날씨

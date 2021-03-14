@@ -22,7 +22,8 @@
 
         <section class="section mb-5">
           <div class="card text-center">
-            <img src="/public/images/tripkorea/ad.jpg"><!--
+            <img src="/public/images/tripkorea/ad.jpg">
+            <!--
             <ins class="kakao_ad_area" style="display: none;" data-ad-unit="DAN-vmKgrkeNJQjRcNJm" data-ad-width="320" data-ad-height="100"></ins>
             <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>-->
           </div>
