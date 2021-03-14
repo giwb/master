@@ -80,7 +80,7 @@
 
   <main>
     <div class="container-fluid">
-      <div class="row mt-1 mb-5">
+      <div class="row mt-1">
         <div class="col-xl-8 col-md-12">
           <section class="section extra-margins listing-section">
             <h4 class="row font-weight-bold">
@@ -88,7 +88,7 @@
               <div class="col-6 text-right"><!--<a href="javascript:;" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a>--></div>
             </h4>
             <hr class="text-default">
-            <div class="row mb-4">
+            <div class="row">
               <div class="col-md-6 my-3">
                 <div class="card main-card">
                   <div class="view overlay">
@@ -140,13 +140,13 @@
           </section>
 
           <div class="row">
-            <section class="col-md-6 section extra-margins listing-section">
+            <section class="col-md-6 section extra-margins listing-section mt-3">
                 <h4 class="row font-weight-bold">
                   <div class="col-6"><strong>여행 소식</strong></div>
                   <div class="col-6 text-right"><a href="<?=BASE_URL?>/travelog/?type=news" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a></div>
                 </h4>
               <hr class="text-default">
-              <div class="text-left mt-3">
+              <div class="text-left mt-3 mb-4">
                 <div class="card main-card">
                   <div class="view overlay">
                     <img src="<?=getThumbnail($viewNews['content'])?>" class="card-img-top">
@@ -168,13 +168,13 @@
                 </div>
               </div>
             </section>
-            <section class="col-md-6 section extra-margins listing-section">
+            <section class="col-md-6 section extra-margins listing-section mt-3">
               <h4 class="row font-weight-bold">
                 <div class="col-6"><strong>여행 후기</strong></div>
                 <div class="col-6 text-right"><a href="<?=BASE_URL?>/travelog/?type=logs" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a></div>
               </h4>
               <hr class="text-default">
-              <div class="text-left mt-3">
+              <div class="text-left mt-3 mb-4">
                 <div class="card main-card">
                   <div class="view overlay">
                     <img src="<?=getThumbnail($viewLogs['content'])?>" class="card-img-top">
@@ -196,9 +196,9 @@
                 </div>
               </div>
             </section>
-          </div><br>
+          </div>
 
-          <section id="album" class="section extra-margins">
+          <section id="album" class="section extra-margins mt-3">
             <h4 class="row font-weight-bold">
               <div class="col-6"><strong>산행 앨범</strong></div>
               <div class="col-6 text-right"><a href="<?=BASE_URL?>/album" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a></div>
