@@ -546,7 +546,7 @@ if ($type == 'forest') {
 &nbsp;</p>
 
 <?php
-} elseif ($type == 'mountain') { {
+} elseif ($type == 'mountain') {
 ?>
 <p><span style="font-family:Malgun Gothic"><span style="font-size:14px">경인웰빙은 지난 2019년&nbsp;4월부터 <span style="color:#27ae60">산림청 선정 백대명산</span>과 <span style="color:#e67e22">경인웰빙 선정 백대명소</span>를 합해&nbsp;<span style="color:#d35400"><strong>경인웰빙 백산백소</strong></span>&nbsp;인증제를 시행합니다.</span></span></p>
 
