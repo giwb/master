@@ -92,7 +92,7 @@
               <div class="col-md-6 my-3">
                 <div class="card">
                   <div class="view overlay">
-                    <img src="/public/uploads/editor/<?=$listNotice[0]['photo']?>" class="card-img-top">
+                    <img src="/public/uploads/photos/<?=$listNotice[0]['photo']?>" class="card-img-top">
                     <a href="<?=BASE_URL?>/reserve/list/<?=$listNotice[0]['idx']?>"><div class="mask rgba-white-slight"></div></a>
                   </div>
                   <div class="card-body">
@@ -115,7 +115,7 @@
               <div class="col-md-6 my-3">
                 <div class="card">
                   <div class="view overlay">
-                    <img src="/public/uploads/editor/<?=$listNotice[1]['photo']?>" class="card-img-top">
+                    <img src="/public/uploads/photos/<?=$listNotice[1]['photo']?>" class="card-img-top">
                     <a href="<?=BASE_URL?>/reserve/list/<?=$listNotice[1]['idx']?>"><div class="mask rgba-white-slight"></div></a>
                   </div>
                   <div class="card-body">
