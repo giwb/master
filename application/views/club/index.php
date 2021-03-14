@@ -150,7 +150,7 @@
                 <div class="card main-card">
                   <div class="view overlay">
                     <img src="<?=getThumbnail($viewNews['content'])?>" class="card-img-top">
-                    <a href="<?=BASE_URL?>travelog/view/$viewNews['idx']?type=<?=$viewNews['category']?>"><div class="mask rgba-white-slight"></div></a>
+                    <a href="<?=BASE_URL?>travelog/view/<?=$viewNews['idx']?>?type=<?=$viewNews['category']?>"><div class="mask rgba-white-slight"></div></a>
                   </div>
                   <div class="card-body">
                     <h4 class="card-title"><strong><a href="<?=BASE_URL?>travelog/view/$viewNews['idx']?type=<?=$viewNews['category']?>"><?=$viewNews['title']?></a></strong></h4><hr>
@@ -178,7 +178,7 @@
                 <div class="card main-card">
                   <div class="view overlay">
                     <img src="<?=getThumbnail($viewLogs['content'])?>" class="card-img-top">
-                    <a href="<?=BASE_URL?>travelog/view/$viewLogs['idx']?type=<?=$viewLogs['category']?>"><div class="mask rgba-white-slight"></div></a>
+                    <a href="<?=BASE_URL?>travelog/view/<?=$viewNews['idx']?>?type=<?=$viewLogs['category']?>"><div class="mask rgba-white-slight"></div></a>
                   </div>
                   <div class="card-body">
                     <h4 class="card-title"><strong><a href="<?=BASE_URL?>travelog/view/$viewLogs['idx']?type=<?=$viewLogs['category']?>"><?=$viewLogs['title']?></a></strong></h4><hr>
@@ -206,7 +206,7 @@
             <hr class="text-default mb-4">
             <div class="row mb-4">
               <?php foreach ($listAlbum as $value): ?>
-              <div class="col-md-3"><a href="<?=BASE_URL?>/album"><img src="<?=$value['photo']?>" class="album-photo border mb-3"></a></div>
+              <div class="col-6 col-md-3"><a href="<?=BASE_URL?>/album"><img src="<?=$value['photo']?>" class="album-photo border mb-3"></a></div>
               <?php endforeach; ?>
             </div>
           </section>

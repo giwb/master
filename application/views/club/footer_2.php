@@ -295,12 +295,19 @@
     <i class="fa fa-angle-up"></i>
   </a>
 
-  <footer class="page-footer stylish-color-dark mt-4 text-center p-4">
-    <div class="white-text">
-      Copyright© 2021 경인웰빙투어, All Rights Reserved.<br>
-      <a href="<?=BASE_URL?>/club/page?type=agreement">이용약관</a> |
-      <a href="<?=BASE_URL?>/club/page?type=personal">개인정보 취급방침</a>
-    </div>
+  <footer class="page-footer stylish-color-dark mt-4 pb-4">
+    <main class="row white-text small align-items-center">
+      <div class="col-sm-2"><h2><img width="45" src="/public/images/icon.png" align="left" style="margin-right: 10px;">경인웰빙</h2></div>
+      <div class="col-sm-4">
+        서울 금천구 가산디지털 1로 137, 19층 1901호 (가산동, IT 캐슬 2차) <br>
+        사업자대표 : 최병준 / 개인정보관리책임자 : 최병성 (010-7271-3050)<br>
+        <!--사업자등록번호 : OOO-OO-OOOOO / 통신판매업신고 : 제OOOO-서울구로-OOOOO호<br>-->
+        Copyright© <script>document.write(new Date().getFullYear());</script> 경인웰빙투어, All Rights Reserved.<hr class="bg-secondary mt-2 mb-2">
+        <a href="<?=BASE_URL?>/club/about/1">회사소개</a> | 
+        <a href="<?=BASE_URL?>/club/page?type=agreement">이용약관</a> | 
+        <a href="<?=BASE_URL?>/club/page?type=personal">개인정보 취급방침</a>
+      </div>
+    </main>
   </footer>
 
   <script type="text/javascript">

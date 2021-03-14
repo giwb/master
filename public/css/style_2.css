@@ -2162,14 +2162,14 @@ body { font-family: 'Noto Sans KR', sans-serif; }
 .text-default { color: #FF6600!important; background-color: #FF6600!important; }
 
 @media (max-width:740px) {
-	.h2, h2 { font-size: 1.5rem; }
-	.h4, h4 { font-size: 1.2rem; }
-	.listing-section .view{height:auto;}
-	.viewContent { padding: 0 5px 5px 5px; }
-	.section-avatar { text-align: center; }
-	.icon-avatar { width: 120px; text-align: center; }
-	.avatar { max-width: 80px!important; }
-	.page-footer p { margin-bottom: 0rem; }
+    .h2, h2 { font-size: 1.5rem; }
+    .h4, h4 { font-size: 1.2rem; }
+    .listing-section .view{height:auto;}
+    .viewContent { padding: 0 5px 5px 5px; }
+    .section-avatar { text-align: center; }
+    .icon-avatar { width: 120px; text-align: center; }
+    .avatar { max-width: 80px!important; }
+    .page-footer p { margin-bottom: 0rem; }
 }
 
 /* Custom CSS */
@@ -2713,6 +2713,8 @@ body { font-family: 'Noto Sans KR', sans-serif; }
   .row-category { display: block; }
   .row-category a.active { color: #000!important; background-color: #e9e9e9; }
   #club .club-main .sub-header, .mypage h2 { display: none; }
+
+  #album .album-photo { height: auto; }
 
   /* Admin */
   #club .club-main .area-button { bottom: 57px; }
