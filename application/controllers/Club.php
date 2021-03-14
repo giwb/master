@@ -262,7 +262,7 @@ class Club extends MY_Controller
 
     // 안부 인사
     $page = 1;
-    $paging['perPage'] = 8;
+    $paging['perPage'] = 10;
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
     $viewData['listStory'] = $this->story_model->listStory($viewData['view']['idx'], $paging);
 
