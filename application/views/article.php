@@ -1,6 +1,6 @@
 <?php
   defined('BASEPATH') OR exit('No direct script access allowed');
-  if (empty($clubIdx)) $baseUrl = base_url(); else $baseUrl = BASE_URL . '/';
+  if (empty($clubIdx)) $baseUrl = base_url(); else $baseUrl = BASE_URL . '/club/';
 ?>
 
 <main>
@@ -26,7 +26,7 @@
                 <a href="<?=BASE_URL?>">경인웰빙</a> > 
                 <?php endif; ?>
                 <?=!empty($categoryParent['name']) ? $categoryParent['name'] . ' > ' : ''?>
-                <?=!empty($category['name']) ? '<a href="' . $baseUrl . 'club/search/?code=' . $viewArticle['category'] . '">' . $category['name'] . '</a>' : ''?>
+                <?=!empty($category['name']) ? '<a href="' . $baseUrl . 'search/?code=' . $viewArticle['category'] . '">' . $category['name'] . '</a>' : ''?>
               </h6>
               <h2 class="font-weight-bold pl-3 pr-3">
                 <span class="article-title"><?=$viewArticle['title']?></span>
@@ -37,7 +37,7 @@
               </div>
               <?php if ($userData['idx'] == $viewArticle['created_by']): ?>
               <div class="text-right">
-                <a href="<?=$baseUrl?>club/article_post/<?=$viewArticle['idx']?>"><button type="button" class="btn btn-secondary pt-2 pb-2 pl-3 pr-3">수정</button></a>
+                <a href="<?=$baseUrl?>article_post/<?=$viewArticle['idx']?>"><button type="button" class="btn btn-secondary pt-2 pb-2 pl-3 pr-3">수정</button></a>
                 <button type="button" class="btn btn-danger btn-article-delete-modal pt-2 pb-2 pl-3 pr-3">삭제</button>
               </div>
               <?php endif; ?>

@@ -1,6 +1,6 @@
 <?php
   defined('BASEPATH') OR exit('No direct script access allowed');
-  if (empty($clubIdx)) $baseUrl = base_url(); else $baseUrl = BASE_URL . '/';
+  if (empty($clubIdx)) $baseUrl = base_url(); else $baseUrl = BASE_URL . '/club/';
 ?>
 
   <main>
@@ -14,9 +14,9 @@
               </div>
               <div class="col-6 text-right">
                 <?php if ($code == 'review'): ?>
-                <a href="<?=$baseUrl?>club/article_post/?code=<?=$code?>" class="btn-custom btn-giwb">여행후기 작성</a>
+                <a href="<?=$baseUrl?>article_post/?code=<?=$code?>" class="btn-custom btn-giwb">여행후기 작성</a>
                 <?php elseif ($code == 'news'): ?>
-                <a href="<?=$baseUrl?>club/article_post/?code=<?=$code?>" class="btn-custom btn-giwb">여행소식 작성</a>
+                <a href="<?=$baseUrl?>article_post/?code=<?=$code?>" class="btn-custom btn-giwb">여행소식 작성</a>
                 <?php endif; ?>
               </div>
             </div><hr class="red mt-2">
@@ -30,7 +30,7 @@
               <div class="col-md-12 my-2">
                 <div class="card">
                   <div class="card-body">
-                    <div class="row area-link" data-link="<?=$baseUrl?>club/article/<?=$value['idx']?>">
+                    <div class="row area-link" data-link="<?=$baseUrl?>article/<?=$value['idx']?>">
                       <div class="col-sm-2 area-photo"><img src="<?=getThumbnail($value['content'])?>"></div>
                       <div class="col-sm-10">
                         <h5><strong><?=$value['title']?></strong></h5>
