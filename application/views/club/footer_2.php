@@ -1,7 +1,7 @@
 <?php
   defined('BASEPATH') OR exit('No direct script access allowed');
   $uri = explode('/', $_SERVER['REQUEST_URI']);
-  if (empty($view['domain'])) {
+  if (!empty($view['domain'])) {
     $uri = $uri[1];
   } else {
     if (empty($uri[2])) {
