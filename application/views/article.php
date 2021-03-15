@@ -221,7 +221,7 @@
             content: {
               title: title,
               description: content,
-              imageUrl: '<?=getThumbnail($viewArticle['content'])?>',
+              imageUrl: '<?=base_url()?><?=getThumbnail($viewArticle['content'])?>',
               link: {
                 webUrl: url,
               },
