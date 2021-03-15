@@ -9,7 +9,6 @@
 
           <form id="entryForm" method="post" action="/member/update">
           <input type="hidden" name="page" value="member">
-            <h2>개인정보수정</h2>
             <dl class="pt-2 pb-2">
               <dt>아이디</dt>
               <dd><?=$viewMember['userid']?><input type="hidden" name="userid" value="<?=$viewMember['userid']?>"></dd>

@@ -339,7 +339,7 @@
       $('img', $dom).remove();
     }
   }).on('blur', '.check-nickname', function() {
-    //$.checkNickname();
+    $.checkNickname();
   }).on('blur', '.check-password', function() {
     // 비밀번호 확인
     var password = $('input[name=password]').val();

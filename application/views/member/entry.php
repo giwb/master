@@ -29,7 +29,7 @@
             <div class="col-1 col-lg-2"></div>
             <div class="col-lg-8 row align-items-center">
               <div class="col-4 col-sm-3">아이디</div>
-              <div class="col-8 col-sm-9"><input type="text" name="userid" maxlength="10" class="form-control"></div>
+              <div class="col-8 col-sm-9"><input type="text" name="userid" maxlength="20" class="form-control"></div>
             </div>
             <div class="col-1 col-lg-2"></div>
           </div>
@@ -37,7 +37,7 @@
             <div class="col-1 col-lg-2"></div>
             <div class="col-lg-8 row align-items-center">
               <div class="col-4 col-sm-3">비밀번호</div>
-              <div class="col-8 col-sm-9"><input type="password" name="password" maxlength="10" class="form-control" autocomplete="new-password"></div>
+              <div class="col-8 col-sm-9"><input type="password" name="password" maxlength="30" class="form-control" autocomplete="new-password"></div>
             </div>
             <div class="col-1 col-lg-2"></div>
           </div>
@@ -92,21 +92,39 @@
         setTimeout(function() { $('.error-message').slideUp().text(''); }, 2000);
         return false;
       }
+
       if ($('input:checkbox[name=personal]').is(':checked') == false) {
         $('.error-message').text('개인정보 이용약관에 동의해 주십시오.').slideDown();
         setTimeout(function() { $('.error-message').slideUp().text(''); }, 2000);
         return false;
       }
+
       if (userid == '') {
         $('.error-message').text('사용하실 아이디를 입력해주세요.').slideDown();
         setTimeout(function() { $('.error-message').slideUp().text(''); }, 2000);
         return false;
+      } else {
+        if (userid.length < 4 || userid.length > 10 || userid.search(/\s/) != -1) {
+          $('.error-message').text('아이디는 띄어쓰기 없이 4자 ~ 10자 이하만 가능합니다.').slideDown();
+          $('#memberForm input[name=userid]').val('');
+          setTimeout(function() { $('.error-message').slideUp().text(''); }, 2000);
+          return false;
+        }
       }
+
       if (password == '') {
         $('.error-message').text('사용하실 비밀번호를 입력해주세요.').slideDown();
         setTimeout(function() { $('.error-message').slideUp().text(''); }, 2000);
         return false;
+      } else {
+        if (password.length < 5 || password.length > 20 || password.search(/\s/) != -1) {
+          $('.error-message').text('비밀번호는 띄어쓰기 없이 5자 ~ 20자 이하만 가능합니다.').slideDown();
+          $('#memberForm input[name=password]').val('');
+          setTimeout(function() { $('.error-message').slideUp().text(''); }, 2000);
+          return false;
+        }
       }
+
       if (nickname == '') {
         $('.error-message').text('사용하실 닉네임을 입력해주세요.').slideDown();
         setTimeout(function() { $('.error-message').slideUp().text(''); }, 2000);
@@ -119,6 +137,7 @@
           return false;
         }
       }
+
       if (phone1 == '' || phone2 == '' || phone3 == '') {
         $('.error-message').text('사용하시는 핸드폰 번호를 입력해주세요.').slideDown();
         setTimeout(function() { $('.error-message').slideUp().text(''); }, 2000);

@@ -711,10 +711,12 @@ class Member extends MY_Controller
     $viewData['viewMember'] = $this->member_model->viewMember($userData['idx']);
 
     // 생년월일 나누기
-    $buf = explode('/', $viewData['viewMember']['birthday']);
-    $viewData['viewMember']['birthday_year'] = $buf[0];
-    $viewData['viewMember']['birthday_month'] = $buf[1];
-    $viewData['viewMember']['birthday_day'] = $buf[2];
+    if (!empty($viewData['viewMember']['birthday'])) {
+      $buf = explode('/', $viewData['viewMember']['birthday']);
+      $viewData['viewMember']['birthday_year'] = $buf[0];
+      $viewData['viewMember']['birthday_month'] = $buf[1];
+      $viewData['viewMember']['birthday_day'] = $buf[2];
+    }
 
     // 전화번호 나누기
     $buf = explode('-', $viewData['viewMember']['phone']);

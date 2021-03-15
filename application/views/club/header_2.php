@@ -108,7 +108,7 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink3" data-toggle="dropdown" aria-haspopup="true"
               aria-expanded="false"><i class="fas fa-user"></i> 마이페이지</a>
-            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink" style="white-space: nowrap;">
               <a><strong><?=$userData['nickname']?></strong> (<?=$userLevel['levelName']?>)</a><hr>
               <a href="<?=BASE_URL?>/member">마이페이지</a><br>
               <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
