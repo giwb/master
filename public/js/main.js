@@ -473,6 +473,10 @@
       $.openMsgModal('전화번호는 꼭 입력해주세요.');
       return false;
     }
+    if ($('select[name=location]').val() == '') {
+      $.openMsgModal('주 승차위치는 꼭 선택해주세요.');
+      return false;
+    }
 
     var $btn = $(this);
     var $dom = $('#entryForm');
@@ -636,6 +640,13 @@
       return false;
     }
 
+    // 추가 정보가 있는 회원인지 확인
+    var addedInfo = $('input[name=addedInfo]').val();
+    if (typeof addedInfo == 'undefined' || $('input[name=addedInfo]').val() == '') {
+      location.href = ($('input[name=baseUrl]').val() + '/member/modify?k=addedInfo');
+      return false;
+    }
+
     var resIdx = $(this).data('id');
     var bus = $(this).data('bus');
     var seat = $(this).data('seat');
@@ -684,6 +695,13 @@
       // 로그인 확인
       $('input[name=redirectUrl]').val($(location).attr('href'));
       $('#loginModal').modal('show');
+      return false;
+    }
+
+    // 추가 정보가 있는 회원인지 확인
+    var addedInfo = $('input[name=addedInfo]').val();
+    if (typeof addedInfo == 'undefined' || $('input[name=addedInfo]').val() == '') {
+      location.href = ($('input[name=baseUrl]').val() + '/member/modify?k=addedInfo');
       return false;
     }
 
@@ -746,6 +764,13 @@
       // 로그인 확인
       $('input[name=redirectUrl]').val($(location).attr('href'));
       $('#loginModal').modal('show');
+      return false;
+    }
+
+    // 추가 정보가 있는 회원인지 확인
+    var addedInfo = $('input[name=addedInfo]').val();
+    if (typeof addedInfo == 'undefined' || $('input[name=addedInfo]').val() == '') {
+      location.href = ($('input[name=baseUrl]').val() + '/member/modify?k=addedInfo');
       return false;
     }
 

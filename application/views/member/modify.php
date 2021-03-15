@@ -7,6 +7,10 @@
           <h4 class="font-weight-bold"><?=$pageTitle?></h4>
           <hr class="text-default">
 
+          <div class="border font-weight-bold text-danger text-center p-4">
+            <h5>아래 내용은 코로나 방역정책 및 산행 예약시 필요한 개인정보입니다.<br>번거로우시더라도 추가입력 부탁드립니다.</h5>
+          </div>
+
           <form id="entryForm" method="post" action="/member/update">
           <input type="hidden" name="page" value="member">
             <dl class="pt-2 pb-2">
@@ -44,19 +48,19 @@
                     <select name="birthday_year" class="form-control col-sm-4 mr-2 pl-1">
                       <option value=''>--</option>
                     <?php foreach (range(date('Y'), 1900) as $value): ?>
-                      <option<?=$viewMember['birthday_year'] == $value ? ' selected' : ''?> value='<?=$value?>'><?=$value?>년</option>
+                      <option<?=!empty($viewMember['birthday_year']) && $viewMember['birthday_year'] == $value ? ' selected' : ''?> value='<?=$value?>'><?=$value?>년</option>
                     <?php endforeach; ?>
                     </select>
                     <select name="birthday_month" class="form-control col-sm-3 mr-2 pl-1">
                       <option value=''>--</option>
                     <?php foreach (range(1, 12) as $value): ?>
-                      <option<?=$viewMember['birthday_month'] == $value ? ' selected' : ''?> value='<?=$value?>'><?=$value?>월</option>
+                      <option<?=!empty($viewMember['birthday_month']) && $viewMember['birthday_month'] == $value ? ' selected' : ''?> value='<?=$value?>'><?=$value?>월</option>
                     <?php endforeach; ?>
                     </select>
                     <select name="birthday_day" class="form-control col-sm-3 pl-1">
                       <option value=''>--</option>
                     <?php foreach (range(1, 31) as $value): ?>
-                      <option<?=$viewMember['birthday_day'] == $value ? ' selected' : ''?> value='<?=$value?>'><?=$value?>일</option>
+                      <option<?=!empty($viewMember['birthday_day']) && $viewMember['birthday_day'] == $value ? ' selected' : ''?> value='<?=$value?>'><?=$value?>일</option>
                     <?php endforeach; ?>
                     </select>
                   </div>
