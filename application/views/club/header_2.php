@@ -107,9 +107,6 @@
             <a href="<?=BASE_URL?>/login/entry" class="nav-link"><i class="fas fa-user-plus"></i> 회원가입</a>
           </li>
           <?php else: ?>
-          <li class="nav-item">
-            <a href="http://giwb.co.kr" target="_blank" class="nav-link"><i class="fa fa-desktop"></i> 다음카페</a>
-          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink3" data-toggle="dropdown" aria-haspopup="true"
               aria-expanded="false"><i class="fas fa-user"></i> 마이페이지</a>
@@ -124,6 +121,9 @@
             </div>
           </li>
           <?php endif; ?>
+          <li class="nav-item">
+            <a href="http://giwb.co.kr" target="_blank" class="nav-link"><i class="fa fa-desktop"></i> 다음카페</a>
+          </li>
           <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
           <li class="nav-item">
             <a href="<?=BASE_URL?>/admin" class="nav-link"><i class="fas fa-cog"></i> 설정</a>
