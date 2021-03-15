@@ -99,9 +99,6 @@
           <li class="nav-item">
             <a href="<?=BASE_URL?>/shop" class="nav-link"><i class="fas fa-shopping-cart"></i> 용품샵</a>
           </li>
-          <li class="nav-item">
-            <a href="http://giwb.co.kr" target="_blank" class="nav-link"><i class="fa fa-desktop"></i> 다음카페</a>
-          </li>
           <?php if (empty($userData['idx'])): ?>
           <li class="nav-item">
             <a class="nav-link login-popup"><i class="fas fa-user-circle"></i> 로그인</a>
@@ -110,6 +107,9 @@
             <a href="<?=BASE_URL?>/login/entry" class="nav-link"><i class="fas fa-user-plus"></i> 회원가입</a>
           </li>
           <?php else: ?>
+          <li class="nav-item">
+            <a href="http://giwb.co.kr" target="_blank" class="nav-link"><i class="fa fa-desktop"></i> 다음카페</a>
+          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink3" data-toggle="dropdown" aria-haspopup="true"
               aria-expanded="false"><i class="fas fa-user"></i> 마이페이지</a>
