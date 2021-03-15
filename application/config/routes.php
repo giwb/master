@@ -64,7 +64,7 @@ $result = $query->row_array(1);
 if (empty($result) && !empty($_SERVER['REDIRECT_URL'])) {
   $arrUrl = explode('/', $_SERVER['REDIRECT_URL']);
   $domain = html_escape($arrUrl[1]);
-  $query = $db->query("SELECT idx FROM clubs WHERE url='$domain'");
+  $query = $db->query("SELECT idx, domain FROM clubs WHERE url='$domain'");
   $result = $query->row_array(1);
 }
 
@@ -85,12 +85,22 @@ if (!empty($result['idx'])) {
     }
   }
 
-  if (strstr($uri, 'article')) {
-    $route[$domain . '/article/(:num)'] = 'club/article/$1';
-  } elseif (strstr($uri, 'search')) {
-    $route[$domain . '/search'] = 'club/search';
+  if (!empty($result['domain'])) {
+    if (strstr($uri, '/club/article')) {
+      $route[$domain . '/article/(:num)'] = 'club/article/$1';
+    } elseif (strstr($uri, 'search')) {
+      $route[$domain . '/club/search'] = 'club/search';
+    } else {
+      $route[$domain . '/' . $uri] = $uri;
+    }
   } else {
-    $route[$domain . '/' . $uri] = $uri;
+    if (strstr($uri, 'article')) {
+      $route[$domain . '/article/(:num)'] = 'club/article/$1';
+    } elseif (strstr($uri, 'search')) {
+      $route[$domain . '/search'] = 'club/search';
+    } else {
+      $route[$domain . '/' . $uri] = $uri;
+    }
   }
 } else {
   $route['default_controller']  = 'welcome';

@@ -143,17 +143,17 @@
             <section class="col-md-6 section extra-margins listing-section mt-3">
                 <h4 class="row font-weight-bold">
                   <div class="col-6"><strong>여행 소식</strong></div>
-                  <div class="col-6 text-right"><a href="<?=BASE_URL?>/search/?code=news" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a></div>
+                  <div class="col-6 text-right"><a href="<?=BASE_URL?>/club/search/?code=news" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a></div>
                 </h4>
               <hr class="text-default">
               <div class="text-left mt-3 mb-4">
                 <div class="card main-card">
                   <div class="view overlay">
                     <img src="<?=getThumbnail($viewNews[0]['content'])?>" class="card-img-top">
-                    <a href="<?=BASE_URL?>/article/<?=$viewNews[0]['idx']?>"><div class="mask rgba-white-slight"></div></a>
+                    <a href="<?=BASE_URL?>/club/article/<?=$viewNews[0]['idx']?>"><div class="mask rgba-white-slight"></div></a>
                   </div>
                   <div class="card-body">
-                    <h4 class="card-title"><strong><a href="<?=BASE_URL?>/article/<?=$viewNews[0]['idx']?>"><?=$viewNews[0]['title']?></a></strong></h4><hr>
+                    <h4 class="card-title"><strong><a href="<?=BASE_URL?>/club/article/<?=$viewNews[0]['idx']?>"><?=$viewNews[0]['title']?></a></strong></h4><hr>
                     <p class="card-text text-justify">
                       <?=articleContent($viewNews[0]['content'])?>
                     </p>
@@ -173,17 +173,17 @@
             <section class="col-md-6 section extra-margins listing-section mt-3">
               <h4 class="row font-weight-bold">
                 <div class="col-6"><strong>여행 후기</strong></div>
-                <div class="col-6 text-right"><a href="<?=BASE_URL?>/search/?code=review" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a></div>
+                <div class="col-6 text-right"><a href="<?=BASE_URL?>/club/search/?code=review" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a></div>
               </h4>
               <hr class="text-default">
               <div class="text-left mt-3 mb-4">
                 <div class="card main-card">
                   <div class="view overlay">
                     <img src="<?=getThumbnail($viewLogs[0]['content'])?>" class="card-img-top">
-                    <a href="<?=BASE_URL?>/article/<?=$viewLogs[0]['idx']?>"><div class="mask rgba-white-slight"></div></a>
+                    <a href="<?=BASE_URL?>/club/article/<?=$viewLogs[0]['idx']?>"><div class="mask rgba-white-slight"></div></a>
                   </div>
                   <div class="card-body">
-                    <h4 class="card-title"><strong><a href="<?=BASE_URL?>/article/<?=$viewLogs[0]['idx']?>"><?=$viewLogs[0]['title']?></a></strong></h4><hr>
+                    <h4 class="card-title"><strong><a href="<?=BASE_URL?>/club/article/<?=$viewLogs[0]['idx']?>"><?=$viewLogs[0]['title']?></a></strong></h4><hr>
                     <p class="card-text text-justify">
                       <?=articleContent($viewLogs[0]['content'])?>
                     </p>
