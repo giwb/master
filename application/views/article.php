@@ -183,7 +183,7 @@
 
       <script id="javascript-sdk" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
       <script type="text/javascript">
-        Kakao.init('ca4fd5fe8f8fcc1b5b6daf03c371b3e8');
+        Kakao.init('bc341ce483d209b1712bf3a88b598ddb');
         Kakao.isInitialized();
         var title = $('.article-title').text();
         var content = $('.article-content').val();
