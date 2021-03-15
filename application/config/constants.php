@@ -107,40 +107,42 @@ defined('PHOTO_ARTICLE_URL')  OR define('PHOTO_ARTICLE_URL', PHOTO_URL . 'articl
 defined('PHOTO_ARTICLE_PATH') OR define('PHOTO_ARTICLE_PATH', BASE_PATH . PHOTO_ARTICLE_URL);
 
 // 테이블명
-defined('DB_ADJUST')          OR define('DB_ADJUST', 'adjust'); // 정산
-defined('DB_ALBUM')           OR define('DB_ALBUM', 'album'); // 사진첩
-defined('DB_ATTENDANCE')      OR define('DB_ATTENDANCE', 'attendance'); // 출석
-defined('DB_AREAS')           OR define('DB_AREAS', 'areas'); // 지역
-defined('DB_AUTH')            OR define('DB_AUTH', 'auth'); // 백산백소 인증
-defined('DB_BOARD')           OR define('DB_BOARD', 'board'); // 안부방 (OLD)
-defined('DB_BUSDATA')         OR define('DB_BUSDATA', 'busdata'); // 버스 좌석 데이터 (기본)
-defined('DB_BUSTYPE')         OR define('DB_BUSTYPE', 'bustype'); // 버스 형태
-defined('DB_CALENDAR')        OR define('DB_CALENDAR', 'calendar'); // 캘린더 휴일 (관리자 작성)
-defined('DB_CLUBS')           OR define('DB_CLUBS', 'clubs'); // 클럽
-defined('DB_CLUB_DETAIL')     OR define('DB_CLUB_DETAIL', 'club_detail'); // 클럽 소개페이지
-defined('DB_FILES')           OR define('DB_FILES', 'files'); // 파일
-defined('DB_FRONT')           OR define('DB_FRONT', 'front'); // 대문사진 (OLD)
-defined('DB_HISTORY')         OR define('DB_HISTORY', 'history'); // 활동기록
-defined('DB_MEMBER')          OR define('DB_MEMBER', 'member'); // 회원
-defined('DB_MTDB')            OR define('DB_MTDB', 'mtdb'); // 산행DB
-defined('DB_NOTICE')          OR define('DB_NOTICE', 'notice'); // 산행공지
-defined('DB_NOTICE_DETAIL')   OR define('DB_NOTICE_DETAIL', 'notice_detail'); // 산행공지 상세
-defined('DB_PLACES')          OR define('DB_PLACES', 'places'); // 산행정보
-defined('DB_PLACES_CATEGORY') OR define('DB_PLACES_CATEGORY', 'places_category'); // 산행정보 카테고리
-defined('DB_RESERVATION')     OR define('DB_RESERVATION', 'reservation'); // 예약
-defined('DB_SCHEDULE')        OR define('DB_SCHEDULE', 'schedule'); // 산행계획
-defined('DB_STORY')           OR define('DB_STORY', 'story'); // 스토리
-defined('DB_STORY_REACTION')  OR define('DB_STORY_REACTION', 'story_reaction'); // 스토리 좋아요/공유
-defined('DB_STORY_REPLY')     OR define('DB_STORY_REPLY', 'story_reply'); // 스토리 댓글
-defined('DB_SHOP')            OR define('DB_SHOP', 'shop'); // 판매대행
-defined('DB_SHOP_CATEGORY')   OR define('DB_SHOP_CATEGORY', 'shop_category'); // 판매대행 분류
-defined('DB_SHOP_PURCHASE')   OR define('DB_SHOP_PURCHASE', 'shop_purchase'); // 판매대행 주문내역
-defined('DB_TRAVELOG')        OR define('DB_TRAVELOG', 'travelog'); // 여행기
-defined('DB_VISITOR')         OR define('DB_VISITOR', 'visitor'); // 방문자
-defined('DB_WAIT')            OR define('DB_WAIT', 'wait'); // 대기자 명단
-defined('DB_WEATHER')         OR define('DB_WEATHER', 'weather'); // 날씨
-defined('DB_ARTICLE')         OR define('DB_ARTICLE', 'article'); // 한국여행 기사
-defined('DB_ARTICLE_CATEGORY') OR define('DB_ARTICLE_CATEGORY', 'article_category'); // 한국여행 기사 카테고리
+defined('DB_ADJUST')            OR define('DB_ADJUST', 'adjust'); // 정산
+defined('DB_ALBUM')             OR define('DB_ALBUM', 'album'); // 사진첩
+defined('DB_ATTENDANCE')        OR define('DB_ATTENDANCE', 'attendance'); // 출석
+defined('DB_AREAS')             OR define('DB_AREAS', 'areas'); // 지역
+defined('DB_AUTH')              OR define('DB_AUTH', 'auth'); // 백산백소 인증
+defined('DB_BOARD')             OR define('DB_BOARD', 'board'); // 안부방 (OLD)
+defined('DB_BUSDATA')           OR define('DB_BUSDATA', 'busdata'); // 버스 좌석 데이터 (기본)
+defined('DB_BUSTYPE')           OR define('DB_BUSTYPE', 'bustype'); // 버스 형태
+defined('DB_CALENDAR')          OR define('DB_CALENDAR', 'calendar'); // 캘린더 휴일 (관리자 작성)
+defined('DB_CLUBS')             OR define('DB_CLUBS', 'clubs'); // 클럽
+defined('DB_CLUB_DETAIL')       OR define('DB_CLUB_DETAIL', 'club_detail'); // 클럽 소개페이지
+defined('DB_FILES')             OR define('DB_FILES', 'files'); // 파일
+defined('DB_FRONT')             OR define('DB_FRONT', 'front'); // 대문사진 (OLD)
+defined('DB_HISTORY')           OR define('DB_HISTORY', 'history'); // 활동기록
+defined('DB_MEMBER')            OR define('DB_MEMBER', 'member'); // 회원
+defined('DB_MTDB')              OR define('DB_MTDB', 'mtdb'); // 산행DB
+defined('DB_NOTICE')            OR define('DB_NOTICE', 'notice'); // 산행공지
+defined('DB_NOTICE_DETAIL')     OR define('DB_NOTICE_DETAIL', 'notice_detail'); // 산행공지 상세
+defined('DB_PLACES')            OR define('DB_PLACES', 'places'); // 산행정보
+defined('DB_PLACES_CATEGORY')   OR define('DB_PLACES_CATEGORY', 'places_category'); // 산행정보 카테고리
+defined('DB_RESERVATION')       OR define('DB_RESERVATION', 'reservation'); // 예약
+defined('DB_SCHEDULE')          OR define('DB_SCHEDULE', 'schedule'); // 산행계획
+defined('DB_STORY')             OR define('DB_STORY', 'story'); // 스토리
+defined('DB_STORY_REACTION')    OR define('DB_STORY_REACTION', 'story_reaction'); // 스토리 좋아요/공유
+defined('DB_STORY_REPLY')       OR define('DB_STORY_REPLY', 'story_reply'); // 스토리 댓글
+defined('DB_SHOP')              OR define('DB_SHOP', 'shop'); // 판매대행
+defined('DB_SHOP_CATEGORY')     OR define('DB_SHOP_CATEGORY', 'shop_category'); // 판매대행 분류
+defined('DB_SHOP_PURCHASE')     OR define('DB_SHOP_PURCHASE', 'shop_purchase'); // 판매대행 주문내역
+defined('DB_TRAVELOG')          OR define('DB_TRAVELOG', 'travelog'); // 여행기
+defined('DB_VISITOR')           OR define('DB_VISITOR', 'visitor'); // 방문자
+defined('DB_WAIT')              OR define('DB_WAIT', 'wait'); // 대기자 명단
+defined('DB_WEATHER')           OR define('DB_WEATHER', 'weather'); // 날씨
+defined('DB_ARTICLE')           OR define('DB_ARTICLE', 'article'); // 한국여행 기사
+defined('DB_ARTICLE_CATEGORY')  OR define('DB_ARTICLE_CATEGORY', 'article_category'); // 한국여행 기사 카테고리
+defined('DB_ARTICLE_REACTION')  OR define('DB_ARTICLE_REACTION', 'article_reaction'); // 한국여행 리액션
+defined('DB_ARTICLE_REPLY')     OR define('DB_ARTICLE_REPLY', 'article_reply'); // 한국여행 리액션
 
 // 사진 형식
 defined('TYPE_MAIN')          OR define('TYPE_MAIN', 1);
@@ -244,6 +246,10 @@ defined('REPLY_TYPE_SHOP')                OR define('REPLY_TYPE_SHOP', 3);
 defined('REACTION_TYPE_STORY')            OR define('REACTION_TYPE_STORY', 1);
 defined('REACTION_TYPE_NOTICE')           OR define('REACTION_TYPE_NOTICE', 2);
 defined('REACTION_TYPE_SHOP')             OR define('REACTION_TYPE_SHOP', 3);
+
+// 기사 리액션 형태
+defined('REACTION_TYPE_REFER')            OR define('REACTION_TYPE_REFER', 1); // 기사 조회수
+defined('REACTION_TYPE_LIKED')            OR define('REACTION_TYPE_LIKED', 2); // 기사 좋아요
 
 // 쿠키 시간 (1년)
 define('COOKIE_STRAGE_PERIOD', 60 * 60 * 24 * 30 * 12);

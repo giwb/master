@@ -27,14 +27,20 @@ class Desk_model extends CI_Model
           ->where('a.deleted_at', NULL)
           ->order_by('a.viewing_at', $order);
 
-    if (!empty($search['keyword'])) {
-      $this->db->like('a.title', $search['keyword']);
+    if (!empty($search['clubIdx'])) {
+      $this->db->where('a.club_idx', $search['clubIdx']);
+    }
+    if (!empty($search['publish'])) {
+      $this->db->where('a.publish', $search['publish']);
     }
     if (!empty($search['code'])) {
       $this->db->where('a.category', $search['code']);
     }
     if (!empty($search['main_status'])) {
       $this->db->where('a.main_status', $search['main_status']);
+    }
+    if (!empty($search['keyword'])) {
+      $this->db->like('a.title', $search['keyword']);
     }
     if (!is_null($paging)) {
       $this->db->limit($paging['perPage'], $paging['nowPage']);
@@ -71,12 +77,94 @@ class Desk_model extends CI_Model
   // 기사 열람
   public function viewArticle($idx)
   {
-    $this->db->select('a.*, b.name AS category_name, c.nickname')
+    $this->db->select('a.*, b.name AS category_name, c.idx AS user_idx, c.nickname')
           ->from(DB_ARTICLE . ' a')
           ->join(DB_ARTICLE_CATEGORY . ' b', 'a.category=b.code', 'left')
           ->join(DB_MEMBER . ' c', 'a.created_by=c.idx', 'left')
           ->where('a.idx', $idx);
     return $this->db->get()->row_array(1);
+  }
+
+  // 기사 조회수
+  public function cntArticleReaction($idx, $type)
+  {
+    $this->db->select('COUNT(*) as cnt')
+          ->from(DB_ARTICLE_REACTION)
+          ->where('reaction_type', $type)
+          ->where('idx_article', $idx);
+
+    return $this->db->get()->row_array(1);
+  }
+
+  // 리액션 확인
+  public function viewArticleReaction($search)
+  {
+    $this->db->select('ip_address, created_by')
+          ->from(DB_ARTICLE_REACTION)
+          ->where('reaction_type', $search['reaction_type'])
+          ->where('idx_article', $search['idx_article']);
+
+    if (!empty($search['ip_address'])) {
+      $this->db->where('ip_address', $search['ip_address']);
+    }
+    if (!empty($search['created_by'])) {
+      $this->db->where('created_by', $search['created_by']);
+    }
+
+    return $this->db->get()->row_array(1);
+  }
+
+  // 리액션 삭제
+  public function deleteArticleReaction($table, $data)
+  {
+    $this->db->where('idx_article', $data['idx_article'])
+              ->where('reaction_type', $data['reaction_type'])
+              ->where('ip_address', $data['ip_address'])
+              ->where('created_by', $data['created_by']);
+    return $this->db->delete($table);
+  }
+
+  // 댓글 개수
+  public function cntReply($idx)
+  {
+    $this->db->select('COUNT(*) as cnt')
+          ->from(DB_ARTICLE_REPLY)
+          ->where('idx_article', $idx)
+          ->where('deleted_at', NULL);
+
+    return $this->db->get()->row_array(1);
+  }
+
+  // 댓글 목록
+  public function listReply($idx, $reply=NULL)
+  {
+    $this->db->select('a.*, b.idx AS user_idx, b.nickname')
+          ->from(DB_ARTICLE_REPLY . ' a')
+          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
+          ->where('a.idx_article', $idx)
+          ->where('a.deleted_at', NULL);
+
+    if (!is_null($reply)) {
+      $this->db->where('a.idx_reply', $reply);
+    } else {
+      $this->db->where('a.idx_reply', 0);
+    }
+
+    return $this->db->get()->result_array();
+  }
+
+  // 댓글 삭제 (논리적 삭제)
+  public function deleteReply($idx)
+  {
+    $this->db->set('deleted_by', 1);
+    $this->db->set('deleted_at', time());
+    $this->db->where('idx', $idx);
+    $this->db->update(DB_ARTICLE_REPLY);
+
+    $this->db->set('deleted_by', 1);
+    $this->db->set('deleted_at', time());
+    $this->db->where('idx_reply', $idx);
+    $this->db->update(DB_ARTICLE_REPLY);
   }
 
   // 분류 목록
@@ -91,9 +179,18 @@ class Desk_model extends CI_Model
   // 분류 이름
   public function viewArticleCategory($code)
   {
-    $this->db->select('name')
+    $this->db->select('name, parent')
           ->from(DB_ARTICLE_CATEGORY)
           ->where('code', $code);
+    return $this->db->get()->row_array(1);
+  }
+
+  // 분류 부모 이름
+  public function viewArticleParentCategory($parent)
+  {
+    $this->db->select('name')
+          ->from(DB_ARTICLE_CATEGORY)
+          ->where('code', $parent);
     return $this->db->get()->row_array(1);
   }
 

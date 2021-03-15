@@ -74,8 +74,8 @@ $(document).on('click', '.login-popup', function() {
       location.reload();
     }
   });
-}).on('click', '.area-article', function() {
-  location.href = ('/article/' + $(this).data('idx'));
+}).on('click', '.area-link', function() {
+  location.href = $(this).data('link');
 }).on('click', '.btn-more', function() {
   // 더보기
   var $btn = $(this);
@@ -104,4 +104,98 @@ $(document).on('click', '.login-popup', function() {
       }
     });
   }
+}).on('click', '.btn-liked', function() {
+  // 좋아요
+  var $btn = $(this);
+
+  $.ajax({
+    url: '/welcome/liked',
+    data: 'idx=' + $btn.data('idx'),
+    dataType: 'json',
+    type: 'post',
+    success: function(result) {
+      if (result.error == 0) {
+        $('.cnt-liked').text(result.liked);
+        if (result.message == 1) {
+          $('.fa-heart').addClass('text-danger');
+        } else {
+          $('.fa-heart').removeClass('text-danger');
+        }
+      }
+    }
+  });
+}).on('click', '.btn-reply', function() {
+  // 댓글
+  var $btn = $(this);
+  var replyIdx = $btn.parent().parent().find('.reply-idx').val();
+  var nickname = $btn.parent().parent().find('.reply-nickname').val();
+  var content = $btn.parent().parent().find('.reply-content').val();
+
+  if (typeof content == 'undefined' || content == '') {
+    return false;
+  }
+
+  $.ajax({
+    url: '/welcome/reply_insert',
+    data: 'articleIdx=' + $btn.data('article-idx') + '&replyIdx=' + replyIdx + '&nickname=' + nickname + '&content=' + content,
+    dataType: 'json',
+    type: 'post',
+    beforeSend: function() {
+      $btn.css('opacity', '0.5').prop('disabled', true);
+    },
+    success: function(result) {
+      $btn.css('opacity', '1').prop('disabled', false);
+      if (result.error == 0) {
+        $('.reply-cnt').text(result.message);
+        $('.reply-content').val('');
+        if (replyIdx != 0) {
+          $('.btn-reply-thread').removeClass('active');
+          $('.reply-input[data-idx=' + replyIdx + ']').parent().parent().append('<div class="item-reply media mb-4" data-idx="' + result.idx + '"><img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="' + result.avatar + '"><div class="media-body"><h5 class="mt-0 font-weight-bold">' + nickname + '</h5><p class="dark-grey-text article">' + content + '</p><p class="small text-muted">' + result.date + ' <a class="text-danger ml-2 btn-reply-delete-modal" data-idx="' + result.idx + '">[삭제]</a></p></div></div>');
+          $('.reply-input[data-idx=' + replyIdx + ']').remove();
+        } else {
+          $('.list-reply').append('<div class="item-reply media mb-4" data-idx="' + result.idx + '"><img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="' + result.avatar + '"><div class="media-body"><h5 class="mt-0 font-weight-bold">' + nickname + '</h5><p class="dark-grey-text article">' + content + '</p><p class="small text-muted">' + result.date + ' <a class="text-info ml-2 btn-reply-thread" data-idx="' + result.idx + '">[댓글]</a> <a class="text-danger ml-2 btn-reply-delete-modal" data-idx="' + result.idx + '">[삭제]</a></p></div></div>');
+        }
+      }
+    }
+  });
+}).on('click', '.btn-reply-thread', function() {
+  // 대댓글 출력
+  var $dom = $('.reply-input[data-idx=0]').clone();
+  if ($(this).hasClass('active')) {
+    return false;
+  } else {
+    $(this).addClass('active');
+    $dom.attr('data-idx', $(this).data('idx'));
+    $dom.find('.reply-idx').val($(this).data('idx'));
+    $(this).parent().append($dom);
+  }
+}).on('click', '.btn-reply-delete-modal', function() {
+  // 댓글 삭제 모달
+  var $dom = $('#replyDeleteModal');
+  $('input[name=idx]', $dom).val($(this).data('idx'));
+  $dom.modal('show');
+}).on('click', '.btn-reply-delete-submit', function() {
+  // 댓글 삭제
+  var $btn = $(this);
+  var $dom = $('#replyDeleteModal');
+  var idx = $('input[name=idx]', $dom).val();
+  var idx_article = $('input[name=idx_article]', $dom).val();
+
+  $.ajax({
+    url: '/welcome/reply_delete',
+    data: 'idx=' + idx + '&idx_article=' + idx_article,
+    dataType: 'json',
+    type: 'post',
+    beforeSend: function() {
+      $btn.css('opacity', '0.5').prop('disabled', true);
+    },
+    success: function(result) {
+      if (result.error == 0) {
+        $btn.css('opacity', '1').prop('disabled', false);
+        $('.reply-cnt').text(Number($('.reply-cnt').text() - 1));
+        $('.item-reply[data-idx=' + idx + ']').remove();
+        $dom.modal('hide');
+      }
+    }
+  });
 });

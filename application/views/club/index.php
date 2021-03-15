@@ -78,8 +78,8 @@
     </a>
   </div>
 
-  <main>
-    <div class="container-fluid">
+  <main id="mainpage">
+    <div class="container-fluid mt-4">
       <div class="row mt-1">
         <div class="col-xl-8 col-md-12">
           <section class="section extra-margins listing-section">
@@ -143,26 +143,28 @@
             <section class="col-md-6 section extra-margins listing-section mt-3">
                 <h4 class="row font-weight-bold">
                   <div class="col-6"><strong>여행 소식</strong></div>
-                  <div class="col-6 text-right"><a href="<?=BASE_URL?>/travelog/?type=news" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a></div>
+                  <div class="col-6 text-right"><a href="<?=BASE_URL?>/search/?code=news" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a></div>
                 </h4>
               <hr class="text-default">
               <div class="text-left mt-3 mb-4">
                 <div class="card main-card">
                   <div class="view overlay">
-                    <img src="<?=getThumbnail($viewNews['content'])?>" class="card-img-top">
-                    <a href="<?=BASE_URL?>/travelog/view/<?=$viewNews['idx']?>?type=<?=$viewNews['category']?>"><div class="mask rgba-white-slight"></div></a>
+                    <img src="<?=getThumbnail($viewNews[0]['content'])?>" class="card-img-top">
+                    <a href="<?=BASE_URL?>/article/<?=$viewNews[0]['idx']?>"><div class="mask rgba-white-slight"></div></a>
                   </div>
                   <div class="card-body">
-                    <h4 class="card-title"><strong><a href="<?=BASE_URL?>/travelog/view/$viewNews['idx']?type=<?=$viewNews['category']?>"><?=$viewNews['title']?></a></strong></h4><hr>
+                    <h4 class="card-title"><strong><a href="<?=BASE_URL?>/article/<?=$viewNews[0]['idx']?>"><?=$viewNews[0]['title']?></a></strong></h4><hr>
                     <p class="card-text text-justify">
-                      <?=articleContent($viewNews['content'])?>
+                      <?=articleContent($viewNews[0]['content'])?>
                     </p>
                   </div>
                   <div class="mdb-color lighten-3 text-center">
                     <ul class="list-unstyled list-inline font-small mt-3">
-                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-eye pr-1"></i>조회 <?=$viewNews['refer']?></a></li>
-                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-heart pr-1"></i>추천 0</a></li>
-                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-comments pr-1"></i>댓글 0</a></li>
+                      <li class="list-inline-item pr-1 white-text"><?=$viewNews[0]['category_name']?></li>
+                      <li class="list-inline-item pr-1 white-text"><i class="far fa-clock-o pr-1"></i><?=date('Y-m-d', $viewNews[0]['viewing_at'])?></li>
+                      <li class="list-inline-item pr-1 white-text"><i class="far fa-eye pr-1"></i><?=$viewNews[0]['cntRefer']?></li>
+                      <li class="list-inline-item pr-1 white-text"><i class="far fa-heart pr-1"></i><?=$viewNews[0]['cntLiked']?></li>
+                      <li class="list-inline-item pr-1 white-text"><i class="far fa-comments pr-1"></i><?=$viewNews[0]['cntReply']?></li>
                     </ul>
                   </div>
                 </div>
@@ -171,26 +173,28 @@
             <section class="col-md-6 section extra-margins listing-section mt-3">
               <h4 class="row font-weight-bold">
                 <div class="col-6"><strong>여행 후기</strong></div>
-                <div class="col-6 text-right"><a href="<?=BASE_URL?>/travelog/?type=logs" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a></div>
+                <div class="col-6 text-right"><a href="<?=BASE_URL?>/search/?code=review" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a></div>
               </h4>
               <hr class="text-default">
               <div class="text-left mt-3 mb-4">
                 <div class="card main-card">
                   <div class="view overlay">
-                    <img src="<?=getThumbnail($viewLogs['content'])?>" class="card-img-top">
-                    <a href="<?=BASE_URL?>/travelog/view/<?=$viewLogs['idx']?>?type=<?=$viewLogs['category']?>"><div class="mask rgba-white-slight"></div></a>
+                    <img src="<?=getThumbnail($viewLogs[0]['content'])?>" class="card-img-top">
+                    <a href="<?=BASE_URL?>/article/<?=$viewLogs[0]['idx']?>"><div class="mask rgba-white-slight"></div></a>
                   </div>
                   <div class="card-body">
-                    <h4 class="card-title"><strong><a href="<?=BASE_URL?>/travelog/view/$viewLogs['idx']?type=<?=$viewLogs['category']?>"><?=$viewLogs['title']?></a></strong></h4><hr>
+                    <h4 class="card-title"><strong><a href="<?=BASE_URL?>/article/<?=$viewLogs[0]['idx']?>"><?=$viewLogs[0]['title']?></a></strong></h4><hr>
                     <p class="card-text text-justify">
-                      <?=articleContent($viewLogs['content'])?>
+                      <?=articleContent($viewLogs[0]['content'])?>
                     </p>
                   </div>
                   <div class="mdb-color lighten-3 text-center">
                     <ul class="list-unstyled list-inline font-small mt-3">
-                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-eye pr-1"></i>조회 <?=$viewLogs['refer']?></a></li>
-                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-heart pr-1"></i>추천 0</a></li>
-                      <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-comments pr-1"></i>댓글 0</a></li>
+                      <li class="list-inline-item pr-1 white-text"><?=$viewLogs[0]['category_name']?></li>
+                      <li class="list-inline-item pr-1 white-text"><i class="far fa-clock-o pr-1"></i><?=date('Y-m-d', $viewLogs[0]['viewing_at'])?></li>
+                      <li class="list-inline-item pr-1 white-text"><i class="far fa-eye pr-1"></i><?=$viewLogs[0]['cntRefer']?></li>
+                      <li class="list-inline-item pr-1 white-text"><i class="far fa-heart pr-1"></i><?=$viewLogs[0]['cntLiked']?></li>
+                      <li class="list-inline-item pr-1 white-text"><i class="far fa-comments pr-1"></i><?=$viewLogs[0]['cntReply']?></li>
                     </ul>
                   </div>
                 </div>

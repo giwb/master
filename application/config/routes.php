@@ -84,7 +84,14 @@ if (!empty($result['idx'])) {
       }
     }
   }
-  $route[$domain . '/' . $uri] = $uri;
+
+  if (strstr($uri, 'article')) {
+    $route[$domain . '/article/(:num)'] = 'club/article/$1';
+  } elseif (strstr($uri, 'search')) {
+    $route[$domain . '/search'] = 'club/search';
+  } else {
+    $route[$domain . '/' . $uri] = $uri;
+  }
 } else {
   $route['default_controller']  = 'welcome';
   $route['top']                 = 'welcome';

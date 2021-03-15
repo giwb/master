@@ -2553,12 +2553,19 @@ body { font-family: 'Noto Sans KR', sans-serif; }
 #setupForm .setup-content textarea { display: none; }
 #setupForm .area-btn { border-top: 1px solid #999; margin: 0 0 20px 0; padding: 20px 0 0 0; text-align: center; }
 
-/* 여행기 */
-#travelogContent { width: 99.8%; min-width: 610px; min-height: 400px; }
+/* 기사 페이지 */
+main { padding-top: 100px!important; }
+main#mainpage { padding-top: 0px!important; }
+main#footer { padding: 30px 0 0 0!important; }
+main#footer .logo-img { margin-right: 10px; float: left; }
+.area-link { cursor: pointer; }
+.area-photo { max-height: 100px; overflow: hidden; }
+.area-photo img { width: 100%; min-height: 100px; }
 .post-article { padding: 50px; text-align: justify; }
 .post-article p { margin: 0px; padding: 0px; }
 .post-article img { max-width: 100%; }
-.card-title { min-height: 55px; }
+.area-refer { justify-content: flex-start!important; }
+.area-sns { justify-content: flex-end!important; }
 
 /* 사진첩 */
 #album .album-item { position: relative; text-align: center; }
@@ -2651,11 +2658,16 @@ body { font-family: 'Noto Sans KR', sans-serif; }
   .card.main-card { min-height:auto; }
   .card-title { min-height: auto; }
 
-  /* 여행기 */
-  #travelogContent { width: 99.8%; min-width: 310px; min-height: 200px; }
-  .post-article { padding: 0px; text-align: justify; }
-  .post-article p { margin: 0px; padding: 0px; }
-  .post-article img { max-width: 100%; }
+  /* 기사 페이지 */
+  main { padding-top: 100px!important; }
+  main#mainpage { padding-top: 0px!important; }
+  main#footer { padding: 20px!important; }
+  .area-photo { max-height: 200px; overflow: hidden; }
+  .area-photo img { width: 100%; min-height: auto; }
+  .post-article { padding: 10px; }
+  .area-refer { justify-content: center!important; }
+  .area-refer h5 { font-size: 1em; }
+  .area-sns { justify-content: center!important; }
 
   .list-reserve { text-align: center; padding: 10px 0 5px; }
 

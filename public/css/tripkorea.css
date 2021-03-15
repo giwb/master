@@ -2149,7 +2149,9 @@ body.postpage-v5 .article{font-size:.9rem;line-height:1.8}
 @media (min-width:500px) and (max-width:750px),(min-width:992px){.w-lg-100{width:100%!important}}
 
 body { font-family: 'Noto Sans KR', sans-serif; }
-#mainContent { padding-top: 75px; }
+main { padding-top: 100px!important; }
+main#mainpage { padding-top: 0px!important; }
+main#footer { padding-top: 0px!important; }
 .navbar { width: 100%; position: fixed; z-index: 100; }
 .dropdown-search { left: -300px!important; }
 .carousel-content { width: 600px; text-align: justify; margin: 0 auto!important; }
@@ -2162,24 +2164,31 @@ body { font-family: 'Noto Sans KR', sans-serif; }
 .agree-box::-webkit-scrollbar { width: 10px; display: block; }
 .agree-box::-webkit-scrollbar-thumb { background-color: #a9a9a9; }
 .agree-box::-webkit-scrollbar-track { background-color: #dee2e6; }
-.area-article { cursor: pointer; }
+.area-link { cursor: pointer; }
 .area-photo { max-height: 100px; overflow: hidden; }
 .area-photo img { width: 100%; min-height: 100px; }
 .post-article { padding: 50px; text-align: justify; }
 .post-article p { margin: 0px; padding: 0px; }
 .post-article img { max-width: 100%; }
+.area-refer { justify-content: flex-start!important; }
+.area-sns { justify-content: flex-end!important; }
 
 @media (max-width:740px) {
-	#mainContent { padding-top: 50px; }
-	.dropdown-search { left: 0px!important; }
-	.carousel-content { width: 100%!important; font-size: 0.8em; }
-	.h2, h2 { font-size: 1.5rem; }
-	.h4, h4 { font-size: 1.2rem; }
-	.listing-section .view{height:auto;}
-	.viewContent { padding: 0 5px 5px 5px; }
-	.section-avatar { text-align: center; }
-	.icon-avatar { width: 120px; text-align: center; }
-	.avatar { max-width: 80px!important; }
-	.page-footer p { margin-bottom: 0rem; }
-	.post-article { padding: 10px; }
+    main { padding-top: 50px!important; }
+    main#mainpage { padding-top: 0px!important; }
+    main#footer { padding-top: 0px!important; }
+    .dropdown-search { left: 0px!important; }
+    .carousel-content { width: 100%!important; font-size: 0.8em; }
+    .h2, h2 { font-size: 1.5rem; }
+    .h4, h4 { font-size: 1.2rem; }
+    .listing-section .view{height:auto;}
+    .viewContent { padding: 0 5px 5px 5px; }
+    .section-avatar { text-align: center; }
+    .icon-avatar { width: 120px; text-align: center; }
+    .avatar { max-width: 80px!important; }
+    .page-footer p { margin-bottom: 0rem; }
+    .post-article { padding: 10px; }
+    .area-refer { justify-content: center!important; }
+    .area-refer h5 { font-size: 1em; }
+    .area-sns { justify-content: center!important; }
 }

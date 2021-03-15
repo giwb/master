@@ -39,6 +39,7 @@
   <script src="/public/photoswipe/photoswipe-ui-default.min.js" type="text/javascript"></script>
   <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
   <script src="/public/js/main.js?<?=time()?>" type="text/javascript"></script>
+  <script src="/public/js/tripkorea.js?<?=time()?>" type="text/javascript"></script>
   <?php if (ENVIRONMENT == 'production' && $_SERVER['REMOTE_ADDR'] != '49.166.0.82'): ?>
   <script data-ad-client="ca-pub-2424708381875991" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <?php endif; ?>
@@ -89,8 +90,8 @@
             <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true"
               aria-expanded="false"><i class="fas fa-map-marked-alt"></i> 여행기</a>
             <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="<?=BASE_URL?>/travelog/?type=news">여행 소식</a>
-              <a class="dropdown-item" href="<?=BASE_URL?>/travelog/?type=logs">여행 후기</a>
+              <a class="dropdown-item" href="<?=BASE_URL?>/search/?code=news">여행 소식</a>
+              <a class="dropdown-item" href="<?=BASE_URL?>/search/?code=review">여행 후기</a>
               <a class="dropdown-item" href="<?=BASE_URL?>/album">사진첩</a>
             </div>
           </li>

@@ -11,13 +11,15 @@
                 <hr class="red title-hr">
                 <div class="post-article">
                   <?=nl2br(reset_html_escape($viewTravelog['content']))?>
-                </div><!--
+                </div>
                 <hr>
                 <div class="row">
-                  <div class="col-md-6 mt-4">
-                    <h5 class="font-weight-bold dark-grey-text">
-                      <i class="far fa-lg fa-newspaper mr-3 dark-grey-text"></i>
-                      <strong>147</strong> Views
+                  <div class="area-refer col-md-6 mt-4 pl-4">
+                    <h5 class="font-weight-bold text-dark">
+                      <i class="far fa-lg fa-newspaper mr-2"></i>
+                      <strong><?=$viewTravelog['refer']?></strong>명이 봤어요
+                      <a href="javascript:;" class="text-dark btn-liked" data-idx="<?=$view['idx']?>" title="좋아요!"><i class="fas fa-heart ml-4 mr-2<?=!empty($checkLiked) ? ' text-danger' : ''?>"></i>
+                      <strong class="cnt-liked"><?=$liked['cnt']?></strong>명이 좋아해요</a>
                     </h5>
                   </div>
                   <div class="col-md-6 mt-2 d-flex justify-content-end">
@@ -34,7 +36,7 @@
                         <i class="fab fa-instagram"></i>
                     </a>
                   </div>
-                </div>-->
+                </div>
               </div>
             </div>
 

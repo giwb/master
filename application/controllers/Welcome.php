@@ -23,13 +23,26 @@ class Welcome extends MY_Controller
     $paging['nowPage'] = (1 * $paging['perPage']) - $paging['perPage'];
     $viewData['maxArticle'] = $this->desk_model->cntArticle();
 
-    // 최신 기사
-    $viewData['listArticle'] = $this->desk_model->listMainArticle(NULL, $paging);
-    $viewData['listArticle'] = $this->load->view('/article_list', $viewData, true);
-
     // 메인 기사
     $search['main_status'] = 'Y';
     $viewData['listArticleMain'] = $this->desk_model->listMainArticle($search);
+
+    // 최신 기사
+    $viewData['listArticle'] = $this->desk_model->listMainArticle(NULL, $paging);
+    foreach ($viewData['listArticle'] as $key => $value) {
+      // 조회수
+      $cntRefer = $this->desk_model->cntArticleReaction($value['idx'], REACTION_TYPE_REFER);
+      $viewData['listArticle'][$key]['cntRefer'] = $cntRefer['cnt'];
+
+      // 좋아요
+      $cntLiked = $this->desk_model->cntArticleReaction($value['idx'], REACTION_TYPE_LIKED);
+      $viewData['listArticle'][$key]['cntLiked'] = $cntLiked['cnt'];
+
+      // 댓글
+      $cntReply = $this->desk_model->cntReply($value['idx']);
+      $viewData['listArticle'][$key]['cntReply'] = $cntReply['cnt'];
+    }
+    $viewData['listArticle'] = $this->load->view('/article_list', $viewData, true);
 
     $this->_viewPage('index', $viewData);
   }
@@ -88,17 +101,176 @@ class Welcome extends MY_Controller
    **/
   public function article($idx=NULL)
   {
+    $viewData['userData'] = $this->load->get_var('userData');
+    $idx = html_escape($idx);
+
     if (is_null($idx)) {
-      $viewData['view']['title'] = '';
-      $viewData['view']['content'] = '<div style="pt-5 pb-5">관련 기사가 없습니다.</div>';
+      $viewData['viewArticle']['title'] = '';
+      $viewData['viewArticle']['content'] = '<div style="pt-5 pb-5">관련 기사가 없습니다.</div>';
     } else {
-      $viewData['view'] = $this->desk_model->viewArticle($idx);
+      $viewData['viewArticle'] = $this->desk_model->viewArticle($idx);
+
+      // 분류명
+      $viewData['category'] = $this->desk_model->viewArticleCategory($viewData['viewArticle']['category']);
+      $viewData['categoryParent'] = $this->desk_model->viewArticleParentCategory($viewData['category']['parent']);
+
+      // 조회수 올리기
+      $ipaddr = $_SERVER['REMOTE_ADDR'];
+      $insertValues = array(
+        'idx_article' => $idx,
+        'reaction_type' => REACTION_TYPE_REFER,
+        'ip_address' => $_SERVER['REMOTE_ADDR'],
+        'created_by' => !empty($viewData['userData']['idx']) ? $viewData['userData']['idx'] : NULL,
+        'created_at' => time(),
+      );
+      $this->desk_model->insert(DB_ARTICLE_REACTION, $insertValues);
+
+      // 조회수
+      $viewData['refer'] = $this->desk_model->cntArticleReaction($idx, REACTION_TYPE_REFER);
+
+      // 좋아요 했는지 확인
+      $search = array(
+        'idx_article' => $idx,
+        'reaction_type' => REACTION_TYPE_LIKED,
+        'ip_address' => $ipaddr,
+        'created_by' => !empty($viewData['userData']['idx']) ? $viewData['userData']['idx'] : NULL,
+      );
+      $viewData['checkLiked'] = $this->desk_model->viewArticleReaction($search);
+
+      // 좋아요
+      $viewData['liked'] = $this->desk_model->cntArticleReaction($idx, REACTION_TYPE_LIKED);
+
+      // 댓글
+      $viewData['cntReply'] = $this->desk_model->cntReply($idx);
+      $viewData['listReply'] = $this->desk_model->listReply($idx);
+
+      foreach ($viewData['listReply'] as $key => $value) {
+        $thread = $this->desk_model->listReply($idx, $value['idx']);
+        $viewData['listReply'][$key]['listReplyThread'] = $thread;
+      }
     }
 
-    $search['category'] = $viewData['view']['category'];
-    $viewData['listArticle'] = $this->desk_model->listMainArticle($search);
-
     $this->_viewPage('article', $viewData);
+  }
+
+  /**
+   * 좋아요
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function liked()
+  {
+    $viewData['userData'] = $this->load->get_var('userData');
+    $idx = html_escape($this->input->post('idx'));
+
+    if (!empty($idx)) {
+      $now = time();
+      $ipaddr = $_SERVER['REMOTE_ADDR'];
+      $search = array(
+        'idx_article' => $idx,
+        'reaction_type' => REACTION_TYPE_LIKED,
+        'ip_address' => $ipaddr,
+        'created_by' => !empty($viewData['userData']['idx']) ? $viewData['userData']['idx'] : NULL,
+      );
+      $check = $this->desk_model->viewArticleReaction($search);
+
+      if (!empty($check)) {
+        $this->desk_model->deleteArticleReaction(DB_ARTICLE_REACTION, $search);
+
+        // 좋아요
+        $liked = $this->desk_model->cntArticleReaction($idx, REACTION_TYPE_LIKED);
+
+        $result = array('error' => 0, 'message' => 0, 'liked' => $liked['cnt']);
+      } else {
+        // 좋아요 올리기
+        $insertValues = array(
+          'idx_article' => $idx,
+          'reaction_type' => REACTION_TYPE_LIKED,
+          'ip_address' => $ipaddr,
+          'created_by' => !empty($viewData['userData']['idx']) ? $viewData['userData']['idx'] : NULL,
+          'created_at' => $now,
+        );
+        $this->desk_model->insert(DB_ARTICLE_REACTION, $insertValues);
+
+        // 좋아요
+        $liked = $this->desk_model->cntArticleReaction($idx, REACTION_TYPE_LIKED);
+
+        $result = array('error' => 0, 'message' => 1, 'liked' => $liked['cnt']);
+      }
+    } else {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 댓글
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function reply_insert()
+  {
+    $now = time();
+    $viewData['userData'] = $this->load->get_var('userData');
+    $articleIdx = html_escape($this->input->post('articleIdx'));
+    $replyIdx = html_escape($this->input->post('replyIdx'));
+    $nickname = html_escape($this->input->post('nickname'));
+    $content = html_escape($this->input->post('content'));
+    $ipaddr = $_SERVER['REMOTE_ADDR'];
+
+    if (!empty($articleIdx) && !empty($content)) {
+      $insertValues = array(
+        'idx_article' => $articleIdx,
+        'idx_reply' => $replyIdx,
+        'ip_address' => $ipaddr,
+        'nickname' => $nickname,
+        'content' => $content,
+        'created_by' => !empty($viewData['userData']['idx']) ? $viewData['userData']['idx'] : NULL,
+        'created_at' => $now,
+      );
+      $idx = $this->desk_model->insert(DB_ARTICLE_REPLY, $insertValues);
+
+      // 댓글
+      $cntReply = $this->desk_model->cntReply($articleIdx);
+
+      // 아바타가 있는지 확인
+      if (file_exists(PHOTO_PATH . $viewData['userData']['idx'])) {
+        $avatar = PHOTO_URL . $viewData['userData']['idx'];
+      } else {
+        $avatar = '/public/images/user.png';
+      }
+
+      $result = array('error' => 0, 'message' => $cntReply['cnt'], 'idx' => $idx, 'avatar' => $avatar, 'date' => date('Y-m-d H:i', $now));
+    } else {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 댓글 삭제
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function reply_delete()
+  {
+    $idx = html_escape($this->input->post('idx'));
+    $articleIdx = html_escape($this->input->post('idx_article'));
+
+    if (!empty($idx)) {
+      $this->desk_model->deleteReply($idx);
+      $cntReply = $this->desk_model->cntReply($articleIdx);
+      $result = array('error' => 0, 'message' => $cntReply['cnt']);
+    } else {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+    }
+
+    $this->output->set_output(json_encode($result));
   }
 
   /**
