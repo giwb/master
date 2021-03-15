@@ -930,9 +930,12 @@
     } else {
       action = '/shop/cancel';
     }
+
+    var data = 'clubIdx=' + $('input[name=clubIdx]').val() + '&resIdx=' + $('input[name=resIdx]').val();
+
     $.ajax({
       url: action,
-      data: 'clubIdx=' + $('input[name=clubIdx]').val() + '&resIdx=' + $('input[name=resIdx]').val(),
+      data: data,
       dataType: 'json',
       type: 'post',
       beforeSend: function() {

@@ -1,6 +1,20 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php
+  defined('BASEPATH') OR exit('No direct script access allowed');
+  $uri = explode('/', $_SERVER['REQUEST_URI']);
+  if (empty($view['domain'])) {
+    $uri = $uri[1];
+  } else {
+    if (empty($uri[2])) {
+      $uri = '';
+    } else {
+      $uri = $uri[2];
+    }
+  }
+  $arr = array('album', 'login'); // 우측을 완전히 빼는 경우
+?>
 
-        <div class="col-xl-4 col-md-12 widget-column mt-0">
+        <?php if (empty($uri) || !in_array($uri, $arr)): ?>
+        <div class="col-xl-4 col-md-12 widget-column mt-0 pb-0">
           <section class="section">
             <h4 class="font-weight-bold"><strong>월간 일정</strong></h4>
             <hr class="text-default" style="margin-bottom: 33px;">
@@ -10,8 +24,10 @@
               </div>
             </div>
           </section>
+          <?php endif; ?>
 
-          <section class="section mt-4">
+          <?php if (empty($uri)): // 안부 인사와 인증현황은 메인 페이지에서만 보이게 ?>
+          <section class="section mt-5">
             <h4 class="row font-weight-bold">
               <div class="col-6"><strong>안부 인사</strong></div>
               <div class="col-6 text-right"><!--<a href="javascript:;" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a>--></div>
@@ -34,7 +50,7 @@
             </div>
           </section>
 
-          <section class="section mt-4">
+          <section class="section mt-5">
             <h4 class="row font-weight-bold">
               <div class="col-6"><strong>백산백소 인증현황</strong></div>
               <div class="col-6 text-right"><!--<a href="javascript:;" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a>--></div>
@@ -62,6 +78,26 @@
               </div>
             </div>
           </section>
+
+          <?php elseif (!empty($uri) && !in_array($uri, $arr)): ?>
+          <section class="section mt-5">
+            <h4 class="font-weight-bold"><strong>현재 진행중인 여행</strong></h4>
+            <hr class="text-default">
+            <div class="card">
+              <div class="view overlay pt-2 pb-3">
+                <?php if (!empty($listNoticeFooter)): ?>
+                <?php foreach ($listNoticeFooter as $key => $value): ?>
+                <div class="row no-gutters mt-2<?=$key != 0 ? ' pt-2' : ''?>">
+                  <div class="col-sm-4 pl-3 pr-3"><a href="<?=BASE_URL?>/reserve/list/<?=$value['idx']?>"><?php if (!empty($value['photo']) && file_exists(PHOTO_PATH . 'thumb_' . $value['photo'])): ?><img class="w-100" src="<?=PHOTO_URL . 'thumb_' . $value['photo']?>"><?php else: ?><img class="w-100" src="/public/images/nophoto.png"><?php endif; ?></a></div>
+                  <div class="col-sm-8 pr-3 list-reserve"><a href="<?=BASE_URL?>/reserve/list/<?=$value['idx']?>"><strong><?=viewStatus($value['status'])?> <?=$value['subject']?></strong></a><br><small><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명</small></div>
+                </div>
+                <?php endforeach; ?>
+                <?php else: ?><div class="text-center pt-5 pb-5">등록된 여행 정보가 없습니다.</div>
+                <?php endif; ?>
+              </div>
+            </div>
+          </section>
+          <?php endif; ?>
 
           <!-- 애드핏 -->
           <section class="section mb-4">

@@ -1,9 +1,12 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-      <div class="club-main">
-        <div class="mypage mt-2">
-          <h2><?=$pageTitle?></h2>
-          <h3>■ 다녀온 산행 내역 : <?=$maxVisit['cnt']?>건</h3>
+  <main id="club">
+    <div class="container-fluid club-main">
+      <div class="row mt-1 mb-5">
+        <div class="col-xl-8 col-md-12 mypage">
+          <h4 class="font-weight-bold"><?=$pageTitle?> <small>(<?=$maxVisit['cnt']?>건)</small></h4>
+          <hr class="text-default">
+
           <form id="formList" method="post" action="<?=BASE_URL?>/member/reserve_past">
             <input type="hidden" name="p" value="1">
             <?=$userVisit?>
@@ -13,4 +16,3 @@
             <?php endif; ?>
           </form>
         </div>
-      </div>

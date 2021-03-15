@@ -84,7 +84,7 @@
         <div class="col-xl-8 col-md-12">
           <section class="section extra-margins listing-section">
             <h4 class="row font-weight-bold">
-              <div class="col-6"><strong>다음 산행</strong></div>
+              <div class="col-6"><strong>다음 여행</strong></div>
               <div class="col-6 text-right"><!--<a href="javascript:;" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a>--></div>
             </h4>
             <hr class="text-default">

@@ -605,7 +605,7 @@ class Shop extends MY_Controller
     $viewData['listAbout'] = $this->club_model->listAbout($viewData['view']['idx']);
 
     // 등록된 산행 목록
-    $viewData['listNoticeCalendar'] = $this->reserve_model->listNotice($viewData['view']['idx']);
+    $viewData['listNoticeFooter'] = $viewData['listNoticeCalendar'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
 
     // 캘린더 설정
     $listCalendar = $this->admin_model->listCalendar();

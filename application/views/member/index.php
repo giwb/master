@@ -1,9 +1,9 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
   <main id="club">
-    <div class="container-fluid club-main mypage">
+    <div class="container-fluid club-main">
       <div class="row mt-1 mb-5">
-        <div class="col-xl-8 col-md-12">
+        <div class="col-xl-8 col-md-12 mypage">
           <h4 class="font-weight-bold"><?=$pageTitle?></h4>
           <hr class="text-default">
           <div class="row">

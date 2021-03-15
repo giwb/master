@@ -359,7 +359,7 @@ class Album extends MY_Controller
 
     $this->load->view('club/header_' . $viewData['view']['main_design'], $viewData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view('member/footer', $viewData);
+    $this->load->view('club/footer_' . $viewData['view']['main_design'], $viewData);
   }
 }
 ?>

@@ -778,9 +778,9 @@ class Login extends MY_Controller
     // 방문자 기록
     setVisitor();
 
-    $this->load->view('club/header_2', $viewData);
+    $this->load->view('club/header_' . $viewData['view']['main_design'], $viewData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view('member/footer', $viewData);
+    $this->load->view('club/footer_' . $viewData['view']['main_design'], $viewData);
   }
 }
 ?>
