@@ -777,7 +777,7 @@ class Login extends MY_Controller
 
     $this->load->view('club/header_2', $viewData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view('album/footer', $viewData);
+    $this->load->view('member/footer', $viewData);
   }
 }
 ?>

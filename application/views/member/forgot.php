@@ -1,7 +1,11 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-  <main class="club_main memberForm">
-    <div class="container-fluid">
+  <main id="club">
+    <div class="container-fluid club-main">
+      <div class="row mt-1 mb-5">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+
       <div class="row align-items-center mt-2 mb-2">
         <div class="col-1 col-lg-2"></div>
         <div class="col-lg-8">
@@ -10,8 +14,8 @@
 
           <form id="forgotIdForm" action="/login/search_id">
           <div class="row">
-            <div class="col-1 col-lg-2"></div>
-            <div class="col-lg-8">
+            <div class="col-1"></div>
+            <div class="col-lg-10">
               <div class="row align-items-center mb-2">
                 <div class="col-sm-3 font-weight-bold">실명</div>
                 <div class="col-sm-9"><input type="text" name="realname" maxlenght="20" class="form-control" autocomplete="off"></div>
@@ -46,13 +50,13 @@
               <div class="row align-items-center mb-2">
                 <div class="col-sm-3 font-weight-bold">전화번호</div>
                 <div class="col-sm-9 row no-gutters">
-                  <div class="col-sm-2 mr-2 p-0"><input type="text" name="phone1" maxlength="3" class="form-control"></div>
-                  <div class="col-sm-3 mr-2 p-0"><input type="text" name="phone2" maxlength="4" class="form-control"></div>
-                  <div class="col-sm-3 p-0"><input type="text" name="phone3" maxlength="4" class="form-control"></div>
+                  <div class="col-2 mr-2 p-0"><input type="text" name="phone1" maxlength="3" class="form-control"></div>
+                  <div class="col-3 mr-2 p-0"><input type="text" name="phone2" maxlength="4" class="form-control"></div>
+                  <div class="col-3 p-0"><input type="text" name="phone3" maxlength="4" class="form-control"></div>
                 </div>
               </div>
             </div>
-            <div class="col-1 col-lg-2"></div>
+            <div class="col-1"></div>
           </div>
           <div class="text-center border-top mt-4 mb-5">
             <div class="error-message search-id pt-2 pb-2"></div>
@@ -67,8 +71,8 @@
 
           <form id="forgotPwForm" action="/login/change_pw">
           <div class="row">
-            <div class="col-1 col-lg-2"></div>
-            <div class="col-lg-8">
+            <div class="col-1"></div>
+            <div class="col-lg-10">
               <div class="row align-items-center mb-2">
                 <div class="col-sm-3 font-weight-bold">아이디</div>
                 <div class="col-sm-9"><input type="text" name="uid" maxlenght="20" class="form-control" autocomplete="off"></div>
@@ -107,9 +111,9 @@
               <div class="row align-items-center mb-2">
                 <div class="col-sm-3 font-weight-bold">전화번호</div>
                 <div class="col-sm-9 row no-gutters">
-                  <div class="col-sm-2 mr-2 p-0"><input type="text" name="phone1" maxlength="3" class="form-control"></div>
-                  <div class="col-sm-3 mr-2 p-0"><input type="text" name="phone2" maxlength="4" class="form-control"></div>
-                  <div class="col-sm-3 p-0"><input type="text" name="phone3" maxlength="4" class="form-control"></div>
+                  <div class="col-2 mr-2 p-0"><input type="text" name="phone1" maxlength="3" class="form-control"></div>
+                  <div class="col-3 mr-2 p-0"><input type="text" name="phone2" maxlength="4" class="form-control"></div>
+                  <div class="col-3 p-0"><input type="text" name="phone3" maxlength="4" class="form-control"></div>
                 </div>
               </div>
               <div class="row align-items-center mb-2">
@@ -117,7 +121,7 @@
                 <div class="col-sm-9"><input type="password" name="new_password" maxlenght="20" class="form-control" autocomplete="new-password"></div>
               </div>
             </div>
-            <div class="col-1 col-lg-2"></div>
+            <div class="col-1"></div>
           </div>
           <div class="text-center border-top mt-4 mb-5">
             <div class="error-message search-id pt-2 pb-2"></div>
