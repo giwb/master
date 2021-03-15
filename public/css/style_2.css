@@ -2169,7 +2169,7 @@ body { font-family: 'Noto Sans KR', sans-serif; }
     .section-avatar { text-align: center; }
     .icon-avatar { width: 120px; text-align: center; }
     .avatar { max-width: 80px!important; }
-    .page-footer p { margin-bottom: 0rem; }
+    .page-footer { margin-bottom: 40px; }
 }
 
 /* Custom CSS */
@@ -2620,7 +2620,7 @@ body { font-family: 'Noto Sans KR', sans-serif; }
   .ad-sp { display: block; margin: 0 0 20px 0; }
 
   #header { height: 60px; }
-  #nav-footer { position: fixed; bottom: 0px; width: 100%; border-top: 2px solid #666; background-color: #fff; padding: 10px 0 7px 0; display: table; z-index: 1000; }
+  #nav-footer { position: fixed; bottom: 0px; width: 100%; border-top: 2px solid #666; background-color: #fff; margin: 0px; padding: 10px 0 7px 0; display: table; z-index: 1000; }
   #nav-footer li { width: 20%; font-size: 12px; display: table-cell; vertical-align: middle; text-align: center; }
   #nav-footer li i { font-size: 20px; color: #666; }
 

@@ -217,34 +217,28 @@ class Reserve extends MY_Controller
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
-    // 등록된 산행 목록
-    $viewData['listNoticeCalendar'] = $this->reserve_model->listNotice($clubIdx);
+    // 다음 산행
+    $viewData['listNotice'] = $this->reserve_model->listNotice($clubIdx, array(STATUS_ABLE, STATUS_CONFIRM), 'asc');
 
-    // 캘린더 설정
-    $listCalendar = $this->admin_model->listCalendar();
+    foreach ($viewData['listNotice'] as $key1 => $value) {
+      // 댓글수
+      $cntReply = $this->story_model->cntStoryReply($value['idx'], REPLY_TYPE_NOTICE);
+      $viewData['listNotice'][$key1]['reply_cnt'] = $cntReply['cnt'];
 
-    foreach ($listCalendar as $key => $value) {
-      if ($value['holiday'] == 1) {
-        $class = 'holiday';
-      } else {
-        $class = 'dayname';
+      // 지역
+      $viewData['area_sido'] = $this->area_model->listSido();
+      if (!empty($value['area_sido'])) {
+        $area_sido = unserialize($value['area_sido']);
+        $area_gugun = unserialize($value['area_gugun']);
+
+        foreach ($area_sido as $key2 => $value2) {
+          $sido = $this->area_model->getName($value2);
+          $gugun = $this->area_model->getName($area_gugun[$key2]);
+          $viewData['listNotice'][$key1]['sido'][$key2] = $sido['name'];
+          $viewData['listNotice'][$key1]['gugun'][$key2] = $gugun['name'];
+        }
       }
-      $viewData['listNoticeCalendar'][] = array(
-        'idx' => 0,
-        'startdate' => $value['nowdate'],
-        'enddate' => $value['nowdate'],
-        'schedule' => 0,
-        'status' => 'schedule',
-        'mname' => $value['dayname'],
-        'class' => $class,
-      );
     }
-
-    // 진행 중 산행
-    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
-
-    // 페이지 타이틀
-    $viewData['pageTitle'] = '산행 일정';
 
     $this->_viewPage('reserve/schedule', $viewData);
   }

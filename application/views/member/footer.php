@@ -5,6 +5,18 @@
     </div>
   </main>
 
+  <ul id="nav-footer">
+    <li><a href="<?=BASE_URL?>/reserve/schedule"><i class="fa fa-calendar" aria-hidden="true"></i><br>일정</a></li>
+    <?php if ($view['idx'] == 1): ?><li><a href="<?=BASE_URL?>/shop"><i class="fa fa-shopping-cart" aria-hidden="true"></i><br>구매</a></li><?php endif; ?>
+    <li><a href="<?=BASE_URL?>/album"><i class="fa fa-camera-retro" aria-hidden="true"></i><br>사진</a></li>
+    <li><a href="<?=BASE_URL?>/club/about/<?=$listAbout[0]['idx']?>"><i class="fa fa-sitemap" aria-hidden="true"></i><br>소개</a></li>
+    <?php if (!empty($userData['idx'])): ?>
+    <li><a href="<?=BASE_URL?>/member"><i class="fa fa-user-circle" aria-hidden="true"></i><br>내정보</a></li>
+    <?php else: ?>
+    <li><a href="javascript:;" class="login-popup"><i class="fa fa-user-circle" aria-hidden="true"></i><br>로그인</a></li>
+    <?php endif; ?>
+  </ul>
+
   <input type="hidden" name="baseUrl" value="<?=BASE_URL?>">
   <input type="hidden" name="clubIdx" value="<?=!empty($view['idx']) ? $view['idx'] : ''?>">
   <input type="hidden" name="userIdx" value="<?=!empty($userData['idx']) ? $userData['idx'] : ''?>">
@@ -35,13 +47,13 @@
           </form>
           <div class="error-message"></div>
         </div>
-        <div class="modal-footer">
-          <div class="modal-footer-left">
+        <div class="text-center">
+          <div class="">
+            <button type="button" class="btn btn-<?=$view['main_color']?> btn-login pl-3 pr-3">로그인</button>
+          </div>
+          <div class="">
             <a href="<?=BASE_URL?>/login/check"><button type="button" class="btn btn-info pl-3 pr-3">회원가입</button></a>
             <a href="<?=BASE_URL?>/login/forgot"><button type="button" class="btn btn-secondary pl-3 pr-3">아이디/비밀번호 찾기</button></a>
-          </div>
-          <div class="modal-footer-right">
-            <button type="button" class="btn btn-<?=$view['main_color']?> btn-login pl-3 pr-3">로그인</button>
           </div>
         </div>
       </div>
