@@ -20,14 +20,14 @@
   <div id="fb-root"></div>
   <div id="carousel-main" class="carousel slide carousel-fade" data-ride="carousel">
     <ol class="carousel-indicators">
-      <li data-target="#carousel-main" data-slide-to="0" class="active"></li>
-      <li data-target="#carousel-main" data-slide-to="1" class="active"></li>
-      <li data-target="#carousel-main" data-slide-to="2" class="active"></li>
+      <!--<li data-target="#carousel-main" data-slide-to="0" class="active"></li>-->
     </ol>
     <div class="carousel-inner" role="listbox">
       <div class="carousel-item active">
         <div class="view h-100 d-flex justify-content-center">
-          <img class="d-block h-100 w-lg-100" src="/public/images/top1.jpg">
+          <div class="area-video">
+            <video autoplay muted src="/public/images/top.mp4"></video>
+          </div>
           <div class="mask rgba-black-light">
             <div class="full-bg-img flex-center white-text">
               <ul class="list-unstyled animated fadeIn col-10">
@@ -39,35 +39,7 @@
           </div>
         </div>
       </div>
-      <div class="carousel-item">
-        <div class="view h-100 d-flex justify-content-center">
-          <img class="d-block h-100 w-lg-100" src="/public/images/top2.jpg">
-          <div class="mask rgba-black-light">
-            <div class="full-bg-img flex-center white-text">
-              <ul class="list-unstyled animated fadeIn col-10">
-                <li>
-                  <h1 class="h1-responsive font-weight-bold"><?=$view['title']?></h1>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <div class="view h-100 d-flex justify-content-center">
-          <img class="d-block h-100 w-lg-100" src="/public/images/top3.jpg">
-          <div class="mask rgba-black-light">
-            <div class="full-bg-img flex-center white-text">
-              <ul class="list-unstyled animated fadeIn col-10">
-                <li>
-                  <h1 class="h1-responsive font-weight-bold"><?=$view['title']?></h1>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </div><!--
     <a class="carousel-control-prev" href="#carousel-main" role="button" data-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="sr-only">Previous</span>
@@ -75,7 +47,7 @@
     <a class="carousel-control-next" href="#carousel-main" role="button" data-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="sr-only">Next</span>
-    </a>
+    </a>-->
   </div>
 
   <main id="mainpage">
