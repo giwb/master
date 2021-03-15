@@ -24,7 +24,6 @@
 
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
   <link href="/public/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/public/css/style_2.css?<?=time()?>" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 
@@ -90,8 +89,8 @@
             <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true"
               aria-expanded="false"><i class="fas fa-map-marked-alt"></i> 여행기</a>
             <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="<?=BASE_URL?>/search/?code=news">여행 소식</a>
-              <a class="dropdown-item" href="<?=BASE_URL?>/search/?code=review">여행 후기</a>
+              <a class="dropdown-item" href="<?=BASE_URL?>/club/search/?code=news">여행 소식</a>
+              <a class="dropdown-item" href="<?=BASE_URL?>/club/search/?code=review">여행 후기</a>
               <a class="dropdown-item" href="<?=BASE_URL?>/album">사진첩</a>
             </div>
           </li>

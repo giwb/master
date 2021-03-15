@@ -8,7 +8,18 @@
       <div class="row">
         <div class="col-xl-8 col-md-12">
           <section class="section extra-margins listing-section">
-            <h4 class="font-weight-bold"><strong>기사 검색 : <?=$type?></strong></h4><hr class="red">
+            <div class="row align-items-center">
+              <div class="col-6">
+                <h4 class="font-weight-bold"><strong>기사 검색 : <?=$type?></strong></h4>
+              </div>
+              <div class="col-6 text-right">
+                <?php if ($code == 'review'): ?>
+                <a href="<?=$baseUrl?>club/article_post/?code=<?=$code?>" class="btn-custom btn-giwb">여행후기 작성</a>
+                <?php elseif ($code == 'news'): ?>
+                <a href="<?=$baseUrl?>club/article_post/?code=<?=$code?>" class="btn-custom btn-giwb">여행소식 작성</a>
+                <?php endif; ?>
+              </div>
+            </div><hr class="red mt-2">
             <div class="row pb-5">
               <?php if (empty($listArticle)): ?>
               <div class="col-md-12 my-2 pt-5 pb-5 text-center">

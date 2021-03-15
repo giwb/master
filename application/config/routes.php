@@ -86,7 +86,9 @@ if (!empty($result['idx'])) {
   }
 
   if (!empty($result['domain'])) {
-    if (strstr($uri, '/club/article')) {
+    if (strstr($uri, '/club/article_post')) {
+      $route[$domain . '/article_post/(:num)'] = 'club/article_post/$1';
+    } elseif (strstr($uri, '/club/article')) {
       $route[$domain . '/article/(:num)'] = 'club/article/$1';
     } elseif (strstr($uri, 'search')) {
       $route[$domain . '/club/search'] = 'club/search';
@@ -94,7 +96,9 @@ if (!empty($result['idx'])) {
       $route[$domain . '/' . $uri] = $uri;
     }
   } else {
-    if (strstr($uri, 'article')) {
+    if (strstr($uri, 'article_post')) {
+      $route[$domain . '/article_post/(:num)'] = 'club/article_post/$1';
+    } elseif (strstr($uri, 'article')) {
       $route[$domain . '/article/(:num)'] = 'club/article/$1';
     } elseif (strstr($uri, 'search')) {
       $route[$domain . '/search'] = 'club/search';

@@ -37,7 +37,7 @@
               </div>
               <?php if ($userData['idx'] == $viewArticle['created_by']): ?>
               <div class="text-right">
-                <a href="<?=$baseUrl?>"><button type="button" class="btn btn-secondary pt-2 pb-2 pl-3 pr-3">수정</button></a>
+                <a href="<?=$baseUrl?>club/article_post/<?=$viewArticle['idx']?>"><button type="button" class="btn btn-secondary pt-2 pb-2 pl-3 pr-3">수정</button></a>
                 <button type="button" class="btn btn-danger btn-article-delete-modal pt-2 pb-2 pl-3 pr-3">삭제</button>
               </div>
               <?php endif; ?>

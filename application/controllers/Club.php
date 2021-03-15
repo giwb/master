@@ -197,6 +197,87 @@ class Club extends MY_Controller
   }
 
   /**
+   * 기사 작성/수정 페이지
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function article_post($idx=NULL)
+  {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
+    $viewData['userData'] = $this->session->userData;
+    $viewData['idx'] = html_escape($idx);
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    if (!empty($idx)) {
+      $viewData['viewArticle'] = $this->desk_model->viewArticle($viewData['idx']);
+
+      if ($viewData['viewArticle']['created_by'] != $viewData['userData']['idx']) {
+        $viewData['viewArticle'] = array();
+      }
+    } else {
+      $code = html_escape($this->input->get('code'));
+      if (!empty($code)) {
+        $viewData['viewArticle']['category'] = $code;
+      }
+    }
+
+    $this->_viewPage('club/post', $viewData);
+  }
+
+  /**
+   * 기사 등록
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function article_update()
+  {
+    $now = time();
+    $userIdx = $this->session->userData['idx'];
+    $inputData = $this->input->post();
+    $clubIdx = html_escape($inputData['club_idx']);
+    $idx = !empty($inputData['idx']) ? html_escape($inputData['idx']) : NULL;
+    $category = html_escape($inputData['category']);
+
+    if (empty($userIdx)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
+    } else {
+      if (!empty($idx)) {
+        $updateValues = array(
+          'category'    => $inputData['category'],
+          'title'       => html_escape($inputData['title']),
+          'content'     => html_escape($inputData['content']),
+          'updated_by'  => html_escape($userIdx),
+          'updated_at'  => $now
+        );
+        $this->desk_model->update(DB_ARTICLE, $updateValues, $idx);
+      } else {
+        $insertValues = array(
+          'club_idx'    => html_escape($clubIdx),
+          'category'    => $inputData['category'],
+          'title'       => html_escape($inputData['title']),
+          'content'     => html_escape($inputData['content']),
+          'viewing_at'  => $now,
+          'created_by'  => html_escape($userIdx),
+          'created_at'  => $now
+        );
+        $idx = $this->desk_model->insert(DB_ARTICLE, $insertValues);
+      }
+
+      if (empty($idx)) {
+        $result = array('error' => 1, 'message' => $this->lang->line('error_insert'));
+      } else {
+        $result = array('error' => 0, 'message' => $category);
+      }
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 기사 검색 페이지
    *
    * @return view
@@ -213,7 +294,7 @@ class Club extends MY_Controller
       $viewData['type'] = $search['keyword'];
     }
     if (!empty($this->input->get('code'))) {
-      $search['code'] = html_escape($this->input->get('code'));
+      $viewData['code'] = $search['code'] = html_escape($this->input->get('code'));
       $type = $this->desk_model->viewArticleCategory($search['code']);
       $viewData['type'] = $type['name'];
     }
