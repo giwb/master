@@ -188,7 +188,7 @@ class Welcome extends MY_Controller
     $viewData['userData'] = $this->load->get_var('userData');
     $idx = html_escape($this->input->post('idx'));
 
-    if (!empty($idx)) {
+    if (!empty($viewData['userData']) && !empty($idx)) {
       $now = time();
       $ipaddr = $_SERVER['REMOTE_ADDR'];
       $search = array(
