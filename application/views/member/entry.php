@@ -29,36 +29,36 @@
           <div class="row">
             <div class="col-1 col-lg-2"></div>
             <div class="col-lg-8 row align-items-center">
-              <div class="col-3">아이디</div>
-              <div class="col-9"><input type="text" name="userid" maxlength="10" class="form-control"></div>
+              <div class="col-4 col-sm-3">아이디</div>
+              <div class="col-8 col-sm-9"><input type="text" name="userid" maxlength="10" class="form-control"></div>
             </div>
             <div class="col-1 col-lg-2"></div>
           </div>
           <div class="row mt-2">
             <div class="col-1 col-lg-2"></div>
             <div class="col-lg-8 row align-items-center">
-              <div class="col-3">비밀번호</div>
-              <div class="col-9"><input type="password" name="password" maxlength="10" class="form-control" autocomplete="new-password"></div>
+              <div class="col-4 col-sm-3">비밀번호</div>
+              <div class="col-8 col-sm-9"><input type="password" name="password" maxlength="10" class="form-control" autocomplete="new-password"></div>
             </div>
             <div class="col-1 col-lg-2"></div>
           </div>
           <div class="row mt-2">
             <div class="col-1 col-lg-2"></div>
             <div class="col-lg-8 row align-items-center">
-              <div class="col-3">닉네임</div>
-              <div class="col-9"><input type="text" name="nickname" maxlength="10" class="form-control"></div>
+              <div class="col-4 col-sm-3">닉네임</div>
+              <div class="col-8 col-sm-9"><input type="text" name="nickname" maxlength="10" class="form-control"></div>
             </div>
             <div class="col-1 col-lg-2"></div>
           </div>
           <div class="row mt-2">
             <div class="col-1 col-lg-2"></div>
             <div class="col-lg-8 row align-items-center">
-              <div class="col-3">휴대폰 번호</div>
-              <div class="col-9">
+              <div class="col-4 col-sm-3">휴대폰 번호</div>
+              <div class="col-8 col-sm-9">
                 <div class="row w-100 no-gutters">
-                  <div class="col-2 mr-2 p-0"><input type="text" name="phone1" maxlength="3" class="form-control"></div>
-                  <div class="col-3 mr-2 p-0"><input type="text" name="phone2" maxlength="4" class="form-control"></div>
-                  <div class="col-3 p-0"><input type="text" name="phone3" maxlength="4" class="form-control"></div>
+                  <div class="col-3 col-sm-2 mr-2 p-0"><input type="text" name="phone1" maxlength="3" class="form-control"></div>
+                  <div class="col-4 col-sm-3 mr-2 p-0"><input type="text" name="phone2" maxlength="4" class="form-control"></div>
+                  <div class="col-4 col-sm-3 p-0"><input type="text" name="phone3" maxlength="4" class="form-control"></div>
                 </div>
               </div>
             </div>
