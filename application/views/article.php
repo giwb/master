@@ -68,7 +68,7 @@
               </div>
             </div>
           </div>
-          <input type="hidden" class="article-url" value="<?=base_url()?>article/<?=$viewArticle['idx']?>">
+          <input type="hidden" class="article-url" value="<?=$baseUrl?>article/<?=$viewArticle['idx']?>">
           <input type="hidden" class="article-content" value="<?=articleContent($viewArticle['content'], '100')?>">
 
           <section class="text-left w-100 mb-3">
