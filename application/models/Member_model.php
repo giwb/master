@@ -47,21 +47,24 @@ class Member_model extends CI_Model
   }
 
   // 닉네임 중복 확인
-  public function checkNickname($userid, $nickname)
+  public function checkNickname($userid=NULL, $nickname)
   {
     $this->db->select('idx')
           ->from(DB_MEMBER)
-          ->where('userid !=', $userid)
           ->where('nickname', $nickname);
+
+    if (!is_null($userid)) {
+      $this->db->where('userid !=', $userid);
+    }
+
     return $this->db->get()->row_array(1);
   }
 
   // 전화번호 중복 확인
-  public function checkPhone($clubIdx, $phone)
+  public function checkPhone($phone)
   {
     $this->db->select('*')
           ->from(DB_MEMBER)
-          ->where('club_idx', $clubIdx)
           ->where('phone', $phone);
     return $this->db->get()->row_array(1);
   }

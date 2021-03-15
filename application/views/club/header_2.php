@@ -107,7 +107,7 @@
             <a class="nav-link login-popup"><i class="fas fa-user-circle"></i> 로그인</a>
           </li>
           <li class="nav-item">
-            <a href="<?=BASE_URL?>/login/check" class="nav-link"><i class="fas fa-user-plus"></i> 회원가입</a>
+            <a href="<?=BASE_URL?>/login/entry" class="nav-link"><i class="fas fa-user-plus"></i> 회원가입</a>
           </li>
           <?php else: ?>
           <li class="nav-item dropdown">

@@ -118,7 +118,7 @@
         </div>
         <div class="modal-footer">
           <div class="modal-footer-left">
-            <a href="<?=BASE_URL?>/login/check"><button type="button" class="btn btn-info pl-3 pr-3">회원가입</button></a>
+            <a href="<?=BASE_URL?>/login/entry"><button type="button" class="btn btn-info pl-3 pr-3">회원가입</button></a>
             <a href="<?=BASE_URL?>/login/forgot"><button type="button" class="btn btn-secondary pl-3 pr-3">아이디/비밀번호 찾기</button></a>
           </div>
           <div class="modal-footer-right">

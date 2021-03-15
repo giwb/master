@@ -1,15 +1,15 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-  <main>
-    <form id="memberForm">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-1 col-lg-2"></div>
+
+  <main id="club">
+    <div class="container-fluid club-main">
+      <div class="row mt-1 mb-5">
+        <div class="col-lg-2"></div>
         <div class="col-lg-8">
+
+          <form id="memberForm" method="post" action="<?=BASE_URL?>/login/entry">
           <div class="row">
-            <div class="col-12">
-              <h2 class="mt-4 mb-4 pb-4 border-bottom text-center"><?=$view['title']?> 이용약관</h2>
-            </div>
+            <div class="col-12"><h2 class="mt-4 mb-4 pb-4 border-bottom text-center"><?=$view['title']?> 이용약관</h2></div>
           </div>
           <div class="border agree-box"><?=!empty($view['agreement']) ? reset_html_escape($view['agreement']) : '&nbsp;'?></div>
           <div class="row">
@@ -23,12 +23,28 @@
             <div class="col-12 text-center mt-3 mb-4"><label><input type="checkbox" name="personal"> 개인정보 취급방침에 동의합니다.</label></div>
           </div>
           <div class="row">
-            <div class="col-12"><h2 class="mt-3 mb-4 pb-4 border-bottom text-center">가입여부 확인</h2></div>
+            <div class="col-12"><h2 class="mt-3 mb-4 pb-4 border-bottom text-center">회원가입 정보</h2></div>
           </div>
           <div class="row">
             <div class="col-1 col-lg-2"></div>
             <div class="col-lg-8 row align-items-center">
-              <div class="col-3">사용할 닉네임</div>
+              <div class="col-3">아이디</div>
+              <div class="col-9"><input type="text" name="userid" maxlength="10" class="form-control"></div>
+            </div>
+            <div class="col-1 col-lg-2"></div>
+          </div>
+          <div class="row">
+            <div class="col-1 col-lg-2"></div>
+            <div class="col-lg-8 row align-items-center">
+              <div class="col-3">비밀번호</div>
+              <div class="col-9"><input type="password" name="password" maxlength="10" class="form-control" autocomplete="new-password"></div>
+            </div>
+            <div class="col-1 col-lg-2"></div>
+          </div>
+          <div class="row">
+            <div class="col-1 col-lg-2"></div>
+            <div class="col-lg-8 row align-items-center">
+              <div class="col-3">닉네임</div>
               <div class="col-9"><input type="text" name="nickname" maxlength="10" class="form-control"></div>
             </div>
             <div class="col-1 col-lg-2"></div>
@@ -51,24 +67,19 @@
             <div class="error-message"></div>
             <button type="button" class="btn btn-default btn-check mt-2">다음 단계로 &gt;</button>
           </div>
+          </form>
         </div>
-        <div class="col-1 col-lg-2"></div>
+        <div class="col-lg-4"></div>
       </div>
     </div>
     </form>
   </main>
 
-  <form id="memberCheckComplete" method="post" action="<?=BASE_URL?>/login/entry">
-    <input type="hidden" name="nickname">
-    <input type="hidden" name="phone1">
-    <input type="hidden" name="phone2">
-    <input type="hidden" name="phone3">
-    <input type="hidden" name="userIdx">
-  </form>
-
   <script>
     $(document).on('click', '.btn-check', function() {
       var $dom = $(this);
+      var userid = $('#memberForm input[name=userid]').val();
+      var password = $('#memberForm input[name=password]').val();
       var nickname = $('#memberForm input[name=nickname]').val();
       var phone1 = $('#memberForm input[name=phone1]').val();
       var phone2 = $('#memberForm input[name=phone2]').val();
@@ -84,7 +95,16 @@
         setTimeout(function() { $('.error-message').slideUp().text(''); }, 2000);
         return false;
       }
-
+      if (userid == '') {
+        $('.error-message').text('사용하실 아이디를 입력해주세요.').slideDown();
+        setTimeout(function() { $('.error-message').slideUp().text(''); }, 2000);
+        return false;
+      }
+      if (password == '') {
+        $('.error-message').text('사용하실 비밀번호를 입력해주세요.').slideDown();
+        setTimeout(function() { $('.error-message').slideUp().text(''); }, 2000);
+        return false;
+      }
       if (nickname == '') {
         $('.error-message').text('사용하실 닉네임을 입력해주세요.').slideDown();
         setTimeout(function() { $('.error-message').slideUp().text(''); }, 2000);

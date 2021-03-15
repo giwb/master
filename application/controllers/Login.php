@@ -262,19 +262,19 @@ class Login extends MY_Controller
   }
 
   /**
-   * 회원가입 체크
+   * 회원가입 페이지
    *
    * @return view
    * @author bjchoi
    **/
-  public function check()
+  public function entry()
   {
-    $clubIdx = get_cookie('COOKIE_CLUBIDX');
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
     checkUserLoginRedirect(BASE_URL); // 로그인 상태의 회원은 메인 페이지로
 
-    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+    $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
 
-    $this->_viewPage('member/check', $viewData);
+    $this->_viewPage('member/entry', $viewData);
   }
 
   /**
@@ -320,6 +320,7 @@ class Login extends MY_Controller
    * @return view
    * @author bjchoi
    **/
+  /*
   public function entry()
   {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
@@ -333,7 +334,7 @@ class Login extends MY_Controller
     $viewData['phone3'] = html_escape($this->input->post('phone3'));
 
     $this->_viewPage('member/entry', $viewData);
-  }
+  }*/
 
   /**
    * 회원가입 수정 페이지 (관리자 등록시)
@@ -373,42 +374,45 @@ class Login extends MY_Controller
   {
     $now = time();
     $inputData = $this->input->post();
+
     $clubIdx = html_escape($inputData['club_idx']);
+    $userid = html_escape($inputData['userid']);
+    $password = html_escape($inputData['password']);
     $nickname = html_escape($inputData['nickname']);
+    $phone = html_escape($inputData['phone1']) . '-' . html_escape($inputData['phone2']) . '-' . html_escape($inputData['phone3']);
 
-    $insertValues = array(
-      'club_idx'      => $clubIdx,
-      'userid'        => html_escape($inputData['userid']),
-      'nickname'      => $nickname,
-      'password'      => md5(html_escape($inputData['password'])),
-      'realname'      => html_escape($inputData['realname']),
-      'gender'        => html_escape($inputData['gender']),
-      'birthday'      => html_escape($inputData['birthday_year']) . '/' . html_escape($inputData['birthday_month']) . '/' . html_escape($inputData['birthday_day']),
-      'birthday_type' => html_escape($inputData['birthday_type']),
-      'phone'         => html_escape($inputData['phone1']) . '-' . html_escape($inputData['phone2']) . '-' . html_escape($inputData['phone3']),
-      'location'      => html_escape($inputData['location']),
-      'connect'       => 1,
-      'regdate'       => $now
-    );
+    $checkUserid = $this->member_model->checkUserid($userid);
+    $checkNickname = $this->member_model->checkNickname(NULL, $nickname);
+    $checkPhone = $this->member_model->checkPhone($phone);
 
-    $idx = $this->member_model->insertMember($insertValues);
-
-    if (empty($idx)) {
-      $result = array(
-        'error' => 1,
-        'message' => '등록에 실패했습니다.'
-      );
+    if (!empty($checkUserid['idx'])) {
+      // 중복된 아이디
+      $result = array('error' => 1, 'message' => '이미 등록된 아이디 입니다. 다른 아이디를 입력해주세요.');
+    } elseif ($checkNickname['idx']) {
+      // 중복된 닉네임
+      $result = array('error' => 1, 'message' => '이미 등록된 닉네임 입니다. 다른 닉네임을 입력해주세요.');
+    } elseif ($checkPhone['idx']) {
+      // 중복된 전화번호
+      $result = array('error' => 1, 'message' => '이미 등록된 전화번호 입니다.');
     } else {
-      // 사진 등록
-      if (!empty($inputData['filename']) && file_exists(UPLOAD_PATH . $inputData['filename'])) {
-        // 파일 이동
-        rename(UPLOAD_PATH . html_escape($inputData['filename']), PHOTO_PATH . $idx);
+      $insertValues = array(
+        'club_idx'      => $clubIdx,
+        'userid'        => $userid,
+        'nickname'      => $nickname,
+        'password'      => md5($password),
+        'phone'         => $phone,
+        'connect'       => 1,
+        'regdate'       => $now
+      );
+      $idx = $this->member_model->insertMember($insertValues);
+
+      if (empty($idx)) {
+        $result = array('error' => 1, 'message' => '등록에 실패했습니다.');
+      } else {
+        // 회원 가입 기록
+        setHistory($clubIdx, LOG_ENTRY, $idx, $idx, $nickname, '', $now);
+        $result = array('error' => 0, 'message' => '');
       }
-
-      // 회원 가입 기록
-      setHistory($clubIdx, LOG_ENTRY, $idx, $idx, $nickname, '', $now);
-
-      $result = array('error' => 0, 'message' => '');
     }
 
     $this->output->set_output(json_encode($result));
@@ -771,9 +775,9 @@ class Login extends MY_Controller
     // 방문자 기록
     setVisitor();
 
-    $this->load->view('header', $viewData);
+    $this->load->view('club/header_2', $viewData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view('member/footer', $viewData);
+    $this->load->view('album/footer', $viewData);
   }
 }
 ?>
