@@ -154,6 +154,30 @@ class Welcome extends MY_Controller
   }
 
   /**
+   * 기사 삭제
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function article_delete()
+  {
+    $userData = $this->load->get_var('userData');
+    $idx = html_escape($this->input->post('idx'));
+
+    if (!empty($idx)) {
+      $updateValues['deleted_by'] = $userData['idx'];
+      $updateValues['deleted_at'] = time();
+      $this->desk_model->update(DB_ARTICLE, $updateValues, $idx);
+
+      $result = array('error' => 0, 'message' => '');
+    } else {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 좋아요
    *
    * @return json

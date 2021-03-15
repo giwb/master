@@ -198,4 +198,28 @@ $(document).on('click', '.login-popup', function() {
       }
     }
   });
+}).on('click', '.btn-article-delete-modal', function() {
+  // 기사 삭제 모달
+  $('#articleDeleteModal').modal('show');
+}).on('click', '.btn-article-delete-submit', function() {
+  // 기사 삭제
+  var $btn = $(this);
+  var $dom = $('#articleDeleteModal');
+  var idx = $('input[name=idx]', $dom).val();
+  var code = $('input[name=code]', $dom).val();
+
+  $.ajax({
+    url: '/welcome/article_delete',
+    data: 'idx=' + idx,
+    dataType: 'json',
+    type: 'post',
+    beforeSend: function() {
+      $btn.css('opacity', '0.5').prop('disabled', true);
+    },
+    success: function(result) {
+      if (result.error == 0) {
+        location.replace($('input[name=baseUrl]').val() + '/club/search/?code=' + code);
+      }
+    }
+  });
 });

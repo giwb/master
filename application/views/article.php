@@ -7,6 +7,15 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-xl-8 col-md-12">
+        <?php if (empty($viewArticle['idx'])): ?>
+        <div class="row mb-5 pb-3 mx-2">
+          <div class="card card-body mb-4">
+            <div class="post-data pt-5 pb-5">
+              <div class="pt-5 pb-5 text-center">검색된 데이터가 없습니다.</div>
+            </div>
+          </div>
+        </div>
+        <?php else: ?>
         <div class="row mb-5 pb-3 mx-2">
           <div class="card card-body mb-4">
             <div class="post-data mb-4">
@@ -26,6 +35,12 @@
               <div class="post-article">
                 <?=nl2br(reset_html_escape($viewArticle['content']))?>
               </div>
+              <?php if ($userData['idx'] == $viewArticle['created_by']): ?>
+              <div class="text-right">
+                <button type="button" class="btn btn-secondary pt-2 pb-2 pl-3 pr-3">수정</button>
+                <button type="button" class="btn btn-danger btn-article-delete-modal pt-2 pb-2 pl-3 pr-3">삭제</button>
+              </div>
+              <?php endif; ?>
               <hr>
               <div class="row">
                 <div class="area-refer col-md-6 mt-4 pl-4">
@@ -63,7 +78,7 @@
                   <img src="<?=file_exists(PHOTO_PATH . $viewArticle['user_idx']) ? PHOTO_URL . $viewArticle['user_idx'] : '/public/images/user.png'?>" class="img-fluid rounded-circle icon-avatar" alt="">
                 </div>
                 <div class="col-9 col-sm-10">
-                    <p><strong>글쓴이 <?=$viewArticle['nickname']?></strong></p>
+                  <p><strong>글쓴이 <?=$viewArticle['nickname']?></strong></p>
                 </div>
               </div>
             </div>
@@ -118,8 +133,32 @@
             </div>
           </section>
         </div>
+        <?php endif; ?>
       </div>
 
+      <?php if ($userData['idx'] == $viewArticle['created_by']): ?>
+      <div class="modal fade" id="articleDeleteModal" tabindex="-1" role="dialog" aria-labelledby="articleDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="smallmodalLabel">메시지</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body text-center">
+              <p class="modal-message mt-3">정말로 삭제하시겠습니까?</p>
+            </div>
+            <div class="modal-footer">
+              <input type="hidden" name="idx" value="<?=$viewArticle['idx']?>">
+              <input type="hidden" name="code" value="<?=$viewArticle['category']?>">
+              <button type="button" class="btn btn-danger btn-article-delete-submit">삭제</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <?php endif; ?>
       <div class="modal fade" id="replyDeleteModal" tabindex="-1" role="dialog" aria-labelledby="replyDeleteModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -128,72 +167,72 @@
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
-          </div>
-          <div class="modal-body text-center">
-            <p class="modal-message mt-3">정말로 삭제하시겠습니까?</p>
-          </div>
-          <div class="modal-footer">
-            <input type="hidden" name="idx">
-            <input type="hidden" name="idx_article" value="<?=$viewArticle['idx']?>">
-            <button type="button" class="btn btn-danger btn-reply-delete-submit">삭제</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+            </div>
+            <div class="modal-body text-center">
+              <p class="modal-message mt-3">정말로 삭제하시겠습니까?</p>
+            </div>
+            <div class="modal-footer">
+              <input type="hidden" name="idx">
+              <input type="hidden" name="idx_article" value="<?=$viewArticle['idx']?>">
+              <button type="button" class="btn btn-danger btn-reply-delete-submit">삭제</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <script id="javascript-sdk" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
-    <script type="text/javascript">
-      Kakao.init('ca4fd5fe8f8fcc1b5b6daf03c371b3e8');
-      Kakao.isInitialized();
-      var title = $('.article-title').text();
-      var content = $('.article-content').val();
-      var url = $('.article-url').val();
+      <script id="javascript-sdk" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+      <script type="text/javascript">
+        Kakao.init('ca4fd5fe8f8fcc1b5b6daf03c371b3e8');
+        Kakao.isInitialized();
+        var title = $('.article-title').text();
+        var content = $('.article-content').val();
+        var url = $('.article-url').val();
 
-      (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
+        (function (d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s);
+          js.id = id;
+          js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
 
-      function shareOnFB() {
-        window.open("https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url), "shareOnFB", "width=600,height=400,resizable=yes,scrollbars=yes");
-      }
+        function shareOnFB() {
+          window.open("https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url), "shareOnFB", "width=600,height=400,resizable=yes,scrollbars=yes");
+        }
 
-      function shareOnTwitter() {
-        window.open("https://twitter.com/intent/tweet" +
-          "?text=" + encodeURIComponent(title) +
-          "&url=" + encodeURIComponent(url),
-          "shareOnTwitter",
-          'width=600,height=400,resizable=yes,scrollbars=yes'
-        );
-      }
+        function shareOnTwitter() {
+          window.open("https://twitter.com/intent/tweet" +
+            "?text=" + encodeURIComponent(title) +
+            "&url=" + encodeURIComponent(url),
+            "shareOnTwitter",
+            'width=600,height=400,resizable=yes,scrollbars=yes'
+          );
+        }
 
-      function shareOnNaver() {
-        window.open("https://share.naver.com/web/shareView.nhn?url=" + url + "&title=" + title, "shareOnNaver", "width=550,height=600,left=center,top=center,location=no");
-      }
+        function shareOnNaver() {
+          window.open("https://share.naver.com/web/shareView.nhn?url=" + url + "&title=" + title, "shareOnNaver", "width=550,height=600,left=center,top=center,location=no");
+        }
 
-      function shareOnKakao() {
-        Kakao.Link.sendDefault({
-          objectType: 'feed',
-          content: {
-            title: title,
-            description: content,
-            imageUrl: '<?=getThumbnail($viewArticle['content'])?>',
-            link: {
-              webUrl: url,
+        function shareOnKakao() {
+          Kakao.Link.sendDefault({
+            objectType: 'feed',
+            content: {
+              title: title,
+              description: content,
+              imageUrl: '<?=getThumbnail($viewArticle['content'])?>',
+              link: {
+                webUrl: url,
+              },
             },
-          },
-          buttons: [{
-            title: '웹으로 보기',
-            link: {
-              mobileWebUrl: url,
-              webUrl: url,
-            },
-          }],
-        })
-      }
+            buttons: [{
+              title: '웹으로 보기',
+              link: {
+                mobileWebUrl: url,
+                webUrl: url,
+              },
+            }],
+          })
+        }
       </script>

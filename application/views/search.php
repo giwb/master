@@ -19,7 +19,7 @@
               <div class="col-md-12 my-2">
                 <div class="card">
                   <div class="card-body">
-                    <div class="row area-link" data-link="<?=$baseUrl?>article/<?=$value['idx']?>">
+                    <div class="row area-link" data-link="<?=$baseUrl?>club/article/<?=$value['idx']?>">
                       <div class="col-sm-2 area-photo"><img src="<?=getThumbnail($value['content'])?>"></div>
                       <div class="col-sm-10">
                         <h5><strong><?=$value['title']?></strong></h5>

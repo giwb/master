@@ -81,6 +81,7 @@ class Desk_model extends CI_Model
           ->from(DB_ARTICLE . ' a')
           ->join(DB_ARTICLE_CATEGORY . ' b', 'a.category=b.code', 'left')
           ->join(DB_MEMBER . ' c', 'a.created_by=c.idx', 'left')
+          ->where('a.deleted_at', NULL)
           ->where('a.idx', $idx);
     return $this->db->get()->row_array(1);
   }
