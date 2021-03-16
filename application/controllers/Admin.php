@@ -3256,6 +3256,98 @@ class Admin extends Admin_Controller
   }
 
   /**
+   * 설정 - 메인 페이지 슬라이더 그림 변경
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function setup_topimage()
+  {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
+    $viewData['arrTopImage'] = unserialize($viewData['view']['topimage']);
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '대표사진';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'setup_header';
+
+    $this->_viewPage('admin/setup_topimage', $viewData);
+  }
+
+  /**
+   * 설정 - 메인 페이지 슬라이더 그림 변경 파일 업로드
+   *
+   * @return redirect
+   * @author bjchoi
+   **/
+  public function setup_topimage_upload()
+  {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewclub($viewData['clubIdx']);
+
+    if (!empty($_FILES['file']['tmp_name']) && $_FILES['file']['type'] == 'image/jpeg') {
+      $filename = time() . mt_rand(10000, 99999) . ".jpg";
+
+      if (move_uploaded_file($_FILES['file']['tmp_name'], FRONT_PATH . $filename)) {
+        if (!empty($viewData['view']['topimage'])) {
+          $arrTopImage = unserialize($viewData['view']['topimage']);
+          array_push($arrTopImage, $filename);
+          $arrResult = serialize($arrTopImage);
+        } else {
+          $arrResult = serialize(array($filename));
+        }
+
+        $updateValues = array('topimage' => $arrResult);
+        $this->club_model->updateClub($updateValues, $viewData['clubIdx']);
+      }
+    }
+
+    redirect(BASE_URL . '/admin/setup_topimage');
+  }
+
+  /**
+   * 설정 - 메인 페이지 슬라이더 그림 파일 삭제
+   *
+   * @return redirect
+   * @author bjchoi
+   **/
+  public function setup_topimage_delete()
+  {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewclub($viewData['clubIdx']);
+
+    $filename = $this->input->post('filename');
+    $arrResult = array();
+
+    if (!empty($filename) && file_exists(FRONT_PATH . $filename)) {
+      $arrTopImage = unserialize($viewData['view']['topimage']);
+      foreach ($arrTopImage as $value) {
+        if ($value != $filename) {
+          array_push($arrResult, $value);
+        }
+      }
+
+      $updateValues = array('topimage' => serialize($arrResult));
+      $this->club_model->updateClub($updateValues, $viewData['clubIdx']);
+
+      unlink(FRONT_PATH . $filename);
+    }
+
+    redirect(BASE_URL . '/admin/setup_topimage');
+  }
+
+  /**
    * 설정 - 소개 페이지
    *
    * @return view

@@ -20,14 +20,15 @@
   <div id="fb-root"></div>
   <div id="carousel-main" class="carousel slide carousel-fade" data-ride="carousel">
     <ol class="carousel-indicators">
-      <!--<li data-target="#carousel-main" data-slide-to="0" class="active"></li>-->
+      <?php foreach($arrTopImage as $key => $value): ?>
+      <li data-target="#carousel-main" data-slide-to="<?=$key?>"<?=$key == 0 ? ' class="active"' : ''?>></li>
+      <?php endforeach; ?>
     </ol>
     <div class="carousel-inner" role="listbox">
-      <div class="carousel-item active">
+      <?php foreach($arrTopImage as $key => $value): ?>
+      <div class="carousel-item<?=$key == 0 ? ' active' : ''?>">
         <div class="view h-100 d-flex justify-content-center">
-          <div class="area-video">
-            <video autoplay muted src="/public/images/top.mp4"></video>
-          </div>
+          <img class="d-block h-100 w-lg-100" src="/public/uploads/front/<?=$value?>">
           <div class="mask rgba-black-light">
             <div class="full-bg-img flex-center white-text">
               <ul class="list-unstyled animated fadeIn col-10">
@@ -39,7 +40,8 @@
           </div>
         </div>
       </div>
-    </div><!--
+      <?php endforeach; ?>
+    </div>
     <a class="carousel-control-prev" href="#carousel-main" role="button" data-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="sr-only">Previous</span>
@@ -47,7 +49,7 @@
     <a class="carousel-control-next" href="#carousel-main" role="button" data-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="sr-only">Next</span>
-    </a>-->
+    </a>
   </div>
 
   <main id="mainpage">

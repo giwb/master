@@ -42,6 +42,9 @@ class Club extends MY_Controller
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
+    // 대표 사진
+    $viewData['arrTopImage'] = unserialize($viewData['view']['topimage']);
+
     if (empty($viewData['view'])) {
       redirect(BASE_URL);
       exit;

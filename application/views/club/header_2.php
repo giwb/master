@@ -124,7 +124,7 @@
           </li>
           <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
           <li class="nav-item">
-            <a href="<?=BASE_URL?>/admin" class="nav-link"><i class="fas fa-cog"></i> 설정</a>
+            <a href="<?=BASE_URL?>/admin" class="nav-link"><i class="fas fa-cog"></i> 관리</a>
           </li>
           <?php endif; ?>
         </ul>
