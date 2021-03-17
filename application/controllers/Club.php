@@ -412,7 +412,6 @@ class Club extends MY_Controller
     $nDate = date('Y-m-d');
     $rank = 0;
     $buf = 0;
-    $cnt = 0;
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
@@ -420,19 +419,16 @@ class Club extends MY_Controller
     // 백산백소 인증 데이터 불러오기
     $viewData['auth'] = $this->club_model->listAuth();
 
-    foreach ($viewData['auth'] as $value) {
-      if ($value['nickname'] != '아띠') {
-        if ($buf != $value['cnt']) { $rank = $cnt; $rank++; }
-        $viewData['auth'][$cnt]['rank'] = $rank;
-        $viewData['auth'][$cnt]['title'] = '';
+    foreach ($viewData['auth'] as $key => $value) {
+      if ($buf != $value['cnt']) { $rank = $key; $rank++; }
+      $viewData['auth'][$key]['rank'] = $rank;
+      $viewData['auth'][$key]['title'] = '';
 
-        $authList = $this->club_model->listAuthNotice($value['nickname']);
-        foreach ($authList as $auth) {
-          $viewData['auth'][$cnt]['title'] .= "<a target='_blank' href='" . $auth['photo'] . "'>" . $auth['title'] . "</a> / ";
-        }
-        $buf = $value['cnt'];
-        $cnt++;
+      $authList = $this->club_model->listAuthNotice($value['nickname']);
+      foreach ($authList as $auth) {
+        $viewData['auth'][$key]['title'] .= "<a target='_blank' href='" . $auth['photo'] . "'>" . $auth['title'] . "</a> / ";
       }
+      $buf = $value['cnt'];
     }
 
     // 페이지 타이틀
