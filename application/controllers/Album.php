@@ -53,10 +53,21 @@ class Album extends MY_Controller
         $viewData['photos'][$key]['idx'] = $value['idx'];
         $viewData['photos'][$key]['nickname'] = $value['nickname'];
         $viewData['photos'][$key]['subject'] = $value['subject'];
+        $viewData['photos'][$key]['notice_idx'] = $value['notice_idx'];
         $viewData['photos'][$key]['notice_subject'] = $value['notice_subject'];
+        $viewData['photos'][$key]['notice_startdate'] = $value['notice_startdate'];
         $viewData['photos'][$key]['content'] = $value['content'];
         $viewData['photos'][$key]['created_by'] = $value['created_by'];
         $viewData['photos'][$key]['created_at'] = $value['created_at'];
+      }
+    }
+
+    foreach ($viewData['photos'] as $value) {
+      $viewData['album'][$value['notice_idx']][] = $value;
+      if (!empty($value['notice_subject'])) {
+        $viewData['album'][$value['notice_idx']]['title'] = date('Y년 m월 d일', strtotime($value['notice_startdate'])) . ' - ' . $value['notice_subject'];
+      } else {
+        $viewData['album'][$value['notice_idx']]['title'] = '기타 사진들';
       }
     }
 

@@ -10,7 +10,7 @@
             <div class="col-6"><h4 class="font-weight-bold"><?=$pageTitle?></h4></div>
             <?php if (!empty($userData['idx'])): ?><div class="col-6 text-right"><a href="<?=BASE_URL?>/album/entry" class="btn-custom btn-giwb">사진등록</a></div><?php endif; ?>
           </div>
-          <hr class="text-default">
+          <hr class="text-default mb-0">
 
           <form id="album">
             <input type="hidden" name="p" value="1">

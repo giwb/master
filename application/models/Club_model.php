@@ -101,7 +101,7 @@ class Club_model extends CI_Model
   // 앨범 목록
   public function listAlbum($clubIdx, $paging)
   {
-    $this->db->select('a.*, b.nickname, c.subject AS notice_subject')
+    $this->db->select('a.*, b.nickname, c.idx AS notice_idx, c.subject AS notice_subject, c.startdate AS notice_startdate')
           ->from(DB_ALBUM . ' a')
           ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
           ->join(DB_NOTICE . ' c', 'a.notice_idx=c.idx', 'left')
