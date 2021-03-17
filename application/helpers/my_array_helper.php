@@ -1100,7 +1100,7 @@ if (!function_exists('getThumbnail')) {
 if (!function_exists('cntReply')) {
   function cntReply($idx) {
     $CI =& get_instance();
-    $result = $GLOBALS['CI']->desk_model->cntReply($idx);
+    $result = $GLOBALS['CI']->story_model->cntStoryReply($idx, REPLY_TYPE_NOTICE);
     return $result['cnt'];
   }
 }
