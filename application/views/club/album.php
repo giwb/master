@@ -86,6 +86,7 @@
           index: index,
           bgOpacity: 0.8,
           showHideOpacity: true,
+          loop: false,
           getThumbBoundsFn: function(index) {
             var thumbnail = $dom[0],
             pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
