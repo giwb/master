@@ -1,6 +1,6 @@
 <div class="row no-gutters">
   <?php foreach ($album as $key => $photos): ?>
-    <div class="col-12 font-weight-bold mt-5 mb-3"><h4><?=$photos['title']?></h4></div>
+    <div class="col-12 font-weight-bold mt-5 mb-3"><h4 class="font-weight-bold"><?=$photos['title']?></h4></div>
     <?php foreach ($photos as $value): if (!empty($value['filename'])): ?>
       <?php foreach ($value['filename'] as $i => $photo): ?>
       <div class="album-item col-6 col-sm-2 p-1">
