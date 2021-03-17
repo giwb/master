@@ -89,7 +89,13 @@
                 <?php foreach ($listNoticeFooter as $key => $value): ?>
                 <div class="row no-gutters mt-2<?=$key != 0 ? ' pt-2' : ''?>">
                   <div class="col-sm-4 pl-3 pr-3"><a href="<?=BASE_URL?>/reserve/list/<?=$value['idx']?>"><?php if (!empty($value['photo']) && file_exists(PHOTO_PATH . 'thumb_' . $value['photo'])): ?><img class="w-100" src="<?=PHOTO_URL . 'thumb_' . $value['photo']?>"><?php else: ?><img class="w-100" src="/public/images/nophoto.png"><?php endif; ?></a></div>
-                  <div class="col-sm-8 pr-3 list-reserve"><a href="<?=BASE_URL?>/reserve/list/<?=$value['idx']?>"><strong><?=viewStatus($value['status'])?> <?=$value['subject']?></strong></a><br><small><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명</small></div>
+                  <div class="col-sm-8 pr-3 list-reserve">
+                    <a href="<?=BASE_URL?>/reserve/list/<?=$value['idx']?>"><strong><?=viewStatus($value['status'])?> <?=$value['subject']?></strong></a><br>
+                    <small><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명<br>
+                    <i class="far fa-eye pr-1"></i>조회 <?=getRefer($value['idx'])?>
+                    <i class="far fa-comments pr-1 ml-2"></i>댓글 <?=getReply($value['idx'])?>
+                    <i class="far fa-calendar-check pr-1 ml-2"></i>예약 <?=cntRes($value['idx'])?></small>
+                  </div>
                 </div>
                 <?php endforeach; ?>
                 <?php else: ?><div class="text-center pt-5 pb-5">등록된 여행 정보가 없습니다.</div>

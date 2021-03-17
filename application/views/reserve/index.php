@@ -41,7 +41,7 @@
 
   <main id="club">
     <div class="container-fluid club-main">
-      <div class="row mt-1 mb-5">
+      <div class="row mb-5">
         <div class="col-xl-8 col-md-12">
           <?php if (empty($notice['idx'])): ?>
           <div class="text-center mt-5">데이터가 없습니다.</div>

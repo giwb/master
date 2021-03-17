@@ -2,7 +2,7 @@
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 $CI = get_instance();
-$CI->load->model(array('admin_model', 'member_model', 'reserve_model'));
+$CI->load->model(array('admin_model', 'member_model', 'reserve_model', 'desk_model'));
 
 // html_escape 리셋
 if (!function_exists('reset_html_escape')) {
@@ -1093,6 +1093,33 @@ if (!function_exists('getThumbnail')) {
       $match[1] = str_replace('/article/', '/article/thumb_', $match[1]);
     }
     return $match[1];
+  }
+}
+
+// 기사 조회수 가져오기
+if (!function_exists('getRefer')) {
+  function getRefer($idx) {
+    $CI =& get_instance();
+    $result = $GLOBALS['CI']->desk_model->cntArticleReaction($idx, REACTION_TYPE_REFER);
+    return $result['cnt'];
+  }
+}
+
+// 기사 좋아요 가져오기
+if (!function_exists('cntLiked')) {
+  function getLiked($idx) {
+    $CI =& get_instance();
+    $result = $GLOBALS['CI']->desk_model->cntArticleReaction($idx, REACTION_TYPE_LIKED);
+    return $result['cnt'];
+  }
+}
+
+// 기사 조회수 가져오기
+if (!function_exists('cntReply')) {
+  function getReply($idx) {
+    $CI =& get_instance();
+    $result = $GLOBALS['CI']->desk_model->cntReply($idx);
+    return $result['cnt'];
   }
 }
 ?>

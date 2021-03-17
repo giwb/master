@@ -2673,7 +2673,7 @@ main#footer .logo-img { margin-right: 10px; float: left; }
   .card-title { min-height: auto; }
 
   /* 기사 페이지 */
-  main { padding-top: 100px!important; }
+  main { padding-top: 85px!important; }
   main#mainpage { padding-top: 0px!important; }
   main#footer { padding: 20px!important; }
   .area-photo { max-height: 200px; overflow: hidden; }

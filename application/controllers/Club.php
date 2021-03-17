@@ -86,7 +86,7 @@ class Club extends MY_Controller
       }
     }
 
-    /* 여행 소식 */
+    // 여행 소식
     $paging['perPage'] = 1; $paging['nowPage'] = 0;
     $search['clubIdx'] = $clubIdx;
     $search['code'] = 'news';
