@@ -26,7 +26,7 @@
                   <?php if ($value['rank'] <= 5): ?><img src="/public/images/medal<?=$value['rank']?>.png">
                   <?php else: ?><?=$value['rank']?><?php endif; ?>
                 </td>
-                <td><?=$value['nickname']?>님</td>
+                <td nowrap><?=$value['nickname']?>님</td>
                 <td class="btn-open-auth">
                   <div class="auth-progress-bar"><div id="medal<?=$key?>" class="auth-gauge" cnt="<?=$value['cnt']?>"><?=$value['cnt']?>회</div></div>
                   <?=$value['title']?>
