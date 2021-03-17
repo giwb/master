@@ -28,7 +28,7 @@
                 </td>
                 <td><?=$value['nickname']?>님</td>
                 <td>
-                  <div class="auth-progress-bar"><div id="medal<?=$key?>" class="auth-gauge" cnt="<?=$value['cnt']?>"><?=$value['cnt']?></div></div>
+                  <div class="auth-progress-bar"><div id="medal<?=$key?>" class="auth-gauge" cnt="<?=$value['cnt']?>"><?=$value['cnt']?>회</div></div>
                 </td>
               </tr>
               <?php endforeach; ?>
