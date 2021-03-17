@@ -101,9 +101,10 @@ class Club_model extends CI_Model
   // 앨범 목록
   public function listAlbum($clubIdx, $paging)
   {
-    $this->db->select('a.*, b.nickname')
+    $this->db->select('a.*, b.nickname, c.subject AS notice_subject')
           ->from(DB_ALBUM . ' a')
           ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
+          ->join(DB_NOTICE . ' c', 'a.notice_idx=c.idx', 'left')
           ->where('a.club_idx', $clubIdx)
           ->where('a.deleted_at', NULL)
           ->order_by('a.idx', 'desc');

@@ -6,21 +6,12 @@
       <div class="row mt-1 mb-5">
         <div class="col-md-12">
 
-          <h4 class="font-weight-bold"><?=$pageTitle?></h4>
-          <hr class="text-default">
-<!--
           <div class="row align-items-center">
-            <div class="col-8 col-sm-9"></div>
-            <div class="col-4 col-sm-3 text-right">
-              <form method="post" action="<?=BASE_URL?>/album" class="row align-items-center m-0 mb-3">
-                <div class="col-8 col-sm-8 p-0"><input type="text" name="k" class="form-control form-control-sm" value="<?=!empty($keyword) ? $keyword : ''?>"></div>
-                <div class="col-2 col-sm-2 p-0 pl-2"><button class="btn btn-sm btn-<?=$view['main_color']?> w-100">검색</button></div>
-                <div class="col-2 col-sm-2 p-0 pl-2"><a href="<?=BASE_URL?>/album/entry"><button type="button" class="btn btn-sm btn-<?=$view['main_color']?> w-100">등록</button></a></div>
-              </form>
-            </div>
+            <div class="col-6"><h4 class="font-weight-bold"><?=$pageTitle?></h4></div>
+            <div class="col-6 text-right"><a href="<?=BASE_URL?>/album/entry" class="btn-custom btn-giwb">사진등록</a></div>
           </div>
-          <hr class="text-default mt-2">
--->
+          <hr class="text-default">
+
           <form id="album">
             <input type="hidden" name="p" value="1">
             <?=$listAlbumMain?>

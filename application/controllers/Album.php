@@ -53,6 +53,7 @@ class Album extends MY_Controller
         $viewData['photos'][$key]['idx'] = $value['idx'];
         $viewData['photos'][$key]['nickname'] = $value['nickname'];
         $viewData['photos'][$key]['subject'] = $value['subject'];
+        $viewData['photos'][$key]['notice_subject'] = $value['notice_subject'];
         $viewData['photos'][$key]['content'] = $value['content'];
         $viewData['photos'][$key]['created_by'] = $value['created_by'];
         $viewData['photos'][$key]['created_at'] = $value['created_at'];
@@ -122,6 +123,9 @@ class Album extends MY_Controller
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
+    // 다녀온 산행
+    $viewData['listNotice'] = $this->reserve_model->listNotice($clubIdx, array(STATUS_CLOSED), 'desc');
+
     // 수정
     if (!empty($idx)) {
       $viewData['viewAlbum'] = $this->club_model->viewAlbum($idx);
@@ -145,53 +149,40 @@ class Album extends MY_Controller
   public function update()
   {
     $now = time();
-    $pageName = 'album';
     $userData = $this->load->get_var('userData');
     $postData = $this->input->post();
-    $idx = html_escape($postData['idx']);
-    $photos = html_escape($postData['photos']);
-    $redirectUrl = html_escape($postData['redirectUrl']);
+    $arrPhoto = $_FILES['files'];
+    $pageName = 'album';
 
-    $updateValues = array(
-      'club_idx' => html_escape($postData['clubIdx']),
-      'subject' => html_escape($postData['subject']),
-      'content' => html_escape($postData['content']),
+    $insertValues = array(
+      'club_idx'    => html_escape($postData['clubIdx']),
+      'notice_idx'  => html_escape($postData['noticeIdx']),
+      'subject'     => html_escape($postData['subject']),
+      'created_by'  => $userData['idx'],
+      'created_at'  => $now,
     );
 
-    if (empty($idx)) {
-      // 등록
-      $updateValues['created_by'] = $userData['idx'];
-      $updateValues['created_at'] = $now;
-      $idx = $rtn = $this->club_model->insertAlbum($updateValues);
-    } else {
-      // 수정
-      $updateValues['updated_by'] = $userData['idx'];
-      $updateValues['updated_at'] = $now;
-      $rtn = $this->club_model->updateAlbum($updateValues, $idx);
-    }
+    $idx = $this->club_model->insertAlbum($insertValues);
 
     // 사진 처리
-    if (!empty($idx) && !empty($photos)) {
-      $arrPhoto = explode(',', $photos);
+    foreach ($arrPhoto['tmp_name'] as $value) {
+      if (!empty($value)) {
+        $filename = $now . mt_rand(10000, 99999) . '.jpg';
 
-      foreach ($arrPhoto as $value) {
-        if (!empty($value) && file_exists(UPLOAD_PATH . $value)) {
+        if (move_uploaded_file($value, PHOTO_PATH . $filename)) {
           $fileValues = array(
             'page' => $pageName,
             'page_idx' => $idx,
-            'filename' => $value,
+            'filename' => $filename,
             'created_at' => $now
           );
           $this->file_model->insertFile($fileValues);
 
-          // 파일 이동
-          rename(UPLOAD_PATH . $value, PHOTO_PATH . $value);
-
           // 썸네일 만들기
           $this->image_lib->clear();
           $config['image_library'] = 'gd2';
-          $config['source_image'] = PHOTO_PATH . $value;
-          $config['new_image'] = PHOTO_PATH . 'thumb_' . $value;
+          $config['source_image'] = PHOTO_PATH . $filename;
+          $config['new_image'] = PHOTO_PATH . 'thumb_' . $filename;
           $config['create_thumb'] = TRUE;
           $config['maintain_ratio'] = TRUE;
           $config['thumb_marker'] = '';
@@ -202,7 +193,8 @@ class Album extends MY_Controller
       }
     }
 
-    redirect($redirectUrl);
+    $result = array('error' => 0, 'message' => '');
+    $this->output->set_output(json_encode($result));
   }
 
   /**

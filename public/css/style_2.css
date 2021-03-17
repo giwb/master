@@ -2591,6 +2591,8 @@ main#footer .logo-img { margin-right: 10px; float: left; }
 .btn-red:hover { background-color: #ff3547!important; }
 .btn-giwb { color: #fff!important; background-color: #FF6600; border: 0px; }
 .btn-giwb:hover, .btn-giwb:active { background-color: #FF842A!important; }
+.btn-gray { color: #333!important; background-color: #c9c9c9; border: 0px; }
+.btn-gray:hover, .btn-giwb:active { background-color: #d9d9d9!important; }
 
 /* 용품판매 */
 #shop .shop-main { padding-top: 100px; }

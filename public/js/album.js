@@ -34,75 +34,37 @@ $(document).ready(function() {
       },
     });
   });
-}).on('change', '.photo', function() {
-  // 사진 업로드
-  var $dom = $(this);
-  var formData = new FormData($('#formAlbum')[0]);
-  var maxSize = 20480000;
-  var errorSize = false;
-
-  // 파일 용량을 우선적으로 체크
-  $.each($dom[0].files, function(i, v) {
-    if (v.size > maxSize) {
-      errorSize = true;
-    }
-  });
-  if (errorSize == true) {
-    $dom.val('');
-    $('#messageModal .btn').hide();
-    $('#messageModal .btn-close').show();
-    $('#messageModal .modal-message').html('파일의 용량은 20MB를 넘을 수 없습니다.');
-    $('#messageModal').modal('show');
+}).on('click', '.btn-album-upload', function() {
+  $('.multi').click();
+}).on('click', '.btn-album-insert', function() {
+  // 등록
+  if ($('select[name=noticeIdx]').val() == '') {
+    $.openMsgModal('다녀온 여행은 꼭 선택해주세요.');
+    return false;
+  }
+  if ($('input[name=subject]').val() == '') {
+    $.openMsgModal('사진 설명은 꼭 입력해주세요.');
     return false;
   }
 
+  var $btn = $(this);
+  var $dom = $('.multi');
+  var formData = new FormData($('#formPhoto')[0]);
+
   $.ajax({
-    type: 'post',
-    url: '/album/upload',
+    url: '/album/update',
     processData: false,
     contentType: false,
     data: formData,
     dataType: 'json',
+    type: 'post',
     beforeSend: function() {
-      $('.btn-upload-photo').css('opacity', '0.5').prop('disabled', true).text('업로드중.....');
-      $dom.val('');
+      $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
     },
     success: function(result) {
-      $('.btn-upload-photo').css('opacity', '1').prop('disabled', false).text('사진 선택');
-      if (result.error == 1) {
-        $.openMsgModal(result.message);
-      } else {
-        var $domFiles = $('input[name=photos]');
-        $.each(result.filename, function(i, v) {
-          $('.added-files').append('<img src="' + result.message[i] + '" class="btn-photo-modal" data-photo="' + v + '">');
-          if ($domFiles.val() == '') {
-            $domFiles.val(v);
-          } else {
-            $domFiles.val($domFiles.val() + ',' + v);
-          }
-        });
-      }
+      location.replace($('input[name=baseUrl]').val() + '/album');
     }
   });
-}).on('click', '.btn-upload-photo', function() {
-  // 사진 업로드 클릭
-  $(this).prev().click();
-}).on('click', '.btn-album-update', function() {
-  // 등록/수정
-  if ($('input[name=subject]').val() == '') {
-    $.openMsgModal('제목은 꼭 입력해주세요.');
-    return false;
-  }
-  if ($('textarea[name=content]').val() == '') {
-    $.openMsgModal('내용은 꼭 입력해주세요.');
-    return false;
-  }
-  if ($('input[name=photos]').val() == '') {
-    $.openMsgModal('사진은 꼭 선택해주세요.');
-    return false;
-  }
-  $(this).css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요...');
-  $('#formAlbum').submit();
 }).on('click', '.btn-album-delete-modal', function() {
   $('#albumDeleteModal').modal({backdrop: 'static', keyboard: false});
 }).on('click', '.btn-album-delete', function() {
