@@ -420,7 +420,7 @@ class Club extends MY_Controller
     $viewData['auth'] = $this->club_model->listAuth();
 
     foreach ($viewData['auth'] as $key => $value) {
-      if ($value['nickname'] != '아띠')
+      if ($value['nickname'] != '아띠') {
         if ($buf != $value['cnt']) { $rank = $key; $rank++; }
         $viewData['auth'][$key]['rank'] = $rank;
         $viewData['auth'][$key]['title'] = '';
