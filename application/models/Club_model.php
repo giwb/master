@@ -79,6 +79,7 @@ class Club_model extends CI_Model
     $this->db->select('nickname, COUNT(idx) AS cnt')
           ->from(DB_AUTH)
           ->where('nickname !=', '캔총무')
+          ->where('nickname !=', '아띠')
           ->group_by('nickname')
           ->order_by('cnt', 'desc')
           ->order_by('nickname', 'asc');
