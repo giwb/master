@@ -8,7 +8,7 @@
           <h4 class="font-weight-bold"><?=$pageTitle?></h4>
           <hr class="text-default">
 
-          <div class="sub-content mt-4">
+          <div class="sub-content"><br>
             <table width="100%" class="auth">
               <colgroup>
                 <col width="5%">
