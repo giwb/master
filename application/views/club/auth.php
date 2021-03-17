@@ -13,21 +13,23 @@
               <colgroup>
                 <col width="5%">
                 <col width="17%">
-                <col width="8%">
-                <col width="70%">
+                <col width="78%">
               </colgroup>
               <tr>
                 <th>No.</th>
                 <th>닉네임</th>
                 <th>횟수</th>
-                <th>산행인증내역</th>
               </tr>
-              <?php foreach ($auth as $value): ?>
+              <?php foreach ($auth as $key => $value): ?>
               <tr>
-                <td><?=$value['rank']?></td>
+                <td>
+                  <?php if ($value['rank'] <= 5): ?><img src="<?=$value['rank']?>">
+                  <?php else: ?><?=$value['rank']?><?php endif; ?>
+                </td>
                 <td><?=$value['nickname']?>님</td>
-                <td><?=$value['cnt']?></td>
-                <td><?=$value['title']?></td>
+                <td>
+                  <div class="auth-progress-bar"><div id="medal<?=$key?>" class="auth-gauge" cnt="<?=$value['cnt']?>"><?=$value['cnt']?></div></div>
+                </td>
               </tr>
               <?php endforeach; ?>
             </table>
