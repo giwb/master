@@ -18,7 +18,7 @@
   </script>
 
   <div id="fb-root"></div>
-  <div id="carousel-main" class="carousel slide carousel-fade" data-ride="carousel">
+  <div id="carousel-main" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
       <?php foreach($arrTopImage as $key => $value): ?>
       <li data-target="#carousel-main" data-slide-to="<?=$key?>"<?=$key == 0 ? ' class="active"' : ''?>></li>
@@ -30,10 +30,10 @@
         <div class="view h-100 d-flex justify-content-center">
           <img class="d-block h-100 w-lg-100" src="/public/uploads/front/<?=$value?>">
           <div class="mask rgba-black-light">
-            <div class="full-bg-img flex-center white-text">
-              <ul class="list-unstyled animated fadeIn col-10">
+            <div class="full-bg-img flex-center">
+              <ul class="list-unstyled col-10"><!-- animated fadeIn-->
                 <li>
-                  <h1 class="h1-responsive font-weight-bold"><?=$view['title']?></h1>
+                  <h1 class="h1-responsive font-weight-bold text-white"><?=$view['title']?></h1>
                 </li>
               </ul>
             </div>
