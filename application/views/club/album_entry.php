@@ -16,7 +16,7 @@
 
           <form id="formPhoto" method="post" action="<?=BASE_URL?>/album/update" enctype="multipart/form-data">
             <input type="hidden" name="clubIdx" value="<?=$view['idx']?>">
-            <div class="row align-items-center mt-2">
+            <div class="row align-items-center mt-4">
               <div class="col-sm-2 font-weight-bold">다녀온 여행</div>
               <div class="col-sm-10">
                 <select name="noticeIdx" class="form-control">
@@ -33,12 +33,11 @@
             </div>
             <div class="row align-items-center mt-2">
               <div class="col-sm-2 font-weight-bold">사진 올리기</div>
-              <div class="col-sm-10">
-                <button type="button" class="btn btn-secondary btn-album-upload">사진 선택</button>
-                <input type="file" name="files[]" multiple="multiple" class="multi d-none" accept="gif|jpg|png|jpeg">
+              <div class="col-sm-10 pt-1 pb-1">
+                <input type="file" name="files[]" multiple="multiple" class="multi" accept="gif|jpg|png|jpeg">
               </div>
             </div>
-            <div class="border-top mt-2 pt-4 text-center">
+            <div class="border-top mt-4 pt-4 text-center">
               <button type="button" class="btn btn-default btn-album-insert">등록합니다</button>
             </div>
           </form>

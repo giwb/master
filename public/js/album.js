@@ -34,8 +34,6 @@ $(document).ready(function() {
       },
     });
   });
-}).on('click', '.btn-album-upload', function() {
-  $('.multi').click();
 }).on('click', '.btn-album-insert', function() {
   // 등록
   if ($('select[name=noticeIdx]').val() == '') {
