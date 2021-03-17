@@ -27,7 +27,7 @@
                   <?php else: ?><?=$value['rank']?><?php endif; ?>
                 </td>
                 <td nowrap><?=$value['nickname']?>님</td>
-                <td class="btn-open-auth">
+                <td class="btn-open-auth" data-idx="<?=$key?>">
                   <div class="auth-progress-bar"><div id="medal<?=$key?>" class="auth-gauge" cnt="<?=$value['cnt']?>"><?=$value['cnt']?>회</div></div>
                   <div class="auth-title d-none"><?=$value['title']?></div>
                 </td>
@@ -39,7 +39,8 @@
 
         <script type="text/javascript">
           $(document).on('click', '.btn-open-auth', function() {
-            var $dom = $('.auth-title');
+            var idx = $(this).data('idx');
+            var $dom = $('.auth-title[data-idx=' + idx + ']');
             if ($dom.hasClass('d-none')) {
               $dom.removeClass('d-none');
             } else {
