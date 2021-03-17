@@ -107,7 +107,7 @@ class Club_model extends CI_Model
           ->join(DB_NOTICE . ' c', 'a.notice_idx=c.idx', 'left')
           ->where('a.club_idx', $clubIdx)
           ->where('a.deleted_at', NULL)
-          ->order_by('a.idx', 'desc');
+          ->order_by('a.notice_idx, a.idx', 'desc');
 
     if (!empty($paging['keyword'])) {
       $this->db->like('a.subject', $paging['keyword']);
