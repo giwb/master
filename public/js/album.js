@@ -1,40 +1,4 @@
-$(document).ready(function() {
-  $('.btn-album').click(function() {
-    var $dom = $(this).parent();
-    $.ajax({
-      url: '/album/view',
-      data: 'source=' + $(this).data('source'),
-      dataType: 'json',
-      type: 'post',
-      success: function(result) {
-        var items = [];
-        $.each(result, function(i, v) {
-          items.push({
-            src: v.src,
-            w: v.width,
-            h: v.height,
-            title: v.title
-          });
-        });
-        var pswpElement = document.querySelectorAll('.pswp')[0];
-        var items = items;
-        var options = {
-          index: 0,
-          bgOpacity: 0.8,
-          showHideOpacity: true,
-          getThumbBoundsFn: function(index) {
-            var thumbnail = $dom[0],
-            pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
-            rect = thumbnail.getBoundingClientRect(); 
-            return {x:rect.left, y:rect.top + pageYScroll, w:rect.width};
-          }
-        };
-        var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
-        gallery.init();
-      },
-    });
-  });
-}).on('click', '.btn-album-insert', function() {
+$(document).on('click', '.btn-album-insert', function() {
   // 등록
   if ($('select[name=noticeIdx]').val() == '') {
     $.openMsgModal('다녀온 여행은 꼭 선택해주세요.');
@@ -50,7 +14,7 @@ $(document).ready(function() {
   var formData = new FormData($('#formPhoto')[0]);
 
   $.ajax({
-    url: '/album/update',
+    url: '/album/insert',
     processData: false,
     contentType: false,
     data: formData,

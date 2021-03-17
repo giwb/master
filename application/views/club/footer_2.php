@@ -24,6 +24,59 @@
               </div>
             </div>
           </section>
+          <script type="text/javascript">
+            $(document).ready(function() {
+              $('#calendar').fullCalendar({
+                header: {
+                  left: 'prev',
+                  center: 'title',
+                  right: 'next'
+                },
+                titleFormat: {
+                  month: 'yyyy년 MMMM',
+                  week: "yyyy년 MMMM",
+                  day: 'yyyy년 MMMM'
+                },
+                events: [
+                  <?php
+                    foreach ($listNoticeCalendar as $value):
+                      $startDate = strtotime($value['startdate']);
+                      $value['mname'] = htmlspecialchars_decode($value['mname']);
+                      if (!empty($value['enddate'])): $endDate = calcEndDate($value['startdate'], $value['enddate']);
+                      else: $endDate = calcEndDate($value['startdate'], $value['schedule']);
+                      endif;
+                      if ($value['status'] == 'schedule'):
+                  ?>
+                  {
+                    title: '<?=$value['mname']?>',
+                    start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>T00:00:00'),
+                    end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>T23:59:59'),
+                    url: 'javascript:;',
+                    className: '<?=$value['class']?>'
+                  },
+                  <?php
+                      else:
+                        if ($value['status'] >= 1):
+                          $url = BASE_URL . '/reserve/index/' . $value['idx'];
+                        else:
+                          $url = 'javascript:;';
+                        endif;
+                  ?>
+                  {
+                    title: '<?=$value['status'] != STATUS_PLAN ? $value['starttime'] . "\\n" : "[계획]\\n"?><?=$value['mname']?>',
+                    start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>T00:00:01'),
+                    end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>T23:59:59'),
+                    url: '<?=$url?>',
+                    className: 'notice-status<?=$value['status']?>'
+                  },
+                  <?php
+                      endif;
+                    endforeach;
+                  ?>
+                ]
+              });
+            });
+          </script>
           <?php endif; ?>
 
           <?php if (empty($uri)): // 안부 인사와 인증현황은 메인 페이지에서만 보이게 ?>
@@ -304,42 +357,6 @@
     </div>
   </div>
 
-  <!-- Photo Swipe -->
-  <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="pswp__bg"></div>
-    <div class="pswp__scroll-wrap">
-      <div class="pswp__container">
-        <div class="pswp__item"></div>
-        <div class="pswp__item"></div>
-        <div class="pswp__item"></div>
-      </div>
-      <div class="pswp__ui pswp__ui--hidden">
-        <div class="pswp__top-bar">
-          <div class="pswp__counter"></div>
-          <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-          <button class="pswp__button pswp__button--share" title="Share"></button>
-          <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-          <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-          <div class="pswp__preloader">
-            <div class="pswp__preloader__icn">
-              <div class="pswp__preloader__cut">
-                <div class="pswp__preloader__donut"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-          <div class="pswp__share-tooltip"></div> 
-        </div>
-        <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
-        <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
-        <div class="pswp__caption">
-          <div class="pswp__caption__center"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Back to Top -->
   <a class="scroll-to-top rounded" href="javascript:;">
     <i class="fa fa-angle-up"></i>
@@ -360,82 +377,6 @@
       </div>
     </main>
   </footer>
-
-  <script type="text/javascript">
-    $(document).ready(function() {
-      $('#calendar').fullCalendar({
-        header: {
-          left: 'prev',
-          center: 'title',
-          right: 'next'
-        },
-        titleFormat: {
-          month: 'yyyy년 MMMM',
-          week: "yyyy년 MMMM",
-          day: 'yyyy년 MMMM'
-        },
-        events: [
-          <?php
-            foreach ($listNoticeCalendar as $value):
-              $startDate = strtotime($value['startdate']);
-              $value['mname'] = htmlspecialchars_decode($value['mname']);
-              if (!empty($value['enddate'])): $endDate = calcEndDate($value['startdate'], $value['enddate']);
-              else: $endDate = calcEndDate($value['startdate'], $value['schedule']);
-              endif;
-              if ($value['status'] == 'schedule'):
-          ?>
-          {
-            title: '<?=$value['mname']?>',
-            start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>T00:00:00'),
-            end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>T23:59:59'),
-            url: 'javascript:;',
-            className: '<?=$value['class']?>'
-          },
-          <?php
-              else:
-                if ($value['status'] >= 1):
-                  $url = BASE_URL . '/reserve/index/' . $value['idx'];
-                else:
-                  $url = 'javascript:;';
-                endif;
-          ?>
-          {
-            title: '<?=$value['status'] != STATUS_PLAN ? $value['starttime'] . "\\n" : "[계획]\\n"?><?=$value['mname']?>',
-            start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>T00:00:01'),
-            end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>T23:59:59'),
-            url: '<?=$url?>',
-            className: 'notice-status<?=$value['status']?>'
-          },
-          <?php
-              endif;
-            endforeach;
-          ?>
-        ]
-      });
-
-      // 백산백소 인증 프로그래스바
-      $('.auth-gauge').each(function(i) {
-        var elemId = $(this).attr('id');
-        var maxWidth = $(this).attr('cnt');
-        move(i, elemId, maxWidth);
-      });
-      function move(i, elemId, maxWidth) {
-        i = 1;
-        var elem = document.getElementById(elemId);
-        var width = 1;
-        var id = setInterval(frame, 10);
-        function frame() {
-          if (width >= Number(maxWidth * 2)) {
-            clearInterval(id);
-            i = 0;
-          } else {
-            width++;
-            elem.style.width = width + "%";
-          }
-        }
-      }
-    });
-  </script>
 
   <?php if (ENVIRONMENT == 'production' && $_SERVER['REMOTE_ADDR'] != '49.166.0.82'): ?>
   <script>

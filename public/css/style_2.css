@@ -1869,8 +1869,8 @@ a.btn:not([href]):not([tabindex]),a.btn:not([href]):not([tabindex]):focus,a.btn:
 .pswp__button:active{outline:0;opacity:.9}
 .pswp__button::-moz-focus-inner{padding:0;border:0}
 .pswp__ui--over-close .pswp__button--close{opacity:1}
-.pswp__button,.pswp__button--arrow--left:before,.pswp__button--arrow--right:before{background:url(../img/lightbox/default-skin.png) no-repeat;-webkit-background-size:264px 88px;background-size:264px 88px;width:44px;height:44px}
-@media (-webkit-min-device-pixel-ratio:1.1),(-webkit-min-device-pixel-ratio:1.09375),(-o-min-device-pixel-ratio:35/32),(min-resolution:105dpi),(-o-min-device-pixel-ratio:11/10),(min-resolution:1.1dppx){.pswp--svg .pswp__button,.pswp--svg .pswp__button--arrow--left:before,.pswp--svg .pswp__button--arrow--right:before{background-image:url(../img/lightbox/default-skin.svg)}
+.pswp__button,.pswp__button--arrow--left:before,.pswp__button--arrow--right:before{background:url(/public/photoswipe/default-skin/default-skin.png) no-repeat;-webkit-background-size:264px 88px;background-size:264px 88px;width:44px;height:44px}
+@media (-webkit-min-device-pixel-ratio:1.1),(-webkit-min-device-pixel-ratio:1.09375),(-o-min-device-pixel-ratio:35/32),(min-resolution:105dpi),(-o-min-device-pixel-ratio:11/10),(min-resolution:1.1dppx){.pswp--svg .pswp__button,.pswp--svg .pswp__button--arrow--left:before,.pswp--svg .pswp__button--arrow--right:before{background-image:url(/public/photoswipe/default-skin/default-skin.svg)}
 .pswp--svg .pswp__button--arrow--left,.pswp--svg .pswp__button--arrow--right{background:0 0}}
 .pswp__button--close{background-position:0 -44px}
 .pswp__button--share{background-position:-44px -44px}
@@ -1911,7 +1911,7 @@ a.pswp__share--download:hover{background:#DDD}
 .pswp__preloader{width:44px;height:44px;position:absolute;top:0;left:50%;margin-left:-22px;opacity:0;-webkit-transition:opacity .25s ease-out;-o-transition:opacity .25s ease-out;transition:opacity .25s ease-out;will-change:opacity;direction:ltr}
 .pswp--css_animation .pswp__preloader--active,.pswp__preloader--active{opacity:1}
 .pswp__preloader__icn{width:20px;height:20px;margin:12px}
-.pswp__preloader--active .pswp__preloader__icn{background:url(../img/lightbox/preloader.gif) no-repeat}
+.pswp__preloader--active .pswp__preloader__icn{background:url(/public/photoswipe/default-skin/preloader.gif) no-repeat}
 .pswp--css_animation .pswp__preloader--active .pswp__preloader__icn{-webkit-animation:clockwise .5s linear infinite;animation:clockwise .5s linear infinite}
 .pswp--css_animation .pswp__preloader--active .pswp__preloader__donut{-webkit-animation:donut-rotate 1s cubic-bezier(.4,0,.22,1) infinite;animation:donut-rotate 1s cubic-bezier(.4,0,.22,1) infinite}
 .pswp--css_animation .pswp__preloader__icn{background:0 0;opacity:.75;width:14px;height:14px;position:absolute;left:15px;top:15px;margin:0}
@@ -2572,9 +2572,7 @@ main#footer .logo-img { margin-right: 10px; float: left; }
 #album .album-item { position: relative; text-align: center; }
 #album .album-photo { width: 100%; border-radius: 10px; }
 #album .album-photo:hover { box-shadow: #ddd 3px 3px 3px; }
-/*
-#album .album-item .ajax-loader { position: absolute; top: 80px; left: 120px; z-index: 90; }
-*/
+#album .album-item .ajax-loader { position: absolute; top: 53px; left: 95px; z-index: 90; }
 #album .album-item .caption { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 100; font-size: 0.9rem; color: white; padding: 35px 10px 0px 10px; border-radius: 10px; }
 #album .album-item:hover .caption { display: block; }
 

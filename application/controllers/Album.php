@@ -45,8 +45,11 @@ class Album extends MY_Controller
 
       foreach ($photos as $i => $photo) {
         if (!empty($photo['filename'])) {
+          $size = getImageSize(PHOTO_PATH . $photo['filename']);
           $viewData['photos'][$key]['filename'][] = PHOTO_URL . 'thumb_' . $photo['filename'];
           $viewData['photos'][$key]['source'][] = $photo['filename'];
+          $viewData['photos'][$key]['width'][] = $size[0];
+          $viewData['photos'][$key]['height'][] = $size[1];
         } else {
           $viewData['photos'][$key]['filename'][] = '/public/images/noimage.png';
         }
@@ -96,23 +99,28 @@ class Album extends MY_Controller
    **/
   public function view()
   {
-/*
-    $userData = $this->load->get_var('userData');
     $idx = html_escape($this->input->post('idx'));
-    $result = array();
-    $cnt = 0;
-*/
-    $result = array();
-    $filename = html_escape($this->input->post('source'));
-    $photo = $this->file_model->viewFile($filename);
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
 
-    // 사진첩
-    $viewData['viewAlbum'] = $this->club_model->viewAlbum($photo['page_idx']);
-    $size = getImageSize(PHOTO_PATH . $filename);
-    $result[0]['width'] = $size[0];
-    $result[0]['height'] = $size[1];
-    $result[0]['src'] = PHOTO_URL . $filename;
-    $result[0]['title'] = $viewData['viewAlbum']['subject'];
+    $viewAlbum = $this->club_model->viewAlbum($idx);
+
+    $photos = $this->file_model->getFile('album', $idx);
+
+    foreach ($photos as $key => $photo) {
+      if (!empty($photo['filename'])) {
+        if (empty($photo['width'])) {
+          $size = getImageSize(PHOTO_PATH . $photo['filename']);
+          $photo['width'] = $size[0];
+          $photo['height'] = $size[1];
+        }
+        $result[$key]['src'] = PHOTO_URL . $photo['filename'];
+        $result[$key]['width'] = $photo['width'];
+        $result[$key]['height'] = $photo['height'];
+      } else {
+        $viewData['photos'][$key]['filename'][] = '/public/images/noimage.png';
+      }
+      $result[$key]['title'] = $viewAlbum['subject'];
+    }
 
     $this->output->set_output(json_encode($result));
   }
@@ -157,7 +165,7 @@ class Album extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function update()
+  public function insert()
   {
     $now = time();
     $userData = $this->load->get_var('userData');
@@ -181,10 +189,13 @@ class Album extends MY_Controller
         $filename = $now . mt_rand(10000, 99999) . '.jpg';
 
         if (move_uploaded_file($value, PHOTO_PATH . $filename)) {
+          $size = getImageSize(PHOTO_PATH . $filename);
           $fileValues = array(
             'page' => $pageName,
             'page_idx' => $idx,
             'filename' => $filename,
+            'width' => $size[0],
+            'height' => $size[1],
             'created_at' => $now
           );
           $this->file_model->insertFile($fileValues);

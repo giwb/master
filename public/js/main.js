@@ -1493,6 +1493,31 @@ $(document).on('click', '.btn-comment', function() {
   location.href = ($('input[name=baseUrl]').val() + '/travelog/view/' + $(this).data('idx'));
   //location.href = ($('input[name=baseUrl]').val() + '/travelog_view/' + $(this).data('idx')) + '?type=' + $(this).data('type');
 });
+
+$(document).ready(function() {
+  // 백산백소 인증 프로그래스바
+  $('.auth-gauge').each(function(i) {
+    var elemId = $(this).attr('id');
+    var maxWidth = $(this).attr('cnt');
+    move(i, elemId, maxWidth);
+  });
+  function move(i, elemId, maxWidth) {
+    i = 1;
+    var elem = document.getElementById(elemId);
+    var width = 1;
+    var id = setInterval(frame, 10);
+    function frame() {
+      if (width >= Number(maxWidth * 2)) {
+        clearInterval(id);
+        i = 0;
+      } else {
+        width++;
+        elem.style.width = width + "%";
+      }
+    }
+  }
+});
+
 /*
 var loadStory = setInterval(function() {
   $.ajax({

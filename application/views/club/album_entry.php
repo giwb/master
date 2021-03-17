@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
   <script type="text/javascript" src="/public/js/jquery.MultiFile.min.js"></script>
-  <script type="text/javascript" src="/public/js/album.js"></script>
+  <script type="text/javascript" src="/public/js/album.js?<?=time()?>"></script>
   <main id="club">
     <div class="container-fluid club-main">
       <div class="row mt-1 mb-5">
@@ -14,7 +14,7 @@
           </div>
           <hr class="text-default">
 
-          <form id="formPhoto" method="post" action="<?=BASE_URL?>/album/update" enctype="multipart/form-data">
+          <form id="formPhoto" method="post" action="<?=BASE_URL?>/album/insert" enctype="multipart/form-data">
             <input type="hidden" name="clubIdx" value="<?=$view['idx']?>">
             <div class="row align-items-center mt-4">
               <div class="col-sm-2 font-weight-bold">다녀온 여행</div>
