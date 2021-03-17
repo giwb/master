@@ -41,7 +41,7 @@
           $(document).on('click', '.btn-open-auth', function() {
             var $dom = $('.auth-title');
             if ($dom.hasClass('d-none')) {
-              $dom.removeclass('d-none');
+              $dom.removeClass('d-none');
               $dom.slideDown();
             } else {
               $dom.slideUp();
