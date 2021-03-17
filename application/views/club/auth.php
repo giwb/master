@@ -22,8 +22,8 @@
               </tr>
               <?php foreach ($auth as $key => $value): ?>
               <tr>
-                <td>
-                  <?php if ($value['rank'] <= 5): ?><img src="<?=$value['rank']?>">
+                <td align="center">
+                  <?php if ($value['rank'] <= 5): ?><img src="/public/images/<?=$value['rank']?>">
                   <?php else: ?><?=$value['rank']?><?php endif; ?>
                 </td>
                 <td><?=$value['nickname']?>님</td>
