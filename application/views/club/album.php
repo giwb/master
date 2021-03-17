@@ -8,7 +8,7 @@
 
           <div class="row align-items-center">
             <div class="col-6"><h4 class="font-weight-bold"><?=$pageTitle?></h4></div>
-            <div class="col-6 text-right"><a href="<?=BASE_URL?>/album/entry" class="btn-custom btn-giwb">사진등록</a></div>
+            <?php if (!empty($userData['idx'])): ?><div class="col-6 text-right"><a href="<?=BASE_URL?>/album/entry" class="btn-custom btn-giwb">사진등록</a></div><?php endif; ?>
           </div>
           <hr class="text-default">
 
