@@ -27,13 +27,4 @@
             </div>
           </form>
         </div>
-
-  <script src="/public/js/masonry.pkgd.min.js" type="text/javascript"></script>
-  <script type="text/javascript">
-    $(document).ready(function() {
-      $('.grid').masonry({
-        itemSelector: '.grid-item',
-        columnWidth: 200
-      });
-    });
-  </script>
+      </div>
