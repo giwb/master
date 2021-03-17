@@ -62,6 +62,14 @@
   <header>
     <nav id="mainNav" class="navbar navbar-expand-lg navbar-dark">
       <a class="navbar-brand" href="<?=BASE_URL?>"><img width="45" src="/public/images/icon.png" style="margin-right: 10px; float: left;"><span class="logo">경인웰빙</span></a>
+      <button class="navbar-toggler" type="button">
+        <?php if (!empty($userData['idx'])): ?>
+        <a href="<?=BASE_URL?>/member"><i class="fa fa-cog text-white" aria-hidden="true"></i></a>
+        <?php else: ?>
+        <a href="javascript:;" class="login-popup"><i class="fa fa-user-circle text-white" aria-hidden="true"></i></a>
+        <?php endif; ?>
+      </button>
+
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item dropdown">

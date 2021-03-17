@@ -1119,7 +1119,7 @@ to{opacity:0;-webkit-transform:translate3d(0,-100%,0);transform:translate3d(0,-1
 .navbar .breadcrumb{margin:0;padding:.3rem 0 0 1rem;background-color:inherit;font-size:15px;font-weight:300}
 .navbar .breadcrumb .breadcrumb-item{color:#fff}
 .navbar .breadcrumb .breadcrumb-item.active,.navbar .breadcrumb .breadcrumb-item:before{color:rgba(255,255,255,.65)}
-.navbar .navbar-toggler{outline:0;border-width:0}
+.navbar .navbar-toggler{outline:0;border-width:0;font-size:30px;}
 .navbar .nav-flex-icons{-ms-flex-direction:row;flex-direction:row}
 .navbar .nav-item .nav-link{display:block}
 .navbar .nav-item .nav-link.disabled:active{pointer-events:none}
