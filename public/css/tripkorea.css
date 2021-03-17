@@ -2188,6 +2188,8 @@ main#footer { padding-top: 0px!important; }
     .avatar { max-width: 80px!important; }
     .page-footer p { margin-bottom: 0rem; }
     .post-article { padding: 10px; }
+    .area-photo { max-height: 100%; }
+    .area-photo img { width: 100%; min-height: auto; margin-bottom: 10px; }
     .area-refer { justify-content: center!important; }
     .area-refer h5 { font-size: 1em; }
     .area-sns { justify-content: center!important; }

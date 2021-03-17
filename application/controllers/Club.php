@@ -420,15 +420,17 @@ class Club extends MY_Controller
     $viewData['auth'] = $this->club_model->listAuth();
 
     foreach ($viewData['auth'] as $key => $value) {
-      if ($buf != $value['cnt']) { $rank = $key; $rank++; }
-      $viewData['auth'][$key]['rank'] = $rank;
-      $viewData['auth'][$key]['title'] = '';
+      if ($value['nickname'] != '아띠')
+        if ($buf != $value['cnt']) { $rank = $key; $rank++; }
+        $viewData['auth'][$key]['rank'] = $rank;
+        $viewData['auth'][$key]['title'] = '';
 
-      $authList = $this->club_model->listAuthNotice($value['nickname']);
-      foreach ($authList as $auth) {
-        $viewData['auth'][$key]['title'] .= "<a target='_blank' href='" . $auth['photo'] . "'>" . $auth['title'] . "</a> / ";
+        $authList = $this->club_model->listAuthNotice($value['nickname']);
+        foreach ($authList as $auth) {
+          $viewData['auth'][$key]['title'] .= "<a target='_blank' href='" . $auth['photo'] . "'>" . $auth['title'] . "</a> / ";
+        }
+        $buf = $value['cnt'];
       }
-      $buf = $value['cnt'];
     }
 
     // 페이지 타이틀

@@ -22,14 +22,14 @@
                 <th>횟수</th>
                 <th>산행인증내역</th>
               </tr>
-              <?php foreach ($auth as $value): ?>
+              <?php foreach ($auth as $value): if ($value['nickname'] != '아띠'): ?>
               <tr>
                 <td><?=$value['rank']?></td>
                 <td><?=$value['nickname']?>님</td>
                 <td><?=$value['cnt']?></td>
                 <td><?=$value['title']?></td>
               </tr>
-              <?php endforeach; ?>
+              <?php endif; endforeach; ?>
             </table>
           </div>
         </div>
