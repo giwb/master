@@ -28,7 +28,7 @@ class Album extends MY_Controller
     $viewData['keyword'] = $paging['keyword'] = html_escape($this->input->post('k'));
     $page = html_escape($this->input->post('p'));
     if (empty($page)) $page = 1; else $page++;
-    $paging['perPage'] = $viewData['perPage'] = 30;
+    $paging['perPage'] = $viewData['perPage'] = 10;
     $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
 
     // 클럽 정보

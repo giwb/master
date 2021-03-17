@@ -2635,7 +2635,7 @@ main#footer .logo-img { margin-right: 10px; float: left; }
 .btn-default { color: #fff; background-color: #FF6C00; }
 .btn-default:hover { color: #fff; background-color: #FF842A; }
 
-.btn-page-next, .btn-story-more { width: 100%; border: 1px solid #d9d9d9; background-color: #fff; margin: 10px 0 30px 0; padding: 5px; }
+.btn-page-next, .btn-story-more { width: 100%; color: #000; border: 1px solid #d9d9d9; background-color: #fff; margin: 10px 0 30px 0; padding: 15px 5px; }
 .btn-page-next:hover, .btn-story-more:hover { box-shadow: #ddd 3px 3px 3px; }
 
 .ad-sp { display: none; }

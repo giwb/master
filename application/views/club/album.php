@@ -12,13 +12,19 @@
           </div>
           <hr class="text-default mb-0">
 
-          <form id="album">
-            <input type="hidden" name="p" value="1">
-            <?=$listAlbumMain?>
-            <div class="area-append"></div>
-            <?php if ($cntAlbum['cnt'] > $perPage): ?>
-            <button type="button" class="btn btn-page-next">다음 페이지 보기 ▼</button>
-            <?php endif; ?>
+          <form id="formList">
+            <div id="album">
+              <input type="hidden" name="p" value="1">
+              <?=$listAlbumMain?>
+              <div class="area-append"></div>
+              <?php if ($cntAlbum['cnt'] > $perPage): ?>
+                <div class="row mt-5">
+                  <div class="col-3"></div>
+                  <div class="col-6"><button type="button" class="btn btn-page-next">다음 페이지 보기 ▼</button></div>
+                  <div class="col-3"></div>
+                </div>
+              <?php endif; ?>
+            </div>
           </form>
         </div>
 
