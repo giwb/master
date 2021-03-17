@@ -67,35 +67,33 @@
 
       <script type="text/javascript">
       $(document).on('click', '.btn-album', function() {
-        $('.btn-album').click(function() {
-          var $dom = $(this).parent();
-          var index = $(this).data('index');
-          var items = [];
+        var $dom = $(this).parent();
+        var index = $(this).data('index');
+        var items = [];
 
-          $('.btn-album[data-notice-idx=' + $(this).data('notice-idx') + ']').each(function(i, v) {
-            items.push({
-              src: '<?=PHOTO_URL?>' + $(this).data('src'),
-              w: $(this).data('width'),
-              h: $(this).data('height'),
-              title: $(this).data('title')
-            });
+        $('.btn-album[data-notice-idx=' + $(this).data('notice-idx') + ']').each(function(i, v) {
+          items.push({
+            src: '<?=PHOTO_URL?>' + $(this).data('src'),
+            w: $(this).data('width'),
+            h: $(this).data('height'),
+            title: $(this).data('title')
           });
-
-          var pswpElement = document.querySelectorAll('.pswp')[0];
-          var items = items;
-          var options = {
-            index: index,
-            bgOpacity: 0.8,
-            showHideOpacity: true,
-            getThumbBoundsFn: function(index) {
-              var thumbnail = $dom[0],
-              pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
-              rect = thumbnail.getBoundingClientRect(); 
-              return {x:rect.left, y:rect.top + pageYScroll, w:rect.width};
-            }
-          };
-          var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
-          gallery.init();
         });
+
+        var pswpElement = document.querySelectorAll('.pswp')[0];
+        var items = items;
+        var options = {
+          index: index,
+          bgOpacity: 0.8,
+          showHideOpacity: true,
+          getThumbBoundsFn: function(index) {
+            var thumbnail = $dom[0],
+            pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
+            rect = thumbnail.getBoundingClientRect(); 
+            return {x:rect.left, y:rect.top + pageYScroll, w:rect.width};
+          }
+        };
+        var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
+        gallery.init();
       });
       </script>
