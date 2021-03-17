@@ -92,8 +92,8 @@
                   <div class="col-sm-8 pr-3 list-reserve">
                     <a href="<?=BASE_URL?>/reserve/list/<?=$value['idx']?>"><strong><?=viewStatus($value['status'])?> <?=$value['subject']?></strong></a><br>
                     <small><?=$value['startdate']?> (<?=calcWeek($value['startdate'])?>) <?=$value['starttime']?> / <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원 / <?=cntRes($value['idx'])?>명<br>
-                    <i class="far fa-eye pr-1"></i>조회 <?=getRefer($value['idx'])?>
-                    <i class="far fa-comments pr-1 ml-2"></i>댓글 <?=getReply($value['idx'])?>
+                    <i class="far fa-eye pr-1"></i>조회 <?=$value['refer']?>
+                    <i class="far fa-comments pr-1 ml-2"></i>댓글 <?=cntReply($value['idx'])?>
                     <i class="far fa-calendar-check pr-1 ml-2"></i>예약 <?=cntRes($value['idx'])?></small>
                   </div>
                 </div>

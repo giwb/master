@@ -1096,27 +1096,9 @@ if (!function_exists('getThumbnail')) {
   }
 }
 
-// 기사 조회수 가져오기
-if (!function_exists('getRefer')) {
-  function getRefer($idx) {
-    $CI =& get_instance();
-    $result = $GLOBALS['CI']->desk_model->cntArticleReaction($idx, REACTION_TYPE_REFER);
-    return $result['cnt'];
-  }
-}
-
-// 기사 좋아요 가져오기
-if (!function_exists('cntLiked')) {
-  function getLiked($idx) {
-    $CI =& get_instance();
-    $result = $GLOBALS['CI']->desk_model->cntArticleReaction($idx, REACTION_TYPE_LIKED);
-    return $result['cnt'];
-  }
-}
-
-// 기사 조회수 가져오기
+// 기사 댓글수 가져오기
 if (!function_exists('cntReply')) {
-  function getReply($idx) {
+  function cntReply($idx) {
     $CI =& get_instance();
     $result = $GLOBALS['CI']->desk_model->cntReply($idx);
     return $result['cnt'];
