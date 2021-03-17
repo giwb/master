@@ -27,11 +27,23 @@
                   <?php else: ?><?=$value['rank']?><?php endif; ?>
                 </td>
                 <td><?=$value['nickname']?>님</td>
-                <td>
+                <td class="btn-open-auth">
                   <div class="auth-progress-bar"><div id="medal<?=$key?>" class="auth-gauge" cnt="<?=$value['cnt']?>"><?=$value['cnt']?>회</div></div>
+                  <div class="auth-title d-none"><?=$value['title']?></div>
                 </td>
               </tr>
               <?php endforeach; ?>
             </table>
           </div>
         </div>
+
+        <script type="text/javascript">
+          $(document).on('click', '.btn-open-auth', function() {
+            var $dom = $('.auth-title');
+            if ($dom.hasClass('d-none')) {
+              $dom.slideDown();
+            } else {
+              $dom.slideUp();
+            }
+          });
+        </script>
