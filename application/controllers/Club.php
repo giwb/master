@@ -431,6 +431,7 @@ class Club extends MY_Controller
           $viewData['auth'][$cnt]['title'] .= "<a target='_blank' href='" . $auth['photo'] . "'>" . $auth['title'] . "</a> / ";
         }
         $buf = $value['cnt'];
+        $cnt++;
       }
     }
 
