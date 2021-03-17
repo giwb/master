@@ -130,10 +130,10 @@
 
   <ul id="nav-footer">
     <li><a href="<?=BASE_URL?>/reserve/schedule"><i class="fa fa-calendar" aria-hidden="true"></i><br>일정</a></li>
-    <?php if (!empty($listAbout[0]['idx'])): ?><li><a href="<?=BASE_URL?>/club/about/<?=$listAbout[0]['idx']?>"><i class="fa fa-sitemap" aria-hidden="true"></i><br>소개</a></li><?php endif; ?>
+    <?php if (!empty($listAbout[0]['idx'])): ?><li><a href="<?=BASE_URL?>/club/about/<?=$listAbout[0]['idx']?>"><i class="fas fa-chalkboard"></i><br>소개</a></li><?php endif; ?>
     <?php if ($view['idx'] == 1): ?><li><a href="<?=BASE_URL?>/club/auth"><i class="fa fa-check-square" aria-hidden="true"></i><br>백산백소</a></li><?php endif; ?>
     <li><a href="<?=BASE_URL?>/album"><i class="fas fa-map-marked-alt"></i></i><br>여행기</a></li>
-    <?php if ($view['idx'] == 1): ?><li><a href="<?=BASE_URL?>/shop"><i class="fa fa-shopping-cart" aria-hidden="true"></i><br>구매</a></li><?php endif; ?>
+    <?php if ($view['idx'] == 1): ?><li><a href="<?=BASE_URL?>/shop"><i class="fa fa-shopping-cart" aria-hidden="true"></i><br>용품샵</a></li><?php endif; ?>
   </ul>
 
   <input type="hidden" name="baseUrl" value="<?=BASE_URL?>">
