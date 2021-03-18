@@ -25,13 +25,13 @@
           </div>
 
           <h3>
-            ■ 진행중 예약 내역 : <span class="text-success"><?=$maxReserve['cnt']?>건</span>
-            <div class="area-btn">
+            ■ 진행중 예약 : <span class="text-success"><?=$maxReserve['cnt']?>건</span>
+            <div class="area-btn small">
               <?php if ($userData['level'] != LEVEL_FREE): ?>
-              <button type="button" class="btn btn-primary btn-mypage-payment">결제정보</button>
+              <a class="btn-custom btn-blue btn-mypage-payment">결제정보</a>
               <?php endif; ?>
-              <button type="button" class="btn btn-danger btn-reserve-cancel">예약취소</button>
-              <a href="<?=BASE_URL?>/member/reserve"><button type="button" class="btn btn-secondary">더보기</button></a>
+              <a class="btn-custom btn-red btn-reserve-cancel">예약취소</a>
+              <a href="<?=BASE_URL?>/member/reserve" class="btn-custom btn-gray">더보기</a>
             </div>
           </h3>
           <form id="reserveForm" method="post" action="/reserve/payment">
@@ -53,10 +53,10 @@
 
           <h3>
             ■ 구매 내역
-            <div class="area-btn">
-              <button type="button" class="btn btn-primary btn-shop-payment">결제정보</button>
-              <button type="button" class="btn btn-danger btn-shop-cancel">구매취소</button>
-              <a href="<?=BASE_URL?>/member/shop"><button type="button" class="btn btn-secondary">더보기</button></a>
+            <div class="area-btn small">
+              <a class="btn-custom btn-blue btn-shop-payment">결제정보</a>
+              <a class="btn-custom btn-red btn-shop-cancel">구매취소</a>
+              <a href="<?=BASE_URL?>/member/shop" class="btn-custom btn-gray">더보기</a>
             </div>
           </h3>
           <form id="shopForm" method="post" action="/shop/payment">
@@ -65,8 +65,8 @@
 
           <h3>
             ■ 다녀온 산행 내역 : <span class="text-primary"><?=$maxVisit['cnt']?>회</span>
-            <div class="area-btn">
-              <a href="<?=BASE_URL?>/member/reserve_past"><button type="button" class="btn btn-secondary">더보기</button></a>
+            <div class="area-btn small">
+              <a href="<?=BASE_URL?>/member/reserve_past" class="btn-custom btn-gray">더보기</a>
             </div>
           </h3>
           <?php foreach ($userVisit as $value): ?>
@@ -83,8 +83,8 @@
 
           <h3>
             ■ 취소한 예약 내역 : <span class="text-danger"><?=$maxReserveCancel['cnt']?>건</span>
-            <div class="area-btn">
-              <a href="<?=BASE_URL?>/member/reserve_cancel"><button type="button" class="btn btn-secondary">더보기</button></a>
+            <div class="area-btn small">
+              <a href="<?=BASE_URL?>/member/reserve_cancel" class="btn-custom btn-gray">더보기</a>
             </div>
           </h3>
           <?php foreach ($userReserveCancel as $value): ?>
@@ -100,8 +100,8 @@
 
           <h3>
             ■ 누적 포인트 : <span class="text-primary"><?=number_format($viewMember['point'])?> 포인트</span>
-            <div class="area-btn">
-              <a href="<?=BASE_URL?>/member/point"><button type="button" class="btn btn-secondary">더보기</button></a>
+            <div class="area-btn small">
+              <a href="<?=BASE_URL?>/member/point" class="btn-custom btn-gray">더보기</a>
             </div>
           </h3>
           <ul>
@@ -126,8 +126,8 @@
 
           <h3>
             ■ 누적 페널티 : <span class="text-danger"><?=number_format($viewMember['penalty'])?> 페널티</span>
-            <div class="area-btn">
-              <a href="<?=BASE_URL?>/member/penalty"><button type="button" class="btn btn-secondary">더보기</button></a>
+            <div class="area-btn small">
+              <a href="<?=BASE_URL?>/member/penalty" class="btn-custom btn-gray">더보기</a>
             </div>
           </h3>
           <ul>

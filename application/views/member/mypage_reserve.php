@@ -5,8 +5,8 @@
       <div class="row mt-1 mb-5">
         <div class="col-xl-8 col-md-12 mypage">
           <div class="row align-items-center">
-            <div class="col-4"><h4 class="font-weight-bold"><?=$pageTitle?> <small>(<?=$maxReserve['cnt']?>건)</small></h4></div>
-            <div class="col-8 text-right">
+            <div class="col-6"><h4 class="font-weight-bold"><?=$pageTitle?> <small>(<?=$maxReserve['cnt']?>건)</small></h4></div>
+            <div class="col-6 text-right">
               <?php if ($userData['level'] != LEVEL_FREE): ?>
               <a href="javascript:;" class="btn-custom btn-blue btn-mypage-payment">결제정보</a> &nbsp;
               <?php endif; ?>
