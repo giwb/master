@@ -65,23 +65,28 @@ class Album extends MY_Controller
       }
     }
 
-    foreach ($viewData['photos'] as $value) {
-      $viewData['album'][$value['notice_idx']][] = $value;
-      if (!empty($value['notice_subject'])) {
-        $viewData['album'][$value['notice_idx']]['title'] = date('Y년 m월 d일', strtotime($value['notice_startdate'])) . ' - ' . $value['notice_subject'];
-      } else {
-        $viewData['album'][$value['notice_idx']]['title'] = '기타 사진들';
+    if (!empty($viewData['photos'])) {
+      foreach ($viewData['photos'] as $value) {
+        $viewData['album'][$value['notice_idx']][] = $value;
+        if (!empty($value['notice_subject'])) {
+          $viewData['album'][$value['notice_idx']]['title'] = date('Y년 m월 d일', strtotime($value['notice_startdate'])) . ' - ' . $value['notice_subject'];
+        } else {
+          $viewData['album'][$value['notice_idx']]['title'] = '기타 사진들';
+        }
       }
     }
-    //print_r($viewData['album']);
 
     // 페이지 타이틀
     $viewData['pageTitle'] = '사진첩';
 
     if ($page >= 2) {
       // 2페이지 이상일 경우에는 Json으로 전송
-      $result['page'] = $page;
-      $result['html'] = $this->load->view('club/album_list', $viewData, true);
+      if (!empty($viewData['photos'])) {
+        $result['page'] = $page;
+        $result['html'] = $this->load->view('club/album_list', $viewData, true);
+      } else {
+        $result['html'] = '';
+      }
       $this->output->set_output(json_encode($result));
     } else {
       // 아이템 목록 템플릿
