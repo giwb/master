@@ -27,27 +27,65 @@ $(document).on('click', '.btn-album-insert', function() {
       location.replace($('input[name=baseUrl]').val() + '/album');
     }
   });
-}).on('click', '.btn-album-delete-modal', function() {
-  $('#albumDeleteModal').modal({backdrop: 'static', keyboard: false});
+}).on('click', '.btn-album-view', function() {
+  // 사진 확대하여 보여주기 (PhotoSwipe)
+  var $dom = $(this).parent();
+  var index = $(this).data('index');
+  var items = [];
+
+  $('.btn-album-view[data-notice-idx=' + $(this).data('notice-idx') + ']').each(function(i, v) {
+    items.push({
+      src: $('input[name=photoUrl]').val() + $(this).data('src'),
+      w: $(this).data('width'),
+      h: $(this).data('height'),
+      title: $(this).data('title')
+    });
+  });
+
+  var pswpElement = document.querySelectorAll('.pswp')[0];
+  var items = items;
+  var options = {
+    index: index,
+    bgOpacity: 0.8,
+    showHideOpacity: true,
+    loop: false,
+    getThumbBoundsFn: function(index) {
+      var thumbnail = $dom[0],
+      pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
+      rect = thumbnail.getBoundingClientRect(); 
+      return {x:rect.left, y:rect.top + pageYScroll, w:rect.width};
+    }
+  };
+  var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
+  gallery.init();
 }).on('click', '.btn-album-delete', function() {
+  var $dom = $(this);
+  $dom.parent().addClass('album-mask');
+}).on('click', '.btn-album-delete-process', function() {
   // 삭제
   var $btn = $(this);
+  var albumIdx = [];
+  var sourceFile = [];
+
+  $('.album-mask').each(function() {
+    albumIdx.push($(this).data('album-idx'));
+    sourceFile.push($(this).data('src'));
+  });
+
+  if (albumIdx == '') {
+    return false;
+  }
+
   $.ajax({
-    url: '/album/delete',
-    data: 'idx=' + $('input[name=idx]').val(),
+    url: '/album/delete_process',
+    data: 'albumIdx=' + albumIdx + '&sourceFile=' + sourceFile,
     dataType: 'json',
     type: 'post',
     beforeSend: function() {
-      $btn.css('opacity', '0.5').prop('disabled', true).text('삭제중.......');
+      $btn.css('opacity', '0.5').prop('disabled', true).text('삭제중..');
     },
     success: function(result) {
-      $btn.css('opacity', '1').prop('disabled', false).text('삭제합니다');
-      $('#albumDeleteModal .modal-message').text(result.message);
-      if (result.error != 1) {
-        $('#albumDeleteModal .close').hide();
-        $('#albumDeleteModal .btn-album-delete, #albumDeleteModal .btn-close').hide();
-        $('#albumDeleteModal .btn-album-list').removeClass('d-none');
-      }
+      location.replace($('input[name=baseUrl]').val() + '/album');
     }
   });
 });

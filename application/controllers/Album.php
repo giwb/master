@@ -220,28 +220,116 @@ class Album extends MY_Controller
   }
 
   /**
-   * 사진첩 삭제
+   * 사진 삭제
    *
-   * @return json
+   * @return view
    * @author bjchoi
    **/
   public function delete()
   {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
+    $userData = $this->load->get_var('userData');
+    $viewData['userIdx'] = !empty($userData['idx']) ? $userData['idx'] : '';
+    $search = array();
+
+    $viewData['keyword'] = $paging['keyword'] = html_escape($this->input->post('k'));
+    $page = html_escape($this->input->post('p'));
+    if (empty($page)) $page = 1; else $page++;
+    $paging['perPage'] = $viewData['perPage'] = 10;
+    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    // 사진첩 목록 (관리자가 아니라면 회원이 올린 글만)
+    if (empty($userData['admin'])) {
+      $search['created_by'] = $userData['idx'];
+    }
+    $viewData['listAlbumMain'] = $this->club_model->listAlbum($clubIdx, $paging, $search);
+
+    foreach ($viewData['listAlbumMain'] as $key => $value) {
+      $photos = $this->file_model->getFile('album', $value['idx']);
+
+      foreach ($photos as $i => $photo) {
+        if (!empty($photo['filename'])) {
+          $size = getImageSize(PHOTO_PATH . $photo['filename']);
+          $viewData['photos'][$key]['filename'][] = PHOTO_URL . 'thumb_' . $photo['filename'];
+          $viewData['photos'][$key]['source'][] = $photo['filename'];
+          $viewData['photos'][$key]['width'][] = $size[0];
+          $viewData['photos'][$key]['height'][] = $size[1];
+        } else {
+          $viewData['photos'][$key]['filename'][] = '/public/images/noimage.png';
+        }
+        $viewData['photos'][$key]['idx'] = $value['idx'];
+        $viewData['photos'][$key]['nickname'] = $value['nickname'];
+        $viewData['photos'][$key]['subject'] = $value['subject'];
+        $viewData['photos'][$key]['notice_idx'] = $value['notice_idx'];
+        $viewData['photos'][$key]['notice_subject'] = $value['notice_subject'];
+        $viewData['photos'][$key]['notice_startdate'] = $value['notice_startdate'];
+        $viewData['photos'][$key]['content'] = $value['content'];
+        $viewData['photos'][$key]['created_by'] = $value['created_by'];
+        $viewData['photos'][$key]['created_at'] = $value['created_at'];
+      }
+    }
+
+    if (!empty($viewData['photos'])) {
+      foreach ($viewData['photos'] as $value) {
+        $viewData['album'][$value['notice_idx']][] = $value;
+        if (!empty($value['notice_subject'])) {
+          $viewData['album'][$value['notice_idx']]['title'] = date('Y년 m월 d일', strtotime($value['notice_startdate'])) . ' - ' . $value['notice_subject'];
+        } else {
+          $viewData['album'][$value['notice_idx']]['title'] = '기타 사진들';
+        }
+      }
+    }
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '사진 삭제';
+
+    if ($page >= 2) {
+      // 2페이지 이상일 경우에는 Json으로 전송
+      $result['page'] = $page;
+      $result['html'] = $this->load->view('club/album_delete_list', $viewData, true);
+      $this->output->set_output(json_encode($result));
+    } else {
+      // 아이템 목록 템플릿
+      $viewData['listAlbumMain'] = $this->load->view('club/album_delete_list', $viewData, true);
+
+      // 1페이지에는 View 페이지로 전송
+      $this->_viewPage('club/album_delete', $viewData);
+    }
+  }
+
+  /**
+   * 사진 삭제 처리
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function delete_process()
+  {
     $now = time();
     $userData = $this->load->get_var('userData');
-    $idx = html_escape($this->input->post('idx'));
+    $inputData['albumIdx'] = explode(',', html_escape($this->input->post('albumIdx')));
+    $inputData['sourceFile'] = explode(',', html_escape($this->input->post('sourceFile')));
 
-    if (!empty($idx)) {
-      $updateValues['deleted_by'] = $userData['idx'];
-      $updateValues['deleted_at'] = $now;
-      $rtn = $this->club_model->updateAlbum($updateValues, $idx);
+    foreach ($inputData['sourceFile'] as $key => $value) {
+      // 파일 삭제
+      $this->file_model->deleteFile($value);
+      if (file_exists(PHOTO_PATH . $value)) {
+        unlink(PHOTO_PATH . $value);
+      }
+
+      // 해당 앨범에 사진이 하나도 없으면 앨범 데이터 삭제
+      $chk = $this->file_model->getFile('album', $inputData['albumIdx'][$key]);
+      if (empty($chk[0]['filename'])) {
+        $updateValues['deleted_by'] = $userData['idx'];
+        $updateValues['deleted_at'] = $now;
+        $this->club_model->updateAlbum($updateValues, $inputData['albumIdx'][$key]);
+      }
     }
 
-    if (empty($rtn)) {
-      $result = array('error' => 1, 'message' => $this->lang->line('error_delete'));
-    } else {
-      $result = array('error' => 0, 'message' => $this->lang->line('msg_delete_complete'));
-    }
+    $result = array('error' => 0, 'message' => '');
 
     $this->output->set_output(json_encode($result));
   }

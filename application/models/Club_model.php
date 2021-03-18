@@ -99,7 +99,7 @@ class Club_model extends CI_Model
   }
 
   // 앨범 목록
-  public function listAlbum($clubIdx, $paging)
+  public function listAlbum($clubIdx, $paging, $search=NULL)
   {
     $this->db->select('a.*, b.nickname, c.idx AS notice_idx, c.subject AS notice_subject, c.startdate AS notice_startdate')
           ->from(DB_ALBUM . ' a')
@@ -109,8 +109,8 @@ class Club_model extends CI_Model
           ->where('a.deleted_at', NULL)
           ->order_by('a.notice_idx, a.idx', 'desc');
 
-    if (!empty($paging['keyword'])) {
-      $this->db->like('a.subject', $paging['keyword']);
+    if (!empty($search['created_by'])) {
+      $this->db->where('a.created_by', $search['created_by']);
     }
     if (!empty($paging)) {
       $this->db->limit($paging['perPage'], $paging['nowPage']);

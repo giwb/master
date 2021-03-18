@@ -8,7 +8,12 @@
 
           <div class="row align-items-center">
             <div class="col-6"><h4 class="font-weight-bold"><?=$pageTitle?></h4></div>
-            <?php if (!empty($userData['idx'])): ?><div class="col-6 text-right"><a href="<?=BASE_URL?>/album/entry" class="btn-custom btn-giwb">사진등록</a></div><?php endif; ?>
+            <?php if (!empty($userData['idx'])): ?>
+            <div class="col-6 text-right">
+              <a href="<?=BASE_URL?>/album/entry" class="btn-custom btn-blue">사진등록</a>
+              <a href="<?=BASE_URL?>/album/delete" class="btn-custom btn-red">삭제</a>
+            </div>
+            <?php endif; ?>
           </div>
           <hr class="text-default mb-0">
 
@@ -28,6 +33,7 @@
           </form>
         </div>
       </div>
+      <input type="hidden" name="photoUrl" value="<?=PHOTO_URL?>">
 
       <!-- Photo Swipe -->
       <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
@@ -64,37 +70,3 @@
           </div>
         </div>
       </div>
-
-      <script type="text/javascript">
-      $(document).on('click', '.btn-album', function() {
-        var $dom = $(this).parent();
-        var index = $(this).data('index');
-        var items = [];
-
-        $('.btn-album[data-notice-idx=' + $(this).data('notice-idx') + ']').each(function(i, v) {
-          items.push({
-            src: '<?=PHOTO_URL?>' + $(this).data('src'),
-            w: $(this).data('width'),
-            h: $(this).data('height'),
-            title: $(this).data('title')
-          });
-        });
-
-        var pswpElement = document.querySelectorAll('.pswp')[0];
-        var items = items;
-        var options = {
-          index: index,
-          bgOpacity: 0.8,
-          showHideOpacity: true,
-          loop: false,
-          getThumbBoundsFn: function(index) {
-            var thumbnail = $dom[0],
-            pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
-            rect = thumbnail.getBoundingClientRect(); 
-            return {x:rect.left, y:rect.top + pageYScroll, w:rect.width};
-          }
-        };
-        var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
-        gallery.init();
-      });
-      </script>
