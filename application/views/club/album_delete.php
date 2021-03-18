@@ -7,9 +7,9 @@
         <div class="col-md-12">
 
           <div class="row align-items-center">
-            <div class="col-6"><h4 class="font-weight-bold"><?=$pageTitle?></h4></div>
+            <div class="col-5"><h4 class="font-weight-bold"><?=$pageTitle?></h4></div>
             <?php if (!empty($userData['idx'])): ?>
-            <div class="col-6 text-right">
+            <div class="col-7 text-right">
               <a href="<?=BASE_URL?>/album" class="btn-custom btn-gray">목록</a>
               <a class="btn-custom btn-red btn-album-delete-process">선택한 사진 삭제</a>
             </div>
