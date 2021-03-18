@@ -73,6 +73,7 @@ class Album extends MY_Controller
         $viewData['album'][$value['notice_idx']]['title'] = '기타 사진들';
       }
     }
+    //print_r($viewData['album']);
 
     // 페이지 타이틀
     $viewData['pageTitle'] = '사진첩';
