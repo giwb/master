@@ -60,7 +60,7 @@
           </div>
         </li>
         <li class="nav-item">
-          <a href="/video" class="nav-link" aria-haspopup="true" aria-expanded="false"><i class="fas fa-video"></i> 현지영상</a>
+          <a href="http://cctv.tripkorea.net/video" class="nav-link" aria-haspopup="true" aria-expanded="false"><i class="fas fa-video"></i> 현지영상</a>
         </li>
         <?php if (!empty($userData['idx'])): ?>
         <li class="nav-item">
