@@ -173,6 +173,9 @@ class Shop extends MY_Controller
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
+    // 검색 분류
+    $viewData['listCategory'] = $this->shop_model->listCategory();
+
     // 카트 정보
     $viewData['listCart'] = array();
     $viewData['total_amount'] = $viewData['total_price'] = $viewData['total_cost'] = 0;
@@ -310,6 +313,9 @@ class Shop extends MY_Controller
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    // 검색 분류
+    $viewData['listCategory'] = $this->shop_model->listCategory();
 
     // 카트 정보
     $viewData['listCart'] = array();
@@ -455,6 +461,9 @@ class Shop extends MY_Controller
     } else {
       // 클럽 정보
       $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+      // 검색 분류
+      $viewData['listCategory'] = $this->shop_model->listCategory();
 
       // 구매 정보
       $viewData['viewPurchase'] = $this->shop_model->viewPurchase($idx);
