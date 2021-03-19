@@ -18,10 +18,8 @@
             <div class="col-md-6 my-3">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="text-center">한려해상 국립공원 각산</h4>
-                  <video class="video-js" controls preload="auto" width="440" height="249" data-setup="{}">
-                    <source src="http://220.70.164.229/hls/gaksan.m3u8" type="application/x-mpegurl" class="video-source" />
-                  </video>
+                  <h4 class="text-center">북한산 국립공원</h4>
+                  <video class="fp-engine hlsjs-engine" autoplay="" width="440" height="249" src="blob:http://www.knps.or.kr/5f898f36-0ef7-43a8-84a8-a0ce3710773d" x-webkit-airplay="allow"></video>
                 </div>
                 <div class="mdb-color lighten-3 text-center">
                   <ul class="list-unstyled list-inline font-small mt-3">
@@ -36,9 +34,7 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="text-center">덕유산 국립공원 설천봉</h4>
-                  <video class="video-js" controls preload="auto" width="440" height="249" data-setup="{}">
-                    <source src="http://220.70.164.229/hls/zsulchun.m3u8" type="application/x-mpegurl" class="video-source" />
-                  </video>
+                  <video class="fp-engine hlsjs-engine" autoplay="" src="blob:http://www.knps.or.kr/0bfcbeb4-2f75-4677-8d95-a56889380937" x-webkit-airplay="allow"></video>
                 </div>
                 <div class="mdb-color lighten-3 text-center">
                   <ul class="list-unstyled list-inline font-small mt-3">
