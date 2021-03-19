@@ -2,7 +2,7 @@
 
   <script type="text/javascript" src="/public/js/shop.js"></script>
   <main id="shop" class="shop-main">
-    <div class="container-fluid club-main">
+    <div class="container-fluid">
       <div class="row mt-1 mb-5">
         <div class="col-xl-8 col-md-12">
           <div class="row align-items-center">
@@ -30,6 +30,7 @@
             <div class="shop-menu-item<?=!empty($search['item_category1']) && $search['item_category1'] == $value['idx'] ? ' active' : ''?>"><a href="<?=BASE_URL?>/shop/?c=<?=$value['idx']?>"><?=$value['name']?></a></div>
             <?php endforeach; ?>
           </div>
+
           <div class="sub-content mt-3 p-3">
             <form id="formList">
               <input type="hidden" name="p" value="1">

@@ -153,7 +153,7 @@ class Shop extends MY_Controller
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
     // 페이지 타이틀
-    $viewData['pageTitle'] = '구매대행 상품';
+    $viewData['pageTitle'] = '용품샵';
 
     $this->_viewPage('shop/item', $viewData);
   }
@@ -205,7 +205,7 @@ class Shop extends MY_Controller
     }
 
     // 페이지 타이틀
-    $viewData['pageTitle'] = '구매대행 상품';
+    $viewData['pageTitle'] = '용품샵';
 
     $this->_viewPage('shop/cart', $viewData);
   }
@@ -469,7 +469,7 @@ class Shop extends MY_Controller
     }
 
     // 페이지 타이틀
-    $viewData['pageTitle'] = '구매대행 상품';
+    $viewData['pageTitle'] = '용품샵';
 
     $this->_viewPage('shop/complete', $viewData);
   }
