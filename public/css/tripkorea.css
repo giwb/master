@@ -2173,9 +2173,10 @@ main#footer { padding-top: 0px!important; }
 .post-article img { max-width: 100%; }
 .area-refer { justify-content: flex-start!important; }
 .area-sns { justify-content: flex-end!important; }
+.video-js { width: 440px; height: 249px; }
 
 @media (max-width:740px) {
-    main { padding-top: 50px!important; }
+    main { padding-top: 100px!important; }
     main#mainpage { padding-top: 0px!important; }
     main#footer { padding-top: 0px!important; }
     .dropdown-search { left: 0px!important; }
@@ -2193,4 +2194,5 @@ main#footer { padding-top: 0px!important; }
     .area-refer { justify-content: center!important; }
     .area-refer h5 { font-size: 1em; }
     .area-sns { justify-content: center!important; }
+	.video-js { width: 100%; height: auto; }
 }
