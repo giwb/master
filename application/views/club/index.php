@@ -2,18 +2,7 @@
 
   <script type="text/javascript">
     $(document).ready(function() {   
-      // Collapse Navbar
-      var navbarCollapse = function() {
-        if ($("#mainNav").offset().top < 650) {
-          $("#mainNav").addClass("navbar-scrolled");
-        } else {
-          $("#mainNav").removeClass("navbar-scrolled");
-        }
-      };
-      // Collapse now if page is not at top
-      navbarCollapse();
-      // Collapse the navbar when page is scrolled
-      $(window).scroll(navbarCollapse);
+
     });
   </script>
 
@@ -189,3 +178,43 @@
             </div>
           </section>
         </div>
+
+        <script type="text/javascript">
+        $(document).ready(function(){
+          // Collapse Navbar
+          var navbarCollapse = function() {
+            if ($("#mainNav").offset().top < 650) {
+              $("#mainNav").addClass("navbar-scrolled");
+            } else {
+              $("#mainNav").removeClass("navbar-scrolled");
+            }
+          };
+          // Collapse now if page is not at top
+          navbarCollapse();
+          // Collapse the navbar when page is scrolled
+          $(window).scroll(navbarCollapse);
+          // Carousel PhotoSwipe
+          $('.carousel').carousel({
+            interval: false,
+            pause: true
+          });
+          
+          $('.carousel .carousel-inner').swipe({
+            swipeLeft: function (event, direction, distance, duration, fingerCount ) {
+              this.parent().carousel('next');
+            },
+            swipeRight: function () {
+              this.parent().carousel('prev');
+            },
+            threshold: 0,
+            tap: function(event, target) {
+              window.location = $(this).find('.carousel-item.active a').attr('href');
+            },
+            excludedElements: "label, button, input, select, textarea, .noSwipe"
+          });
+          
+          $('.carousel .carousel-inner').on('dragstart', 'a', function () {
+            return false;
+          });
+        });
+        </script>
