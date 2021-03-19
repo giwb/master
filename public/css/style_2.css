@@ -2251,16 +2251,16 @@ body { font-family: 'Noto Sans KR', sans-serif; }
 .story-reaction .area-share ul li { width: 58px; display: table-cell; text-align: center; white-space: nowrap; }
 .story-reaction .area-share input { font-size: 10px; }
 .sub-contents .story-reaction { margin-top: 20px; }
-.story-reply { font-size: 14px; margin: 10px 0; display: none; }
+.story-reply { font-size: 14px; margin: 10px 0; }
 .admin-reply.story-reply { display: block; }
 .story-article .story-reply, #club .club-main .story-reply.reply-type-2 { display: block; }
 .story-reply dl { width: 100%; display: table; text-align: left; word-break: break-all; }
 .story-reply dl dt { width: 60px; display: table-cell; vertical-align: top; padding-right: 15px; white-space: nowrap; }
 .story-reply dl dd { display: table-cell; vertical-align: top; }
 .story-reply dl dd .reply-date { font-size: 12px; color: #aeaeae; }
-.story-reply .story-reply-input { width: 100%; display: table; margin: 0px; padding: 0px; }
-.story-reply .story-reply-input textarea { width: 75%; height: 50px; display: table-cell; vertical-align: middle; float: left; }
-.story-reply .story-reply-input button { width: 22%; height: 50px; display: table-cell; vertical-align: middle; float: right; }
+.story-reply .story-reply-input { width: 100%; display: table; margin: 0 0 50px 0; padding: 0px; }
+.story-reply .story-reply-input textarea { width: 76%; height: 50px; display: table-cell; vertical-align: middle; float: left; }
+.story-reply .story-reply-input button { width: 22%; height: 50px; margin: 0; padding: 0; display: table-cell; vertical-align: middle; float: right; white-space: nowrap; }
 .story-reply .btn-post-delete-modal { font-size: 12px; }
 .story-reply .reply-response { display: none; }
 .story-reply .story-reply-item.response dt { width: 100px; }
@@ -2670,8 +2670,8 @@ main#footer .logo-img { margin-right: 10px; float: left; }
   #club .sub-contents h2 { font-size: 1.5rem; margin: 0px; padding: 0px; }
   #club .sub-contents h2.notice-title { font-size: 1.5rem; }
 
-  #club .club-main .story-reply .story-reply-input textarea { width: 70%; height: 50px; display: table-cell; vertical-align: middle; float: left; }
-  #club .club-main .story-reply .story-reply-input button { width: 22%; height: 50px; display: table-cell; vertical-align: middle; float: right; padding: 0px; }
+  .story-reply .story-reply-input textarea { width: 75%; height: 50px; display: table-cell; vertical-align: middle; float: left; }
+  .story-reply .story-reply-input button { width: 22%; height: 50px; display: table-cell; vertical-align: middle; float: right; }
 
   .card .area-photo { height: 200px; margin-bottom: 10px; overflow: hidden; }
   .logo-text { font-size: 0.7rem; }
