@@ -2773,6 +2773,7 @@ main#footer .logo-img { margin-right: 10px; float: left; }
   #shop .btn-buy { font-size: 12px; }
 
   .header-menu .header-menu-item { flex: 0 0 33.333333%; }
+  .header-menu .header-menu-item.col-6 { flex: 0 0 50%; }
 /*
   .row-category { border-top: 3px solid #FF6C00; display: block; }
   .row-category a { color: #333; border-bottom: 1px solid #dee2e6; display: block; }

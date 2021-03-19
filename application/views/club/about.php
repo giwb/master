@@ -10,9 +10,9 @@
           <div class="d-block d-sm-none">
             <div class="header-menu mt-3 mb-3">
               <?php foreach ($listAbout as $value): ?>
-              <div class="header-menu-item<?=$pageIdx == $value['idx'] ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/about/<?=$value['idx']?>"><?=$value['title']?></a></div>
+              <div class="header-menu-item col-6<?=$pageIdx == $value['idx'] ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/about/<?=$value['idx']?>"><?=$value['title']?></a></div>
               <?php endforeach; ?>
-              <div class="header-menu-item"><a href="<?=BASE_URL?>/club/past">지난산행</a></div>
+              <div class="header-menu-item col-6"><a href="<?=BASE_URL?>/club/past">지난산행</a></div>
             </div>
           </div>
 
