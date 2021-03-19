@@ -106,7 +106,7 @@
           <section class="section mt-5">
             <h4 class="row font-weight-bold">
               <div class="col-6"><strong>백산백소 인증현황</strong></div>
-              <div class="col-6 text-right"><!--<a href="javascript:;" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a>--></div>
+              <div class="col-6 text-right"><a href="<?=BASE_URL?>/club/auth" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a></div>
             </h4>
             <div class="card pb-3">
               <div class="row pl-3 pr-3 pt-3">
