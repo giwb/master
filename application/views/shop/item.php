@@ -24,10 +24,10 @@
               <div class="btn-notice text-right mt-2" data-idx="1"><i class="fa fa-chevron-up" aria-hidden="true"></i> 닫기</div>
             </div>
           </div>
-          <div class="shop-menu">
-            <div class="shop-menu-item<?=empty($search['item_category1']) ? ' active' : ''?>"><a href="<?=BASE_URL?>/shop">인기상품</a></div>
+          <div class="header-menu">
+            <div class="header-menu-item<?=empty($search['item_category1']) ? ' active' : ''?>"><a href="<?=BASE_URL?>/shop">인기상품</a></div>
             <?php foreach ($listCategory as $value): ?>
-            <div class="shop-menu-item<?=!empty($search['item_category1']) && $search['item_category1'] == $value['idx'] ? ' active' : ''?>"><a href="<?=BASE_URL?>/shop/?c=<?=$value['idx']?>"><?=$value['name']?></a></div>
+            <div class="header-menu-item<?=!empty($search['item_category1']) && $search['item_category1'] == $value['idx'] ? ' active' : ''?>"><a href="<?=BASE_URL?>/shop/?c=<?=$value['idx']?>"><?=$value['name']?></a></div>
             <?php endforeach; ?>
           </div>
 
