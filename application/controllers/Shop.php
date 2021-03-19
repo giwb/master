@@ -353,7 +353,7 @@ class Shop extends MY_Controller
     $viewData['listMemberReserve'] = $this->shop_model->listMemberReserve($clubIdx, $userData['userid']);
 
     // 페이지 타이틀
-    $viewData['pageTitle'] = '용품판매 - 구매진행';
+    $viewData['pageTitle'] = '용품샵';
 
     $this->_viewPage('shop/checkout', $viewData);
   }
