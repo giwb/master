@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-<script src="http://www.knps.or.kr/common/cctv/flowplayer.min.js"></script>
-<script src="http://www.knps.or.kr/common/cctv/flowplayer.hlsjs.min.js"></script>
+<script src="/public/js/flowplayer.min.js"></script>
+<script src="/public/js/flowplayer.hlsjs.min.js"></script>
 <style>
   video { width: 100%; }
 </style>
@@ -18,8 +18,8 @@
             <div class="col-md-6 my-3">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="text-center">북한산 국립공원</h4>
-<video width="440" height="249" autoplay type="application/x-mpegurl" src="http://220.70.164.229/hls/solak.m3u8"/></video>
+                  <h4 class="text-center">설악산 국립공원 (울산바위)</h4>
+                  <video width="440" height="249" autoplay type="application/x-mpegurl" src="/public/images/tripkorea/solak.m3u8"/></video>
                 </div>
                 <div class="mdb-color lighten-3 text-center">
                   <ul class="list-unstyled list-inline font-small mt-3">
