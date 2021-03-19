@@ -5,7 +5,7 @@
       <div class="row mt-1 mb-5">
         <div class="col-xl-8 col-md-12">
           <h4 class="font-weight-bold"><?=$viewAbout['title']?></h4>
-          <hr class="text-default mt-2">
+          <hr class="text-default">
 
           <div class="d-block d-sm-none">
             <div class="header-menu mt-3 mb-3">
