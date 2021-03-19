@@ -9,10 +9,10 @@
         <div class="col-xl-8 col-md-12">
           <section class="section extra-margins listing-section">
             <div class="row align-items-center">
-              <div class="col-6">
+              <div class="col-7">
                 <h4 class="font-weight-bold"><strong>기사 검색 : <?=$type?></strong></h4>
               </div>
-              <div class="col-6 text-right">
+              <div class="col-5 text-right">
                 <?php if ($code == 'review'): ?>
                 <a href="<?=$baseUrl?>article_post/?code=<?=$code?>" class="btn-custom btn-giwb">여행후기 작성</a>
                 <?php elseif ($code == 'news'): ?>
@@ -20,6 +20,15 @@
                 <?php endif; ?>
               </div>
             </div><hr class="red mt-2">
+
+            <div class="d-block d-sm-none">
+              <div class="header-menu mt-3 mb-3">
+                <div class="header-menu-item"><a href="<?=BASE_URL?>/album">사진첩</a></div>
+                <div class="header-menu-item<?=$code == 'news' ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/search/?code=news">여행정보</a></div>
+                <div class="header-menu-item<?=$code == 'review' ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/search/?code=review">여행후기</a></div>
+              </div>
+            </div>
+
             <div class="row pb-5">
               <?php if (empty($listArticle)): ?>
               <div class="col-md-12 my-2 pt-5 pb-5 text-center">

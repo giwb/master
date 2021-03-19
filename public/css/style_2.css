@@ -2611,12 +2611,13 @@ main#footer .logo-img { margin-right: 10px; float: left; }
 #shop .btn-cart-insert:hover { color: #ED1B24; border-color: #ED1B24; }
 #shop .btn-buy { color: #fff; background-color: #FF6C00; border-color: #FF6C00; }
 #shop .btn-buy:hover { color: #fff; background-color: #FF9140; border-color: #FF9140; }
-#shop .shop-menu { display: flex; flex-wrap: wrap; }
-#shop .shop-menu a { position: relative; width: 100%; font-size: 0.8rem; color: #333; border: 1px solid #FF6C00; border-radius: 5px; padding: 5px 0 5px 10px; display: block; -webkit-box-shadow:0 1px 3px 0 rgba(0,0,0,.16),0 1px 3px 0 rgba(0,0,0,.12);box-shadow:0 1px 3px 0 rgba(0,0,0,.16),0 1px 3px 0 rgba(0,0,0,.12); }
-#shop .shop-menu a:before { position: absolute; right: 5px; content: '>'; font-family: 'sans-serif'; }
-#shop .shop-menu .shop-menu-item { flex-basis: 0; flex-grow: 1; padding: 4px; }
-#shop .shop-menu .shop-menu-item.active a { background-color: #FF6600; color: #fff; }
 .row-category { display: none; }
+
+.header-menu { display: flex; flex-wrap: wrap; }
+.header-menu a { position: relative; width: 100%; font-size: 0.8rem; color: #333; border: 1px solid #FF6C00; border-radius: 5px; padding: 5px 0 5px 10px; display: block; -webkit-box-shadow:0 1px 3px 0 rgba(0,0,0,.16),0 1px 3px 0 rgba(0,0,0,.12);box-shadow:0 1px 3px 0 rgba(0,0,0,.16),0 1px 3px 0 rgba(0,0,0,.12); }
+.header-menu a:before { position: absolute; right: 5px; content: '>'; font-family: 'sans-serif'; }
+.header-menu .header-menu-item { flex-basis: 0; flex-grow: 1; padding: 4px; }
+.header-menu .header-menu-item.active a { background-color: #FF6600; color: #fff; }
 
 /* 백산백소 인증 프로그레스 바 */
 .auth-progress-bar { width: 100%; background-color: #d9d9d9; text-align: center; color: #fff; }
@@ -2768,9 +2769,10 @@ main#footer .logo-img { margin-right: 10px; float: left; }
   #album .album-item .ajax-loader { position: absolute; top: 38%; left: 43%; z-index: 90; }
 
   /* 용품판매 */
-  #shop .shop-menu .shop-menu-item { flex: 0 0 33.333333%; }
   #shop .btn-cart-insert { font-size: 12px; }
   #shop .btn-buy { font-size: 12px; }
+
+  .header-menu .header-menu-item { flex: 0 0 33.333333%; }
 /*
   .row-category { border-top: 3px solid #FF6C00; display: block; }
   .row-category a { color: #333; border-bottom: 1px solid #dee2e6; display: block; }

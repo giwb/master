@@ -17,6 +17,14 @@
           </div>
           <hr class="text-default mb-0">
 
+          <div class="d-block d-sm-none">
+            <div class="header-menu mt-3">
+              <div class="header-menu-item active"><a href="<?=BASE_URL?>/album">사진첩</a></div>
+              <div class="header-menu-item"><a href="<?=BASE_URL?>/club/search/?code=news">여행정보</a></div>
+              <div class="header-menu-item"><a href="<?=BASE_URL?>/club/search/?code=review">여행후기</a></div>
+            </div>
+          </div>
+
           <form id="formList">
             <div id="album">
               <input type="hidden" name="p" value="1">
