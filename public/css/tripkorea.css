@@ -2150,7 +2150,7 @@ body.postpage-v5 .article{font-size:.9rem;line-height:1.8}
 
 body { font-family: 'Noto Sans KR', sans-serif; }
 main { padding-top: 100px!important; }
-main#mainpage { padding-top: 0px!important; }
+main#mainpage { padding-top: 20px!important; }
 main#footer { padding-top: 0px!important; }
 .navbar { width: 100%; position: fixed; z-index: 100; }
 .dropdown-search { left: -300px!important; }
