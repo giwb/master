@@ -1,11 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-  <script type="text/javascript">
-    $(document).ready(function() {   
-
-    });
-  </script>
-
   <div id="fb-root"></div>
   <div id="carousel-main" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
@@ -186,7 +180,7 @@
             if ($("#mainNav").offset().top < 650) {
               $("#mainNav").addClass("navbar-scrolled");
             } else {
-              $("#mainNav").removeClass("navbar-scrolled");
+              $("#mainNav").css({transition: 'background 0.7s ease'}).removeClass("navbar-scrolled");
             }
           };
           // Collapse now if page is not at top
