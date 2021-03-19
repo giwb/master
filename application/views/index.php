@@ -1,5 +1,32 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.carousel').carousel({
+    interval: false,
+    pause: true
+  });
+  
+  $('.carousel .carousel-inner').swipe({
+    swipeLeft: function (event, direction, distance, duration, fingerCount ) {
+      this.parent().carousel('next');
+    },
+    swipeRight: function () {
+      this.parent().carousel('prev');
+    },
+    threshold: 0,
+    tap: function(event, target) {
+      window.location = $(this).find('.carousel-item.active a').attr('href');
+    },
+    excludedElements: "label, button, input, select, textarea, .noSwipe"
+  });
+  
+  $('.carousel .carousel-inner').on('dragstart', 'a', function () {
+    return false;
+  });
+});
+</script>
+
 <div id="carousel-main" class="carousel slide carousel-fade" data-ride="carousel">
   <ol class="carousel-indicators">
     <?php foreach($listArticleMain as $key => $value): ?>
