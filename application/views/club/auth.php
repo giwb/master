@@ -10,9 +10,9 @@
 
           <div class="d-block d-sm-none">
             <div class="header-menu mt-3 mb-3">
+              <div class="header-menu-item active"><a href="<?=BASE_URL?>/club/auth">인증현황</a></div>
               <div class="header-menu-item"><a href="<?=BASE_URL?>/club/page/?type=mountain">100대명산</a></div>
               <div class="header-menu-item"><a href="<?=BASE_URL?>/club/page/?type=forest">100대명소</a></div>
-              <div class="header-menu-item active"><a href="<?=BASE_URL?>/club/auth">인증현황</a></div>
             </div>
           </div>
 
