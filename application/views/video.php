@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-<link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet" />
-<script src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>
+<script src="http://www.knps.or.kr/common/cctv/flowplayer.min.js"></script>
+<script src="http://www.knps.or.kr/common/cctv/flowplayer.hlsjs.min.js"></script>
 <style>
   video { width: 100%; }
 </style>
@@ -19,7 +19,7 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="text-center">북한산 국립공원</h4>
-                  <video class="fp-engine hlsjs-engine" autoplay="" width="440" height="249" src="blob:http://www.knps.or.kr/5f898f36-0ef7-43a8-84a8-a0ce3710773d" x-webkit-airplay="allow"></video>
+<video width="440" height="249" autoplay type="application/x-mpegurl" src="http://220.70.164.229/hls/solak.m3u8"/></video>
                 </div>
                 <div class="mdb-color lighten-3 text-center">
                   <ul class="list-unstyled list-inline font-small mt-3">
@@ -34,7 +34,6 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="text-center">덕유산 국립공원 설천봉</h4>
-                  <video class="fp-engine hlsjs-engine" autoplay="" src="blob:http://www.knps.or.kr/0bfcbeb4-2f75-4677-8d95-a56889380937" x-webkit-airplay="allow"></video>
                 </div>
                 <div class="mdb-color lighten-3 text-center">
                   <ul class="list-unstyled list-inline font-small mt-3">
