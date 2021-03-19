@@ -2607,8 +2607,8 @@ main#footer .logo-img { margin-right: 10px; float: left; }
 #shop .item-content h4 { color: #505050; border: 1px solid #999; border-width: 1px 0 1px 0; background-color: #ddd; padding: 10px; }
 #shop .area-cost { font-size: 23px; color: #FF6C00; }
 #shop .area-cost .discount { font-size: 12px; font-weight: normal; color: brown; }
-#shop .btn-cart, #shop .btn-cart-insert { color: #FF6C00; background-color: #fff; border-color: #FF6C00; }
-#shop .btn-cart:hover, #shop .btn-cart-insert:hover { color: #ED1B24; border-color: #ED1B24; }
+/*#shop .btn-cart, #shop .btn-cart-insert { color: #FF6C00; background-color: #fff; border-color: #FF6C00; }
+#shop .btn-cart:hover, #shop .btn-cart-insert:hover { color: #ED1B24; border-color: #ED1B24; }*/
 #shop .btn-buy { color: #fff; background-color: #FF6C00; border-color: #FF6C00; }
 #shop .btn-buy:hover { color: #fff; background-color: #FF9140; border-color: #FF9140; }
 #shop .shop-menu { display: flex; flex-wrap: wrap; }

@@ -5,14 +5,16 @@
     <div class="container-fluid club-main">
       <div class="row mt-1 mb-5">
         <div class="col-xl-8 col-md-12">
-
-          <h4 class="font-weight-bold"><?=$pageTitle?></h4>
-          <hr class="text-default">
-
           <div class="row align-items-center">
-            <div class="col-9 mt-2 mb-2"><a href="javascript:;" class="btn-notice" data-idx="1"><strong><i class="fa fa-question-circle-o" aria-hidden="true"></i> 용품샵이란..?</strong></a></div>
-            <div class="col-3 text-right d-none d-sm-block"><a href="<?=BASE_URL?>/shop/cart"><button type="button" class="btn btn-sm btn-cart">장바구니 보기</button></a></div>
+            <div class="col-6">
+              <table><tr valign="bottom"><td class="m-0 p-0"><h4 class="font-weight-bold"><?=$pageTitle?></h4></td><td valign="top" class="m-0 p-0"><small><a href="javascript:;" class="btn-notice" data-idx="1"><i class="far fa-question-circle mt-0 ml-3"></i></a></small></td></tr></table>
+            </div>
+            <div class="col-6 text-right">
+              <a href="<?=BASE_URL?>/shop/cart" class="btn-custom btn-giwb btn-cart small">장바구니 보기</a>
+            </div>
           </div>
+          <hr class="text-default mt-2">
+
           <div class="area-notice text-justify small" data-idx="1">
             <div class="border mb-3 p-4">
               용품샵이란, 온라인 최저가 상품을 박스단위로 구입하여 산행시 필요로 하는 분들께 택배비 부담없이 낱개로 전달해 드리는 상품입니다.<br><br>
