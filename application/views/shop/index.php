@@ -22,26 +22,11 @@
               <div class="btn-notice text-right mt-2" data-idx="1"><i class="fa fa-chevron-up" aria-hidden="true"></i> 닫기</div>
             </div>
           </div>
-          <div class="d-none d-sm-block">
-            <div class="row m-3 p-0 border-top border-bottom border-right">
-              <a href="<?=BASE_URL?>/shop" class="col border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=empty($search['item_category1']) ? ' active' : ''?>">인기상품</a>
-              <?php foreach ($listCategory as $value): ?>
-              <a href="<?=BASE_URL?>/shop/?c=<?=$value['idx']?>" class="col border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=$value['idx'] == $search['item_category1'] ? ' active' : ''?>"><?=$value['name']?></a>
-              <?php endforeach; ?>
-            </div>
-          </div>
-          <div class="d-sm-none">
-            <div class="row-category">
-              <div class="row m-0 p-0 border-right">
-                <?php foreach ($listCategory as $key => $value): ?>
-                <?php if ($key == 0): ?><a href="<?=BASE_URL?>/shop" class="col border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=empty($search['item_category1']) ? ' active' : ''?>">인기상품</a>
-                <?php elseif ($key == 1): ?></div><div class='row m-0 p-0 border-right'>
-                <?php elseif ($key >= 2 && $key%2 == 1): ?></div><div class='row m-0 p-0 border-right'>
-                <?php endif; ?>
-                <a href="<?=BASE_URL?>/shop/?c=<?=$value['idx']?>" class="col border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=$value['idx'] == $search['item_category1'] ? ' active' : ''?>"><?=$value['name']?></a>
-                <?php endforeach; ?>
-              </div>
-            </div>
+          <div class="shop-menu">
+            <div class="shop-menu-item<?=empty($search['item_category1']) ? ' active' : ''?>"><a href="<?=BASE_URL?>/shop">인기상품</a></div>
+            <?php foreach ($listCategory as $value): ?>
+            <div class="shop-menu-item<?=!empty($search['item_category1']) && $search['item_category1'] == $value['idx'] ? ' active' : ''?>"><a href="<?=BASE_URL?>/shop/?c=<?=$value['idx']?>"><?=$value['name']?></a></div>
+            <?php endforeach; ?>
           </div>
           <div class="sub-content mt-3 p-3">
             <form id="formList">
