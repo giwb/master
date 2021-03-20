@@ -62,13 +62,24 @@
   <header>
     <nav id="mainNav" class="navbar navbar-expand-lg navbar-dark">
       <a class="navbar-brand" href="<?=BASE_URL?>"><img width="45" src="/public/images/icon.png" style="margin-right: 10px; float: left;"><span class="logo">경인웰빙</span></a>
-      <button class="navbar-toggler" type="button">
-        <?php if (!empty($userData['idx'])): ?>
-        <a href="<?=BASE_URL?>/member"><i class="fa fa-cog text-white" aria-hidden="true"></i></a>
-        <?php else: ?>
-        <a href="javascript:;" class="login-popup"><i class="fa fa-user-circle text-white" aria-hidden="true"></i></a>
-        <?php endif; ?>
+      <button class="navbar-toggler" type="button"><i class="fa fa-cog text-white" aria-hidden="true"></i>
       </button>
+      <div class="navbar-sideview">
+        <hr>
+        <?php if (empty($userData['idx'])): ?>
+        <a class="nav-link login-popup">로그인</a>
+        <a href="<?=BASE_URL?>/login/entry" class="nav-link">회원가입</a>
+        <?php else: ?>
+        <div class="text-center"><img src="<?=PHOTO_URL . $userData['idx']?>" class="avatar"></div>
+        <div class="text-center"><strong><?=$userData['nickname']?></strong> <small>(<?=$userLevel['levelName']?>)</small></div><hr>
+        <a href="<?=BASE_URL?>/member" class="nav-link">마이페이지</a>
+        <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
+        <a href="<?=BASE_URL?>/member/driver" class="nav-link">드라이버 페이지</a>
+        <?php endif; ?>
+        <a href="<?=BASE_URL?>/member/modify" class="nav-link">개인정보수정</a>
+        <a class="nav-link logout">로그아웃</a>
+        <?php endif; ?>
+      </div>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">

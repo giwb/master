@@ -68,8 +68,8 @@
                   </div>
                   <div class="row mt-4 text-center">
                     <input type="hidden" name="idx" value="<?=$viewItem['idx']?>">
-                    <div class="col-6 pr-2"><button type="button" class="btn w-100 btn-cart-insert" data-type="cart" data-idx="<?=$viewItem['idx']?>">장바구니에 담기</button></div>
-                    <div class="col-6 pl-2"><button type="button" class="btn w-100 btn-cart-insert btn-buy" data-type="buy" data-idx="<?=$viewItem['idx']?>">바로 구매하기 &gt;</button></div>
+                    <div class="col-6 pr-2"><button type="button" class="btn w-100 btn-cart-insert pl-3 pr-3" data-type="cart" data-idx="<?=$viewItem['idx']?>">장바구니에 담기</button></div>
+                    <div class="col-6 pl-2"><button type="button" class="btn w-100 btn-cart-insert btn-buy pl-3 pr-3" data-type="buy" data-idx="<?=$viewItem['idx']?>">바로 구매하기 &gt;</button></div>
                   </div>
                 </form>
               </div>

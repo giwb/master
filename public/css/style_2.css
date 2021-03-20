@@ -2605,6 +2605,7 @@ main#footer .logo-img { margin-right: 10px; float: left; }
 #shop .item-name { font-size: 20px; border-bottom: 1px solid #d9d9d9; padding: 5px 0 10px 0; }
 #shop .item-content { margin-top: 30px; }
 #shop .item-content h4 { color: #505050; border: 1px solid #999; border-width: 1px 0 1px 0; background-color: #ddd; padding: 10px; }
+#shop .item-content img { max-width: 100%; }
 #shop .area-cost { font-size: 23px; color: #FF6C00; }
 #shop .area-cost .discount { font-size: 12px; font-weight: normal; color: brown; }
 #shop .btn-cart-insert { color: #FF6C00; background-color: #fff; border-color: #FF6C00; }
@@ -2644,10 +2645,18 @@ main#footer .logo-img { margin-right: 10px; float: left; }
 .btn-page-next, .btn-story-more { width: 100%; color: #000; border: 1px solid #d9d9d9; background-color: #fff; margin: 10px 0 30px 0; padding: 15px 5px; }
 .btn-page-next:hover, .btn-story-more:hover { box-shadow: #ddd 3px 3px 3px; }
 
-.ad-sp { display: none; }
+.navbar-toggler, .navbar-sideview, .ad-sp { display: none; }
+.page-mask { position: absolute; top: 0px; left: 0px; width: 0; height: 0; background: rgba(0,0,0,0); z-index: 1; }
 
 @media only screen and (max-width: 1100px) {
   .ad-sp { display: block; margin: 0 0 20px 0; }
+
+  .navbar-toggler { z-index: 10001; display: block; }
+  .navbar-sideview { position: fixed; top: 0px; right: -200px; width: 200px; height: 100%; color: #fff; background-color: #FF6600; padding: 55px 20px 20px 20px; z-index: 10000; transition: all 0.3s ease; -webkit-transition: all 0.3s ease, -moz-transition: all 0.3s ease, -o-transition: all 0.3s ease; display: block; }
+  .navbar-sideview.active { right: 0px; }
+  .navbar-sideview a { width: 100%; color: #fff; border: 1px solid #fff; border-radius: 5px; margin: 0 0 10px 0; padding: 10px 0; text-align: center; display: block; }
+  .navbar-sideview .avatar { width: 60px; border-radius: 100%; }
+  .page-mask { position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 4; }
 
   #header { height: 60px; }
   #nav-footer { position: fixed; bottom: 0px; width: 100%; border-top: 2px solid #666; background-color: #fff; margin: 0px; padding: 0px; display: table; z-index: 1000; }
