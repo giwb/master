@@ -235,6 +235,7 @@
 </div>
 <?php endif; ?>
 
+<?php if (ENVIRONMENT == 'production' && $_SERVER['REMOTE_ADDR'] != '49.166.0.82'): ?>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GWVDQCB17D"></script>
 <script>
@@ -244,6 +245,7 @@
 
   gtag('config', 'G-GWVDQCB17D');
 </script>
+<?php endif; ?>
 
 </body>
 </html>
