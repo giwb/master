@@ -235,5 +235,15 @@
 </div>
 <?php endif; ?>
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GWVDQCB17D"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-GWVDQCB17D');
+</script>
+
 </body>
 </html>
