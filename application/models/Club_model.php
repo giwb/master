@@ -120,12 +120,17 @@ class Club_model extends CI_Model
   }
 
   // 앨범 카운트
-  public function cntAlbum($clubIdx)
+  public function cntAlbum($clubIdx, $search=NULL)
   {
     $this->db->select('COUNT(*) AS cnt')
           ->from(DB_ALBUM)
           ->where('club_idx', $clubIdx)
           ->where('deleted_at', NULL);
+
+    if (!empty($search['created_by'])) {
+      $this->db->where('created_by', $search['created_by']);
+    }
+
     return $this->db->get()->row_array(1);
   }
 

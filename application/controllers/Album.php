@@ -250,13 +250,14 @@ class Album extends MY_Controller
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
-    // 사진첩 카운트
-    $viewData['cntAlbum'] = $this->club_model->cntAlbum($clubIdx);
-
     // 사진첩 목록 (관리자가 아니라면 회원이 올린 글만)
     if (empty($userData['admin'])) {
       $search['created_by'] = $userData['idx'];
     }
+    // 사진첩 카운트
+    $viewData['cntAlbum'] = $this->club_model->cntAlbum($clubIdx, $search);
+
+    // 사진첩 목록
     $viewData['listAlbumMain'] = $this->club_model->listAlbum($clubIdx, $paging, $search);
 
     foreach ($viewData['listAlbumMain'] as $key => $value) {
