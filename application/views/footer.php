@@ -13,7 +13,7 @@
         <ul class="list-group z-depth-1 mt-4 mb-5">
           <?php foreach ($listArticleCategory as $value): ?>
           <li class="list-group-item d-flex justify-content-between align-items-center">
-            <a href="/search/?code=<?=$value['code']?>"><?=$value['name']?></a>
+            <a href="<?=base_url?>search/?code=<?=$value['code']?>"><?=$value['name']?></a>
             <span class="badge badge-danger badge-pill"><?=$value['cnt']?>건</span>
           </li>
           <?php endforeach; ?>
@@ -61,17 +61,17 @@
       <section class="section widget-content">
         <h4 class="row font-weight-bold">
           <div class="col-6"><strong>산행 정보</strong></div>
-          <div class="col-6 text-right"><a href="/list" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a></div>
+          <div class="col-6 text-right"><a href="<?=base_url?>list" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a></div>
         </h4>
         <hr class="red mb-4">
         <div class="card card-body pb-5">
           <div class="single-post pb-4 mb-4">
-            <h6 class="mt-0 mb-3"><a href="/list"><strong>[경인웰빙] 태백산 장군봉 눈꽃</strong></a></h6>
+            <h6 class="mt-0 mb-3"><a href="<?=base_url?>list"><strong>[경인웰빙] 태백산 장군봉 눈꽃</strong></a></h6>
             <div class="row">
               <div class="col-4">
                 <div class="view overlay">
                   <img width="126" height="84" src="https://giwb.kr/public/uploads/editor/161248371254205.jpg">
-                  <a href="/list">
+                  <a href="<?=base_url?>list">
                     <div class="mask waves-light"></div>
                   </a>
                 </div>
@@ -89,12 +89,12 @@
             </div>
           </div>
           <div class="single-post pb-4 mb-4">
-            <h6 class="mt-0 mb-3"><a href="/list"><strong>[한국여행] 오대산 비로봉 & 두로령 옛길</strong></a></h6>
+            <h6 class="mt-0 mb-3"><a href="<?=base_url?>list"><strong>[한국여행] 오대산 비로봉 & 두로령 옛길</strong></a></h6>
             <div class="row">
               <div class="col-4">
                 <div class="view overlay">
                   <img width="126" height="84" src="https://giwb.kr/public/uploads/editor/161248267682782.jpg">
-                  <a href="/list">
+                  <a href="<?=base_url?>list">
                     <div class="mask waves-light"></div>
                   </a>
                 </div>
@@ -112,12 +112,12 @@
             </div>
           </div>
           <div class="single-post pb-4 mb-4">
-            <h6 class="mt-0 mb-3"><a href="/list"><strong>덕유산 향적봉 눈꽃산행</strong></a></h6>
+            <h6 class="mt-0 mb-3"><a href="<?=base_url?>list"><strong>덕유산 향적봉 눈꽃산행</strong></a></h6>
             <div class="row">
               <div class="col-4">
                 <div class="view overlay">
                   <img width="126" height="84" src="https://giwb.kr/public/uploads/editor/161050582585413.jpg">
-                  <a href="/list">
+                  <a href="<?=base_url?>list">
                     <div class="mask waves-light"></div>
                   </a>
                 </div>
@@ -135,12 +135,12 @@
             </div>
           </div>
           <div class="single-post pb-4 mb-4">
-            <h6 class="mt-0 mb-3"><a href="/list"><strong>소백산 비로봉 칼바람 눈꽃산행</strong></a></h6>
+            <h6 class="mt-0 mb-3"><a href="<?=base_url?>list"><strong>소백산 비로봉 칼바람 눈꽃산행</strong></a></h6>
             <div class="row">
               <div class="col-4">
                 <div class="view overlay">
                   <img width="126" height="84" src="https://giwb.kr/public/uploads/editor/161049859367645.jpg">
-                  <a href="/list">
+                  <a href="<?=base_url?>list">
                     <div class="mask waves-light"></div>
                   </a>
                 </div>
@@ -158,12 +158,12 @@
             </div>
           </div>
           <div class="single-post">
-            <h6 class="mt-0 mb-3"><a href="/list"><strong>계방산 눈꽃산행</strong></a></h6>
+            <h6 class="mt-0 mb-3"><a href="<?=base_url?>list"><strong>계방산 눈꽃산행</strong></a></h6>
             <div class="row">
               <div class="col-4">
                 <div class="view overlay">
                   <img width="126" height="84" src="https://giwb.kr/public/uploads/editor/161049470999541.jpg">
-                  <a href="/list">
+                  <a href="<?=base_url?>list">
                     <div class="mask waves-light"></div>
                   </a>
                 </div>
@@ -226,8 +226,8 @@
         <div class="error-message"></div>
       </div>
       <div class="border-top text-center p-3">
-        <a href="<?=BASE_URL?>/login/check"><button type="button" class="btn btn-default">회원가입</button></a>
-        <a href="<?=BASE_URL?>/login/forgot"><button type="button" class="btn btn-secondary">아이디/비밀번호 찾기</button></a>
+        <a href="<?=base_url?>login/check"><button type="button" class="btn btn-default">회원가입</button></a>
+        <a href="<?=base_url?>login/forgot"><button type="button" class="btn btn-secondary">아이디/비밀번호 찾기</button></a>
         <button type="button" class="btn btn-default btn-login">로그인</button>
       </div>
     </div>
