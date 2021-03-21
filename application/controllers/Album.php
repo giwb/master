@@ -46,10 +46,13 @@ class Album extends MY_Controller
       foreach ($photos as $i => $photo) {
         if (!empty($photo['filename'])) {
           $size = getImageSize(PHOTO_PATH . $photo['filename']);
+          $size_thumb = getImageSize(PHOTO_PATH . 'thumb_' . $photo['filename']);
           $viewData['photos'][$key]['filename'][] = PHOTO_URL . 'thumb_' . $photo['filename'];
           $viewData['photos'][$key]['source'][] = $photo['filename'];
           $viewData['photos'][$key]['width'][] = $size[0];
           $viewData['photos'][$key]['height'][] = $size[1];
+          $viewData['photos'][$key]['thumb_width'][] = $size_thumb[0];
+          $viewData['photos'][$key]['thumb_height'][] = $size_thumb[1];
         } else {
           $viewData['photos'][$key]['filename'][] = '/public/images/noimage.png';
         }

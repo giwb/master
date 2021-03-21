@@ -1,5 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
+  <script type="text/javascript" src="/public/js/masonry.pkgd.min.js"></script>
   <script type="text/javascript" src="/public/js/album.js"></script>
   <main id="club">
     <div class="container-fluid club-main">

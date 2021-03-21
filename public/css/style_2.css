@@ -2572,12 +2572,12 @@ main#footer .logo-img { margin-right: 10px; float: left; }
 #album .album-item { position: relative; text-align: center; }
 #album .album-photo { width: 100%; border-radius: 10px; }
 #album .album-photo:hover { box-shadow: #ddd 3px 3px 3px; }
-#album .album-item .ajax-loader { position: absolute; top: 53px; left: 95px; z-index: 90; }
-#album .album-item .caption { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 100; font-size: 0.9rem; color: white; padding: 35px 10px 0px 10px; border-radius: 10px; }
+#album .album-item .caption { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 100; font-size: 0.9rem; color: white; padding: 0 10px; border-radius: 10px; }
 #album .album-item:hover .caption { display: block; }
+#album .album-item .caption table { height: 100%; }
 #album .album-mask { background: rgba(230,84,0,0.8); z-index: 1001; border-radius: 10px; }
 #album .album-mask img { opacity: 0.5; }
-
+#album .album-item { margin: 0 10px 10px 0; }
 .card.main-card { min-height:500px; }
 
 /* 로고 */
@@ -2776,9 +2776,6 @@ main#footer .logo-img { margin-right: 10px; float: left; }
   #club .club-main .story-reply .btn-post-reply { font-size: 12px; white-space: nowrap; }
   #storyModal button { font-size: 12px; }
 
-  #album .album-photo { width: 100%; height: 100px; }
-  #album .album-item .ajax-loader { position: absolute; top: 38%; left: 43%; z-index: 90; }
-
   /* 용품판매 */
   #shop .btn-cart-insert { font-size: 12px; }
   #shop .btn-buy { font-size: 12px; }
@@ -2796,7 +2793,8 @@ main#footer .logo-img { margin-right: 10px; float: left; }
   .row-category a.active { color: #000!important; background-color: #e9e9e9; }
   #club .club-main .sub-header, .mypage h2 { display: none; }
 
-  #album .album-photo { height: auto; }
+  /* 사진첩 */
+  #album .album-photo { width: 100%; height: auto; }
 
   /* Admin */
   #club .club-main .area-button { bottom: 57px; }
@@ -2844,3 +2842,18 @@ main#footer .logo-img { margin-right: 10px; float: left; }
 .agree-box::-webkit-scrollbar { width: 10px; display: block; }
 .agree-box::-webkit-scrollbar-thumb { background-color: #a9a9a9; }
 .agree-box::-webkit-scrollbar-track { background-color: #dee2e6; }
+
+
+@media only screen and (max-width: 414px) {
+  #album .album-item { margin: 0 5px 0px 0; }
+  #album .album-item img { width: 186px!important; }
+}
+@media only screen and (max-width: 375px) {
+  #album .album-item img { width: 166px!important; }
+}
+@media only screen and (max-width: 360px) {
+  #album .album-item img { width: 159px!important; }
+}
+@media only screen and (max-width: 320px) {
+  #album .album-item img { width: 139px!important; }
+}
