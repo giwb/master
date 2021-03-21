@@ -1,6 +1,7 @@
 <div class="">
   <?php foreach ($album as $key => $photos): $cnt = 0; ?>
-    <div class="font-weight-bold mt-5 mb-3"><h4 class="font-weight-bold"><?=$photos['title']?></h4></div><div class="grid">
+    <div class="font-weight-bold mt-5 mb-3"><h4 class="font-weight-bold"><?=$photos['title']?></h4></div>
+    <div class="grid">
     <?php foreach ($photos as $value): if (!empty($value['filename'])): ?>
       <?php foreach ($value['filename'] as $i => $photo): ?>
       <div class="album-item" style="height: <?=$value['thumb_height'][$i]?>px">
@@ -10,7 +11,8 @@
         </a>
       </div>
       <?php $cnt++; endforeach; ?>
-    <?php endif; endforeach; ?></div>
+    <?php endif; endforeach; ?>
+    </div>
   <?php endforeach; ?>
 </div>
 
