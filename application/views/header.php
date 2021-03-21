@@ -23,7 +23,7 @@
 
 <header>
   <nav class="navbar navbar-expand-lg navbar-dark stylish-color-dark">
-    <a class="navbar-brand" href="<?=base_url?>"><h2><img width="40" src="/public/images/tripkorea/south-korea.png"> 한국여행</h2></a>
+    <a class="navbar-brand" href="<?=base_url()?>"><h2><img width="40" src="/public/images/tripkorea/south-korea.png"> 한국여행</h2></a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -63,14 +63,14 @@
         </li>
         <?php if (!empty($userData['idx'])): ?>
         <li class="nav-item">
-          <a href="<?=base_url?>mypage" class="nav-link" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle"></i> 마이페이지</a>
+          <a href="<?=base_url()?>mypage" class="nav-link" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle"></i> 마이페이지</a>
         </li>
         <li class="nav-item">
           <a href="javascript:;" class="nav-link logout" aria-haspopup="true" aria-expanded="false"><i class="fas fa-sign-out-alt"></i> 로그아웃</a>
         </li>
         <?php else: ?>
         <li class="nav-item">
-          <a href="<?=base_url?>login/check" class="nav-link" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-plus"></i> 회원가입</a>
+          <a href="<?=base_url()?>login/check" class="nav-link" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-plus"></i> 회원가입</a>
         </li>
         <li class="nav-item">
           <a href="javascript:;" class="nav-link login-popup" aria-haspopup="true" aria-expanded="false"><i class="fas fa-sign-in-alt"></i> 로그인</a>
@@ -79,7 +79,7 @@
         <li class="nav-item dropdown">
           <a class="nav-link" id="navbarDropdownMenuLink3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-search"></i> 검색</a>
           <div class="dropdown-menu dropdown-search" aria-labelledby="navbarDropdownMenuLink">
-            <form method="get" action="<?=base_url?>search">
+            <form method="get" action="<?=base_url()?>search">
             <div class="row align-items-center">
                 <div class="col-9 pl-4 pr-0"><input type="text" name="keyword" class="form-control"></div>
                 <div class="col-3 pl-0 text-center"><button type="submit" class="btn btn-primary pt-2 pb-2 pl-3 pr-3">검색</button></div>
