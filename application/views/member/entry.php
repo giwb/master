@@ -188,7 +188,7 @@
       }
 
       $.ajax({
-        url: '/login/insert_new',
+        url: '/login/insert',
         data: formData,
         processData: false,
         contentType: false,
