@@ -515,20 +515,25 @@ class Login extends MY_Controller
             'content' => $message,
           )
         );
+        $header = array(
+          'Content-Type: application/json; charset=utf-8',
+          'x-ncp-apigw-timestamp: ' . $now,
+          'x-ncp-iam-access-key: ncp:sms:kr:264893982314:tripkorea',
+          'x-ncp-apigw-signature-v2: 555788e7813643289c4ba0019cb4f2d3'
+        );
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($sens));
         curl_setopt($ch, CURLOPT_POST, true);
         $response = curl_exec($ch);
         curl_close($ch);
         // -----------------------------------------------
-        print_r($response);
         $response = json_decode($response);
-        print_r($response);
       } else {
         $response->statusCode = '202';
       }
