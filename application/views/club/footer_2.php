@@ -166,6 +166,12 @@
             </div>
           </section>
 
+          <section class="section mb-4">
+            <div class="card text-center">
+              <img width="460" style="margin: 0 auto;" src="/public/images/busmap.png">
+            </div>
+          </section>
+
           <!-- 구글 광고 -->
           <section class="section">
             <div class="card text-center">
