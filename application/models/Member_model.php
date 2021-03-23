@@ -69,6 +69,36 @@ class Member_model extends CI_Model
     return $this->db->get()->row_array(1);
   }
 
+  // 전화번호 인증 확인
+  public function checkPhoneAuth($phone, $auth_code=NULL)
+  {
+    $this->db->select('idx, created_at')
+          ->from(DB_MEMBER_SMS_AUTH)
+          ->where('phone_number', $phone)
+          ->where('deleted_at', NULL);
+
+    if (!empty($auth_code)) {
+      $this->db->where('auth_code', $auth_code);
+    }
+
+    return $this->db->get()->row_array(1);
+  }
+
+  // 전화번호 인증 등록
+  public function insertPhoneAuth($data)
+  {
+    $this->db->insert(DB_MEMBER_SMS_AUTH, $data);
+    return $this->db->insert_id();
+  }
+
+  // 전화번호 인증 삭제
+  public function deletePhoneAuth($data, $idx)
+  {
+    $this->db->set($data);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_MEMBER_SMS_AUTH);
+  }
+
   // 회원 정보
   public function viewMember($userIdx)
   {

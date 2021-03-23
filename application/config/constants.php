@@ -126,6 +126,7 @@ defined('DB_FILES')             OR define('DB_FILES', 'files'); // 파일
 defined('DB_FRONT')             OR define('DB_FRONT', 'front'); // 대문사진 (OLD)
 defined('DB_HISTORY')           OR define('DB_HISTORY', 'history'); // 활동기록
 defined('DB_MEMBER')            OR define('DB_MEMBER', 'member'); // 회원
+defined('DB_MEMBER_SMS_AUTH')   OR define('DB_MEMBER_SMS_AUTH', 'member_sms_auth'); // 회원 휴대폰 인증번호
 defined('DB_MTDB')              OR define('DB_MTDB', 'mtdb'); // 산행DB
 defined('DB_NOTICE')            OR define('DB_NOTICE', 'notice'); // 산행공지
 defined('DB_NOTICE_DETAIL')     OR define('DB_NOTICE_DETAIL', 'notice_detail'); // 산행공지 상세
