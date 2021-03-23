@@ -1381,6 +1381,10 @@ $(document).on('click', '.btn-comment', function() {
 }).on('click', '.area-travelog', function() {
   location.href = ($('input[name=baseUrl]').val() + '/travelog/view/' + $(this).data('idx'));
   //location.href = ($('input[name=baseUrl]').val() + '/travelog_view/' + $(this).data('idx')) + '?type=' + $(this).data('type');
+}).on('click', '.page-mask', function() {
+  // 아무데나 클릭해도 모바일 우측 메뉴 사라지게
+  $('header').removeClass('page-mask');
+  $('.navbar-sideview').removeClass('active');
 }).on('click', '.navbar-toggler', function() {
   // 모바일 우측 메뉴
   var $dom = $('.navbar-sideview');
