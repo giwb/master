@@ -6,7 +6,7 @@
         <div class="col-xl-8 col-md-12">
           <section class="section extra-margins listing-section">
             <div class="row">
-              <div class="col-7"><h4 class="font-weight-bold"><strong>최신 산행</strong></h4></div>
+              <div class="col-7"><h4 class="font-weight-bold"><strong>여행일정</strong></h4></div>
               <div class="col-5"><!--<div class="row"><div class="col-10"><input type="text" class="form-control form-control-sm"></div><div class="col-2 pl-0 pr-0"><button type="button" class="btn btn-sm btn-default pt-2 pb-2 pl-3 pr-3 m-0">검색</button></div></div>--></div>
             </div><hr class="red mt-2">
             <div class="row">
