@@ -526,14 +526,14 @@ class Login extends MY_Controller
         $response = curl_exec($ch);
         curl_close($ch);
         // -----------------------------------------------
-
+        print_r($response);
         $response = json_decode($response);
         print_r($response);
       } else {
-        $response['statusCode'] = '202';
+        $response->statusCode = '202';
       }
 
-      if ($response['statusCode'] == '202') {
+      if (!empty($response->statusCode) && $response->statusCode == '202') {
         // 새로운 인증번호 등록
         $insertValues = array(
           'phone_number'  => $phone,
