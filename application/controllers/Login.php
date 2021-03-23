@@ -509,8 +509,8 @@ class Login extends MY_Controller
         $secret_key = 'CB401160F131F7DDECD42C8F960EECA47FF55C74';
         $url = 'https://sens.apigw.ntruss.com';
         $uri = '/sms/v2/services/ncp:sms:kr:264893982314:tripkorea/messages';
-        $string = 'POST ' . $uri . '\n' . $timestamp . '\n' . $access_key;
-        $sens = array(
+        $string = "POST {$uri}\n{$timestamp}\n{$access_key}";
+        $body = array(
           'type' => 'sms',
           'from' => '01080715227',
           'content' => $message,
@@ -523,16 +523,17 @@ class Login extends MY_Controller
           'Content-Type: application/json; charset=utf-8',
           'x-ncp-apigw-timestamp: ' . $timestamp,
           'x-ncp-iam-access-key: ' . $access_key,
-          'x-ncp-apigw-signature-v2: ' . base64_encode(hash_hmac('sha256', $string, $secret_key))
+          'x-ncp-apigw-signature-v2: ' . base64_encode(hash_hmac('sha256', $string, $secret_key, true))
         );
         $message = '[경인웰빙투어] 인증번호는 ' . $auth_code . ' 입니다.';
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url . $uri);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($sens));
-        curl_setopt($ch, CURLOPT_POST, true);
+        $ch = curl_init($url . $uri);
+        curl_setopt_array($ch, array(
+          CURLOPT_POST => true,
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_HTTPHEADER => $header,
+          CURLOPT_POSTFIELDS => json_encode($body)
+        ));
         $response = curl_exec($ch);
         curl_close($ch);
         // -----------------------------------------------
