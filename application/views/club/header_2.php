@@ -79,7 +79,7 @@
         <a href="<?=BASE_URL?>/member/modify" class="nav-link">개인정보수정</a>
         <a class="nav-link logout">로그아웃</a>
         <?php endif; ?>
-        <br><br><img src="/public/images/banner_cafe.png" onClick="window.open('http://giwb.co.kr');">
+        <br><img src="/public/images/banner_cafe.png" onClick="window.open('http://giwb.co.kr');">
       </div>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
