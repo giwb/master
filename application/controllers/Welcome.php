@@ -342,10 +342,10 @@ class Welcome extends MY_Controller
       }
 
       // 사진
-      if (file_exists(PHOTO_PATH . $value['photo'])) {
+      if (!empty($value['photo']) && file_exists(PHOTO_PATH . $value['photo'])) {
         $viewData['listNotice'][$key1]['photo'] = PHOTO_URL . $value['photo'];
       } else {
-        $viewData['listNotice'][$key1]['photo'] = '/public/images/noimage.png';
+        $viewData['listNotice'][$key1]['photo'] = '/public/images/nophoto.png';
       }
     }
 
