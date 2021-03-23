@@ -52,11 +52,11 @@
                 <h4 class="font-weight-bold"><b><?=viewStatus($notice['status'])?></b> <?=$notice['subject']?></h4>
               </div>
               <div class="col-4 col-sm-3 text-right">
-                <?=!empty($notice['weather']) ? '<a target="_blank" href="' . $notice['weather'] . '"><button type="button" class="btn btn-primary pt-1 pb-1 pl-3 pr-3">날씨</button></a>' : ''?>
-                <a href="<?=BASE_URL?>/reserve/notice/<?=$notice['idx']?>"><button type="button" class="btn btn-default btn-notice pt-1 pb-1 pl-3 pr-3">공지</button></a>
+                <?=!empty($notice['weather']) ? '<a target="_blank" href="' . $notice['weather'] . '" class="btn-custom btn-giwbblue">날씨</a>' : ''?>
+                <a href="<?=BASE_URL?>/reserve/notice/<?=$notice['idx']?>" class="btn-custom btn-giwbred btn-notice">공지</a>
               </div>
             </div>
-            <hr class="text-default mt-1">
+            <hr class="text-default mt-2">
 
             <div class="mt-4"></div>
             <div class="pt-2"></div>
@@ -124,7 +124,7 @@
                     ?>
                     <?=$tableMake?>
                       <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>"<?=!empty($reserveInfo['priority']) ? ' data-priority="' . $reserveInfo['priority'] . '"' : ''?> <?=!empty($reserveInfo['honor']) ? ' data-honor="' . $reserveInfo['honor'] . '"' : ''?> data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$seatNumber?></td>
-                      <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>"<?=!empty($reserveInfo['priority']) ? ' data-priority="' . $reserveInfo['priority'] . '"' : ''?> <?=!empty($reserveInfo['honor']) ? ' data-honor="' . $reserveInfo['honor'] . '"' : ''?> data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$reserveInfo['nickname']?><?=!empty($reserveInfo['honor']) && $reserveInfo['nickname'] != '1인우등' ? '<small>(우등)</small>' : ''?></td>
+                      <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>"<?=!empty($reserveInfo['priority']) ? ' data-priority="' . $reserveInfo['priority'] . '"' : ''?> <?=!empty($reserveInfo['honor']) ? ' data-honor="' . $reserveInfo['honor'] . '"' : ''?> data-bus="<?=$bus?>" data-seat="<?=$seat?>"><i class="far fa-square"></i> <?=$reserveInfo['nickname']?><?=!empty($reserveInfo['honor']) && $reserveInfo['nickname'] != '1인우등' ? '<small>(우등)</small>' : ''?></td>
                     <?php endforeach; ?>
                   </tbody>
                 </table>

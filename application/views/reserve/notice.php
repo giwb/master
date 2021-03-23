@@ -11,11 +11,11 @@
               <h4 class="font-weight-bold"><b><?=viewStatus($notice['status'])?></b> <?=$notice['subject']?></h4>
             </div>
             <div class="col-4 col-sm-3 text-right">
-              <?=!empty($notice['weather']) ? '<a target="_blank" href="' . $notice['weather'] . '"><button type="button" class="btn btn-primary pt-1 pb-1 pl-3 pr-3">날씨</button></a>' : ''?>
-              <a href="<?=BASE_URL?>/reserve/list/<?=$notice['idx']?>"><button type="button" class="btn btn-default btn-notice pt-1 pb-1 pl-3 pr-3">좌석</button></a>
+              <?=!empty($notice['weather']) ? '<a target="_blank" href="' . $notice['weather'] . '" class="btn-custom btn-giwbblue">날씨</button></a>' : ''?>
+              <a href="<?=BASE_URL?>/reserve/list/<?=$notice['idx']?>" class="btn-custom btn-giwbred btn-notice">좌석</button></a>
             </div>
           </div>
-          <hr class="text-default mt-1">
+          <hr class="text-default mt-2">
 
           <?php if (empty($listNoticeDetail)): ?>
           <div class="sub-notice-header">산행안내</div>
