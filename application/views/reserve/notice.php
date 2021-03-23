@@ -2,7 +2,7 @@
 
   <main id="club">
     <div class="container-fluid club-main">
-      <div class="row mt-1 mb-5">
+      <div class="row mb-5">
         <div class="col-xl-8 col-md-12">
 
           <div class="sub-contents">
