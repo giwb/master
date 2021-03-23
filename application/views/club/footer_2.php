@@ -233,7 +233,7 @@
             <button type="button" class="btn btn-<?=$view['main_color']?> btn-login">로그인</button>
           </div>
           <div>
-            <a href="<?=BASE_URL?>/login/check"><button type="button" class="btn btn-info pl-3 pr-3">회원가입</button></a>
+            <a href="<?=BASE_URL?>/login/entry"><button type="button" class="btn btn-info pl-3 pr-3">회원가입</button></a>
             <a href="<?=BASE_URL?>/login/forgot"><button type="button" class="btn btn-secondary pl-3 pr-3">아이디/비밀번호 찾기</button></a>
           </div>
         </div>
