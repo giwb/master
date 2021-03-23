@@ -522,7 +522,7 @@ class Login extends MY_Controller
           'Content-Type: application/json; charset=utf-8',
           'x-ncp-apigw-timestamp: ' . $now,
           'x-ncp-iam-access-key: ' . $access_key,
-          'x-ncp-apigw-signature-v2: ' . hash_hmac('sha256', $string, $secret);
+          'x-ncp-apigw-signature-v2: ' . hash_hmac('sha256', $string, $secret)
         );
         $message = '[경인웰빙투어] 인증번호는 ' . $auth_code . ' 입니다.';
 
