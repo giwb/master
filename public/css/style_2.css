@@ -2673,7 +2673,7 @@ main#footer .logo-img { margin-right: 10px; float: left; }
 
   /* 로고 */
   .logo { font-size: 1.5rem; margin-top: 8px; }
-  .busmap { width: 100%; }
+  .busmap { width: 100%; max-width: 320px; }
 
   #club { padding-top: 80px; }
   #club .container { flex: auto; display: block; padding: 0 15px; }
