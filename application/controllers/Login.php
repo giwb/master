@@ -507,7 +507,8 @@ class Login extends MY_Controller
         $access_key = 'ncp:sms:kr:264893982314:tripkorea';
         $url = 'https://sens.apigw.ntruss.com';
         $uri = '/sms/v2/services/' . $access_key . '/messages';
-        $message = '[경인웰빙투어] 인증번호는 ' . $auth_code . ' 입니다.';
+        $secret = '555788e7813643289c4ba0019cb4f2d3';
+        $string = 'POST ' . $uri . '\n' . $now . '\n' . $access_key;
         $sens = array(
           'type' => 'sms',
           'from' => '01080715227',
@@ -521,8 +522,9 @@ class Login extends MY_Controller
           'Content-Type: application/json; charset=utf-8',
           'x-ncp-apigw-timestamp: ' . $now,
           'x-ncp-iam-access-key: ' . $access_key,
-          'x-ncp-apigw-signature-v2: ' . hash_hmac("POST " . $uri . "\n" . $now . "\n" . $access_key)
+          'x-ncp-apigw-signature-v2: ' . hash_hmac('sha256', $string, $secret);
         );
+        $message = '[경인웰빙투어] 인증번호는 ' . $auth_code . ' 입니다.';
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url . $uri);
