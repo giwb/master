@@ -504,7 +504,7 @@ class Login extends MY_Controller
       // 네이버 SMS 인증 (SENS)
       // -----------------------------------------------
       if (ENVIRONMENT == 'production') {
-        $access_key = 'ncp:sms:kr:264893982314:tripkorea;'
+        $access_key = 'ncp:sms:kr:264893982314:tripkorea';
         $url = 'https://sens.apigw.ntruss.com';
         $uri = '/sms/v2/services/' . $access_key . '/messages';
         $message = '[경인웰빙투어] 인증번호는 ' . $auth_code . ' 입니다.';
