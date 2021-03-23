@@ -158,7 +158,7 @@
           </section>
           <?php endif; ?>
 
-          <section class="section mb-4">
+          <section class="section mt-4">
             <div class="card text-center p-2">
               <img src="/public/images/busmap.png">
             </div>
