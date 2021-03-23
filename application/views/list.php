@@ -14,8 +14,8 @@
               <div class="col-md-12 my-3">
                 <div class="card">
                   <div class="card-body">
-                    <img width="250" class="mr-3" align="left" src="<?=PHOTO_URL . $value['photo']?>">
-                    <h5><strong><a href="detail.html">[<?=$value['club_name']?>] <?=$value['subject']?></a></strong></h5>
+                    <a target="_blank" href="<?=$value['url']?>"><img width="250" class="mr-3" align="left" src="<?=$value['photo']?>"></a>
+                    <h5><strong><a target="_blank" href="<?=$value['url']?>">[<?=$value['club_name']?>] <?=$value['subject']?></a></strong></h5>
                     <p class="card-text text-justify">
                       ・일시 : <?=$value['startdate']?> <?=$value['starttime']?><br>
                       ・지역 : <?php foreach ($value['sido'] as $key => $area): if ($key != 0): ?>, <?php endif; ?><?=$area?><?=!empty($area['gugun'][$key]) ? $area['gugun'][$key] : ''?><?php endforeach; ?><br>

@@ -69,12 +69,13 @@
         </h4>
         <hr class="red mb-4">
         <div class="card card-body pb-5">
+          <?php foreach ($listFooterNotice as $value): ?>
           <div class="single-post pb-4 mb-4">
-            <h6 class="mt-0 mb-3"><a href="<?=base_url()?>list"><strong>[경인웰빙] 태백산 장군봉 눈꽃</strong></a></h6>
+            <h6 class="mt-0 mb-3"><a target="_blank" href="<?=$value['url']?>"><strong>[<?=$value['club_name']?>] <?=$value['subject']?></strong></a></h6>
             <div class="row">
               <div class="col-4">
                 <div class="view overlay">
-                  <img width="126" height="84" src="https://giwb.kr/public/uploads/editor/161248371254205.jpg">
+                  <img width="126" height="84" src="<?=$value['photo']?>">
                   <a href="<?=base_url()?>list">
                     <div class="mask waves-light"></div>
                   </a>
@@ -83,107 +84,16 @@
               <div class="col-8 pl-0 pr-0">
                 <div class="post-data">
                   <p class="font-small mb-0">
-                    ・일시 : 2021-02-07 (일) 06:00<br>
-                    ・요금 : 31,000원 / 1인우등 41,000원<br>
-                    ・거리 : 산행 8.4km + 도로 1.0km / 약 5시간<br>
-                    ・예약 : 32명<br>
+                    ・일시 : <?=$value['startdate']?> <?=$value['starttime']?><br>
+                    ・지역 : <?php foreach ($value['sido'] as $key => $area): if ($key != 0): ?>, <?php endif; ?><?=$area?><?=!empty($area['gugun'][$key]) ? $area['gugun'][$key] : ''?><?php endforeach; ?><br>
+                    ・요금 : <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원<br>
+                    ・예약 : <?=cntRes($value['idx'])?>명
                   </p>
                 </div>
               </div>
             </div>
           </div>
-          <div class="single-post pb-4 mb-4">
-            <h6 class="mt-0 mb-3"><a href="<?=base_url()?>list"><strong>[한국여행] 오대산 비로봉 & 두로령 옛길</strong></a></h6>
-            <div class="row">
-              <div class="col-4">
-                <div class="view overlay">
-                  <img width="126" height="84" src="https://giwb.kr/public/uploads/editor/161248267682782.jpg">
-                  <a href="<?=base_url()?>list">
-                    <div class="mask waves-light"></div>
-                  </a>
-                </div>
-              </div>
-              <div class="col-8 pl-0 pr-0">
-                <div class="post-data">
-                  <p class="font-small mb-0">
-                    ・일시 : 2021-02-06 (토) 06:30<br>
-                    ・요금 : 31,000원 / 1인우등 41,000원<br>
-                    ・거리 : 임도포함 13.8km / 약 5~6시간 소요<br>
-                    ・예약 : 29명<br>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="single-post pb-4 mb-4">
-            <h6 class="mt-0 mb-3"><a href="<?=base_url()?>list"><strong>덕유산 향적봉 눈꽃산행</strong></a></h6>
-            <div class="row">
-              <div class="col-4">
-                <div class="view overlay">
-                  <img width="126" height="84" src="https://giwb.kr/public/uploads/editor/161050582585413.jpg">
-                  <a href="<?=base_url()?>list">
-                    <div class="mask waves-light"></div>
-                  </a>
-                </div>
-              </div>
-              <div class="col-8 pl-0 pr-0">
-                <div class="post-data">
-                  <p class="font-small mb-0">
-                    ・일시 : 2021-01-31 (일) 06:00<br>
-                    ・요금 : 32,000원 / 1인우등 42,000원<br>
-                    ・거리 : 산행 9.1km + 곤돌라 2.7km / 약 5~6시간<br>
-                    ・예약 : 53명<br>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="single-post pb-4 mb-4">
-            <h6 class="mt-0 mb-3"><a href="<?=base_url()?>list"><strong>소백산 비로봉 칼바람 눈꽃산행</strong></a></h6>
-            <div class="row">
-              <div class="col-4">
-                <div class="view overlay">
-                  <img width="126" height="84" src="https://giwb.kr/public/uploads/editor/161049859367645.jpg">
-                  <a href="<?=base_url()?>list">
-                    <div class="mask waves-light"></div>
-                  </a>
-                </div>
-              </div>
-              <div class="col-8 pl-0 pr-0">
-                <div class="post-data">
-                  <p class="font-small mb-0">
-                    ・일시 : 2021-01-30 (토) 06:30<br>
-                    ・요금 : 29,000원 / 1인우등 39,000원<br>
-                    ・거리 : 12.5km / 약 6시간 소요<br>
-                    ・예약 : 55명<br>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="single-post">
-            <h6 class="mt-0 mb-3"><a href="<?=base_url()?>list"><strong>계방산 눈꽃산행</strong></a></h6>
-            <div class="row">
-              <div class="col-4">
-                <div class="view overlay">
-                  <img width="126" height="84" src="https://giwb.kr/public/uploads/editor/161049470999541.jpg">
-                  <a href="<?=base_url()?>list">
-                    <div class="mask waves-light"></div>
-                  </a>
-                </div>
-              </div>
-              <div class="col-8 pl-0 pr-0">
-                <div class="post-data">
-                  <p class="font-small mb-0">
-                    ・일시 : 2021-01-23 (토) 06:30<br>
-                    ・요금 : 29,000원 / 1인우등 39,000원<br>
-                    ・거리 : 11.7km / 약 5시간<br>
-                    ・예약 : 33명<br>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+          <?php endforeach; ?>
         </div>
       </section>
     </div>

@@ -19,7 +19,7 @@ class Welcome extends MY_Controller
    **/
   public function index()
   {
-    $paging['perPage'] = $viewData['perPage'] = 100;
+    $paging['perPage'] = $viewData['perPage'] = 10;
     $paging['nowPage'] = (1 * $paging['perPage']) - $paging['perPage'];
     $viewData['maxArticle'] = $this->desk_model->cntArticle();
 
@@ -319,8 +319,10 @@ class Welcome extends MY_Controller
     $viewData['listNotice'] = $this->reserve_model->listNotice(NULL, array(STATUS_ABLE, STATUS_CONFIRM), 'asc');
 
     foreach ($viewData['listNotice'] as $key1 => $value) {
+      // 클럽 정보
       $viewClub = $this->club_model->viewClub($value['club_idx']);
       $viewData['listNotice'][$key1]['club_name'] = $viewClub['title'];
+      $viewData['listNotice'][$key1]['url'] = base_url() . $viewClub['url'] . '/reserve/list/' . $value['idx'];
 
       // 댓글수
       $cntReply = $this->story_model->cntStoryReply($value['idx'], REPLY_TYPE_NOTICE);
@@ -337,6 +339,13 @@ class Welcome extends MY_Controller
           $viewData['listNotice'][$key1]['sido'][$key2] = $sido['name'];
           $viewData['listNotice'][$key1]['gugun'][$key2] = $gugun['name'];
         }
+      }
+
+      // 사진
+      if (file_exists(PHOTO_PATH . $value['photo'])) {
+        $viewData['listNotice'][$key1]['photo'] = PHOTO_URL . $value['photo'];
+      } else {
+        $viewData['listNotice'][$key1]['photo'] = '/public/images/noimage.png';
       }
     }
 
@@ -678,6 +687,39 @@ class Welcome extends MY_Controller
     foreach ($viewData['listArticleCategory'] as $key => $value) {
       $cnt = $this->desk_model->cntArticle($value['code']);
       $viewData['listArticleCategory'][$key]['cnt'] = $cnt['cnt'];
+    }
+
+    // 여행일정
+    $viewData['listFooterNotice'] = $this->reserve_model->listNotice(NULL, array(STATUS_ABLE, STATUS_CONFIRM), 'asc');
+
+    foreach ($viewData['listFooterNotice'] as $key1 => $value) {
+      $viewClub = $this->club_model->viewClub($value['club_idx']);
+      $viewData['listFooterNotice'][$key1]['club_name'] = $viewClub['title'];
+      $viewData['listFooterNotice'][$key1]['url'] = base_url() . $viewClub['url'] . '/reserve/list/' . $value['idx'];
+
+      // 댓글수
+      $cntReply = $this->story_model->cntStoryReply($value['idx'], REPLY_TYPE_NOTICE);
+      $viewData['listFooterNotice'][$key1]['reply_cnt'] = $cntReply['cnt'];
+
+      // 지역
+      if (!empty($value['area_sido'])) {
+        $area_sido = unserialize($value['area_sido']);
+        $area_gugun = unserialize($value['area_gugun']);
+
+        foreach ($area_sido as $key2 => $value2) {
+          $sido = $this->area_model->getName($value2);
+          $gugun = $this->area_model->getName($area_gugun[$key2]);
+          $viewData['listFooterNotice'][$key1]['sido'][$key2] = $sido['name'];
+          $viewData['listFooterNotice'][$key1]['gugun'][$key2] = $gugun['name'];
+        }
+      }
+
+      // 사진
+      if (file_exists(PHOTO_PATH . $value['photo'])) {
+        $viewData['listFooterNotice'][$key1]['photo'] = PHOTO_URL . $value['photo'];
+      } else {
+        $viewData['listFooterNotice'][$key1]['photo'] = '/public/images/noimage.png';
+      }
     }
 
     $this->load->view('header', $viewData);
