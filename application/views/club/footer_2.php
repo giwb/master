@@ -375,7 +375,7 @@
     <main id="footer" class="row no-gutters white-text small align-items-center">
       <div class="col-sm-2 text-center"><img width="45" src="/public/images/icon.png" class="logo-img"><span class="logo">경인웰빙</span></div>
       <div class="col-sm-5 logo-text">
-        사업자등록번호 : 568-45-00657 / 관광사업등록번호 : 제 2012-000001 호<br>
+        사업자등록번호 : 568-45-00657 / 관광사업등록번호 : 제 2012-000001호<br>
         서울 금천구 가산디지털 1로 137, 19층 1901호 (가산동, IT 캐슬 2차)<br>
         대표 : 최병준 / 개인정보보호책임자 : 최병성 (010-7271-3050)<br>
         Copyright© <script>document.write(new Date().getFullYear());</script> 경인웰빙투어, All Rights Reserved.
