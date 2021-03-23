@@ -505,10 +505,10 @@ class Login extends MY_Controller
       // -----------------------------------------------
       if (ENVIRONMENT == 'production') {
         $now = $now * 1000;
-        $access_key = 'ncp:sms:kr:264893982314:tripkorea';
+        $access_key = '1Y0lPkvtV0VazQUfGzzf';
         $url = 'https://sens.apigw.ntruss.com';
-        $uri = '/sms/v2/services/' . $access_key . '/messages';
-        $secret = '555788e7813643289c4ba0019cb4f2d3';
+        $uri = '/sms/v2/services/ncp:sms:kr:264893982314:tripkorea/messages';
+        $secret = 'RK2vcCAprtbN9NHpjlTrIzD4OcaUqk9Awe7cb0pe';
         $string = 'POST ' . $uri . '\n' . $now . '\n' . $access_key;
         $sens = array(
           'type' => 'sms',
