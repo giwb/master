@@ -11,8 +11,8 @@
             <div class="col-6"><h4 class="font-weight-bold"><?=$pageTitle?></h4></div>
             <?php if (!empty($userData['idx'])): ?>
             <div class="col-6 text-right">
-              <a href="<?=BASE_URL?>/album/entry" class="btn-custom btn-blue">사진등록</a>
-              <a href="<?=BASE_URL?>/album/delete" class="btn-custom btn-red">삭제</a>
+              <a href="<?=BASE_URL?>/album/entry" class="btn-custom btn-giwbblue">사진등록</a>
+              <a href="<?=BASE_URL?>/album/delete" class="btn-custom btn-giwbred">삭제</a>
             </div>
             <?php endif; ?>
           </div>

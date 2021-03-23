@@ -16,7 +16,7 @@
                 <li><input type="text" id="endDatePicker" name="edate" class="form-control form-control-sm" value="<?=!empty($searchData['edate']) ? $searchData['edate'] : ''?>"></li>
                 <li>산행명 검색</li>
                 <li><input type="text" name="keyword" class="form-control form-control-sm" value="<?=!empty($searchData['keyword']) ? $searchData['keyword'] : ''?>"></li>
-                <li><button class="btn btn-sm btn-default">검색</button></li>
+                <li><button class="btn-sm btn-custom btn-giwbred">검색</button></li>
               </ul>
             </form>
             <ul class="box-past-title">

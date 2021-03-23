@@ -14,9 +14,9 @@
               </div>
               <div class="col-5 text-right">
                 <?php if ($code == 'review'): ?>
-                <a href="<?=$baseUrl?>article_post/?code=<?=$code?>" class="btn-custom btn-giwb">여행후기 작성</a>
+                <a href="<?=$baseUrl?>article_post/?code=<?=$code?>" class="btn-custom btn-giwbred">여행후기 작성</a>
                 <?php elseif ($code == 'news'): ?>
-                <a href="<?=$baseUrl?>article_post/?code=<?=$code?>" class="btn-custom btn-giwb">여행소식 작성</a>
+                <a href="<?=$baseUrl?>article_post/?code=<?=$code?>" class="btn-custom btn-giwbred">여행소식 작성</a>
                 <?php endif; ?>
               </div>
             </div><hr class="red mt-2">

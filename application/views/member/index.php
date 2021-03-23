@@ -28,9 +28,9 @@
             ■ 진행중 예약 : <span class="text-success"><?=$maxReserve['cnt']?>건</span>
             <div class="area-btn small">
               <?php if ($userData['level'] != LEVEL_FREE): ?>
-              <a class="btn-custom btn-blue btn-mypage-payment">결제정보</a>
+              <a class="btn-custom btn-giwbblue btn-mypage-payment">결제정보</a>
               <?php endif; ?>
-              <a class="btn-custom btn-red btn-reserve-cancel">예약취소</a>
+              <a class="btn-custom btn-giwbred btn-reserve-cancel">예약취소</a>
               <a href="<?=BASE_URL?>/member/reserve" class="btn-custom btn-gray">더보기</a>
             </div>
           </h3>
@@ -54,8 +54,8 @@
           <h3>
             ■ 구매 내역
             <div class="area-btn small">
-              <a class="btn-custom btn-blue btn-shop-payment">결제정보</a>
-              <a class="btn-custom btn-red btn-shop-cancel">구매취소</a>
+              <a class="btn-custom btn-giwbblue btn-shop-payment">결제정보</a>
+              <a class="btn-custom btn-giwbred btn-shop-cancel">구매취소</a>
               <a href="<?=BASE_URL?>/member/shop" class="btn-custom btn-gray">더보기</a>
             </div>
           </h3>

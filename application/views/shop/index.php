@@ -10,7 +10,7 @@
               <table><tr valign="bottom"><td class="m-0 p-0"><h4 class="font-weight-bold"><?=$pageTitle?></h4></td><td valign="top" class="m-0 p-0"><small><a href="javascript:;" class="btn-notice" data-idx="1"><i class="far fa-question-circle mt-0 ml-3"></i></a></small></td></tr></table>
             </div>
             <div class="col-6 text-right">
-              <a href="<?=BASE_URL?>/shop/cart" class="btn-custom btn-giwb btn-cart small">장바구니 보기</a>
+              <a href="<?=BASE_URL?>/shop/cart" class="btn-custom btn-giwbred btn-cart">장바구니 보기</a>
             </div>
           </div>
           <hr class="text-default mt-2">
