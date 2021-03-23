@@ -528,6 +528,7 @@ class Login extends MY_Controller
         // -----------------------------------------------
 
         $response = json_decode($response);
+        print_r($response);
       } else {
         $response['statusCode'] = '202';
       }
