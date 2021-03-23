@@ -521,7 +521,7 @@ class Login extends MY_Controller
           'Content-Type: application/json; charset=utf-8',
           'x-ncp-apigw-timestamp: ' . $now,
           'x-ncp-iam-access-key: ' . $access_key,
-          'x-ncp-apigw-signature-v2: ' . hash_hmac("POST " . $uri . "\n" . $now . "\n" + $access_key)
+          'x-ncp-apigw-signature-v2: ' . hash_hmac("POST " . $uri . "\n" . $now . "\n" . $access_key)
         );
 
         $ch = curl_init();
