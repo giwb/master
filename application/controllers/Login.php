@@ -423,15 +423,15 @@ class Login extends MY_Controller
 
     if (empty($result)) {
       $checkNickname = $this->member_model->checkNickname(NULL, $nickname);
-      if ($checkNickname['idx']) {
+      if (!empty($checkNickname['idx'])) {
         // 중복된 닉네임
         $result = array('error' => 1, 'message' => '이미 등록된 닉네임 입니다. 다른 닉네임을 입력해주세요.');
       }
     }
 
     if (empty($result)) {
-      $checkPhone = $this->member_model->checkPhone($phone1.$phone2.$phone3);
-      if ($checkPhone['idx']) {
+      $checkPhone = $this->member_model->checkPhone($phone1.'-'.$phone2.'-'.$phone3);
+      if (!empty($checkPhone['idx'])) {
         // 중복된 전화번호
         $result = array('error' => 1, 'message' => '이미 등록된 전화번호 입니다.');
       }
@@ -492,8 +492,13 @@ class Login extends MY_Controller
     mt_srand($now);
     $auth_code = mt_rand(100000, 999999);
 
+    $checkPhone = $this->member_model->checkPhone($phone1.'-'.$phone2.'-'.$phone3);
+
     if ($phone1 != '010' || strlen($phone2) != 4 || strlen($phone3) != 4) {
       $result = array('error' => 1, 'message' => '전화번호 형식이 올바르지 않습니다.');
+    } elseif (!empty($checkPhone['idx'])) {
+      // 중복된 전화번호
+      $result = array('error' => 1, 'message' => '이미 등록된 전화번호 입니다.');
     } else {
       $phone = $phone1 . $phone2 . $phone3;
 
