@@ -541,6 +541,7 @@ class Login extends MY_Controller
       } else {
         $response->statusCode = '202';
       }
+      print_r($header);
       print_r($response);
 
       if (!empty($response->statusCode) && $response->statusCode == '202') {
