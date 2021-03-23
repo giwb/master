@@ -124,7 +124,7 @@
                     ?>
                     <?=$tableMake?>
                       <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>"<?=!empty($reserveInfo['priority']) ? ' data-priority="' . $reserveInfo['priority'] . '"' : ''?> <?=!empty($reserveInfo['honor']) ? ' data-honor="' . $reserveInfo['honor'] . '"' : ''?> data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$seatNumber?></td>
-                      <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>"<?=!empty($reserveInfo['priority']) ? ' data-priority="' . $reserveInfo['priority'] . '"' : ''?> <?=!empty($reserveInfo['honor']) ? ' data-honor="' . $reserveInfo['honor'] . '"' : ''?> data-bus="<?=$bus?>" data-seat="<?=$seat?>"><i class="far fa-square"></i> <?=$reserveInfo['nickname']?><?=!empty($reserveInfo['honor']) && $reserveInfo['nickname'] != '1인우등' ? '<small>(우등)</small>' : ''?></td>
+                      <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>"<?=!empty($reserveInfo['priority']) ? ' data-priority="' . $reserveInfo['priority'] . '"' : ''?> <?=!empty($reserveInfo['honor']) ? ' data-honor="' . $reserveInfo['honor'] . '"' : ''?> data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$reserveInfo['nickname']?><?=!empty($reserveInfo['honor']) && $reserveInfo['nickname'] != '1인우등' ? '<small>(우등)</small>' : ''?></td>
                     <?php endforeach; ?>
                   </tbody>
                 </table>
