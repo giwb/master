@@ -503,6 +503,8 @@ class Login extends MY_Controller
       // -----------------------------------------------
       // 네이버 SMS 인증 (SENS)
       // -----------------------------------------------
+      echo date('Y/m/d H:i:s', $now);
+      exit;
       if (ENVIRONMENT == 'production') {
         $access_key = 'ncp:sms:kr:264893982314:tripkorea';
         $url = 'https://sens.apigw.ntruss.com';
