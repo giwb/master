@@ -3,7 +3,7 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <title>관리자 - <?=$viewClub['title']?><?=!empty($pageTitle) ? ' - ' . $pageTitle : ''?></title>
+  <title><?=!empty($pageTitle) ? $pageTitle . ' - ' : ''?><?=$viewClub['title']?></title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 
