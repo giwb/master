@@ -161,7 +161,7 @@
           <?php if (empty($uri) || !in_array($uri, $arr)): ?>
           <section class="section mt-4">
             <div class="card text-center p-2">
-              <img src="/public/images/busmap.png">
+              <img class="busmap" src="/public/images/busmap.png">
             </div>
           </section>
           <?php endif; ?>
