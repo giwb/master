@@ -6,7 +6,7 @@
         <div class="col-lg-2"></div>
         <div class="col-lg-8">
 
-          <form id="memberForm" method="post">
+          <form id="memberForm" method="post" action="<?=BASE_URL?>/login/entry">
           <input type="hidden" name="club_idx" value="<?=$clubIdx?>">
           <div class="row">
             <div class="col-12"><h2 class="mt-4 mb-4 pb-4 border-bottom text-center"><?=$view['title']?> 이용약관</h2></div>
@@ -44,14 +44,6 @@
           <div class="row mt-2">
             <div class="col-1 col-lg-2"></div>
             <div class="col-lg-8 row align-items-center">
-              <div class="col-4 col-sm-3">비밀번호 확인</div>
-              <div class="col-8 col-sm-9"><input type="password" name="password_check" maxlength="30" class="form-control" autocomplete="new-password"></div>
-            </div>
-            <div class="col-1 col-lg-2"></div>
-          </div>
-          <div class="row mt-2">
-            <div class="col-1 col-lg-2"></div>
-            <div class="col-lg-8 row align-items-center">
               <div class="col-4 col-sm-3">닉네임</div>
               <div class="col-8 col-sm-9"><input type="text" name="nickname" maxlength="10" class="form-control"></div>
             </div>
@@ -62,25 +54,10 @@
             <div class="col-lg-8 row align-items-center">
               <div class="col-4 col-sm-3">휴대폰 번호</div>
               <div class="col-8 col-sm-9">
-                <div class="row w-100 no-gutters align-items-center">
+                <div class="row w-100 no-gutters">
                   <div class="col-3 col-sm-2 mr-2 p-0"><input type="text" name="phone1" maxlength="3" class="form-control"></div>
                   <div class="col-4 col-sm-3 mr-2 p-0"><input type="text" name="phone2" maxlength="4" class="form-control"></div>
                   <div class="col-4 col-sm-3 p-0"><input type="text" name="phone3" maxlength="4" class="form-control"></div>
-                  <div class="col-sm-3 ml-2 p-0 d-none d-sm-block"><button type="button" class="btn btn-secondary btn-send-auth m-0 pt-2 pb-2 pl-3 pr-3">인증번호 발송</button></div>
-                  <div class="col-12 mt-2 p-0 d-block d-sm-none"><button type="button" class="btn btn-secondary btn-send-auth m-0 pt-2 pb-2 pl-5 pr-5">인증번호 발송</button></div>
-                </div>
-              </div>
-            </div>
-            <div class="col-1 col-lg-2"></div>
-          </div>
-          <div class="row mt-2">
-            <div class="col-1 col-lg-2"></div>
-            <div class="col-lg-8 row align-items-center">
-              <div class="col-4 col-sm-3">인증번호 확인</div>
-              <div class="col-8 col-sm-9">
-                <div class="row w-100 no-gutters align-items-center">
-                  <div class="col-6 col-sm-4 p-0"><input type="text" name="auth_code" maxlength="6" class="form-control"></div>
-                  <div class="col-6 col-sm-8 p-0"><span class="ml-2 auth-time"></span></div>
                 </div>
               </div>
             </div>
@@ -105,12 +82,10 @@
       var formData = new FormData($dom[0]);
       var userid = $('input[name=userid]', $dom).val();
       var password = $('input[name=password]', $dom).val();
-      var password_check = $('input[name=password_check]', $dom).val();
       var nickname = $('input[name=nickname]', $dom).val();
       var phone1 = $('input[name=phone1]', $dom).val();
       var phone2 = $('input[name=phone2]', $dom).val();
       var phone3 = $('input[name=phone3]', $dom).val();
-      var auth_code = $('input[name=auth_code]', $dom).val();
 
       if ($('input:checkbox[name=agreement]').is(':checked') == false) {
         $('.error-message').text('이용약관에 동의해 주십시오.').slideDown();
@@ -150,18 +125,6 @@
         }
       }
 
-      if (password_check == '') {
-        $('.error-message').text('비밀번호를 한 번 더 입력해주세요.').slideDown();
-        setTimeout(function() { $('.error-message').slideUp().text(''); }, 2000);
-        return false;
-      }
-
-      if (password != password_check) {
-        $('.error-message').text('입력하신 비밀번호가 일치하지 않습니다.').slideDown();
-        setTimeout(function() { $('.error-message').slideUp().text(''); }, 2000);
-        return false;
-      }
-
       if (nickname == '') {
         $('.error-message').text('사용하실 닉네임을 입력해주세요.').slideDown();
         setTimeout(function() { $('.error-message').slideUp().text(''); }, 2000);
@@ -176,29 +139,23 @@
       }
 
       if (phone1 == '' || phone2 == '' || phone3 == '') {
-        $('.error-message').text('사용하시는 휴대폰 번호를 입력해주세요.').slideDown();
-        setTimeout(function() { $('.error-message').slideUp().text(''); }, 2000);
-        return false;
-      }
-
-      if (typeof auth_code != 'undefined' && auth_code == '') {
-        $('.error-message').text('휴대폰 인증은 필수입니다.').slideDown();
+        $('.error-message').text('사용하시는 핸드폰 번호를 입력해주세요.').slideDown();
         setTimeout(function() { $('.error-message').slideUp().text(''); }, 2000);
         return false;
       }
 
       $.ajax({
-        url: '/login/insert_new',
+        url: '/login/insert',
         data: formData,
         processData: false,
         contentType: false,
         dataType: 'json',
         type: 'post',
         beforeSend: function() {
-          $btn.css('opacity', '0.5').prop('disabled', true);
+          $dom.css('opacity', '0.5').prop('disabled', true);
         },
         success: function(result) {
-          $btn.css('opacity', '1').prop('disabled', false);
+          $dom.css('opacity', '1').prop('disabled', true);
 
           if (result.error == 1) {
             $('.error-message').text(result.message).slideDown();
@@ -208,71 +165,7 @@
           }
         }
       });
-    }).on('click', '.btn-send-auth', function() {
-      var $btn = $(this);
-      var $dom = $('#memberForm');
-      var phone1 = $('input[name=phone1]', $dom).val();
-      var phone2 = $('input[name=phone2]', $dom).val();
-      var phone3 = $('input[name=phone3]', $dom).val();
-
-      if (phone1 == '' || phone2 == '' || phone3 == '') {
-        $('.error-message').text('사용하시는 휴대폰 번호를 입력해주세요.').slideDown();
-        setTimeout(function() { $('.error-message').slideUp().text(''); }, 2000);
-        return false;
-      }
-
-      $.ajax({
-        url: '/login/send_auth',
-        data: 'phone1=' + phone1 + '&phone2=' + phone2 + '&phone3=' + phone3,
-        dataType: 'json',
-        type: 'post',
-        beforeSend: function() {
-          $btn.css('opacity', '0.5').prop('disabled', true);
-        },
-        success: function(result) {
-          $('.error-message').text(result.message).slideDown();
-          setTimeout(function() { $('.error-message').slideUp().text(''); }, 2000);
-
-          if (result.error == 1) {
-            $btn.css('opacity', '1').prop('disabled', false);
-          } else {
-            setTimeout(function() { $btn.css('opacity', '1').prop('disabled', false); }, 20000);
-            clearTime();
-            setTimer();
-          }
-        }
-      });
     });
-
-    var timer;
-    var intervalSecond;
-    var clearTime = function() {
-      clearTimeout(timer);
-      intervalSecond = Number(179); // 3분
-    };
-
-    var setTimer = function() {
-      $('.auth-time').empty();
-      if (intervalSecond > 0) {
-        $('.auth-time').append(setMinSec(intervalSecond));
-        intervalSecond--;
-        timer = setTimeout(setTimer, 1000);
-      }
-    };
-
-    var setMinSec = function(sec) {
-      min = parseInt((sec%3600)/60);
-      sec = sec%60;
-      return Lpad(min, 2) + ':' + Lpad(sec, 2);
-    }
-
-    var Lpad = function(str, len) {
-      str = str + '';
-      while (str.length < len) {
-        str = '0' + str;
-      }
-      return str;
-    }
   </script>
 
   <div class="modal fade" id="entryModal" tabindex="-1" role="dialog" aria-labelledby="entryModalLabel" aria-hidden="true">

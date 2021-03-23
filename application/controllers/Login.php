@@ -267,6 +267,7 @@ class Login extends MY_Controller
    * @return view
    * @author bjchoi
    **/
+  /*
   public function entry()
   {
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
@@ -276,6 +277,7 @@ class Login extends MY_Controller
 
     $this->_viewPage('member/entry', $viewData);
   }
+  */
 
   /**
    * 회원가입 페이지
@@ -283,14 +285,14 @@ class Login extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function entry_new()
+  public function entry()
   {
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
     checkUserLoginRedirect(BASE_URL); // 로그인 상태의 회원은 메인 페이지로
 
     $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
 
-    $this->_viewPage('member/entry_new', $viewData);
+    $this->_viewPage('member/entry', $viewData);
   }
 
   /**
@@ -336,6 +338,7 @@ class Login extends MY_Controller
    * @return json
    * @author bjchoi
    **/
+  /*
   public function insert()
   {
     $now = time();
@@ -383,6 +386,7 @@ class Login extends MY_Controller
 
     $this->output->set_output(json_encode($result));
   }
+  */
 
   /**
    * 회원 등록
@@ -390,7 +394,7 @@ class Login extends MY_Controller
    * @return json
    * @author bjchoi
    **/
-  public function insert_new()
+  public function insert()
   {
     $now = time();
     $inputData = $this->input->post();
