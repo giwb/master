@@ -60,7 +60,7 @@
 
       <section class="section widget-content">
         <h4 class="row font-weight-bold">
-          <div class="col-6"><strong>산행 정보</strong></div>
+          <div class="col-6"><strong>여행일정</strong></div>
           <div class="col-6 text-right"><a href="<?=base_url()?>list" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a></div>
         </h4>
         <hr class="red mb-4">

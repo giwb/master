@@ -23,7 +23,7 @@
 
 <header>
   <nav class="navbar navbar-expand-lg navbar-dark stylish-color-dark">
-    <a class="navbar-brand" href="<?=base_url()?>"><h2><img width="40" src="/public/images/tripkorea/south-korea.png"> 한국여행</h2></a>
+    <a class="navbar-brand" href="<?=base_url()?>"><h2><img width="40" src="/public/images/tripkorea/logo_tripkorea.png"> 한국여행</h2></a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -32,6 +32,14 @@
       <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-map-marker-alt"></i> 여행정보</a>
+          <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="<?=base_url()?>place">전체보기</a>
+            <a class="dropdown-item" href="<?=base_url()?>place/forest">산림청 100대 명산</a>
+            <a class="dropdown-item" href="<?=base_url()?>place/bac">블랙야크 명산 100</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-map-marker-alt"></i> 여행일정</a>
           <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" href="<?=base_url()?>place">전체보기</a>
             <a class="dropdown-item" href="<?=base_url()?>place/forest">산림청 100대 명산</a>
