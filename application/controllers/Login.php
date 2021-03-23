@@ -509,9 +509,7 @@ class Login extends MY_Controller
         $secret_key = 'nxmYTL0aAopGwULTyGro3429lYwncLE206RqAb9t';
         $url = 'https://sens.apigw.ntruss.com';
         $uri = '/sms/v2/services/ncp:sms:kr:264893982314:tripkorea/messages';
-        $string = "POST " . $uri . "
-" . $timestamp . "
-" . $access_key;
+        $string = 'POST ' . $uri . '\n' . $timestamp . '\n' . $access_key;
         $sens = array(
           'type' => 'sms',
           'from' => '01080715227',
