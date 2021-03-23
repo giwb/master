@@ -898,6 +898,12 @@ class Login extends MY_Controller
         $viewData['view']['main_photo_width'] = $size[0];
         $viewData['view']['main_photo_height'] = $size[1];
       }
+
+      $viewHeader = 'club/header_' . $viewData['view']['main_design'];
+      $viewFooter = 'club/footer_' . $viewData['view']['main_design'];
+    } else {
+      $viewHeader = 'header';
+      $viewFooter = 'footer';
     }
 
     // 로그인 쿠키 처리
@@ -928,9 +934,9 @@ class Login extends MY_Controller
     // 방문자 기록
     setVisitor();
 
-    $this->load->view('club/header_' . $viewData['view']['main_design'], $viewData);
+    $this->load->view($viewHeader, $viewData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view('club/footer_' . $viewData['view']['main_design'], $viewData);
+    $this->load->view($viewFooter, $viewData);
   }
 }
 ?>

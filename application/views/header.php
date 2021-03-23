@@ -38,13 +38,8 @@
             <a class="dropdown-item" href="<?=base_url()?>place/bac">블랙야크 명산 100</a>
           </div>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-map-marker-alt"></i> 여행일정</a>
-          <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="<?=base_url()?>place">전체보기</a>
-            <a class="dropdown-item" href="<?=base_url()?>place/forest">산림청 100대 명산</a>
-            <a class="dropdown-item" href="<?=base_url()?>place/bac">블랙야크 명산 100</a>
-          </div>
+        <li class="nav-item">
+          <a href="<?=base_url()?>list" class="nav-link"><i class="far fa-calendar-alt"></i> 여행일정</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true"
@@ -78,7 +73,7 @@
         </li>
         <?php else: ?>
         <li class="nav-item">
-          <a href="<?=base_url()?>login/check" class="nav-link" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-plus"></i> 회원가입</a>
+          <a href="<?=base_url()?>login/entry" class="nav-link" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-plus"></i> 회원가입</a>
         </li>
         <li class="nav-item">
           <a href="javascript:;" class="nav-link login-popup" aria-haspopup="true" aria-expanded="false"><i class="fas fa-sign-in-alt"></i> 로그인</a>

@@ -86,6 +86,9 @@ if (!empty($result['idx'])) {
   }
   $route[$domain . '/' . $uri] = $uri;
 } else {
+  setcookie('COOKIE_CLUBIDX', '');
+  $_COOKIE['COOKIE_CLUBIDX'] = '';
+
   $route['default_controller']  = 'welcome';
   $route['top']                 = 'welcome';
   $route['article/(:num)']      = 'welcome/article/$1';

@@ -11,26 +11,25 @@ class Reserve_model extends CI_Model
   }
 
   // 등록된 산행 목록
-  public function listNotice($clubIdx, $status=NULL, $order='asc', $searchData=NULL, $limit=NULL)
+  public function listNotice($clubIdx=NULL, $status=NULL, $order='asc', $searchData=NULL, $limit=NULL)
   {
     $this->db->select('*')
           ->from(DB_NOTICE)
-          ->where('club_idx', $clubIdx)
           ->where('visible', VISIBLE_ABLE)
           ->order_by('startdate', $order);
 
+    if (!empty($clubIdx)) {
+      $this->db->where('club_idx', $clubIdx);
+    }
     if (!empty($searchData['sdate'])) {
       $this->db->where('startdate >=', $searchData['sdate']);
     }
-
     if (!empty($searchData['edate'])) {
       $this->db->where('startdate <=', $searchData['edate']);
     }
-
     if (!empty($searchData['keyword'])) {
       $this->db->like('subject', $searchData['keyword']);
     }
-
     if (!empty($status)) {
       $this->db->where_in('status', $status);
     }

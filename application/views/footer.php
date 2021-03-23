@@ -1,5 +1,9 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php
+  defined('BASEPATH') OR exit('No direct script access allowed');
+  $uri = $_SERVER['REQUEST_URI'];
+?>
 
+    <?php if (!strstr($uri, 'login')): ?>
     <div class="col-xl-4 col-md-12 widget-column mt-0">
       <section class="section mb-4">
         <h4 class="font-weight-bold"><strong>
@@ -28,11 +32,11 @@
           <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>-->
         </div>
       </section>
-
+<!--
       <section class="section mb-5">
         <h4 class="row font-weight-bold">
           <div class="col-6"><strong>월간 산악회 랭킹</strong></div>
-          <div class="col-6 text-right"><!--<a href="javascript:;" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a>--></div>
+          <div class="col-6 text-right"><a href="javascript:;" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a></div>
         </h4>
         <div class="card pb-3">
           <div class="row pl-3 pr-3 pt-3">
@@ -57,7 +61,7 @@
           </div>
         </div>
       </section>
-
+-->
       <section class="section widget-content">
         <h4 class="row font-weight-bold">
           <div class="col-6"><strong>여행일정</strong></div>
@@ -183,6 +187,7 @@
         </div>
       </section>
     </div>
+    <?php endif; ?>
   </div>
 </main>
 
@@ -226,9 +231,9 @@
         <div class="error-message"></div>
       </div>
       <div class="border-top text-center p-3">
-        <a href="<?=base_url()?>login/check"><button type="button" class="btn btn-default">회원가입</button></a>
+        <button type="button" class="btn btn-danger btn-login">로그인</button><br>
+        <a href="<?=base_url()?>login/entry"><button type="button" class="btn btn-info">회원가입</button></a>
         <a href="<?=base_url()?>login/forgot"><button type="button" class="btn btn-secondary">아이디/비밀번호 찾기</button></a>
-        <button type="button" class="btn btn-default btn-login">로그인</button>
       </div>
     </div>
   </div>

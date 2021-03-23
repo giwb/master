@@ -8,7 +8,7 @@ class Welcome extends MY_Controller
   {
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
-    $this->load->model(array('desk_model'));
+    $this->load->model(array('area_model', 'club_model', 'desk_model', 'story_model', 'reserve_model'));
   }
 
   /**
@@ -19,7 +19,7 @@ class Welcome extends MY_Controller
    **/
   public function index()
   {
-    $paging['perPage'] = $viewData['perPage'] = 10;
+    $paging['perPage'] = $viewData['perPage'] = 100;
     $paging['nowPage'] = (1 * $paging['perPage']) - $paging['perPage'];
     $viewData['maxArticle'] = $this->desk_model->cntArticle();
 
@@ -316,7 +316,31 @@ class Welcome extends MY_Controller
    **/
   public function list()
   {
-    $this->_viewPage('list');
+    $viewData['listNotice'] = $this->reserve_model->listNotice(NULL, array(STATUS_ABLE, STATUS_CONFIRM), 'asc');
+
+    foreach ($viewData['listNotice'] as $key1 => $value) {
+      $viewClub = $this->club_model->viewClub($value['club_idx']);
+      $viewData['listNotice'][$key1]['club_name'] = $viewClub['title'];
+
+      // 댓글수
+      $cntReply = $this->story_model->cntStoryReply($value['idx'], REPLY_TYPE_NOTICE);
+      $viewData['listNotice'][$key1]['reply_cnt'] = $cntReply['cnt'];
+
+      // 지역
+      if (!empty($value['area_sido'])) {
+        $area_sido = unserialize($value['area_sido']);
+        $area_gugun = unserialize($value['area_gugun']);
+
+        foreach ($area_sido as $key2 => $value2) {
+          $sido = $this->area_model->getName($value2);
+          $gugun = $this->area_model->getName($area_gugun[$key2]);
+          $viewData['listNotice'][$key1]['sido'][$key2] = $sido['name'];
+          $viewData['listNotice'][$key1]['gugun'][$key2] = $gugun['name'];
+        }
+      }
+    }
+
+    $this->_viewPage('list', $viewData);
   }
 
   /**
