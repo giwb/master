@@ -167,8 +167,8 @@
           </section>
 
           <section class="section mb-4">
-            <div class="card text-center">
-              <img width="460" style="margin: 0 auto;" src="/public/images/busmap.png">
+            <div class="card text-center p-2">
+              <img src="/public/images/busmap.png">
             </div>
           </section>
 
