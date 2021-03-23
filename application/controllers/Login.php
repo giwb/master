@@ -540,8 +540,6 @@ class Login extends MY_Controller
       } else {
         $response->statusCode = '202';
       }
-      print_r($header);
-      print_r($response);
 
       if (!empty($response->statusCode) && $response->statusCode == '202') {
         // 새로운 인증번호 등록
