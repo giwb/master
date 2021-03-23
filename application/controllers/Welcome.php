@@ -718,7 +718,7 @@ class Welcome extends MY_Controller
       if (!empty($value['photo']) && file_exists(PHOTO_PATH . $value['photo'])) {
         $viewData['listFooterNotice'][$key1]['photo'] = PHOTO_URL . $value['photo'];
       } else {
-        $viewData['listFooterNotice'][$key1]['photo'] = '/public/images/noimage.png';
+        $viewData['listFooterNotice'][$key1]['photo'] = '/public/images/nophoto.png';
       }
     }
 
