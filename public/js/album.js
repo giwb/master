@@ -60,7 +60,11 @@ $(document).on('click', '.btn-album-insert', function() {
   gallery.init();
 }).on('click', '.btn-album-delete', function() {
   var $dom = $(this);
-  $dom.parent().addClass('album-mask');
+  if ($dom.parent().hasClass('album-mask')) {
+    $dom.parent().removeClass('album-mask');
+  } else {
+    $dom.parent().addClass('album-mask');
+  }
 }).on('click', '.btn-album-delete-process', function() {
   // 삭제
   var $btn = $(this);

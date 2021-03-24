@@ -8,9 +8,9 @@
         <div class="col-md-12">
 
           <div class="row align-items-center">
-            <div class="col-6"><h4 class="font-weight-bold"><?=$pageTitle?></h4></div>
+            <div class="col-5"><h4 class="font-weight-bold"><?=$pageTitle?></h4></div>
             <?php if (!empty($userData['idx'])): ?>
-            <div class="col-6 text-right">
+            <div class="col-7 text-right">
               <a href="<?=BASE_URL?>/album/entry" class="btn-custom btn-giwbblue">사진등록</a>
               <a href="<?=BASE_URL?>/album/delete" class="btn-custom btn-giwbred">삭제</a>
             </div>
@@ -31,7 +31,7 @@
               <input type="hidden" name="p" value="1">
               <?=$listAlbumMain?>
               <div class="area-append"></div>
-              <?php if ($cntAlbum['cnt'] > $perPage): ?>
+              <?php if (!empty($cntAlbum['cnt']) && $cntAlbum['cnt'] > $perPage): ?>
                 <div class="row mt-5">
                   <div class="col-3"></div>
                   <div class="col-6"><button type="button" class="btn btn-page-next">다음 페이지 보기 ▼</button></div>
