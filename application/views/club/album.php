@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
   <script type="text/javascript" src="/public/js/masonry.pkgd.min.js"></script>
-  <script type="text/javascript" src="/public/js/album.js"></script>
+  <script type="text/javascript" src="/public/js/album.js?<?=time()?>"></script>
   <main id="club">
     <div class="container-fluid club-main">
       <div class="row mt-1 mb-5">
