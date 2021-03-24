@@ -2569,7 +2569,7 @@ main#footer .logo-img { margin-right: 10px; float: left; }
 .area-sns { justify-content: flex-end!important; }
 
 /* 사진첩 */
-#album .album-item { width: 24.8%; position: relative; text-align: center; margin: 0 0 1px 0; }
+#album .album-item { width: 19.8%; position: relative; text-align: center; margin: 0 0 1px 0; }
 #album .album-item .caption { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 100; font-size: 0.9rem; color: white; padding: 0 5px; }
 #album .album-item:hover .caption { display: block; }
 #album .album-item .caption table { height: 100%; }
