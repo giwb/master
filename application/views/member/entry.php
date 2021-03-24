@@ -11,14 +11,14 @@
           <div class="row">
             <div class="col-12"><h2 class="mt-4 mb-4 pb-4 border-bottom text-center"><?=$view['title']?> 이용약관</h2></div>
           </div>
-          <div class="border agree-box"><?php if (!empty($view['agreement'])) reset_html_escape($view['agreement']); else include(BASE_PATH . '/public/agree.php')?></div>
+          <div class="border agree-box"><?php include(BASE_PATH . '/public/agree.php'); ?></div>
           <div class="row">
             <div class="col-12 text-center mt-3 mb-4"><label><input type="checkbox" name="agreement"> 이용약관에 동의합니다.</label></div>
           </div>
           <div class="row">
             <div class="col-12"><h2 class="mt-3 mb-4 pb-4 border-bottom text-center">개인정보 취급방침</h2></div>
           </div>
-          <div class="border agree-box"><?php if (!empty($view['personal'])) reset_html_escape($view['personal']); else include(BASE_PATH . '/public/personal.php')?></div>
+          <div class="border agree-box"><?php include(BASE_PATH . '/public/personal.php'); ?></div>
           <div class="row">
             <div class="col-12 text-center mt-3 mb-4"><label><input type="checkbox" name="personal"> 개인정보 취급방침에 동의합니다.</label></div>
           </div>
