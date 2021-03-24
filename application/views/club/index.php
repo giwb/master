@@ -49,7 +49,7 @@
               <div class="col-md-6 my-3">
                 <div class="card main-card">
                   <div class="view overlay">
-                    <img src="<?=PHOTO_URL . $listNotice[0]['photo']?>" class="card-img-top">
+                    <img src="<?=ALBUM_URL . $listNotice[0]['photo']?>" class="card-img-top">
                     <a href="<?=BASE_URL?>/reserve/list/<?=$listNotice[0]['idx']?>"><div class="mask rgba-white-slight"></div></a>
                   </div>
                   <div class="card-body">
