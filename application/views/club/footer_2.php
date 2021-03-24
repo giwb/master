@@ -387,7 +387,7 @@
       <div class="col-sm-5 text-right align-self-end mt-2">
         <a target="_blank" title="페이스북" href="https://www.facebook.com/giwb.kr"><img hspace="2" src="/public/images/icon_facebook.png"></a>
         <a target="_blank" title="인스타그램" href="https://www.instagram.com/giwbtour"><img hspace="2" src="/public/images/icon_instagram.png"></a>
-        <a target="_blank" title="트위터"><img hspace="2" src="/public/images/icon_twitter.png"></a>
+        <a target="_blank" title="트위터" href="https://twitter.com/giwb_alpine"><img hspace="2" src="/public/images/icon_twitter.png"></a>
         <a target="_blank" title="유튜브" href="https://www.youtube.com/channel/UCH35r9R3xNjqxrm8CexwS-g"><img hspace="2" src="/public/images/icon_youtube.png"></a>
         <a target="_blank" title="다음카페" href="https://cafe.daum.net/giwb"><img hspace="2" src="/public/images/icon_cafe.png"></a>
       </div>
