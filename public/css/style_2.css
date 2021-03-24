@@ -2818,7 +2818,7 @@ main#footer .logo-img { margin-right: 10px; float: left; }
 .scroll-to-top {
   position: fixed;
   right: 0.5rem;
-  bottom: 6.5rem;
+  bottom: 11rem;
   display: none;
   width: 2.5rem;
   height: 2.5rem;
@@ -2850,4 +2850,5 @@ main#footer .logo-img { margin-right: 10px; float: left; }
 @media only screen and (max-width: 414px) {
   #album .album-item { width: 24.8%!important; margin: 0 0 1px 0!important; }
   #album .album-item img { display: block; min-width: 100%!important; max-width: 100%!important; }
+  .scroll-to-top { bottom: 10rem; }
 }
