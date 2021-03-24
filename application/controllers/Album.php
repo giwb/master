@@ -45,9 +45,9 @@ class Album extends MY_Controller
 
       foreach ($photos as $i => $photo) {
         if (!empty($photo['filename'])) {
-          $size = getImageSize(PHOTO_PATH . $photo['filename']);
-          $size_thumb = getImageSize(PHOTO_PATH . 'thumb_' . $photo['filename']);
-          $viewData['photos'][$key]['filename'][] = PHOTO_URL . 'thumb_' . $photo['filename'];
+          $size = getImageSize(ALBUM_PATH . $photo['filename']);
+          $size_thumb = getImageSize(ALBUM_PATH . 'thumb_' . $photo['filename']);
+          $viewData['photos'][$key]['filename'][] = ALBUM_URL . 'thumb_' . $photo['filename'];
           $viewData['photos'][$key]['source'][] = $photo['filename'];
           $viewData['photos'][$key]['width'][] = $size[0];
           $viewData['photos'][$key]['height'][] = $size[1];
@@ -118,11 +118,11 @@ class Album extends MY_Controller
     foreach ($photos as $key => $photo) {
       if (!empty($photo['filename'])) {
         if (empty($photo['width'])) {
-          $size = getImageSize(PHOTO_PATH . $photo['filename']);
+          $size = getImageSize(ALBUM_PATH . $photo['filename']);
           $photo['width'] = $size[0];
           $photo['height'] = $size[1];
         }
-        $result[$key]['src'] = PHOTO_URL . $photo['filename'];
+        $result[$key]['src'] = ALBUM_URL . $photo['filename'];
         $result[$key]['width'] = $photo['width'];
         $result[$key]['height'] = $photo['height'];
       } else {
@@ -197,8 +197,8 @@ class Album extends MY_Controller
       if (!empty($value)) {
         $filename = $now . mt_rand(10000, 99999) . '.jpg';
 
-        if (move_uploaded_file($value, PHOTO_PATH . $filename)) {
-          $size = getImageSize(PHOTO_PATH . $filename);
+        if (move_uploaded_file($value, ALBUM_PATH . $filename)) {
+          $size = getImageSize(ALBUM_PATH . $filename);
           $fileValues = array(
             'page' => $pageName,
             'page_idx' => $idx,
@@ -212,8 +212,8 @@ class Album extends MY_Controller
           // 썸네일 만들기
           $this->image_lib->clear();
           $config['image_library'] = 'gd2';
-          $config['source_image'] = PHOTO_PATH . $filename;
-          $config['new_image'] = PHOTO_PATH . 'thumb_' . $filename;
+          $config['source_image'] = ALBUM_PATH . $filename;
+          $config['new_image'] = ALBUM_PATH . 'thumb_' . $filename;
           $config['create_thumb'] = TRUE;
           $config['maintain_ratio'] = TRUE;
           $config['thumb_marker'] = '';
@@ -265,9 +265,9 @@ class Album extends MY_Controller
 
       foreach ($photos as $i => $photo) {
         if (!empty($photo['filename'])) {
-          $size = getImageSize(PHOTO_PATH . $photo['filename']);
-          $size_thumb = getImageSize(PHOTO_PATH . 'thumb_' . $photo['filename']);
-          $viewData['photos'][$key]['filename'][] = PHOTO_URL . 'thumb_' . $photo['filename'];
+          $size = getImageSize(ALBUM_PATH . $photo['filename']);
+          $size_thumb = getImageSize(ALBUM_PATH . 'thumb_' . $photo['filename']);
+          $viewData['photos'][$key]['filename'][] = ALBUM_URL . 'thumb_' . $photo['filename'];
           $viewData['photos'][$key]['source'][] = $photo['filename'];
           $viewData['photos'][$key]['width'][] = $size[0];
           $viewData['photos'][$key]['height'][] = $size[1];
@@ -332,8 +332,8 @@ class Album extends MY_Controller
     foreach ($inputData['sourceFile'] as $key => $value) {
       // 파일 삭제
       $this->file_model->deleteFile($value);
-      if (file_exists(PHOTO_PATH . $value)) {
-        unlink(PHOTO_PATH . $value);
+      if (file_exists(ALBUM_PATH . $value)) {
+        unlink(ALBUM_PATH . $value);
       }
 
       // 해당 앨범에 사진이 하나도 없으면 앨범 데이터 삭제
@@ -359,7 +359,7 @@ class Album extends MY_Controller
   public function upload()
   {
     $maxSize = 2000;
-    $result = array('error' => 1, 'message' => $this->lang->line('error_photo_upload'));
+    $result = array('error' => 1, 'message' => $this->lang->line('error_ALBUM_upload'));
 
     foreach ($_FILES['files']['tmp_name'] as $tmp_name) {
       if (!empty($tmp_name)) {
@@ -387,6 +387,43 @@ class Album extends MY_Controller
       $result = array('error' => 0, 'message' => $message, 'filename' => $message_filename);
     }
     $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 썸네일 만들기
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function thumbnail()
+  {
+    $listAlbum = $this->club_model->listAlbum(1, 50);
+
+    foreach ($listAlbum as $value) {
+      if (!empty($value['idx'])) {
+        $photos = $this->file_model->getFile('album', $value['idx']);
+
+        foreach ($photos as $i => $photo) {
+          if (!empty($photo['filename']) && file_exists(PHOTO_PATH . $photo['filename'])) {
+            copy(PHOTO_PATH . $photo['filename'], ALBUM_PATH . $photo['filename']);
+            unlink(PHOTO_PATH . $photo['filename']);
+            unlink(PHOTO_PATH . 'thumb_' . $photo['filename']);
+
+            // 썸네일 만들기
+            $this->image_lib->clear();
+            $config['image_library'] = 'gd2';
+            $config['source_image'] = ALBUM_PATH . $photo['filename'];
+            $config['new_image'] = ALBUM_PATH . 'thumb_' . $photo['filename'];
+            $config['create_thumb'] = TRUE;
+            $config['maintain_ratio'] = TRUE;
+            $config['thumb_marker'] = '';
+            $config['width'] = 350;
+            $this->image_lib->initialize($config);
+            $this->image_lib->resize();
+          }
+        }
+      }
+    }
   }
 
   /**
@@ -438,8 +475,8 @@ class Album extends MY_Controller
     $viewData['listStory'] = $this->story_model->listStory($viewData['view']['idx'], $paging);
 
     foreach ($viewData['listStory'] as $key => $value) {
-      if (file_exists(PHOTO_PATH . $value['user_idx'])) {
-        $viewData['listStory'][$key]['avatar'] = PHOTO_URL . $value['user_idx'];
+      if (file_exists(ALBUM_PATH . $value['user_idx'])) {
+        $viewData['listStory'][$key]['avatar'] = ALBUM_URL . $value['user_idx'];
       } else {
         $viewData['listStory'][$key]['avatar'] = '/public/images/user.png';
       }
@@ -447,11 +484,11 @@ class Album extends MY_Controller
 
     // 클럽 대표이미지
     $files = $this->file_model->getFile('club', $viewData['view']['idx']);
-    if (!empty($files[0]['filename']) && file_exists(PHOTO_PATH . $files[0]['filename'])) {
-      $size = getImageSize(PHOTO_PATH . $files[0]['filename']);
-      $viewData['view']['main_photo'] = PHOTO_URL . $files[0]['filename'];
-      $viewData['view']['main_photo_width'] = $size[0];
-      $viewData['view']['main_photo_height'] = $size[1];
+    if (!empty($files[0]['filename']) && file_exists(ALBUM_PATH . $files[0]['filename'])) {
+      $size = getImageSize(ALBUM_PATH . $files[0]['filename']);
+      $viewData['view']['main_photo'] = ALBUM_URL . $files[0]['filename'];
+      $viewData['view']['main_ALBUM_width'] = $size[0];
+      $viewData['view']['main_ALBUM_height'] = $size[1];
     }
 
     // 로그인 쿠키 처리
