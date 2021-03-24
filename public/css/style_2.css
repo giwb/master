@@ -2845,18 +2845,3 @@ main#footer .logo-img { margin-right: 10px; float: left; }
 .agree-box::-webkit-scrollbar { width: 10px; display: block; }
 .agree-box::-webkit-scrollbar-thumb { background-color: #a9a9a9; }
 .agree-box::-webkit-scrollbar-track { background-color: #dee2e6; }
-
-
-@media only screen and (max-width: 414px) {
-  #album .album-item { margin: 0 10px 0 0; }
-  #album .album-item img { width: 181px!important; }
-}
-@media only screen and (max-width: 375px) {
-  #album .album-item img { width: 161px!important; }
-}
-@media only screen and (max-width: 360px) {
-  #album .album-item img { width: 154px!important; }
-}
-@media only screen and (max-width: 320px) {
-  #album .album-item img { width: 134px!important; }
-}

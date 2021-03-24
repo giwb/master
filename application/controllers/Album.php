@@ -217,7 +217,7 @@ class Album extends MY_Controller
           $config['create_thumb'] = TRUE;
           $config['maintain_ratio'] = TRUE;
           $config['thumb_marker'] = '';
-          $config['width'] = 450;
+          $config['width'] = 350;
           $this->image_lib->initialize($config);
           $this->image_lib->resize();
         }
