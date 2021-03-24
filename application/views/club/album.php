@@ -42,7 +42,7 @@
           </form>
         </div>
       </div>
-      <input type="hidden" name="photoUrl" value="<?=PHOTO_URL?>">
+      <input type="hidden" name="photoUrl" value="<?=ALBUM_URL?>">
 
       <!-- Photo Swipe -->
       <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
