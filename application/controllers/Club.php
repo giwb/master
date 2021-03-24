@@ -80,7 +80,7 @@ class Club extends MY_Controller
     foreach ($viewData['listAlbum'] as $key => $value) {
       $photo = $this->file_model->getFile('album', $value['idx'], NULL, 1);
       if (!empty($photo[0]['filename'])) {
-        $viewData['listAlbum'][$key]['photo'] = PHOTO_URL . 'thumb_'. $photo[0]['filename'];
+        $viewData['listAlbum'][$key]['photo'] = ALBUM_URL . 'thumb_'. $photo[0]['filename'];
       } else {
         $viewData['listAlbum'][$key]['photo'] = '/public/images/noimage.png';
       }
