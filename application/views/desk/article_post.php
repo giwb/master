@@ -20,14 +20,6 @@
                                     </colgroup>
                                     <tbody>
                                         <tr>
-                                            <th class="text-center">작성자</th>
-                                            <td>
-                                                <div class="row">
-                                                    <div class="col-6"><input type="text" class="form-control" value="<?=!empty($userData['nickname']) ? $userData['nickname'] : ''?>" readonly></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
                                             <th class="text-center">분류</th>
                                             <td>
                                                 <div class="row">
@@ -130,10 +122,6 @@
                         sSkinURI: '/public/se2/SmartEditor2Skin.html',
                         fCreator: 'createSEditor2'
                     });
-                    function pasteHTML(filepath){
-                        var sHTML = '<img src="/public/uploads/editor/' + filepath + '">';
-                        oEditors.getById['articleContent'].exec('PASTE_HTML', [sHTML]);
-                    }
                     $(document).on('click', '.btn-post-article', function() {
                       // 기사 등록
                       oEditors.getById['articleContent'].exec('UPDATE_CONTENTS_FIELD', []);

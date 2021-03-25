@@ -8,7 +8,7 @@ class Welcome extends MY_Controller
   {
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
-    $this->load->model(array('area_model', 'club_model', 'desk_model', 'story_model', 'reserve_model'));
+    $this->load->model(array('area_model', 'club_model', 'desk_model', 'file_model', 'story_model', 'reserve_model'));
   }
 
   /**

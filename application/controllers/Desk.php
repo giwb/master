@@ -44,18 +44,6 @@ class Desk extends Desk_Controller
   }
 
   /**
-   * 기사 열람
-   *
-   * @return view
-   * @author bjchoi
-   **/
-  public function article_view($idx)
-  {
-    $viewData['view'] = $this->desk_model->viewArticle(html_escape($idx));
-    $this->_viewPage('desk/article_view', $viewData);
-  }
-
-  /**
    * 기사 등록
    *
    * @return view
@@ -174,7 +162,7 @@ class Desk extends Desk_Controller
   }
 
   /**
-   * 분류 편집
+   * 기사 분류 편집
    *
    * @return view
    * @author bjchoi
@@ -232,19 +220,7 @@ class Desk extends Desk_Controller
   }
 
   /**
-   * 기사 열람
-   *
-   * @return view
-   * @author bjchoi
-   **/
-  public function place_view($idx)
-  {
-    $viewData['view'] = $this->desk_model->viewPlace(html_escape($idx));
-    $this->_viewPage('desk/place_view', $viewData);
-  }
-
-  /**
-   * 기사 등록
+   * 여행정보 등록
    *
    * @return view
    * @author bjchoi
@@ -282,7 +258,7 @@ class Desk extends Desk_Controller
   }
 
   /**
-   * 기사 등록/수정
+   * 여행정보 등록/수정
    *
    * @return view
    * @author bjchoi
@@ -367,20 +343,7 @@ class Desk extends Desk_Controller
   }
 
   /**
-   * 기사 메인 등록
-   *
-   * @return view
-   * @author bjchoi
-   **/
-  public function place_main()
-  {
-    $updateValues['main_status'] = html_escape($this->input->post('value'));
-    $this->desk_model->update(DB_PLACES, $updateValues, html_escape($this->input->post('idx')));
-    redirect('/desk/place');
-  }
-
-  /**
-   * 기사 삭제
+   * 여행정보 삭제
    *
    * @return view
    * @author bjchoi
@@ -401,7 +364,7 @@ class Desk extends Desk_Controller
   }
 
   /**
-   * 분류 편집
+   * 여행정보 분류 편집
    *
    * @return view
    * @author bjchoi
@@ -457,6 +420,43 @@ class Desk extends Desk_Controller
     $viewData['max'] = count($viewData['list']);
 
     $this->_viewPage('desk/club', $viewData);
+  }
+
+  /**
+   * 산악회 등록
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function club_post($idx=NULL)
+  {
+    $viewData['userData'] = $this->load->get_var('userData');
+
+    if (!is_null($idx)) {
+      $viewData['view'] = $this->desk_model->viewPlace(html_escape($idx));
+    }
+
+    // 지역
+    $viewData['area_sido'] = $this->area_model->listSido();
+    if (!empty($viewData['view']['area_sido'])) {
+      $area_sido = unserialize($viewData['view']['area_sido']);
+      $area_gugun = unserialize($viewData['view']['area_gugun']);
+
+      foreach ($area_sido as $key => $value) {
+        $sido = $this->area_model->getName($value);
+        $gugun = $this->area_model->getName($area_gugun[$key]);
+        $viewData['list_sido'] = $this->area_model->listSido();
+        $viewData['list_gugun'][$key] = $this->area_model->listGugun($value);
+        $viewData['view']['sido'][$key] = $sido['name'];
+        $viewData['view']['gugun'][$key] = $gugun['name'];
+      }
+
+      $viewData['area_gugun'] = $this->area_model->listGugun($viewData['view']['area_sido']);
+    } else {
+      $viewData['area_gugun'] = array();
+    }
+
+    $this->_viewPage('desk/club_post', $viewData);
   }
 
 
