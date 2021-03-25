@@ -25,17 +25,17 @@
                                     </thead>
                                     <tbody>
                                         <?php foreach ($list as $key => $value): ?>
-                                        <tr data-idx="<?=$value['idx']?>">
-                                            <td class="view-article text-center"><?=$max - $key?></td>
-                                            <td class="view-article text-center small"><?=date('Y-m-d H:i', $value['created_at'])?></td>
-                                            <td class="view-article text-center small"><?=date('Y-m-d H:i', $value['viewing_at'])?></td>
-                                            <td class="view-article text-center"><?=$value['category_name']?></td>
-                                            <td class="view-article"><?=$value['title']?></td>
-                                            <td class="view-article text-center"><?=$value['nickname']?></td>
+                                        <tr data-link="<?=base_url()?>article/<?=$value['idx']?>" class="area-link">
+                                            <td class="text-center"><?=$max - $key?></td>
+                                            <td class="text-center small"><?=date('Y-m-d H:i', $value['created_at'])?></td>
+                                            <td class="text-center small"><?=date('Y-m-d H:i', $value['viewing_at'])?></td>
+                                            <td class="text-center"><?=$value['category_name']?></td>
+                                            <td><?=$value['title']?></td>
+                                            <td class="text-center"><?=$value['nickname']?></td>
                                             <td class="text-center">
                                                 <button type="button" data-idx="<?=$value['idx']?>" data-status="<?=$value['main_status']?>" class="btn btn-sm<?=$value['main_status'] == 'Y' ? ' btn-primary' : ' btn-secondary'?> btn-modal-main">메인</button>
-                                                <a href="/desk/article_post/<?=$value['idx']?>"><button class="btn btn-sm btn-secondary">수정</button></a>
-                                                <button type="button" data-idx="<?=$value['idx']?>" class="btn btn-sm btn-danger btn-modal-delete-article">삭제</button>
+                                                <button type="button" data-link="<?=base_url()?>desk/article_post/<?=$value['idx']?>" class="btn btn-sm btn-secondary btn-update">수정</button>
+                                                <button type="button" data-idx="<?=$value['idx']?>" data-action="article_delete" class="btn btn-sm btn-danger btn-modal-delete">삭제</button>
                                             </td>
                                         </tr>
                                         <?php endforeach; ?>

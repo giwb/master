@@ -11249,7 +11249,7 @@ body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
 
-.view-article, .view-place {
+.area-link {
   cursor: pointer;
 }
 .error-message {
@@ -11264,7 +11264,8 @@ body.sidebar-toggled footer.sticky-footer {
 }
 .article-data p { margin: 0px; padding: 0px; }
 .article-data img { max-width: 100%; }
-#articleContent, #placeContent { width: 99.8%; min-width: 610px; min-height: 600px; }
+#articleContent { width: 99.8%; min-width: 610px; min-height: 600px; }
+.se-content { width: 99.8%; min-width: 610px; min-height: 300px; }
 
 @media (max-width:1000px) {
   .article-data { width: 100%; }

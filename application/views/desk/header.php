@@ -43,7 +43,7 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>기사 관리</span></a>
             </li>
-            <hr class="sidebar-divider">
+            <hr class="sidebar-divider mt-3">
             <li class="nav-item">
                 <a class="nav-link" href="/desk/place">
                     <i class="fas fa-map-marker-alt pl-1 pr-1"></i>

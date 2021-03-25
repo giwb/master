@@ -69,16 +69,18 @@ $(function() {
   });
 });
 
-$(document).on('click', '.btn-modal-delete-article', function() {
+$(document).on('click', '.btn-modal-delete', function(e) {
   // 기사 삭제 모달
+  e.stopPropagation();
   var $dom = $('#messageModal');
-  $('#formModal').attr('action', '/desk/article_delete');
+  $('#formModal').attr('action', '/desk/' + $(this).data('action'));
   $('.modal-message', $dom).text('정말로 삭제하시겠습니까?');
   $('.btn-modal-submit', $dom).text('삭제').addClass('btn-danger');
   $('input[name=idx]', $dom).val($(this).data('idx'));
   $dom.modal();
-}).on('click', '.btn-modal-main', function() {
+}).on('click', '.btn-modal-main', function(e) {
   // 메인 확인 모달 열기
+  e.stopPropagation();
   var $dom = $('#messageModal');
   $('#formModal').attr('action', '/desk/article_main');
   if ($(this).data('status') == 'Y') {
@@ -98,12 +100,13 @@ $(document).on('click', '.btn-modal-delete-article', function() {
 }).on('click', '.btn-modal-submit', function() {
   // 모달 확인
   $('#formModal').submit();
-}).on('click', '.view-article', function() {
-  // 기사 보기
-  location.href = ('/desk/article_view/' + $(this).parent().data('idx'));
-}).on('click', '.view-place', function() {
-  // 여행정보 보기
-  location.href = ('/desk/place_view/' + $(this).parent().data('idx'));
+}).on('click', '.btn-update', function(e) {
+  // 수정 버튼
+  e.stopPropagation();
+  location.href = ($(this).data('link'));
+}).on('click', '.area-link', function(e) {
+  // 링크
+  window.open($(this).data('link'));
 }).on('click', '.btn-add-category', function() {
   // 분류 항목 추가
   $('.area-category').append('<div class="row p-1"><div class="col-6"><input type="text" name="category_code[]" class="form-control"></div><div class="col-6"><input type="text" name="category_name[]" class="form-control"></div></div>');

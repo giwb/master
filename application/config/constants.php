@@ -91,28 +91,32 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 */
 
 // 업로드 디렉토리
-defined('UPLOAD_URL')         OR define('UPLOAD_URL', '/public/uploads/');
-defined('UPLOAD_PATH')        OR define('UPLOAD_PATH', BASE_PATH . UPLOAD_URL);
+defined('UPLOAD_URL')           OR define('UPLOAD_URL', '/public/uploads/');
+defined('UPLOAD_PATH')          OR define('UPLOAD_PATH', BASE_PATH . UPLOAD_URL);
 
 // 에디터 업로드 디렉토리
-defined('EDITOR_URL')         OR define('EDITOR_URL', '/public/uploads/editor/');
-defined('EDITOR_PATH')        OR define('EDITOR_PATH', BASE_PATH . EDITOR_URL);
+defined('EDITOR_URL')           OR define('EDITOR_URL', '/public/uploads/editor/');
+defined('EDITOR_PATH')          OR define('EDITOR_PATH', BASE_PATH . EDITOR_URL);
 
 // 사진 디렉토리
-defined('PHOTO_URL')          OR define('PHOTO_URL', '/public/photos/');
-defined('PHOTO_PATH')         OR define('PHOTO_PATH', BASE_PATH . PHOTO_URL);
+defined('PHOTO_URL')            OR define('PHOTO_URL', '/public/photos/');
+defined('PHOTO_PATH')           OR define('PHOTO_PATH', BASE_PATH . PHOTO_URL);
 
 // 사진첩(앨범) 디렉토리
-defined('ALBUM_URL')          OR define('ALBUM_URL', '/public/album/');
-defined('ALBUM_PATH')         OR define('ALBUM_PATH', BASE_PATH . ALBUM_URL);
+defined('ALBUM_URL')            OR define('ALBUM_URL', '/public/album/');
+defined('ALBUM_PATH')           OR define('ALBUM_PATH', BASE_PATH . ALBUM_URL);
 
 // 기사 사진 업로드 디렉토리
-defined('PHOTO_ARTICLE_URL')  OR define('PHOTO_ARTICLE_URL', PHOTO_URL . 'article/');
-defined('PHOTO_ARTICLE_PATH') OR define('PHOTO_ARTICLE_PATH', BASE_PATH . PHOTO_ARTICLE_URL);
+defined('PHOTO_ARTICLE_URL')    OR define('PHOTO_ARTICLE_URL', PHOTO_URL . 'article/');
+defined('PHOTO_ARTICLE_PATH')   OR define('PHOTO_ARTICLE_PATH', BASE_PATH . PHOTO_ARTICLE_URL);
+
+// 여행정보 사진 업로드 디렉토리
+defined('PHOTO_PLACE_URL')      OR define('PHOTO_PLACE_URL', PHOTO_URL . 'place/');
+defined('PHOTO_PLACE_PATH')     OR define('PHOTO_PLACE_PATH', BASE_PATH . PHOTO_PLACE_URL);
 
 // 대표사진
-defined('FRONT_URL')          OR define('FRONT_URL', '/public/uploads/front/');
-defined('FRONT_PATH')         OR define('FRONT_PATH', BASE_PATH . FRONT_URL);
+defined('FRONT_URL')            OR define('FRONT_URL', '/public/uploads/front/');
+defined('FRONT_PATH')           OR define('FRONT_PATH', BASE_PATH . FRONT_URL);
 
 // 테이블명
 defined('DB_ADJUST')            OR define('DB_ADJUST', 'adjust'); // 정산

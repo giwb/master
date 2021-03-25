@@ -16,23 +16,25 @@
                                         <tr align="center" bgcolor="#e9e9e9">
                                             <th width="5%">번호</th>
                                             <th width="10%">등록일시</th>
+                                            <th width="6%">썸네일</th>
                                             <th width="19%">분류</th>
-                                            <th width="48%">타이틀</th>
+                                            <th>타이틀</th>
                                             <th width="8%">작성자</th>
                                             <th width="10%">편집</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php foreach ($list as $key => $value): ?>
-                                        <tr data-idx="<?=$value['idx']?>">
-                                            <td class="view-place text-center"><?=$max - $key?></td>
-                                            <td class="view-place text-center small"><?=date('Y-m-d H:i', $value['created_at'])?></td>
-                                            <td class="view-place text-center"><?=$value['category_name']?></td>
-                                            <td class="view-place"><?=$value['title']?></td>
-                                            <td class="view-place text-center"><?=$value['nickname']?></td>
+                                        <tr data-link="<?=base_url()?>place/view/<?=$value['idx']?>" class="area-link">
+                                            <td class="text-center"><?=$max - $key?></td>
+                                            <td class="text-center small"><?=date('Y-m-d H:i', $value['created_at'])?></td>
+                                            <td class="text-center p-0"><img width="100" src="<?=!empty($value['thumbnail']) ? PHOTO_PLACE_URL . 'thumb_' . $value['thumbnail'] : '/public/images/noimage.png'?>"></td>
+                                            <td class="text-center"><?=$value['category_name']?></td>
+                                            <td><?=$value['title']?></td>
+                                            <td class="text-center"><?=$value['nickname']?></td>
                                             <td class="text-center">
-                                                <a href="/desk/place_post/<?=$value['idx']?>"><button class="btn btn-sm btn-secondary">수정</button></a>
-                                                <button type="button" data-idx="<?=$value['idx']?>" class="btn btn-sm btn-danger btn-modal-delete-place">삭제</button>
+                                                <button type="button" data-link="<?=base_url()?>desk/place_post/<?=$value['idx']?>" class="btn btn-sm btn-secondary btn-update">수정</button>
+                                                <button type="button" data-idx="<?=$value['idx']?>" data-action="place_delete" class="btn btn-sm btn-danger btn-modal-delete">삭제</button>
                                             </td>
                                         </tr>
                                         <?php endforeach; ?>

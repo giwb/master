@@ -9,7 +9,7 @@ class Desk extends Desk_Controller
     parent::__construct();
     $this->load->helper(array('cookie', 'security', 'url', 'my_array_helper'));
     $this->load->library(array('image_lib'));
-    $this->load->model(array('desk_model'));
+    $this->load->model(array('area_model', 'desk_model'));
   }
 
   /**
@@ -258,6 +258,26 @@ class Desk extends Desk_Controller
       $viewData['view'] = $this->desk_model->viewPlace(html_escape($idx));
     }
 
+    // 지역
+    $viewData['area_sido'] = $this->area_model->listSido();
+    if (!empty($viewData['view']['area_sido'])) {
+      $area_sido = unserialize($viewData['view']['area_sido']);
+      $area_gugun = unserialize($viewData['view']['area_gugun']);
+
+      foreach ($area_sido as $key => $value) {
+        $sido = $this->area_model->getName($value);
+        $gugun = $this->area_model->getName($area_gugun[$key]);
+        $viewData['list_sido'] = $this->area_model->listSido();
+        $viewData['list_gugun'][$key] = $this->area_model->listGugun($value);
+        $viewData['view']['sido'][$key] = $sido['name'];
+        $viewData['view']['gugun'][$key] = $gugun['name'];
+      }
+
+      $viewData['area_gugun'] = $this->area_model->listGugun($viewData['view']['area_sido']);
+    } else {
+      $viewData['area_gugun'] = array();
+    }
+
     $this->_viewPage('desk/place_post', $viewData);
   }
 
@@ -283,40 +303,62 @@ class Desk extends Desk_Controller
     }
 
     if (empty($result)) {
-      if (!empty($_FILES['main_image']['tmp_name'])) {
+      if (!empty($_FILES['thumbnail']['tmp_name'])) {
         // 메인 이미지 처리
-        if ($_FILES['main_image']['type'] == 'image/jpeg') {
+        if ($_FILES['thumbnail']['type'] == 'image/jpeg') {
           $ext = ".jpg";
         } else {
           $ext = ".jpg";
         }
-        $inputData['main_image_uploaded'] = time() . mt_rand(10000, 99999) . $ext;
-        move_uploaded_file($_FILES['main_image']['tmp_name'], PHOTO_PLACE_PATH . $inputData['main_image_uploaded']);
+        $inputData['thumbnail_uploaded'] = time() . mt_rand(10000, 99999) . $ext;
+        move_uploaded_file($_FILES['thumbnail']['tmp_name'], PHOTO_PLACE_PATH . $inputData['thumbnail_uploaded']);
+
+        // 썸네일 만들기
+        $this->image_lib->clear();
+        $config['image_library'] = 'gd2';
+        $config['source_image'] = PHOTO_PLACE_PATH . $inputData['thumbnail_uploaded'];
+        $config['new_image'] = PHOTO_PLACE_PATH . 'thumb_' . $inputData['thumbnail_uploaded'];
+        $config['create_thumb'] = TRUE;
+        $config['maintain_ratio'] = TRUE;
+        $config['thumb_marker'] = '';
+        $config['width'] = 500;
+        $this->image_lib->initialize($config);
+        $this->image_lib->resize();
       }
 
       if (!empty($inputData['idx'])) {
         $idx = html_escape($inputData['idx']);
         $updateValues = array(
+          'area_sido'   => make_serialize(html_escape($inputData['area_sido'])),
+          'area_gugun'  => make_serialize(html_escape($inputData['area_gugun'])),
           'category'    => html_escape($inputData['category']),
-          'main_image'  => !empty($inputData['main_image_uploaded']) ? html_escape($inputData['main_image_uploaded']) : NULL,
+          'altitude'    => html_escape($inputData['altitude']),
+          'thumbnail'   => !empty($inputData['thumbnail_uploaded']) ? html_escape($inputData['thumbnail_uploaded']) : NULL,
           'title'       => html_escape($inputData['title']),
+          'reason'      => html_escape($inputData['reason']),
+          'around'      => html_escape($inputData['around']),
+          'course'      => html_escape($inputData['course']),
           'content'     => html_escape($inputData['content']),
-          'viewing_at'  => strtotime(html_escape($inputData['viewing_date']) . ' ' . html_escape($inputData['viewing_time'])),
           'updated_by'  => html_escape($inputData['useridx']),
           'updated_at'  => $now,
         );
-        $this->desk_model->update(DB_PLACE, $updateValues, $idx);
+        $this->desk_model->update(DB_PLACES, $updateValues, $idx);
       } else {
         $updateValues = array(
+          'area_sido'   => make_serialize(html_escape($inputData['area_sido'])),
+          'area_gugun'  => make_serialize(html_escape($inputData['area_gugun'])),
           'category'    => html_escape($inputData['category']),
-          'main_image'  => !empty($inputData['main_image_uploaded']) ? html_escape($inputData['main_image_uploaded']) : NULL,
+          'altitude'    => html_escape($inputData['altitude']),
+          'thumbnail'   => !empty($inputData['thumbnail_uploaded']) ? html_escape($inputData['thumbnail_uploaded']) : NULL,
           'title'       => html_escape($inputData['title']),
+          'reason'      => html_escape($inputData['reason']),
+          'around'      => html_escape($inputData['around']),
+          'course'      => html_escape($inputData['course']),
           'content'     => html_escape($inputData['content']),
-          'viewing_at'  => strtotime(html_escape($inputData['viewing_date']) . ' ' . html_escape($inputData['viewing_time'])),
           'created_by'  => html_escape($inputData['useridx']),
           'created_at'  => $now,
         );
-        $this->desk_model->insert(DB_PLACE, $updateValues);
+        $this->desk_model->insert(DB_PLACES, $updateValues);
       }
       $result = array('error' => 0, 'message' => '');
     }
@@ -333,7 +375,7 @@ class Desk extends Desk_Controller
   public function place_main()
   {
     $updateValues['main_status'] = html_escape($this->input->post('value'));
-    $this->desk_model->update(DB_PLACE, $updateValues, html_escape($this->input->post('idx')));
+    $this->desk_model->update(DB_PLACES, $updateValues, html_escape($this->input->post('idx')));
     redirect('/desk/place');
   }
 
@@ -353,7 +395,7 @@ class Desk extends Desk_Controller
       'deleted_by' => $userData['idx'],
       'deleted_at' => $now
     );
-    $this->desk_model->update(DB_PLACE, $updateValues, $idx);
+    $this->desk_model->update(DB_PLACES, $updateValues, $idx);
 
     redirect('/desk/place');
   }
@@ -371,7 +413,7 @@ class Desk extends Desk_Controller
     $message = '<option value="">분류를 선택해주세요</option>';
 
     if (!empty($inputData['category_code'][0]) && !empty($inputData['category_name'][0])) {
-      $this->desk_model->delete(DB_PLACE_CATEGORY);
+      $this->desk_model->delete(DB_PLACES_CATEGORY);
 
       foreach ($inputData['category_code'] as $key => $value) {
         if (!empty($value) && !empty($inputData['category_name'][$key])) {
@@ -382,7 +424,7 @@ class Desk extends Desk_Controller
             'name' => $name,
           );
           $message .= "<option value='" . $code . "'>" . $name . "</option>";
-          $rtn = $this->desk_model->insert(DB_PLACE_CATEGORY, $updateValues);
+          $rtn = $this->desk_model->insert(DB_PLACES_CATEGORY, $updateValues);
         }
       }
     }
