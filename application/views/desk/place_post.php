@@ -121,6 +121,7 @@
                                         <tr>
                                             <th class="text-center">썸네일</th>
                                             <td>
+                                                <div class="pt-2 pb-2 text-danger">※ 썸네일은 500 x 250 사이즈에 최적화되어 있습니다.</div>
                                                 <input type="file" name="thumbnail">
                                                 <?php if (!empty($view['thumbnail'])): ?>
                                                     <div class="pt-2 pb-2"><img src="<?=PHOTO_PLACE_URL . $view['thumbnail']?>"></div>

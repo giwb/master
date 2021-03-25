@@ -10,7 +10,8 @@
               <div class="col-6 text-right" style="color: #3e4551;"><h4><i class="fas fa-th-list" title="목록"></i> <i class="fas fa-th-large ml-2" title="사진"></i></i></h4></div>
             </div>
             <hr class="red mt-2">
-            <div class="row card no-gutters mt-4 mb-2">
+            <div class="row mb-4">
+<!--
               <div class="col-md-12">
                 <div class="row">
                   <div class="col-md-6 view overlay">
@@ -74,22 +75,23 @@
                   </div>
                 </div>
               </div>
+-->
               <?php foreach($listPlace as $value): ?>
               <div class="col-md-6 my-3">
                 <div class="card">
                   <div class="view overlay">
-                    <img src="https://tripkorea.net/public/photos/156764919843927.jpg" class="card-img-top">
+                    <img src="<?=!empty($value['thumbnail']) ? PHOTO_PLACE_URL . 'thumb_' . $value['thumbnail'] : '/public/images/noimage.png'?>" class="card-img-top">
                     <a href="/place/view/<?=$value['idx']?>"><div class="mask rgba-white-slight"></div></a>
                   </div>
                   <div class="card-body">
-                    <h4 class="card-title"><strong><a href="/place/view/<?=$value['idx']?>"><i class="fas fa-crown pr-1" style="color:#CE7430;"></i><?=$value['title']?><br><small class="grey-text">강원 춘천시, 홍천군 / 1,051m</small></a></strong></h4><hr>
+                    <h4 class="card-title"><strong><a href="/place/view/<?=$value['idx']?>"><i class="fas fa-crown pr-1" style="color:#CE7430;"></i><?=$value['title']?><br><small class="grey-text">강원 춘천시, 홍천군 / <?=number_format($value['altitude'])?>m</small></a></strong></h4><hr>
                     <p class="card-text text-justify"><?=articleContent($value['content'])?></p>
                   </div>
                   <div class="mdb-color lighten-3 text-center">
                     <ul class="list-unstyled list-inline font-small text-white mt-3">
-                      <li class="list-inline-item pr-2"><i class="far fa-eye pr-1"></i>조회 24</a></li>
+                      <li class="list-inline-item pr-2"><i class="far fa-eye pr-1"></i>조회 0</a></li>
                       <li class="list-inline-item pr-2"><i class="far fa-comments pr-1"></i>댓글 0</a></li>
-                      <li class="list-inline-item"><i class="fas fa-crown pr-1"></i>랭킹 3위</a></li>
+                      <li class="list-inline-item"><i class="fas fa-crown pr-1"></i>랭킹 0위</a></li>
                     </ul>
                   </div>
                 </div>
