@@ -84,7 +84,7 @@
                     <a href="/place/view/<?=$value['idx']?>"><div class="mask rgba-white-slight"></div></a>
                   </div>
                   <div class="card-body">
-                    <h4 class="card-title"><strong><a href="/place/view/<?=$value['idx']?>"><i class="fas fa-crown pr-1" style="color:#CE7430;"></i><?=$value['title']?><br><small class="grey-text">강원 춘천시, 홍천군<?=!empty($value['altitude']) ? ' /' . number_format($value['altitude']) . 'm' : ''?></small></a></strong></h4><hr>
+                    <h4 class="card-title"><strong><a href="/place/view/<?=$value['idx']?>"><i class="fas fa-crown pr-1" style="color:#CE7430;"></i><?=$value['title']?><br><small class="grey-text">강원 춘천시, 홍천군<?=!empty($value['altitude']) ? ' / ' . number_format($value['altitude']) . 'm' : ''?></small></a></strong></h4><hr>
                     <p class="card-text text-justify"><?=articleContent($value['content'])?></p>
                   </div>
                   <div class="mdb-color lighten-3 text-center">
