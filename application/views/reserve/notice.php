@@ -17,7 +17,7 @@
           </div>
           <hr class="text-default mt-2">
 
-          <div class="header-menu d-block-inline d-sm-none">
+          <div class="header-menu d-block-inline d-sm-none pt-2">
             <div class="header-menu-item"><a href="<?=BASE_URL?>/reserve/list/<?=$notice['idx']?>">좌석</a></div>
             <?=!empty($notice['weather']) ? '<div class="header-menu-item"><a target="_blank" href="' . $notice['weather'] . '">날씨</a></div>' : ''?>
             <div class="header-menu-item active"><a href="<?=BASE_URL?>/reserve/notice/<?=$notice['idx']?>">공지</a></div>
