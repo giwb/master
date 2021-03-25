@@ -68,17 +68,45 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th class="text-center">해발</th>
+                                            <th class="text-center">페이지 주소</th>
                                             <td>
-                                                <div class="row align-items-end">
-                                                    <div class="col-1 pr-1"><input type="text" name="altitude" class="form-control" value="<?=!empty($view['altitude']) ? $view['altitude'] : ''?>"></div>
-                                                    <div class="col-1 pl-0">m</div>
+                                                <div class="row align-items-center">
+                                                    <div class="col-sm-2 pr-0"><?=base_url()?></div>
+                                                    <div class="col-sm-3 check-url"><input type="text" name="url" value="<?=!empty($view['url']) ? $view['url'] : ''?>" class="form-control"></div>
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
+                                            <th class="text-center">홈페이지 링크</th>
+                                            <td><input type="text" name="homepage" class="form-control" value="<?=!empty($view['homepage']) ? $view['homepage'] : ''?>"></td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-center">연락처</th>
+                                            <td><input type="text" name="phone" class="form-control" value="<?=!empty($view['phone']) ? $view['phone'] : ''?>"></td>
+                                        </tr>
+                                        <tr>
                                             <th class="text-center">산악회 소개</th>
                                             <td><textarea name="content" rows="10" cols="100" id="clubContent" class="se-content"><?=!empty($view['content']) ? $view['content'] : ''?></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-center">디자인</th>
+                                            <td class="pt-4">
+                                                <label class="mr-5"><input type="radio" name="main_design" value="1"> 1번</label>
+                                                <label><input type="radio" name="main_design" value="2" checked> 2번</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-center">색상</th>
+                                            <td class="pt-4">
+                                                <div class="row align-items-center">
+                                                    <div class="col"><label class="border p-3 bg-primary"><input type="radio" name="main_color" value="primary" checked></label></div>
+                                                    <div class="col"><label class="border p-3 bg-danger"><input type="radio" name="main_color" value="danger"></label></div>
+                                                    <div class="col"><label class="border p-3 bg-warning"><input type="radio" name="main_color" value="warning"></label></div>
+                                                    <div class="col"><label class="border p-3 bg-info"><input type="radio" name="main_color" value="info"></label></div>
+                                                    <div class="col"><label class="border p-3 bg-success"><input type="radio" name="main_color" value="success"></label></div>
+                                                    <div class="col"><label class="border p-3 bg-secondary"><input type="radio" name="main_color" value="default"></label></div>
+                                                </div>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th class="text-center">썸네일</th>
