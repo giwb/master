@@ -725,41 +725,18 @@ class Member extends MY_Controller
     $viewData['viewMember']['phone3'] = $buf[2];
 
     // 아이콘
-    if (file_exists(PHOTO_PATH . $viewData['viewMember']['idx'])) {
-      $viewData['viewMember']['photo'] = PHOTO_URL . $viewData['viewMember']['idx'];
+    if (file_exists(AVATAR_PATH . $viewData['viewMember']['idx'])) {
+      $viewData['viewMember']['photo'] = AVATAR_URL . $viewData['viewMember']['idx'];
     } elseif (!empty($viewData['viewMember']['icon_thumbnail'])) {
       $viewData['viewMember']['photo'] = $viewData['viewMember']['icon_thumbnail'];
     } else {
-      $viewData['viewMember']['photo'] = '/public/images/noimage.png';
+      $viewData['viewMember']['photo'] = '/public/images/user.png';
     }
 
     // 페이지 타이틀
     $viewData['pageTitle'] = '개인정보수정';
 
     $this->_viewPage('member/modify', $viewData);
-  }
-
-  /**
-   * 사진 삭제
-   *
-   * @return json
-   * @author bjchoi
-   **/
-  public function photo_delete()
-  {
-    $userIdx = html_escape($this->input->post('userIdx'));
-    $filename = html_escape($this->input->post('filename'));
-
-    if (!empty($filename) && file_exists(UPLOAD_PATH . $filename)) unlink(UPLOAD_PATH . $filename);
-    if (!empty($filename) && file_exists(PHOTO_PATH . $filename)) unlink(PHOTO_PATH . $filename);
-    if (!empty($userIdx) && file_exists(PHOTO_PATH . $userIdx)) unlink(PHOTO_PATH . $userIdx);
-
-    if (!empty($filename)) {
-      $this->file_model->deleteFile($filename);
-    }
-
-    $result = array('error' => 0);
-    $this->output->set_output(json_encode($result));
   }
 
   /**
@@ -797,8 +774,15 @@ class Member extends MY_Controller
 
       if (!empty($rtn)) {
         // 사진 등록
-        if (!empty($inputData['filename']) && file_exists(UPLOAD_PATH . $inputData['filename'])) {
-          rename(UPLOAD_PATH . html_escape($inputData['filename']), PHOTO_PATH . $userData['idx']);
+        $filename = html_escape($_FILES['photo']['tmp_name']);
+        if (!empty($filename) && file_exists($filename)) {
+          if (file_exists(PHOTO_PATH . $userData['idx'])) {
+            unlink(PHOTO_PATH . $userData['idx']);
+          }
+          if (file_exists(AVATAR_PATH . $userData['idx'])) {
+            unlink(AVATAR_PATH . $userData['idx']);
+          }
+          move_uploaded_file($filename, AVATAR_PATH . $userData['idx']);
         }
 
         $result = array('error' => 0, 'message' => $this->lang->line('msg_update_complete'));
@@ -886,13 +870,13 @@ class Member extends MY_Controller
 
     foreach ($viewData['listStory'] as $key => $value) {
       if (file_exists(PHOTO_PATH . $value['user_idx'])) {
-        $viewData['listStory'][$key]['avatar'] = PHOTO_URL . $value['user_idx'];
+        $viewData['listStory'][$key]['avatar'] = AVATAR_URL . $value['user_idx'];
       } else {
         $viewData['listStory'][$key]['avatar'] = '/public/images/user.png';
       }
     }
 
-    // 클럽 대표이미지
+    // 클럽 로고
     $files = $this->file_model->getFile('club', $viewData['view']['idx']);
     if (!empty($files[0]['filename']) && file_exists(PHOTO_PATH . $files[0]['filename'])) {
       $size = getImageSize(PHOTO_PATH . $files[0]['filename']);

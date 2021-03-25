@@ -87,7 +87,7 @@ class Login extends MY_Controller
           }
 
           // 아이콘 사이즈 변경 (가로 사이즈가 200보다 클 경우)
-          $filename = PHOTO_PATH . $userData['idx'];
+          $filename = AVATAR_PATH . $userData['idx'];
           if (file_exists($filename)) {
             $size = getImageSize($filename);
             if ($size[0] > 200) {
@@ -569,67 +569,6 @@ class Login extends MY_Controller
   }
 
   /**
-   * 가등록 회원 정식 등록
-   *
-   * @return json
-   * @author bjchoi
-   **/
-  public function update()
-  {
-    $now = time();
-    $inputData = $this->input->post();
-    $clubIdx = html_escape($inputData['club_idx']);
-    $idx = html_escape($inputData['idx']);
-    $nickname = html_escape($inputData['nickname']);
-
-    $updateValues = array(
-      'userid'        => html_escape($inputData['userid']),
-      'password'      => md5(html_escape($inputData['password'])),
-      'realname'      => html_escape($inputData['realname']),
-      'gender'        => html_escape($inputData['gender']),
-      'birthday'      => html_escape($inputData['birthday_year']) . '/' . html_escape($inputData['birthday_month']) . '/' . html_escape($inputData['birthday_day']),
-      'birthday_type' => html_escape($inputData['birthday_type']),
-      'location'      => html_escape($inputData['location']),
-      'lastdate'      => $now
-    );
-
-    $rtn = $this->member_model->updateMember($updateValues, $idx);
-
-    if (empty($rtn)) {
-      $result = array('error' => 1, 'message' => '등록에 실패했습니다.');
-    } else {
-      // 사진 등록
-      if (!empty($inputData['filename']) && file_exists(UPLOAD_PATH . $inputData['filename'])) {
-        // 파일 이동
-        rename(UPLOAD_PATH . html_escape($inputData['filename']), PHOTO_PATH . $idx);
-      }
-
-      // 회원 가입 기록
-      setHistory($clubIdx, LOG_ENTRY, $idx, $idx, $nickname, '', $now);
-
-      $result = array('error' => 0, 'message' => '');
-    }
-
-    $this->output->set_output(json_encode($result));
-  }
-
-  /**
-   * 사진 삭제
-   *
-   * @return json
-   * @author bjchoi
-   **/
-  public function photo_delete()
-  {
-    $filename = html_escape($this->input->post('filename'));
-    if (file_exists(UPLOAD_PATH . $filename)) unlink(UPLOAD_PATH . $filename);
-    if (file_exists(PHOTO_PATH . $filename)) unlink(PHOTO_PATH . $filename);
-
-    $result = array('error' => 0);
-    $this->output->set_output(json_encode($result));
-  }
-
-  /**
    * 아이디/비밀번호 찾기 페이지
    *
    * @return view
@@ -874,20 +813,6 @@ class Login extends MY_Controller
         if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/story/view/' . $value['story_idx']; endif;
         if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/reserve/list/' . $value['story_idx']; endif;
         if ($value['reply_type'] == REPLY_TYPE_SHOP):   $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/shop/item/' . $value['story_idx']; endif;
-      }
-
-      // 최신 사진첩
-      $paging['perPage'] = 2; $paging['nowPage'] = 0;
-      $viewData['listFooterAlbum'] = $this->club_model->listAlbum($viewData['view']['idx'], $paging);
-
-      foreach ($viewData['listFooterAlbum'] as $key => $value) {
-        $photo = $this->file_model->getFile('album', $value['idx'], NULL, 1);
-        if (!empty($photo[0]['filename'])) {
-          //$viewData['listAlbum'][$key]['photo'] = PHOTO_URL . 'thumb_' . $photo[0]['filename'];
-          $viewData['listFooterAlbum'][$key]['photo'] = PHOTO_URL . $photo[0]['filename'];
-        } else {
-          $viewData['listFooterAlbum'][$key]['photo'] = '/public/images/noimage.png';
-        }
       }
 
       // 클럽 대표이미지

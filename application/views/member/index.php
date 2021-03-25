@@ -8,13 +8,15 @@
           <hr class="text-default">
           <div class="row">
             <div class="col-3 col-sm-2 pr-0 profile-icon">
-              <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
-              <img src="<?=PHOTO_URL . $userData['idx']?>">
+              <a href="<?=BASE_URL?>/member/modify">
+              <?php if (!empty($userData['idx']) && file_exists(AVATAR_PATH . $userData['idx'])): ?>
+              <img src="<?=AVATAR_URL . $userData['idx']?>">
               <?php elseif (!empty($userData['icon_thumbnail'])): ?>
               <img src="<?=$userData['icon_thumbnail']?>">
               <?php else: ?>
               <img src="/public/images/user.png">
               <?php endif; ?>
+              </a>
             </div>
             <div class="col-9 col-sm-10">
               <div class="mb-2"><b><?=$viewMember['nickname']?></b>님 (<?=$userLevel['levelName']?>)</div>

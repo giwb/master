@@ -47,8 +47,20 @@
             <hr class="sidebar-divider mt-3">
             <li class="nav-item">
                 <a class="nav-link" href="/desk/place">
-                    <i class="fas fa-map-marker-alt pl-1 pr-1"></i>
+                    <i class="fas fa-map-marker-alt"></i>
                     <span>여행정보 관리</span></a>
+            </li>
+            <hr class="sidebar-divider mt-3">
+            <li class="nav-item">
+                <a class="nav-link" href="/desk/schedule">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>여행일정 관리</span></a>
+            </li>
+            <hr class="sidebar-divider mt-3">
+            <li class="nav-item">
+                <a class="nav-link" href="/desk/club">
+                    <i class="fas fa-mountain"></i>
+                    <span>산악회 관리</span></a>
             </li>
             <hr class="sidebar-divider d-none d-md-block mt-3">
             <div class="text-center d-none d-md-inline">

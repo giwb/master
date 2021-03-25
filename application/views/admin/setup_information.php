@@ -64,7 +64,7 @@
                 <div class="col-sm-10"><input type="text" name="phone" value="<?=$view['phone']?>" class="form-control form-control-sm"></div>
               </div>
               <div class="row align-items-center mt-2">
-                <div class="col-sm-2 font-weight-bold">사진</div>
+                <div class="col-sm-2 font-weight-bold">로고 이미지</div>
                 <div class="col-sm-10">
                   <div class="added-files mt-3">
                     <?php if ($view['photo'][0] != ''): foreach ($view['photo'] as $value): ?>

@@ -133,8 +133,8 @@
             <div class="row align-items-center border-bottom mb-3 pb-3">
               <div class="col-sm-2">아이콘</div>
               <div class="col-sm-10">
-                <?php if (file_exists(PHOTO_PATH . $viewMember['idx'])): ?>
-                  <img src="<?=PHOTO_URL?><?=$viewMember['idx']?>" style="max-width: 100px;">
+                <?php if (file_exists(AVATAR_PATH . $viewMember['idx'])): ?>
+                  <img src="<?=AVATAR_URL?><?=$viewMember['idx']?>" style="max-width: 85px;">
                 <?php else: ?>
                   <img src="/public/images/user.png">
                 <?php endif; ?>

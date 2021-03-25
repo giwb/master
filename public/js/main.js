@@ -9,7 +9,7 @@
       $('.scroll-to-top').fadeOut('slow');
     }
   });
-
+/*
   $(document).on('change', '.file', function() {
     // 파일 업로드
     var $dom = $(this);
@@ -76,6 +76,19 @@
           }
         }
       }
+    });
+*/
+  $(document).on('change', '.file', function(e) {
+    // 업로드한 파일 곧바로 보여주기
+    var files = e.target.files;
+    var filesArr = Array.prototype.slice.call(files);
+    filesArr.forEach(function(f) {
+      var sel_file = f;
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        $('.photo').attr('src', e.target.result);
+      }
+      reader.readAsDataURL(f);
     });
   }).on('click', '.btn-entry-photo-delete', function() {
     // 회원가입 사진 삭제

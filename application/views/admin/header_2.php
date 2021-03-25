@@ -98,8 +98,8 @@
                 <?php endif; ?>
                 <li><a href="<?=BASE_URL?>/admin/setup_information"><i class="fas fa-cog" aria-hidden="true"></i> 기본설정</a></li>
 
-                <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
-                <li><img class="img-profile" src="<?=PHOTO_URL . $userData['idx']?>"></li>
+                <?php if (!empty($userData['idx']) && file_exists(AVATAR_PATH . $userData['idx'])): ?>
+                <li><img class="img-profile" src="<?=AVATAR_URL . $userData['idx']?>"></li>
                 <?php elseif (!empty($userData['icon_thumbnail'])): ?>
                 <li><img class="img-profile" src="<?=$userData['icon_thumbnail']?>"></li>
                 <?php else: ?>
@@ -124,8 +124,8 @@
           <li><a href="<?=BASE_URL?>/admin"><i class="fas fa-chalkboard btn-header"></i></a></li>
           <li><a href="<?=BASE_URL?>/admin"><h1><?=!empty($pageTitle) ? $pageTitle : $viewClub['title'] ?></h1></a></li>
           <li class="btn-mypage">
-            <?php if (!empty($userData['idx']) && file_exists(PHOTO_PATH . $userData['idx'])): ?>
-            <img class="img-profile" src="<?=PHOTO_URL . $userData['idx']?>">
+            <?php if (!empty($userData['idx']) && file_exists(AVATAR_PATH . $userData['idx'])): ?>
+            <img class="img-profile" src="<?=AVATAR_URL . $userData['idx']?>">
             <?php elseif (!empty($userData['icon_thumbnail'])): ?>
             <img class="img-profile" src="<?=$userData['icon_thumbnail']?>">
             <?php else: ?>

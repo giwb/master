@@ -343,9 +343,9 @@ class Story extends MY_Controller
           'content' => $this->lang->line('error_all')
         );
       } else {
-        if (file_exists(PHOTO_PATH . $userData['idx'])) {
-          $size = getImageSize(PHOTO_PATH . $userData['idx']);
-          $photo = PHOTO_URL . $userData['idx'];
+        if (file_exists(AVATAR_PATH . $userData['idx'])) {
+          $size = getImageSize(AVATAR_PATH . $userData['idx']);
+          $photo = AVATAR_URL . $userData['idx'];
           $photo_width = $size[0];
           $photo_height = $size[1];
         } else {
@@ -679,9 +679,9 @@ class Story extends MY_Controller
     } else {
       $date = calcStoryTime($value['created_at']);
     }
-    if (file_exists(PHOTO_PATH . $value['created_by'])) {
-      $size = getImageSize(PHOTO_PATH . $value['created_by']);
-      $value['photo'] = PHOTO_URL . $value['created_by'];
+    if (file_exists(AVATAR_PATH . $value['created_by'])) {
+      $size = getImageSize(AVATAR_PATH . $value['created_by']);
+      $value['photo'] = AVATAR_URL . $value['created_by'];
       $value['photo_width'] = $size[0];
       $value['photo_height'] = $size[1];
     } else {

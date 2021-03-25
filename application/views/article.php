@@ -75,7 +75,7 @@
             <div class="card card-body">
               <div class="row align-items-center">
                 <div class="col-2 col-sm-1 ml-3 p-0">
-                  <img src="<?=file_exists(PHOTO_PATH . $viewArticle['user_idx']) ? PHOTO_URL . $viewArticle['user_idx'] : '/public/images/user.png'?>" class="img-fluid rounded-circle icon-avatar" alt="">
+                  <img src="<?=file_exists(AVATAR_PATH . $viewArticle['user_idx']) ? AVATAR_URL . $viewArticle['user_idx'] : '/public/images/user.png'?>" class="img-fluid rounded-circle icon-avatar" alt="">
                 </div>
                 <div class="col-9 col-sm-10">
                   <p><strong>글쓴이 <?=$viewArticle['nickname']?></strong></p>
@@ -93,7 +93,7 @@
               <div class="list-reply mt-4">
                 <?php foreach ($listReply as $value): ?>
                 <div class="item-reply media mb-4" data-idx="<?=$value['idx']?>">
-                  <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="<?=file_exists(PHOTO_PATH . $value['user_idx']) ? PHOTO_URL . $value['user_idx'] : '/public/images/user.png'?>">
+                  <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="<?=file_exists(AVATAR_PATH . $value['user_idx']) ? AVATAR_URL . $value['user_idx'] : '/public/images/user.png'?>">
                   <div class="media-body">
                     <h5 class="mt-0 font-weight-bold"><?=$value['nickname']?></h5>
                     <p class="dark-grey-text article"><?=$value['content']?></p>
@@ -108,7 +108,7 @@
                     </p>
                     <?php foreach ($value['listReplyThread'] as $thread): ?>
                     <div class="item-reply media mb-4" data-idx="<?=$thread['idx']?>">
-                      <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="<?=file_exists(PHOTO_PATH . $thread['user_idx']) ? PHOTO_URL . $thread['user_idx'] : '/public/images/user.png'?>">
+                      <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="<?=file_exists(AVATAR_PATH . $thread['user_idx']) ? AVATAR_URL . $thread['user_idx'] : '/public/images/user.png'?>">
                       <div class="media-body">
                         <h5 class="mt-0 font-weight-bold"><?=$thread['nickname']?></h5>
                         <p class="dark-grey-text article"><?=$thread['content']?></p>

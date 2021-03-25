@@ -114,6 +114,10 @@ defined('PHOTO_ARTICLE_PATH')   OR define('PHOTO_ARTICLE_PATH', BASE_PATH . PHOT
 defined('PHOTO_PLACE_URL')      OR define('PHOTO_PLACE_URL', PHOTO_URL . 'place/');
 defined('PHOTO_PLACE_PATH')     OR define('PHOTO_PLACE_PATH', BASE_PATH . PHOTO_PLACE_URL);
 
+// 사용자 아바타 사진
+defined('AVATAR_URL')           OR define('AVATAR_URL', PHOTO_URL . 'avatar/');
+defined('AVATAR_PATH')          OR define('AVATAR_PATH', BASE_PATH . AVATAR_URL);
+
 // 대표사진
 defined('FRONT_URL')            OR define('FRONT_URL', '/public/uploads/front/');
 defined('FRONT_PATH')           OR define('FRONT_PATH', BASE_PATH . FRONT_URL);

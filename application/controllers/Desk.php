@@ -9,7 +9,7 @@ class Desk extends Desk_Controller
     parent::__construct();
     $this->load->helper(array('cookie', 'security', 'url', 'my_array_helper'));
     $this->load->library(array('image_lib'));
-    $this->load->model(array('area_model', 'desk_model'));
+    $this->load->model(array('area_model', 'club_model', 'desk_model'));
   }
 
   /**
@@ -436,6 +436,27 @@ class Desk extends Desk_Controller
     }
 
     $this->output->set_output(json_encode($result));
+  }
+
+
+  /**
+    ====================================================================================================================
+      산악회 관리 섹션
+    ====================================================================================================================
+  **/
+
+  /**
+   * 산악회 관리
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function club()
+  {
+    $viewData['list'] = $this->club_model->listClub();
+    $viewData['max'] = count($viewData['list']);
+
+    $this->_viewPage('desk/club', $viewData);
   }
 
 

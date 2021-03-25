@@ -70,7 +70,7 @@
         <a class="nav-link login-popup">로그인</a>
         <a href="<?=BASE_URL?>/login/entry" class="nav-link">회원가입</a>
         <?php else: ?>
-        <div class="text-center"><img src="<?=file_exists(PHOTO_PATH . $userData['idx']) ? PHOTO_URL . $userData['idx'] : '/public/images/user.png'?>" class="avatar"></div>
+        <div class="text-center"><img src="<?=file_exists(AVATAR_PATH . $userData['idx']) ? AVATAR_URL . $userData['idx'] : '/public/images/user.png'?>" class="avatar"></div>
         <div class="text-center"><strong><?=$userData['nickname']?></strong> <small>(<?=$userLevel['levelName']?>)</small></div><hr>
         <a href="<?=BASE_URL?>/member" class="nav-link">마이페이지</a>
         <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
