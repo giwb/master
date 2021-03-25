@@ -7,15 +7,24 @@
 
           <div class="sub-contents">
           <div class="row align-items-center">
-            <div class="col-8 col-sm-9">
+            <div class="col-12 col-sm-9">
               <h4 class="font-weight-bold"><b><?=viewStatus($notice['status'])?></b> <?=$notice['subject']?></h4>
             </div>
-            <div class="col-4 col-sm-3 text-right">
+            <div class="d-none d-sm-block col-sm-3 text-right">
               <?=!empty($notice['weather']) ? '<a target="_blank" href="' . $notice['weather'] . '" class="btn-custom btn-giwbblue">날씨</button></a>' : ''?>
               <a href="<?=BASE_URL?>/reserve/list/<?=$notice['idx']?>" class="btn-custom btn-giwbred btn-notice">좌석</button></a>
             </div>
           </div>
           <hr class="text-default mt-2">
+
+          <div class="header-menu d-block-inline d-sm-none">
+            <div class="header-menu-item"><a href="<?=BASE_URL?>/reserve/list/<?=$notice['idx']?>">좌석</a></div>
+            <?=!empty($notice['weather']) ? '<div class="header-menu-item"><a target="_blank" href="' . $notice['weather'] . '">날씨</a></div>' : ''?>
+            <div class="header-menu-item active"><a href="<?=BASE_URL?>/reserve/notice/<?=$notice['idx']?>">공지</a></div>
+          </div>
+
+          <div class="mt-4"></div>
+          <div class="pt-2"></div>
 
           <?php if (empty($listNoticeDetail)): ?>
           <div class="sub-notice-header">산행안내</div>

@@ -48,15 +48,21 @@
           <?php else: ?>
           <div class="sub-contents">
             <div class="row align-items-center">
-              <div class="col-8 col-sm-9">
+              <div class="col-12 col-sm-9">
                 <h4 class="font-weight-bold"><b><?=viewStatus($notice['status'])?></b> <?=$notice['subject']?></h4>
               </div>
-              <div class="col-4 col-sm-3 text-right">
+              <div class="d-none d-sm-block col-sm-3 text-right">
                 <?=!empty($notice['weather']) ? '<a target="_blank" href="' . $notice['weather'] . '" class="btn-custom btn-giwbblue">날씨</a>' : ''?>
                 <a href="<?=BASE_URL?>/reserve/notice/<?=$notice['idx']?>" class="btn-custom btn-giwbred btn-notice">공지</a>
               </div>
             </div>
             <hr class="text-default mt-2">
+
+            <div class="header-menu d-block-inline d-sm-none">
+              <div class="header-menu-item active"><a href="<?=BASE_URL?>/list/<?=$notice['idx']?>">좌석</a></div>
+              <?=!empty($notice['weather']) ? '<div class="header-menu-item"><a target="_blank" href="' . $notice['weather'] . '">날씨</a></div>' : ''?>
+              <div class="header-menu-item"><a href="<?=BASE_URL?>/reserve/notice/<?=$notice['idx']?>">공지</a></div>
+            </div>
 
             <div class="mt-4"></div>
             <div class="pt-2"></div>
@@ -124,7 +130,7 @@
                     ?>
                     <?=$tableMake?>
                       <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>"<?=!empty($reserveInfo['priority']) ? ' data-priority="' . $reserveInfo['priority'] . '"' : ''?> <?=!empty($reserveInfo['honor']) ? ' data-honor="' . $reserveInfo['honor'] . '"' : ''?> data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$seatNumber?></td>
-                      <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>"<?=!empty($reserveInfo['priority']) ? ' data-priority="' . $reserveInfo['priority'] . '"' : ''?> <?=!empty($reserveInfo['honor']) ? ' data-honor="' . $reserveInfo['honor'] . '"' : ''?> data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=$reserveInfo['status'] == 1 ? '<i class="far fa-check-square"></i>' : '<i class="far fa-square"></i>' ?> <?=$reserveInfo['nickname']?><?=!empty($reserveInfo['honor']) && $reserveInfo['nickname'] != '1인우등' ? '<small>(우등)</small>' : ''?></td>
+                      <td class="<?=$reserveInfo['class']?>" data-id="<?=$reserveInfo['idx']?>"<?=!empty($reserveInfo['priority']) ? ' data-priority="' . $reserveInfo['priority'] . '"' : ''?> <?=!empty($reserveInfo['honor']) ? ' data-honor="' . $reserveInfo['honor'] . '"' : ''?> data-bus="<?=$bus?>" data-seat="<?=$seat?>"><?=!empty($reserveInfo['status']) && $reserveInfo['status'] == 1 ? '<i class="far fa-check-square"></i>' : '<i class="far fa-square"></i>' ?> <?=$reserveInfo['nickname']?><?=!empty($reserveInfo['honor']) && $reserveInfo['nickname'] != '1인우등' ? '<small>(우등)</small>' : ''?></td>
                     <?php endforeach; ?>
                   </tbody>
                 </table>
