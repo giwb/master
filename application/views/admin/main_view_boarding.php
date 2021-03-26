@@ -71,7 +71,7 @@
                 </table>
               </div>
               <div class="area-boarding">
-                <div class="mb-2">■ <strong>승차위치</strong> (<?=cntRes($view['idx'])?>명)</div>
+                <div class="mb-2">■ <strong>승차위치</strong> (<?=cntRes($view['idx'], $bus)?>명)</div>
                 <?php
                   foreach ($value['listLocation'] as $cnt => $location):
                     if (empty($location['time'])): $lastData = $location;
