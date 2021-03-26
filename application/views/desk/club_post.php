@@ -5,6 +5,8 @@
                 <form id="postClub" method="post" action="/desk/club_update" enctype="multipart/form-data">
                 <input type="hidden" name="idx" value="<?=!empty($view['idx']) ? $view['idx'] : ''?>">
                 <input type="hidden" name="useridx" value="<?=!empty($userData['idx']) ? $userData['idx'] : ''?>">
+                <input type="hidden" name="main_design" value="2">
+                <input type="hidden" name="main_color" value="default">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-7"><h1 class="h3 mb-3 text-gray-800">산악회 등록</h1></div>
@@ -26,9 +28,9 @@
                                         <tr>
                                             <th class="text-center">지역</th>
                                             <td>
-                                                <button type="button" class="btn btn-sm btn-primary btn-add-area mb-2">추가</button>
-                                                <div class="row">
-                                                    <?php if (empty($view['sido'])): ?>
+                                                <button type="button" class="btn btn-sm btn-primary btn-add-area mb-1">추가</button>
+                                                <?php if (empty($view['sido'])): ?>
+                                                <div class="row mt-1">
                                                     <div class="col-3">
                                                         <select name="area_sido[]" class="form-control area-sido">
                                                             <option value=''>시/도</option>
@@ -45,7 +47,9 @@
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
-                                                    <?php else: foreach ($view['sido'] as $key => $val): ?>
+                                                </div>
+                                                <?php else: foreach ($view['sido'] as $key => $val): ?>
+                                                <div class="row mt-1">
                                                     <div class="col-3">
                                                         <select name="area_sido[]" class="form-control area-sido">
                                                             <option value=''>시/도</option>
@@ -62,8 +66,8 @@
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
-                                                    <?php endforeach; endif; ?>
                                                 </div>
+                                                <?php endforeach; endif; ?>
                                                 <div class="added-area"></div>
                                             </td>
                                         </tr>
@@ -88,6 +92,7 @@
                                             <th class="text-center">산악회 소개</th>
                                             <td><textarea name="content" rows="10" cols="100" id="clubContent" class="se-content"><?=!empty($view['content']) ? $view['content'] : ''?></textarea></td>
                                         </tr>
+                                        <!--
                                         <tr>
                                             <th class="text-center">디자인</th>
                                             <td class="pt-4">
@@ -108,6 +113,7 @@
                                                 </div>
                                             </td>
                                         </tr>
+                                    -->
                                         <tr>
                                             <th class="text-center">썸네일</th>
                                             <td>

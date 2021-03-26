@@ -11,15 +11,19 @@ class Club_model extends CI_Model
   }
 
   // 산악회정보 - 목록
-  public function listClub($search=NULL, $keyword=NULL)
+  public function listClub($search=NULL, $keyword=NULL, $order=NULL)
   {
     $this->db->select('*')
           ->from(DB_CLUBS)
-          ->where('deleted_at', NULL)
-          ->order_by('title', 'asc');
+          ->where('deleted_at', NULL);
 
     if (!is_null($search) && !is_null($keyword)) {
       $this->db->like($search, $keyword);
+    }
+    if (!empty($order)) {
+      $this->db->order_by('idx', 'desc');
+    } else {
+      $this->db->order_by('title', 'asc');
     }
 
     return $this->db->get()->result_array();

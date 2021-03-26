@@ -416,7 +416,7 @@ class Desk extends Desk_Controller
    **/
   public function club()
   {
-    $viewData['list'] = $this->club_model->listClub();
+    $viewData['list'] = $this->club_model->listClub(NULL, NULL, true);
     $viewData['max'] = count($viewData['list']);
 
     $this->_viewPage('desk/club', $viewData);
@@ -433,7 +433,7 @@ class Desk extends Desk_Controller
     $viewData['userData'] = $this->load->get_var('userData');
 
     if (!is_null($idx)) {
-      $viewData['view'] = $this->desk_model->viewPlace(html_escape($idx));
+      $viewData['view'] = $this->club_model->viewClub(html_escape($idx));
     }
 
     // 지역
@@ -444,11 +444,11 @@ class Desk extends Desk_Controller
 
       foreach ($area_sido as $key => $value) {
         $sido = $this->area_model->getName($value);
-        $gugun = $this->area_model->getName($area_gugun[$key]);
+        if (!empty($area_gugun[$key])) $gugun = $this->area_model->getName($area_gugun[$key]); else $gugun['name'] = '';
         $viewData['list_sido'] = $this->area_model->listSido();
         $viewData['list_gugun'][$key] = $this->area_model->listGugun($value);
         $viewData['view']['sido'][$key] = $sido['name'];
-        $viewData['view']['gugun'][$key] = $gugun['name'];
+        if (!empty($area_gugun[$key])) $viewData['view']['gugun'][$key] = $gugun['name'];
       }
 
       $viewData['area_gugun'] = $this->area_model->listGugun($viewData['view']['area_sido']);
