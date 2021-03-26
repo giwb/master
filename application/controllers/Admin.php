@@ -187,9 +187,14 @@ class Admin extends Admin_Controller
       $nowNick = html_escape($arrNickname[$key]);
       $nowBus = html_escape($arrBus[$key]);
       $nowSeat = html_escape($seat);
+      $nowLocation = html_escape($arrLocation[$key]);
       $nowManager = html_escape($arrManager[$key]) == 'true' ? 1 : 0;
       $nowPriority = html_escape($arrPriority[$key]) == 'true' ? 1 : 0;
       $nowHonor = html_escape($arrHonor[$key]) == 'true' ? 1 : 0;
+
+      if ($nowLocation == '' || $nowLocation == '승차위치') {
+        $nowLocation = NULL;
+      }
 
       $postData = array(
         'rescode' => $idx,
@@ -198,7 +203,7 @@ class Admin extends Admin_Controller
         'gender' => html_escape($arrGender[$key]),
         'bus' => $nowBus,
         'seat' => $nowSeat,
-        'loc' => html_escape($arrLocation[$key]),
+        'loc' => $nowLocation,
         'memo' => html_escape($arrMemo[$key]),
         'depositname' => html_escape($arrDepositName[$key]),
         'vip' => html_escape($arrVip[$key]) == 'true' ? 1 : 0,
@@ -737,6 +742,8 @@ class Admin extends Admin_Controller
       $busNumber = $key1 + 1;
       foreach ($listLocation as $key2 => $value) {
         $viewData['busType'][$key1]['listLocation'][] = $value;
+
+        // 시간대별 탑승자 보기
         $resData = $this->admin_model->listReserveLocation($viewData['rescode'], $busNumber, $value['short']);
         foreach ($resData as $people) {
           if (!empty($people['honor'])) {
@@ -748,6 +755,21 @@ class Admin extends Admin_Controller
           } else {
             $viewData['busType'][$key1]['listLocation'][$key2]['nickname'][] = $people['nickname'];
           }
+        }
+      }
+
+      // 탑승위치 지정 없음
+      $viewData['busType'][$key1]['listNoLocation'][] = $value;
+      $resData = $this->admin_model->listReserveNoLocation($viewData['rescode'], $busNumber);
+      foreach ($resData as $people) {
+        if (!empty($people['honor'])) {
+          $cnt++;
+          if ($cnt > 1) {
+            $viewData['busType'][$key1]['listNoLocation'][0]['nickname'][] = $people['nickname'];
+            $cnt = 0;
+          }
+        } else {
+          $viewData['busType'][$key1]['listNoLocation'][0]['nickname'][] = $people['nickname'];
         }
       }
 

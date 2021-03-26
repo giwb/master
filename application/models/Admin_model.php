@@ -351,6 +351,20 @@ class Admin_model extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  // 탑승위치 지정 없음
+  public function listReserveNoLocation($rescode, $bus)
+  {
+    $this->db->select('*')
+          ->from(DB_RESERVATION)
+          ->where('rescode', $rescode)
+          ->where('bus', $bus)
+          ->where('loc', NULL)
+          ->where('manager !=', 1)
+          ->where_not_in('nickname', array('1인우등', '2인우선'))
+          ->order_by('seat', 'asc');
+    return $this->db->get()->result_array();
+  }
+
   // 등록된 산행 정보 보기
   public function viewEntry($idx)
   {
