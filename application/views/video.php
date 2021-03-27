@@ -8,7 +8,11 @@
         <div class="col-xl-8 col-md-12 mb-5">
           <h4 class="font-weight-bold"><strong>실시간 현지영상</strong></h4>
           <hr class="red">
-          <div class="row">
+          <div class="header-menu">
+            <div class="header-menu-item active"><a href="javascript:;" class="btn-screen" data-idx="1">국립공원</a></div>
+            <div class="header-menu-item"><a href="javascript:;" class="btn-screen" data-idx="2">제주도</a></div>
+          </div>
+          <div class="row screen" data-idx="1">
             <div class="col-md-6 my-3">
               <div class="card">
                 <div class="card-body">
@@ -105,11 +109,38 @@
                 </div>
               </div>
             </div>
+            <div class="col-12">
+              <img src="/public/images/tripkorea/img_opencode1_m.jpg"><br><small>영상 출처 : 국립공원공단</small>
+            </div>
           </div>
-          <img src="/public/images/tripkorea/img_opencode1_m.jpg"><br><small>영상 출처 : 국립공원공단</small>
+          <div class="row screen d-none" data-idx="2">
+            <div class="col-md-6 my-3">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="text-center">제주공항</h4>
+                  <video id="video-jeju1" class="video-js" autoplay controls></video>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 my-3">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="text-center">용두암 해안</h4>
+                  <video id="video-jeju2" class="video-js" autoplay controls></video>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
 <script>
+  $(document).on('click', '.btn-screen', function() {
+    $('.btn-screen').parent().removeClass('active');
+    $(this).parent().addClass('active');
+    $('.screen').addClass('d-none');
+    $('.screen[data-idx=' + $(this).data('idx') + ']').removeClass('d-none');
+  });
+
   // 북한산 백운대
   var hls1 = new Hls();
   var source = 'http://220.70.164.229/hls/bukhan.m3u8';
@@ -240,5 +271,27 @@
   hls12.on(Hls.Events.MANIFEST_PARSED,function() {
     video12.muted = true;
     video12.play();
+  });
+
+  // 제주공항
+  var hls_jeju1 = new Hls();
+  var source = 'http://123.140.197.51/stream/33/play.m3u8';
+  var video_jeju1 = document.getElementById('video-jeju1');
+  hls_jeju1.loadSource(source);
+  hls_jeju1.attachMedia(video_jeju1);
+  hls_jeju1.on(Hls.Events.MANIFEST_PARSED,function() {
+    video_jeju1.muted = true;
+    video_jeju1.play();
+  });
+
+  // 용두암 해안
+  var hls_jeju2 = new Hls();
+  var source = 'http://59.8.86.15:1935/live/51.stream/playlist.m3u8';
+  var video_jeju2 = document.getElementById('video-jeju2');
+  hls_jeju2.loadSource(source);
+  hls_jeju2.attachMedia(video_jeju2);
+  hls_jeju2.on(Hls.Events.MANIFEST_PARSED,function() {
+    video_jeju2.muted = true;
+    video_jeju2.play();
   });
 </script>

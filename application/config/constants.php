@@ -98,6 +98,10 @@ defined('UPLOAD_PATH')          OR define('UPLOAD_PATH', BASE_PATH . UPLOAD_URL)
 defined('EDITOR_URL')           OR define('EDITOR_URL', '/public/uploads/editor/');
 defined('EDITOR_PATH')          OR define('EDITOR_PATH', BASE_PATH . EDITOR_URL);
 
+// 산악회 업로드 디렉토리
+defined('UPLOAD_CLUB_URL')      OR define('UPLOAD_CLUB_URL', UPLOAD_URL . 'club/');
+defined('UPLOAD_CLUB_PATH')     OR define('UPLOAD_CLUB_PATH', BASE_PATH . UPLOAD_CLUB_URL);
+
 // 사진 디렉토리
 defined('PHOTO_URL')            OR define('PHOTO_URL', '/public/photos/');
 defined('PHOTO_PATH')           OR define('PHOTO_PATH', BASE_PATH . PHOTO_URL);

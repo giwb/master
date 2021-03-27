@@ -9,7 +9,7 @@ class Desk extends Desk_Controller
     parent::__construct();
     $this->load->helper(array('cookie', 'security', 'url', 'my_array_helper'));
     $this->load->library(array('image_lib'));
-    $this->load->model(array('area_model', 'club_model', 'desk_model'));
+    $this->load->model(array('area_model', 'club_model', 'desk_model', 'file_model'));
   }
 
   /**
@@ -64,7 +64,7 @@ class Desk extends Desk_Controller
   /**
    * 기사 등록/수정
    *
-   * @return view
+   * @return json
    * @author bjchoi
    **/
   public function article_update()
@@ -88,8 +88,10 @@ class Desk extends Desk_Controller
     if (empty($result)) {
       if (!empty($_FILES['main_image']['tmp_name'])) {
         // 메인 이미지 처리
-        if ($_FILES['main_image']['type'] == 'image/jpeg') {
-          $ext = ".jpg";
+        if ($_FILES['main_image']['type'] == 'image/gif') {
+          $ext = ".gif";
+        } elseif ($_FILES['thumbmail']['type'] == 'image/png') {
+          $ext = ".png";
         } else {
           $ext = ".jpg";
         }
@@ -130,7 +132,7 @@ class Desk extends Desk_Controller
   /**
    * 기사 메인 등록
    *
-   * @return view
+   * @return redirect
    * @author bjchoi
    **/
   public function article_main()
@@ -143,7 +145,7 @@ class Desk extends Desk_Controller
   /**
    * 기사 삭제
    *
-   * @return view
+   * @return redirect
    * @author bjchoi
    **/
   public function article_delete()
@@ -164,7 +166,7 @@ class Desk extends Desk_Controller
   /**
    * 기사 분류 편집
    *
-   * @return view
+   * @return json
    * @author bjchoi
    **/
   public function article_category_update()
@@ -260,7 +262,7 @@ class Desk extends Desk_Controller
   /**
    * 여행정보 등록/수정
    *
-   * @return view
+   * @return json
    * @author bjchoi
    **/
   public function place_update()
@@ -281,8 +283,10 @@ class Desk extends Desk_Controller
     if (empty($result)) {
       if (!empty($_FILES['thumbnail']['tmp_name'])) {
         // 메인 이미지 처리
-        if ($_FILES['thumbnail']['type'] == 'image/jpeg') {
-          $ext = ".jpg";
+        if ($_FILES['thumbnail']['type'] == 'image/gif') {
+          $ext = ".gif";
+        } elseif ($_FILES['thumbmail']['type'] == 'image/png') {
+          $ext = ".png";
         } else {
           $ext = ".jpg";
         }
@@ -345,7 +349,7 @@ class Desk extends Desk_Controller
   /**
    * 여행정보 삭제
    *
-   * @return view
+   * @return redirect
    * @author bjchoi
    **/
   public function place_delete()
@@ -366,7 +370,7 @@ class Desk extends Desk_Controller
   /**
    * 여행정보 분류 편집
    *
-   * @return view
+   * @return json
    * @author bjchoi
    **/
   public function place_category_update()
@@ -459,6 +463,135 @@ class Desk extends Desk_Controller
     $this->_viewPage('desk/club_post', $viewData);
   }
 
+  /**
+   * 산악회 등록/수정
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function club_update()
+  {
+    $now = time();
+    $inputData = $this->input->post();
+
+    if (empty($inputData['title'])) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_no_title'));
+    }
+    if (empty($inputData['url'])) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_no_url'));
+    }
+    if (empty($inputData['phone'])) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_no_phone'));
+    }
+    if (empty($inputData['establish'])) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_no_establish'));
+    }
+    if (empty($inputData['about'])) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_no_content'));
+    }
+
+    if (empty($result)) {
+      if (!empty($inputData['idx'])) {
+        $idx = html_escape($inputData['idx']);
+        $updateValues = array(
+          'url'         => html_escape($inputData['url']),
+          'homepage'    => html_escape($inputData['homepage']),
+          'title'       => html_escape($inputData['title']),
+          'phone'       => html_escape($inputData['phone']),
+          'area_sido'   => make_serialize(html_escape($inputData['area_sido'])),
+          'area_gugun'  => make_serialize(html_escape($inputData['area_gugun'])),
+          'main_design' => html_escape($inputData['main_design']),
+          'main_color'  => html_escape($inputData['main_color']),
+          'establish'   => html_escape($inputData['establish']),
+          'about'       => html_escape($inputData['about']),
+          'updated_by'  => html_escape($inputData['useridx']),
+          'updated_at'  => $now,
+        );
+        $this->desk_model->update(DB_CLUBS, $updateValues, $idx);
+      } else {
+        $updateValues = array(
+          'url'         => html_escape($inputData['url']),
+          'homepage'    => html_escape($inputData['homepage']),
+          'title'       => html_escape($inputData['title']),
+          'phone'       => html_escape($inputData['phone']),
+          'area_sido'   => make_serialize(html_escape($inputData['area_sido'])),
+          'area_gugun'  => make_serialize(html_escape($inputData['area_gugun'])),
+          'main_design' => html_escape($inputData['main_design']),
+          'main_color'  => html_escape($inputData['main_color']),
+          'establish'   => html_escape($inputData['establish']),
+          'about'       => html_escape($inputData['about']),
+          'created_by'  => html_escape($inputData['useridx']),
+          'created_at'  => $now,
+        );
+        $idx = $this->desk_model->insert(DB_CLUBS, $updateValues);
+      }
+
+      $clubPath = UPLOAD_CLUB_PATH . $idx;
+      if (!empty($idx) && !file_exists($clubPath)) {
+        mkdir($clubPath);
+      }
+
+      if (!empty($_FILES['thumbnail']['tmp_name'])) {
+        // 썸네일 이미지 처리
+        if ($_FILES['thumbnail']['type'] == 'image/gif') {
+          $ext = ".gif";
+        } elseif ($_FILES['thumbnail']['type'] == 'image/png') {
+          $ext = ".png";
+        } else {
+          $ext = ".jpg";
+        }
+        $inputData['thumbnail_uploaded'] = time() . mt_rand(10000, 99999) . $ext;
+        move_uploaded_file($_FILES['thumbnail']['tmp_name'], $clubPath  . '/' . $inputData['thumbnail_uploaded']);
+
+        // 썸네일 만들기
+        $this->image_lib->clear();
+        $config['image_library'] = 'gd2';
+        $config['source_image'] = $clubPath  . '/' . $inputData['thumbnail_uploaded'];
+        $config['new_image'] = $clubPath  . '/thumb_' . $inputData['thumbnail_uploaded'];
+        $config['create_thumb'] = TRUE;
+        $config['maintain_ratio'] = TRUE;
+        $config['thumb_marker'] = '';
+        $config['width'] = 500;
+        $this->image_lib->initialize($config);
+        $this->image_lib->resize();
+
+        // 파일 데이터 저장
+        $fileValues = array(
+          'page' => 'club',
+          'page_idx' => $idx,
+          'filename' => $inputData['thumbnail_uploaded'],
+          'created_at' => $now
+        );
+        $this->file_model->insertFile($fileValues);
+      }
+
+      $result = array('error' => 0, 'message' => '');
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 산악회 삭제
+   *
+   * @return redirect
+   * @author bjchoi
+   **/
+  public function club_delete()
+  {
+    $now = time();
+    $idx = html_escape($this->input->post('idx'));
+    $userData = $this->load->get_var('userData');
+
+    $updateValues = array(
+      'deleted_by' => $userData['idx'],
+      'deleted_at' => $now
+    );
+    $this->desk_model->update(DB_CLUBS, $updateValues, $idx);
+
+    redirect('/desk/club');
+  }
+
 
   /**
     ====================================================================================================================
@@ -480,7 +613,7 @@ class Desk extends Desk_Controller
   /**
    * 멀티 사진 업로드 처리
    *
-   * @return view
+   * @return json
    * @author bjchoi
    **/
   public function upload_process()
@@ -489,8 +622,10 @@ class Desk extends Desk_Controller
     $files = $_FILES['files'];
     foreach ($files['tmp_name'] as $key => $value) {
       if (!empty($value)) {
-        if ($files['type'][$key] == 'image/jpeg') {
-          $ext = ".jpg";
+        if ($files['type'][$key] == 'image/gif') {
+          $ext = ".gif";
+        } elseif ($_FILES['thumbmail']['type'] == 'image/png') {
+          $ext = ".png";
         } else {
           $ext = ".jpg";
         }

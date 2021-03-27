@@ -62,7 +62,7 @@
                                                         <select name="area_gugun[]" class="form-control area-gugun">
                                                             <option value=''>시/군/구</option>
                                                             <?php foreach ($list_gugun[$key] as $value): ?>
-                                                            <option<?=$value['name'] == $view['gugun'][$key] ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
+                                                            <option<?=!empty($view['gugun'][$key]) && $value['name'] == $view['gugun'][$key] ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
@@ -89,8 +89,17 @@
                                             <td><input type="text" name="phone" class="form-control" value="<?=!empty($view['phone']) ? $view['phone'] : ''?>"></td>
                                         </tr>
                                         <tr>
+                                            <th class="text-center">설립년도</th>
+                                            <td>
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col-2 col-sm-1"><input type="text" name="establish" class="form-control" value="<?=!empty($view['establish']) ? $view['establish'] : ''?>"></div>
+                                                    <div class="col-1 col-sm-1">년</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
                                             <th class="text-center">산악회 소개</th>
-                                            <td><textarea name="content" rows="10" cols="100" id="clubContent" class="se-content"><?=!empty($view['content']) ? $view['content'] : ''?></textarea></td>
+                                            <td><textarea name="about" rows="10" cols="100" id="clubContent" class="se-content"><?=!empty($view['about']) ? $view['about'] : ''?></textarea></td>
                                         </tr>
                                         <!--
                                         <tr>
@@ -113,7 +122,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                    -->
+                                        -->
                                         <tr>
                                             <th class="text-center">썸네일</th>
                                             <td>
@@ -150,7 +159,7 @@
                         var $btn = $(this);
                         var formData = new FormData($('#postClub')[0]);
                         var content = $('#clubContent').val();
-                        formData.append('content', content);
+                        formData.append('about', content);
                         $.ajax({
                             processData: false,
                             contentType: false,
@@ -167,7 +176,7 @@
                                     $('.error-message').text(result.message);
                                     setTimeout(function() { $('.error-message').text(''); }, 2000);
                                 } else {
-                                    location.reclub('/desk/club');
+                                    location.replace('/desk/club');
                                 }
                             }
                         });
