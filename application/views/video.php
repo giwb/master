@@ -130,6 +130,86 @@
                 </div>
               </div>
             </div>
+            <div class="col-md-6 my-3">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="text-center">탑동 해안</h4>
+                  <video id="video-jeju3" class="video-js" autoplay controls></video>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 my-3">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="text-center">신창 해안</h4>
+                  <video id="video-jeju4" class="video-js" autoplay controls></video>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 my-3">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="text-center">화순 해안</h4>
+                  <video id="video-jeju5" class="video-js" autoplay controls></video>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 my-3">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="text-center">서귀포항</h4>
+                  <video id="video-jeju6" class="video-js" autoplay controls></video>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 my-3">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="text-center">법환포구</h4>
+                  <video id="video-jeju7" class="video-js" autoplay controls></video>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 my-3">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="text-center">법환 해안</h4>
+                  <video id="video-jeju8" class="video-js" autoplay controls></video>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 my-3">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="text-center">중문 해안</h4>
+                  <video id="video-jeju9" class="video-js" autoplay controls></video>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 my-3">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="text-center">성산일출봉</h4>
+                  <video id="video-jeju10" class="video-js" autoplay controls></video>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 my-3">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="text-center">온평 해안</h4>
+                  <video id="video-jeju11" class="video-js" autoplay controls></video>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 my-3">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="text-center">한라산 백록담</h4>
+                  <video id="video-jeju12" class="video-js" autoplay controls></video>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -293,5 +373,115 @@
   hls_jeju2.on(Hls.Events.MANIFEST_PARSED,function() {
     video_jeju2.muted = true;
     video_jeju2.play();
+  });
+
+  // 탑동 해안
+  var hls_jeju3 = new Hls();
+  var source = 'http://59.8.86.15:1935/live/52.stream/playlist.m3u8';
+  var video_jeju3 = document.getElementById('video-jeju3');
+  hls_jeju3.loadSource(source);
+  hls_jeju3.attachMedia(video_jeju3);
+  hls_jeju3.on(Hls.Events.MANIFEST_PARSED,function() {
+    video_jeju3.muted = true;
+    video_jeju3.play();
+  });
+
+  // 신창 해안
+  var hls_jeju4 = new Hls();
+  var source = 'http://59.8.86.15:1935/live/63.stream/playlist.m3u8';
+  var video_jeju4 = document.getElementById('video-jeju4');
+  hls_jeju4.loadSource(source);
+  hls_jeju4.attachMedia(video_jeju4);
+  hls_jeju4.on(Hls.Events.MANIFEST_PARSED,function() {
+    video_jeju4.muted = true;
+    video_jeju4.play();
+  });
+
+  // 화순 해안
+  var hls_jeju5 = new Hls();
+  var source = 'http://59.8.86.15:1935/live/60.stream/playlist.m3u8';
+  var video_jeju5 = document.getElementById('video-jeju5');
+  hls_jeju5.loadSource(source);
+  hls_jeju5.attachMedia(video_jeju5);
+  hls_jeju5.on(Hls.Events.MANIFEST_PARSED,function() {
+    video_jeju5.muted = true;
+    video_jeju5.play();
+  });
+
+  // 서귀포항
+  var hls_jeju6 = new Hls();
+  var source = 'http://123.140.197.51/stream/35/play.m3u8';
+  var video_jeju6 = document.getElementById('video-jeju6');
+  hls_jeju6.loadSource(source);
+  hls_jeju6.attachMedia(video_jeju6);
+  hls_jeju6.on(Hls.Events.MANIFEST_PARSED,function() {
+    video_jeju6.muted = true;
+    video_jeju6.play();
+  });
+
+  // 법환포구
+  var hls_jeju7 = new Hls();
+  var source = 'http://59.8.86.15:1935/live/54.stream/playlist.m3u8';
+  var video_jeju7 = document.getElementById('video-jeju7');
+  hls_jeju7.loadSource(source);
+  hls_jeju7.attachMedia(video_jeju7);
+  hls_jeju7.on(Hls.Events.MANIFEST_PARSED,function() {
+    video_jeju7.muted = true;
+    video_jeju7.play();
+  });
+
+  // 법환해안
+  var hls_jeju8 = new Hls();
+  var source = 'http://59.8.86.15:1935/live/55.stream/playlist.m3u8';
+  var video_jeju8 = document.getElementById('video-jeju8');
+  hls_jeju8.loadSource(source);
+  hls_jeju8.attachMedia(video_jeju8);
+  hls_jeju8.on(Hls.Events.MANIFEST_PARSED,function() {
+    video_jeju8.muted = true;
+    video_jeju8.play();
+  });
+
+  // 중문해안
+  var hls_jeju9 = new Hls();
+  var source = 'http://59.8.86.15:1935/live/59.stream/playlist.m3u8';
+  var video_jeju9 = document.getElementById('video-jeju9');
+  hls_jeju9.loadSource(source);
+  hls_jeju9.attachMedia(video_jeju9);
+  hls_jeju9.on(Hls.Events.MANIFEST_PARSED,function() {
+    video_jeju9.muted = true;
+    video_jeju9.play();
+  });
+
+  // 성산일출봉
+  var hls_jeju10 = new Hls();
+  var source = 'http://123.140.197.51/stream/34/play.m3u8';
+  var video_jeju10 = document.getElementById('video-jeju10');
+  hls_jeju10.loadSource(source);
+  hls_jeju10.attachMedia(video_jeju10);
+  hls_jeju10.on(Hls.Events.MANIFEST_PARSED,function() {
+    video_jeju10.muted = true;
+    video_jeju10.play();
+  });
+
+  // 온평 해안
+  var hls_jeju11 = new Hls();
+  var source = 'http://59.8.86.15:1935/live/56.stream/playlist.m3u8';
+  var video_jeju11 = document.getElementById('video-jeju11');
+  hls_jeju11.loadSource(source);
+  hls_jeju11.attachMedia(video_jeju11);
+  hls_jeju11.on(Hls.Events.MANIFEST_PARSED,function() {
+    video_jeju11.muted = true;
+    video_jeju11.play();
+  });
+
+  // 한라산 백록담
+  var hls_jeju12 = new Hls();
+  var source = 'http://119.65.216.155:1935/live/cctv01.stream_360p/playlist.m3u8';
+  var video_jeju12 = document.getElementById('video-jeju12');
+  hls_jeju12.loadSource(source);
+  hls_jeju12.attachMedia(video_jeju12);
+  hls_jeju12.on(Hls.Events.MANIFEST_PARSED,function() {
+    video_jeju12.muted = true;
+    video_jeju12.play();
   });
 </script>
