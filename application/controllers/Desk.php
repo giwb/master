@@ -423,6 +423,15 @@ class Desk extends Desk_Controller
     $viewData['list'] = $this->club_model->listClub(NULL, NULL, true);
     $viewData['max'] = count($viewData['list']);
 
+    foreach ($viewData['list'] as $key => $value) {
+      $file = $this->file_model->getFile('club', $value['idx'], NULL, 1);
+      if (!empty($file[0]['filename'])) {
+        $viewData['list'][$key]['thumbnail'] = UPLOAD_CLUB_URL . $value['idx'] . '/thumb_' . $file[0]['filename'];
+      } else {
+        $viewData['list'][$key]['thumbnail'] = '/public/images/noimage.png';
+      }
+    }
+
     $this->_viewPage('desk/club', $viewData);
   }
 
@@ -493,6 +502,7 @@ class Desk extends Desk_Controller
     if (empty($result)) {
       if (!empty($inputData['idx'])) {
         $idx = html_escape($inputData['idx']);
+        $file = $this->file_model->getFile('club', $idx);
         $updateValues = array(
           'url'         => html_escape($inputData['url']),
           'homepage'    => html_escape($inputData['homepage']),
@@ -554,6 +564,11 @@ class Desk extends Desk_Controller
         $config['width'] = 500;
         $this->image_lib->initialize($config);
         $this->image_lib->resize();
+
+        // 기존 파일 데이터가 있었다면 삭제
+        if (!empty($file[0]['filename'])) {
+          $this->file_model->deleteFile($file[0]['filename']);
+        }
 
         // 파일 데이터 저장
         $fileValues = array(

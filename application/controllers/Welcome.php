@@ -360,7 +360,27 @@ class Welcome extends MY_Controller
    **/
   public function area()
   {
-    $this->_viewPage('area');
+    $viewData['search'] = html_escape($this->input->get('s'));
+    $viewData['keyword'] = html_escape($this->input->get('k'));
+    $viewData['list'] = $this->club_model->listClub($viewData['search'], $viewData['keyword']);
+
+    if ($viewData['search'] == 'area_sido') {
+      $viewData['searchTitle'] = $this->area_model->getName($viewData['keyword']);
+    } else {
+      $viewData['searchTitle']['name'] = '전체';
+    }
+
+    foreach ($viewData['list'] as $key => $value) {
+      // 사진
+      $file = $this->file_model->getFile('club', $value['idx'], NULL, 1);
+      if (!empty($file[0]['filename'])) {
+        $viewData['list'][$key]['thumbnail'] = UPLOAD_CLUB_URL . $value['idx'] . '/thumb_' . $file[0]['filename'];
+      } else {
+        $viewData['list'][$key]['thumbnail'] = '/public/images/noimage.png';
+      }
+    }
+
+    $this->_viewPage('area', $viewData);
   }
 
   /**

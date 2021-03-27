@@ -27,7 +27,7 @@
                                         <tr data-link="<?=base_url()?><?=$value['url']?>" class="area-link">
                                             <td class="text-center"><?=$max - $key?></td>
                                             <td class="text-center small"><?=date('Y-m-d H:i', $value['created_at'])?></td>
-                                            <td class="text-center p-0"><img width="100" src="<?=!empty($value['thumbnail']) ? PHOTO_PLACE_URL . 'thumb_' . $value['thumbnail'] : '/public/images/noimage.png'?>"></td>
+                                            <td class="text-center p-0"><img width="100" src="<?=$value['thumbnail']?>"></td>
                                             <td class="text-center"></td>
                                             <td><?=$value['title']?></td>
                                             <td class="text-center">
