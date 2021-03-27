@@ -408,6 +408,139 @@ class Desk extends Desk_Controller
 
   /**
     ====================================================================================================================
+      여행일정 관리 섹션
+    ====================================================================================================================
+  **/
+
+  /**
+   * 여행일정 관리
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function schedule()
+  {
+    $viewData['list'] = $this->desk_model->listSchedule();
+    $viewData['max'] = count($viewData['list']);
+
+    $this->_viewPage('desk/schedule', $viewData);
+  }
+
+  /**
+   * 여행일정 등록
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function schedule_post($idx=NULL)
+  {
+    $viewData['userData'] = $this->load->get_var('userData');
+
+    if (!is_null($idx)) {
+      $viewData['view'] = $this->desk_model->viewSchedule(html_escape($idx));
+    }
+
+    // 지역
+    $viewData['area_sido'] = $this->area_model->listSido();
+    if (!empty($viewData['view']['area_sido'])) {
+      $area_sido = unserialize($viewData['view']['area_sido']);
+      $area_gugun = unserialize($viewData['view']['area_gugun']);
+
+      foreach ($area_sido as $key => $value) {
+        $sido = $this->area_model->getName($value);
+        $gugun = $this->area_model->getName($area_gugun[$key]);
+        $viewData['list_sido'] = $this->area_model->listSido();
+        $viewData['list_gugun'][$key] = $this->area_model->listGugun($value);
+        $viewData['view']['sido'][$key] = $sido['name'];
+        $viewData['view']['gugun'][$key] = $gugun['name'];
+      }
+
+      $viewData['area_gugun'] = $this->area_model->listGugun($viewData['view']['area_sido']);
+    } else {
+      $viewData['area_gugun'] = array();
+    }
+
+    $this->_viewPage('desk/schedule_post', $viewData);
+  }
+
+  /**
+   * 여행일정 등록/수정
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function schedule_update()
+  {
+    $now = time();
+    $inputData = $this->input->post();
+
+    if (empty($inputData['title'])) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_no_title'));
+    }
+    if (empty($inputData['agency_name'])) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_no_agency'));
+    }
+
+    if (empty($result)) {
+      if (!empty($inputData['idx'])) {
+        $idx = html_escape($inputData['idx']);
+        $updateValues = array(
+          'agency_name' => html_escape($inputData['agency_name']),
+          'title'       => html_escape($inputData['title']),
+          'area_sido'   => make_serialize(html_escape($inputData['area_sido'])),
+          'area_gugun'  => make_serialize(html_escape($inputData['area_gugun'])),
+          'content'     => html_escape($inputData['content']),
+          'updated_by'  => html_escape($inputData['useridx']),
+          'updated_at'  => $now,
+        );
+        $this->desk_model->update(DB_SCHEDULES, $updateValues, $idx);
+      } else {
+        $updateValues = array(
+          'area_sido'   => make_serialize(html_escape($inputData['area_sido'])),
+          'area_gugun'  => make_serialize(html_escape($inputData['area_gugun'])),
+          'category'    => html_escape($inputData['category']),
+          'altitude'    => html_escape($inputData['altitude']),
+          'thumbnail'   => !empty($inputData['thumbnail_uploaded']) ? html_escape($inputData['thumbnail_uploaded']) : NULL,
+          'title'       => html_escape($inputData['title']),
+          'reason'      => html_escape($inputData['reason']),
+          'around'      => html_escape($inputData['around']),
+          'course'      => html_escape($inputData['course']),
+          'content'     => html_escape($inputData['content']),
+          'created_by'  => html_escape($inputData['useridx']),
+          'created_at'  => $now,
+        );
+        $this->desk_model->insert(DB_SCHEDULES, $updateValues);
+      }
+      $result = array('error' => 0, 'message' => '');
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 여행일정 삭제
+   *
+   * @return redirect
+   * @author bjchoi
+   **/
+  public function schedule_delete()
+  {
+    $now = time();
+    $idx = html_escape($this->input->post('idx'));
+    $userData = $this->load->get_var('userData');
+
+    $updateValues = array(
+      'deleted_by' => $userData['idx'],
+      'deleted_at' => $now
+    );
+    $this->desk_model->update(DB_SCHEDULES, $updateValues, $idx);
+
+    redirect('/desk/schedule');
+  }
+
+
+  /**
+    ====================================================================================================================
       산악회 관리 섹션
     ====================================================================================================================
   **/

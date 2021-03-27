@@ -1,6 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
   <div id="fb-root"></div>
+  <?php if (!empty($arrTopImage)): ?>
   <div id="carousel-main" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
       <?php foreach($arrTopImage as $key => $value): ?>
@@ -34,6 +35,7 @@
       <span class="sr-only">Next</span>
     </a>
   </div>
+  <?php endif; ?>
 
   <main id="mainpage">
     <div class="container-fluid mt-4">
@@ -48,8 +50,9 @@
             <div class="row">
               <div class="col-md-6 my-3">
                 <div class="card main-card">
+                  <?php if (!empty($listNotice[0]['subject'])): ?>
                   <div class="view overlay">
-                    <img src="<?=PHOTO_URL . $listNotice[0]['photo']?>" class="card-img-top">
+                    <img src="<?=$listNotice[0]['photo']?>" class="card-img-top">
                     <a href="<?=BASE_URL?>/reserve/list/<?=$listNotice[0]['idx']?>"><div class="mask rgba-white-slight"></div></a>
                   </div>
                   <div class="card-body">
@@ -67,12 +70,14 @@
                       <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-calendar-check pr-1"></i>예약 <?=cntRes($listNotice[0]['idx'])?></a></li>
                     </ul>
                   </div>
+                  <?php endif; ?>
                 </div>
               </div>
               <div class="col-md-6 my-3">
                 <div class="card main-card">
+                  <?php if (!empty($listNotice[0]['subject'])): ?>
                   <div class="view overlay">
-                    <img src="<?=PHOTO_URL . $listNotice[1]['photo']?>" class="card-img-top">
+                    <img src="<?=$listNotice[1]['photo']?>" class="card-img-top">
                     <a href="<?=BASE_URL?>/reserve/list/<?=$listNotice[1]['idx']?>"><div class="mask rgba-white-slight"></div></a>
                   </div>
                   <div class="card-body">
@@ -91,6 +96,7 @@
                       <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-calendar-check pr-1"></i>예약 <?=cntRes($listNotice[1]['idx'])?></a></li>
                     </ul>
                   </div>
+                  <?php endif; ?>
                 </div>
               </div>
             </div>

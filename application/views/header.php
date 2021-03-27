@@ -39,7 +39,7 @@
           </div>
         </li>
         <li class="nav-item">
-          <a href="<?=base_url()?>list" class="nav-link"><i class="far fa-calendar-alt"></i> 여행일정</a>
+          <a href="<?=base_url()?>schedule" class="nav-link"><i class="far fa-calendar-alt"></i> 여행일정</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true"

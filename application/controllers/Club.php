@@ -71,6 +71,12 @@ class Club extends MY_Controller
           $viewData['listNotice'][$key1]['gugun'][$key2] = $gugun['name'];
         }
       }
+
+      if (!empty($value['photo'])) {
+        $viewData['listNotice'][$key1]['photo'] = PHOTO_URL . $value['photo'];
+      } else {
+        $viewData['listNotice'][$key1]['photo'] = '/public/images/noimage.png';
+      }
     }
 
     // 최신 사진첩

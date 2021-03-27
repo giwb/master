@@ -69,8 +69,8 @@ class Desk_model extends CI_Model
           ->from(DB_ARTICLE . ' a')
           ->join(DB_ARTICLE_CATEGORY . ' b', 'a.category=b.code', 'left')
           ->join(DB_MEMBER . ' c', 'a.created_by=c.idx', 'left')
-          ->where('deleted_at', NULL)
-          ->order_by('created_at', $order);
+          ->where('a.deleted_at', NULL)
+          ->order_by('a.created_at', $order);
     return $this->db->get()->result_array();
   }
 
@@ -249,6 +249,34 @@ class Desk_model extends CI_Model
     $this->db->select('name')
           ->from(DB_PLACES_CATEGORY)
           ->where('code', $code);
+    return $this->db->get()->row_array(1);
+  }
+
+
+  /**
+    ====================================================================================================================
+      여행일정 관리 섹션
+    ====================================================================================================================
+  **/
+
+  // 여행일정 목록
+  public function listSchedule($search=NULL, $order='desc')
+  {
+    $this->db->select('a.*, b.nickname')
+          ->from(DB_SCHEDULES . ' a')
+          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
+          ->where('a.deleted_at', NULL)
+          ->order_by('a.created_at', $order);
+    return $this->db->get()->result_array();
+  }
+
+  // 여행일정 열람
+  public function viewSchedule($idx)
+  {
+    $this->db->select('a.*, b.nickname')
+          ->from(DB_SCHEDULES . ' a')
+          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
+          ->where('a.idx', $idx);
     return $this->db->get()->row_array(1);
   }
 

@@ -35,3 +35,4 @@ $lang['error_no_url']             = '페이지 주소를 입력해주세요.';
 $lang['error_no_phone']           = '연락처를 입력해주세요.';
 $lang['error_no_establish']       = '설립년도를 입력해주세요.';
 $lang['error_no_about']           = '산악회 소개를 입력해주세요.';
+$lang['error_no_agency']          = '여행사/산악회명은 꼭 입력해주세요.';

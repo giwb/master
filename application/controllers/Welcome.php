@@ -314,7 +314,7 @@ class Welcome extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function list()
+  public function schedule()
   {
     $viewData['listNotice'] = $this->reserve_model->listNotice(NULL, array(STATUS_ABLE, STATUS_CONFIRM), 'asc');
 
@@ -349,7 +349,7 @@ class Welcome extends MY_Controller
       }
     }
 
-    $this->_viewPage('list', $viewData);
+    $this->_viewPage('schedule', $viewData);
   }
 
   /**

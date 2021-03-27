@@ -65,7 +65,7 @@
       <section class="section widget-content">
         <h4 class="row font-weight-bold">
           <div class="col-6"><strong>여행일정</strong></div>
-          <div class="col-6 text-right"><a href="<?=base_url()?>list" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a></div>
+          <div class="col-6 text-right"><a href="<?=base_url()?>schedule" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a></div>
         </h4>
         <hr class="red mb-4">
         <div class="card card-body pb-5">
@@ -76,7 +76,7 @@
               <div class="col-4">
                 <div class="view overlay">
                   <img width="126" height="84" src="<?=$value['photo']?>">
-                  <a href="<?=base_url()?>list">
+                  <a href="<?=base_url()?>schedule">
                     <div class="mask waves-light"></div>
                   </a>
                 </div>

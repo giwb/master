@@ -149,7 +149,7 @@ defined('DB_NOTICE_DETAIL')     OR define('DB_NOTICE_DETAIL', 'notice_detail'); 
 defined('DB_PLACES')            OR define('DB_PLACES', 'places'); // 산행정보
 defined('DB_PLACES_CATEGORY')   OR define('DB_PLACES_CATEGORY', 'places_category'); // 산행정보 카테고리
 defined('DB_RESERVATION')       OR define('DB_RESERVATION', 'reservation'); // 예약
-defined('DB_SCHEDULE')          OR define('DB_SCHEDULE', 'schedule'); // 산행계획
+defined('DB_SCHEDULES')         OR define('DB_SCHEDULES', 'schedule'); // 여행일정
 defined('DB_STORY')             OR define('DB_STORY', 'story'); // 스토리
 defined('DB_STORY_REACTION')    OR define('DB_STORY_REACTION', 'story_reaction'); // 스토리 좋아요/공유
 defined('DB_STORY_REPLY')       OR define('DB_STORY_REPLY', 'story_reply'); // 스토리 댓글

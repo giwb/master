@@ -94,7 +94,7 @@ if (!empty($result['idx'])) {
   $route['article/(:num)']      = 'welcome/article/$1';
   $route['search']              = 'welcome/search';
   $route['area']                = 'welcome/area';
-  $route['list']                = 'welcome/list';
+  $route['schedule']            = 'welcome/schedule';
   $route['login']               = 'login/index';
   $route['logout']              = 'login/logout';
   $route['member']              = 'member/index';
