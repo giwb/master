@@ -90,7 +90,7 @@ class Desk extends Desk_Controller
         // 메인 이미지 처리
         if ($_FILES['main_image']['type'] == 'image/gif') {
           $ext = ".gif";
-        } elseif ($_FILES['thumbmail']['type'] == 'image/png') {
+        } elseif ($_FILES['main_image']['type'] == 'image/png') {
           $ext = ".png";
         } else {
           $ext = ".jpg";
@@ -487,8 +487,13 @@ class Desk extends Desk_Controller
         $updateValues = array(
           'agency_name' => html_escape($inputData['agency_name']),
           'title'       => html_escape($inputData['title']),
+          'link'        => html_escape($inputData['link']),
           'area_sido'   => make_serialize(html_escape($inputData['area_sido'])),
           'area_gugun'  => make_serialize(html_escape($inputData['area_gugun'])),
+          'startdate'   => html_escape($inputData['startdate']),
+          'starttime'   => html_escape($inputData['starttime']),
+          'cost'        => html_escape($inputData['cost']),
+          'distance'    => html_escape($inputData['distance']),
           'content'     => html_escape($inputData['content']),
           'updated_by'  => html_escape($inputData['useridx']),
           'updated_at'  => $now,
@@ -496,15 +501,15 @@ class Desk extends Desk_Controller
         $this->desk_model->update(DB_SCHEDULES, $updateValues, $idx);
       } else {
         $updateValues = array(
+          'agency_name' => html_escape($inputData['agency_name']),
+          'title'       => html_escape($inputData['title']),
+          'link'        => html_escape($inputData['link']),
           'area_sido'   => make_serialize(html_escape($inputData['area_sido'])),
           'area_gugun'  => make_serialize(html_escape($inputData['area_gugun'])),
-          'category'    => html_escape($inputData['category']),
-          'altitude'    => html_escape($inputData['altitude']),
-          'thumbnail'   => !empty($inputData['thumbnail_uploaded']) ? html_escape($inputData['thumbnail_uploaded']) : NULL,
-          'title'       => html_escape($inputData['title']),
-          'reason'      => html_escape($inputData['reason']),
-          'around'      => html_escape($inputData['around']),
-          'course'      => html_escape($inputData['course']),
+          'startdate'   => html_escape($inputData['startdate']),
+          'starttime'   => html_escape($inputData['starttime']),
+          'cost'        => html_escape($inputData['cost']),
+          'distance'    => html_escape($inputData['distance']),
           'content'     => html_escape($inputData['content']),
           'created_by'  => html_escape($inputData['useridx']),
           'created_at'  => $now,

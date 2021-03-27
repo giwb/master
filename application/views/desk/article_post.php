@@ -49,7 +49,7 @@
                                             <th class="text-center">메인 사진</th>
                                             <td>
                                                 <input type="file" name="main_image">
-                                                <div class="pt-2 pb-2 text-danger">※ 메인 페이지에 올리는 사진은 2000 x 800 사이즈에 최적화되어 있습니다.</div>
+                                                <div class="pt-2 pb-2 text-danger">※ 메인 페이지에 올리는 사진은 1500 x 450 사이즈에 최적화되어 있습니다.</div>
                                                 <?php if (!empty($view['main_image'])): ?>
                                                     <div class="pt-2 pb-2"><img src="<?=PHOTO_ARTICLE_URL . $view['main_image']?>" style="max-width: 600px;"></div>
                                                     <input type="hidden" name="main_image_uploaded" value="<?=$view['main_image']?>">

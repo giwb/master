@@ -13,10 +13,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
   <link href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" rel="stylesheet">
   <link href="/public/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/public/css/flickity.min.css" rel="stylesheet">
   <link href="/public/css/tripkorea.css" rel="stylesheet">
 
   <script type="text/javascript" src="/public/js/jquery-3.3.1.min.js"></script>
   <script type="text/javascript" src="/public/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/public/js/flickity.pkgd.min.js"></script>
   <script type="text/javascript" src="/public/js/tripkorea.js"></script>
 </head>
 <body class="fixed-sn homepage-v2">
