@@ -461,9 +461,9 @@ class Club extends MY_Controller
     foreach ($viewData['listVideo'] as $key => $value) {
       if (!empty($value['video_link'])) {
         $buf = explode('v=', $value['video_link']);
-        $viewData['listVideo'][$key]['video_link'] = '<iframe width="440" height="248" src="https://www.youtube.com/embed/' . $buf[1] . '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+        $viewData['listVideo'][$key]['video_link'] = '<iframe class="area-video" src="https://www.youtube.com/embed/' . $buf[1] . '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
       } else {
-        $viewData['listVideo'][$key]['video_link'] = '<div style="width: 440px; height: 248px; overflow: hidden;"><img class="w-100" src="/public/images/noimage.png"></div>';
+        $viewData['listVideo'][$key]['video_link'] = '<div class="area-video"><img class="w-100" src="/public/images/noimage.png"></div>';
       }
     }
 

@@ -4,10 +4,10 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-xl-8 col-md-12 mb-5">
-          <div class="row align-items-center">
-            <div class="col-5"><h4 class="font-weight-bold">여행기 - 동영상</h4></div>
+          <div class="row no-gutters align-items-center">
+            <div class="col-10"><h4 class="font-weight-bold">여행기 - 동영상</h4></div>
             <?php if (!empty($userData['idx'])): ?>
-            <div class="col-7 text-right">
+            <div class="col-2 text-right">
               <a href="<?=BASE_URL?>/club/video_post" class="btn-custom btn-giwbblue">등록</a>
             </div>
             <?php endif; ?>

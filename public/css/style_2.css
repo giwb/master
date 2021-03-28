@@ -2569,6 +2569,8 @@ main#footer .logo-img { margin-right: 10px; float: left; }
 .area-refer { justify-content: flex-start!important; }
 .area-sns { justify-content: flex-end!important; }
 
+.area-video { width: 440px; height: 248px; overflow: hidden; }
+
 /* 사진첩 */
 #album .album-item { width: 19.8%; position: relative; text-align: center; margin: 0 0 1px 0; }
 #album .album-item .caption { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 100; font-size: 0.9rem; color: white; padding: 0 5px; }
@@ -2851,5 +2853,14 @@ main#footer .logo-img { margin-right: 10px; float: left; }
 @media only screen and (max-width: 414px) {
   #album .album-item { width: 24.8%!important; margin: 0 0 1px 0!important; }
   #album .album-item img { display: block; min-width: 100%!important; max-width: 100%!important; }
+  .area-video { width: 100%; height: 194px; }
   .scroll-to-top { bottom: 10rem; }
+}
+
+@media only screen and (max-width: 375px) {
+  .area-video { width: 100%; height: 172px; }
+}
+
+@media only screen and (max-width: 320px) {
+  .area-video { width: 100%; height: 141px; }
 }
