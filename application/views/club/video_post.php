@@ -45,52 +45,54 @@
         </div>
 
         <script type="text/javascript">
-            var oEditors = [];
-            nhn.husky.EZCreator.createInIFrame({
-                oAppRef: oEditors,
-                elPlaceHolder: 'videoContent',
-                sSkinURI: '/public/se2/SmartEditor2Skin.html',
-                fCreator: 'createSEditor2',
-            });
-            $(document).on('click', '.btn-post-video', function() {
-              // 기사 등록
-              oEditors.getById['videoContent'].exec('UPDATE_CONTENTS_FIELD', []);
-              var $btn = $(this);
-              var btnText = $btn.text();
-              var formData = new FormData($('#postVideo')[0]);
-              var content = $('#videoContent').val();
-              formData.append('content', content);
+          /*
+          var oEditors = [];
+          nhn.husky.EZCreator.createInIFrame({
+              oAppRef: oEditors,
+              elPlaceHolder: 'videoContent',
+              sSkinURI: '/public/se2/SmartEditor2Skin.html',
+              fCreator: 'createSEditor2',
+          });
+          */
+          $(document).on('click', '.btn-post-video', function() {
+            // 기사 등록
+            //oEditors.getById['videoContent'].exec('UPDATE_CONTENTS_FIELD', []);
+            var $btn = $(this);
+            var btnText = $btn.text();
+            var formData = new FormData($('#postVideo')[0]);
+            //var content = $('#videoContent').val();
+            //formData.append('content', content);
 
-              if ($('input[name=title]').val() == '') {
-                $('.error-message').text('제목은 꼭 입력해주세요.').slideDown();
-                setTimeout(function() { $('.error-message').text('').slideUp(); }, 2000);
-                return false;
-              }
-              if ($('input[name=video_link]').val() == '') {
-                $('.error-message').text('동영상 주소는 꼭 입력해주세요.').slideDown();
-                setTimeout(function() { $('.error-message').text('').slideUp(); }, 2000);
-                return false;
-              }
+            if ($('input[name=title]').val() == '') {
+              $('.error-message').text('제목은 꼭 입력해주세요.').slideDown();
+              setTimeout(function() { $('.error-message').text('').slideUp(); }, 2000);
+              return false;
+            }
+            if ($('input[name=video_link]').val() == '') {
+              $('.error-message').text('동영상 주소는 꼭 입력해주세요.').slideDown();
+              setTimeout(function() { $('.error-message').text('').slideUp(); }, 2000);
+              return false;
+            }
 
-              $.ajax({
-                processData: false,
-                contentType: false,
-                url: '/club/video_update',
-                data: formData,
-                dataType: 'json',
-                type: 'post',
-                beforeSend: function() {
-                  $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
-                },
-                success: function(result) {
-                  if (result.error == 1) {
-                    $btn.css('opacity', '1').prop('disabled', false).text(btnText);
-                    $('.error-message').text(result.message);
-                    setTimeout(function() { $('.error-message').text(''); }, 2000);
-                  } else {
-                    location.replace($('input[name=baseUrl]').val() + '/club/video/');
-                  }
+            $.ajax({
+              processData: false,
+              contentType: false,
+              url: '/club/video_update',
+              data: formData,
+              dataType: 'json',
+              type: 'post',
+              beforeSend: function() {
+                $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+              },
+              success: function(result) {
+                if (result.error == 1) {
+                  $btn.css('opacity', '1').prop('disabled', false).text(btnText);
+                  $('.error-message').text(result.message);
+                  setTimeout(function() { $('.error-message').text(''); }, 2000);
+                } else {
+                  location.replace($('input[name=baseUrl]').val() + '/club/video/');
                 }
-              });
+              }
             });
+          });
         </script>
