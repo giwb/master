@@ -461,9 +461,9 @@ class Club extends MY_Controller
     foreach ($viewData['listVideo'] as $key => $value) {
       if (!empty($value['video_link'])) {
         $buf = explode('v=', $value['video_link']);
-        $viewData['listVideo'][$key]['video_link'] = '<iframe width="440" height="249" src="https://www.youtube.com/embed/' . $buf[1] . '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+        $viewData['listVideo'][$key]['video_link'] = '<iframe width="440" height="248" src="https://www.youtube.com/embed/' . $buf[1] . '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
       } else {
-        $viewData['listVideo'][$key]['video_link'] = '<div style="width: 440px; height: 249px; overflow: hidden;"><img class="w-100" src="/public/images/noimage.png"></div>';
+        $viewData['listVideo'][$key]['video_link'] = '<div style="width: 440px; height: 248px; overflow: hidden;"><img class="w-100" src="/public/images/noimage.png"></div>';
       }
     }
 
@@ -511,7 +511,7 @@ class Club extends MY_Controller
         $updateValues = array(
           'subject'     => html_escape($inputData['subject']),
           'video_link'  => html_escape($inputData['video_link']),
-          'content'     => html_escape($inputData['content']),
+          //'content'     => html_escape($inputData['content']),
           'updated_by'  => html_escape($userIdx),
           'updated_at'  => $now
         );
@@ -521,7 +521,7 @@ class Club extends MY_Controller
           'club_idx'    => html_escape($clubIdx),
           'subject'     => html_escape($inputData['subject']),
           'video_link'  => html_escape($inputData['video_link']),
-          'content'     => html_escape($inputData['content']),
+          //'content'     => html_escape($inputData['content']),
           'created_by'  => html_escape($userIdx),
           'created_at'  => $now
         );
