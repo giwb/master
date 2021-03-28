@@ -2181,6 +2181,8 @@ main#footer { padding-top: 0px!important; }
 .area-refer { justify-content: flex-start!important; }
 .area-sns { justify-content: flex-end!important; }
 .video-js { width: 440px; height: 249px; }
+.card-title { min-height: 55px; }
+.card-text { min-height: 65px; }
 
 .header-menu { display: flex; flex-wrap: wrap; }
 .header-menu a { position: relative; width: 100%; font-size: 0.8rem; color: #333; border: 1px solid #FF6C00; border-radius: 5px; padding: 5px 0 5px 10px; display: block; -webkit-box-shadow:0 1px 3px 0 rgba(0,0,0,.16),0 1px 3px 0 rgba(0,0,0,.12);box-shadow:0 1px 3px 0 rgba(0,0,0,.16),0 1px 3px 0 rgba(0,0,0,.12); }
@@ -2210,6 +2212,8 @@ main#footer { padding-top: 0px!important; }
   .area-refer h5 { font-size: 1em; }
   .area-sns { justify-content: center!important; }
   .video-js { width: 100%; height: auto; }
+  .card-title { min-height: auto; }
+  .card-text { min-height: auto; }
 }
 
 @media (max-width:420px) {
