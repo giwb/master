@@ -63,7 +63,7 @@
             //var content = $('#videoContent').val();
             //formData.append('content', content);
 
-            if ($('input[name=title]').val() == '') {
+            if ($('input[name=subject]').val() == '') {
               $('.error-message').text('제목은 꼭 입력해주세요.').slideDown();
               setTimeout(function() { $('.error-message').text('').slideUp(); }, 2000);
               return false;
