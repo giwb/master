@@ -14,6 +14,15 @@
           </div>
           <hr class="text-default mt-2">
 
+          <div class="d-block d-sm-none">
+            <div class="header-menu mt-3">
+              <div class="header-menu-item"><a href="<?=BASE_URL?>/album">사진첩</a></div>
+              <div class="header-menu-item active"><a href="<?=BASE_URL?>/club/video">동영상</a></div>
+              <div class="header-menu-item"><a href="<?=BASE_URL?>/club/search/?code=news">여행정보</a></div>
+              <div class="header-menu-item"><a href="<?=BASE_URL?>/club/search/?code=review">여행후기</a></div>
+            </div>
+          </div>
+
           <div class="row">
             <?php if (empty($listVideo)): ?>
             <div class="col-12 text-center p-5">
