@@ -444,6 +444,101 @@ class Club extends MY_Controller
   }
 
   /**
+   * 여행기 - 동영상 페이지
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function video()
+  {
+    // 클럽 정보
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+    $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
+
+    // 동영상 검색
+    $viewData['listVideo'] = $this->club_model->listVideo();
+
+    foreach ($viewData['listVideo'] as $key => $value) {
+      if (!empty($value['video_link'])) {
+        $buf = explode('v=', $value['video_link']);
+        $viewData['listVideo'][$key]['video_link'] = '<iframe width="440" height="249" src="https://www.youtube.com/embed/' . $buf[1] . '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+      } else {
+        $viewData['listVideo'][$key]['video_link'] = '<div style="width: 440px; height: 249px; overflow: hidden;"><img class="w-100" src="/public/images/noimage.png"></div>';
+      }
+    }
+
+    $this->_viewPage('club/video', $viewData);
+  }
+
+  /**
+   * 여행기 - 동영상 등록/수정 페이지
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function video_post($idx=NULL)
+  {
+    // 클럽 정보
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+    $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
+
+    // 동영상 검색
+    if (!empty($idx)) {
+      $viewData['viewVideo'] = $this->club_model->viewVideo(html_escape($idx));
+    }
+
+    $this->_viewPage('club/video_post', $viewData);
+  }
+
+  /**
+   * 여행기 - 동영상 등록/수정
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function video_update()
+  {
+    $now = time();
+    $inputData = $this->input->post();
+    $userIdx = $this->session->userData['idx'];
+    $clubIdx = html_escape($inputData['club_idx']);
+    $idx = !empty($inputData['idx']) ? html_escape($inputData['idx']) : NULL;
+
+    if (empty($userIdx)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
+    } else {
+      if (!empty($idx)) {
+        $updateValues = array(
+          'subject'     => html_escape($inputData['subject']),
+          'video_link'  => html_escape($inputData['video_link']),
+          'content'     => html_escape($inputData['content']),
+          'updated_by'  => html_escape($userIdx),
+          'updated_at'  => $now
+        );
+        $this->desk_model->update(DB_VIDEOS, $updateValues, $idx);
+      } else {
+        $insertValues = array(
+          'club_idx'    => html_escape($clubIdx),
+          'subject'     => html_escape($inputData['subject']),
+          'video_link'  => html_escape($inputData['video_link']),
+          'content'     => html_escape($inputData['content']),
+          'created_by'  => html_escape($userIdx),
+          'created_at'  => $now
+        );
+        $idx = $this->desk_model->insert(DB_VIDEOS, $insertValues);
+      }
+
+      if (empty($idx)) {
+        $result = array('error' => 1, 'message' => $this->lang->line('error_insert'));
+      } else {
+        $result = array('error' => 0, 'message' => '');
+      }
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 페이지 표시
    *
    * @param $viewPage

@@ -2559,6 +2559,7 @@ main#mainpage { padding-top: 0px!important; }
 main#footer { padding: 30px 0 0 0!important; }
 main#footer .logo-img { margin-right: 10px; float: left; }
 #articleContent { width: 99.8%; min-width: 610px; min-height: 550px; }
+#videoContent { width: 99.8%; min-width: 610px; min-height: 250px; }
 .area-link { cursor: pointer; }
 .area-photo { max-height: 100px; overflow: hidden; }
 .area-photo img { width: 100%; min-height: 100px; }

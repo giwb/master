@@ -110,6 +110,7 @@
               aria-expanded="false"><i class="fas fa-map-marked-alt"></i> 여행기</a>
             <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
               <a class="dropdown-item" href="<?=BASE_URL?>/album">사진첩</a>
+              <a class="dropdown-item" href="<?=BASE_URL?>/club/video">동영상</a>
               <a class="dropdown-item" href="<?=BASE_URL?>/club/search/?code=news">여행 소식</a>
               <a class="dropdown-item" href="<?=BASE_URL?>/club/search/?code=review">여행 후기</a>
             </div>

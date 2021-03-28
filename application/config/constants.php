@@ -131,6 +131,10 @@ defined('DB_ADJUST')            OR define('DB_ADJUST', 'adjust'); // 정산
 defined('DB_ALBUM')             OR define('DB_ALBUM', 'album'); // 사진첩
 defined('DB_ATTENDANCE')        OR define('DB_ATTENDANCE', 'attendance'); // 출석
 defined('DB_AREAS')             OR define('DB_AREAS', 'areas'); // 지역
+defined('DB_ARTICLE')           OR define('DB_ARTICLE', 'article'); // 한국여행 기사
+defined('DB_ARTICLE_CATEGORY')  OR define('DB_ARTICLE_CATEGORY', 'article_category'); // 한국여행 기사 카테고리
+defined('DB_ARTICLE_REACTION')  OR define('DB_ARTICLE_REACTION', 'article_reaction'); // 한국여행 리액션
+defined('DB_ARTICLE_REPLY')     OR define('DB_ARTICLE_REPLY', 'article_reply'); // 한국여행 리액션
 defined('DB_AUTH')              OR define('DB_AUTH', 'auth'); // 백산백소 인증
 defined('DB_BOARD')             OR define('DB_BOARD', 'board'); // 안부방 (OLD)
 defined('DB_BUSDATA')           OR define('DB_BUSDATA', 'busdata'); // 버스 좌석 데이터 (기본)
@@ -160,10 +164,7 @@ defined('DB_TRAVELOG')          OR define('DB_TRAVELOG', 'travelog'); // 여행�
 defined('DB_VISITOR')           OR define('DB_VISITOR', 'visitor'); // 방문자
 defined('DB_WAIT')              OR define('DB_WAIT', 'wait'); // 대기자 명단
 defined('DB_WEATHER')           OR define('DB_WEATHER', 'weather'); // 날씨
-defined('DB_ARTICLE')           OR define('DB_ARTICLE', 'article'); // 한국여행 기사
-defined('DB_ARTICLE_CATEGORY')  OR define('DB_ARTICLE_CATEGORY', 'article_category'); // 한국여행 기사 카테고리
-defined('DB_ARTICLE_REACTION')  OR define('DB_ARTICLE_REACTION', 'article_reaction'); // 한국여행 리액션
-defined('DB_ARTICLE_REPLY')     OR define('DB_ARTICLE_REPLY', 'article_reply'); // 한국여행 리액션
+defined('DB_VIDEOS')            OR define('DB_VIDEOS', 'video'); // 산행기 - 동영상
 
 // 사진 형식
 defined('TYPE_MAIN')          OR define('TYPE_MAIN', 1);
