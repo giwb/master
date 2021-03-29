@@ -1,7 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <main>
     <div class="container-fluid">
       <div class="row">
