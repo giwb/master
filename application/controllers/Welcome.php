@@ -316,7 +316,6 @@ class Welcome extends MY_Controller
    **/
   public function schedule()
   {
-    $flag = false;
     $search['sdate'] = $viewData['startdate'] = !empty($this->input->get('sdate')) ? date('Y-m-d', html_escape($this->input->get('sdate'))) : NULL;
     $search['edate'] = !empty($this->input->get('sdate')) ? date('Y-m-d', html_escape($this->input->get('sdate'))) : NULL;
     $search['keyword'] = $viewData['keyword'] = !empty($this->input->get('keyword')) ? html_escape($this->input->get('keyword')) : NULL;
@@ -375,6 +374,7 @@ class Welcome extends MY_Controller
     // 내부 - 월간 여행일정
     $listNoticeFooter = $this->reserve_model->listNotice(NULL, array(STATUS_ABLE, STATUS_CONFIRM), 'asc');
     foreach ($listNoticeFooter as $key1 => $value) {
+      $flag = false;
       foreach ($viewData['listNoticeSchedule'] as $key2 => $value2) {
         if ($value2['startdate'] == $value['startdate']) {
           $viewData['listNoticeSchedule'][$key2]['count'] = $viewData['listNoticeSchedule'][$key2]['count'] + 1;
@@ -392,6 +392,7 @@ class Welcome extends MY_Controller
     // 외부 - 월간 여행일정
     $listFooterSchedule = $this->desk_model->listSchedule();
     foreach ($listFooterSchedule as $key1 => $value) {
+      $flag = false;
       foreach ($viewData['listNoticeSchedule'] as $key2 => $value2) {
         if ($value2['startdate'] == $value['startdate']) {
           $viewData['listNoticeSchedule'][$key2]['count'] = $viewData['listNoticeSchedule'][$key2]['count'] + 1;
