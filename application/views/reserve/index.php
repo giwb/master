@@ -211,7 +211,8 @@
                 </button>
               </div>
               <div class="modal-body text-center">
-                <video id="video" class="video-js" autoplay controls></video>
+                <video id="video" class="video-js" autoplay controls></video><br>
+                교통정보제공처 : 경찰청 교통정보 (UTIS)
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
