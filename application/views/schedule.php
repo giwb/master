@@ -7,8 +7,11 @@
           <section class="section extra-margins listing-section">
             <div class="row">
               <div class="col-7"><h4 class="font-weight-bold"><strong>여행일정</strong></h4></div>
-              <div class="col-5"><!--<div class="row"><div class="col-10"><input type="text" class="form-control form-control-sm"></div><div class="col-2 pl-0 pr-0"><button type="button" class="btn btn-sm btn-default pt-2 pb-2 pl-3 pr-3 m-0">검색</button></div></div>--></div>
+              <div class="col-5"><form method="get" action="<?=base_url()?>schedule" class="row"><div class="col-10"><input type="text" name="keyword" class="form-control form-control-sm" value="<?=$keyword?>"></div><div class="col-2 pl-0 pr-0"><button type="button" class="btn btn-default pt-1 pb-1 pl-3 pr-3 m-0">검색</button></div></form></div>
             </div><hr class="red mt-2">
+            <?php if (!empty($startdate)): ?>
+            <h5 class="mt-4"><?=date('Y년 m월 d일', strtotime($startdate))?> 출발 일정</h5>
+            <?php endif; ?>
             <div class="row">
               <?php foreach ($listNotice as $value): ?>
               <div class="col-md-12 my-3">

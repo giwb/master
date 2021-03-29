@@ -317,10 +317,12 @@ class Welcome extends MY_Controller
   public function schedule()
   {
     $flag = false;
-    $search['sdate'] = !empty($this->input->get('sdate')) ? date('Y-m-d', html_escape($this->input->get('sdate'))) : NULL;
+    $search['sdate'] = $viewData['startdate'] = !empty($this->input->get('sdate')) ? date('Y-m-d', html_escape($this->input->get('sdate'))) : NULL;
     $search['edate'] = !empty($this->input->get('sdate')) ? date('Y-m-d', html_escape($this->input->get('sdate'))) : NULL;
+    $search['keyword'] = $viewData['keyword'] = !empty($this->input->get('keyword')) ? html_escape($this->input->get('keyword')) : NULL;
     $viewData['listNoticeSchedule'] = array();
 
+    // 내부 여행일정
     $viewData['listNotice'] = $this->reserve_model->listNotice(NULL, array(STATUS_ABLE, STATUS_CONFIRM), 'asc', $search);
     foreach ($viewData['listNotice'] as $key1 => $value) {
       // 클럽 정보
@@ -370,9 +372,26 @@ class Welcome extends MY_Controller
       }
     }
 
-    // 월간 여행일정
+    // 내부 - 월간 여행일정
     $listNoticeFooter = $this->reserve_model->listNotice(NULL, array(STATUS_ABLE, STATUS_CONFIRM), 'asc');
     foreach ($listNoticeFooter as $key1 => $value) {
+      foreach ($viewData['listNoticeSchedule'] as $key2 => $value2) {
+        if ($value2['startdate'] == $value['startdate']) {
+          $viewData['listNoticeSchedule'][$key2]['count'] = $viewData['listNoticeSchedule'][$key2]['count'] + 1;
+          $flag = true;
+        }
+      }
+      if ($flag == false) {
+        $viewData['listNoticeSchedule'][] = array(
+          'startdate' => $value['startdate'],
+          'count' => 1
+        );
+      }
+    }
+
+    // 외부 - 월간 여행일정
+    $listFooterSchedule = $this->desk_model->listSchedule();
+    foreach ($listFooterSchedule as $key1 => $value) {
       foreach ($viewData['listNoticeSchedule'] as $key2 => $value2) {
         if ($value2['startdate'] == $value['startdate']) {
           $viewData['listNoticeSchedule'][$key2]['count'] = $viewData['listNoticeSchedule'][$key2]['count'] + 1;

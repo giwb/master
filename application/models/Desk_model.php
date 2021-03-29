@@ -267,6 +267,17 @@ class Desk_model extends CI_Model
           ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
           ->where('a.deleted_at', NULL)
           ->order_by('a.created_at', $order);
+
+    if (!empty($search['keyword'])) {
+      $this->db->like('a.title', $search['keyword']);
+    }
+    if (!empty($search['sdate'])) {
+      $this->db->where('a.startdate >=', $search['sdate']);
+    }
+    if (!empty($search['edate'])) {
+      $this->db->where('a.startdate <=', $search['edate']);
+    }
+
     return $this->db->get()->result_array();
   }
 
