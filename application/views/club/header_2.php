@@ -50,7 +50,6 @@
 
   <link href="/public/css/fullcalendar.css" rel="stylesheet">
   <link href="/public/css/fullcalendar.print.css" rel="stylesheet">
-  <script src="/public/js/fullcalendar.js" type="text/javascript"></script>
 
   <script type="text/javascript">
     //new ClipboardJS('.btn-share-url');

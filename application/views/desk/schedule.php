@@ -28,11 +28,11 @@
                                             <td class="text-center"><?=$max - $key?></td>
                                             <td class="text-center small"><?=date('Y-m-d H:i', $value['created_at'])?></td>
                                             <td class="text-center"><?=$value['agency_name']?></td>
-                                            <td class="text-center"></td>
+                                            <td class="text-center"><?=!empty($value['sido'][0]) ? $value['sido'][0] : ''?> <?=!empty($value['gugun'][0]) ? $value['gugun'][0] : ''?><?=count($value['sido']) > 1 ? ' 등' : ''?></td>
                                             <td><?=$value['title']?></td>
                                             <td class="text-center">
-                                                <button type="button" data-link="<?=base_url()?>desk/club_post/<?=$value['idx']?>" class="btn btn-sm btn-secondary btn-update">수정</button>
-                                                <button type="button" data-idx="<?=$value['idx']?>" data-action="club_delete" class="btn btn-sm btn-danger btn-modal-delete">폐쇄</button>
+                                                <button type="button" data-link="<?=base_url()?>desk/schedule_post/<?=$value['idx']?>" class="btn btn-sm btn-secondary btn-update">수정</button>
+                                                <button type="button" data-idx="<?=$value['idx']?>" data-action="schedule_delete" class="btn btn-sm btn-danger btn-modal-delete">삭제</button>
                                             </td>
                                         </tr>
                                         <?php endforeach; ?>

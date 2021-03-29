@@ -34,9 +34,9 @@
                                         <tr>
                                             <th class="text-center">지역</th>
                                             <td>
-                                                <button type="button" class="btn btn-sm btn-primary btn-add-area mb-2">추가</button>
-                                                <div class="row">
-                                                    <?php if (empty($view['sido'])): ?>
+                                                <button type="button" class="btn btn-sm btn-primary btn-add-area mb-1">추가</button>
+                                                <?php if (empty($view['sido'])): ?>
+                                                <div class="row mt-1">
                                                     <div class="col-3">
                                                         <select name="area_sido[]" class="form-control area-sido">
                                                             <option value=''>시/도</option>
@@ -53,7 +53,9 @@
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
-                                                    <?php else: foreach ($view['sido'] as $key => $val): ?>
+                                                </div>
+                                                <?php else: foreach ($view['sido'] as $key => $val): ?>
+                                                <div class="row mt-1">
                                                     <div class="col-3">
                                                         <select name="area_sido[]" class="form-control area-sido">
                                                             <option value=''>시/도</option>
@@ -70,17 +72,25 @@
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
-                                                    <?php endforeach; endif; ?>
                                                 </div>
+                                                <?php endforeach; endif; ?>
                                                 <div class="added-area"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-center">거리</th>
+                                            <td>
+                                                <div class="row align-items-end">
+                                                    <div class="col-sm-4"><input type="text" name="distance" class="form-control" value="<?=!empty($view['distance']) ? $view['distance'] : ''?>"></div>
+                                                </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th class="text-center">출발일시</th>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col-6 col-sm-2"><input type="text" name="viewing_date" id="datePicker" class="form-control" autocomplete="off" value="<?=!empty($view['viewing_at']) ? date('Y-m-d', $view['viewing_at']) : date('Y-m-d')?>"></div>
-                                                    <div class="col-6 col-sm-2"><input type="text" name="viewing_time" class="form-control" placeholder="00:00" value="<?=!empty($view['viewing_at']) ? date('H:i', $view['viewing_at']) : date('H:i')?>"></div>
+                                                    <div class="col-6 col-sm-2"><input type="text" name="startdate" id="datePicker" class="form-control" autocomplete="off" value="<?=!empty($view['startdate']) ? $view['startdate'] : date('Y-m-d')?>"></div>
+                                                    <div class="col-6 col-sm-2"><input type="text" name="starttime" class="form-control" placeholder="00:00" value="<?=!empty($view['starttime']) ? $view['starttime'] : date('H:i')?>"></div>
                                                 </div>
                                             </td>
                                         </tr>
@@ -88,14 +98,10 @@
                                             <th class="text-center">가격</th>
                                             <td>
                                                 <div class="row align-items-end">
-                                                    <div class="col-sm-1 pr-0"><input type="text" name="cost" maxlength="7" class="form-control" value="<?=!empty($view['cost']) ? $view['cost'] : ''?>"></div>
+                                                    <div class="col-sm-1"><input type="text" name="cost" maxlength="7" class="form-control" value="<?=!empty($view['cost']) ? $view['cost'] : ''?>"></div>
                                                     <div class="col-sm-1 pl-0 d-none d-sm-block">원</div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                        <tr>
-                                            <th class="text-center">내용</th>
-                                            <td><textarea name="content" rows="10" cols="100" id="articleContent"><?=!empty($view['content']) ? $view['content'] : ''?></textarea></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -110,20 +116,10 @@
                 </form>
 
                 <script type="text/javascript">
-                    var oEditors = [];
-                    nhn.husky.EZCreator.createInIFrame({
-                        oAppRef: oEditors,
-                        elPlaceHolder: 'articleContent',
-                        sSkinURI: '/public/se2/SmartEditor2Skin.html',
-                        fCreator: 'createSEditor2'
-                    });
                     $(document).on('click', '.btn-post-schedule', function() {
                       // 기사 등록
-                      oEditors.getById['articleContent'].exec('UPDATE_CONTENTS_FIELD', []);
                       var $btn = $(this);
-                      var formData = new FormData($('#postArticle')[0]);
-                      var content = $('#articleContent').val();
-                      formData.append('content', content);
+                      var formData = new FormData($('#postSchedule')[0]);
 
                       if ($('input[name=agency_name]').val() == '') {
                         $('.error-message').text('여행사/산악회명은 꼭 입력해주세요.');

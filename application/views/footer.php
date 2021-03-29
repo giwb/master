@@ -9,11 +9,50 @@
         <h4 class="font-weight-bold"><strong>
           <?php if (strstr($_SERVER['REQUEST_URI'], 'place')): ?>
           여행정보 분류
+          <?php elseif (strstr($_SERVER['REQUEST_URI'], 'schedule')): ?>
+          월간 여행일정
           <?php else: ?>
           분류별 기사
           <?php endif; ?>
         </strong></h4>
         <hr class="red">
+        <?php if (strstr($_SERVER['REQUEST_URI'], 'schedule')): ?>
+        <div class="card">
+          <div class="view overlay">
+            <div id="calendar"></div>
+          </div>
+        </div>
+        <link href="/public/css/fullcalendar.css" rel="stylesheet">
+        <link href="/public/css/fullcalendar.print.css" rel="stylesheet">
+        <script src="/public/js/fullcalendar.js" type="text/javascript"></script>
+        <script type="text/javascript">
+          $(document).ready(function() {
+            $('#calendar').fullCalendar({
+              header: {
+                left: 'prev',
+                center: 'title',
+                right: 'next'
+              },
+              titleFormat: {
+                month: 'yyyy년 MMMM',
+                week: "yyyy년 MMMM",
+                day: 'yyyy년 MMMM'
+              },
+              events: [
+                <?php foreach ($listNoticeSchedule as $value): $startDate = strtotime($value['startdate']); ?>
+                {
+                  title: '<?=$value['count']?>건',
+                  start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>T00:00:00'),
+                  end: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>T23:59:59'),
+                  url: '<?=base_url()?>schedule?sdate=<?=$startDate?>',
+                  className: 'schedule-count'
+                },
+                <?php endforeach; ?>
+              ]
+            });
+          });
+        </script>
+        <?php else: ?>
         <ul class="list-group z-depth-1 mt-4 mb-5">
           <?php foreach ($listArticleCategory as $value): ?>
           <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -22,6 +61,7 @@
           </li>
           <?php endforeach; ?>
         </ul>
+        <?php endif; ?>
       </section>
 
       <section class="section mb-5">
@@ -68,9 +108,9 @@
           <div class="col-6 text-right"><a href="<?=base_url()?>schedule" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a></div>
         </h4>
         <hr class="red mb-4">
-        <div class="card card-body pb-5">
-          <?php foreach ($listFooterNotice as $value): ?>
-          <div class="single-post pb-4 mb-4">
+        <div class="card card-body">
+          <?php $max = count($listFooterNotice); foreach ($listFooterNotice as $key => $value): ?>
+          <div class="single-post<?=$max-1 > $key ? ' pb-4 mb-4' : ''?>">
             <h6 class="mt-0 mb-3"><a target="_blank" href="<?=$value['url']?>"><strong>[<?=$value['club_name']?>] <?=$value['subject']?></strong></a></h6>
             <div class="row">
               <div class="col-4">

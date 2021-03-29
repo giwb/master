@@ -422,6 +422,23 @@ class Desk extends Desk_Controller
   {
     $viewData['list'] = $this->desk_model->listSchedule();
     $viewData['max'] = count($viewData['list']);
+    $cnt = 0;
+
+    foreach ($viewData['list'] as $key1 => $value) {
+      // 지역
+      $viewData['area_sido'] = $this->area_model->listSido();
+      if (!empty($value['area_sido'])) {
+        $area_sido = unserialize($value['area_sido']);
+        $area_gugun = unserialize($value['area_gugun']);
+
+        foreach ($area_sido as $key2 => $value2) {
+          $sido = $this->area_model->getName($value2);
+          $gugun = $this->area_model->getName($area_gugun[$key2]);
+          $viewData['list'][$key1]['sido'][$key2] = $sido['name'];
+          $viewData['list'][$key1]['gugun'][$key2] = $gugun['name'];
+        }
+      }
+    }
 
     $this->_viewPage('desk/schedule', $viewData);
   }
@@ -494,7 +511,6 @@ class Desk extends Desk_Controller
           'starttime'   => html_escape($inputData['starttime']),
           'cost'        => html_escape($inputData['cost']),
           'distance'    => html_escape($inputData['distance']),
-          'content'     => html_escape($inputData['content']),
           'updated_by'  => html_escape($inputData['useridx']),
           'updated_at'  => $now,
         );
@@ -510,7 +526,6 @@ class Desk extends Desk_Controller
           'starttime'   => html_escape($inputData['starttime']),
           'cost'        => html_escape($inputData['cost']),
           'distance'    => html_escape($inputData['distance']),
-          'content'     => html_escape($inputData['content']),
           'created_by'  => html_escape($inputData['useridx']),
           'created_at'  => $now,
         );

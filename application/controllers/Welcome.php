@@ -316,8 +316,12 @@ class Welcome extends MY_Controller
    **/
   public function schedule()
   {
-    $viewData['listNotice'] = $this->reserve_model->listNotice(NULL, array(STATUS_ABLE, STATUS_CONFIRM), 'asc');
+    $flag = false;
+    $search['sdate'] = !empty($this->input->get('sdate')) ? date('Y-m-d', html_escape($this->input->get('sdate'))) : NULL;
+    $search['edate'] = !empty($this->input->get('sdate')) ? date('Y-m-d', html_escape($this->input->get('sdate'))) : NULL;
+    $viewData['listNoticeSchedule'] = array();
 
+    $viewData['listNotice'] = $this->reserve_model->listNotice(NULL, array(STATUS_ABLE, STATUS_CONFIRM), 'asc', $search);
     foreach ($viewData['listNotice'] as $key1 => $value) {
       // 클럽 정보
       $viewClub = $this->club_model->viewClub($value['club_idx']);
@@ -346,6 +350,40 @@ class Welcome extends MY_Controller
         $viewData['listNotice'][$key1]['photo'] = PHOTO_URL . $value['photo'];
       } else {
         $viewData['listNotice'][$key1]['photo'] = '/public/images/nophoto.png';
+      }
+    }
+
+    // 외부 여행일정
+    $viewData['listSchedule'] = $this->desk_model->listSchedule($search, 'asc');
+    foreach ($viewData['listSchedule'] as $key1 => $value) {
+      // 지역
+      if (!empty($value['area_sido'])) {
+        $area_sido = unserialize($value['area_sido']);
+        $area_gugun = unserialize($value['area_gugun']);
+
+        foreach ($area_sido as $key2 => $value2) {
+          $sido = $this->area_model->getName($value2);
+          $gugun = $this->area_model->getName($area_gugun[$key2]);
+          $viewData['listSchedule'][$key1]['sido'][$key2] = $sido['name'];
+          $viewData['listSchedule'][$key1]['gugun'][$key2] = $gugun['name'];
+        }
+      }
+    }
+
+    // 월간 여행일정
+    $listNoticeFooter = $this->reserve_model->listNotice(NULL, array(STATUS_ABLE, STATUS_CONFIRM), 'asc');
+    foreach ($listNoticeFooter as $key1 => $value) {
+      foreach ($viewData['listNoticeSchedule'] as $key2 => $value2) {
+        if ($value2['startdate'] == $value['startdate']) {
+          $viewData['listNoticeSchedule'][$key2]['count'] = $viewData['listNoticeSchedule'][$key2]['count'] + 1;
+          $flag = true;
+        }
+      }
+      if ($flag == false) {
+        $viewData['listNoticeSchedule'][] = array(
+          'startdate' => $value['startdate'],
+          'count' => 1
+        );
       }
     }
 

@@ -18,7 +18,7 @@
                     <h5><strong><a target="_blank" href="<?=$value['url']?>">[<?=$value['club_name']?>] <?=$value['subject']?></a></strong></h5>
                     <p class="card-text text-justify">
                       ・일시 : <?=$value['startdate']?> <?=$value['starttime']?><br>
-                      ・지역 : <?php foreach ($value['sido'] as $key => $area): if ($key != 0): ?>, <?php endif; ?><?=$area?><?=!empty($area['gugun'][$key]) ? $area['gugun'][$key] : ''?><?php endforeach; ?><br>
+                      ・지역 : <?php foreach ($value['sido'] as $key => $area): if ($key != 0): ?>, <?php endif; ?><?=$area?><?=!empty($value['gugun'][$key]) ? ' ' . $value['gugun'][$key] : ''?><?php endforeach; ?><br>
                       ・요금 : <?=number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total'])?>원<br>
                       ・거리 : <?=$value['kilometer']?>
                     </p>
@@ -29,6 +29,23 @@
                       <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-comments pr-1"></i>댓글 <?=$value['reply_cnt']?></a></li>
                       <li class="list-inline-item pr-1"><a class="white-text"><i class="far fa-calendar-check pr-1"></i>예약 <?=cntRes($value['idx'])?></a></li>
                     </ul>
+                  </div>
+                </div>
+              </div>
+              <?php endforeach; ?>
+              <?php foreach ($listSchedule as $value): ?>
+              <div class="col-md-12 my-3">
+                <div class="card">
+                  <div class="card-body">
+                    <h5><strong><a target="_blank" href="<?=$value['link']?>">[<?=$value['agency_name']?>] <?=$value['title']?></a></strong></h5>
+                    <p class="card-text text-justify">
+                      ・일시 : <?=$value['startdate']?> <?=$value['starttime']?><br>
+                      <?php if (!empty($value['sido'])): ?>
+                      ・지역 : <?php foreach ($value['sido'] as $key => $area): if ($key != 0): ?>, <?php endif; ?><?=$area?><?=!empty($value['gugun'][$key]) ? ' ' . $value['gugun'][$key] : ''?><?php endforeach; ?><br>
+                      <?php endif; ?>
+                      <?=!empty($value['cost']) ? '・요금 : ' . number_format($value['cost']) . '원<br>' : ''?>
+                      <?=!empty($value['distance']) ? '・거리 : ' . $value['distance'] : ''?>
+                    </p>
                   </div>
                 </div>
               </div>
