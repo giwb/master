@@ -873,7 +873,6 @@
         var header = '<div class="reserve" data-seat="' + seat + '"><input type="hidden" name="resIdx[]" value="' + resIdx + '" class="resIdx" data-penalty="' + reserveInfo.penalty + '">';
         var location = '<select name="location[]" class="location">'; $.each(reserveInfo.location, function(i, v) { if (v.short == '') v.short = '승차위치'; location += '<option'; if (reserveInfo.userLocation == v.short) location += ' selected'; location += ' value="' + v.short + '">' + v.short + '</option>'; }); location += '</select> ';
         var memo = '<input type="text" name="memo[]" size="20" placeholder="요청사항" value="' + reserveInfo.reserve.memo + '">';
-        //var footer = ' <select><option>할인선택</option><option>-------</option><option>초등생 할인</option><option>중고생 할인</option></select> </div>';
         var footer = ' ' + reserveInfo.cost + '</div>';
 
         if (resIdx != '') {
@@ -884,8 +883,8 @@
           } else {
             busType += '<input type="hidden" name="bus[]" value="' + bus + '">';
           }
-          //var selectSeat = '<select name="seat[]" class="busSeat">'; $.each(reserveInfo.seat[bus], function(i, v) { selectSeat += '<option'; if ((i+1) == seat) selectSeat += ' selected'; selectSeat += ' value="' + (i+1) + '">' + v + '번</option>'; }); selectSeat += '</select> ';
-          var selectSeat = seat + '번<input type="hidden" name="seat[]" value="' + seat + '"> ';
+          var selectSeat = '<select name="seat[]" class="busSeat">'; $.each(reserveInfo.seat[bus], function(i, v) { selectSeat += '<option'; if ((i+1) == seat) selectSeat += ' selected'; selectSeat += ' value="' + (i+1) + '">' + v + '번</option>'; }); selectSeat += '</select> ';
+          //var selectSeat = seat + '번<input type="hidden" name="seat[]" value="' + seat + '"> ';
 
           if (reserveInfo.reserve.nickname != '1인우등' && reserveInfo.reserve.nickname != '2인우선') {
             $('.btn-reserve-cancel').removeClass('d-none').show();
