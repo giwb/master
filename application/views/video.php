@@ -113,7 +113,7 @@
               <img src="/public/images/tripkorea/img_opencode1_m.jpg"><br><small>영상 출처 : 국립공원공단</small>
             </div>
           </div>
-          <div class="row screen d-none" data-idx="2">
+          <div class="row d-none" data-idx="2">
             <div class="col-md-6 my-3">
               <div class="card">
                 <div class="card-body btn-video-modal" data-source="http://123.140.197.51/stream/33/play.m3u8">
