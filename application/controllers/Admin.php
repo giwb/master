@@ -1292,6 +1292,7 @@ class Admin extends Admin_Controller
       $viewData['view']['area_sido'] = '';
       $viewData['view']['area_gugun'] = '';
       $viewData['view']['weather'] = '';
+      $viewData['view']['cctv'] = '';
       $viewData['view']['subject'] = '';
       $viewData['view']['content'] = '';
       $viewData['view']['kilometer'] = '';
@@ -1453,6 +1454,7 @@ class Admin extends Admin_Controller
         'starttime'       => html_escape($this->input->post('starttime')),        // 출발시간
         'enddate'         => html_escape($this->input->post('enddate')),          // 도착일자
         'weather'         => html_escape($this->input->post('weather')),          // 날씨URL
+        'cctv'            => html_escape($this->input->post('cctv')),             // CCTV URL
         'type'            => html_escape($this->input->post('type')),             // 행사유형
         'mname'           => html_escape($this->input->post('mname')),            // 산 이름
         'subject'         => html_escape($this->input->post('subject')),          // 산행제목

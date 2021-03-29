@@ -54,7 +54,9 @@
               <div class="d-none d-sm-block col-sm-3 text-right">
                 <?=!empty($notice['weather']) ? '<a target="_blank" href="' . $notice['weather'] . '" class="btn-custom btn-giwbblue">날씨</a>' : ''?>
                 <a href="<?=BASE_URL?>/reserve/notice/<?=$notice['idx']?>" class="btn-custom btn-giwbred btn-notice">공지</a>
-                <a class="btn-custom btn-gray btn-video" data-title="금성삼거리" data-source="http://221.157.65.155:1935/live/live16.stream/playlist.m3u8">영상</a>
+                <?php if (!empty($notice['cctv'])): ?>
+                <a class="btn-custom btn-gray btn-video" data-source="<?=$notice['cctv']?>">영상</a>
+                <?php endif; ?>
               </div>
             </div>
             <hr class="text-default mt-2">
@@ -63,7 +65,7 @@
               <div class="header-menu-item col-6 active"><a href="<?=BASE_URL?>/list/<?=$notice['idx']?>">좌석</a></div>
               <div class="header-menu-item col-6"><a href="<?=BASE_URL?>/reserve/notice/<?=$notice['idx']?>">공지</a></div>
               <?=!empty($notice['weather']) ? '<div class="header-menu-item col-6"><a target="_blank" href="' . $notice['weather'] . '">날씨</a></div>' : ''?>
-              <div class="header-menu-item col-6"><a class="btn-video" data-title="금성삼거리" data-source="http://221.157.65.155:1935/live/live16.stream/playlist.m3u8">영상</a></div>
+              <?=!empty($notice['cctv']) ? '<div class="header-menu-item col-6"><a class="btn-video" data-source="' . $notice['cctv'] . '">영상</a></div>' : ''?>
             </div>
 
             <div class="mt-4"></div>
@@ -212,7 +214,7 @@
               </div>
               <div class="modal-body text-center">
                 <video id="video" class="video-js" autoplay controls></video><br>
-                교통정보제공처 : 경찰청 교통정보 (UTIS)
+                교통정보제공처 : 경찰청 교통정보 (UTIC)
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
@@ -225,7 +227,6 @@
         <script>
           $(document).on('click', '.btn-video', function() {
             $('#videoModal').modal('show');
-            $('#videoModal .modal-title').text($(this).data('title'));
             var hls = new Hls();
             var source = $(this).data('source');
             var video = document.getElementById('video');

@@ -102,6 +102,10 @@
               <div class="col-sm-10"><input type="text" name="weather" class="form-control" value="<?=$view['weather']?>"><a target="_blank" href="https://n.weather.naver.com">https://n.weather.naver.com</a></div>
             </div>
             <div class="row align-items-center border-top mt-3 pt-3">
+              <div class="col-sm-2 font-weight-bold">CCTV URL</div>
+              <div class="col-sm-10"><input type="text" name="cctv" class="form-control" value="<?=$view['cctv']?>"><a target="_blank" href="http://www.utic.go.kr/guide/cctvOpenData.do?key=I7axNoJMlxT63vgsC9ihQXlrUXVrhnDehrl6e9bf5tKy8zeyfQGve8jJRZKwS">링크 가능한 CCTV 일람</a></div>
+            </div>
+            <div class="row align-items-center border-top mt-3 pt-3">
               <div class="col-sm-2 font-weight-bold">행사 유형</div>
               <div class="col-sm-10">
                 <select name="type" class="form-control">
