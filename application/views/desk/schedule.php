@@ -24,7 +24,7 @@
                                     </thead>
                                     <tbody>
                                         <?php foreach ($list as $key => $value): ?>
-                                        <tr data-link="<?=base_url()?>schedule_view/<?=$value['idx']?>" class="area-link">
+                                        <tr data-link="<?=base_url()?>desk/schedule_post/<?=$value['idx']?>" class="area-link">
                                             <td class="text-center"><?=$max - $key?></td>
                                             <td class="text-center small"><?=date('Y-m-d H:i', $value['created_at'])?></td>
                                             <td class="text-center"><?=$value['agency_name']?></td>
