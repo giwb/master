@@ -15,6 +15,7 @@
 <script>
 $(document).ready(function(){
   $('#main-slider').flickity({
+    autoPlay: true,
     wrapAround: true,
     pageDots: false
   });
