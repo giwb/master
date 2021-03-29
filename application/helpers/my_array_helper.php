@@ -750,8 +750,18 @@ if (!function_exists('getReserve')) {
           if (!empty($checkGender[$bus][$nextSeat]) && $userData['gender'] != $checkGender[$bus][$nextSeat]) {
             if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
             $result['nickname'] = $message;
+          } elseif (!empty($checkGender[$bus][$prevSeat]) && $userData['gender'] != $checkGender[$bus][$prevSeat]) {
+            if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
+            $result['nickname'] = $message;
           }
-          if (!empty($checkGender[$bus][$prevSeat]) && $userData['gender'] != $checkGender[$bus][$prevSeat]) {
+        } elseif ($seat %3 == 1) {
+          // 현재 좌석은 홀수
+          $prevSeat = $seat - 1;
+          $nextSeat = $seat + 1;
+          if (!empty($checkGender[$bus][$nextSeat]) && $userData['gender'] != $checkGender[$bus][$nextSeat]) {
+            if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
+            $result['nickname'] = $message;
+          } elseif (!empty($checkGender[$bus][$prevSeat]) && $userData['gender'] != $checkGender[$bus][$prevSeat]) {
             if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
             $result['nickname'] = $message;
           }
@@ -762,8 +772,7 @@ if (!function_exists('getReserve')) {
           if (!empty($checkGender[$bus][$nextSeat]) && $userData['gender'] != $checkGender[$bus][$nextSeat]) {
             if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
             $result['nickname'] = $message;
-          }
-          if (!empty($checkGender[$bus][$prevSeat]) && $userData['gender'] != $checkGender[$bus][$prevSeat]) {
+          } elseif (!empty($checkGender[$bus][$prevSeat]) && $userData['gender'] != $checkGender[$bus][$prevSeat]) {
             if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
             $result['nickname'] = $message;
           }
