@@ -129,7 +129,7 @@
                         // 버스 형태 좌석 배치
                         foreach (range(1, $value['seat']) as $seat):
                           $tableMake = getBusTableMake($value['seat'], $seat); // 버스 좌석 테이블 만들기
-                          $reserveInfo = getReserve($reserve, $bus, $seat, $userData, $notice['status']); // 예약자 정보
+                          $reserveInfo = getReserve($reserve, $bus, $seat, $userData, $notice['status'], $value['seat']); // 예약자 정보
                           $seatNumber = checkDirection($seat, $bus, $notice['bustype'], $notice['bus']);
                     ?>
                     <?=$tableMake?>

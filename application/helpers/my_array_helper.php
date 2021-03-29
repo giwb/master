@@ -643,7 +643,7 @@ if (!function_exists('getReserveAdmin')) {
 
 // 예약자 정보 (일반용)
 if (!function_exists('getReserve')) {
-  function getReserve($reserve, $bus, $seat, $userData, $status) {
+  function getReserve($reserve, $bus, $seat, $userData, $status, $seatType) {
     if ($status == STATUS_CLOSED) {
       $result = array('idx' => '', 'user_idx' => '', 'nickname' => '', 'class' => '');
     } else {
@@ -683,6 +683,7 @@ if (!function_exists('getReserve')) {
       }
       $checkGender[$value['bus']][$value['seat']] = $value['gender'];
     }
+
     /* 여성우선 관련 알고리즘인데, 코로나 대응과 우등버스 대응으로 인해 잠시 가려둠. 추후 우등버스에 여성우선 관련 알고리즘이 제대로 작동할 수 있도록 수정 (2020/12/09)
     if ($result['idx'] == '') {
       // 붙어있는 좌석은 같은 성별로만
@@ -713,6 +714,61 @@ if (!function_exists('getReserve')) {
       }
     }
     */
+
+    /* 여성우선 관련 알고리즘 - 우등버스 대응 (2021/03/29) */
+    if ($result['idx'] == '') {
+      if ($status == STATUS_CLOSED) {
+        // 종료된 산행
+        $message = '';
+      } else {
+        // 붙어있는 좌석은 같은 성별로만
+        if ($userData['gender'] == 'F') $message = '<span class="text-primary">남성우선</span>';
+        elseif ($userData['gender'] == 'M') $message = '<span class="text-danger">여성우선</span>';
+        else $message = '예약가능';
+      }
+      if ($seat <= $seatType-4) {
+        if ($seat %3 == 1) {
+          // 현재 좌석은 홀수
+          $nextSeat = $seat + 1;
+          if (!empty($checkGender[$bus][$nextSeat]) && $userData['gender'] != $checkGender[$bus][$nextSeat]) {
+            if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
+            $result['nickname'] = $message;
+          }
+        } elseif ($seat %3 == 2) {
+          // 현재 좌석은 짝수
+          $prevSeat = $seat - 1;
+          if (!empty($checkGender[$bus][$prevSeat]) && $userData['gender'] != $checkGender[$bus][$prevSeat]) {
+            if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
+            $result['nickname'] = $message;
+          }
+        }
+      } else {
+        if ($seat %3 == 0) {
+          // 현재 좌석은 홀수
+          $prevSeat = $seat - 1;
+          $nextSeat = $seat + 1;
+          if (!empty($checkGender[$bus][$nextSeat]) && $userData['gender'] != $checkGender[$bus][$nextSeat]) {
+            if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
+            $result['nickname'] = $message;
+          } elseif (!empty($checkGender[$bus][$prevSeat]) && $userData['gender'] != $checkGender[$bus][$prevSeat]) {
+            if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
+            $result['nickname'] = $message;
+          }
+        } elseif ($seat %3 == 2) {
+          // 현재 좌석은 짝수
+          $prevSeat = $seat - 1;
+          $nextSeat = $seat + 1;
+          if (!empty($checkGender[$bus][$nextSeat]) && $userData['gender'] != $checkGender[$bus][$nextSeat]) {
+            if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
+            $result['nickname'] = $message;
+          } elseif (!empty($checkGender[$bus][$prevSeat]) && $userData['gender'] != $checkGender[$bus][$prevSeat]) {
+            if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
+            $result['nickname'] = $message;
+          }
+        }
+      }
+    }
+
     return $result;
   }
 }
