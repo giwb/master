@@ -12,7 +12,7 @@
             <div class="header-menu-item active"><a href="javascript:;" class="btn-screen" data-idx="1">국립공원</a></div>
             <div class="header-menu-item"><a href="javascript:;" class="btn-screen" data-idx="2">제주도</a></div>
           </div>
-          <div class="row" data-idx="1">
+          <div class="row screen" data-idx="1">
             <div class="col-md-6 my-3">
               <div class="card">
                 <div class="card-body btn-video-modal" data-source="http://220.70.164.229/hls/bukhan.m3u8">
@@ -113,7 +113,7 @@
               <img src="/public/images/tripkorea/img_opencode1_m.jpg"><br><small>영상 출처 : 국립공원공단</small>
             </div>
           </div>
-          <div class="row d-none" data-idx="2">
+          <div class="row screen d-none" data-idx="2">
             <div class="col-md-6 my-3">
               <div class="card">
                 <div class="card-body btn-video-modal" data-source="http://123.140.197.51/stream/33/play.m3u8">
