@@ -227,7 +227,7 @@
           $(document).on('click', '.btn-video', function() {
             var $dom = $('#videoModal');
             var source = $(this).data('source');
-            $('.area-frame', $dom).attr('src', source);
+            $('.area-frame', $dom).attr('src', 'http://cctv.tripkorea.net/public/video.php?link=' + source);
             $dom.modal('show');
           });
         </script>
