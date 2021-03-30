@@ -23,7 +23,7 @@
     <script type="text/javascript" src="/public/js/jquery.min.js"></script>
     <script type="text/javascript" src="/public/js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/public/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/public/js/desk.js"></script>
+    <script type="text/javascript" src="/public/js/desk.js?<?=time()?>"></script>
 </head>
 <body id="page-top">
 
@@ -61,6 +61,12 @@
                 <a class="nav-link" href="/desk/club">
                     <i class="fas fa-mountain"></i>
                     <span>산악회 관리</span></a>
+            </li>
+            <hr class="sidebar-divider mt-3">
+            <li class="nav-item">
+                <a class="nav-link" href="/desk/cctv">
+                    <i class="fas fa-video"></i>
+                    <span>현지영상 관리</span></a>
             </li>
             <hr class="sidebar-divider d-none d-md-block mt-3">
             <div class="text-center d-none d-md-inline">

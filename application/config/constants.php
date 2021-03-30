@@ -118,6 +118,10 @@ defined('PHOTO_ARTICLE_PATH')   OR define('PHOTO_ARTICLE_PATH', BASE_PATH . PHOT
 defined('PHOTO_PLACE_URL')      OR define('PHOTO_PLACE_URL', PHOTO_URL . 'place/');
 defined('PHOTO_PLACE_PATH')     OR define('PHOTO_PLACE_PATH', BASE_PATH . PHOTO_PLACE_URL);
 
+// 현지영상 썸네일 업로드 디렉토리
+defined('CCTV_THUMBNAIL_URL')   OR define('CCTV_THUMBNAIL_URL', UPLOAD_URL . 'cctv/');
+defined('CCTV_THUMBNAIL_PATH')  OR define('CCTV_THUMBNAIL_PATH', BASE_PATH . CCTV_THUMBNAIL_URL);
+
 // 사용자 아바타 사진
 defined('AVATAR_URL')           OR define('AVATAR_URL', PHOTO_URL . 'avatar/');
 defined('AVATAR_PATH')          OR define('AVATAR_PATH', BASE_PATH . AVATAR_URL);
@@ -140,6 +144,8 @@ defined('DB_BOARD')             OR define('DB_BOARD', 'board'); // 안부방 (OL
 defined('DB_BUSDATA')           OR define('DB_BUSDATA', 'busdata'); // 버스 좌석 데이터 (기본)
 defined('DB_BUSTYPE')           OR define('DB_BUSTYPE', 'bustype'); // 버스 형태
 defined('DB_CALENDAR')          OR define('DB_CALENDAR', 'calendar'); // 캘린더 휴일 (관리자 작성)
+defined('DB_CCTVS')             OR define('DB_CCTVS', 'cctv'); // 실시간 현지영상
+defined('DB_CCTVS_CATEGORY')    OR define('DB_CCTVS_CATEGORY', 'cctv_category'); // 실시간 현지영상 카테고리
 defined('DB_CLUBS')             OR define('DB_CLUBS', 'clubs'); // 클럽
 defined('DB_CLUB_DETAIL')       OR define('DB_CLUB_DETAIL', 'club_detail'); // 클럽 소개페이지
 defined('DB_FILES')             OR define('DB_FILES', 'files'); // 파일
@@ -160,11 +166,10 @@ defined('DB_STORY_REPLY')       OR define('DB_STORY_REPLY', 'story_reply'); // �
 defined('DB_SHOP')              OR define('DB_SHOP', 'shop'); // 판매대행
 defined('DB_SHOP_CATEGORY')     OR define('DB_SHOP_CATEGORY', 'shop_category'); // 판매대행 분류
 defined('DB_SHOP_PURCHASE')     OR define('DB_SHOP_PURCHASE', 'shop_purchase'); // 판매대행 주문내역
-defined('DB_TRAVELOG')          OR define('DB_TRAVELOG', 'travelog'); // 여행기
+defined('DB_VIDEOS')            OR define('DB_VIDEOS', 'video'); // 산행기 - 동영상
 defined('DB_VISITOR')           OR define('DB_VISITOR', 'visitor'); // 방문자
 defined('DB_WAIT')              OR define('DB_WAIT', 'wait'); // 대기자 명단
 defined('DB_WEATHER')           OR define('DB_WEATHER', 'weather'); // 날씨
-defined('DB_VIDEOS')            OR define('DB_VIDEOS', 'video'); // 산행기 - 동영상
 
 // 사진 형식
 defined('TYPE_MAIN')          OR define('TYPE_MAIN', 1);

@@ -305,7 +305,16 @@ class Welcome extends MY_Controller
    **/
   public function video()
   {
-    $this->_viewPage('video');
+    $viewData['category'] = html_escape($this->input->get('c'));
+    if (empty($viewData['category'])) $viewData['category'] = 'national';
+
+    // 현지영상 목록
+    $viewData['listCctv'] = $this->desk_model->listCctv($viewData, 'asc');
+
+    // 현지영상 카테고리
+    $viewData['listCctvCategory'] = $this->desk_model->listCctvCategory();
+
+    $this->_viewPage('video', $viewData);
   }
 
   /**

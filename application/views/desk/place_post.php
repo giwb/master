@@ -24,7 +24,7 @@
                                             <td>
                                                 <div class="row">
                                                     <div class="col-6">
-                                                        <select name="category" class="form-control place-category">
+                                                        <select name="category" class="form-control">
                                                             <option value="">분류를 선택해주세요</option>
                                                             <?php foreach ($category as $value): ?>
                                                             <option<?=!empty($view['category']) && $view['category'] == $value['code'] ? ' selected' : ''?> value="<?=$value['code']?>"><?=$value['name']?></option>
@@ -137,7 +137,7 @@
                 <div class="modal fade" id="editCategoryModal" tabindex="-1" role="dialog" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
-                            <form id="editCategory" method="post">
+                            <form id="editCategory" method="post" action="/desk/place_category_update">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="smallmodalLabel">분류 편집</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">

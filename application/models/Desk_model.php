@@ -218,8 +218,8 @@ class Desk_model extends CI_Model
           ->from(DB_PLACES . ' a')
           ->join(DB_PLACES_CATEGORY . ' b', 'a.category=b.code', 'left')
           ->join(DB_MEMBER . ' c', 'a.created_by=c.idx', 'left')
-          ->where('deleted_at', NULL)
-          ->order_by('created_at', $order);
+          ->where('a.deleted_at', NULL)
+          ->order_by('a.created_at', $order);
     return $this->db->get()->result_array();
   }
 
@@ -288,6 +288,48 @@ class Desk_model extends CI_Model
           ->from(DB_SCHEDULES . ' a')
           ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
           ->where('a.idx', $idx);
+    return $this->db->get()->row_array(1);
+  }
+
+
+  /**
+    ====================================================================================================================
+      현지영상 관리 섹션
+    ====================================================================================================================
+  **/
+
+  // 현지영상 목록
+  public function listCctv($search=NULL, $order='desc')
+  {
+    $this->db->select('a.*, b.name AS category_name, c.nickname')
+          ->from(DB_CCTVS . ' a')
+          ->join(DB_CCTVS_CATEGORY . ' b', 'a.category=b.code', 'left')
+          ->join(DB_MEMBER . ' c', 'a.created_by=c.idx', 'left')
+          ->where('a.deleted_at', NULL)
+          ->order_by('a.created_at', $order);
+
+    if (!empty($search['category'])) {
+      $this->db->where('a.category', $search['category']);
+    }
+
+    return $this->db->get()->result_array();
+  }
+
+  // 현지영상 분류 목록
+  public function listCctvCategory()
+  {
+    $this->db->select('*')
+          ->from(DB_CCTVS_CATEGORY)
+          ->order_by('idx', 'asc');
+    return $this->db->get()->result_array();
+  }
+
+  // 현지영상 분류 이름
+  public function viewCctvCategory($code)
+  {
+    $this->db->select('name')
+          ->from(DB_CCTVS_CATEGORY)
+          ->where('code', $code);
     return $this->db->get()->row_array(1);
   }
 

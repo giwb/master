@@ -113,11 +113,12 @@ $(document).on('click', '.btn-modal-delete', function(e) {
 }).on('click', '.btn-edit-category', function() {
   // 분류 편집 완료
   var $btn = $(this);
-  var formData = new FormData($('#editCategory')[0]);
+  var $dom = $('#editCategory');
+  var formData = new FormData($dom[0]);
   $.ajax({
     processData: false,
     contentType: false,
-    url: '/desk/article_category_update',
+    url: $dom.attr('action'),
     data: formData,
     dataType: 'json',
     type: 'post',
@@ -130,7 +131,7 @@ $(document).on('click', '.btn-modal-delete', function(e) {
         $('.error-message').text(result.message);
         setTimeout(function() { $('.error-message').text(''); }, 2000);
       } else {
-        $('.article-category').empty().append(result.message);
+        $('select[name=category]').empty().append(result.message);
         $('#editCategoryModal').modal('hide');
       }
     }
