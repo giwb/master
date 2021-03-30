@@ -54,7 +54,7 @@
               <div class="d-none d-sm-block col-sm-3 text-right">
                 <?=!empty($notice['weather']) ? '<a target="_blank" href="' . $notice['weather'] . '" class="btn-custom btn-giwbblue">날씨</a>' : ''?>
                 <a href="<?=BASE_URL?>/reserve/notice/<?=$notice['idx']?>" class="btn-custom btn-giwbred btn-notice">공지</a>
-                <?php if (!empty($notice['cctv1'])): ?>
+                <?php if (!empty($notice['cctv'])): ?>
                 <a class="btn-custom btn-gray btn-video" data-source="<?=$notice['cctv']?>">영상</a>
                 <?php endif; ?>
               </div>
@@ -65,7 +65,7 @@
               <div class="header-menu-item active"><a href="<?=BASE_URL?>/list/<?=$notice['idx']?>">좌석</a></div>
               <div class="header-menu-item"><a href="<?=BASE_URL?>/reserve/notice/<?=$notice['idx']?>">공지</a></div>
               <?=!empty($notice['weather']) ? '<div class="header-menu-item"><a target="_blank" href="' . $notice['weather'] . '">날씨</a></div>' : ''?>
-              <?=!empty($notice['cctv1']) ? '<div class="header-menu-item col-6"><a class="btn-video" data-source="' . $notice['cctv'] . '">영상</a></div>' : ''?>
+              <?=!empty($notice['cctv']) ? '<div class="header-menu-item col-6"><a class="btn-video" data-source="' . $notice['cctv'] . '">영상</a></div>' : ''?>
             </div>
 
             <div class="mt-4"></div>
@@ -227,7 +227,7 @@
           $(document).on('click', '.btn-video', function() {
             var $dom = $('#videoModal');
             var source = $(this).data('source');
-            $('.area-frame', $dom).attr('src', 'http://cctv.tripkorea.net/public/video.php?link=' + source);
+            $('.area-frame', $dom).attr('src', 'http://cctv.giwb.kr/public/video.php?link=' + source);
             $dom.modal('show');
           });
         </script>
