@@ -54,7 +54,7 @@
               <div class="d-none d-sm-block col-sm-3 text-right">
                 <?=!empty($notice['weather']) ? '<a target="_blank" href="' . $notice['weather'] . '" class="btn-custom btn-giwbblue">날씨</a>' : ''?>
                 <a href="<?=BASE_URL?>/reserve/notice/<?=$notice['idx']?>" class="btn-custom btn-giwbred btn-notice">공지</a>
-                <?php if (!empty($notice['cctv']) && !empty($userData) && !empty($userData['admin'])): ?>
+                <?php if (!empty($notice['cctv'])): ?>
                 <a class="btn-custom btn-gray btn-video" data-source="<?=$notice['cctv']?>">영상</a>
                 <?php endif; ?>
               </div>
@@ -65,7 +65,7 @@
               <div class="header-menu-item active"><a href="<?=BASE_URL?>/list/<?=$notice['idx']?>">좌석</a></div>
               <div class="header-menu-item"><a href="<?=BASE_URL?>/reserve/notice/<?=$notice['idx']?>">공지</a></div>
               <?=!empty($notice['weather']) ? '<div class="header-menu-item"><a target="_blank" href="' . $notice['weather'] . '">날씨</a></div>' : ''?>
-              <?=!empty($notice['cctv']) && !empty($userData) && !empty($userData['admin']) ? '<div class="header-menu-item col-6"><a class="btn-video" data-source="' . $notice['cctv'] . '">영상</a></div>' : ''?>
+              <?=!empty($notice['cctv']) ? '<div class="header-menu-item col-6"><a class="btn-video" data-source="' . $notice['cctv'] . '">영상</a></div>' : ''?>
             </div>
 
             <div class="mt-4"></div>
@@ -213,7 +213,7 @@
                 </button>
               </div>
               <div class="modal-body text-center">
-                <video id="video" class="video-js" autoplay controls></video><br>
+                <iframe src="" frameborder="0" class="area-frame"></iframe><br>
                 교통정보제공처 : 경찰청 교통정보 (UTIC)
               </div>
               <div class="modal-footer">
@@ -223,18 +223,11 @@
           </div>
         </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
         <script>
           $(document).on('click', '.btn-video', function() {
-            $('#videoModal').modal('show');
-            var hls = new Hls();
+            var $dom = $('#videoModal');
             var source = $(this).data('source');
-            var video = document.getElementById('video');
-            hls.loadSource(source);
-            hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED,function() {
-              video.muted = true;
-              video.play();
-            });
+            $('.area-frame', $dom).attr('src', source);
+            $dom.modal('show');
           });
         </script>
