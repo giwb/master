@@ -48,7 +48,7 @@
 
         <script>
           $(document).on('click', '.btn-screen', function() {
-            location.replace('<?=base_url()?>video?c=' + $(this).data('category'));
+            location.replace('/video?c=' + $(this).data('category'));
           }).on('click', '.btn-video-modal', function() {
             $('#videoModal').modal('show');
             $('#videoModal .modal-title').text($(this).find('h4').text());
