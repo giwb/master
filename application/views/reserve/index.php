@@ -62,9 +62,9 @@
             <hr class="text-default mt-2">
 
             <div class="header-menu d-block-inline d-sm-none pt-2">
-              <div class="header-menu-item active"><a href="<?=BASE_URL?>/list/<?=$notice['idx']?>">좌석</a></div>
-              <div class="header-menu-item"><a href="<?=BASE_URL?>/reserve/notice/<?=$notice['idx']?>">공지</a></div>
-              <?=!empty($notice['weather']) ? '<div class="header-menu-item"><a target="_blank" href="' . $notice['weather'] . '">날씨</a></div>' : ''?>
+              <div class="header-menu-item col-6 active"><a href="<?=BASE_URL?>/list/<?=$notice['idx']?>">좌석</a></div>
+              <div class="header-menu-item col-6"><a href="<?=BASE_URL?>/reserve/notice/<?=$notice['idx']?>">공지</a></div>
+              <?=!empty($notice['weather']) ? '<div class="header-menu-item col-6"><a target="_blank" href="' . $notice['weather'] . '">날씨</a></div>' : ''?>
               <?=!empty($notice['cctv']) ? '<div class="header-menu-item col-6"><a class="btn-video" data-source="' . $notice['cctv'] . '">영상</a></div>' : ''?>
             </div>
 
