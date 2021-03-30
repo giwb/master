@@ -856,7 +856,7 @@ class Desk extends Desk_Controller
         $this->image_lib->clear();
         $config['image_library'] = 'gd2';
         $config['source_image'] = CCTV_THUMBNAIL_PATH . $inputData['thumbnail_uploaded'];
-        $config['new_image'] = CCTV_THUMBNAIL_PATH . 'thumb_' . $inputData['thumbnail_uploaded'];
+        $config['new_image'] = CCTV_THUMBNAIL_PATH . $inputData['thumbnail_uploaded'];
         $config['create_thumb'] = TRUE;
         $config['maintain_ratio'] = TRUE;
         $config['thumb_marker'] = '';
@@ -867,6 +867,13 @@ class Desk extends Desk_Controller
 
       if (!empty($inputData['idx'])) {
         $idx = html_escape($inputData['idx']);
+
+        // 기존 썸네일 삭제하기
+        $viewCctv = $this->desk_model->viewCctv($idx);
+        if (!empty($viewCctv['thumbnail']) && file_exists(CCTV_THUMBNAIL_PATH . $viewCctv['thumbnail'])) {
+          unlink(CCTV_THUMBNAIL_PATH . $viewCctv['thumbnail']);
+        }
+
         $updateValues = array(
           'category'    => html_escape($inputData['category']),
           'title'       => html_escape($inputData['title']),

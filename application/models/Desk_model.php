@@ -315,6 +315,17 @@ class Desk_model extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  // 현지영상 열람
+  public function viewCctv($idx)
+  {
+    $this->db->select('a.*, b.name AS category_name, c.nickname')
+          ->from(DB_CCTVS . ' a')
+          ->join(DB_CCTVS_CATEGORY . ' b', 'a.category=b.code', 'left')
+          ->join(DB_MEMBER . ' c', 'a.created_by=c.idx', 'left')
+          ->where('a.idx', $idx);
+    return $this->db->get()->row_array(1);
+  }
+
   // 현지영상 분류 목록
   public function listCctvCategory()
   {
