@@ -141,6 +141,7 @@ defined('DB_ARTICLE_REACTION')  OR define('DB_ARTICLE_REACTION', 'article_reacti
 defined('DB_ARTICLE_REPLY')     OR define('DB_ARTICLE_REPLY', 'article_reply'); // 한국여행 리액션
 defined('DB_AUTH')              OR define('DB_AUTH', 'auth'); // 백산백소 인증
 defined('DB_BOARD')             OR define('DB_BOARD', 'board'); // 안부방 (OLD)
+defined('DB_BOOKMARKS')         OR define('DB_BOOKMARKS', 'bookmark'); // 북마크
 defined('DB_BUSDATA')           OR define('DB_BUSDATA', 'busdata'); // 버스 좌석 데이터 (기본)
 defined('DB_BUSTYPE')           OR define('DB_BUSTYPE', 'bustype'); // 버스 형태
 defined('DB_CALENDAR')          OR define('DB_CALENDAR', 'calendar'); // 캘린더 휴일 (관리자 작성)

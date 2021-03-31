@@ -9,7 +9,7 @@ class Admin extends Admin_Controller
     parent::__construct();
     $this->load->helper(array('cookie', 'security', 'url', 'my_array_helper'));
     $this->load->library(array('image_lib'));
-    $this->load->model(array('admin_model', 'area_model', 'club_model', 'file_model', 'member_model', 'shop_model', 'story_model'));
+    $this->load->model(array('admin_model', 'area_model', 'club_model', 'desk_model', 'file_model', 'member_model', 'shop_model', 'story_model'));
   }
 
   /**
@@ -28,45 +28,26 @@ class Admin extends Admin_Controller
       exit;
     }
 
-    // 회원 정보
-    $viewData['userData'] = $this->load->get_var('userData');
-    $viewData['userLevel'] = $this->load->get_var('userLevel');
+    $listBookmark = $this->admin_model->listBookmark($viewData['clubIdx']);
 
-    // 등록된 산행 목록
-    $search['clubIdx'] = $viewData['clubIdx'];
-    $viewData['listNoticeSchedule'] = $this->admin_model->listNotice($search);
-
-    // 캘린더 설정
-    $listCalendar = $this->admin_model->listCalendar();
-
-    foreach ($listCalendar as $key => $value) {
-      if ($value['holiday'] == 1) {
-        $class = 'holiday';
-      } else {
-        $class = 'dayname';
+    foreach ($listBookmark as $value) {
+      if (!empty($value['memo'])) {
+        $viewData['viewBookmark']['idx'] = $value['idx'];
+        $viewData['viewBookmark']['memo'] = $value['memo'];
+      } elseif (empty($value['parent_idx'])) {
+        $viewData['listBookmark'][] = $value;
       }
-      $viewData['listNoticeSchedule'][] = array(
-        'idx' => 0,
-        'startdate' => $value['nowdate'],
-        'enddate' => $value['nowdate'],
-        'schedule' => 0,
-        'status' => 'schedule',
-        'mname' => $value['dayname'],
-        'class' => $class,
-      );
     }
 
-    // 현재 회원수
-    $viewData['cntTotalMember'] = $this->admin_model->cntTotalMember($viewData['clubIdx']);
-    // 다녀온 산행횟수
-    $viewData['cntTotalTour'] = $this->admin_model->cntTotalTour($viewData['clubIdx']);
-    // 다녀온 산행 인원수
-    $viewData['cntTotalCustomer'] = $this->admin_model->cntTotalCustomer($viewData['clubIdx']);
-    // 오늘 방문자수
-    $viewData['cntTodayVisitor'] = $this->admin_model->cntTodayVisitor($viewData['clubIdx']);
-
-    // 페이지 타이틀
-    $viewData['pageTitle'] = '관리자';
+    foreach ($viewData['listBookmark'] as $key => $value) {
+      foreach ($listBookmark as $key2 => $bookmark) {
+        if ($bookmark['parent_idx'] == $value['idx']) {
+          $viewData['listBookmark'][$key]['bookmark'][$key2]['idx'] = $bookmark['idx'];
+          $viewData['listBookmark'][$key]['bookmark'][$key2]['link'] = $bookmark['link'];
+          $viewData['listBookmark'][$key]['bookmark'][$key2]['title'] = $bookmark['title'];
+        }
+      }
+    }
 
     $this->_viewPage('admin/index', $viewData);
   }
@@ -3995,6 +3976,77 @@ class Admin extends Admin_Controller
     }
 
     if (!empty($rtn)) $result = array('error' => 0, 'message' => $rtn);
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 북마크 등록/수정
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function bookmark_update()
+  {
+    $now = time();
+    $userData = $this->load->get_var('userData');
+    $idx = !empty($this->input->post('idx')) ? html_escape($this->input->post('idx')) : NULL;
+    $parent_idx = !empty($this->input->post('parent_idx')) ? html_escape($this->input->post('parent_idx')) : 0;
+    $link = !empty($this->input->post('link')) ? html_escape($this->input->post('link')) : NULL;
+    $title = !empty($this->input->post('title')) ? html_escape($this->input->post('title')) : NULL;
+    $memo = !empty($this->input->post('memo')) ? html_escape($this->input->post('memo')) : NULL;
+
+    if (!empty($idx)) {
+      // 수정
+      $updateValues['parent_idx'] = $parent_idx;
+      $updateValues['link'] = $link;
+      $updateValues['title'] = $title;
+      $updateValues['memo'] = $memo;
+      $this->desk_model->update(DB_BOOKMARKS, $updateValues, $idx);
+    } else {
+      // 등록
+      $insertValues['parent_idx'] = $parent_idx;
+      $insertValues['link'] = $link;
+      $insertValues['title'] = $title;
+      $insertValues['memo'] = $memo;
+      $insertValues['created_by'] = $userData['idx'];
+      $insertValues['created_at'] = $now;
+      $idx = $this->desk_model->insert(DB_BOOKMARKS, $insertValues);
+    }
+
+    if (empty($idx)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+    } else {
+      $result = array('error' => 0, 'message' => $idx);
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 북마크 등록/수정
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function bookmark_delete()
+  {
+    $now = time();
+    $userData = $this->load->get_var('userData');
+    $idx = !empty($this->input->post('idx')) ? html_escape($this->input->post('idx')) : NULL;
+
+    if (!empty($idx)) {
+      // 수정
+      $updateValues['deleted_by'] = $userData['idx'];
+      $updateValues['deleted_at'] = $now;
+      $rtn = $this->desk_model->update(DB_BOOKMARKS, $updateValues, $idx);
+    }
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_delete'));
+    } else {
+      $result = array('error' => 0, 'message' => '');
+    }
 
     $this->output->set_output(json_encode($result));
   }

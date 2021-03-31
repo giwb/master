@@ -954,5 +954,16 @@ class Admin_model extends CI_Model
     $this->db->where('idx', $idx);
     return $this->db->delete(DB_CALENDAR);
   }
+
+  // 북마크 목록
+  public function listBookmark($clubIdx)
+  {
+    $this->db->select('*')
+          ->from(DB_BOOKMARKS)
+          ->where('club_idx', $clubIdx)
+          ->where('deleted_at', NULL)
+          ->order_by('idx');
+    return $this->db->get()->result_array();
+  }
 }
 ?>
