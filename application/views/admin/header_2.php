@@ -63,7 +63,7 @@
         <a href="http://<?=goHome($viewClub)?>" class="nav-link"><i class="fas fa-chalkboard" aria-hidden="true"></i> 산악회 홈</a>
         <a href="<?=BASE_URL?>/admin/main_list_progress" class="nav-link"><i class="fas fa-mountain" aria-hidden="true"></i> 산행관리</a>
         <a href="<?=BASE_URL?>/ShopAdmin/order" class="nav-link"><i class="fas fa-shopping-cart" aria-hidden="true"></i> 구매대행</a>
-        <a href="<?=BASE_URL?>/admin/member_list" class="nav-link"><i class="fas fa-users" aria-hidden="true"></i> 회원관리</a>
+        <a href="<?=BASE_URL?>/admin/member_list" class="nav-link"><i class="fas fa-user" aria-hidden="true"></i> 회원관리</a>
         <a href="<?=BASE_URL?>/admin/log_user" class="nav-link"><i class="fas fa-users" aria-hidden="true"></i> 활동관리</a>
         <a href="<?=BASE_URL?>/admin/attendance_auth" class="nav-link"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소</a>
         <a href="<?=BASE_URL?>/admin/setup_information" class="nav-link"><i class="fas fa-users" aria-hidden="true"></i> 기본설정</a>
@@ -82,7 +82,7 @@
             <a href="<?=BASE_URL?>/ShopAdmin/order" class="nav-link"><i class="fas fa-shopping-cart" aria-hidden="true"></i> 구매대행</a>
           </li>
           <li class="nav-item">
-            <a href="<?=BASE_URL?>/admin/member_list" class="nav-link"><i class="fas fa-users" aria-hidden="true"></i> 회원관리</a>
+            <a href="<?=BASE_URL?>/admin/member_list" class="nav-link"><i class="fas fa-user" aria-hidden="true"></i> 회원관리</a>
           </li>
           <li class="nav-item">
             <a href="<?=BASE_URL?>/admin/log_user" class="nav-link"><i class="fas fa-users" aria-hidden="true"></i> 활동관리</a>
