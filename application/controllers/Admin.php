@@ -9,7 +9,7 @@ class Admin extends Admin_Controller
     parent::__construct();
     $this->load->helper(array('cookie', 'security', 'url', 'my_array_helper'));
     $this->load->library(array('image_lib'));
-    $this->load->model(array('admin_model', 'area_model', 'club_model', 'file_model', 'member_model', 'shop_model'));
+    $this->load->model(array('admin_model', 'area_model', 'club_model', 'file_model', 'member_model', 'shop_model', 'story_model'));
   }
 
   /**
@@ -4018,7 +4018,7 @@ class Admin extends Admin_Controller
     // 진행중 산행
     $search['clubIdx'] = $viewData['clubIdx'];
     $search['status'] = array(STATUS_ABLE, STATUS_CONFIRM);
-    $viewData['listNotice'] = $this->admin_model->listNotice($search);
+    $viewData['listNoticeFooter'] = $this->admin_model->listNotice($search);
 
     // 클럽 대표이미지
     $files = $this->file_model->getFile('club', $viewData['clubIdx']);

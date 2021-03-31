@@ -4,15 +4,15 @@
           <div class="sub-contents mt-4">
             <form id="setupForm" method="post" action="<?=BASE_URL?>/admin/setup_information_update" enctype="multipart/form-data">
               <h4>■ 기본정보</h4>
-              <div class="row align-items-center mt-2">
+              <div class="row no-gutters align-items-center mt-2">
                 <div class="col-sm-2 font-weight-bold">단체명</div>
                 <div class="col-sm-10"><input type="text" name="title" value="<?=$view['title']?>" class="form-control form-control-sm"></div>
               </div>
-              <div class="row align-items-center mt-2">
-                <div class="col-sm-2 font-weight-bold">지역<div class="mt-2"><button type="button" class="btn btn-sm btn-sm btn-<?=$viewClub['main_color']?> btn-add-area mb-2">추가</button></div></div>
-                <div class="col-sm-10 pl-1">
+              <div class="row no-gutters align-items-center mt-2">
+                <div class="col-sm-2 font-weight-bold">지역<div class="mt-2"><button type="button" class="btn-custom btn-giwb btn-add-area mb-2">추가</button></div></div>
+                <div class="col-sm-10">
                   <?php if (empty($view['sido'])): ?>
-                  <div class="row mt-1">
+                  <div class="row no-gutters mt-1">
                     <div class="ml-2">
                       <select name="area_sido[]" class="area-sido form-control form-control-sm">
                         <option value=''>시/도</option>
@@ -32,7 +32,7 @@
                   </div>
                   <?php else: ?>
                     <?php foreach ($view['sido'] as $key => $val): ?>
-                    <div class="row mt-1">
+                    <div class="row no-gutters mt-1">
                       <div class="ml-2">
                         <select name="area_sido[]" class="area-sido form-control form-control-sm">
                           <option value=''>시/도</option>
@@ -55,15 +55,15 @@
                   <div class="added-area"></div>
                 </div>
               </div>
-              <div class="row align-items-center mt-2">
+              <div class="row no-gutters align-items-center mt-2">
                 <div class="col-sm-2 font-weight-bold">홈페이지</div>
                 <div class="col-sm-10"><input type="text" name="homepage" value="<?=$view['homepage']?>" class="form-control form-control-sm"></div>
               </div>
-              <div class="row align-items-center mt-2">
+              <div class="row no-gutters align-items-center mt-2">
                 <div class="col-sm-2 font-weight-bold">연락처</div>
                 <div class="col-sm-10"><input type="text" name="phone" value="<?=$view['phone']?>" class="form-control form-control-sm"></div>
               </div>
-              <div class="row align-items-center mt-2">
+              <div class="row no-gutters align-items-center mt-2">
                 <div class="col-sm-2 font-weight-bold">로고 이미지</div>
                 <div class="col-sm-10">
                   <div class="added-files mt-3">
@@ -73,12 +73,12 @@
                   </div>
                   <input type="hidden" name="file" value="">
                   <input type="file" class="file d-none">
-                  <button type="button" class="btn btn-sm btn-sm btn-<?=$viewClub['main_color']?> btn-upload">사진 선택</button>
+                  <button type="button" class="btn-custom btn-giwb btn-upload">사진 선택</button>
                 </div>
               </div><br>
 
               <h4>■ 추가정보</h4>
-              <div class="row align-items-center mt-2">
+              <div class="row no-gutters align-items-center mt-2">
                 <div class="col-sm-2 font-weight-bold">설립년도</div>
                 <div class="col-sm-10">
                   <select name="establish" class="form-control form-control-sm">
@@ -89,7 +89,7 @@
                   </select>
                 </div>
               </div>
-              <div class="row align-items-center mt-2">
+              <div class="row no-gutters align-items-center mt-2">
                 <div class="col-sm-2 font-weight-bold">단체유형</div>
                 <div class="col-sm-10">
                   <label class="mr-2"><input<?=in_array(1, $view['club_type']) ? " checked" : ""?> type="checkbox" name="club_type[]" value="1"> 친목</label>
@@ -98,7 +98,7 @@
                   <label class="mr-2"><input<?=in_array(4, $view['club_type']) ? " checked" : ""?> type="checkbox" name="club_type[]" value="4"> 여행사</label>
                 </div>
               </div>
-              <div class="row align-items-center mt-2">
+              <div class="row no-gutters align-items-center mt-2">
                 <div class="col-sm-2 font-weight-bold">제공사항</div>
                 <div class="col-sm-10">
                   <label class="mr-2"><input<?=in_array(1, $view['club_option']) ? " checked" : ""?> type="checkbox" name="club_option[]" value="1"> 조식</label>
@@ -107,13 +107,13 @@
                   <label class="mr-2"><input<?=in_array(4, $view['club_option']) ? " checked" : ""?> type="checkbox" name="club_option[]" value="4"> 하산주</label>
                   <label class="mr-2"><input<?=in_array(5, $view['club_option']) ? " checked" : ""?> type="checkbox" name="club_option[]" value="5"> 산행지도</label>
                   <label class="mr-2"><input<?=in_array(6, $view['club_option']) ? " checked" : ""?> type="checkbox" name="club_option[]" value="6"> 기념품</label><br>
-                  <div class="row align-items-center mt-1">
+                  <div class="row no-gutters align-items-center mt-1">
                     <div class="pl-2">추가입력</div>
                     <div class="col-sm-3"><input type="text" name="club_option_text" class="form-control form-control-sm" value="<?=$view['club_option_text']?>"></div>
                   </div>
                 </div>
               </div>
-              <div class="row align-items-center mt-2">
+              <div class="row no-gutters align-items-center mt-2">
                 <div class="col-sm-2 font-weight-bold">행사시기</div>
                 <div class="col-sm-10">
                   운행주간 &nbsp;
@@ -138,25 +138,25 @@
             </div><br>
 
             <h4>■ 승차위치</h4>
-            <div class="row align-items-center border-top border-bottom pt-2 pb-2">
+            <div class="row no-gutters align-items-center border-top border-bottom pt-2 pb-2">
               <div class="col-sm-2 font-weight-bold">승차위치명 <span class="required">(필수)</span></div>
               <div class="col-sm-6 font-weight-bold">승차위치 설명</div>
               <div class="col-sm-2 font-weight-bold">정류장 시간간격</div>
               <div class="col-sm-2 font-weight-bold">편집</div>
             </div>
-            <div class="row align-items-center border-bottom pt-2 pb-2" data-type="geton">
-              <div class="col-sm-2"><input type="text" maxlength="6" class="form-control form-control-sm input-ride-short"></div>
-              <div class="col-sm-6"><input type="text" maxlength="50" class="form-control form-control-sm input-ride-title"></div>
-              <div class="col-sm-2"><input type="number" maxlength="3" class="form-control form-control-sm input-ride-time"></div>
-              <div class="col-sm-2"><input type="hidden" class="ride-idx"><button type="button" class="btn btn-sm btn-<?=$viewClub['main_color']?> btn-ride-add">추가</button></div>
+            <div class="row no-gutters align-items-center border-bottom pt-2 pb-2" data-type="geton">
+              <div class="col-sm-2 pr-2"><input type="text" maxlength="6" class="form-control form-control-sm input-ride-short"></div>
+              <div class="col-sm-6 pr-2"><input type="text" maxlength="50" class="form-control form-control-sm input-ride-title"></div>
+              <div class="col-sm-2 pr-2"><input type="number" maxlength="3" class="form-control form-control-sm input-ride-time"></div>
+              <div class="col-sm-2"><input type="hidden" class="ride-idx"><button type="button" class="btn-custom btn-giwb btn-ride-add">추가</button></div>
             </div>
             <div class="sortable ride-added">
               <?php foreach ($view['club_geton'] as $key => $value): if ($value != ''): $geton = explode('|', $value); ?>
-              <div class="row align-items-center border-bottom elm-ride" data-idx="<?=$key?>" data-type="geton">
+              <div class="row no-gutters align-items-center border-bottom elm-ride" data-idx="<?=$key?>" data-type="geton">
                 <div class="col-sm-2"><span class="elm-ride-short"><?=!empty($geton[0]) ? $geton[0] : ''?></span><input type="hidden" class="geton-short" value="<?=!empty($geton[0]) ? $geton[0] : ''?>"></div>
                 <div class="col-sm-6"><span class="elm-ride-title"><?=!empty($geton[1]) ? $geton[1] : ''?></span><input type="hidden" class="geton-title" value="<?=!empty($geton[1]) ? $geton[1] : ''?>"></div>
                 <div class="col-sm-2"><span class="elm-ride-time"><?=!empty($geton[2]) ? $geton[2] : ''?></span><input type="hidden" class="geton-time" value="<?=!empty($geton[2]) ? $geton[2] : ''?>"></div>
-                <div class="col-sm-2 pt-2 pb-2"><button type="button" class="btn btn-sm btn-secondary btn-ride-edit">수정</button> <button type="button" class="btn btn-sm btn-danger btn-ride-delete">삭제</button></div>
+                <div class="col-sm-2 pt-2 pb-2"><button type="button" class="btn-custom btn-gray btn-ride-edit">수정</button> <button type="button" class="btn-custom btn-giwbred btn-ride-delete">삭제</button></div>
               </div>
               <?php endif; endforeach; ?>
             </div>
@@ -167,25 +167,25 @@
             </div><br>
 
             <h4>■ 하차위치</h4>
-            <div class="row align-items-center border-top border-bottom pt-2 pb-2">
+            <div class="row no-gutters align-items-center border-top border-bottom pt-2 pb-2">
               <div class="col-sm-2 font-weight-bold">승차위치명 <span class="required">(필수)</span></div>
               <div class="col-sm-6 font-weight-bold">승차위치 설명</div>
               <div class="col-sm-2 font-weight-bold">정류장 시간간격</div>
               <div class="col-sm-2 font-weight-bold">편집</div>
             </div>
-            <div class="row align-items-center border-bottom pt-2 pb-2" data-type="getoff">
-              <div class="col-sm-2"><input type="text" maxlength="6" class="form-control form-control-sm input-ride-short"></div>
-              <div class="col-sm-6"><input type="text" maxlength="50" class="form-control form-control-sm input-ride-title"></div>
-              <div class="col-sm-2"><input type="number" maxlength="3" class="form-control form-control-sm input-ride-time"></div>
-              <div class="col-sm-2"><input type="hidden" class="ride-idx"><button type="button" class="btn btn-sm btn-<?=$viewClub['main_color']?> btn-ride-add">추가</button></div>
+            <div class="row no-gutters align-items-center border-bottom pt-2 pb-2" data-type="getoff">
+              <div class="col-sm-2 pr-2"><input type="text" maxlength="6" class="form-control form-control-sm input-ride-short"></div>
+              <div class="col-sm-6 pr-2"><input type="text" maxlength="50" class="form-control form-control-sm input-ride-title"></div>
+              <div class="col-sm-2 pr-2"><input type="number" maxlength="3" class="form-control form-control-sm input-ride-time"></div>
+              <div class="col-sm-2"><input type="hidden" class="ride-idx"><button type="button" class="btn-custom btn-giwb btn-ride-add">추가</button></div>
             </div>
             <div class="sortable ride-added">
               <?php foreach ($view['club_getoff'] as $key => $value): if ($value != ''): $getoff = explode('|', $value); ?>
-              <div class="row align-items-center border-bottom elm-ride" data-idx="<?=$key?>" data-type="getoff">
+              <div class="row no-gutters align-items-center border-bottom elm-ride" data-idx="<?=$key?>" data-type="getoff">
                 <div class="col-sm-2"><span class="elm-ride-short"><?=!empty($getoff[0]) ? $getoff[0] : ''?></span><input type="hidden" class="getoff-short" value="<?=!empty($getoff[0]) ? $getoff[0] : ''?>"></div>
                 <div class="col-sm-6"><span class="elm-ride-title"><?=!empty($getoff[1]) ? $getoff[1] : ''?></span><input type="hidden" class="getoff-title" value="<?=!empty($getoff[1]) ? $getoff[1] : ''?>"></div>
                 <div class="col-sm-2"><span class="elm-ride-time"><?=!empty($getoff[2]) ? $getoff[2] : ''?></span><input type="hidden" class="getoff-time" value="<?=!empty($getoff[2]) ? $getoff[2] : ''?>"></div>
-                <div class="col-sm-2 pt-2 pb-2"><button type="button" class="btn btn-sm btn-secondary btn-ride-edit">수정</button> <button type="button" class="btn btn-sm btn-danger btn-ride-delete">삭제</button></div>
+                <div class="col-sm-2 pt-2 pb-2"><button type="button" class="btn-custom btn-gray btn-ride-edit">수정</button> <button type="button" class="btn-custom btn-giwbred btn-ride-delete">삭제</button></div>
               </div>
               <?php endif; endforeach; ?>
             </div>
@@ -195,8 +195,8 @@
               ※ 승차위치명은 필수 항목이며, 변경했을 경우 해당 승차위치로 지정된 회원님들의 승차위치가 모두 사라지니 주의해주세요.
             </div><br>
 
-            <div class="area-button">
-              <button type="button" class="btn btn-sm btn-<?=$viewClub['main_color']?> btn-setup-submit">확인합니다</button>
+            <div class="text-center">
+              <button type="button" class="btn-custom btn-giwb btn-setup-submit pt-3 pb-3 pl-5 pr-5">확인합니다</button>
             </div>
           </form>
         </div>
@@ -225,7 +225,7 @@
               }
             });
           }).on('click', '.btn-add-area', function() {
-            var data = '<div class="row mt-1"><div class="ml-2"><select name="area_sido[]" class="area-sido form-control form-control-sm">';
+            var data = '<div class="row no-gutters mt-1"><div class="ml-2"><select name="area_sido[]" class="area-sido form-control form-control-sm">';
             data += '<option value="">시/도</option>';
             <?php foreach ($area_sido as $value): ?>
             data += '<option<?=$value['idx'] == $view['area_sido'] ? " selected" : ""?> value="<?=$value['idx']?>""><?=$value['name']?></option>';
@@ -255,7 +255,7 @@
 
             if (idx == '') {
               // 승하차위치 추가
-              $dom.next().append('<div class="row align-items-center border-bottom elm-ride" data-idx="' + elmIdx + '"><div class="col-sm-6"><span class="elm-ride-title">' + title + '</span><input type="hidden" class="' + type + '-title" value="' + title + '"></div><div class="col-sm-2"><span class="elm-ride-short">' + short + '</span><input type="hidden" class="' + type + '-short" value="' + short + '"></div><div class="col-sm-2"><span class="elm-ride-time">' + time + '</span><input type="hidden" class="' + type + '-time" value="' + time  + '"></div><div class="col-sm-2 pt-2 pb-2"><button type="button" class="btn btn-sm btn-secondary btn-ride-edit">수정</button> <button type="button" class="btn btn-sm btn-danger btn-ride-delete">삭제</button></div>');
+              $dom.next().append('<div class="row no-gutters align-items-center border-bottom elm-ride" data-idx="' + elmIdx + '"><div class="col-sm-6"><span class="elm-ride-title">' + title + '</span><input type="hidden" class="' + type + '-title" value="' + title + '"></div><div class="col-sm-2"><span class="elm-ride-short">' + short + '</span><input type="hidden" class="' + type + '-short" value="' + short + '"></div><div class="col-sm-2"><span class="elm-ride-time">' + time + '</span><input type="hidden" class="' + type + '-time" value="' + time  + '"></div><div class="col-sm-2 pt-2 pb-2"><button type="button" class="btn btn-sm btn-secondary btn-ride-edit">수정</button> <button type="button" class="btn btn-sm btn-danger btn-ride-delete">삭제</button></div>');
             } else {
               // 승하차위치 수정
               var $domRide = $dom.next().find('.elm-ride[data-idx=' + idx + ']');

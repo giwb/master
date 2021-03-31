@@ -1,12 +1,12 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-        <div id="content" class="mb-5">
+        <div id="content" class="border-top mb-5">
           <?php if (empty($list)): ?>
           <div class="border-bottom pt-5 pb-5 text-center">
             등록된 산행이 없습니다.
           </div>
           <?php else: foreach ($list as $value): ?>
-          <div class="row align-items-center border-bottom mt-1 pt-2 pb-2">
+          <div class="row no-gutters align-items-center border-bottom pt-2 pb-2">
             <div class="col-9 col-sm-10">
               <b><?=viewStatus($value['status'], $value['visible'])?></b> <a href="<?=BASE_URL?>/admin/main_view_progress/<?=$value['idx']?>"><?=$value['subject']?></a><br>
               <div class="small">
@@ -18,9 +18,9 @@
             </div>
             <div class="col-3 col-sm-2 text-right">
               <?php if ($value['visible'] == VISIBLE_ABLE): ?>
-              <button type="button" class="btn btn-sm btn-secondary btn-change-visible" data-idx="<?=$value['idx']?>" data-visible="<?=VISIBLE_NONE?>">숨김</button>
+              <button type="button" class="btn-custom btn-gray btn-secondary btn-change-visible small" data-idx="<?=$value['idx']?>" data-visible="<?=VISIBLE_NONE?>">숨김</button>
               <?php else: ?>
-              <button type="button" class="btn btn-sm btn-default btn-change-visible" data-idx="<?=$value['idx']?>" data-visible="<?=VISIBLE_ABLE?>">공개</button>
+              <button type="button" class="btn-custom btn-giwbred btn-default btn-change-visible small" data-idx="<?=$value['idx']?>" data-visible="<?=VISIBLE_ABLE?>">공개</button>
               <?php endif; ?>
             </div>
           </div>

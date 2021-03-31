@@ -3,14 +3,16 @@
   $uri = $_SERVER['REQUEST_URI'];
 ?>
 
-        <h2 class="sub-header mb-4"><?=$pageTitle?></h2>
-        <div class="admin-menu">
-          <div class="row align-items-center text-center">
-            <a href="<?=BASE_URL?>/admin/main_list_progress" class="col-2<?=strstr($uri, 'main_list_progress') || (!empty($view['status']) && $view['status'] == STATUS_CONFIRM) ? ' active' : ''?>">진행</a>
-            <a href="<?=BASE_URL?>/admin/main_list_closed" class="col-2<?=strstr($uri, 'closed') || (!empty($view['status']) && $view['status'] == STATUS_CLOSED) ? ' active' : ''?>">종료</a>
-            <a href="<?=BASE_URL?>/admin/main_list_canceled" class="col-2<?=strstr($uri, 'canceled') || (!empty($view['status']) && $view['status'] == STATUS_CANCEL) ? ' active' : ''?>">취소</a>
-            <a href="<?=BASE_URL?>/admin/main_entry" class="col-2<?=strstr($uri, 'entry') && empty($view['idx']) ? ' active' : ''?>">신규</a>
-            <a href="<?=BASE_URL?>/admin/main_schedule" class="col-2<?=strstr($uri, 'schedule') ? ' active' : ''?>">계획</a>
-            <a target="_blank" href="<?=BASE_URL?>/admin/main_list_copy" class="col-2<?=strstr($uri, 'copy') ? ' active' : ''?>">복사</a>
-          </div>
-        </div>
+          <section class="mb-3">
+            <h4 class="font-weight-bold"><?=$pageTitle?></h4>
+            <hr class="text-default">
+
+            <div class="header-menu">
+              <div class="header-menu-item<?=strstr($uri, 'main_list_progress') || (!empty($view['status']) && $view['status'] == STATUS_CONFIRM) ? ' active' : ''?>"><a href="<?=BASE_URL?>/admin/main_list_progress">진행</a></div>
+              <div class="header-menu-item<?=strstr($uri, 'closed') || (!empty($view['status']) && $view['status'] == STATUS_CLOSED) ? ' active' : ''?>"><a href="<?=BASE_URL?>/admin/main_list_closed">종료</a></div>
+              <div class="header-menu-item<?=strstr($uri, 'canceled') || (!empty($view['status']) && $view['status'] == STATUS_CANCEL) ? ' active' : ''?>"><a href="<?=BASE_URL?>/admin/main_list_canceled">취소</a></div>
+              <div class="header-menu-item<?=strstr($uri, 'entry') && empty($view['idx']) ? ' active' : ''?>"><a href="<?=BASE_URL?>/admin/main_entry">신규</a></div>
+              <div class="header-menu-item<?=strstr($uri, 'schedule') ? ' active' : ''?>"><a href="<?=BASE_URL?>/admin/main_schedule">계획</a></div>
+              <div class="header-menu-item<?=strstr($uri, 'copy') ? ' active' : ''?>"><a target="_blank" href="<?=BASE_URL?>/admin/main_list_copy">복사</a></div>
+            </div>
+          </section>

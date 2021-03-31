@@ -4,8 +4,8 @@
           <div class="w-100 border mt-3 mb-3 p-3">
             <form id="formList" method="get" action="<?=$pageUrl?>" class="m-0">
               <input type="hidden" name="p" value="1">
-              <div class="row align-items-center w-100 text-center">
-                <div class="col-3 col-sm-1 p-0">형태</div>
+              <div class="row no-gutters align-items-center w-100 text-center">
+                <div class="col-3 col-sm-1">형태</div>
                 <div class="col-9 col-sm-5">
                   <select name="action" class="form-control form-control-sm">
                     <option value=""></option>
@@ -32,7 +32,7 @@
                   </select>
                 </div>
                 <div class="w-100 d-block d-sm-none pt-2"></div>
-                <div class="col-3 col-sm-1 p-0">상태</div>
+                <div class="col-3 col-sm-1">상태</div>
                 <div class="col-9 col-sm-5">
                   <select name="status" class="form-control form-control-sm">
                     <option<?=$status == 0 ? ' selected' : ''?> value="0">미확인</option>
@@ -40,11 +40,11 @@
                   </select>
                 </div>
               </div>
-              <div class="row align-items-center w-100 pt-2 text-center">
+              <div class="row no-gutters align-items-center w-100 pt-2 text-center">
                 <div class="col-3 col-sm-1 p-0">닉네임</div>
                 <div class="col-9 col-sm-9"><input type="text" name="nickname" class="form-control form-control-sm form-search" value="<?=!empty($nickname) ? $nickname : ''?>"></div>
                 <div class="w-100 d-block d-sm-none pt-2"></div>
-                <div class="col-sm-2 text-left"><button class="btn btn-sm btn-<?=$viewClub['main_color']?> w-100 btn-member-search">검색</button></div>
+                <div class="col-sm-2 text-center"><button class="btn-custom btn-giwb btn-member-search pl-4 pr-4">검색</button></div>
               </div>
             </form>
           </div>

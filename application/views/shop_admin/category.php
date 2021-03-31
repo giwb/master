@@ -1,12 +1,12 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
         <div id="content" class="mb-5">
-          <div class="row w-100 align-items-top mt-5 ml-0">
+          <div class="row no-gutters w-100 align-items-top mt-5 ml-0">
             <div class="col-sm-5 border bg-white p-2 mt-2 category-parent">
               <div class="text-center border-bottom font-weight-bold pb-2">1차 분류</div>
               <div class="mt-3 mb-3 text-center">
                 <div class="category-input"><input type="text" name="category_name" size="15" class="form-control form-control-sm" value="<?=!empty($view['name']) ? $view['name'] : ''?>"></div>
-                <div class="category-input"><input type="hidden" name="category_idx" value=""><button type="button" class="btn btn-sm btn-primary btn-category-entry" data-parent="">등록</button> <button type="button" class="btn btn-sm btn-danger btn-category-delete d-none" data-type="parent">삭제</button></div>
+                <div class="category-input"><input type="hidden" name="category_idx" value=""><button type="button" class="btn-custom btn-giwbblue btn-category-entry" data-parent="">등록</button> <button type="button" class="btn-custom btn-giwbred btn-category-delete d-none" data-type="parent">삭제</button></div>
               </div>
               <div class="list-category m-3">
                 <?php foreach ($listCategory as $value): ?>
@@ -19,7 +19,7 @@
               <div class="text-center border-bottom font-weight-bold pb-2">2차 분류</div>
               <div class="mt-3 mb-3 text-center">
                 <div class="category-input"><input type="text" name="category_name" size="15" class="form-control form-control-sm" value="<?=!empty($view['name']) ? $view['name'] : ''?>"></div>
-                <div class="category-input"><input type="hidden" name="category_idx" value=""><input type="hidden" name="category_parent" value=""><button type="button" class="btn btn-sm btn-primary btn-category-entry">등록</button> <button type="button" class="btn btn-sm btn-danger btn-category-delete d-none" data-type="child">삭제</button></div>
+                <div class="category-input"><input type="hidden" name="category_idx" value=""><input type="hidden" name="category_parent" value=""><button type="button" class="btn-custom btn-giwbblue btn-category-entry">등록</button> <button type="button" class="btn-custom btn-giwbred btn-category-delete d-none" data-type="child">삭제</button></div>
               </div>
               <div class="list-category m-3"></div>
             </div>
