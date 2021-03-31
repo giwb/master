@@ -17,7 +17,7 @@
             <div class="ti"><strong>・예약</strong> : <?=cntRes($view['idx'])?>명</div>
             <form id="myForm" method="post" action="<?=BASE_URL?>/admin/main_notice_update" enctype="multipart/form-data" class="mb-0">
               <input type="hidden" name="noticeIdx" value="<?=$view['idx']?>">
-              <div class="row align-items-center">
+              <div class="row no-gutters align-items-center">
                 <div class="col-sm-3 pb-2 text-right">
                   <!--
                   <select class="form-control form-control-sm search-notice">
@@ -31,7 +31,7 @@
               </div>
               <div class="area-notice">
                 <div class="mt-3 border-top border-bottom">
-                  <div class="row align-items-center mt-3 mb-3">
+                  <div class="row no-gutters align-items-center mt-3 mb-3">
                     <div class="col-3 col-sm-2 p-0 pl-2">대표 사진<br><small>※ 최적크기 : 135 x 76</small></div>
                     <div class="col-7 col-sm-7 p-0 pr-2">
                       <?php if (!empty($view['photo']) && file_exists(PHOTO_PATH . 'thumb_' . $view['photo'])): ?>
@@ -43,33 +43,34 @@
                     </div>
                     <div class="col-2 col-sm-3 p-0 text-right">
                       <?php if (!empty($view['photo'])): ?>
-                      <button type="button" class="btn btn-sm btn-danger btn-notice-photo-delete pl-2 pr-2">삭제</button>
+                      <button type="button" class="btn-custom btn-giwbred btn-notice-photo-delete pl-2 pr-2">삭제</button>
                       <?php endif; ?>
                     </div>
                   </div>
                 </div>
                 <?php foreach ($listNoticeDetail as $key => $value): ?>
                 <div class="item-notice pt-3">
-                  <div class="row align-items-center mb-2">
+                  <div class="row no-gutters align-items-center mb-2">
                     <div class="col-10 col-sm-11 p-0 pr-2"><input type="hidden" name="idx[]" value="<?=$value['idx']?>"><input type="text" name="title[]" value="<?=$value['title']?>" class="form-control form-control-sm"></div>
-                    <div class="col-2 col-sm-1 p-0 text-right"><button type="button" class="btn btn-sm btn-danger btn-delete-notice pl-2 pr-2">삭제</button></div>
+                    <div class="col-2 col-sm-1 p-0 text-right"><button type="button" class="btn-custom btn-giwbred btn-delete-notice pl-2 pr-2">삭제</button></div>
                   </div>
                   <textarea name="content[]" rows="10" cols="100" id="content_<?=$key?>" class="content"><?=$value['content']?></textarea>
                 </div>
                 <?php endforeach; ?>
               </div>
-              <div class="area-button">
-                <button type="button" class="btn btn-sm btn-info btn-add-notice mr-2">항목추가</button>
-                <a target="_blank" href="<?=BASE_URL?>/admin/main_notice_view/<?=$view['idx']?>"><button type="button" class="btn btn-sm btn-secondary ml-2 mr-2">복사하기</button></a>
-                <button type="submit" class="btn btn-sm btn-default ml-2 mr-4">저장하기</button>
+              <div class="text-center mt-4">
+                <button type="button" class="btn-custom btn-info btn-add-notice mr-2 pt-2 pb-2 pl-4 pr-4">항목추가</button>
+                <a target="_blank" href="<?=BASE_URL?>/admin/main_notice_view/<?=$view['idx']?>"><button type="button" class="btn-custom btn-gray ml-2 mr-2 pt-2 pb-2 pl-4 pr-4">복사하기</button></a>
+                <button type="submit" class="btn-custom btn-giwb ml-2 mr-4 pt-2 pb-2 pl-4 pr-4">저장하기</button>
               </div>
             </form>
           </div>
         </div>
 
+        <script src="/public/ckeditor/ckeditor.js" type="text/javascript" charset="utf-8"></script>
         <script type="text/javascript">
           CKEDITOR.replaceAll();
-          $('#sortable').disableSelection().sortable();
+          //$('#sortable').disableSelection().sortable();
           $(document).on('change', '.search-notice', function() {
             $.ajax({
               url: '/admin/main_entry_notice',
@@ -89,7 +90,7 @@
             // 항목 추가
             var cnt = 0;
             $('.content').each(function() { cnt++; });
-            var content = '<div class="item-notice pt-3"><div class="row align-items-center mb-2"><div class="col-10 col-sm-11 p-0 pr-2"><input type="text" name="title[]" class="form-control form-control-sm"></div><div class="col-2 col-sm-1 p-0 text-right"><button type="button" class="btn btn-sm btn-danger btn-delete-notice pl-2 pr-2">삭제</button></div></div><textarea name="content[]" rows="10" cols="100" id="content_' + cnt + '" class="content"></textarea></div>';
+            var content = '<div class="item-notice pt-3"><div class="row no-gutters align-items-center mb-2"><div class="col-10 col-sm-11 p-0 pr-2"><input type="text" name="title[]" class="form-control form-control-sm"></div><div class="col-2 col-sm-1 p-0 text-right"><button type="button" class="btn-custom btn-giwbred btn-delete-notice pl-2 pr-2">삭제</button></div></div><textarea name="content[]" rows="10" cols="100" id="content_' + cnt + '" class="content"></textarea></div>';
             $('.area-notice').append(content);
             CKEDITOR.replace('content_' + cnt);
             $('html, body').animate({ scrollTop: $(document).height() }, 800);

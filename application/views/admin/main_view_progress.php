@@ -24,8 +24,8 @@
             <?=!empty($view['kilometer']) ? '<div class="ti"><strong>・거리</strong> : ' . $view['kilometer'] . '</div>' : ''?>
             <div class="ti"><strong>・예약</strong> : <?=cntRes($view['idx'])?>명</div>
 
-            <div class="row mt-3">
-              <div class="col-4 pl-0">
+            <div class="row no-gutters mt-3">
+              <div class="col-4">
                 <select name="status" class="form-control form-control-sm change-status-modal">
                   <option value="">산행 상태</option>
                   <option value="">------------</option>
@@ -36,9 +36,11 @@
                   <option<?=$view['status'] == STATUS_CLOSED ? ' selected' : ''?> value="<?=STATUS_CLOSED?>">종료</option>
                 </select>
               </div>
+              <!--
               <div class="col-8 pr-0 text-right">
-                <button type="button" class="btn btn-sm btn-secondary btn-autoseat">코로나19 대응 자동배정</button>
+                <button type="button" class="btn-custom btn-gray btn-autoseat">코로나19 대응 자동배정</button>
               </div>
+            -->
             </div>
 
             <div class="area-reservation">
@@ -94,7 +96,7 @@
               <form id="reserveForm" method="post" action="/admin/reserve_complete">
                 <div id="addedInfo"></div>
                 <input type="hidden" name="idx" value="<?=$view['idx']?>">
-                <button type="button" class="btn btn-sm btn-default btn-reserve-confirm">확인</button>
+                <button type="button" class="btn-custom btn-giwb btn-reserve-confirm">확인</button>
               </form>
             </div>
 
@@ -113,7 +115,7 @@
               <?php endif; ?>
 
               <div class="text-dark">■ <strong>대기자 추가</strong></div>
-              <div class="wait row align-items-center">
+              <div class="wait row no-gutters align-items-center">
                 <div class="col-3 col-sm-3 p-0 pr-1"><input type="text" name="nickname" class="search-user form-control form-control-sm" placeholder="닉네임" data-placement="bottom"><input type="hidden" name="userIdx"></div>
                 <div class="col-2 col-sm-2 p-0 pr-1">
                   <select name="gender" class="gender form-control form-control-sm pl-0 pr-0">
@@ -129,7 +131,7 @@
                   </select>
                 </div>
                 <div class="col-3 col-sm-4 p-0 pr-1"><input type="text" name="memo" class="form-control form-control-sm" placeholder="메모"></div>
-                <div class="col-2 col-sm-1 p-0"><button type="button" class="btn btn-sm btn-default w-100 btn-wait-insert">등록</button></div>
+                <div class="col-2 col-sm-1 p-0"><button type="button" class="btn-custom btn-giwb btn-wait-insert">등록</button></div>
               </div>
             </div>
             <?php endif; ?>
@@ -156,8 +158,8 @@
               </div>
               <div class="modal-footer">
                 <input type="hidden" name="waitIdx">
-                <button type="button" class="btn btn-sm btn-default btn-wait-delete">삭제합니다</button>
-                <button type="button" class="btn btn-sm btn-secondary btn-close" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn-custom btn-giwbred btn-wait-delete">삭제합니다</button>
+                <button type="button" class="btn-custom btn-gray btn-close" data-dismiss="modal">닫기</button>
               </div>
             </div>
           </div>
@@ -178,8 +180,8 @@
               </div>
               <div class="modal-footer">
                 <input type="hidden" name="selectStatus">
-                <button type="button" class="btn btn-sm btn-default btn-change-status">승인</button>
-                <button type="button" class="btn btn-sm btn-secondary btn-close" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn-custom btn-giwbblue btn-change-status">승인</button>
+                <button type="button" class="btn-custom btn-gray btn-close" data-dismiss="modal">닫기</button>
               </div>
             </div>
           </div>
@@ -198,7 +200,7 @@
               <div class="modal-body text-center">
                 <p class="modal-message">
                   정말로 이 좌석의 예약을 취소하시겠습니까?<br>
-                  <div class="row align-items-center">
+                  <div class="row no-gutters align-items-center">
                     <div class="col-sm-3 pl-0 pr-0">취소사유</div>
                     <div class="col-sm-9 pl-0"><input type="text" name="subject" class="form-control"></div>
                   </div>
@@ -206,8 +208,8 @@
               </div>
               <div class="modal-footer">
                 <input type="hidden" name="delete_idx">
-                <button type="button" class="btn btn-sm btn-default btn-reserve-cancel-complete">승인</button>
-                <button type="button" class="btn btn-sm btn-secondary btn-close" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn-custom btn-giwbblue btn-reserve-cancel-complete">승인</button>
+                <button type="button" class="btn-custom btn-gray btn-close" data-dismiss="modal">닫기</button>
               </div>
             </div>
           </div>
