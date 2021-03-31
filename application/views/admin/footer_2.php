@@ -2,7 +2,7 @@
 
         </div>
         <div class="col-xl-4 col-md-12 widget-column mt-0 mb-5 pb-0">
-          <?php if (!empty($listNoticeSchedule)): ?>
+          <?php if (!empty($listNoticeSchedule) && !strstr($_SERVER['REQUEST_URI'], 'setup_calendar')): ?>
           <section class="section mb-5">
             <h4 class="font-weight-bold"><strong>월간 일정</strong></h4>
             <hr class="text-default" style="margin-bottom: 33px;">
