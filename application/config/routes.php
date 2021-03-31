@@ -91,6 +91,7 @@ if (!empty($result['idx'])) {
 
   $route['default_controller']  = 'welcome';
   $route['top']                 = 'welcome';
+  $route['send']                = 'welcome/send';
   $route['article/(:num)']      = 'welcome/article/$1';
   $route['search']              = 'welcome/search';
   $route['area']                = 'welcome/area';

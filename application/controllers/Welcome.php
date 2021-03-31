@@ -811,6 +811,41 @@ class Welcome extends MY_Controller
   }
 
   /**
+   * 호스팅 상담문의 저장
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function send()
+  {
+    $host_name = !empty($this->input->post('host_name')) ? html_escape($this->input->post('host_name')) : NULL;
+    $host_phone = !empty($this->input->post('host_phone')) ? html_escape($this->input->post('host_phone')) : NULL;
+    $client_name = !empty($this->input->post('client_name')) ? html_escape($this->input->post('client_name')) : NULL;
+    $client_phone = !empty($this->input->post('client_phone')) ? html_escape($this->input->post('client_phone')) : NULL;
+    $client_message = !empty($this->input->post('client_message')) ? html_escape($this->input->post('client_message')) : NULL;
+
+    if (!empty($client_name) && !empty($client_phone) && !empty($client_message) && !empty($host_name) && !empty($host_phone)) {
+      $insertValues = array(
+        'host_name' => $host_name,
+        'host_phone' => $host_phone,
+        'client_name' => $client_name,
+        'client_phone' => $client_phone,
+        'client_message' => $client_message,
+        'created_at' => time(),
+      );
+      $rtn = $this->desk_model->insert('hosting_board', $insertValues);
+    }
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+    } else {
+      $result = array('error' => 0, 'message' => $this->lang->line('msg_hosting_send'));
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 페이지 표시
    *
    * @param $viewPage

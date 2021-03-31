@@ -21,3 +21,4 @@ $lang['msg_delete_confirm']   = '정말로 삭제하시겠습니까?';
 $lang['msg_delete_complete']  = '삭제가 완료되었습니다.';
 $lang['msg_quit_member']      = '회원님은 이미 탈퇴하셨습니다.';
 $lang['msg_change_password']  = '비밀번호 변경이 완료되었습니다.';
+$lang['msg_hosting_send']     = '문의해주셔서 감사합니다.<br>담당자가 곧 연락을 드리겠습니다.';
