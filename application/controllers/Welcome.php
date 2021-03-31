@@ -818,14 +818,16 @@ class Welcome extends MY_Controller
    **/
   public function send()
   {
+    $host_idx = !empty($this->input->post('host_idx')) ? html_escape($this->input->post('host_idx')) : NULL;
     $host_name = !empty($this->input->post('host_name')) ? html_escape($this->input->post('host_name')) : NULL;
     $host_phone = !empty($this->input->post('host_phone')) ? html_escape($this->input->post('host_phone')) : NULL;
     $client_name = !empty($this->input->post('client_name')) ? html_escape($this->input->post('client_name')) : NULL;
     $client_phone = !empty($this->input->post('client_phone')) ? html_escape($this->input->post('client_phone')) : NULL;
     $client_message = !empty($this->input->post('client_message')) ? html_escape($this->input->post('client_message')) : NULL;
 
-    if (!empty($client_name) && !empty($client_phone) && !empty($client_message) && !empty($host_name) && !empty($host_phone)) {
+    if (!empty($client_name) && !empty($client_phone) && !empty($client_message) && !empty($host_idx) && !empty($host_name) && !empty($host_phone)) {
       $insertValues = array(
+        'host_idx' => $host_idx,
         'host_name' => $host_name,
         'host_phone' => $host_phone,
         'client_name' => $client_name,
