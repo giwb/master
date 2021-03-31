@@ -13,4 +13,7 @@
               </div>
             </div>
             <hr class="text-default mt-2">
+
+            <div style="min-height: 500px;">
+            </div>
           </section>
