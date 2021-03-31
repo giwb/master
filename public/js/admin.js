@@ -964,6 +964,16 @@
     $.calcTotalBus(); // 운행견적총액
   }).on('change', '.cost-added', function() {
     $.calcCost();
+  }).on('click', '.navbar-toggler', function() {
+    // 모바일 우측 메뉴
+    var $dom = $('.navbar-sideview');
+    if ($dom.hasClass('active')) {
+      $('header').removeClass('page-mask');
+      $dom.removeClass('active');
+    } else {
+      $('header').addClass('page-mask');
+      $dom.addClass('active');
+    }
   });
 
   // 여행일자 계산 함수
