@@ -4069,6 +4069,9 @@ class Admin extends Admin_Controller
     // 클럽 정보
     $viewData['viewClub'] = $this->club_model->viewClub($viewData['clubIdx']);
 
+    // 등록된 산행 목록
+    $viewData['listNoticeSchedule'] = $this->reserve_model->listNotice($viewData['clubIdx'], array(STATUS_ABLE, STATUS_CONFIRM));
+
     // 진행중 산행
     $search['clubIdx'] = $viewData['clubIdx'];
     $search['status'] = array(STATUS_ABLE, STATUS_CONFIRM);
