@@ -22,9 +22,9 @@
                 <textarea name="content[]" rows="10" cols="100" class="content"></textarea>
               </div>
             </div>
-            <div class="area-button">
-              <button type="button" class="btn btn-sm btn-info btn-add-page mr-2">항목추가</button>
-              <button type="submit" class="btn btn-sm btn-default ml-2 mr-4">저장하기</button>
+            <div class="text-center mt-4">
+              <button type="button" class="btn-custom btn-info btn-add-page mr-2 pt-2 pb-2 pl-4 pr-4">항목추가</button>
+              <button type="submit" class="btn-custom btn-giwb ml-2 mr-4 pt-2 pb-2 pl-4 pr-4">저장하기</button>
             </div>
           </form>
         </div>
