@@ -39,12 +39,14 @@ class Admin extends Admin_Controller
       }
     }
 
-    foreach ($viewData['listBookmark'] as $key => $value) {
-      foreach ($listBookmark as $key2 => $bookmark) {
-        if ($bookmark['parent_idx'] == $value['idx']) {
-          $viewData['listBookmark'][$key]['bookmark'][$key2]['idx'] = $bookmark['idx'];
-          $viewData['listBookmark'][$key]['bookmark'][$key2]['link'] = $bookmark['link'];
-          $viewData['listBookmark'][$key]['bookmark'][$key2]['title'] = $bookmark['title'];
+    if (!empty($viewData['listBookmark'])) {
+      foreach ($viewData['listBookmark'] as $key => $value) {
+        foreach ($listBookmark as $key2 => $bookmark) {
+          if ($bookmark['parent_idx'] == $value['idx']) {
+            $viewData['listBookmark'][$key]['bookmark'][$key2]['idx'] = $bookmark['idx'];
+            $viewData['listBookmark'][$key]['bookmark'][$key2]['link'] = $bookmark['link'];
+            $viewData['listBookmark'][$key]['bookmark'][$key2]['title'] = $bookmark['title'];
+          }
         }
       }
     }

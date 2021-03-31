@@ -21,7 +21,7 @@
             </div>
 
             <div class="row no-gutters align-items-top area-bookmark">
-              <?php foreach ($listBookmark as $value): ?>
+              <?php if (!empty($listBookmark)): foreach ($listBookmark as $value): ?>
               <div class="col-sm-3 p-1 pb-5 text-center">
                 <div class="bk-header"><a class="btn-delete-bookmark" data-idx="<?=$value['idx']?>"><i class="far fa-minus-square"></i></a> <?=$value['title']?></div>
                 <div class="bk-body text-left p-2">
@@ -31,33 +31,33 @@
                   <a class="btn-add-bookmark" data-idx="<?=$value['idx']?>"><i class="far fa-plus-square"></i> 북마크 추가</a>
                 </div>
               </div>
-              <?php endforeach; ?>
+              <?php endforeach; endif; ?>
               <div class="col-sm-3 text-center area-add-category">
                 <a class="btn-add-category"><i class="far fa-plus-square"></i> 카테고리 추가</a>
               </div>
             </div>
           </section>
 
-            <div class="modal fade" id="bookmarkDeleteModal" tabindex="-1" role="dialog" aria-labelledby="bookmarkDeleteModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="smallmodalLabel">메세지</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body text-center">
-                    <p class="modal-message">정말로 삭제하시겠습니까?</p>
-                  </div>
-                  <div class="modal-footer">
-                    <input type="hidden" name="idx" value="">
-                    <button type="button" class="btn btn-danger btn-delete-bookmark-submit">삭제합니다</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                  </div>
+          <div class="modal fade" id="bookmarkDeleteModal" tabindex="-1" role="dialog" aria-labelledby="bookmarkDeleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="smallmodalLabel">메세지</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body text-center">
+                  <p class="modal-message">정말로 삭제하시겠습니까?</p>
+                </div>
+                <div class="modal-footer">
+                  <input type="hidden" name="idx" value="">
+                  <button type="button" class="btn btn-danger btn-delete-bookmark-submit">삭제합니다</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                 </div>
               </div>
             </div>
+          </div>
 
 <script>
   $(document).on('click', '.btn-add-category', function() {
@@ -79,7 +79,7 @@
       success: function(result) {
         $btn.css('opacity', '1').prop('disabled', false);
         $('.bk-editing').remove();
-        $('.area-bookmark').append('<div class="col-sm-3 p-1 pb-5 text-center"><div class="bk-header"><a class="btn-delete-bookmark" data-idx="' + result.message + '"><i class="far fa-minus-square"></i></a> ' + title + '</div></div><div class="col-sm-3 text-center area-add-category"><a class="btn-add-category"><i class="far fa-plus-square"></i> 카테고리 추가</a></div>');
+        $('.area-bookmark').append('<div class="col-sm-3 p-1 pb-5 text-center"><div class="bk-header"><a class="btn-delete-bookmark" data-idx="' + result.message + '"><i class="far fa-minus-square"></i></a> ' + title + '</div><div class="bk-body text-left p-2"><a class="btn-add-bookmark" data-idx="' + result.message + '"><i class="far fa-plus-square"></i> 북마크 추가</a></div></div><div class="col-sm-3 text-center area-add-category"><a class="btn-add-category"><i class="far fa-plus-square"></i> 카테고리 추가</a></div>');
       }
     });
   }).on('click', '.btn-add-bookmark', function() {
