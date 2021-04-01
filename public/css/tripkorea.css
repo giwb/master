@@ -2185,7 +2185,7 @@ main#footer { padding-top: 0px!important; }
 .card-text { min-height: 65px; }
 .fc-state-highlight > div > div.fc-day-number { background-color: #B8B8B8!important; }
 .schedule-count .fc-event-inner { overflow: visible; }
-.schedule-count .fc-event-title { background-color: #ff3b30; border-radius: 50%; color: #fff; padding: 3px; }
+.schedule-count .fc-event-title { background-color: #ff3b30; border-radius: 100%; color: #fff; padding: 3px 8px; float: right; }
 
 .list-view i { color: #3e4551; cursor: pointer; }
 .list-view i.active { color: #FF6600; }

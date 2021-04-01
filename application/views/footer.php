@@ -41,7 +41,7 @@
               events: [
                 <?php foreach ($listNoticeSchedule as $value): $startDate = strtotime($value['startdate']); ?>
                 {
-                  title: '<?=$value['count']?>건',
+                  title: '<?=$value['count']?>',
                   start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>T00:00:00'),
                   end: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>T23:59:59'),
                   url: '<?=base_url()?>schedule?sdate=<?=$startDate?>',
