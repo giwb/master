@@ -115,7 +115,7 @@
                   <?php if ($value['rank'] <= 5): ?><img src="/public/images/medal<?=$value['rank']?>.png">
                   <?php else: ?><?=$value['rank']?><?php endif; ?>
                 </div>
-                <div class="col-5"><?=$value['nickname']?>님</td>
+                <div class="col-5"><?=$value['nickname']?>님</div>
                 <div class="col-6 btn-open-auth" data-idx="<?=$key?>">
                   <div class="auth-progress-bar"><div id="medal<?=$key?>" class="auth-gauge" cnt="<?=$value['cnt']?>"><?=$value['cnt']?>회</div></div>
                   <div class="auth-title d-none" data-idx="<?=$key?>"><?=$value['title']?></div>
