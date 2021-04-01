@@ -15,12 +15,10 @@
               <?php if (!empty($viewType) && $viewType == 'photo'): ?>
               <div class="col-md-6 my-3">
                 <div class="card">
-                  <?php if (!empty($value['thumbnail'])): ?>
                   <div class="view overlay">
-                    <img src="<?=PHOTO_PLACE_URL?>thumb_<?=$value['thumbnail']?>" class="card-img-top">
+                    <img src="<?=!empty($value['thumbnail']) ? PHOTO_PLACE_URL . 'thumb_' . $value['thumbnail'] : '/public/images/nophoto_big.png'?>" class="card-img-top">
                     <a href="/place/view/<?=$value['idx']?>"><div class="mask rgba-white-slight"></div></a>
                   </div>
-                  <?php endif; ?>
                   <div class="card-body">
                     <h4 class="card-title"><strong><a href="/place/view/<?=$value['idx']?>"><i class="fas fa-crown pr-1" style="color:#CE7430;"></i><?=$value['title']?><br><small class="grey-text">강원 춘천시, 홍천군<?=!empty($value['altitude']) ? ' / ' . number_format($value['altitude']) . 'm' : ''?></small></a></strong></h4><hr>
                     <p class="card-text text-justify"><?=articleContent($value['content'])?></p>
@@ -38,7 +36,7 @@
               <div class="col-md-12 my-3">
                 <div class="card area-link" data-link="/place/view/<?=$value['idx']?>">
                   <div class="card-body row no-gutters">
-                    <div class="col-3 col-sm-3" style="background: url(<?=!empty($value['thumbnail']) ? PHOTO_PLACE_URL . 'thumb_' . $value['thumbnail'] : '/public/images/nophoto.png'?>) no-repeat center center; background-size: 125%;">
+                    <div class="col-3 col-sm-3" style="background: url(<?=!empty($value['thumbnail']) ? PHOTO_PLACE_URL . 'thumb_' . $value['thumbnail'] : '/public/images/nophoto_mid.png'?>) no-repeat center center; background-size: 110%;">
                     </div>
                     <div class="col-9 col-sm-9 pl-3">
                       <h4 class="card-title font-weight-bold"><?=$value['title']?><br><small class="grey-text">강원 춘천시, 홍천군<?=!empty($value['altitude']) ? ' / ' . number_format($value['altitude']) . 'm' : ''?></small></h4>
