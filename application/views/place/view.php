@@ -4,7 +4,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-xl-8 col-md-12">
-          <div class="row mt-3 mb-5 pb-3 mx-2">
+          <div class="row mb-5 pb-3 mx-2">
             <div class="card card-body mb-4">
               <div class="post-data mb-4">
                 <h2 class="font-weight-bold mt-3 pl-3 pr-3"><strong><?=$view['title']?></strong></h2>
