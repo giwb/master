@@ -23,7 +23,7 @@ class Place extends MY_Controller
 
     $viewData['listPlace'] = $this->place_model->listPlace();
 
-    $viewData['pageTitle'] = '전체보기';
+    $viewData['pageTitle'] = '여행정보 전체보기';
 
     $this->_viewPage('place/index', $viewData);
   }

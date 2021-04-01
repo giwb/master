@@ -19,7 +19,7 @@
   <script type="text/javascript" src="/public/js/jquery-3.3.1.min.js"></script>
   <script type="text/javascript" src="/public/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="/public/js/flickity.pkgd.min.js"></script>
-  <script type="text/javascript" src="/public/js/tripkorea.js"></script>
+  <script type="text/javascript" src="/public/js/tripkorea.js?<?=time()?>"></script>
 </head>
 <body class="fixed-sn homepage-v2">
 
