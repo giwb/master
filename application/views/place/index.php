@@ -23,15 +23,6 @@
                     <h4 class="card-title"><strong><a href="/place/view/<?=$value['idx']?>"><i class="fas fa-crown pr-1" style="color:#CE7430;"></i><?=$value['title']?><br><small class="grey-text"><?php foreach ($value['sido'] as $key => $area): if ($key != 0): ?>, <?php endif; ?><?=$area?> <?=!empty($value['gugun'][$key]) ? $value['gugun'][$key] : ''?><?php endforeach; ?><?=!empty($value['altitude']) ? ' / ' . number_format($value['altitude']) . 'm' : ''?></small></a></strong></h4><hr>
                     <p class="card-text text-justify"><?=articleContent($value['content'])?></p>
                   </div>
-                  <div class="mdb-color lighten-3 text-center">
-                    <ul class="list-unstyled list-inline font-small text-white mt-3">
-                      <li class="list-inline-item pr-2"><i class="far fa-eye pr-1"></i>조회 0</a></li>
-                      <li class="list-inline-item pr-2"><i class="far fa-comments pr-1"></i>댓글 0</a></li>
-                      <li class="list-inline-item"><i class="fas fa-crown pr-1"></i>랭킹 0위</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
               <?php else: ?>
               <div class="col-md-12 my-3">
                 <div class="card area-link" data-link="/place/view/<?=$value['idx']?>">
@@ -45,16 +36,16 @@
                       </div>
                     </div>
                   </div>
+              <?php endif; ?>
                   <div class="mdb-color lighten-3 text-center">
                     <ul class="list-unstyled list-inline font-small text-white mt-3">
-                      <li class="list-inline-item pr-2"><i class="far fa-eye pr-1"></i>조회 0</a></li>
+                      <li class="list-inline-item pr-2"><i class="far fa-eye pr-1"></i>조회 <?=$value['refer']?></a></li>
                       <li class="list-inline-item pr-2"><i class="far fa-comments pr-1"></i>댓글 0</a></li>
                       <li class="list-inline-item"><i class="fas fa-crown pr-1"></i>랭킹 0위</a></li>
                     </ul>
                   </div>
                 </div>
               </div>
-              <?php endif; ?>
               <?php endforeach; ?>
             </div>
           </section>

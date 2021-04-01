@@ -57,6 +57,10 @@ class Place extends MY_Controller
       $viewData['view'] = $this->place_model->viewPlace($idx);
     }
 
+    // 조회수 올리기
+    $updateValues['refer'] = $viewData['view']['refer'] + 1;
+    $this->place_model->updatePlace($updateValues, $idx);
+
     // 지역
     $viewData['area_sido'] = $this->area_model->listSido();
     if (!empty($viewData['view']['area_sido'])) {
