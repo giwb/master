@@ -35,12 +35,12 @@
               <?php else: ?>
               <div class="col-md-12 my-3">
                 <div class="card">
-                  <div class="card-body row no-gutters">
-                    <div class="col-2">
-                      <img src="<?=!empty($value['thumbnail']) ? PHOTO_PLACE_URL . 'thumb_' . $value['thumbnail'] : '/public/images/noimage.png'?>" class="card-img-top">
-                      <a href="/place/view/<?=$value['idx']?>"><div class="mask rgba-white-slight"></div></a>
+                  <div class="card-body row">
+                    <div class="col-sm-2">
+                      <a href="/place/view/<?=$value['idx']?>"><img src="<?=!empty($value['thumbnail']) ? PHOTO_PLACE_URL . 'thumb_' . $value['thumbnail'] : '/public/images/noimage.png'?>" class="card-img-top"></a>
+                      <div class="d-block d-sm-none mb-3"></div>
                     </div>
-                    <div class="col-10">
+                    <div class="col-sm-10">
                       <h4 class="card-title font-weight-bold"><a href="/place/view/<?=$value['idx']?>"><?=$value['title']?><br><small class="grey-text">강원 춘천시, 홍천군<?=!empty($value['altitude']) ? ' / ' . number_format($value['altitude']) . 'm' : ''?></small></a></h4><hr>
                       <p class="card-text text-justify"><?=articleContent($value['content'], 210)?></p>
                     </div>
