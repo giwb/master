@@ -67,9 +67,10 @@
           <a href="http://cctv.tripkorea.net/video" class="nav-link" aria-haspopup="true" aria-expanded="false"><i class="fas fa-video"></i> 현지영상</a>
         </li>
         <?php if (!empty($userData['idx'])): ?>
+        <!--
         <li class="nav-item">
           <a href="<?=base_url()?>mypage" class="nav-link" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle"></i> 마이페이지</a>
-        </li>
+        </li>-->
         <li class="nav-item">
           <a href="javascript:;" class="nav-link logout" aria-haspopup="true" aria-expanded="false"><i class="fas fa-sign-out-alt"></i> 로그아웃</a>
         </li>
