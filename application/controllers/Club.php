@@ -137,6 +137,24 @@ class Club extends MY_Controller
     $cntReply = $this->desk_model->cntReply($viewData['viewLogs'][0]['idx']);
     $viewData['viewLogs'][0]['cntReply'] = $cntReply['cnt'];
 
+    // 백산백소 랭킹
+    if (ENVIRONMENT == 'production') {
+      $rank = 0; $buf = 0;
+      $viewData['auth'] = $this->club_model->listAuth(5);
+
+      foreach ($viewData['auth'] as $key => $value) {
+        if ($buf != $value['cnt']) { $rank = $key; $rank++; }
+        $viewData['auth'][$key]['rank'] = $rank;
+        $viewData['auth'][$key]['title'] = '';
+
+        $authList = $this->club_model->listAuthNotice($value['nickname']);
+        foreach ($authList as $auth) {
+          $viewData['auth'][$key]['title'] .= "<a target='_blank' href='" . $auth['photo'] . "'>" . $auth['title'] . "</a> / ";
+        }
+        $buf = $value['cnt'];
+      }
+    }
+
     $this->_viewPage('club/index', $viewData);
   }
 

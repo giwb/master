@@ -78,7 +78,7 @@ class Club_model extends CI_Model
   }
 
   // 백산백소
-  public function listAuth()
+  public function listAuth($limit=NULL)
   {
     $this->db->select('nickname, COUNT(idx) AS cnt')
           ->from(DB_AUTH)
@@ -87,6 +87,11 @@ class Club_model extends CI_Model
           ->group_by('nickname')
           ->order_by('cnt', 'desc')
           ->order_by('nickname', 'asc');
+
+    if (!is_null($limit)) {
+      $this->db->limit($limit);
+    }
+
     return $this->db->get()->result_array();
   }
 

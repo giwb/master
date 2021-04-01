@@ -109,26 +109,21 @@
               <div class="col-6 text-right"><a href="<?=BASE_URL?>/club/auth" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a></div>
             </h4>
             <div class="card pb-3">
-              <div class="row pl-3 pr-3 pt-3">
-                <div class="col-5 col-sm-4 small"><img src="/public/images/medal1.png" align="left"> 스마일찐이님</div>
-                <div class="col-7 col-sm-8 pl-0"><div class="auth-progress-bar"><div id="medal1" class="auth-gauge" cnt="42">42회</div></div></div>
-              </div>
-              <div class="row pl-3 pr-3 pt-2">
-                <div class="col-5 col-sm-4 small"><img src="/public/images/medal2.png" align="left"> 미운사랑님</div>
-                <div class="col-7 col-sm-8 pl-0"><div class="auth-progress-bar"><div id="medal2" class="auth-gauge" cnt="37">37회</div></div></div>
-              </div>
-              <div class="row pl-3 pr-3 pt-2">
-                <div class="col-5 col-sm-4 small"><img src="/public/images/medal3.png" align="left"> 맑음님</div>
-                <div class="col-7 col-sm-8 pl-0"><div class="auth-progress-bar"><div id="medal3" class="auth-gauge" cnt="36">36회</div></div></div>
-              </div>
-              <div class="row pl-3 pr-3 pt-2">
-                <div class="col-5 col-sm-4 small"><img src="/public/images/medal4.png" align="left"> 야나두님</div>
-                <div class="col-7 col-sm-8 pl-0"><div class="auth-progress-bar"><div id="medal4" class="auth-gauge" cnt="32">32회</div></div></div>
-              </div>
-              <div class="row pl-3 pr-3 pt-2">
-                <div class="col-5 col-sm-4 small"><img src="/public/images/medal5.png" align="left"> 명산님</div>
-                <div class="col-7 col-sm-8 pl-0"><div class="auth-progress-bar"><div id="medal5" class="auth-gauge" cnt="27">27회</div></div></div>
-              </div>
+              <table width="100%" class="auth">
+              <?php foreach ($auth as $key => $value): ?>
+              <tr>
+                <td align="center">
+                  <?php if ($value['rank'] <= 5): ?><img src="/public/images/medal<?=$value['rank']?>.png">
+                  <?php else: ?><?=$value['rank']?><?php endif; ?>
+                </td>
+                <td nowrap><?=$value['nickname']?>님</td>
+                <td class="btn-open-auth" data-idx="<?=$key?>">
+                  <div class="auth-progress-bar"><div id="medal<?=$key?>" class="auth-gauge" cnt="<?=$value['cnt']?>"><?=$value['cnt']?>회</div></div>
+                  <div class="auth-title d-none" data-idx="<?=$key?>"><?=$value['title']?></div>
+                </td>
+              </tr>
+              <?php endforeach; ?>
+              </table>
             </div>
           </section>
 
