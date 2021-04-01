@@ -18,6 +18,22 @@ class Place extends MY_Controller
     $viewData['viewType'] = !empty($this->input->get('view')) ? html_escape($this->input->get('view')) : $viewData['viewType'] = 'list';
     $viewData['listPlace'] = $this->place_model->listPlace($search);
 
+    foreach ($viewData['listPlace'] as $key1 => $value) {
+      // 지역
+      $viewData['area_sido'] = $this->area_model->listSido();
+      if (!empty($value['area_sido'])) {
+        $area_sido = unserialize($value['area_sido']);
+        $area_gugun = unserialize($value['area_gugun']);
+
+        foreach ($area_sido as $key2 => $value2) {
+          $sido = $this->area_model->getName($value2);
+          $gugun = $this->area_model->getName($area_gugun[$key2]);
+          $viewData['listPlace'][$key1]['sido'][$key2] = $sido['name'];
+          $viewData['listPlace'][$key1]['gugun'][$key2] = $gugun['name'];
+        }
+      }
+    }
+
     switch ($search['code']) {
       case 'forest': 
         $viewData['pageTitle'] = '여행정보 - 산림청 100대 명산';
@@ -39,6 +55,20 @@ class Place extends MY_Controller
       $viewData['view']['content'] = '<div style="pt-5 pb-5">관련 기사가 없습니다.</div>';
     } else {
       $viewData['view'] = $this->place_model->viewPlace($idx);
+    }
+
+    // 지역
+    $viewData['area_sido'] = $this->area_model->listSido();
+    if (!empty($viewData['view']['area_sido'])) {
+      $area_sido = unserialize($viewData['view']['area_sido']);
+      $area_gugun = unserialize($viewData['view']['area_gugun']);
+
+      foreach ($area_sido as $key2 => $value2) {
+        $sido = $this->area_model->getName($value2);
+        $gugun = $this->area_model->getName($area_gugun[$key2]);
+        $viewData['view']['sido'][$key2] = $sido['name'];
+        $viewData['view']['gugun'][$key2] = $gugun['name'];
+      }
     }
 
     $search['category'] = $viewData['view']['category'];

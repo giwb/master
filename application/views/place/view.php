@@ -7,7 +7,10 @@
           <div class="row mb-5 pb-3 mx-2">
             <div class="card card-body mb-4">
               <div class="post-data mb-4">
-                <h2 class="font-weight-bold mt-3 pl-3 pr-3"><strong><?=$view['title']?></strong></h2>
+                <div class="mt-3 pl-3 pr-3">
+                  <h2 class="font-weight-bold"><?=$view['title']?></h2>
+                  <h6 class="grey-text"><?php foreach ($view['sido'] as $key => $area): if ($key != 0): ?>, <?php endif; ?><?=$area?> <?=!empty($view['gugun'][$key]) ? $view['gugun'][$key] : ''?><?php endforeach; ?><?=!empty($view['altitude']) ? ' / ' . number_format($view['altitude']) . 'm' : ''?></h6>
+                </div>
                 <hr class="red title-hr">
                 <div class="post-article">
                   <h2>100대명산 선정사유</h2>
