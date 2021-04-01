@@ -108,15 +108,15 @@
               <div class="col-6"><strong>백산백소 인증현황</strong></div>
               <div class="col-6 text-right"><a href="<?=BASE_URL?>/club/auth" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a></div>
             </h4>
-            <div class="card pb-3">
+            <div class="card p-3">
               <?php foreach ($auth as $key => $value): ?>
-              <div class="row no-gutters">
+              <div class="row no-gutters mt-2">
                 <div class="col-1">
                   <?php if ($value['rank'] <= 5): ?><img src="/public/images/medal<?=$value['rank']?>.png">
                   <?php else: ?><?=$value['rank']?><?php endif; ?>
                 </div>
-                <div class="col-5"><?=$value['nickname']?>님</div>
-                <div class="col-6 btn-open-auth" data-idx="<?=$key?>">
+                <div class="col-4"><?=$value['nickname']?>님</div>
+                <div class="col-7 btn-open-auth" data-idx="<?=$key?>">
                   <div class="auth-progress-bar"><div id="medal<?=$key?>" class="auth-gauge" cnt="<?=$value['cnt']?>"><?=$value['cnt']?>회</div></div>
                   <div class="auth-title d-none" data-idx="<?=$key?>"><?=$value['title']?></div>
                 </div>
