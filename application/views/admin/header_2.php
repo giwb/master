@@ -94,7 +94,7 @@
             <a class="nav-link dropdown-toggle" id="navbarDropMenu100" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소</a>
             <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropMenu100">
               <a href="<?=BASE_URL?>/admin/attendance_auth">인증관리</a><br>
-              <a href="<?=BASE_URL?>/admin/attendance_mountain">출석관리</a>
+              <a href="<?=BASE_URL?>/admin/attendance_mountain">출석현황</a>
             </div>
           </li>
           <?php endif; ?>
