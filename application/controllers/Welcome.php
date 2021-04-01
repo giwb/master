@@ -8,7 +8,7 @@ class Welcome extends MY_Controller
   {
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
-    $this->load->model(array('area_model', 'club_model', 'desk_model', 'file_model', 'story_model', 'reserve_model'));
+    $this->load->model(array('area_model', 'club_model', 'desk_model', 'file_model', 'notice_model', 'story_model', 'reserve_model'));
   }
 
   /**
@@ -358,8 +358,6 @@ class Welcome extends MY_Controller
       // 사진
       if (!empty($value['photo']) && file_exists(PHOTO_PATH . $value['photo'])) {
         $viewData['listNotice'][$key1]['photo'] = PHOTO_URL . $value['photo'];
-      } else {
-        $viewData['listNotice'][$key1]['photo'] = '/public/images/nophoto.png';
       }
     }
 
@@ -437,14 +435,39 @@ class Welcome extends MY_Controller
       $viewData['searchTitle']['name'] = '전체';
     }
 
-    foreach ($viewData['list'] as $key => $value) {
+    foreach ($viewData['list'] as $key1 => $value) {
+      // 지역
+      if (!empty($value['area_sido'])) {
+        $area_sido = unserialize($value['area_sido']);
+        $area_gugun = unserialize($value['area_gugun']);
+
+        foreach ($area_sido as $key2 => $value2) {
+          $sido = $this->area_model->getName($value2);
+          if (!empty($area_gugun[$key2])) {
+            $gugun = $this->area_model->getName($area_gugun[$key2]);
+          } else {
+            $gugun['name'] = '';
+          }
+          $viewData['list'][$key1]['sido'][$key2] = $sido['name'];
+          $viewData['list'][$key1]['gugun'][$key2] = $gugun['name'];
+        }
+      }
+
       // 사진
       $file = $this->file_model->getFile('club', $value['idx'], NULL, 1);
       if (!empty($file[0]['filename'])) {
-        $viewData['list'][$key]['thumbnail'] = UPLOAD_CLUB_URL . $value['idx'] . '/thumb_' . $file[0]['filename'];
+        $viewData['list'][$key1]['thumbnail'] = UPLOAD_CLUB_URL . $value['idx'] . '/thumb_' . $file[0]['filename'];
       } else {
-        $viewData['list'][$key]['thumbnail'] = '/public/images/noimage.png';
+        $viewData['list'][$key1]['thumbnail'] = '/public/images/noimage.png';
       }
+
+      // 회원수
+      $cntMember = $this->member_model->cntMember($value['idx']);
+      $viewData['list'][$key1]['cntMember'] = $cntMember['cnt'];
+
+      // 산행횟수
+      $cntNotice = $this->notice_model->cntNotice($value['idx']);
+      $viewData['list'][$key1]['cntNotice'] = $cntNotice['cnt'];
     }
 
     $this->_viewPage('area', $viewData);

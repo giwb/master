@@ -10,6 +10,16 @@ class Notice_model extends CI_Model
     $this->load->database();
   }
 
+  // 산행 횟수
+  public function cntNotice($clubIdx)
+  {
+    $this->db->select('COUNT(*) AS cnt')
+          ->from(DB_NOTICE)
+          ->where('club_idx', $clubIdx)
+          ->where_in('status', array(STATUS_ABLE, STATUS_CONFIRM, STATUS_CLOSED));
+    return $this->db->get()->row_array(1);
+  }
+
   // 진행중 산행
   public function listNotice()
   {

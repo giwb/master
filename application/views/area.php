@@ -11,16 +11,16 @@
               <?php foreach ($list as $value): ?>
               <div class="col-md-6 my-3">
                 <div class="card">
-                  <div class="view overlay">
-                    <img src="<?=$value['thumbnail']?>" class="card-img-top">
-                    <a target="_blank" href="<?=base_url()?><?=$value['url']?>"><div class="mask rgba-white-slight"></div></a>
-                  </div>
                   <div class="card-body">
-                    <h5><strong><a href="detail.html" style="color: #3e4551;"><img src="/public/images/tripkorea/mountain1.png"> <?=$value['title']?></a></strong></h5>
+                    <h5 class="row no-gutters align-items-center font-weight-bold">
+                      <div class="col-2 col-sm-1"><img class="w-100" src="<?=$value['thumbnail']?>"></div>
+                      <div class="col-10 col-sm-11 pl-2"><?=$value['title']?></div>
+                    </h5>
                     <hr>
                     <p class="card-text text-justify">
-                      ・지역 : 인천, 부천<br>
-                      ・노선 : 계산 - 작전 - 갈산 - 부평구청 - 삼산 - 소풍 - 복사 - 송내남부
+                      <?php if (!empty($value['establish'])): ?>・설립년도 : <?=$value['establish']?>년<br><?php endif; ?>
+                      <?php if (!empty($value['sido'])): ?>・활동지역 : <?php foreach ($value['sido'] as $key => $area): if ($key != 0): ?>, <?php endif; ?><?=$area?> <?=!empty($value['gugun'][$key]) ? $value['gugun'][$key] : ''?><?php endforeach; ?><br><?php endif; ?>
+                      <?php if (!empty($value['phone'])): ?>・연락처 : <?=$value['phone']?><?php endif; ?>
                     </p>
                     <hr>
                     <p class="card-text text-justify">
@@ -29,9 +29,9 @@
                   </div>
                   <div class="mdb-color lighten-3 text-center">
                     <ul class="list-unstyled list-inline font-small mt-3">
-                      <li class="list-inline-item pr-1"><a href="detail.html" class="white-text"><i class="far fa-eye pr-1"></i>회원수 2580명</a></li>
-                      <li class="list-inline-item pr-1"><a href="detail.html" class="white-text"><i class="far fa-comments pr-1"></i>산행횟수 5230회</a></li>
-                      <li class="list-inline-item pr-1"><a href="detail.html" class="white-text"><i class="far fa-calendar-check pr-1"></i>랭킹 1위</a></li>
+                      <li class="list-inline-item pr-1"><a href="detail.html" class="white-text"><i class="fas fa-users pr-1"></i> 회원수 <?=number_format($value['cntMember'])?>명</a></li>
+                      <li class="list-inline-item pr-1"><a href="detail.html" class="white-text"><i class="fas fa-map-marker-alt"></i> 산행횟수 <?=number_format($value['cntNotice'])?>회</a></li>
+                      <!--<li class="list-inline-item pr-1"><a href="detail.html" class="white-text"><i class="far fa-calendar-check pr-1"></i>랭킹 1위</a></li>-->
                     </ul>
                   </div>
                 </div>
