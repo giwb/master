@@ -10,7 +10,7 @@
                 <h2 class="font-weight-bold mt-3 pl-3 pr-3"><strong><?=$view['title']?></strong></h2>
                 <hr class="red title-hr">
                 <div class="post-article">
-                  <h2>선정사유</h2>
+                  <h2>100대명산 선정사유</h2>
                   <div class="post-content"><?=nl2br(reset_html_escape($view['reason']))?></div>
 
                   <h2>내용</h2>
