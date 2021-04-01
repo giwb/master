@@ -11,16 +11,16 @@
                 <hr class="red title-hr">
                 <div class="post-article">
                   <h2>선정사유</h2>
-                  <?=nl2br(reset_html_escape($view['reason']))?>
+                  <div class="mb-4 p-4"><?=nl2br(reset_html_escape($view['reason']))?></div>
 
-                  <h2 class="mt-4">내용</h2>
-                  <?=nl2br(reset_html_escape($view['content']))?>
+                  <h2>내용</h2>
+                  <div class="mb-4 p-4"><?=nl2br(reset_html_escape($view['content']))?></div>
 
-                  <h2 class="mt-4">주변</h2>
-                  <?=nl2br(reset_html_escape($view['around']))?>
+                  <h2>주변</h2>
+                  <div class="mb-4 p-4"><?=nl2br(reset_html_escape($view['around']))?></div>
 
-                  <h2 class="mt-4">코스</h2>
-                  <?=nl2br(reset_html_escape($view['course']))?>
+                  <h2>코스</h2>
+                  <div class="mb-4 p-4"><?=nl2br(reset_html_escape($view['course']))?></div>
                 </div><!--
                 <hr>
                 <div class="row">

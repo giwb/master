@@ -40,9 +40,9 @@
                                         <tr>
                                             <th class="text-center">지역</th>
                                             <td>
-                                                <button type="button" class="btn btn-sm btn-primary btn-add-area mb-2">추가</button>
-                                                <div class="row">
-                                                    <?php if (empty($view['sido'])): ?>
+                                                <button type="button" class="btn btn-sm btn-primary btn-add-area mb-1">추가</button>
+                                                <?php if (empty($view['sido'])): ?>
+                                                <div class="row mt-1">
                                                     <div class="col-3">
                                                         <select name="area_sido[]" class="form-control area-sido">
                                                             <option value=''>시/도</option>
@@ -59,7 +59,9 @@
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
-                                                    <?php else: foreach ($view['sido'] as $key => $val): ?>
+                                                </div>
+                                                <?php else: foreach ($view['sido'] as $key => $val): ?>
+                                                <div class="row mt-1">
                                                     <div class="col-3">
                                                         <select name="area_sido[]" class="form-control area-sido">
                                                             <option value=''>시/도</option>
@@ -76,8 +78,8 @@
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
-                                                    <?php endforeach; endif; ?>
                                                 </div>
+                                                <?php endforeach; endif; ?>
                                                 <div class="added-area"></div>
                                             </td>
                                         </tr>

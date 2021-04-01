@@ -2175,8 +2175,9 @@ main#footer { padding-top: 0px!important; }
 .area-link { cursor: pointer; }
 .area-photo { max-height: 100px; overflow: hidden; }
 .area-photo img { width: 100%; min-height: 100px; }
-.post-article { padding: 50px; text-align: justify; }
-.post-article p { margin: 0px; padding: 0px; }
+.post-article { padding: 20px; text-align: justify; }
+.post-article h2 { font-size: 1.6rem; color: #3e4551; border-left: 10px solid #3e4551; border-bottom: 1px solid #d9d9d9; padding: 3px 0 10px 14px; }
+.post-article p { margin: 0px; }
 .post-article img { max-width: 100%; }
 .area-refer { justify-content: flex-start!important; }
 .area-sns { justify-content: flex-end!important; }

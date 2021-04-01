@@ -36,7 +36,7 @@
               <div class="col-md-12 my-3">
                 <div class="card area-link" data-link="/place/view/<?=$value['idx']?>">
                   <div class="card-body row no-gutters">
-                    <div class="col-3 col-sm-3" style="background: url(<?=!empty($value['thumbnail']) ? PHOTO_PLACE_URL . 'thumb_' . $value['thumbnail'] : '/public/images/nophoto_mid.png'?>) no-repeat center center; background-size: 110%;">
+                    <div class="col-3 col-sm-3" style="background: url(<?=!empty($value['thumbnail']) ? PHOTO_PLACE_URL . 'thumb_' . $value['thumbnail'] : '/public/images/nophoto_mid.png'?>) no-repeat center center; background-size: 130%;">
                     </div>
                     <div class="col-9 col-sm-9 pl-3">
                       <h4 class="card-title font-weight-bold"><?=$value['title']?><br><small class="grey-text">강원 춘천시, 홍천군<?=!empty($value['altitude']) ? ' / ' . number_format($value['altitude']) . 'm' : ''?></small></h4>
