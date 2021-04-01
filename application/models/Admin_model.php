@@ -576,6 +576,24 @@ class Admin_model extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  // 백산백소 목록
+  public function listAuth()
+  {
+    $this->db->select('*')
+          ->from(DB_AUTH)
+          ->order_by('idx', 'desc');
+    return $this->db->get()->result_array();
+  }
+
+  // 백산백소 상세
+  public function viewAuth($idx)
+  {
+    $this->db->select('*')
+          ->from(DB_AUTH)
+          ->where('idx', $idx);
+    return $this->db->get()->row_array(1);
+  }
+
   // 출석체크 - 산행
   public function listAttendanceNotice($dateStart, $dateEnd)
   {
@@ -657,6 +675,21 @@ class Admin_model extends CI_Model
   {
     $this->db->insert(DB_AUTH, $data);
     return $this->db->insert_id();
+  }
+
+  // 출석체크 - 인증현황 수정
+  public function updateAttendanceAuth($data, $idx)
+  {
+    $this->db->set($data);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_AUTH);
+  }
+
+  // 출석체크 - 인증현황 삭제
+  public function deleteAttendanceAuth($idx)
+  {
+    $this->db->where('idx', $idx);
+    return $this->db->delete(DB_AUTH);
   }
 
   // 활동관리 - 회원 예약 기록

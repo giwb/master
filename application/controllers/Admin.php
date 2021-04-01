@@ -2586,12 +2586,20 @@ class Admin extends Admin_Controller
   {
     // 클럽ID
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+    $idx = !empty($this->input->get('n')) ? html_escape($this->input->get('n')) : NULL;
 
     $search['clubIdx'] = $viewData['clubIdx'];
     $search['status'] = array(STATUS_CLOSED);
     $search['sdate'] = '2019-04-06';
     $search['edate'] = date('Y-m-d');
     $viewData['listAttendanceNotice'] = $this->admin_model->listNotice($search, 'desc');
+
+    if (!empty($idx)) {
+      $viewData['viewAuth'] = $this->admin_model->viewAuth($idx);
+    }
+
+    // 백산백소 목록
+    $viewData['listAuth'] = $this->admin_model->listAuth();
 
     // 페이지 타이틀
     $viewData['pageTitle'] = '백산백소 인증';
@@ -2600,33 +2608,65 @@ class Admin extends Admin_Controller
   }
 
   /**
-   * 인증현황 등록 처리
+   * 인증현황 등록/수정
    *
    * @return view
    * @author bjchoi
    **/
-  public function attendance_auth_insert()
+  public function attendance_auth_update()
   {
     // 클럽ID
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
-
     $inputData = $this->input->post();
+    $idx = !empty($this->input->post('idx')) ? html_escape($this->input->post('idx')) : NULL;
 
-    $insertValues = array(
-      'rescode' => html_escape($inputData['rescode']),
-      'userid' => html_escape($inputData['userid']),
-      'nickname' => html_escape($inputData['nickname']),
-      'photo' => html_escape($inputData['photo']),
-      'title' => html_escape($inputData['title']),
-      'regdate' => time()
-    );
-
-    $rtn = $this->admin_model->insertAttendanceAuth($insertValues);
+    if (!empty($idx)) {
+      $updateValues = array(
+        'rescode' => html_escape($inputData['rescode']),
+        'userid' => html_escape($inputData['userid']),
+        'nickname' => html_escape($inputData['nickname']),
+        'photo' => html_escape($inputData['photo']),
+        'title' => html_escape($inputData['title']),
+      );
+      $rtn = $this->admin_model->updateAttendanceAuth($updateValues, $idx);
+      $message = $this->lang->line('msg_update_complete');
+    } else {
+      $insertValues = array(
+        'rescode' => html_escape($inputData['rescode']),
+        'userid' => html_escape($inputData['userid']),
+        'nickname' => html_escape($inputData['nickname']),
+        'photo' => html_escape($inputData['photo']),
+        'title' => html_escape($inputData['title']),
+        'regdate' => time()
+      );
+      $rtn = $this->admin_model->insertAttendanceAuth($insertValues);
+      $message = $this->lang->line('msg_insert_complete');
+    }
 
     if (empty($rtn)) {
       $result = array('error' => 1, 'message' => $this->lang->line('error_insert'));
     } else {
-      $result = array('error' => 0, 'message' => $this->lang->line('msg_insert_complete'));
+      $result = array('error' => 0, 'message' => $message);
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 인증현황 삭제
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function attendance_auth_delete()
+  {
+    $idx = !empty($this->input->post('idx')) ? html_escape($this->input->post('idx')) : NULL;
+
+    if (empty($idx)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_delete'));
+    } else {
+      $this->admin_model->deleteAttendanceAuth($idx);
+      $result = array('error' => 0, 'message' => '');
     }
 
     $this->output->set_output(json_encode($result));

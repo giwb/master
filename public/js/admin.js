@@ -512,6 +512,23 @@
         }
       }
     });
+  }).on('blur', '.search-userid', function() {
+    // 닉네임으로 사용자 아이디 검색
+    var $dom = $(this);
+    var nickname = $(this).val();
+    if (nickname == '') return false;
+
+    $.ajax({
+      url: '/admin/search_by_nickname',
+      data: 'club_idx=' + $('input[name=clubIdx]').val() + '&nickname=' + nickname,
+      dataType: 'json',
+      type: 'post',
+      success: function(result) {
+        if (result.error != 1) {
+          $('.search-userid-result').val(result.message.userid);
+        }
+      }
+    });
   }).on('click', '.btn-wait-insert', function() {
     // 대기자 추가
     var $btn = $(this);
@@ -586,41 +603,6 @@
         $('#messageModal .btn-delete, #messageModal .close').hide();
         $('#messageModal .btn-refresh').show();
         $('#messageModal').modal({backdrop: 'static', keyboard: false});
-      }
-    });
-  }).on('click', '.btn-auth', function() {
-    // 백산백소 인증현황 등록
-    var $btn = $(this);
-    var $dom = $('#formAuth');
-    var formData = new FormData($dom[0]);
-
-    if ($('select[name=rescode] option:selected').val() == '') {
-      $.openMsgModal('산행은 꼭 선택해주세요.');
-      return false;
-    }
-    if ($('input[name=title]').val() == '') {
-      $.openMsgModal('산행명은 꼭 입력해주세요.');
-      return false;
-    }
-
-    $.ajax({
-      url: $dom.attr('action'),
-      data: formData,
-      processData: false,
-      contentType: false,
-      dataType: 'json',
-      type: 'post',
-      beforeSend: function() {
-        $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
-      },
-      success: function(result) {
-        $btn.css('opacity', '1').prop('disabled', false).text('인증 사진을 등록합니다');
-        if (result.error != 1) {
-          $dom.each(function() {
-            this.reset();
-          });
-        }
-        $.openMsgModal(result.message);
       }
     });
   }).on('click', '.btn-add-bus', function() {
