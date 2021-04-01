@@ -57,7 +57,7 @@
 
   <header>
     <nav id="mainNav" class="navbar navbar-expand-lg navbar-dark">
-      <a class="navbar-brand" href="<?=BASE_URL?>"><img width="45" src="/public/images/icon.png" style="margin-right: 10px; float: left;"><span class="logo">경인웰빙</span></a>
+      <a class="navbar-brand" href="<?=BASE_URL?>/admin"><img width="45" src="/public/images/icon.png" style="margin-right: 10px; float: left;"><span class="logo">경인웰빙</span></a>
       <button class="navbar-toggler" type="button"><i class="fa fa-cog text-white" aria-hidden="true"></i>
       </button>
       <div class="navbar-sideview">
