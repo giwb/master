@@ -90,8 +90,12 @@
             <a href="<?=BASE_URL?>/admin/log_user" class="nav-link"><i class="fas fa-users" aria-hidden="true"></i> 활동관리</a>
           </li>
           <?php if ($viewClub['idx'] == 1): ?>
-          <li class="nav-item">
-            <a href="<?=BASE_URL?>/admin/attendance_auth" class="nav-link"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropMenu100" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소</a>
+            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropMenu100">
+              <a href="<?=BASE_URL?>/admin/attendance_auth">인증관리</a><br>
+              <a href="<?=BASE_URL?>/admin/attendance_mountain">출석관리</a>
+            </div>
           </li>
           <?php endif; ?>
           <li class="nav-item">
