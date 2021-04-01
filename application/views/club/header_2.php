@@ -76,6 +76,9 @@
         <a href="<?=BASE_URL?>/member/driver" class="nav-link">드라이버 페이지</a>
         <?php endif; ?>
         <a href="<?=BASE_URL?>/member/modify" class="nav-link">개인정보수정</a>
+        <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
+        <a href="<?=BASE_URL?>/admin">관리 페이지</a>
+        <?php endif; ?>
         <a class="nav-link logout">로그아웃</a>
         <?php endif; ?>
         <br><img src="/public/images/banner_cafe.png" onClick="window.open('https://cafe.daum.net/giwb');">
