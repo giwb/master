@@ -28,6 +28,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 
   <script type="text/javascript" src="/public/js/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="/public/js/jquery-ui.min.js"></script>
   <script type="text/javascript" src="/public/js/jquery-ui.custom.min.js"></script>
   <script type="text/javascript" src="/public/js/jquery.easing.min.js"></script>
   <script type="text/javascript" src="/public/js/bootstrap.min.js"></script>
@@ -43,6 +44,7 @@
   <script data-ad-client="ca-pub-2424708381875991" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <?php endif; ?>
 
+  <link href="/public/css/jquery-ui.css" rel="stylesheet" type="text/css">
   <link href="/public/photoswipe/photoswipe.css" rel="stylesheet">
   <link href="/public/photoswipe/default-skin/default-skin.css" rel="stylesheet">
 

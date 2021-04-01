@@ -24,7 +24,7 @@
             <div class="row no-gutters align-items-center border-top mt-3 pt-3">
               <div class="col-sm-2 font-weight-bold">출발일시</div>
               <div class="col-sm-10 row no-gutters align-items-center pl-0">
-                <div class="col col-sm-4 mr-2"><input type="text" name="startdate" id="startDatePicker" class="form-control" value="<?=$view['startdate']?>"></div>
+                <div class="col col-sm-4 mr-2"><input type="text" name="startdate" id="startDatePicker" class="form-control" value="<?=$view['startdate']?>" autocomplete="off"></div>
                 <div class="col col-sm-4">
                   <select name="starttime" id="startTime" class="form-control">
                   <?php
@@ -44,7 +44,7 @@
             <div class="row no-gutters align-items-center border-top mt-3 pt-3">
               <div class="col-sm-2 font-weight-bold">도착일자</div>
               <div class="col-sm-10 row no-gutters align-items-center pl-0">
-                <div class="col col-sm-4 mr-2"><input readonly type="text" name="enddate" id="endDatePicker" class="form-control" value="<?=$view['enddate']?>"></div>
+                <div class="col col-sm-4 mr-2"><input readonly type="text" name="enddate" id="endDatePicker" class="form-control" value="<?=$view['enddate']?>" autocomplete="off"></div>
                 <div class="col col-sm-4"><input readonly type="text" id="calcSchedule" class="form-control"></div>
               </div>
             </div>
