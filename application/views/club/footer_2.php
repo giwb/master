@@ -109,21 +109,19 @@
               <div class="col-6 text-right"><a href="<?=BASE_URL?>/club/auth" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a></div>
             </h4>
             <div class="card pb-3">
-              <table width="100%" class="auth">
               <?php foreach ($auth as $key => $value): ?>
-              <tr>
-                <td align="center">
+              <div class="row no-gutters">
+                <div class="col-1">
                   <?php if ($value['rank'] <= 5): ?><img src="/public/images/medal<?=$value['rank']?>.png">
                   <?php else: ?><?=$value['rank']?><?php endif; ?>
-                </td>
-                <td nowrap><?=$value['nickname']?>님</td>
-                <td class="btn-open-auth" data-idx="<?=$key?>">
+                </div>
+                <div class="col-5"><?=$value['nickname']?>님</td>
+                <div class="col-6 btn-open-auth" data-idx="<?=$key?>">
                   <div class="auth-progress-bar"><div id="medal<?=$key?>" class="auth-gauge" cnt="<?=$value['cnt']?>"><?=$value['cnt']?>회</div></div>
                   <div class="auth-title d-none" data-idx="<?=$key?>"><?=$value['title']?></div>
-                </td>
-              </tr>
+                </div>
+              </div>
               <?php endforeach; ?>
-              </table>
             </div>
           </section>
 
