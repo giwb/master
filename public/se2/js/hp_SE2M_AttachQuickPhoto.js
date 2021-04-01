@@ -97,7 +97,6 @@ nhn.husky.SE2M_AttachQuickPhoto = jindo.$Class({
 		var sTag = '<img src="{=sOriginalImageURL}" title="{=sName}" >';
 		if(htPhotoInfo.bNewLine){
 			sTag += '<br style="clear:both;">';
-			sTag += '<p>&nbsp;</p>';
 		}
 		sTag = jindo.$Template(sTag).process(htPhotoInfo);
 		

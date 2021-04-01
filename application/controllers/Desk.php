@@ -991,7 +991,7 @@ class Desk extends Desk_Controller
       if (!empty($value)) {
         if ($files['type'][$key] == 'image/gif') {
           $ext = ".gif";
-        } elseif ($_FILES['thumbnail']['type'] == 'image/png') {
+        } elseif ($files['type'][$key] == 'image/png') {
           $ext = ".png";
         } else {
           $ext = ".jpg";
