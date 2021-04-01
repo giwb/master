@@ -14,7 +14,7 @@
             </div>
             <hr class="text-default mt-2">
 
-            <div class="area-memo"><?=!empty($viewBookmark['memo']) ? $viewBookmark['memo'] : ''?></div>
+            <div class="area-memo"><?=!empty($viewBookmark['memo']) ? nl2br($viewBookmark['memo']) : ''?></div>
 
             <div class="area-edit-memo mt-3 mb-3">
               <a class="btn-edit-memo" data-idx="<?=!empty($viewBookmark['idx']) ? $viewBookmark['idx'] : ''?>"><i class="far fa-plus-square"></i> 메모장 편집</a>
