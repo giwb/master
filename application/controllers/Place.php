@@ -9,21 +9,25 @@ class Place extends MY_Controller
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
     $this->load->library(array('image_lib'));
-    $this->load->model(array('area_model', 'desk_model', 'file_model', 'place_model'));
+    $this->load->model(array('area_model', 'desk_model', 'file_model', 'place_model', 'story_model'));
   }
 
   public function index()
   {
-    $v = html_escape($this->input->get('v'));
-    if (!empty($v)) {
-      $viewData['viewType'] = $v;
-    } else {
-      $viewData['viewType'] = 'list';
+    $viewData['code'] = $search['code'] = !empty($this->input->get('code')) ? html_escape($this->input->get('code')) : '';
+    $viewData['viewType'] = !empty($this->input->get('view')) ? html_escape($this->input->get('view')) : $viewData['viewType'] = 'list';
+    $viewData['listPlace'] = $this->place_model->listPlace($search);
+
+    switch ($search['code']) {
+      case 'forest': 
+        $viewData['pageTitle'] = '여행정보 - 산림청 100대 명산';
+        break;
+      case 'bac': 
+        $viewData['pageTitle'] = '여행정보 - 블랙야크 명산 100';
+        break;
+      default:
+        $viewData['pageTitle'] = '여행정보 - 전체보기';
     }
-
-    $viewData['listPlace'] = $this->place_model->listPlace();
-
-    $viewData['pageTitle'] = '여행정보 전체보기';
 
     $this->_viewPage('place/index', $viewData);
   }
@@ -391,9 +395,42 @@ class Place extends MY_Controller
       $viewData['listPlaceCategory'][$key]['cnt'] = $cnt['cnt'];
     }
 
+    // 여행일정
+    $viewData['listFooterNotice'] = $this->reserve_model->listNotice(NULL, array(STATUS_ABLE, STATUS_CONFIRM), 'asc');
+
+    foreach ($viewData['listFooterNotice'] as $key1 => $value) {
+      $viewClub = $this->club_model->viewClub($value['club_idx']);
+      $viewData['listFooterNotice'][$key1]['club_name'] = $viewClub['title'];
+      $viewData['listFooterNotice'][$key1]['url'] = base_url() . $viewClub['url'] . '/reserve/list/' . $value['idx'];
+
+      // 댓글수
+      $cntReply = $this->story_model->cntStoryReply($value['idx'], REPLY_TYPE_NOTICE);
+      $viewData['listFooterNotice'][$key1]['reply_cnt'] = $cntReply['cnt'];
+
+      // 지역
+      if (!empty($value['area_sido'])) {
+        $area_sido = unserialize($value['area_sido']);
+        $area_gugun = unserialize($value['area_gugun']);
+
+        foreach ($area_sido as $key2 => $value2) {
+          $sido = $this->area_model->getName($value2);
+          $gugun = $this->area_model->getName($area_gugun[$key2]);
+          $viewData['listFooterNotice'][$key1]['sido'][$key2] = $sido['name'];
+          $viewData['listFooterNotice'][$key1]['gugun'][$key2] = $gugun['name'];
+        }
+      }
+
+      // 사진
+      if (!empty($value['photo']) && file_exists(PHOTO_PATH . $value['photo'])) {
+        $viewData['listFooterNotice'][$key1]['photo'] = PHOTO_URL . $value['photo'];
+      } else {
+        $viewData['listFooterNotice'][$key1]['photo'] = '/public/images/nophoto.png';
+      }
+    }
+
     $this->load->view('/header', $viewData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view('/place/footer');
+    $this->load->view('/footer', $viewData);
   }
 }
 ?>

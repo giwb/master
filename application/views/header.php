@@ -36,8 +36,8 @@
           <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-map-marker-alt"></i> 여행정보</a>
           <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" href="<?=base_url()?>place">전체보기</a>
-            <a class="dropdown-item" href="<?=base_url()?>place/forest">산림청 100대 명산</a>
-            <a class="dropdown-item" href="<?=base_url()?>place/bac">블랙야크 명산 100</a>
+            <a class="dropdown-item" href="<?=base_url()?>place?code=forest">산림청 100대 명산</a>
+            <a class="dropdown-item" href="<?=base_url()?>place?code=bac">블랙야크 명산 100</a>
           </div>
         </li>
         <li class="nav-item">

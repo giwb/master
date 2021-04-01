@@ -7,7 +7,7 @@
           <section class="section extra-margins listing-section">
             <div class="row align-items-center">
               <div class="col-6"><h4 class="font-weight-bold"><strong><?=$pageTitle?></strong></h4></div>
-              <div class="col-6 list-view text-right"><h4><a href="<?=base_url()?>place?v=list"><i class="fas fa-th-list<?=empty($viewType) || (!empty($viewType) && $viewType == 'list') ? ' active' : ''?>" title="목록"></i></a> <a href="<?=base_url()?>place?v=photo"><i class="fas fa-th-large ml-2<?=!empty($viewType) && $viewType == 'photo' ? ' active' : ''?>" title="사진"></i></a></h4></div>
+              <div class="col-6 list-view text-right"><h4><a href="<?=base_url()?>place?view=list&code=<?=$code?>"><i class="fas fa-th-list<?=empty($viewType) || (!empty($viewType) && $viewType == 'list') ? ' active' : ''?>" title="목록"></i></a> <a href="<?=base_url()?>place?view=photo&code=<?=$code?>"><i class="fas fa-th-large ml-2<?=!empty($viewType) && $viewType == 'photo' ? ' active' : ''?>" title="사진"></i></a></h4></div>
             </div>
             <hr class="red mt-2">
             <div class="row mb-4">
@@ -42,7 +42,7 @@
                     </div>
                     <div class="col-10">
                       <h4 class="card-title font-weight-bold"><a href="/place/view/<?=$value['idx']?>"><?=$value['title']?><br><small class="grey-text">강원 춘천시, 홍천군<?=!empty($value['altitude']) ? ' / ' . number_format($value['altitude']) . 'm' : ''?></small></a></h4><hr>
-                      <p class="card-text text-justify"><?=articleContent($value['content'], 220)?></p>
+                      <p class="card-text text-justify"><?=articleContent($value['content'], 210)?></p>
                     </div>
                   </div>
                   <div class="mdb-color lighten-3 text-center">
