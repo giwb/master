@@ -14,7 +14,16 @@ class Place extends MY_Controller
 
   public function index()
   {
+    $v = html_escape($this->input->get('v'));
+    if (!empty($v)) {
+      $viewData['viewType'] = $v;
+    } else {
+      $viewData['viewType'] = 'list';
+    }
+
     $viewData['listPlace'] = $this->place_model->listPlace();
+
+    $viewData['pageTitle'] = '전체보기';
 
     $this->_viewPage('place/index', $viewData);
   }

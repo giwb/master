@@ -2187,6 +2187,9 @@ main#footer { padding-top: 0px!important; }
 .schedule-count .fc-event-inner { overflow: visible; }
 .schedule-count .fc-event-title { background-color: #ff3b30; border-radius: 50%; color: #fff; padding: 3px; }
 
+.list-view i { color: #3e4551; cursor: pointer; }
+.list-view i.active { color: #FF6600; }
+
 .header-menu { display: flex; flex-wrap: wrap; }
 .header-menu a { position: relative; width: 100%; font-size: 0.8rem; color: #333; border: 1px solid #FF6C00; border-radius: 5px; padding: 5px 0 5px 10px; display: block; -webkit-box-shadow:0 1px 3px 0 rgba(0,0,0,.16),0 1px 3px 0 rgba(0,0,0,.12);box-shadow:0 1px 3px 0 rgba(0,0,0,.16),0 1px 3px 0 rgba(0,0,0,.12); }
 .header-menu a:before { position: absolute; right: 5px; content: '>'; font-family: 'sans-serif'; }
