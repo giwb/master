@@ -745,34 +745,27 @@ if (!function_exists('getReserve')) {
       } else {
         if ($seat %3 == 0) {
           // 현재 좌석은 홀수
-          $prevSeat = $seat - 1;
           $nextSeat = $seat + 1;
           if (!empty($checkGender[$bus][$nextSeat]) && $userData['gender'] != $checkGender[$bus][$nextSeat]) {
-            if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
-            $result['nickname'] = $message;
-          } elseif (!empty($checkGender[$bus][$prevSeat]) && $userData['gender'] != $checkGender[$bus][$prevSeat]) {
             if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
             $result['nickname'] = $message;
           }
         } elseif ($seat %3 == 1) {
           // 현재 좌석은 홀수
-          $prevSeat = $seat - 1;
           $nextSeat = $seat + 1;
+          $prevSeat = $seat - 1;
           if (!empty($checkGender[$bus][$nextSeat]) && $userData['gender'] != $checkGender[$bus][$nextSeat]) {
             if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
             $result['nickname'] = $message;
-          } elseif (!empty($checkGender[$bus][$prevSeat]) && $userData['gender'] != $checkGender[$bus][$prevSeat]) {
+          }
+          if ($prevSeat > $seatType-4 && !empty($checkGender[$bus][$prevSeat]) && $userData['gender'] != $checkGender[$bus][$prevSeat]) {
             if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
             $result['nickname'] = $message;
           }
         } elseif ($seat %3 == 2) {
           // 현재 좌석은 짝수
           $prevSeat = $seat - 1;
-          $nextSeat = $seat + 1;
-          if (!empty($checkGender[$bus][$nextSeat]) && $userData['gender'] != $checkGender[$bus][$nextSeat]) {
-            if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
-            $result['nickname'] = $message;
-          } elseif (!empty($checkGender[$bus][$prevSeat]) && $userData['gender'] != $checkGender[$bus][$prevSeat]) {
+          if ($prevSeat > $seatType-4 && !empty($checkGender[$bus][$prevSeat]) && $userData['gender'] != $checkGender[$bus][$prevSeat]) {
             if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
             $result['nickname'] = $message;
           }
