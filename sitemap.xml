@@ -6,47 +6,62 @@
     http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <url>
     <loc>https://giwb.kr</loc>
-    <lastmod>2019-12-26</lastmod>
+    <lastmod>2021-04-01</lastmod>
     <priority>1.00</priority>
   </url>
   <url>
-    <loc>https://giwb.kr/club/about</loc>
-    <lastmod>2019-12-26</lastmod>
+    <loc>https://giwb.kr/club/about/1</loc>
+    <lastmod>2021-04-01</lastmod>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://giwb.kr/club/guide</loc>
-    <lastmod>2019-12-26</lastmod>
+    <loc>https://giwb.kr/club/about/2</loc>
+    <lastmod>2021-04-01</lastmod>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://giwb.kr/club/past</loc>
-    <lastmod>2019-12-26</lastmod>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://giwb.kr/club/howto</loc>
-    <lastmod>2019-12-26</lastmod>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://giwb.kr/club/auth_about</loc>
-    <lastmod>2019-12-26</lastmod>
+    <loc>https://giwb.kr/club/about/3</loc>
+    <lastmod>2021-04-01</lastmod>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://giwb.kr/club/auth</loc>
-    <lastmod>2019-12-26</lastmod>
+    <lastmod>2021-04-01</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://giwb.kr/club/page?type=mountain</loc>
+    <lastmod>2020-04-01</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://giwb.kr/club/page?type=forest</loc>
+    <lastmod>2020-04-01</lastmod>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://giwb.kr/album</loc>
-    <lastmod>2020-04-08</lastmod>
+    <lastmod>2020-04-01</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://giwb.kr/video</loc>
+    <lastmod>2020-04-01</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://giwb.kr/club/search/?code=news</loc>
+    <lastmod>2020-04-01</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://giwb.kr/club/search/?code=review</loc>
+    <lastmod>2020-04-01</lastmod>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://giwb.kr/shop</loc>
-    <lastmod>2020-04-08</lastmod>
+    <lastmod>2020-04-01</lastmod>
     <priority>0.85</priority>
   </url>
 </urlset>

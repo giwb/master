@@ -168,6 +168,67 @@ class Story extends MY_Controller
   }
 
   /**
+   * 코멘트 목록 (2021/03)
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function comment_list()
+  {
+    $clubIdx = html_escape($this->input->post('clubIdx'));
+    $listStory = $this->story_model->listStory($clubIdx);
+    $message = '';
+    $page = 1;
+
+    $paging['perPage'] = 10;
+    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
+    $listStory = $this->story_model->listStory($clubIdx, $paging);
+
+    foreach ($listStory as $value) {
+      $message .= '<div class="row pl-3 pr-3 pt-3"><div class="col-2"><img src="/public/photos/' . $value['user_idx'] . '" class="story-photo"></div><div class="col-10 pl-0 text-justify"><b>' . $value['user_nickname'] . '</b> ' . $value['content'] . ' <span class="small grey-text">' . calcStoryTime($value['created_at']) . '</span></div></div>';
+    }
+
+    $result = array('error' => 0, 'message' => $message);
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 코멘트 등록 (2021/03)
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function comment()
+  {
+    $now = time();
+    $inputData = $this->input->post();
+    $userIdx = $this->session->userData['idx'];
+    $clubIdx = html_escape($inputData['clubIdx']);
+
+    if (empty($userIdx)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
+    } else {
+      $insertValues = array(
+        'club_idx'    => html_escape($clubIdx),
+        'content'     => html_escape($inputData['content']),
+        'created_by'  => html_escape($userIdx),
+        'created_at'  => $now
+      );
+      $idx = $this->story_model->insertStory($insertValues);
+
+      if (empty($idx)) {
+        $result = array('error' => 1, 'message' => $this->lang->line('error_insert'));
+      } else {
+        $viewStory = $this->story_model->viewStory($idx);
+        $message = '<div class="row pl-3 pr-3 pt-3"><div class="col-2"><img src="/public/photos/' . $userIdx . '" class="story-photo"></div><div class="col-10 pl-0 text-justify"><b>' . $viewStory[0]['user_nickname'] . '</b> ' . $viewStory[0]['content'] . ' <span class="small grey-text">방금</span></div></div>';
+        $result = array('error' => 0, 'message' => $message);
+      }
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 스토리 댓글
    *
    * @return json
@@ -282,9 +343,9 @@ class Story extends MY_Controller
           'content' => $this->lang->line('error_all')
         );
       } else {
-        if (file_exists(PHOTO_PATH . $userData['idx'])) {
-          $size = getImageSize(PHOTO_PATH . $userData['idx']);
-          $photo = PHOTO_URL . $userData['idx'];
+        if (file_exists(AVATAR_PATH . $userData['idx'])) {
+          $size = getImageSize(AVATAR_PATH . $userData['idx']);
+          $photo = AVATAR_URL . $userData['idx'];
           $photo_width = $size[0];
           $photo_height = $size[1];
         } else {
@@ -618,9 +679,9 @@ class Story extends MY_Controller
     } else {
       $date = calcStoryTime($value['created_at']);
     }
-    if (file_exists(PHOTO_PATH . $value['created_by'])) {
-      $size = getImageSize(PHOTO_PATH . $value['created_by']);
-      $value['photo'] = PHOTO_URL . $value['created_by'];
+    if (file_exists(AVATAR_PATH . $value['created_by'])) {
+      $size = getImageSize(AVATAR_PATH . $value['created_by']);
+      $value['photo'] = AVATAR_URL . $value['created_by'];
       $value['photo_width'] = $size[0];
       $value['photo_height'] = $size[1];
     } else {
@@ -712,9 +773,9 @@ class Story extends MY_Controller
     // 방문자 기록
     setVisitor();
 
-    $this->load->view('club/header', $viewData);
+    $this->load->view('club/header_' . $viewData['view']['main_design'], $viewData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view('club/footer', $viewData);
+    $this->load->view('club/footer_' . $viewData['view']['main_design'], $viewData);
   }
 }
 ?>

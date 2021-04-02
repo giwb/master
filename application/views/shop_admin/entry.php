@@ -3,15 +3,15 @@
         <div id="content" class="mb-5">
           <form id="formShop" method="post" action="<?=BASE_URL?>/ShopAdmin/update" enctype="multipart/form-data" class="m-0">
             <input type="hidden" name="idx" value="<?=!empty($view['idx']) ? $view['idx'] : ''?>">
-            <div class="row align-items-center mt-4 mb-3">
+            <div class="row no-gutters align-items-center mt-4 mb-3">
               <div class="col-sm-2 font-weight-bold">품명 <span class="required">(*)</span></div>
               <div class="col-sm-10"><input type="text" name="item_name" class="form-control" value="<?=!empty($view['item_name']) ? $view['item_name'] : ''?>"></div>
             </div>
-            <div class="row align-items-center mb-3">
+            <div class="row no-gutters align-items-center mb-3">
               <div class="col-sm-2 font-weight-bold">분류 <span class="required">(*)</span></div>
-              <div class="col-sm-10 pl-0">
-                <div class="row align-items-center">
-                  <div class="col-sm-5">
+              <div class="col-sm-10">
+                <div class="row no-gutters align-items-center">
+                  <div class="col-sm-6 pr-2">
                     <select name="item_category1" class="form-control item-category">
                       <option value=''></option>
                       <?php if (!empty($listCategory1)): foreach ($listCategory1 as $value): ?>
@@ -19,7 +19,7 @@
                       <?php endforeach; endif; ?>
                     </select>
                   </div>
-                  <div class="col-sm-5 pl-0">
+                  <div class="col-sm-6 pr-2">
                     <select name="item_category2" class="form-control item-category-child">
                       <option value=''></option>
                       <?php if (!empty($listCategory2)): foreach ($listCategory2 as $value): ?>
@@ -31,51 +31,51 @@
                 </div>
               </div>
             </div>
-            <div class="row align-items-top mb-3">
+            <div class="row no-gutters align-items-top mb-3">
               <div class="col-sm-2 font-weight-bold mt-2">가격 <span class="required">(*)</span></div>
-              <div class="col-sm-10 pl-0">
-                <div class="w-100 row align-items-center mt-1">
-                  <div class="col col-sm-5">소비자 가격</div>
-                  <div class="col col-sm-5">판매 가격</div>
+              <div class="col-sm-10">
+                <div class="w-100 row no-gutters align-items-center mt-1">
+                  <div class="col col-sm-6 pr-2">소비자 가격</div>
+                  <div class="col col-sm-6">판매 가격</div>
                 </div>
-                <div class="w-100 row align-items-center mt-1">
-                  <div class="col col-sm-5 item-cost"><input type="text" name="item_price" maxlength="8" class="form-control" value="<?=!empty($view['item_price']) ? $view['item_price'] : ''?>"><span class="item-cost-text">원</span></div>
-                  <div class="col col-sm-5 item-cost"><input type="text" name="item_cost" maxlength="8" class="form-control" value="<?=!empty($view['item_cost']) ? $view['item_cost'] : ''?>"><span class="item-cost-text">원</span></div>
+                <div class="w-100 row no-gutters align-items-center mt-1">
+                  <div class="col col-sm-6 pr-2 item-cost"><input type="text" name="item_price" maxlength="8" class="form-control" value="<?=!empty($view['item_price']) ? $view['item_price'] : ''?>"><span class="item-cost-text">원</span></div>
+                  <div class="col col-sm-6 item-cost"><input type="text" name="item_cost" maxlength="8" class="form-control" value="<?=!empty($view['item_cost']) ? $view['item_cost'] : ''?>"><span class="item-cost-text">원</span></div>
                 </div>
               </div>
             </div>
-            <div class="row align-items-top mb-3">
-              <div class="col-sm-2 font-weight-bold mt-2">옵션 <span class="required">(*)</span><br><button type="button" class="btn btn-sm btn-default btn-add-option">추가</button></div>
-              <div class="col-sm-10 pl-0">
-                <div class="w-100 row align-items-center mt-1">
-                  <div class="col-sm-4">옵션명</div>
-                  <div class="col-sm-4">변동 소비자 가격</div>
-                  <div class="col-sm-4">변동 판매 가격</div>
+            <div class="row no-gutters align-items-top mb-3">
+              <div class="col-sm-2 font-weight-bold mt-2">옵션 <span class="required">(*)</span><br><button type="button" class="btn-custom btn-giwb btn-add-option">추가</button></div>
+              <div class="col-sm-10">
+                <div class="row no-gutters align-items-center mt-1">
+                  <div class="col-sm-4 pr-2">옵션명</div>
+                  <div class="col-sm-4 pr-2">변동 소비자 가격</div>
+                  <div class="col-sm-4 pr-2">변동 판매 가격</div>
                 </div>
                 <div id="sortable">
                   <?php if (empty($view['added_option'])): ?>
-                  <div class="w-100 row align-items-center mt-1">
-                    <div class="col-sm-4"><input type="text" name="item_option[]" class="form-control"></div>
-                    <div class="col-sm-4 item-cost"><input type="text" name="added_price[]" maxlength="8" class="form-control"><span class="item-cost-text">원</span></div>
-                    <div class="col-sm-4 item-cost"><input type="text" name="added_cost[]" maxlength="8" class="form-control"><span class="item-cost-text">원</span></div>
+                  <div class="row no-gutters align-items-center mt-1">
+                    <div class="col-sm-4 pr-2"><input type="text" name="item_option[]" class="form-control"></div>
+                    <div class="col-sm-4 pr-2 item-cost"><input type="text" name="added_price[]" maxlength="8" class="form-control"><span class="item-cost-text">원</span></div>
+                    <div class="col-sm-4 pr-2 item-cost"><input type="text" name="added_cost[]" maxlength="8" class="form-control"><span class="item-cost-text">원</span></div>
                   </div>
                   <?php else: foreach ($view['added_option'] as $key => $value): ?>
-                  <div class="row align-items-center w-100 mt-1 option-row">
-                    <div class="col-sm-4"><input type="text" name="item_option[]" class="form-control" placeholder="옵션명" value="<?=$value?>"></div>
-                    <div class="col-sm-4 item-cost"><input type="text" name="added_price[]" maxlength="8" class="form-control" value="<?=array_key_exists($key, $view['added_price']) ? $view['added_price'][$key] : '0'?>"><span class="item-cost-text">원</span></div>
-                    <div class="col-sm-4 item-cost"><input type="text" name="added_cost[]" maxlength="8" class="form-control" value="<?=array_key_exists($key, $view['added_cost']) ? $view['added_cost'][$key] : '0'?>"><span class="item-cost-text">원</span></div>
+                  <div class="row no-gutters align-items-center w-100 mt-1 option-row">
+                    <div class="col-sm-4 pr-2"><input type="text" name="item_option[]" class="form-control" placeholder="옵션명" value="<?=$value?>"></div>
+                    <div class="col-sm-4 pr-2 item-cost"><input type="text" name="added_price[]" maxlength="8" class="form-control" value="<?=array_key_exists($key, $view['added_price']) ? $view['added_price'][$key] : '0'?>"><span class="item-cost-text">원</span></div>
+                    <div class="col-sm-4 pr-2 item-cost"><input type="text" name="added_cost[]" maxlength="8" class="form-control" value="<?=array_key_exists($key, $view['added_cost']) ? $view['added_cost'][$key] : '0'?>"><span class="item-cost-text">원</span></div>
                   </div>
                   <?php endforeach; endif; ?>
                 </div>
               </div>
             </div>
-            <div class="row align-items-center mb-2">
-              <div class="col-sm-12"><textarea name="item_content" id="item_content" rows="10" cols="100"><?=!empty($view['item_content']) ? $view['item_content'] : ''?></textarea></div>
+            <div class="row no-gutters align-items-center mb-2">
+              <div class="col-sm-12"><textarea name="item_content" id="item_content" rows="10" cols="100" class="form-control"><?=!empty($view['item_content']) ? $view['item_content'] : ''?></textarea></div>
             </div>
-            <div class="row align-items-center mb-3">
+            <div class="row no-gutters align-items-center mb-3">
               <div class="col-sm-2 font-weight-bold">사진 <span class="required">(*)</span></div>
               <div class="col-sm-10">
-                <input type="file" name="photo" class="file d-none"><button type="button" class="btn btn-sm btn-info btn-upload mt-2">사진올리기</button><input type="hidden" name="filename" value="<?php foreach ($item_photo as $value): ?><?=$value?>,<?php endforeach; ?>">
+                <input type="file" name="photo" class="file d-none"><button type="button" class="btn-custom btn-info btn-upload mt-2">사진올리기</button><input type="hidden" name="filename" value="<?php foreach ($item_photo as $value): ?><?=$value?>,<?php endforeach; ?>">
                 <div class="added-files mt-2">
                 <?php foreach ($item_photo as $value): ?>
                   <img src="<?=base_url()?><?=PHOTO_URL?><?=$value?>" class="btn-photo-modal" data-photo="<?=$value?>">
@@ -83,18 +83,19 @@
                 </div>
               </div>
             </div>
-            <div class="row align-items-center mb-2">
+            <div class="row no-gutters align-items-center mb-2">
               <div class="col-sm-2 font-weight-bold">인기상품</div>
               <div class="col-sm-10"><label class="m-0"><input type="checkbox" name="item_recommend" value="Y"<?=!empty($view['item_recommend']) && $view['item_recommend'] == 'Y' ? ' checked' : ''?>> 인기상품으로 등록</label></div>
             </div>
             <div class="border-top text-center mt-3 mb-5 pt-3 pb-5">
-              <button type="button" class="btn btn-sm btn-default btn-item-entry"><?=empty($view['idx']) ? '등록합니다' : '수정합니다'?></button>
-              <?=!empty($view['idx']) ? '<button type="button" class="btn btn-sm btn-danger btn-item-delete ml-4">삭제합니다</button>' : ''?>
-              <a href="javascript:;" onClick="history.back();"><button type="button" class="btn btn-sm btn-secondary ml-4">목록으로</button></a>
+              <button type="button" class="btn-custom btn-giwb btn-item-entry"><?=empty($view['idx']) ? '등록합니다' : '수정합니다'?></button>
+              <?=!empty($view['idx']) ? '<button type="button" class="btn-custom btn-giwbred btn-item-delete ml-4">삭제합니다</button>' : ''?>
+              <a href="javascript:;" onClick="history.back();"><button type="button" class="btn-custom btn-gray ml-4">목록으로</button></a>
             </div>
           </form>
         </div>
 
+        <script src="/public/ckeditor/ckeditor.js" type="text/javascript" charset="utf-8"></script>
         <script type="text/javascript">
           CKEDITOR.replace('item_content');
 
@@ -276,7 +277,7 @@
               }
             });
           }).on('click', '.btn-add-option', function() {
-            var addedOption = '<div class="row align-items-center w-100 mt-1 option-row"><div class="col-sm-4"><input type="text" name="item_option[]" class="form-control"></div><div class="col-sm-4 item-cost"><input type="text" name="added_price[]" maxlength="8" class="form-control"><span class="item-cost-text">원</span></div><div class="col-sm-4 item-cost"><input type="text" name="added_cost[]" maxlength="8" class="form-control"><span class="item-cost-text">원</span></div></div>';
+            var addedOption = '<div class="row no-gutters align-items-center w-100 mt-1 option-row"><div class="col-sm-4 pr-2"><input type="text" name="item_option[]" class="form-control"></div><div class="col-sm-4 pr-2 item-cost"><input type="text" name="added_price[]" maxlength="8" class="form-control"><span class="item-cost-text">원</span></div><div class="col-sm-4 pr-2 item-cost"><input type="text" name="added_cost[]" maxlength="8" class="form-control"><span class="item-cost-text">원</span></div></div>';
             $('#sortable').append(addedOption);
           });
 

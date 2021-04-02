@@ -55,16 +55,16 @@ class Reserve extends MY_Controller
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
-    if (empty($checkIdx)) {
-      // 페이지 타이틀
-      $viewData['pageTitle'] = '산행 예약';
-
+    if (empty($checkIdx)) { // 산행 예약
       // 등록된 산행 목록
       $viewData['listNotice'] = $this->reserve_model->listNotice($clubIdx);
 
       if (!empty($noticeIdx)) {
         // 예약 공지
         $viewData['notice'] = $this->reserve_model->viewNotice($noticeIdx);
+
+        // 조회수 올리기
+        $this->notice_model->updateNoticeRefer($noticeIdx, $viewData['notice']['refer']+1);
 
         // 버스 형태별 좌석 배치
         $viewData['busType'] = getBusType($viewData['notice']['bustype'], $viewData['notice']['bus']);
@@ -98,7 +98,7 @@ class Reserve extends MY_Controller
       }
 
       // 탑승 위치
-      $viewData['arrLocation'] = arrLocation();
+      $viewData['arrLocation'] = arrLocation($viewData['view']['club_geton']);
 
       $cntReply = $this->story_model->cntStoryReply($noticeIdx, REPLY_TYPE_NOTICE);
       $cntLike = $this->story_model->cntStoryReaction($noticeIdx, REACTION_TYPE_NOTICE, REACTION_KIND_LIKE);
@@ -122,11 +122,11 @@ class Reserve extends MY_Controller
 
       $viewData['listReply'] = $this->load->view('story/reply', $viewData, true);
 
-      $this->_viewPage('reserve/index', $viewData);
-    } else {
-      // 페이지 타이틀
-      $viewData['pageTitle'] = '산행 예약확인';
+      // 시간대별 버스 승차위치
+      $viewData['location'] = arrLocation($viewData['view']['club_geton'], $viewData['notice']['starttime'], NULL, NULL, 1);
 
+      $this->_viewPage('reserve/index', $viewData);
+    } else { // 산행 예약확인
       $viewData['view']['noticeIdx'] = $noticeIdx;
 
       // 회원 정보
@@ -139,9 +139,19 @@ class Reserve extends MY_Controller
       $viewData['listReserve'] = $this->reserve_model->listReserve($clubIdx, $reserveIdx);
 
       foreach ($viewData['listReserve'] as $key => $value) {
+        $busType = getBusType($value['notice_bustype'], $value['notice_bus']); // 버스 형태별 좌석 배치
+
         if (empty($value['cost_total'])) {
           $value['cost_total'] = $value['cost'];
         }
+
+        /*
+        if (!empty($busType[$value['bus']-1]['bus_type']) && $busType[$value['bus']-1]['bus_type'] == 1) {
+          // 우등버스 할증 (2020/12/08 추가)
+          $viewData['listReserve'][$key]['cost'] = $value['cost'] = $viewData['listReserve'][$key]['cost'] + 10000;
+          $viewData['listReserve'][$key]['cost_total'] = $value['cost_total'] = $viewData['listReserve'][$key]['cost_total'] + 10000;
+        }*/
+
         if ($userData['level'] == LEVEL_LIFETIME) {
           // 평생회원 할인
           $viewData['listReserve'][$key]['view_cost'] = '<s class="text-secondary">' . number_format($value['cost_total']) . '원</s> → ' . number_format($value['cost_total'] - 5000) . '원';
@@ -150,6 +160,7 @@ class Reserve extends MY_Controller
           // 무료회원 할인
           $viewData['listReserve'][$key]['view_cost'] = '<s class="text-secondary">' . number_format($value['cost_total']) . '원</s> → ' . '0원';
           $viewData['listReserve'][$key]['real_cost'] = 0;
+          /*
         } elseif (!empty($value['honor'])) {
           // 1인우등 할인
           if ($key == 1) { // 1인우등의 2번째 좌석은 무조건 1만원
@@ -160,6 +171,7 @@ class Reserve extends MY_Controller
             $viewData['listReserve'][$key]['view_cost'] = number_format($value['cost_total']) . '원';
             $viewData['listReserve'][$key]['real_cost'] = $value['cost_total'];
           }
+          */
         } else {
           $viewData['listReserve'][$key]['view_cost'] = number_format($value['cost_total']) . '원';
           $viewData['listReserve'][$key]['real_cost'] = $value['cost_total'];
@@ -205,34 +217,28 @@ class Reserve extends MY_Controller
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
-    // 등록된 산행 목록
-    $viewData['listNoticeCalendar'] = $this->reserve_model->listNotice($clubIdx);
+    // 다음 산행
+    $viewData['listNotice'] = $this->reserve_model->listNotice($clubIdx, array(STATUS_ABLE, STATUS_CONFIRM), 'asc');
 
-    // 캘린더 설정
-    $listCalendar = $this->admin_model->listCalendar();
+    foreach ($viewData['listNotice'] as $key1 => $value) {
+      // 댓글수
+      $cntReply = $this->story_model->cntStoryReply($value['idx'], REPLY_TYPE_NOTICE);
+      $viewData['listNotice'][$key1]['reply_cnt'] = $cntReply['cnt'];
 
-    foreach ($listCalendar as $key => $value) {
-      if ($value['holiday'] == 1) {
-        $class = 'holiday';
-      } else {
-        $class = 'dayname';
+      // 지역
+      $viewData['area_sido'] = $this->area_model->listSido();
+      if (!empty($value['area_sido'])) {
+        $area_sido = unserialize($value['area_sido']);
+        $area_gugun = unserialize($value['area_gugun']);
+
+        foreach ($area_sido as $key2 => $value2) {
+          $sido = $this->area_model->getName($value2);
+          $gugun = $this->area_model->getName($area_gugun[$key2]);
+          $viewData['listNotice'][$key1]['sido'][$key2] = $sido['name'];
+          $viewData['listNotice'][$key1]['gugun'][$key2] = $gugun['name'];
+        }
       }
-      $viewData['listNoticeCalendar'][] = array(
-        'idx' => 0,
-        'startdate' => $value['nowdate'],
-        'enddate' => $value['nowdate'],
-        'schedule' => 0,
-        'status' => 'schedule',
-        'mname' => $value['dayname'],
-        'class' => $class,
-      );
     }
-
-    // 진행 중 산행
-    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
-
-    // 페이지 타이틀
-    $viewData['pageTitle'] = '산행 일정';
 
     $this->_viewPage('reserve/schedule', $viewData);
   }
@@ -259,6 +265,9 @@ class Reserve extends MY_Controller
 
     // 산행 공지
     $viewData['notice'] = $this->reserve_model->viewNotice($noticeIdx);
+
+    // 조회수 올리기
+    $this->notice_model->updateNoticeRefer($noticeIdx, $viewData['notice']['refer']+1);
 
     // 산행 공지 상세
     $viewData['listNoticeDetail'] = $this->reserve_model->listNoticeDetail($noticeIdx);
@@ -307,6 +316,10 @@ class Reserve extends MY_Controller
     $nowBus = html_escape($this->input->post('bus'));
     $nowSeat = html_escape($this->input->post('seat'));
 
+    // 클럽 정보
+    $clubData = $this->club_model->viewClub($clubIdx);
+
+    // 산행 정보
     $notice = $this->reserve_model->viewNotice($noticeIdx);
 
     if (!empty($resIdx)) {
@@ -324,15 +337,25 @@ class Reserve extends MY_Controller
     foreach ($result['busType'] as $key => $busType) {
       foreach (range(1, $busType['seat']) as $seat) {
         $bus = $key + 1;
-        $seat = checkDirection($seat, ($bus), $notice['bustype'], $notice['bus']);
+        $seat = checkDirection($seat, $bus, $notice['bustype'], $notice['bus']);
         $result['seat'][$bus][] = $seat;
       }
     }
 
-    $result['location'] = arrLocation(); // 승차위치
+    $result['location'] = arrLocation($clubData['club_geton']); // 승차위치
     $result['breakfast'] = arrBreakfast(); // 아침식사
     $result['nowSeat'] = checkDirection($nowSeat, $nowBus, $notice['bustype'], $notice['bus']);
     $result['userLocation'] = $userData['location'];
+
+
+    /*
+    if ( (!empty($result['busType'][$nowBus-1]['bus_type']) && $result['busType'][$nowBus-1]['bus_type'] == 1) || !empty($result['reserve']['honor']) ) {
+      $result['cost'] = number_format($notice['cost_total'] + 10000) . '원'; // 1인우등, 우등버스의 경우 1만원 추가
+    } else {
+      $result['cost'] = number_format($notice['cost_total']) . '원';
+    }
+    */
+    $result['cost'] = number_format($notice['cost_total']) . '원';
 
     // 페널티 계산
     $startTime = explode(':', $notice['starttime']);
@@ -418,7 +441,7 @@ class Reserve extends MY_Controller
       $processData  = array(
         'club_idx'  => $clubIdx,
         'rescode'   => $noticeIdx,
-        'userid'    => $userData['userid'],
+        'user_idx'  => $userData['idx'],
         'nickname'  => $userData['nickname'],
         'gender'    => $userData['gender'],
         'bus'       => $nowBus,
@@ -442,14 +465,15 @@ class Reserve extends MY_Controller
         $reserveIdx[] = $result;
 
         // 로그 기록
-        setHistory(LOG_RESERVE, $noticeIdx, $userData['userid'], $userData['nickname'], $viewNotice['subject'], $now);
+        setHistory($clubIdx, LOG_RESERVE, $noticeIdx, $userData['idx'], $userData['nickname'], $viewNotice['subject'], $now);
       } else {
         // 수정
         // 선택한 좌석 예약 여부 확인
         $checkReserve = $this->reserve_model->checkReserve($noticeIdx, $nowBus, $seat);
 
         // 자신이 예약한 좌석만 수정 가능, 2인우선석/1인우등석은 수정
-        if (  $checkReserve['userid'] == $userData['userid']
+        /*
+        if (  $checkReserve['user_idx'] == $userData['idx']
             || empty($checkReserve['idx'])
             || (!empty($checkReserve['priority']) && $checkReserve['nickname'] == '2인우선')
             || (!empty($checkReserve['honor']) && $checkReserve['nickname'] == '1인우등')
@@ -463,6 +487,11 @@ class Reserve extends MY_Controller
 
           // 예약 번호 저장
           $reserveIdx[] = $resIdxNow;
+        }
+        */
+        if (  $checkReserve['user_idx'] == $userData['idx'] || empty($checkReserve['idx']) ) {
+          $result = $this->reserve_model->updateReserve($processData, $resIdxNow);
+          $reserveIdx[] = $resIdxNow; // 예약 번호 저장
         }
       }
     }
@@ -481,7 +510,7 @@ class Reserve extends MY_Controller
       }
 
       // 회원 예약 횟수 갱신 (회원 레벨 체크를 위해)
-      $rescount = $this->reserve_model->cntMemberReserve($userData['userid']);
+      $rescount = $this->reserve_model->cntMemberReserve($clubIdx, $userData['idx']);
       $updateValues['rescount'] = $rescount['cnt'];
       $this->member_model->updateMember($updateValues, $userData['idx']);
 
@@ -585,12 +614,12 @@ class Reserve extends MY_Controller
       if ($cntReserve['cnt'] >= $maxSeat[$userBus] || $cntReserveWait['cnt'] >= 1) {
         // 예약 삭제 처리
         $updateValues = array(
-          'userid' => '',
+          'user_idx' => NULL,
           'nickname' => '대기자 우선',
           'gender' => 'M',
           'loc' => 0,
-          'memo' => '',
-          'depositname' => '',
+          'memo' => NULL,
+          'depositname' => NULL,
           'point' => 0,
           'priority' => 0,
           'honor' => 0,
@@ -606,12 +635,12 @@ class Reserve extends MY_Controller
         if (!empty($userReserve['priority'])) {
           // 2인우선석이었던 경우 변경
           $updateValues = array(
-            'userid' => '',
+            'user_idx' => NULL,
             'nickname' => '2인우선',
             'gender' => 'M',
             'loc' => 0,
-            'memo' => '',
-            'depositname' => '',
+            'memo' => NULL,
+            'depositname' => NULL,
             'point' => 0,
             'vip' => 0,
             'manager' => 0,
@@ -623,12 +652,11 @@ class Reserve extends MY_Controller
         } elseif (!empty($userReserve['honor'])) {
           // 1인우등석이었던 경우 변경
           $updateValues = array(
-            'userid' => '',
             'nickname' => '1인우등',
             'gender' => 'M',
             'loc' => 0,
-            'memo' => '',
-            'depositname' => '',
+            'memo' => NULL,
+            'depositname' => NULL,
             'point' => 0,
             'vip' => 0,
             'manager' => 0,
@@ -674,11 +702,11 @@ class Reserve extends MY_Controller
           }
         }
 
-        $this->member_model->updatePenalty($userReserve['userid'], ($userData['penalty'] + $penalty));
+        $this->member_model->updatePenalty($clubIdx, $userReserve['user_idx'], ($userData['penalty'] + $penalty));
 
         // 예약 페널티 로그 기록
         if ($penalty > 0) {
-          setHistory(LOG_PENALTYUP, $userReserve['resCode'], $userReserve['userid'], $userReserve['nickname'], $userReserve['subject'] . ' 예약 취소', $nowDate, $penalty);
+          setHistory($clubIdx, LOG_PENALTYUP, $userReserve['resCode'], $userReserve['user_idx'], $userReserve['nickname'], $userReserve['subject'] . ' 예약 취소', $nowDate, $penalty);
         }
 
         if ($userReserve['status'] == RESERVE_PAY) {
@@ -691,34 +719,34 @@ class Reserve extends MY_Controller
               if ($userReserve['honor'] > 0) {
                 // 1인우등 좌석 취소
                 $userReserve['cost'] = $userReserve['cost'] + 5000;
-                $this->member_model->updatePoint($userReserve['userid'], ($userData['point'] + $userReserve['cost']));
+                $this->member_model->updatePoint($clubIdx, $userReserve['user_idx'], ($userData['point'] + $userReserve['cost']));
               } else {
                 // 평생회원은 할인 적용된 가격을 환불
                 $userReserve['cost'] = $userReserve['cost'] - 5000;
-                $this->member_model->updatePoint($userReserve['userid'], ($userData['point'] + $userReserve['cost']));
+                $this->member_model->updatePoint($clubIdx, $userReserve['user_idx'], ($userData['point'] + $userReserve['cost']));
               }
             } else {
               if ($userReserve['honor'] > 0) {
                 // 1인우등 좌석의 취소는 1만원 추가 환불
                 $userReserve['cost'] = $userReserve['cost'] + 10000;
-                $this->member_model->updatePoint($userReserve['userid'], ($userData['point'] + $userReserve['cost']));
+                $this->member_model->updatePoint($clubIdx, $userReserve['user_idx'], ($userData['point'] + $userReserve['cost']));
               } else {
-                $this->member_model->updatePoint($userReserve['userid'], ($userData['point'] + $userReserve['cost']));
+                $this->member_model->updatePoint($clubIdx, $userReserve['user_idx'], ($userData['point'] + $userReserve['cost']));
               }
             }
             // 포인트 반환 로그 기록
-            setHistory(LOG_POINTUP, $userReserve['resCode'], $userReserve['userid'], $userReserve['nickname'], $userReserve['subject'] . ' 예약 취소', $nowDate, $userReserve['cost']);
+            setHistory($clubIdx, LOG_POINTUP, $userReserve['resCode'], $userReserve['user_idx'], $userReserve['nickname'], $userReserve['subject'] . ' 예약 취소', $nowDate, $userReserve['cost']);
           }
         } elseif ($userReserve['status'] == RESERVE_ON && $userReserve['point'] > 0) {
           // 예약정보에 포인트가 있을때 반환
-          $this->member_model->updatePoint($userReserve['userid'], ($userData['point'] + $userReserve['point']));
+          $this->member_model->updatePoint($clubIdx, $userReserve['user_idx'], ($userData['point'] + $userReserve['point']));
 
           // 포인트 반환 로그 기록
-          setHistory(LOG_POINTUP, $userReserve['resCode'], $userReserve['userid'], $userReserve['nickname'], $userReserve['subject'] . ' 예약 취소', $nowDate, $userReserve['point']);
+          setHistory($clubIdx, LOG_POINTUP, $userReserve['resCode'], $userReserve['user_idx'], $userReserve['nickname'], $userReserve['subject'] . ' 예약 취소', $nowDate, $userReserve['point']);
         }
 
         // 예약 취소 로그 기록
-        setHistory(LOG_CANCEL, $userReserve['resCode'], $userReserve['userid'], $userReserve['nickname'], $userReserve['subject'], $nowDate);
+        setHistory($clubIdx, LOG_CANCEL, $userReserve['resCode'], $userReserve['user_idx'], $userReserve['nickname'], $userReserve['subject'], $nowDate);
 
         $result = array('error' => 0, 'message' => '');
       }
@@ -760,10 +788,10 @@ class Reserve extends MY_Controller
         $userReserve = $this->reserve_model->userReserve($clubIdx, NULL, $idx);
 
         // 포인트 차감
-        $this->member_model->updatePoint($userReserve['userid'], ($userData['point'] - $processData['point']));
+        $this->member_model->updatePoint($clubIdx, $userReserve['user_idx'], ($userData['point'] - $processData['point']));
 
         // 포인트 차감 로그 기록
-        setHistory(LOG_POINTDN, $userReserve['resCode'], $userReserve['userid'], $userReserve['nickname'], $userReserve['subject'] . ' 예약', $nowDate, $processData['point']);
+        setHistory($clubIdx, LOG_POINTDN, $userReserve['resCode'], $userReserve['user_idx'], $userReserve['nickname'], $userReserve['subject'] . ' 예약', $nowDate, $processData['point']);
       }
 
       $rtn = $this->reserve_model->updateReserve($processData, $idx);
@@ -794,31 +822,30 @@ class Reserve extends MY_Controller
     $viewData['userData'] = $this->load->get_var('userData');
     $viewData['userLevel'] = $this->load->get_var('userLevel');
 
-    // 진행 중 산행
-    $viewData['listFooterNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
+    // 클럽 메뉴
+    $viewData['listAbout'] = $this->club_model->listAbout($viewData['view']['idx']);
 
-    // 최신 댓글
-    $paging['perPage'] = 5; $paging['nowPage'] = 0;
-    $viewData['listFooterReply'] = $this->admin_model->listReply($viewData['view']['idx'], $paging);
+    // 등록된 산행 목록
+    $viewData['listNoticeFooter'] = $viewData['listNoticeCalendar'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
 
-    foreach ($viewData['listFooterReply'] as $key => $value) {
-      if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/story/view/' . $value['story_idx']; endif;
-      if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/reserve/list/' . $value['story_idx']; endif;
-      if ($value['reply_type'] == REPLY_TYPE_SHOP):   $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/shop/item/' . $value['story_idx']; endif;
-    }
+    // 캘린더 설정
+    $listCalendar = $this->admin_model->listCalendar();
 
-    // 최신 사진첩
-    $paging['perPage'] = 2; $paging['nowPage'] = 0;
-    $viewData['listFooterAlbum'] = $this->club_model->listAlbum($viewData['view']['idx'], $paging);
-
-    foreach ($viewData['listFooterAlbum'] as $key => $value) {
-      $photo = $this->file_model->getFile('album', $value['idx'], NULL, 1);
-      if (!empty($photo[0]['filename'])) {
-        //$viewData['listAlbum'][$key]['photo'] = PHOTO_URL . 'thumb_' . $photo[0]['filename'];
-        $viewData['listFooterAlbum'][$key]['photo'] = PHOTO_URL . $photo[0]['filename'];
+    foreach ($listCalendar as $key => $value) {
+      if ($value['holiday'] == 1) {
+        $class = 'holiday';
       } else {
-        $viewData['listFooterAlbum'][$key]['photo'] = '/public/images/noimage.png';
+        $class = 'dayname';
       }
+      $viewData['listNoticeCalendar'][] = array(
+        'idx' => 0,
+        'startdate' => $value['nowdate'],
+        'enddate' => $value['nowdate'],
+        'schedule' => 0,
+        'status' => 'schedule',
+        'mname' => $value['dayname'],
+        'class' => $class,
+      );
     }
 
     // 클럽 대표이미지
@@ -848,6 +875,8 @@ class Reserve extends MY_Controller
 
     // 방문자 기록
     setVisitor();
+
+    if (empty($viewData['view']['main_design'])) $viewData['view']['main_design'] = 1;
 
     $this->load->view('club/header_' . $viewData['view']['main_design'], $viewData);
     $this->load->view($viewPage, $viewData);

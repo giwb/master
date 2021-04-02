@@ -71,14 +71,13 @@
                 </table>
               </div>
               <div class="area-boarding">
-                <div class="mb-2">■ <strong>승차위치</strong> (<?=cntRes($view['idx'])?>명)</div>
+                <div class="mb-2">■ <strong>승차위치</strong> (<?=cntRes($view['idx'], $bus)?>명)</div>
                 <?php
                   foreach ($value['listLocation'] as $cnt => $location):
-                    if ($cnt == 0): $lastData = $location;
-                    else:
+                    if (!empty($location['time'])):
                 ?>
                 <dl>
-                  <dt><?=$location['time']?> <?=$location['stitle']?> (<?=!empty($location['nickname']) ? count($location['nickname']) : 0?>명)</dt>
+                  <dt><?=$location['time']?> <?=$location['short']?> (<?=!empty($location['nickname']) ? count($location['nickname']) : 0?>명)</dt>
                   <dd><?php if (!empty($location['nickname'])): foreach ($location['nickname'] as $n => $nickname): if ($n != 0): ?> / <?php endif; ?><?=$nickname?><?php endforeach; endif; ?></dd>
                 </dl>
                 <?php
@@ -86,8 +85,8 @@
                   endforeach;
                 ?>
                 <dl>
-                  <dt>미지정 (<?=!empty($lastData['nickname']) ? count($lastData['nickname']) : 0?>명)</dt>
-                  <dd><?php if (!empty($lastData['nickname'])): foreach ($lastData['nickname'] as $n => $nickname): if ($n != 0): ?> / <?php endif; ?><?=$nickname?><?php endforeach; endif; ?></dd>
+                  <dt>미지정 (<?=!empty($value['listNoLocation'][0]['nickname']) ? count($value['listNoLocation'][0]['nickname']) : 0?>명)</dt>
+                  <dd><?php if (!empty($value['listNoLocation'][0]['nickname'])): foreach ($value['listNoLocation'][0]['nickname'] as $n => $nickname): if ($n != 0): ?> / <?php endif; ?><?=$nickname?><?php endforeach; endif; ?></dd>
                 </dl>
               </div>
               <div class="area-boarding">

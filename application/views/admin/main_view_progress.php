@@ -3,21 +3,29 @@
         <?=$headerMenuView?>
         <div id="content" class="mb-5">
           <div class="sub-contents">
+            <input type="hidden" name="clubIdx" value="<?=$view['club_idx']?>">
             <h2 class="m-0 p-0 pb-2"><b><?=viewStatus($view['status'])?></b> <?=$view['subject']?></h2>
+
+            <!-- 안내문 -->
+            <?php if (!empty($view['information'])): ?>
+            <div class="border border-danger p-4 mt-2 mb-3"><?=nl2br(reset_html_escape($view['information']))?></div>
+            <?php endif; ?>
+
             <?php if (!empty($view['type'])): ?><div class="ti"><strong>・유형</strong> : <?=$view['type']?></div><?php endif; ?>
             <div class="ti"><strong>・일시</strong> : <?=$view['startdate']?> (<?=calcWeek($view['startdate'])?>) <?=$view['starttime']?></div>
+            <div class="ti"><strong>・노선</strong> : <?php foreach ($location as $key => $value): if ($key > 1): ?> - <?php endif; ?><?=$value['time']?> <?=$value['short']?><?php endforeach; ?></div>
             <?php $view['cost'] = $view['cost_total'] == 0 ? $view['cost'] : $view['cost_total']; if (!empty($view['cost'])): ?>
             <?php if (!empty($view['sido'])): ?>
             <div class="ti"><strong>・지역</strong> : <?php foreach ($view['sido'] as $key => $value): if ($key != 0): ?>, <?php endif; ?><?=$value?> <?=!empty($view['gugun'][$key]) ? $view['gugun'][$key] : ''?><?php endforeach; ?></div>
             <?php endif; ?>
-            <div class="ti"><strong>・요금</strong> : <?=number_format($view['cost_total'] == 0 ? $view['cost'] : $view['cost_total'])?>원 (<?=calcTerm($view['startdate'], $view['starttime'], $view['enddate'], $view['schedule'])?><?=!empty($view['distance']) ? ', ' . calcDistance($view['distance']) : ''?><?=!empty($view['options']) ? ', ' . getOptions($view['options']) : ''?><?=!empty($view['options_etc']) ? ', ' . $view['options_etc'] : ''?><?=!empty($view['options']) || !empty($view['options_etc']) ? ' 제공' : ''?><?=!empty($view['costmemo']) ? ', ' . $view['costmemo'] : ''?>)</div>
+            <div class="ti"><strong>・요금</strong> : <?=number_format($view['cost_total'] == 0 ? $view['cost'] : $view['cost_total'])?>원 / 1인우등 <?=number_format($view['cost_total'] == 0 ? $view['cost'] + 10000 : $view['cost_total'] + 10000)?>원 (<?=calcTerm($view['startdate'], $view['starttime'], $view['enddate'], $view['schedule'])?><?=!empty($view['distance']) ? ', ' . calcDistance($view['distance']) : ''?><?=!empty($view['options']) ? ', ' . getOptions($view['options']) : ''?><?=!empty($view['options_etc']) ? ', ' . $view['options_etc'] : ''?><?=!empty($view['options']) || !empty($view['options_etc']) ? ' 제공' : ''?><?=!empty($view['costmemo']) ? ', ' . $view['costmemo'] : ''?>)</div>
             <?php endif; ?>
             <?=!empty($view['content']) ? '<div class="ti"><strong>・코스</strong> : ' . nl2br($view['content']) . '</div>' : ''?>
             <?=!empty($view['kilometer']) ? '<div class="ti"><strong>・거리</strong> : ' . $view['kilometer'] . '</div>' : ''?>
             <div class="ti"><strong>・예약</strong> : <?=cntRes($view['idx'])?>명</div>
 
-            <div class="row mt-3">
-              <div class="col-4 pl-0">
+            <div class="row no-gutters mt-3">
+              <div class="col-4">
                 <select name="status" class="form-control form-control-sm change-status-modal">
                   <option value="">산행 상태</option>
                   <option value="">------------</option>
@@ -28,9 +36,11 @@
                   <option<?=$view['status'] == STATUS_CLOSED ? ' selected' : ''?> value="<?=STATUS_CLOSED?>">종료</option>
                 </select>
               </div>
+              <!--
               <div class="col-8 pr-0 text-right">
-                <button type="button" class="btn btn-sm btn-secondary btn-autoseat">코로나19 대응 자동배정</button>
+                <button type="button" class="btn-custom btn-gray btn-autoseat">코로나19 대응 자동배정</button>
               </div>
+            -->
             </div>
 
             <div class="area-reservation">
@@ -51,21 +61,27 @@
                   </colgroup>
                   <thead>
                     <tr>
-                      <th colspan="10"><?=$bus?>호차 - <?=$value['bus_name']?> <?=!empty($value['bus_license']) ? '(' . $value['bus_license'] . ')' : ''?></td>
+                      <th colspan="4" style="border-right: 0px;" class="text-left"><?=$bus?>호차 - <?=$value['bus_name']?> <?=!empty($value['bus_license']) ? '(' . $value['bus_license'] . ')' : ''?></td>
+                      <th colspan="6" style="border-left: 0px;" class="text-right">출입구 (예약 : <?=cntRes($view['idx'], $bus)?>명)</th>
                     </tr>
                   </thead>
                   <tbody>
                     <?php if ($value['seat'] > 15): ?>
                     <tr>
-                      <th colspan="4" class="text-left">운전석<?=!empty($value['bus_owner']) ? ' (' . $value['bus_owner'] . ' 기사님)' : ''?></th>
-                      <th colspan="6" class="text-right">출입구 (예약 : <?=cntRes($view['idx'], $bus)?>명)</th>
+                      <th colspan="4" style="border-right: 0px;" class="text-left">운전석<?=!empty($value['bus_owner']) ? ' (' . $value['bus_owner'] . ' 기사님)' : ''?></th>
+                      <th colspan="6" style="border-left: 0px;" class="text-right">보조석 (<?=getBusAssist($view['bus_assist'], $bus)?>)</th>
                     </tr>
                     <?php endif; ?>
                     <?php
                         // 버스 형태 좌석 배치
                         foreach (range(1, $value['seat']) as $seat):
+                          if (!empty($reserveInfo['priority']) || !empty($reserveInfo['honor'])) {
+                            $boarding = 1;
+                          } else {
+                            $boarding = 0;
+                          }
                           $tableMake = getBusTableMake($value['seat'], $seat); // 버스 좌석 테이블 만들기
-                          $reserveInfo = getReserveAdmin($reserve, $bus, $seat, $userData); // 예약자 정보
+                          $reserveInfo = getReserveAdmin($reserve, $bus, $seat, $userData, $boarding); // 예약자 정보
                           $seatNumber = checkDirection($seat, $bus, $view['bustype'], $view['bus']);
                     ?>
                       <?=$tableMake?>
@@ -80,7 +96,7 @@
               <form id="reserveForm" method="post" action="/admin/reserve_complete">
                 <div id="addedInfo"></div>
                 <input type="hidden" name="idx" value="<?=$view['idx']?>">
-                <button type="button" class="btn btn-sm btn-default btn-reserve-confirm">확인</button>
+                <button type="button" class="btn-custom btn-giwb btn-reserve-confirm">확인</button>
               </form>
             </div>
 
@@ -90,7 +106,7 @@
               <div class="text-dark">■ <strong>대기자 목록</strong></div>
               <?php foreach ($wait as $key => $value): ?>
               <div class="mt-1">
-                <a href="javascript:;" class="btn-wait-delete-modal" data-idx="<?=$value['idx']?>">[<?=$key + 1?>] <?=$value['nickname']?> (<?=getGender($value['gender'])?>) <?=!empty($value['location']) ? arrLocation(NULL, $value['location'], 1) : '미정'?>
+                <a href="javascript:;" class="btn-wait-delete-modal" data-idx="<?=$value['idx']?>">[<?=$key + 1?>] <?=$value['nickname']?> (<?=getGender($value['gender'])?>) <?=!empty($value['location']) ? arrLocation($viewClub['club_geton'], NULL, $value['location'], 1) : '미정'?>
                 <?=!empty($value['memo']) ? ' - ' . $value['memo'] : ''?> <span class="small">(<?=substr(date('Y-m-d H:i:s', $value['created_at']), 5, 11)?>)</span></a>
               </div>
               <?php endforeach; ?>
@@ -99,8 +115,8 @@
               <?php endif; ?>
 
               <div class="text-dark">■ <strong>대기자 추가</strong></div>
-              <div class="wait row align-items-center">
-                <div class="col-3 col-sm-3 p-0 pr-1"><input type="text" name="nickname" class="search-userid form-control form-control-sm" placeholder="닉네임" data-placement="bottom"><input type="hidden" name="userid"></div>
+              <div class="wait row no-gutters align-items-center">
+                <div class="col-3 col-sm-3 p-0 pr-1"><input type="text" name="nickname" class="search-user form-control form-control-sm" placeholder="닉네임" data-placement="bottom"><input type="hidden" name="userIdx"></div>
                 <div class="col-2 col-sm-2 p-0 pr-1">
                   <select name="gender" class="gender form-control form-control-sm pl-0 pr-0">
                     <option value='M'>남성</option>
@@ -109,13 +125,13 @@
                 </div>
                 <div class="col-2 col-sm-2 p-0 pr-1">
                   <select name="location" class="location form-control form-control-sm pl-0 pr-0">
-                    <?php foreach ($arrLocation as $key => $value): if ($key == 0) $value['stitle'] = '선택'; ?>
-                    <option value='<?=$value['no']?>'><?=$value['stitle']?></option>
+                    <?php foreach ($arrLocation as $key => $value): if ($key == 0) $value['short'] = '선택'; ?>
+                    <option value='<?=$value['no']?>'><?=$value['short']?></option>
                     <?php endforeach; ?>
                   </select>
                 </div>
                 <div class="col-3 col-sm-4 p-0 pr-1"><input type="text" name="memo" class="form-control form-control-sm" placeholder="메모"></div>
-                <div class="col-2 col-sm-1 p-0"><button type="button" class="btn btn-sm btn-default w-100 btn-wait-insert">등록</button></div>
+                <div class="col-2 col-sm-1 p-0"><button type="button" class="btn-custom btn-giwb btn-wait-insert">등록</button></div>
               </div>
             </div>
             <?php endif; ?>
@@ -142,8 +158,8 @@
               </div>
               <div class="modal-footer">
                 <input type="hidden" name="waitIdx">
-                <button type="button" class="btn btn-sm btn-default btn-wait-delete">삭제합니다</button>
-                <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn-custom btn-giwbred btn-wait-delete">삭제합니다</button>
+                <button type="button" class="btn-custom btn-gray btn-close" data-dismiss="modal">닫기</button>
               </div>
             </div>
           </div>
@@ -164,8 +180,8 @@
               </div>
               <div class="modal-footer">
                 <input type="hidden" name="selectStatus">
-                <button type="button" class="btn btn-sm btn-default btn-change-status">승인</button>
-                <button type="button" class="btn btn-sm btn-secondary btn-close" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn-custom btn-giwbblue btn-change-status">승인</button>
+                <button type="button" class="btn-custom btn-gray btn-close" data-dismiss="modal">닫기</button>
               </div>
             </div>
           </div>
@@ -184,7 +200,7 @@
               <div class="modal-body text-center">
                 <p class="modal-message">
                   정말로 이 좌석의 예약을 취소하시겠습니까?<br>
-                  <div class="row align-items-center">
+                  <div class="row no-gutters align-items-center">
                     <div class="col-sm-3 pl-0 pr-0">취소사유</div>
                     <div class="col-sm-9 pl-0"><input type="text" name="subject" class="form-control"></div>
                   </div>
@@ -192,8 +208,8 @@
               </div>
               <div class="modal-footer">
                 <input type="hidden" name="delete_idx">
-                <button type="button" class="btn btn-sm btn-default btn-reserve-cancel-complete">승인</button>
-                <button type="button" class="btn btn-sm btn-secondary btn-close" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn-custom btn-giwbblue btn-reserve-cancel-complete">승인</button>
+                <button type="button" class="btn-custom btn-gray btn-close" data-dismiss="modal">닫기</button>
               </div>
             </div>
           </div>

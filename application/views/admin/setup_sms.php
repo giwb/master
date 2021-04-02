@@ -22,7 +22,7 @@
 ';
   $str .= '[버스 승차 시간 / 6:30 기준]
 ';
-  $location = arrLocation('06:30');
+  $location = arrLocation($viewClub['club_geton'], '06:30');
   foreach ($location as $key => $value):
     if ($key != 9):
       $str .= $value['time'] . ' ';

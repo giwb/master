@@ -64,12 +64,13 @@ $result = $query->row_array(1);
 if (empty($result) && !empty($_SERVER['REDIRECT_URL'])) {
   $arrUrl = explode('/', $_SERVER['REDIRECT_URL']);
   $domain = html_escape($arrUrl[1]);
-  $query = $db->query("SELECT idx FROM clubs WHERE domain='$domain'");
+  $query = $db->query("SELECT idx, domain FROM clubs WHERE url='$domain'");
   $result = $query->row_array(1);
 }
 
 if (!empty($result['idx'])) {
   setcookie('COOKIE_CLUBIDX', $result['idx']);
+  $_COOKIE['COOKIE_CLUBIDX'] = $result['idx'];
 
   // 도메인이 있을 경우
   $route['default_controller'] = 'club/index';
@@ -85,11 +86,20 @@ if (!empty($result['idx'])) {
   }
   $route[$domain . '/' . $uri] = $uri;
 } else {
+  setcookie('COOKIE_CLUBIDX', '');
+  $_COOKIE['COOKIE_CLUBIDX'] = '';
+
   $route['default_controller']  = 'welcome';
   $route['top']                 = 'welcome';
+  $route['send']                = 'welcome/send';
+  $route['article/(:num)']      = 'welcome/article/$1';
+  $route['search']              = 'welcome/search';
+  $route['area']                = 'welcome/area';
+  $route['schedule']            = 'welcome/schedule';
   $route['login']               = 'login/index';
   $route['logout']              = 'login/logout';
   $route['member']              = 'member/index';
+  $route['video']               = 'welcome/video';
   $route['club']                = 'welcome/club_listing';
   $route['club/entry']          = 'welcome/club_entry';
   $route['club/insert']         = 'welcome/club_insert';

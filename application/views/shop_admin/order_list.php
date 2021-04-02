@@ -1,19 +1,19 @@
 <?php foreach ($listPurchase as $value): ?>
 <div id="order-<?=$value['idx']?>" class="border bg-white mb-4">
   <div class="bg-light p-2">
-    <div class="row align-items-center">
-      <div class="col-sm-6 pl-0"><span class="area-status"><?=getPurchaseStatus($value['status'])?></span> <a href="<?=BASE_URL?>/admin/member_view/<?=$value['created_by']?>"><?=$value['nickname']?>님</a> - <?=date('Y-m-d', $value['created_at'])?> (<?=calcWeek(date('Y-m-d', $value['created_at']))?>) <?=date('H:i', $value['created_at'])?></div>
-      <div class="col-sm-6 text-right btn-area p-0">
+    <div class="row no-gutters align-items-center">
+      <div class="col-sm-6"><span class="area-status"><?=getPurchaseStatus($value['status'])?></span> <a href="<?=BASE_URL?>/admin/member_view/<?=$value['created_by']?>"><?=$value['nickname']?>님</a> <span class="small"><?=date('Y-m-d', $value['created_at'])?> (<?=calcWeek(date('Y-m-d', $value['created_at']))?>) <?=date('H:i', $value['created_at'])?></span></div>
+      <div class="col-sm-6 text-right btn-area">
         <?php if ($value['status'] != ORDER_CANCEL): ?>
-        <?php if ($value['status'] == ORDER_ON): ?><button type="button" class="btn btn-sm btn-primary btn-order-status-modal" data-idx="<?=$value['idx']?>" data-status="<?=ORDER_PAY?>">입금확인</button><?php endif; ?>
+        <?php if ($value['status'] == ORDER_ON): ?><button type="button" class="btn-custom btn-giwbblue btn-order-status-modal" data-idx="<?=$value['idx']?>" data-status="<?=ORDER_PAY?>">입금확인</button><?php endif; ?>
         <?php if ($value['status'] != ORDER_END): ?>
-        <button type="button" class="btn btn-sm btn-secondary btn-order-status-modal" data-idx="<?=$value['idx']?>" data-status="<?=ORDER_CANCEL?>">구매취소</button>
-        <button type="button" class="btn btn-sm btn-danger btn-order-status-modal" data-idx="<?=$value['idx']?>" data-status="<?=ORDER_END?>">판매완료</button>
+        <button type="button" class="btn-custom btn-gray btn-order-status-modal" data-idx="<?=$value['idx']?>" data-status="<?=ORDER_CANCEL?>">구매취소</button>
+        <button type="button" class="btn-custom btn-giwbred btn-order-status-modal" data-idx="<?=$value['idx']?>" data-status="<?=ORDER_END?>">판매완료</button>
         <?php else: ?>
-        <button type="button" class="btn btn-sm btn-danger">판매완료</button>
+        <button type="button" class="btn-custom btn-giwbred">판매완료</button>
         <?php endif; ?>
         <?php else: ?>
-        <button type="button" class="btn btn-sm btn-dark btn-order-delete-modal" data-idx="<?=$value['idx']?>">삭제</button>
+        <button type="button" class="btn-custom btn-dark btn-order-delete-modal" data-idx="<?=$value['idx']?>">삭제</button>
         <?php endif; ?>
       </div>
     </div>

@@ -8,6 +8,7 @@ application/logs/*
 
 composer.lock
 
+public/album/*
 public/photos/*
 public/uploads/*
 

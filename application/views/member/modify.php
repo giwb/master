@@ -1,10 +1,18 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-      <div class="club-main">
-        <div class="memberForm">
+  <main id="club">
+    <div class="container-fluid club-main">
+      <div class="row mt-1 mb-5">
+        <div class="col-xl-8 col-md-12 memberForm">
+          <h4 class="font-weight-bold"><?=$pageTitle?></h4>
+          <hr class="text-default">
+
+          <div class="border font-weight-bold text-danger text-center p-4">
+            <h5>아래 내용은 코로나 방역정책 및 산행 예약시 필요한 개인정보입니다.<br>번거로우시더라도 추가입력 부탁드립니다.</h5>
+          </div>
+
           <form id="entryForm" method="post" action="/member/update">
           <input type="hidden" name="page" value="member">
-            <h2>개인정보수정</h2>
             <dl class="pt-2 pb-2">
               <dt>아이디</dt>
               <dd><?=$viewMember['userid']?><input type="hidden" name="userid" value="<?=$viewMember['userid']?>"></dd>
@@ -40,19 +48,19 @@
                     <select name="birthday_year" class="form-control col-sm-4 mr-2 pl-1">
                       <option value=''>--</option>
                     <?php foreach (range(date('Y'), 1900) as $value): ?>
-                      <option<?=$viewMember['birthday_year'] == $value ? ' selected' : ''?> value='<?=$value?>'><?=$value?>년</option>
+                      <option<?=!empty($viewMember['birthday_year']) && $viewMember['birthday_year'] == $value ? ' selected' : ''?> value='<?=$value?>'><?=$value?>년</option>
                     <?php endforeach; ?>
                     </select>
                     <select name="birthday_month" class="form-control col-sm-3 mr-2 pl-1">
                       <option value=''>--</option>
                     <?php foreach (range(1, 12) as $value): ?>
-                      <option<?=$viewMember['birthday_month'] == $value ? ' selected' : ''?> value='<?=$value?>'><?=$value?>월</option>
+                      <option<?=!empty($viewMember['birthday_month']) && $viewMember['birthday_month'] == $value ? ' selected' : ''?> value='<?=$value?>'><?=$value?>월</option>
                     <?php endforeach; ?>
                     </select>
                     <select name="birthday_day" class="form-control col-sm-3 pl-1">
                       <option value=''>--</option>
                     <?php foreach (range(1, 31) as $value): ?>
-                      <option<?=$viewMember['birthday_day'] == $value ? ' selected' : ''?> value='<?=$value?>'><?=$value?>일</option>
+                      <option<?=!empty($viewMember['birthday_day']) && $viewMember['birthday_day'] == $value ? ' selected' : ''?> value='<?=$value?>'><?=$value?>일</option>
                     <?php endforeach; ?>
                     </select>
                   </div>
@@ -77,15 +85,15 @@
               <dt>주 승차위치</dt>
               <dd>
                 <select name="location" class="form-control">
-                  <?php foreach (arrLocation() as $value): ?>
-                  <option<?=$viewMember['location'] == $value['no'] ? ' selected' : ''?> value='<?=$value['no']?>'><?=$value['title']?></option>
+                  <?php foreach (arrLocation($view['club_geton']) as $value): ?>
+                  <option<?=$viewMember['location'] == $value['short'] ? ' selected' : ''?> value='<?=$value['short']?>'><?=$value['title']?></option>
                   <?php endforeach; ?>
                 </select>
               </dd>
             </dl>
             <dl>
               <dt>사진</dt>
-              <dd><img class="photo" src="<?=$viewMember['photo']?>"><input type="file" name="photo" class="file d-none"><button type="button" class="btn btn-sm btn-info btn-upload mt-2 pl-3 pr-3">사진올리기</button><input type="hidden" name="filename"><br><button type="button" class="btn btn-sm btn-danger btn-modify-photo-delete mt-1 pl-3 pr-3">사진　삭제</button></dd>
+              <dd><img class="photo" src="<?=$viewMember['photo']?>"><input type="file" name="photo" class="file d-none"><button type="button" class="btn-custom btn-giwbred btn-upload mt-1">사진올리기</button><input type="hidden" name="filename"></dd>
             </dl>
             <div class="area-btn">
               <button type="button" class="btn btn-primary btn-member-update">수정합니다</button>
@@ -93,31 +101,30 @@
             </div>
           </form>
         </div>
-      </div>
 
-      <div class="modal fade" id="quitModal" tabindex="-1" role="dialog" aria-labelledby="quitModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="smallmodalLabel">회원 탈퇴</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body text-center">
-              <p class="modal-message">회원에서 탈퇴하시면 적립된 포인트가 모두 사라집니다.<br>정말로 탈퇴하시겠습니까?</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary btn-quit">탈퇴합니다</button>
-              <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
-              <a href="<?=BASE_URL?>"><button type="button" class="btn btn-primary btn-top d-none">메인 화면으로</button></a>
+        <div class="modal fade" id="quitModal" tabindex="-1" role="dialog" aria-labelledby="quitModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="smallmodalLabel">회원 탈퇴</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body text-center">
+                <p class="modal-message">회원에서 탈퇴하시면 적립된 포인트가 모두 사라집니다.<br>정말로 탈퇴하시겠습니까?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-quit">탈퇴합니다</button>
+                <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal">닫기</button>
+                <a href="<?=BASE_URL?>"><button type="button" class="btn btn-primary btn-top d-none">메인 화면으로</button></a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <script>
-        $(document).ready(function() {
-          $.checkNickname();
-        });
-      </script>
+        <script>
+          $(document).ready(function() {
+            $.checkNickname();
+          });
+        </script>

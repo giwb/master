@@ -8,13 +8,469 @@ class Welcome extends MY_Controller
   {
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
-    $this->load->model(array('admin_model', 'area_model', 'club_model', 'file_model'));
+    $this->load->model(array('area_model', 'club_model', 'desk_model', 'file_model', 'notice_model', 'story_model', 'reserve_model'));
   }
 
+  /**
+   * 메인 인덱스
+   *
+   * @return view
+   * @author bjchoi
+   **/
   public function index()
   {
-    $viewData['userData'] = $this->load->get_var('userData');
+    $paging['perPage'] = $viewData['perPage'] = 10;
+    $paging['nowPage'] = (1 * $paging['perPage']) - $paging['perPage'];
+    $viewData['maxArticle'] = $this->desk_model->cntArticle();
+
+    // 메인 기사
+    $search['main_status'] = 'Y';
+    $viewData['listArticleMain'] = $this->desk_model->listMainArticle($search);
+
+    // 최신 기사
+    $viewData['listArticle'] = $this->desk_model->listMainArticle(NULL, $paging);
+    foreach ($viewData['listArticle'] as $key => $value) {
+      // 조회수
+      $cntRefer = $this->desk_model->cntArticleReaction($value['idx'], REACTION_TYPE_REFER);
+      $viewData['listArticle'][$key]['cntRefer'] = $cntRefer['cnt'];
+
+      // 좋아요
+      $cntLiked = $this->desk_model->cntArticleReaction($value['idx'], REACTION_TYPE_LIKED);
+      $viewData['listArticle'][$key]['cntLiked'] = $cntLiked['cnt'];
+
+      // 댓글
+      $cntReply = $this->desk_model->cntReply($value['idx']);
+      $viewData['listArticle'][$key]['cntReply'] = $cntReply['cnt'];
+    }
+    $viewData['listArticle'] = $this->load->view('/article_list', $viewData, true);
+
     $this->_viewPage('index', $viewData);
+  }
+
+  /**
+   * 기사 목록
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function article_list()
+  {
+    $page = html_escape($this->input->post('p'));
+    $result = '';
+
+    $paging['perPage'] = 10;
+    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
+    $viewData['listArticle'] = $this->desk_model->listMainArticle(NULL, $paging);
+
+    if (!empty($viewData['listArticle'])) {
+      $result = $this->load->view('/article_list', $viewData, true);
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 기사 검색 페이지
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function search()
+  {
+    if (!empty($this->input->get('keyword'))) {
+      $search['keyword'] = html_escape($this->input->get('keyword'));
+      $viewData['type'] = $search['keyword'];
+    }
+    if (!empty($this->input->get('code'))) {
+      $search['code'] = html_escape($this->input->get('code'));
+      $type = $this->desk_model->viewArticleCategory($search['code']);
+      $viewData['type'] = $type['name'];
+    }
+
+    // 기사 검색
+    $viewData['listArticle'] = $this->desk_model->listMainArticle($search);
+
+    $this->_viewPage('search', $viewData);
+  }
+
+  /**
+   * 개별 기사 페이지
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function article($idx=NULL)
+  {
+    $viewData['userData'] = $this->load->get_var('userData');
+    $idx = html_escape($idx);
+
+    if (is_null($idx)) {
+      $viewData['viewArticle']['title'] = '';
+      $viewData['viewArticle']['content'] = '<div style="pt-5 pb-5">관련 기사가 없습니다.</div>';
+    } else {
+      $viewData['viewArticle'] = $this->desk_model->viewArticle($idx);
+
+      // 분류명
+      $viewData['category'] = $this->desk_model->viewArticleCategory($viewData['viewArticle']['category']);
+      $viewData['categoryParent'] = $this->desk_model->viewArticleParentCategory($viewData['category']['parent']);
+
+      // 조회수 올리기
+      $ipaddr = $_SERVER['REMOTE_ADDR'];
+      $insertValues = array(
+        'idx_article' => $idx,
+        'reaction_type' => REACTION_TYPE_REFER,
+        'ip_address' => $_SERVER['REMOTE_ADDR'],
+        'created_by' => !empty($viewData['userData']['idx']) ? $viewData['userData']['idx'] : NULL,
+        'created_at' => time(),
+      );
+      $this->desk_model->insert(DB_ARTICLE_REACTION, $insertValues);
+
+      // 조회수
+      $viewData['refer'] = $this->desk_model->cntArticleReaction($idx, REACTION_TYPE_REFER);
+
+      // 좋아요 했는지 확인
+      $search = array(
+        'idx_article' => $idx,
+        'reaction_type' => REACTION_TYPE_LIKED,
+        'ip_address' => $ipaddr,
+        'created_by' => !empty($viewData['userData']['idx']) ? $viewData['userData']['idx'] : NULL,
+      );
+      $viewData['checkLiked'] = $this->desk_model->viewArticleReaction($search);
+
+      // 좋아요
+      $viewData['liked'] = $this->desk_model->cntArticleReaction($idx, REACTION_TYPE_LIKED);
+
+      // 댓글
+      $viewData['cntReply'] = $this->desk_model->cntReply($idx);
+      $viewData['listReply'] = $this->desk_model->listReply($idx);
+
+      foreach ($viewData['listReply'] as $key => $value) {
+        $thread = $this->desk_model->listReply($idx, $value['idx']);
+        $viewData['listReply'][$key]['listReplyThread'] = $thread;
+      }
+    }
+
+    $this->_viewPage('article', $viewData);
+  }
+
+  /**
+   * 기사 삭제
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function article_delete()
+  {
+    $userData = $this->load->get_var('userData');
+    $idx = html_escape($this->input->post('idx'));
+
+    if (!empty($idx)) {
+      $updateValues['deleted_by'] = $userData['idx'];
+      $updateValues['deleted_at'] = time();
+      $this->desk_model->update(DB_ARTICLE, $updateValues, $idx);
+
+      $result = array('error' => 0, 'message' => '');
+    } else {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 좋아요
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function liked()
+  {
+    $viewData['userData'] = $this->load->get_var('userData');
+    $idx = html_escape($this->input->post('idx'));
+
+    if (!empty($viewData['userData']) && !empty($idx)) {
+      $now = time();
+      $ipaddr = $_SERVER['REMOTE_ADDR'];
+      $search = array(
+        'idx_article' => $idx,
+        'reaction_type' => REACTION_TYPE_LIKED,
+        'ip_address' => $ipaddr,
+        'created_by' => !empty($viewData['userData']['idx']) ? $viewData['userData']['idx'] : NULL,
+      );
+      $check = $this->desk_model->viewArticleReaction($search);
+
+      if (!empty($check)) {
+        $this->desk_model->deleteArticleReaction(DB_ARTICLE_REACTION, $search);
+
+        // 좋아요
+        $liked = $this->desk_model->cntArticleReaction($idx, REACTION_TYPE_LIKED);
+
+        $result = array('error' => 0, 'message' => 0, 'liked' => $liked['cnt']);
+      } else {
+        // 좋아요 올리기
+        $insertValues = array(
+          'idx_article' => $idx,
+          'reaction_type' => REACTION_TYPE_LIKED,
+          'ip_address' => $ipaddr,
+          'created_by' => !empty($viewData['userData']['idx']) ? $viewData['userData']['idx'] : NULL,
+          'created_at' => $now,
+        );
+        $this->desk_model->insert(DB_ARTICLE_REACTION, $insertValues);
+
+        // 좋아요
+        $liked = $this->desk_model->cntArticleReaction($idx, REACTION_TYPE_LIKED);
+
+        $result = array('error' => 0, 'message' => 1, 'liked' => $liked['cnt']);
+      }
+    } else {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 댓글
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function reply_insert()
+  {
+    $now = time();
+    $viewData['userData'] = $this->load->get_var('userData');
+    $articleIdx = html_escape($this->input->post('articleIdx'));
+    $replyIdx = html_escape($this->input->post('replyIdx'));
+    $nickname = html_escape($this->input->post('nickname'));
+    $content = html_escape($this->input->post('content'));
+    $ipaddr = $_SERVER['REMOTE_ADDR'];
+
+    if (!empty($articleIdx) && !empty($content)) {
+      $insertValues = array(
+        'idx_article' => $articleIdx,
+        'idx_reply' => $replyIdx,
+        'ip_address' => $ipaddr,
+        'nickname' => $nickname,
+        'content' => $content,
+        'created_by' => !empty($viewData['userData']['idx']) ? $viewData['userData']['idx'] : NULL,
+        'created_at' => $now,
+      );
+      $idx = $this->desk_model->insert(DB_ARTICLE_REPLY, $insertValues);
+
+      // 댓글
+      $cntReply = $this->desk_model->cntReply($articleIdx);
+
+      // 아바타가 있는지 확인
+      if (file_exists(PHOTO_PATH . $viewData['userData']['idx'])) {
+        $avatar = PHOTO_URL . $viewData['userData']['idx'];
+      } else {
+        $avatar = '/public/images/user.png';
+      }
+
+      $result = array('error' => 0, 'message' => $cntReply['cnt'], 'idx' => $idx, 'avatar' => $avatar, 'date' => date('Y-m-d H:i', $now));
+    } else {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 댓글 삭제
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function reply_delete()
+  {
+    $idx = html_escape($this->input->post('idx'));
+    $articleIdx = html_escape($this->input->post('idx_article'));
+
+    if (!empty($idx)) {
+      $this->desk_model->deleteReply($idx);
+      $cntReply = $this->desk_model->cntReply($articleIdx);
+      $result = array('error' => 0, 'message' => $cntReply['cnt']);
+    } else {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 현지영상
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function video()
+  {
+    $viewData['category'] = html_escape($this->input->get('c'));
+    if (empty($viewData['category'])) $viewData['category'] = 'national';
+
+    // 현지영상 목록
+    $viewData['listCctv'] = $this->desk_model->listCctv($viewData, 'asc');
+
+    // 현지영상 카테고리
+    $viewData['listCctvCategory'] = $this->desk_model->listCctvCategory();
+
+    $this->_viewPage('video', $viewData);
+  }
+
+  /**
+   * 산행 목록
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function schedule()
+  {
+    $search['sdate'] = $viewData['startdate'] = !empty($this->input->get('sdate')) ? date('Y-m-d', html_escape($this->input->get('sdate'))) : NULL;
+    $search['edate'] = !empty($this->input->get('sdate')) ? date('Y-m-d', html_escape($this->input->get('sdate'))) : NULL;
+    $search['keyword'] = $viewData['keyword'] = !empty($this->input->get('keyword')) ? html_escape($this->input->get('keyword')) : NULL;
+    $viewData['listNoticeSchedule'] = array();
+
+    // 내부 여행일정
+    $viewData['listNotice'] = $this->reserve_model->listNotice(NULL, array(STATUS_ABLE, STATUS_CONFIRM), 'asc', $search);
+    foreach ($viewData['listNotice'] as $key1 => $value) {
+      // 클럽 정보
+      $viewClub = $this->club_model->viewClub($value['club_idx']);
+      $viewData['listNotice'][$key1]['club_name'] = $viewClub['title'];
+      $viewData['listNotice'][$key1]['url'] = base_url() . $viewClub['url'] . '/reserve/list/' . $value['idx'];
+
+      // 댓글수
+      $cntReply = $this->story_model->cntStoryReply($value['idx'], REPLY_TYPE_NOTICE);
+      $viewData['listNotice'][$key1]['reply_cnt'] = $cntReply['cnt'];
+
+      // 지역
+      if (!empty($value['area_sido'])) {
+        $area_sido = unserialize($value['area_sido']);
+        $area_gugun = unserialize($value['area_gugun']);
+
+        foreach ($area_sido as $key2 => $value2) {
+          $sido = $this->area_model->getName($value2);
+          $gugun = $this->area_model->getName($area_gugun[$key2]);
+          $viewData['listNotice'][$key1]['sido'][$key2] = $sido['name'];
+          $viewData['listNotice'][$key1]['gugun'][$key2] = $gugun['name'];
+        }
+      }
+
+      // 사진
+      if (!empty($value['photo']) && file_exists(PHOTO_PATH . $value['photo'])) {
+        $viewData['listNotice'][$key1]['photo'] = PHOTO_URL . $value['photo'];
+      }
+    }
+
+    // 외부 여행일정
+    $viewData['listSchedule'] = $this->desk_model->listSchedule($search, 'asc');
+    foreach ($viewData['listSchedule'] as $key1 => $value) {
+      // 지역
+      if (!empty($value['area_sido'])) {
+        $area_sido = unserialize($value['area_sido']);
+        $area_gugun = unserialize($value['area_gugun']);
+
+        foreach ($area_sido as $key2 => $value2) {
+          $sido = $this->area_model->getName($value2);
+          $gugun = $this->area_model->getName($area_gugun[$key2]);
+          $viewData['listSchedule'][$key1]['sido'][$key2] = $sido['name'];
+          $viewData['listSchedule'][$key1]['gugun'][$key2] = $gugun['name'];
+        }
+      }
+    }
+
+    // 내부 - 월간 여행일정
+    $listNoticeFooter = $this->reserve_model->listNotice(NULL, array(STATUS_ABLE, STATUS_CONFIRM), 'asc');
+    foreach ($listNoticeFooter as $key1 => $value) {
+      $flag = false;
+      foreach ($viewData['listNoticeSchedule'] as $key2 => $value2) {
+        if ($value2['startdate'] == $value['startdate']) {
+          $viewData['listNoticeSchedule'][$key2]['count'] = $viewData['listNoticeSchedule'][$key2]['count'] + 1;
+          $flag = true;
+        }
+      }
+      if ($flag == false) {
+        $viewData['listNoticeSchedule'][] = array(
+          'startdate' => $value['startdate'],
+          'count' => 1
+        );
+      }
+    }
+
+    // 외부 - 월간 여행일정
+    $listFooterSchedule = $this->desk_model->listSchedule();
+    foreach ($listFooterSchedule as $key1 => $value) {
+      $flag = false;
+      foreach ($viewData['listNoticeSchedule'] as $key2 => $value2) {
+        if ($value2['startdate'] == $value['startdate']) {
+          $viewData['listNoticeSchedule'][$key2]['count'] = $viewData['listNoticeSchedule'][$key2]['count'] + 1;
+          $flag = true;
+        }
+      }
+      if ($flag == false) {
+        $viewData['listNoticeSchedule'][] = array(
+          'startdate' => $value['startdate'],
+          'count' => 1
+        );
+      }
+    }
+
+    $this->_viewPage('schedule', $viewData);
+  }
+
+  /**
+   * 산악회 목록
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function area()
+  {
+    $viewData['search'] = html_escape($this->input->get('s'));
+    $viewData['keyword'] = html_escape($this->input->get('k'));
+    $viewData['list'] = $this->club_model->listClub($viewData['search'], $viewData['keyword']);
+
+    if ($viewData['search'] == 'area_sido') {
+      $viewData['searchTitle'] = $this->area_model->getName($viewData['keyword']);
+    } else {
+      $viewData['searchTitle']['name'] = '전체';
+    }
+
+    foreach ($viewData['list'] as $key1 => $value) {
+      // 지역
+      if (!empty($value['area_sido'])) {
+        $area_sido = unserialize($value['area_sido']);
+        $area_gugun = unserialize($value['area_gugun']);
+
+        foreach ($area_sido as $key2 => $value2) {
+          $sido = $this->area_model->getName($value2);
+          if (!empty($area_gugun[$key2])) {
+            $gugun = $this->area_model->getName($area_gugun[$key2]);
+          } else {
+            $gugun['name'] = '';
+          }
+          $viewData['list'][$key1]['sido'][$key2] = $sido['name'];
+          $viewData['list'][$key1]['gugun'][$key2] = $gugun['name'];
+        }
+      }
+
+      // 사진
+      $file = $this->file_model->getFile('club', $value['idx'], NULL, 1);
+      if (!empty($file[0]['filename'])) {
+        $viewData['list'][$key1]['thumbnail'] = UPLOAD_CLUB_URL . $value['idx'] . '/thumb_' . $file[0]['filename'];
+      } else {
+        $viewData['list'][$key1]['thumbnail'] = '/public/images/noimage.png';
+      }
+
+      // 회원수
+      $cntMember = $this->member_model->cntMember($value['idx']);
+      $viewData['list'][$key1]['cntMember'] = $cntMember['cnt'];
+
+      // 산행횟수
+      $cntNotice = $this->notice_model->cntNotice($value['idx']);
+      $viewData['list'][$key1]['cntNotice'] = $cntNotice['cnt'];
+    }
+
+    $this->_viewPage('area', $viewData);
   }
 
   /**
@@ -36,13 +492,6 @@ class Welcome extends MY_Controller
     }
 
     foreach ($viewData['list'] as $key => $value) {
-      // 도메인
-      if (strstr($value['domain'], '.')) {
-        $viewData['list'][$key]['domain'] = 'http://' . $value['domain'];
-      } else {
-        $viewData['list'][$key]['domain'] = base_url() . $value['domain'];
-      }
-
       // 사진
       $file = $this->file_model->getFile('club', $value['idx'], NULL, 1);
       if (!empty($file[0]['filename'])) {
@@ -88,6 +537,7 @@ class Welcome extends MY_Controller
     } else {
       $viewData['view']['idx'] = '';
       $viewData['view']['title'] = '';
+      $viewData['view']['url'] = '';
       $viewData['view']['domain'] = '';
       $viewData['view']['homepage'] = '';
       $viewData['view']['main_color'] = '';
@@ -142,6 +592,7 @@ class Welcome extends MY_Controller
 
     $insert_values = array(
       'title'             => html_escape($input_data['title']),
+      'url'               => html_escape($input_data['url']),
       'domain'            => html_escape($input_data['domain']),
       'homepage'          => html_escape($input_data['homepage']),
       'phone'             => html_escape($input_data['phone']),
@@ -213,6 +664,7 @@ class Welcome extends MY_Controller
 
     $update_values = array(
       'title'             => html_escape($input_data['title']),
+      'url'               => html_escape($input_data['url']),
       'domain'            => html_escape($input_data['domain']),
       'homepage'          => html_escape($input_data['homepage']),
       'phone'             => html_escape($input_data['phone']),
@@ -307,24 +759,78 @@ class Welcome extends MY_Controller
    * @return json
    * @author bjchoi
    **/
-  public function check_domain()
+  public function check_url()
   {
-    $domain = html_escape($this->input->post('domain'));
-    $check = $this->club_model->getDomain($domain);
+    $url = html_escape($this->input->post('url'));
+    $check = $this->club_model->getUrl($url);
 
     if (empty($check['idx'])) {
-      $result = array(
-        'error' => 0,
-        'message' => '<img class="check-domain-complete" src="/public/images/icon_check.png">'
-      );
+      $result = array('error' => 0, 'message' => '');
     } else {
-      $result = array(
-        'error' => 1,
-        'message' => '<img src="/public/images/icon_cross.png">'
-      );
+      $result = array('error' => 1, 'message' => '');
     }
 
     $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 산행일정
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function calendar()
+  {
+    // 클럽ID
+    $viewData['clubIdx'] = 1;
+
+    // 등록된 산행 목록
+    $search['sdate'] = date('Y-m-01');
+    $search['edate'] = date('Y-m-t', time() + (60 * 60 * 24 * 30 * 12));
+    $search['status'] = array(STATUS_PLAN, STATUS_ABLE, STATUS_CONFIRM, STATUS_CANCEL, STATUS_CLOSED);
+    $search['clubIdx'] = $viewData['clubIdx'];
+    $viewData['listNotice'] = $this->admin_model->listNotice($search);
+
+    foreach ($viewData['listNotice'] as $key => $value) {
+      $viewData['listCalendar'][] = array(
+        'idx' => $value['idx'],
+        'startdate' => $value['startdate'],
+        'starttime' => $value['starttime'],
+        'enddate' => $value['enddate'],
+        'schedule' => $value['schedule'],
+        'status' => $value['status'],
+        'mname' => $value['mname'],
+        'class' => '',
+      );
+    }
+
+    // 캘린더 설정
+    $listCalendar = $this->admin_model->listCalendar();
+
+    foreach ($listCalendar as $key => $value) {
+      if ($value['holiday'] == 1) {
+        $class = 'holiday';
+      } else {
+        $class = 'dayname';
+      }
+      $viewData['listCalendar'][] = array(
+        'idx' => 0,
+        'startdate' => $value['nowdate'],
+        'enddate' => $value['nowdate'],
+        'schedule' => 0,
+        'status' => 'schedule',
+        'mname' => $value['dayname'],
+        'class' => $class,
+      );
+    }
+
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '산행 일정 복사';
+
+    // 헤더 메뉴
+    $viewData['headerMenu'] = 'main_header';
+
+    $this->load->view('calendar', $viewData);
   }
 
   /**
@@ -340,6 +846,51 @@ class Welcome extends MY_Controller
     // 리다이렉트 URL 추출
     if ($_SERVER['SERVER_PORT'] == '80') $HTTP_HEADER = 'http://'; else $HTTP_HEADER = 'https://';
     $viewData['redirectUrl'] = $HTTP_HEADER . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+    // 회원 정보
+    $viewData['userData'] = $this->load->get_var('userData');
+
+    // 분류별 기사
+    $viewData['listArticleCategory'] = $this->desk_model->listArticleCategory();
+
+    // 분류별 기사 카운트
+    foreach ($viewData['listArticleCategory'] as $key => $value) {
+      $cnt = $this->desk_model->cntArticle($value['code']);
+      $viewData['listArticleCategory'][$key]['cnt'] = $cnt['cnt'];
+    }
+
+    // 여행일정
+    $viewData['listFooterNotice'] = $this->reserve_model->listNotice(NULL, array(STATUS_ABLE, STATUS_CONFIRM), 'asc');
+
+    foreach ($viewData['listFooterNotice'] as $key1 => $value) {
+      $viewClub = $this->club_model->viewClub($value['club_idx']);
+      $viewData['listFooterNotice'][$key1]['club_name'] = $viewClub['title'];
+      $viewData['listFooterNotice'][$key1]['url'] = base_url() . $viewClub['url'] . '/reserve/list/' . $value['idx'];
+
+      // 댓글수
+      $cntReply = $this->story_model->cntStoryReply($value['idx'], REPLY_TYPE_NOTICE);
+      $viewData['listFooterNotice'][$key1]['reply_cnt'] = $cntReply['cnt'];
+
+      // 지역
+      if (!empty($value['area_sido'])) {
+        $area_sido = unserialize($value['area_sido']);
+        $area_gugun = unserialize($value['area_gugun']);
+
+        foreach ($area_sido as $key2 => $value2) {
+          $sido = $this->area_model->getName($value2);
+          $gugun = $this->area_model->getName($area_gugun[$key2]);
+          $viewData['listFooterNotice'][$key1]['sido'][$key2] = $sido['name'];
+          $viewData['listFooterNotice'][$key1]['gugun'][$key2] = $gugun['name'];
+        }
+      }
+
+      // 사진
+      if (!empty($value['photo']) && file_exists(PHOTO_PATH . $value['photo'])) {
+        $viewData['listFooterNotice'][$key1]['photo'] = PHOTO_URL . $value['photo'];
+      } else {
+        $viewData['listFooterNotice'][$key1]['photo'] = '/public/images/nophoto.png';
+      }
+    }
 
     $this->load->view('header', $viewData);
     $this->load->view($viewPage, $viewData);

@@ -38,7 +38,7 @@
     <li><a href="<?=BASE_URL?>/reserve/schedule"><i class="fa fa-calendar" aria-hidden="true"></i><br>일정</a></li>
     <li><a href="<?=BASE_URL?>/shop"><i class="fa fa-shopping-cart" aria-hidden="true"></i><br>구매</a></li>
     <li><a href="<?=BASE_URL?>/album"><i class="fa fa-camera-retro" aria-hidden="true"></i><br>사진</a></li>
-    <li><a href="<?=BASE_URL?>/club/about"><i class="fa fa-sitemap" aria-hidden="true"></i><br>소개</a></li>
+    <li><a href="<?=BASE_URL?>/club/about/<?=$listAbout[0]['idx']?>"><i class="fa fa-sitemap" aria-hidden="true"></i><br>소개</a></li>
     <?php if (!empty($userData['idx'])): ?>
     <li><a href="<?=BASE_URL?>/member"><i class="fa fa-user-circle" aria-hidden="true"></i><br>내정보</a></li>
     <?php else: ?>
@@ -66,11 +66,11 @@
           <form class="loginForm" method="post">
             <dl>
               <dt>아이디</dt>
-              <dd><input type="text" name="userid" class="form-control input-login" value="<?=!empty($cookieUserid) ? $cookieUserid : ''?>"></dd>
+              <dd><input type="text" name="login_userid" class="form-control input-login" value="<?=!empty($cookieUserid) ? $cookieUserid : ''?>"></dd>
             </dl>
             <dl>
               <dt>비밀번호</dt>
-              <dd><input type="password" name="password" class="form-control input-login" value="<?=!empty($cookiePasswd) ? $cookiePasswd : ''?>"></dd>
+              <dd><input type="password" name="login_password" class="form-control input-login" value="<?=!empty($cookiePasswd) ? $cookiePasswd : ''?>"></dd>
             </dl>
             <label class="small pl-5"><input type="checkbox" name="save"> 아이디/비밀번호 저장</label>
           </form>
@@ -78,7 +78,7 @@
         </div>
         <div class="modal-footer">
           <div class="modal-footer-left">
-            <a href="<?=BASE_URL?>/login/entry"><button type="button" class="btn btn-<?=$view['main_color']?>">회원가입</button></a>
+            <a href="<?=BASE_URL?>/login/check"><button type="button" class="btn btn-<?=$view['main_color']?>">회원가입</button></a>
             <a href="<?=BASE_URL?>/login/forgot"><button type="button" class="btn btn-secondary">아이디/비밀번호 찾기</button></a>
           </div>
           <div class="modal-footer-right">

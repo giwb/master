@@ -68,7 +68,7 @@ class Shop extends MY_Controller
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
     // 페이지 타이틀
-    $viewData['pageTitle'] = '구매대행 상품';
+    $viewData['pageTitle'] = '용품샵';
 
     if ($page >= 2) {
       // 2페이지 이상일 경우에는 Json으로 전송
@@ -153,7 +153,7 @@ class Shop extends MY_Controller
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
     // 페이지 타이틀
-    $viewData['pageTitle'] = '구매대행 상품';
+    $viewData['pageTitle'] = '용품샵';
 
     $this->_viewPage('shop/item', $viewData);
   }
@@ -172,6 +172,9 @@ class Shop extends MY_Controller
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    // 검색 분류
+    $viewData['listCategory'] = $this->shop_model->listCategory();
 
     // 카트 정보
     $viewData['listCart'] = array();
@@ -205,7 +208,7 @@ class Shop extends MY_Controller
     }
 
     // 페이지 타이틀
-    $viewData['pageTitle'] = '구매대행 상품';
+    $viewData['pageTitle'] = '용품샵';
 
     $this->_viewPage('shop/cart', $viewData);
   }
@@ -311,6 +314,9 @@ class Shop extends MY_Controller
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
+    // 검색 분류
+    $viewData['listCategory'] = $this->shop_model->listCategory();
+
     // 카트 정보
     $viewData['listCart'] = array();
     $viewData['total_amount'] = $viewData['total_cost'] = 0;
@@ -347,7 +353,7 @@ class Shop extends MY_Controller
     $viewData['listMemberReserve'] = $this->shop_model->listMemberReserve($clubIdx, $userData['userid']);
 
     // 페이지 타이틀
-    $viewData['pageTitle'] = '용품판매 - 구매진행';
+    $viewData['pageTitle'] = '용품샵';
 
     $this->_viewPage('shop/checkout', $viewData);
   }
@@ -363,6 +369,7 @@ class Shop extends MY_Controller
     $now = time();
     $userData = $this->load->get_var('userData');
     $postData = $this->input->post();
+    $clubIdx = $postData['clubIdx'];
 
     $insertValues = array(
       'notice_idx'    => !empty($postData['reserveIdx']) ? html_escape($postData['reserveIdx']) : NULL, // 인수받을 산행
@@ -421,14 +428,14 @@ class Shop extends MY_Controller
       $cntItem = count($arrItem);
       $subject = $arrItem[0]['name'];
       if ($cntItem > 1) $subject .= ' 외 ' . ($cntItem - 1) . '개';
-      setHistory(LOG_SHOP_BUY, $rtn, $userData['userid'], $userData['nickname'], $subject, $now);
+      setHistory($clubIdx, LOG_SHOP_BUY, $rtn, $userData['userid'], $userData['nickname'], $subject, $now);
 
       if ($totalCost == $insertValues['point']) {
         // 포인트로 전부 결제했을때 결제 기록
-        setHistory(LOG_SHOP_CHECKOUT, $rtn, $userData['userid'], $userData['nickname'], '전액 포인트 결제 완료', $now, $insertValues['point']);
+        setHistory($clubIdx, LOG_SHOP_CHECKOUT, $rtn, $userData['userid'], $userData['nickname'], '전액 포인트 결제 완료', $now, $insertValues['point']);
       } elseif (!empty($insertValues['deposit_name'])) {
         // 은행 입금을 위한 입금자명을 입력했을 경우 결제 기록
-        setHistory(LOG_SHOP_CHECKOUT, $rtn, $userData['userid'], $userData['nickname'], '입금자명 입력 - ' . $insertValues['deposit_name'], $now);
+        setHistory($clubIdx, LOG_SHOP_CHECKOUT, $rtn, $userData['userid'], $userData['nickname'], '입금자명 입력 - ' . $insertValues['deposit_name'], $now);
       }
 
       $result = array('error' => 0, 'message' => $rtn);
@@ -455,6 +462,9 @@ class Shop extends MY_Controller
       // 클럽 정보
       $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
+      // 검색 분류
+      $viewData['listCategory'] = $this->shop_model->listCategory();
+
       // 구매 정보
       $viewData['viewPurchase'] = $this->shop_model->viewPurchase($idx);
 
@@ -468,7 +478,7 @@ class Shop extends MY_Controller
     }
 
     // 페이지 타이틀
-    $viewData['pageTitle'] = '구매대행 상품';
+    $viewData['pageTitle'] = '용품샵';
 
     $this->_viewPage('shop/complete', $viewData);
   }
@@ -512,12 +522,12 @@ class Shop extends MY_Controller
             // 포인트 차감
             $this->member_model->updatePoint($clubIdx, $userData['userid'], ($userData['point'] - $updateValues['point']));
             // 포인트 차감 로그 기록
-            setHistory(LOG_POINTDN, $idx, $userData['userid'], $userData['nickname'], '구매 포인트 사용', $nowDate, $updateValues['point']);
+            setHistory($clubIdx, LOG_POINTDN, $idx, $userData['userid'], $userData['nickname'], '구매 포인트 사용', $nowDate, $updateValues['point']);
           } elseif ($viewPurchase['point'] > $updateValues['point']) {
             // 포인트 환불
             $this->member_model->updatePoint($clubIdx, $userData['userid'], ($userData['point'] + ($viewPurchase['point'] - $updateValues['point'])));
             // 포인트 환불 로그 기록
-            setHistory(LOG_POINTUP, $idx, $userData['userid'], $userData['nickname'], '구매 포인트 환불', $nowDate, ($viewPurchase['point'] - $updateValues['point']));
+            setHistory($clubIdx, LOG_POINTUP, $idx, $userData['userid'], $userData['nickname'], '구매 포인트 환불', $nowDate, ($viewPurchase['point'] - $updateValues['point']));
           }
         }
 
@@ -568,14 +578,14 @@ class Shop extends MY_Controller
       $result = array('error' => 1, 'message' => $this->lang->line('error_cancel'));
     } else {
       // 구매 취소 로그 기록
-      setHistory(LOG_SHOP_CANCEL, $idx, $userData['userid'], $userData['nickname'], $subject, $nowDate);
+      setHistory($clubIdx, LOG_SHOP_CANCEL, $idx, $userData['userid'], $userData['nickname'], $subject, $nowDate);
 
       if ($viewPurchase['point'] > 0) {
         // 사용했던 포인트 환불
         $this->member_model->updatePoint($clubIdx, $userData['userid'], ($userData['point'] + $viewPurchase['point']));
 
         // 포인트 환불 로그 기록
-        setHistory(LOG_POINTUP, $idx, $userData['userid'], $userData['nickname'], '구매 취소', $nowDate, $viewPurchase['point']);
+        setHistory($clubIdx, LOG_POINTUP, $idx, $userData['userid'], $userData['nickname'], '구매 취소', $nowDate, $viewPurchase['point']);
       }
 
       $result = array('error' => 0, 'message' => '');
@@ -600,30 +610,43 @@ class Shop extends MY_Controller
     $viewData['userData'] = $this->load->get_var('userData');
     $viewData['userLevel'] = $this->load->get_var('userLevel');
 
-    // 진행 중 산행
-    $viewData['listFooterNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
+    // 클럽 메뉴
+    $viewData['listAbout'] = $this->club_model->listAbout($viewData['view']['idx']);
 
-    // 최신 댓글
-    $paging['perPage'] = 5; $paging['nowPage'] = 0;
-    $viewData['listFooterReply'] = $this->admin_model->listReply($viewData['view']['idx'], $paging);
+    // 등록된 산행 목록
+    $viewData['listNoticeFooter'] = $viewData['listNoticeCalendar'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
 
-    foreach ($viewData['listFooterReply'] as $key => $value) {
-      if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/story/view/' . $value['story_idx']; endif;
-      if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/reserve/list/' . $value['story_idx']; endif;
-      if ($value['reply_type'] == REPLY_TYPE_SHOP):   $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/shop/item/' . $value['story_idx']; endif;
+    // 캘린더 설정
+    $listCalendar = $this->admin_model->listCalendar();
+
+    foreach ($listCalendar as $key => $value) {
+      if ($value['holiday'] == 1) {
+        $class = 'holiday';
+      } else {
+        $class = 'dayname';
+      }
+      $viewData['listNoticeCalendar'][] = array(
+        'idx' => 0,
+        'startdate' => $value['nowdate'],
+        'enddate' => $value['nowdate'],
+        'schedule' => 0,
+        'status' => 'schedule',
+        'mname' => $value['dayname'],
+        'class' => $class,
+      );
     }
 
-    // 최신 사진첩
-    $paging['perPage'] = 2; $paging['nowPage'] = 0;
-    $viewData['listFooterAlbum'] = $this->club_model->listAlbum($viewData['view']['idx'], $paging);
+    // 안부 인사
+    $page = 1;
+    $paging['perPage'] = 8;
+    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
+    $viewData['listStory'] = $this->story_model->listStory($viewData['view']['idx'], $paging);
 
-    foreach ($viewData['listFooterAlbum'] as $key => $value) {
-      $photo = $this->file_model->getFile('album', $value['idx'], NULL, 1);
-      if (!empty($photo[0]['filename'])) {
-        //$viewData['listAlbum'][$key]['photo'] = PHOTO_URL . 'thumb_' . $photo[0]['filename'];
-        $viewData['listFooterAlbum'][$key]['photo'] = PHOTO_URL . $photo[0]['filename'];
+    foreach ($viewData['listStory'] as $key => $value) {
+      if (file_exists(PHOTO_PATH . $value['user_idx'])) {
+        $viewData['listStory'][$key]['avatar'] = PHOTO_URL . $value['user_idx'];
       } else {
-        $viewData['listFooterAlbum'][$key]['photo'] = '/public/images/noimage.png';
+        $viewData['listStory'][$key]['avatar'] = '/public/images/user.png';
       }
     }
 
@@ -654,6 +677,8 @@ class Shop extends MY_Controller
 
     // 방문자 기록
     setVisitor();
+
+    if (empty($viewData['view']['main_design'])) $viewData['view']['main_design'] = 1;
 
     $this->load->view('club/header_' . $viewData['view']['main_design'], $viewData);
     $this->load->view($viewPage, $viewData);

@@ -1,18 +1,26 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-      <div class="club-main">
-        <div class="row-category mb-3">
-          <div class="row m-0 p-0 border-right border-bottom">
-            <a href="<?=BASE_URL?>/club/about" class="col-6 col-sm-2 border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=strstr($_SERVER['REQUEST_URI'], '/about') ? ' active' : ''?>">산악회 소개</a>
-            <a href="<?=BASE_URL?>/club/guide" class="col-6 col-sm-2 border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=strstr($_SERVER['REQUEST_URI'], '/guide') ? ' active' : ''?>">등산안내인</a>
-            <a href="<?=BASE_URL?>/club/past" class="col-6 col-sm-2 border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=strstr($_SERVER['REQUEST_URI'], '/past') ? ' active' : ''?>">지난 산행보기</a>
-            <a href="<?=BASE_URL?>/club/howto" class="col-6 col-sm-2 border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=strstr($_SERVER['REQUEST_URI'], '/howto') ? ' active' : ''?>">이용안내</a>
-            <a href="<?=BASE_URL?>/club/auth_about" class="col-6 col-sm-2 border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=strstr($_SERVER['REQUEST_URI'], '_about') ? ' active' : ''?>">백산백소 소개</a>
-            <a href="<?=BASE_URL?>/club/auth" class="col-6 col-sm-2 border-left pt-2 pb-2 pl-0 pr-0 small text-center<?=strstr($_SERVER['REQUEST_URI'], '/auth') && !strstr($_SERVER['REQUEST_URI'], 'auth_about') ? ' active' : ''?>">인증현황</a>
+  <main id="club">
+    <div class="container-fluid club-main">
+      <div class="row mt-1 mb-5">
+        <div class="col-xl-8 col-md-12">
+          <h4 class="font-weight-bold"><?=$viewAbout['title']?></h4>
+          <hr class="text-default">
+
+          <div class="d-block d-sm-none">
+            <div class="header-menu mt-3 mb-3">
+              <?php foreach ($listAbout as $value): ?>
+              <div class="header-menu-item col-6<?=$pageIdx == $value['idx'] ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/about/<?=$value['idx']?>"><?=$value['title']?></a></div>
+              <?php endforeach; ?>
+              <div class="header-menu-item col-6"><a href="<?=BASE_URL?>/club/past">지난산행</a></div>
+            </div>
           </div>
+
+          <?php if (empty($viewAbout['idx'])): ?>
+          <div class="text-center p-5">해당하는 페이지가 없습니다.</div>
+          <?php else: ?>
+          <div class="sub-content p-3 mb-5">
+          <?=reset_html_escape($viewAbout['content'])?>
+          </div>
+          <?php endif; ?>
         </div>
-        <h2 class="sub-header"><?=$pageTitle?></h2>
-        <div class="sub-content">
-          <?=reset_html_escape($view['about'])?>
-        </div>
-      </div>

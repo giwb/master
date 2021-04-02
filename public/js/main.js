@@ -1,31 +1,7 @@
 (function ($) {
   "use strict";
 
-  // Aside Nav
-  $(document).click(function(event) {
-    if (!$(event.target).closest($('#nav-aside')).length) {
-      if ( $('#nav-aside').hasClass('active') ) {
-        $('#nav-aside').removeClass('active');
-        $('#nav').removeClass('shadow-active');
-      } else {
-        if ($(event.target).closest('.aside-btn').length) {
-          $('#nav-aside').addClass('active');
-          $('#nav').addClass('shadow-active');
-        }
-      }
-    }
-  });
-
-  // Preloader
-  $(window).on('load', function () {
-    if ($('#preloader').length) {
-      $('#preloader').delay(100).fadeOut('slow', function () {
-        $(this).remove();
-      });
-    }
-  });
-
-  // Back to top button
+  // 위로 올라가기 버튼 표시
   $(window).scroll(function() {
     if ($(this).scrollTop() > 100) {
       $('.scroll-to-top').fadeIn('slow');
@@ -33,187 +9,7 @@
       $('.scroll-to-top').fadeOut('slow');
     }
   });
-
-  // Initiate the wowjs animation library
-  new WOW().init();
-
-  // Initiate superfish on nav menu
-  $('.nav-menu').superfish({
-    animation: {
-      opacity: 'show'
-    },
-    speed: 400
-  });
-
-  // Mobile Navigation
-  if ($('#nav-menu-container').length) {
-    var $mobile_nav = $('#nav-menu-container').clone().prop({
-      id: 'mobile-nav'
-    });
-    $mobile_nav.find('> ul').attr({
-      'class': '',
-      'id': ''
-    });
-    $('body').append($mobile_nav);
-    $('body').prepend('<button type="button" id="mobile-nav-toggle"><i class="fa fa-bars"></i></button>');
-    $('body').append('<div id="mobile-body-overly"></div>');
-    $('#mobile-nav').find('.menu-has-children').prepend('<i class="fa fa-chevron-down"></i>');
-
-    $(document).on('click', '.menu-has-children i', function(e) {
-      $(this).next().toggleClass('menu-item-active');
-      $(this).nextAll('ul').eq(0).slideToggle();
-      $(this).toggleClass("fa-chevron-up fa-chevron-down");
-    });
-
-    $(document).on('click', '#mobile-nav-toggle', function(e) {
-      $('body').toggleClass('mobile-nav-active');
-      $('#mobile-nav-toggle i').toggleClass('fa-times fa-bars');
-      $('#mobile-body-overly').toggle();
-    });
-
-    $(document).click(function(e) {
-      var container = $("#mobile-nav, #mobile-nav-toggle");
-      if (!container.is(e.target) && container.has(e.target).length === 0) {
-        if ($('body').hasClass('mobile-nav-active')) {
-          $('body').removeClass('mobile-nav-active');
-          $('#mobile-nav-toggle i').toggleClass('fa-times fa-bars');
-          $('#mobile-body-overly').fadeOut();
-        }
-      }
-    });
-  } else if ($("#mobile-nav, #mobile-nav-toggle").length) {
-    $("#mobile-nav, #mobile-nav-toggle").hide();
-  }
-
-  // Header scroll class
-  $(window).scroll(function() {
-    if ($(this).scrollTop() > 100) {
-      $('#header').addClass('header-scrolled');
-    } else {
-      $('#header').removeClass('header-scrolled');
-    }
-  });
-
-  if ($(window).scrollTop() > 100) {
-    $('#header').addClass('header-scrolled');
-  }
-
-  // Smooth scroll for the menu and links with .scrollto classes
-  $('.nav-menu a, #mobile-nav a, .scrollto').on('click', function() {
-    if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
-      var target = $(this.hash);
-      if (target.length) {
-        var top_space = 0;
-
-        if ($('#header').length) {
-          top_space = $('#header').outerHeight();
-
-          if (! $('#header').hasClass('header-scrolled')) {
-            top_space = top_space - 20;
-          }
-        }
-
-        $('html, body').animate({
-          scrollTop: target.offset().top - top_space
-        }, 1500, 'easeInOutExpo');
-
-        if ($(this).parents('.nav-menu').length) {
-          $('.nav-menu .menu-active').removeClass('menu-active');
-          $(this).closest('li').addClass('menu-active');
-        }
-
-        if ($('body').hasClass('mobile-nav-active')) {
-          $('body').removeClass('mobile-nav-active');
-          $('#mobile-nav-toggle i').toggleClass('fa-times fa-bars');
-          $('#mobile-body-overly').fadeOut();
-        }
-        return false;
-      }
-    }
-  });
-
-  // Navigation active state on scroll
-  var nav_sections = $('section');
-  var main_nav = $('.nav-menu, #mobile-nav');
-  var main_nav_height = $('#header').outerHeight();
-
-  $(window).on('scroll', function () {
-    var cur_pos = $(this).scrollTop();
-  
-    nav_sections.each(function() {
-      var top = $(this).offset().top - main_nav_height,
-          bottom = top + $(this).outerHeight();
-  
-      if (cur_pos >= top && cur_pos <= bottom) {
-        main_nav.find('li').removeClass('menu-active menu-item-active');
-        main_nav.find('a[href="#'+$(this).attr('id')+'"]').parent('li').addClass('menu-active menu-item-active');
-      }
-    });
-  });
-
-  // Intro carousel
-  var introCarousel = $(".carousel");
-  var introCarouselIndicators = $(".carousel-indicators");
-  introCarousel.find(".carousel-inner").children(".carousel-item").each(function(index) {
-    (index === 0) ?
-    introCarouselIndicators.append("<li data-target='#introCarousel' data-slide-to='" + index + "' class='active'></li>") :
-    introCarouselIndicators.append("<li data-target='#introCarousel' data-slide-to='" + index + "'></li>");
-
-    $(this).css("background-image", "url('" + $(this).children('.carousel-background').children('img').attr('src') +"')");
-    $(this).children('.carousel-background').remove();
-  });
-
-  $(".carousel").swipe({
-    swipe: function(event, direction, distance, duration, fingerCount, fingerData) {
-      if (direction == 'left') $(this).carousel('next');
-      if (direction == 'right') $(this).carousel('prev');
-    },
-    allowPageScroll:"vertical"
-  });
-
-  // Skills section
-  $('#skills').waypoint(function() {
-    $('.progress .progress-bar').each(function() {
-      $(this).css("width", $(this).attr("aria-valuenow") + '%');
-    });
-  }, { offset: '80%'} );
-
-  // jQuery counterUp (used in Facts section)
-  $('[data-toggle="counter-up"]').counterUp({
-    delay: 10,
-    time: 1000
-  });
-
-  // Porfolio isotope and filter
-  var portfolioIsotope = $('.portfolio-container').isotope({
-    itemSelector: '.portfolio-item',
-    layoutMode: 'fitRows'
-  });
-
-  $('#portfolio-flters li').on( 'click', function() {
-    $("#portfolio-flters li").removeClass('filter-active');
-    $(this).addClass('filter-active');
-
-    portfolioIsotope.isotope({ filter: $(this).data('filter') });
-  });
-
-  // Clients carousel (uses the Owl Carousel library)
-  $(".clients-carousel").owlCarousel({
-    autoplay: false,
-    dots: true,
-    loop: true,
-    responsive: { 0: { items: 2 }, 768: { items: 4 }, 900: { items: 6 }
-    }
-  });
-
-  // Testimonials carousel (uses the Owl Carousel library)
-  $(".testimonials-carousel").owlCarousel({
-    autoplay: false,
-    dots: true,
-    loop: true,
-    items: 1
-  });
-
+/*
   $(document).on('change', '.file', function() {
     // 파일 업로드
     var $dom = $(this);
@@ -280,6 +76,19 @@
           }
         }
       }
+    });
+*/
+  $(document).on('change', '.file', function(e) {
+    // 업로드한 파일 곧바로 보여주기
+    var files = e.target.files;
+    var filesArr = Array.prototype.slice.call(files);
+    filesArr.forEach(function(f) {
+      var sel_file = f;
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        $('.photo').attr('src', e.target.result);
+      }
+      reader.readAsDataURL(f);
     });
   }).on('click', '.btn-entry-photo-delete', function() {
     // 회원가입 사진 삭제
@@ -363,7 +172,7 @@
     var formData = new FormData($('.loginForm')[0]);
     var redirectUrl = $('input[name=redirectUrl]').val();
 
-    if ($('input[name=userid]').val() == '' || $('input[name=password]').val() == '') {
+    if ($('input[name=login_userid]').val() == '' || $('input[name=login_password]').val() == '') {
       $('.error-message').slideDown().text('아이디와 비밀번호는 꼭 입력해주세요.');
       return false;
     }
@@ -401,16 +210,6 @@
         location.reload();
       }
     });
-  }).on('click', '.logout', function() {
-    // 로그아웃
-    var baseUrl = $('input[name=baseUrl]').val();
-    $.ajax({
-      url: '/login/logout',
-      dataType: 'json',
-      success: function(result) {
-        location.reload();
-      }
-    });
   }).on('blur', '.check-userid', function() {
     // 아이디 중복 체크
     var $dom = $(this);
@@ -432,6 +231,10 @@
         success: function(result) {
           $('img', $dom).remove();
           $dom.append(result.message);
+
+          if (result.error == 1) {
+            $.openMsgModal('이미 사용중인 아이디 입니다.');
+          }
         }
       });
     } else {
@@ -459,6 +262,7 @@
       }
     }
   }).on('blur', '.check-phone', function() {
+    /*
     var $dom = $('.check-phone');
     var clubIdx = $('input[name=clubIdx]').val();
     var phone = $('input[name=phone1]').val() + '-' + $('input[name=phone2]').val() + '-' + $('input[name=phone3]').val();
@@ -476,13 +280,14 @@
         }
       }
     });
+    */
   }).on('click', '.btn-entry', function() {
     // 회원가입
     if ($('.check-userid img').hasClass('check-userid-complete') == false) {
       $.openMsgModal('아이디를 확인해주세요.');
       return false;
     }
-    if ($('.check-nickname img').hasClass('check-nickname-complete') == false) {
+    if ($('input[name=nickname]').val() == '') {
       $.openMsgModal('닉네임을 확인해주세요.');
       return false;
     }
@@ -506,12 +311,8 @@
       $.openMsgModal('양력/음력은 꼭 선택해주세요.');
       return false;
     }
-    if ($('.check-phone img').hasClass('check-phone-error') == true) {
-      $.openMsgModal('전화번호를 확인해주세요.');
-      return false;
-    }
     if ($('input[name=phone1]').val() == '' || $('input[name=phone2]').val() == '' || $('input[name=phone3]').val() == '') {
-      $.openMsgModal('전화번호는 꼭 입력해주세요.');
+      $.openMsgModal('전화번호를 확인해주세요.');
       return false;
     }
     if ($('select[name=location]').val() == '0') {
@@ -572,6 +373,10 @@
     }
     if ($('input[name=phone1]').val() == '' || $('input[name=phone2]').val() == '' || $('input[name=phone3]').val() == '') {
       $.openMsgModal('전화번호는 꼭 입력해주세요.');
+      return false;
+    }
+    if ($('select[name=location]').val() == '') {
+      $.openMsgModal('주 승차위치는 꼭 선택해주세요.');
       return false;
     }
 
@@ -701,7 +506,7 @@
     $(this).removeClass('btn-primary').addClass('btn-secondary').text('일행 추가');
     $('.btn-reserve-wait').removeClass('d-none');
     var header = '<div class="reserve">';
-    var location = '<select name="location[]" class="location">'; $.each(arrLocation, function(i, v) { if (v == '') v = '승차위치'; location += '<option'; if ($('input[name=userLocation]').val() == i) location += ' selected'; location += ' value="' + i + '">' + v + '</option>'; }); location += '</select> ';
+    var location = '<select name="location[]" class="location">'; $.each(arrLocation, function(i, v) { if (v == '') v = '승차위치'; location += '<option'; if ($('input[name=userLocation]').val() == v.short) location += ' selected'; location += ' value="' + v.short + '">' + v + '</option>'; }); location += '</select> ';
     var gender = '<select name="gender[]" class="location"><option'; if ($('input[name=userGender]').val() == 'M') gender += ' selected'; gender += ' value="M">남성</option><option'; if ($('input[name=userGender]').val() == 'F') gender += ' selected'; gender += ' value="F">여성</option></select> ';
     var memo = '<input type="text" name="memo[]" size="20" placeholder="요청사항" value="">';
     var footer = '</div>';
@@ -734,6 +539,13 @@
       // 로그인 확인
       $('input[name=redirectUrl]').val($(location).attr('href'));
       $('#loginModal').modal('show');
+      return false;
+    }
+
+    // 추가 정보가 있는 회원인지 확인
+    var addedInfo = $('input[name=addedInfo]').val();
+    if (typeof addedInfo == 'undefined' || $('input[name=addedInfo]').val() == '') {
+      location.href = ($('input[name=baseUrl]').val() + '/member/modify?k=addedInfo');
       return false;
     }
 
@@ -785,6 +597,13 @@
       // 로그인 확인
       $('input[name=redirectUrl]').val($(location).attr('href'));
       $('#loginModal').modal('show');
+      return false;
+    }
+
+    // 추가 정보가 있는 회원인지 확인
+    var addedInfo = $('input[name=addedInfo]').val();
+    if (typeof addedInfo == 'undefined' || $('input[name=addedInfo]').val() == '') {
+      location.href = ($('input[name=baseUrl]').val() + '/member/modify?k=addedInfo');
       return false;
     }
 
@@ -847,6 +666,13 @@
       // 로그인 확인
       $('input[name=redirectUrl]').val($(location).attr('href'));
       $('#loginModal').modal('show');
+      return false;
+    }
+
+    // 추가 정보가 있는 회원인지 확인
+    var addedInfo = $('input[name=addedInfo]').val();
+    if (typeof addedInfo == 'undefined' || $('input[name=addedInfo]').val() == '') {
+      location.href = ($('input[name=baseUrl]').val() + '/member/modify?k=addedInfo');
       return false;
     }
 
@@ -1006,9 +832,12 @@
     } else {
       action = '/shop/cancel';
     }
+
+    var data = 'clubIdx=' + $('input[name=clubIdx]').val() + '&resIdx=' + $('input[name=resIdx]').val();
+
     $.ajax({
       url: action,
-      data: 'clubIdx=' + $('input[name=clubIdx]').val() + '&resIdx=' + $('input[name=resIdx]').val(),
+      data: data,
       dataType: 'json',
       type: 'post',
       beforeSend: function() {
@@ -1042,10 +871,9 @@
       },
       success: function(reserveInfo) {
         var header = '<div class="reserve" data-seat="' + seat + '"><input type="hidden" name="resIdx[]" value="' + resIdx + '" class="resIdx" data-penalty="' + reserveInfo.penalty + '">';
-        var location = '<select name="location[]" class="location">'; $.each(reserveInfo.location, function(i, v) { if (v.stitle == '') v.stitle = '승차위치'; location += '<option'; if ((reserveInfo.reserve.loc == 0 && reserveInfo.userLocation == v.no) || (reserveInfo.reserve.loc != 0 && reserveInfo.reserve.loc == v.no)) location += ' selected'; location += ' value="' + v.no + '">' + v.stitle + '</option>'; }); location += '</select> ';
+        var location = '<select name="location[]" class="location">'; $.each(reserveInfo.location, function(i, v) { if (v.short == '') v.short = '승차위치'; location += '<option'; if (reserveInfo.userLocation == v.short) location += ' selected'; location += ' value="' + v.short + '">' + v.short + '</option>'; }); location += '</select> ';
         var memo = '<input type="text" name="memo[]" size="20" placeholder="요청사항" value="' + reserveInfo.reserve.memo + '">';
-        //var footer = ' <select><option>할인선택</option><option>-------</option><option>초등생 할인</option><option>중고생 할인</option></select> </div>';
-        var footer = '</div>';
+        var footer = ' ' + reserveInfo.cost + '</div>';
 
         if (resIdx != '') {
           // 수정
@@ -1055,8 +883,10 @@
           } else {
             busType += '<input type="hidden" name="bus[]" value="' + bus + '">';
           }
-          //var selectSeat = '<select name="seat[]" class="busSeat">'; $.each(reserveInfo.seat[bus], function(i, v) { selectSeat += '<option'; if ((i+1) == seat) selectSeat += ' selected'; selectSeat += ' value="' + (i+1) + '">' + v + '번</option>'; }); selectSeat += '</select> ';
-          var selectSeat = seat + '번<input type="hidden" name="seat[]" value="' + seat + '"> ';
+          /* 좌석 이동 */
+          var selectSeat = '<select name="seat[]" class="busSeat">'; $.each(reserveInfo.seat[bus], function(i, v) { selectSeat += '<option'; if ((i+1) == seat) selectSeat += ' selected'; selectSeat += ' value="' + (i+1) + '">' + v + '번</option>'; }); selectSeat += '</select> ';
+          /* 좌석 이동 안되게 */
+          //var selectSeat = seat + '번<input type="hidden" name="seat[]" value="' + seat + '"> ';
 
           if (reserveInfo.reserve.nickname != '1인우등' && reserveInfo.reserve.nickname != '2인우선') {
             $('.btn-reserve-cancel').removeClass('d-none').show();
@@ -1527,3 +1357,96 @@ $(document).on('click', '.btn-reply', function() {
     });
   }
 });
+
+// 2021-03 신규 기능 추가
+$(document).on('click', '.btn-comment', function() {
+  var $btn = $(this);
+  var baseUrl = $('input[name=baseUrl]').val();
+  var clubIdx = $('input[name=clubIdx]').val();
+  var content = $('#club-story-content').val();
+  var userIdx = $('input[name=userIdx]').val();
+
+  if (content == '') { 
+    return false;
+  }
+
+  $.ajax({
+    url: '/story/comment',
+    data: 'clubIdx=' + clubIdx + '&content=' + encodeURIComponent(content),
+    dataType: 'json',
+    type: 'post',
+    beforeSend: function() {
+      $btn.css('opacity', '0.5').prop('disabled', true);
+      $('#club-story-content').prop('disabled', true);
+    },
+    success: function(result) {
+      $btn.css('opacity', '1').prop('disabled', false);
+      $('#club-story-content').prop('disabled', false).val('');
+      if (result.error == 1) {
+        $('#messageModal .btn').hide();
+        $('#messageModal .btn-refresh, #messageModal .btn-close').show();
+        $('#messageModal .modal-message').text(result.message);
+        $('#messageModal').modal();
+      } else {
+        $('#club-story').prepend(result.message);
+      }
+    }
+  });
+}).on('click', '.area-travelog', function() {
+  location.href = ($('input[name=baseUrl]').val() + '/travelog/view/' + $(this).data('idx'));
+  //location.href = ($('input[name=baseUrl]').val() + '/travelog_view/' + $(this).data('idx')) + '?type=' + $(this).data('type');
+}).on('click', '.page-mask', function() {
+  // 아무데나 클릭해도 모바일 우측 메뉴 사라지게
+  $('header').removeClass('page-mask');
+  $('.navbar-sideview').removeClass('active');
+}).on('click', '.navbar-toggler', function() {
+  // 모바일 우측 메뉴
+  var $dom = $('.navbar-sideview');
+  if ($dom.hasClass('active')) {
+    $('header').removeClass('page-mask');
+    $dom.removeClass('active');
+  } else {
+    $('header').addClass('page-mask');
+    $dom.addClass('active');
+  }
+});
+
+$(document).ready(function() {
+  // 백산백소 인증 프로그래스바
+  $('.auth-gauge').each(function(i) {
+    var elemId = $(this).attr('id');
+    var maxWidth = $(this).attr('cnt');
+    move(i, elemId, maxWidth);
+  });
+  function move(i, elemId, maxWidth) {
+    i = 1;
+    var elem = document.getElementById(elemId);
+    var width = 1;
+    var id = setInterval(frame, 10);
+    function frame() {
+      if (width >= Number(maxWidth * 2)) {
+        clearInterval(id);
+        i = 0;
+      } else {
+        width++;
+        elem.style.width = width + "%";
+      }
+    }
+  }
+});
+
+/*
+var loadStory = setInterval(function() {
+  $.ajax({
+    url: '/story/comment_list',
+    data: 'clubIdx=' + $('input[name=clubIdx]').val(),
+    dataType: 'json',
+    type: 'post',
+    success: function(result) {
+      if (result.error != 1) {
+        $('#club-story').empty().html(result.message);
+      }
+    }
+  });
+}, 5000);
+*/

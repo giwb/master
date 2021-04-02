@@ -1,120 +1,181 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-        <script>
-          $(document).ready(function() {
-            $('#calendar').fullCalendar({
-              header: {
-                left: 'prev',
-                center: 'title',
-                right: 'next'
-              },
-              titleFormat: {
-                month: 'yyyy년 MMMM',
-                week: "yyyy년 MMMM",
-                day: 'yyyy년 MMMM'
-              },
-              events: [
-                <?php
-                  foreach ($listNoticeSchedule as $value):
-                    $startDate = strtotime($value['startdate']);
-                    $value['mname'] = htmlspecialchars_decode($value['mname']);
-                    if (!empty($value['enddate'])): $endDate = calcEndDate($value['startdate'], $value['enddate']);
-                    else: $endDate = calcEndDate($value['startdate'], $value['schedule']);
-                    endif;
-                    if ($value['status'] == 'schedule'):
-                ?>
-                {
-                  title: '<?=$value['mname']?>',
-                  start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>T00:00:00'),
-                  end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>T23:59:59'),
-                  url: 'javascript:;',
-                  className: '<?=$value['class']?>'
-                },
-                <?php else: ?>
-                {
-                  title: '<?=$value['status'] != STATUS_PLAN ? $value['starttime'] . "\\n" : "[계획]\\n"?><?=$value['mname']?>',
-                  start: new Date('<?=date('Y', $startDate)?>/<?=date('m', $startDate)?>/<?=date('d', $startDate)?>/00:00:01'),
-                  end: new Date('<?=date('Y', $endDate)?>/<?=date('m', $endDate)?>/<?=date('d', $endDate)?>/23:59:59'),
-                  url: '/admin/main_view_progress/<?=$value['idx']?>',
-                  className: 'notice-status<?=$value['status']?>'
-                },
-                <?php
-                    endif;
-                  endforeach;
-                ?>
-              ],
-            });
-          });
-        </script>
+          <section id="bookmark" class="mb-5">
+            <div class="row no-gutters">
+              <div class="col-5 col-sm-8"><h4 class="font-weight-bold">관리자 페이지</h4></div>
+              <div class="col-7 col-sm-4 text-right">
+                <form method="post" action="<?=BASE_URL?>/admin/log_reserve">
+                  <div class="row no-gutters">
+                    <div class="col-9 col-sm-10 pr-2"><input type="text" name="k" value="<?=!empty($keyword) ? $keyword : ''?>" class="form-control form-control-sm"></div>
+                    <div class="col-3 col-sm-2"><button type="button" class="btn-custom btn-giwb h-100">검색</button></div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <hr class="text-default mt-2">
 
-        <h2 class="sub-header mb-4">대시보드</h2>
-        <div class="row mt-2">
-          <div class="col-xl-6 col-md-6 mb-4">
-            <div class="card border-left-primary shadow py-2" onClick="location.href=('<?=BASE_URL?>/admin/member_list')">
-              <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                  <div class="col mr-2">
-                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">현재 회원수</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?=$cntTotalMember['CNT']?>명</div>
-                  </div>
-                  <div class="col-auto">
-                    <i class="fas fa-user fa-2x text-gray-300 text-primary"></i>
-                  </div>
+            <div class="area-memo"><?=!empty($viewBookmark['memo']) ? nl2br($viewBookmark['memo']) : ''?></div>
+
+            <div class="area-edit-memo mt-3 mb-3">
+              <a class="btn-bookmark btn-edit-memo" data-idx="<?=!empty($viewBookmark['idx']) ? $viewBookmark['idx'] : ''?>"><i class="far fa-plus-square"></i> 메모장 편집</a>
+            </div>
+
+            <div class="row no-gutters align-items-top area-bookmark">
+              <?php if (!empty($listBookmark)): foreach ($listBookmark as $value): ?>
+              <div class="col-sm-3 p-1 pb-5 text-center">
+                <div class="bk-header" data-idx="<?=$value['idx']?>"><a class="btn-bookmark btn-delete-bookmark" data-idx="<?=$value['idx']?>"><i class="fas fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-category" data-idx="<?=$value['idx']?>"><i class="fas fa-pen-square"></i></a> <span class="category"><?=$value['title']?></span></div>
+                <div class="bk-body text-left p-2">
+                  <?php if (!empty($value['bookmark'])): foreach ($value['bookmark'] as $bookmark): ?>
+                    <div class="bk-item" data-idx="<?=$bookmark['idx']?>"><a class="btn-bookmark btn-delete-bookmark" data-idx="<?=$bookmark['idx']?>"><i class="far fa-minus-square"></i></a> <a target="_blank" href="<?=$bookmark['link']?>"><?=$bookmark['title']?></a></div>
+                  <?php endforeach; endif; ?>
+                  <a class="btn-bookmark btn-add-bookmark" data-idx="<?=$value['idx']?>"><i class="far fa-plus-square"></i> 북마크 추가</a>
+                </div>
+              </div>
+              <?php endforeach; endif; ?>
+              <div class="col-sm-3 text-center area-add-category btn-bookmark">
+                <a class="btn-add-category"><i class="far fa-plus-square"></i> 카테고리 추가</a>
+              </div>
+            </div>
+          </section>
+
+          <div class="text-right">
+            <button type="button" class="btn-custom btn-giwb btn-bookmark-update">북마크 수정</button>
+          </div>
+
+          <div class="modal fade" id="bookmarkDeleteModal" tabindex="-1" role="dialog" aria-labelledby="bookmarkDeleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="smallmodalLabel">메세지</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body text-center">
+                  <p class="modal-message">정말로 삭제하시겠습니까?</p>
+                </div>
+                <div class="modal-footer">
+                  <input type="hidden" name="idx" value="">
+                  <button type="button" class="btn btn-danger btn-delete-bookmark-submit">삭제합니다</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-xl-6 col-md-6 mb-4">
-            <div class="card border-left-success shadow py-2" onClick="location.href=('<?=BASE_URL?>/admin/main_list_progress')">
-              <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                  <div class="col mr-2">
-                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">다녀온 산행횟수</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?=$cntTotalTour['CNT']?>회</div>
-                  </div>
-                  <div class="col-auto">
-                    <i class="fas fa-mountain fa-2x text-gray-300 text-success"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-xl-6 col-md-6 mb-4">
-            <div class="card border-left-info shadow py-2" onClick="location.href=('<?=BASE_URL?>/admin/main_list_closed')">
-              <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                  <div class="col mr-2">
-                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">다녀온 산행 인원수</div>
-                    <div class="row no-gutters align-items-center">
-                      <div class="col-auto">
-                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?=$cntTotalCustomer['CNT']?>명</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-auto">
-                    <i class="fas fa-users fa-2x text-gray-300 text-info"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-6 col-md-6 mb-4">
-            <div class="card border-left-warning shadow py-2" onClick="location.href=('<?=BASE_URL?>/admin/log_visitor')">
-              <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                  <div class="col mr-2">
-                    <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">오늘 방문자수</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?=$cntTodayVisitor['CNT']?>명</div>
-                  </div>
-                  <div class="col-auto">
-                    <i class="fas fa-walking fa-2x text-gray-300 text-danger"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="calendar"></div>
-        <script type="text/javascript" src="/public/vendors/chart.js/dist/Chart.bundle.min.js"></script>
+
+<script>
+  $(document).on('click', '.btn-bookmark-update', function() {
+    $('.btn-bookmark').toggle();
+  }).on('click', '.btn-add-category', function() {
+    $('.area-add-category').remove();
+    $('.area-bookmark').append('<div class="col-sm-3 p-1 pb-5 text-center bk-editing"><div class="row no-gutters align-items-center bk-header"><div class="col-9"><input type="text" name="title" class="form-control form-control-sm" placeholder="카테고리명 입력"></div><div class="col-3"><button type="button" class="btn-custom btn-giwb btn-add-category-submit">등록</button></div></div></div>');
+    $('input[name=title]').focus();
+  }).on('click', '.btn-edit-category', function() {
+    var $dom = $(this).parent();
+    var $domParent = $(this).parent().parent();
+    var idx = $(this).data('idx');
+    var title = $dom.find('.category').text();
+    $dom.remove();
+    $domParent.prepend('<div class="bk-editing"><div class="row no-gutters align-items-center bk-header"><div class="col-9"><input type="text" name="title" class="form-control form-control-sm" value="' + title + '"></div><div class="col-3"><input type="hidden" name="idx" value="' + idx + '"><button type="button" class="btn-custom btn-giwb btn-add-category-submit">수정</button></div></div></div>');
+    $('input[name=title]').focus();
+  }).on('click', '.btn-add-category-submit', function() {
+    var $btn = $(this);
+    var idx = $('input[name=idx]').val();
+    var title = $('input[name=title]').val();
+    if (typeof idx == 'undefined' || idx == '') idx = '';
+    if (title == '') return false;
+    $.ajax({
+      url: '/admin/bookmark_update',
+      data: 'idx=' + idx + '&title=' + title,
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true);
+      },
+      success: function(result) {
+        $btn.css('opacity', '1').prop('disabled', false);
+        var $dom = $('.bk-editing').parent();
+        $('.bk-editing').remove();
+        if (idx == '') {
+          // 등록
+          $('.area-bookmark').append('<div class="col-sm-3 p-1 pb-5 text-center"><div class="bk-header"><a class="btn-bookmark btn-delete-bookmark" data-idx="' + result.message + '"><i class="fas fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-category" data-idx="' + result.message + '"><i class="fas fa-pen-square"></i></a> ' + title + '</div><div class="bk-body text-left p-2"><a class="btn-add-bookmark" data-idx="' + result.message + '"><i class="far fa-plus-square"></i> 북마크 추가</a></div></div><div class="col-sm-3 text-center area-add-category"><a class="btn-add-category"><i class="far fa-plus-square"></i> 카테고리 추가</a></div>');
+        } else {
+          // 수정
+          $dom.prepend('<div class="bk-header"><a class="btn-bookmark btn-delete-bookmark" data-idx="' + result.message + '"><i class="fas fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-category" data-idx="' + result.message + '"><i class="fas fa-pen-square"></i></a> <span class="category">' + title + '</span></div>');
+        }
+        $('.btn-bookmark').show();
+      }
+    });
+  }).on('click', '.btn-add-bookmark', function() {
+    $(this).parent().append('<div class="bk-editing"><div class="mt-1 mb-1"><input type="text" name="title" class="form-control form-control-sm" placeholder="북마크명"></div><div class="mb-1"><input type="text" name="link" class="form-control form-control-sm" placeholder="링크URL"></div><input type="hidden" name="parent_idx" value="' + $(this).data('idx') + '"><button type="button" class="btn-custom btn-giwb btn-add-bookmark-submit">등록</button></div>');
+    $(this).remove();
+  }).on('click', '.btn-add-bookmark-submit', function() {
+    var $btn = $(this);
+    var $dom = $btn.parent().parent();
+    var parent_idx = $dom.find('input[name=parent_idx]').val();
+    var title = $dom.find('input[name=title]').val();
+    var link = $dom.find('input[name=link]').val();
+    if (title == '' || link == '') return false;
+    $.ajax({
+      url: '/admin/bookmark_update',
+      data: 'title=' + title + '&link=' + link + '&parent_idx=' + parent_idx,
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true);
+      },
+      success: function(result) {
+        $btn.css('opacity', '1').prop('disabled', false);
+        $('.bk-editing').remove();
+        $dom.append('<a class="btn-delete-bookmark" data-idx="' + result.message + '"><i class="far fa-minus-square"></i></a> <a target="_blank" href="' + link + '">' + title + '</a><br><a class="btn-add-bookmark" data-idx="' + parent_idx + '"><i class="far fa-plus-square"></i> 북마크 추가</a>');
+      }
+    });
+  }).on('click', '.btn-edit-memo', function() {
+    var text = $('.area-memo').text();
+    $('.area-edit-memo').hide();
+    $('.area-memo').empty().append('<div class="row no-gutters bk-editing"><div class="col-12"><textarea name="memo" rows="10" class="form-control">' + text + '</textarea></div><div class="col-12 mt-2 mb-5 text-right"><input type="hidden" name="idx" value="' + $(this).data('idx') + '"><button type="button" class="btn-custom btn-giwb btn-edit-memo-submit">메모장 수정</button></div>')
+  }).on('click', '.btn-edit-memo-submit', function() {
+    var $btn = $(this);
+    var memo = $('textarea[name=memo]').val();
+    if (memo == '') return false;
+    $.ajax({
+      url: '/admin/bookmark_update',
+      data: 'memo=' + memo,
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true);
+      },
+      success: function(result) {
+        $btn.css('opacity', '1').prop('disabled', false);
+        $('.bk-editing').remove();
+        $('.area-memo').append(memo);
+        $('.area-edit-memo').show();
+      }
+    });
+  }).on('click', '.btn-delete-bookmark', function() {
+    var $dom = $('#bookmarkDeleteModal');
+    $('input[name=idx]', $dom).val($(this).data('idx'));
+    $dom.modal('show');
+  }).on('click', '.btn-delete-bookmark-submit', function() {
+    var $btn = $(this);
+    var $dom = $('#bookmarkDeleteModal');
+    var idx = $('input[name=idx]', $dom).val();
+    if (idx == '') return false;
+    $.ajax({
+      url: '/admin/bookmark_delete',
+      data: 'idx=' + idx,
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+      },
+      success: function() {
+        $btn.css('opacity', '1').prop('disabled', false).text('삭제합니다');
+        $('.bk-header[data-idx=' + idx + ']').parent().remove();
+        $('.bk-item[data-idx=' + idx + ']').remove();
+        $dom.modal('hide');
+      }
+    });
+  });
+</script>

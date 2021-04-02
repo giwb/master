@@ -60,6 +60,7 @@
   <script src="/public/js/clipboard.min.js" type="text/javascript"></script>
   <script src="/public/photoswipe/photoswipe.min.js" type="text/javascript"></script>
   <script src="/public/photoswipe/photoswipe-ui-default.min.js" type="text/javascript"></script>
+  <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
   <!--<script src="/public/js/jquery.magnific-popup.min.js" type="text/javascript"></script>-->
   <script src="/public/js/main.js?<?=time()?>" type="text/javascript"></script>
   <?php if (ENVIRONMENT == 'production' && $_SERVER['REMOTE_ADDR'] != '49.166.0.82'): ?>
@@ -163,14 +164,15 @@
           </div>
           <?=!empty($view['homepage']) ? '<a href="' . $view['homepage'] . '" class="url">' . $view['homepage'] . '</a>' : ''?>
           <ul class="navi">
-            <li><a href="<?=BASE_URL?>/club/about"><i class="fa fa-picture-o" aria-hidden="true"></i> 산악회 소개</a></li>
-            <li><a href="<?=BASE_URL?>/club/guide"><i class="fa fa-user-circle" aria-hidden="true"></i> 등산 안내인 소개</a></li>
+            <li><a href="<?=BASE_URL?>/club/about/?p=top"><i class="fa fa-picture-o" aria-hidden="true"></i> 산악회 소개</a></li>
+            <li><a href="<?=BASE_URL?>/club/about/?p=guide"><i class="fa fa-user-circle" aria-hidden="true"></i> 등산 안내인 소개</a></li>
             <?php if (!empty($userLevel['levelType']) && $userLevel['levelType'] >= 1): ?>
             <li><a href="<?=BASE_URL?>/club/past"><i class="fa fa-calendar" aria-hidden="true"></i> 지난 산행보기</a></li>
             <?php endif; ?>
-            <li><a href="<?=BASE_URL?>/club/howto"><i class="fa fa-map-o" aria-hidden="true"></i> 이용안내</a></li>
+            <li><a href="<?=BASE_URL?>/club/about/?p=howto"><i class="fa fa-map-o" aria-hidden="true"></i> 이용안내</a></li>
             <?php if (!empty($view['idx']) && $view['idx'] == 1): ?><br>
-            <li><a href="<?=BASE_URL?>/club/auth_about"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 백산백소 소개</a></li>
+            <li><a href="<?=BASE_URL?>/club/about/?p=mountain"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 100대명산</a></li>
+            <li><a href="<?=BASE_URL?>/club/about/?p=place"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 100대명소</a></li>
             <li><a href="<?=BASE_URL?>/club/auth"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소 인증현황</a></li>
             <?php endif; ?><br>
             <li><a href="<?=BASE_URL?>/album"><i class="fa fa-photo" aria-hidden="true"></i> 사진첩</a></li>

@@ -21,11 +21,10 @@ class Member_model extends CI_Model
   }
 
   // 아이디 찾기
-  public function searchId($clubIdx, $realname, $gender, $birthday, $phone, $userid=NULL)
+  public function searchId($realname, $gender, $birthday, $phone, $userid=NULL)
   {
     $this->db->select('idx, userid, quitdate')
           ->from(DB_MEMBER)
-          ->where('club_idx', $clubIdx)
           ->where('realname', $realname)
           ->where('gender', $gender)
           ->where('birthday', $birthday)
@@ -48,39 +47,56 @@ class Member_model extends CI_Model
   }
 
   // 닉네임 중복 확인
-  public function checkNickname($userid, $nickname)
+  public function checkNickname($userid=NULL, $nickname)
   {
     $this->db->select('idx')
           ->from(DB_MEMBER)
-          ->where('userid !=', $userid)
           ->where('nickname', $nickname);
+
+    if (!is_null($userid)) {
+      $this->db->where('userid !=', $userid);
+    }
+
     return $this->db->get()->row_array(1);
   }
 
   // 전화번호 중복 확인
-  public function checkPhone($clubIdx, $phone)
+  public function checkPhone($phone)
   {
     $this->db->select('*')
           ->from(DB_MEMBER)
-          ->where('club_idx', $clubIdx)
           ->where('phone', $phone);
     return $this->db->get()->row_array(1);
   }
 
-  // 총 예약 횟수
-  public function cntReserve($userData, $status, $group=NULL)
+  // 전화번호 인증 확인
+  public function checkPhoneAuth($phone, $auth_code=NULL)
   {
-    $this->db->select('COUNT(idx) AS cntReserve')
-          ->from(DB_RESERVATION)
-          ->where('club_idx', $userData['club_idx'])
-          ->where('userid', $userData['userid'])
-          ->where('status', $status);
+    $this->db->select('idx, created_at')
+          ->from(DB_MEMBER_SMS_AUTH)
+          ->where('phone_number', $phone)
+          ->where('deleted_at', NULL);
 
-    if (!is_null($group)) {
-      $this->db->group_by('rescode');
+    if (!empty($auth_code)) {
+      $this->db->where('auth_code', $auth_code);
     }
 
     return $this->db->get()->row_array(1);
+  }
+
+  // 전화번호 인증 등록
+  public function insertPhoneAuth($data)
+  {
+    $this->db->insert(DB_MEMBER_SMS_AUTH, $data);
+    return $this->db->insert_id();
+  }
+
+  // 전화번호 인증 삭제
+  public function deletePhoneAuth($data, $idx)
+  {
+    $this->db->set($data);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_MEMBER_SMS_AUTH);
   }
 
   // 회원 정보
@@ -116,77 +132,76 @@ class Member_model extends CI_Model
   }
 
   // 사용자 포인트 기록
-  public function userPointLog($clubIdx, $userId, $paging=NULL)
+  public function userPointLog($clubIdx, $userIdx, $paging=NULL)
   {
     $this->db->select('*')
           ->from(DB_HISTORY)
           ->where('club_idx', $clubIdx)
-          ->where('userid', $userId)
+          ->where('user_idx', $userIdx)
           ->where_in('action', array(LOG_POINTUP, LOG_POINTDN))
           ->order_by('regdate', 'desc');
 
     if (!empty($paging)) {
       $this->db->limit($paging['perPage'], $paging['nowPage']);
-    } else {
-      $this->db->limit(5);
     }
 
     return $this->db->get()->result_array();
   }
 
   // 사용자 포인트 카운트
-  public function maxPointLog($clubIdx, $userId)
+  public function maxPointLog($clubIdx, $userIdx)
   {
     $this->db->select('COUNT(*) AS cnt')
           ->from(DB_HISTORY)
           ->where('club_idx', $clubIdx)
-          ->where('userid', $userId)
+          ->where('user_idx', $userIdx)
           ->where_in('action', array(LOG_POINTUP, LOG_POINTDN));
     return $this->db->get()->row_array(1);
   }
 
   // 사용자 페널티 기록
-  public function userPenaltyLog($clubIdx, $userId, $paging=NULL)
+  public function userPenaltyLog($clubIdx, $userIdx, $paging=NULL)
   {
     $this->db->select('*')
           ->from(DB_HISTORY)
           ->where('club_idx', $clubIdx)
-          ->where('userid', $userId)
+          ->where('user_idx', $userIdx)
           ->where_in('action', array(LOG_PENALTYUP, LOG_PENALTYDN))
           ->order_by('regdate', 'desc');
 
     if (!empty($paging)) {
       $this->db->limit($paging['perPage'], $paging['nowPage']);
-    } else {
-      $this->db->limit(5);
     }
 
     return $this->db->get()->result_array();
   }
 
   // 사용자 페널티 카운트
-  public function maxPenaltyLog($userid)
+  public function maxPenaltyLog($clubIdx, $userIdx)
   {
     $this->db->select('COUNT(*) AS cnt')
           ->from(DB_HISTORY)
-          ->where('userid', $userid)
+          ->where('club_idx', $clubIdx)
+          ->where('user_idx', $userIdx)
           ->where_in('action', array(LOG_PENALTYUP, LOG_PENALTYDN));
     return $this->db->get()->row_array(1);
   }
 
   // 포인트 수정
-  public function updatePoint($userid, $point)
+  public function updatePoint($clubIdx, $userIdx, $point)
   {
     $this->db->set('point', $point);
-    $this->db->where('userid', $userid);
+    $this->db->where('club_idx', $clubIdx);
+    $this->db->where('idx', $userIdx);
     $this->db->update(DB_MEMBER);
   }
 
   // 페널티 수정
-  public function updatePenalty($userid, $penalty)
+  public function updatePenalty($clubIdx, $userIdx, $penalty)
   {
     $this->db->set('penalty', $penalty);
-    $this->db->where('userid', $userid);
+    $this->db->where('club_idx', $clubIdx);
+    $this->db->where('idx', $userIdx);
     $this->db->update(DB_MEMBER);
   }
 

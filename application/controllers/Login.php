@@ -9,7 +9,7 @@ class Login extends MY_Controller
     parent::__construct();
     $this->load->helper(array('cookie', 'my_array_helper', 'url'));
     $this->load->library(array('image_lib', 'session'));
-    $this->load->model(array('club_model', 'file_model', 'member_model', 'reserve_model'));
+    $this->load->model(array('club_model', 'desk_model', 'file_model', 'member_model', 'reserve_model'));
   }
 
   /**
@@ -20,81 +20,150 @@ class Login extends MY_Controller
    **/
   public function index()
   {
-    $viewData['redirect_url'] = html_escape($this->input->get('r'));
-    checkUserLoginRedirect($viewData['redirect_url']); // 로그인 상태의 회원은 메인 페이지로
-
+    $viewData['redirect_url'] = !empty($this->input->get('r')) ? html_escape($this->input->get('r')) : BASE_URL;
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
-    if (empty($viewData['clubIdx']) && !empty($viewData['redirect_url'])) {
-      redirect(BASE_URL . '/login/?r=' . $viewData['redirect_url']);
-      exit;
-    }
-
     $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
-    $userid = html_escape($this->input->post('userid'));
-    $password = html_escape($this->input->post('password'));
+    $userid = html_escape($this->input->post('login_userid'));
+    $password = html_escape($this->input->post('login_password'));
     $save = html_escape($this->input->post('save'));
 
     if (empty($userid) || empty($password)) {
+      // 잘못된 접근을 한 사람은 되돌려 보내기
+      /*if (empty($viewData['clubIdx']) && !empty($viewData['redirect_url'])) {
+        redirect(BASE_URL . '/login/?r=' . $viewData['redirect_url']);
+        exit;
+      }
+
+      // 로그인 상태의 회원은 되돌려 보내기
+      checkUserLoginRedirect($viewData['redirect_url']);*/
+
       // 페이지 타이틀
       $viewData['pageTitle'] = '로그인';
 
       // 아이디와 패스워드가 없을때는 로그인 페이지를 보여준다.
       $this->_viewPage('login', $viewData);
     } else {
-      // 아이디와 패스워드를 입력하면 로그인 처리를 실행한다.
-      $userData = $this->member_model->checkLogin($userid);
+      // 이미 로그인 되어 있는지 확인
+      $userIdx = $this->session->userData['idx'];
 
-      if (empty($userData['idx'])) {
-        // 정보가 없으면 로그인 실패
-        $result = array(
-          'error' => 1,
-          'message' => '등록되지 않은 아이디입니다.'
-        );
-      } elseif ($userData['password'] != md5($password)) {
-        // 비밀번호가 다르면 로그인 실패
-        $result = array(
-          'error' => 1,
-          'message' => '비밀번호가 일치하지 않습니다.'
-        );
+      if (!empty($userIdx)) {
+        $result = array('error' => 0, 'message' => $viewData['redirect_url']);
       } else {
-        // 로그인에 성공하면 회원정보 업데이트
-        $rescount = $this->admin_model->cntMemberReservation($userData['userid']);
-        $updateValues['rescount'] = $rescount['cnt']; // 예약 횟수 갱신 (회원 레벨 체크를 위해)
-        $updateValues['connect'] = $userData['connect'] + 1;
-        $updateValues['lastdate'] = time();
+        // 아이디와 패스워드를 입력하면 로그인 처리를 실행한다.
+        $userData = $this->member_model->checkLogin($userid);
 
-        $this->member_model->updateMember($updateValues, $userData['idx']);
-
-        // 세션 저장
-        $this->session->set_userdata('userData', $userData);
-
-        if (empty($save)) {
-          // 쿠키 삭제
-          delete_cookie('cookie_userid');
-          delete_cookie('cookie_passwd');
+        if (empty($userData['idx'])) {
+          // 정보가 없으면 로그인 실패
+          $result = array(
+            'error' => 1,
+            'message' => '등록되지 않은 아이디입니다.'
+          );
+        } elseif ($userData['password'] != md5($password)) {
+          // 비밀번호가 다르면 로그인 실패
+          $result = array(
+            'error' => 1,
+            'message' => '비밀번호가 일치하지 않습니다.'
+          );
         } else {
-          // 쿠키 저장
-          set_cookie('cookie_userid', $userid, COOKIE_STRAGE_PERIOD);
-          set_cookie('cookie_passwd', $password, COOKIE_STRAGE_PERIOD);
-        }
+          // 로그인에 성공하면 회원정보 업데이트
+          $rescount = $this->reserve_model->cntMemberReserve($viewData['clubIdx'], $userData['idx']);
+          $updateValues['rescount'] = $rescount['cnt']; // 예약 횟수 갱신 (회원 레벨 체크를 위해)
+          $updateValues['connect'] = $userData['connect'] + 1;
+          $updateValues['lastdate'] = time();
 
-        // 아이콘 사이즈 변경 (가로 사이즈가 200보다 클 경우)
-        $filename = PHOTO_PATH . $userData['idx'];
-        if (file_exists($filename)) {
-          $size = getImageSize($filename);
-          if ($size[0] > 200) {
-            $this->image_lib->clear();
-            $config['image_library'] = 'gd2';
-            $config['source_image'] = $filename;
-            $config['maintain_ratio'] = FALSE;
-            $config['width'] = 200;
-            $config['height'] = 200;
-            $this->image_lib->initialize($config);
-            $this->image_lib->resize();
+          $this->member_model->updateMember($updateValues, $userData['idx']);
+
+          // 세션 저장
+          $this->session->set_userdata('userData', $userData);
+
+          if (empty($save)) {
+            // 쿠키 삭제
+            delete_cookie('cookie_userid');
+            delete_cookie('cookie_passwd');
+          } else {
+            // 쿠키 저장
+            set_cookie('cookie_userid', $userid, COOKIE_STRAGE_PERIOD);
+            set_cookie('cookie_passwd', $password, COOKIE_STRAGE_PERIOD);
           }
-        }
 
-        $result = array('error' => 0, 'message' => !empty($viewData['redirect_url']) ? $viewData['redirect_url'] : BASE_URL);
+          // 아이콘 사이즈 변경 (가로 사이즈가 200보다 클 경우)
+          $filename = AVATAR_PATH . $userData['idx'];
+          if (file_exists($filename)) {
+            $size = getImageSize($filename);
+            if ($size[0] > 200) {
+              $this->image_lib->clear();
+              $config['image_library'] = 'gd2';
+              $config['source_image'] = $filename;
+              $config['maintain_ratio'] = FALSE;
+              $config['width'] = 200;
+              $config['height'] = 200;
+              $this->image_lib->initialize($config);
+              $this->image_lib->resize();
+            }
+          }
+
+          $result = array('error' => 0, 'message' => $viewData['redirect_url']);
+        }
+      }
+
+      $this->output->set_output(json_encode($result));
+    }
+  }
+
+  /**
+   * 한국여행 로그인
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function process()
+  {
+    $viewData['redirect_url'] = !empty($this->input->get('r')) ? html_escape($this->input->get('r')) : BASE_URL;
+    $userid = html_escape($this->input->post('login_userid'));
+    $password = html_escape($this->input->post('login_password'));
+    $save = html_escape($this->input->post('save'));
+
+    if (empty($userid) && empty($password)) {
+      // 아이디와 패스워드가 없을때는 로그인 페이지를 보여준다.
+      $result = array('error' => 1, 'message' => '아이디와 비밀번호를 입력해주세요.');
+    } else {
+      // 이미 로그인 되어 있는지 확인
+      $userIdx = $this->session->userData['idx'];
+
+      if (!empty($userIdx)) {
+        $result = array('error' => 0, 'message' => $viewData['redirect_url']);
+      } else {
+        // 아이디와 패스워드를 입력하면 로그인 처리를 실행한다.
+        $userData = $this->member_model->checkLogin($userid);
+
+        if (empty($userData['idx'])) {
+          // 정보가 없으면 로그인 실패
+          $result = array('error' => 1, 'message' => '등록되지 않은 아이디입니다.');
+        } elseif ($userData['password'] != md5($password)) {
+          // 비밀번호가 다르면 로그인 실패
+          $result = array('error' => 1, 'message' => '비밀번호가 일치하지 않습니다.');
+        } else {
+          // 로그인에 성공하면 회원정보 업데이트
+          $updateValues['connect'] = $userData['connect'] + 1;
+          $updateValues['lastdate'] = time();
+
+          $this->member_model->updateMember($updateValues, $userData['idx']);
+
+          // 세션 저장
+          $this->session->set_userdata('userData', $userData);
+
+          if (empty($save)) {
+            // 쿠키 삭제
+            delete_cookie('cookie_userid');
+            delete_cookie('cookie_passwd');
+          } else {
+            // 쿠키 저장
+            set_cookie('cookie_userid', $userid, COOKIE_STRAGE_PERIOD);
+            set_cookie('cookie_passwd', $password, COOKIE_STRAGE_PERIOD);
+          }
+
+          $result = array('error' => 0, 'message' => $viewData['redirect_url']);
+        }
       }
 
       $this->output->set_output(json_encode($result));
@@ -109,6 +178,10 @@ class Login extends MY_Controller
    **/
   public function logout()
   {
+    // 쿠키 삭제
+    delete_cookie('cookie_userid');
+    delete_cookie('cookie_passwd');
+
     // 세션 삭제
     $this->session->unset_userdata('userData');
     $this->output->set_output(0);
@@ -194,18 +267,126 @@ class Login extends MY_Controller
    * @return view
    * @author bjchoi
    **/
+  /*
   public function entry()
   {
-    $clubIdx = get_cookie('COOKIE_CLUBIDX');
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
     checkUserLoginRedirect(BASE_URL); // 로그인 상태의 회원은 메인 페이지로
 
-    $viewData['view'] = $this->club_model->viewClub($clubIdx);
-
-    // 페이지 타이틀
-    $viewData['pageTitle'] = '회원가입';
+    $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
 
     $this->_viewPage('member/entry', $viewData);
   }
+  */
+
+  /**
+   * 회원가입 페이지
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function entry()
+  {
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+    checkUserLoginRedirect(BASE_URL); // 로그인 상태의 회원은 메인 페이지로
+
+    $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
+
+    $this->_viewPage('member/entry', $viewData);
+  }
+
+  /**
+   * 회원가입 체크 처리
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function check_member()
+  {
+    $clubIdx = html_escape($this->input->post('club_idx'));
+    $nickname = html_escape($this->input->post('nickname'));
+    $phone = html_escape($this->input->post('phone'));
+
+    $checkMember = $this->member_model->checkPhone($clubIdx, $phone);
+
+    if (!empty($checkMember['idx']) && $checkMember['nickname'] == $nickname && empty($checkMember['userid'])) {
+      // 관리자 등록 회원 (정보 수정 페이지로)
+      $result = array('error' => 2, 'message' => $checkMember['idx']);
+    } elseif (!empty($checkMember['idx']) && $checkMember['nickname'] == $nickname && !empty($checkMember['userid'])) {
+      // 이미 등록된 회원
+      $result = array('error' => 1, 'message' => $this->lang->line('error_member_duplicate'));
+    } elseif (!empty($checkMember['idx']) && $checkMember['nickname'] != $nickname) {
+      // 이미 등록되었지만 닉네임이 다른 경우
+      $result = array('error' => 1, 'message' => $this->lang->line('error_admin_duplicate'));
+    } else {
+      // 신규회원
+      $checkNickname = $this->member_model->checkNickname($clubIdx, $nickname);
+
+      if (!empty($checkNickname['idx'])) {
+        $result = array('error' => 1, 'message' => $this->lang->line('error_nickname_duplicate'));
+      } else {
+        $result = array('error' => 0, 'message' => '');
+      }
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 회원 등록
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  /*
+  public function insert()
+  {
+    $now = time();
+    $inputData = $this->input->post();
+
+    $clubIdx = html_escape($inputData['club_idx']);
+    $userid = html_escape($inputData['userid']);
+    $password = html_escape($inputData['password']);
+    $nickname = html_escape($inputData['nickname']);
+    $phone = html_escape($inputData['phone1']) . '-' . html_escape($inputData['phone2']) . '-' . html_escape($inputData['phone3']);
+
+    $checkUserid = $this->member_model->checkUserid($userid);
+    $checkNickname = $this->member_model->checkNickname(NULL, $nickname);
+    $checkPhone = $this->member_model->checkPhone($phone);
+
+    if (!empty($checkUserid['idx'])) {
+      // 중복된 아이디
+      $result = array('error' => 1, 'message' => '이미 등록된 아이디 입니다. 다른 아이디를 입력해주세요.');
+    } elseif ($checkNickname['idx']) {
+      // 중복된 닉네임
+      $result = array('error' => 1, 'message' => '이미 등록된 닉네임 입니다. 다른 닉네임을 입력해주세요.');
+    } elseif ($checkPhone['idx']) {
+      // 중복된 전화번호
+      $result = array('error' => 1, 'message' => '이미 등록된 전화번호 입니다.');
+    } else {
+      $insertValues = array(
+        'club_idx'      => $clubIdx,
+        'userid'        => $userid,
+        'nickname'      => $nickname,
+        'password'      => md5($password),
+        'phone'         => $phone,
+        'connect'       => 1,
+        'regdate'       => $now
+      );
+      $idx = $this->member_model->insertMember($insertValues);
+
+      if (empty($idx)) {
+        $result = array('error' => 1, 'message' => '등록에 실패했습니다.');
+      } else {
+        // 회원 가입 기록
+        setHistory($clubIdx, LOG_ENTRY, $idx, $idx, $nickname, '', $now);
+        $result = array('error' => 0, 'message' => '');
+      }
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+  */
 
   /**
    * 회원 등록
@@ -217,60 +398,173 @@ class Login extends MY_Controller
   {
     $now = time();
     $inputData = $this->input->post();
+    $result = array();
+
+    $clubIdx = html_escape($inputData['club_idx']);
     $userid = html_escape($inputData['userid']);
+    $password = html_escape($inputData['password']);
+    $password_check = html_escape($inputData['password_check']);
     $nickname = html_escape($inputData['nickname']);
+    $phone1 = html_escape($inputData['phone1']);
+    $phone2 = html_escape($inputData['phone2']);
+    $phone3 = html_escape($inputData['phone3']);
+    $auth_code = html_escape($inputData['auth_code']);
 
-    $insertValues = array(
-      'club_idx'      => html_escape($inputData['club_idx']),
-      'userid'        => $userid,
-      'nickname'      => $nickname,
-      'password'      => md5(html_escape($inputData['password'])),
-      'realname'      => html_escape($inputData['realname']),
-      'gender'        => html_escape($inputData['gender']),
-      'birthday'      => html_escape($inputData['birthday_year']) . '/' . html_escape($inputData['birthday_month']) . '/' . html_escape($inputData['birthday_day']),
-      'birthday_type' => html_escape($inputData['birthday_type']),
-      'phone'         => html_escape($inputData['phone1']) . '-' . html_escape($inputData['phone2']) . '-' . html_escape($inputData['phone3']),
-      'location'      => html_escape($inputData['location']),
-      'connect'       => 1,
-      'regdate'       => $now
-    );
+    $checkUserid = $this->member_model->checkUserid($userid);
+    if (!empty($checkUserid['idx'])) {
+      // 중복된 아이디
+      $result = array('error' => 1, 'message' => '이미 등록된 아이디 입니다. 다른 아이디를 입력해주세요.');
+    }
 
-    $idx = $this->member_model->insertMember($insertValues);
+    if (empty($result) && $password != $password_check) {
+      // 비밀번호가 일치하지 않음
+      $result = array('error' => 1, 'message' => '입력하신 비밀번호가 일치하지 않습니다.');
+    }
 
-    if (empty($idx)) {
-      $result = array(
-        'error' => 1,
-        'message' => '등록에 실패했습니다.'
-      );
-    } else {
-      // 사진 등록
-      if (!empty($inputData['filename']) && file_exists(UPLOAD_PATH . $inputData['filename'])) {
-        // 파일 이동
-        rename(UPLOAD_PATH . html_escape($inputData['filename']), PHOTO_PATH . $idx);
+    if (empty($result)) {
+      $checkNickname = $this->member_model->checkNickname(NULL, $nickname);
+      if (!empty($checkNickname['idx'])) {
+        // 중복된 닉네임
+        $result = array('error' => 1, 'message' => '이미 등록된 닉네임 입니다. 다른 닉네임을 입력해주세요.');
       }
+    }
 
-      // 회원 가입 기록
-      setHistory(LOG_ENTRY, $idx, $userid, $nickname, '', $now);
+    if (empty($result)) {
+      $checkPhone = $this->member_model->checkPhone($phone1.'-'.$phone2.'-'.$phone3);
+      if (!empty($checkPhone['idx'])) {
+        // 중복된 전화번호
+        $result = array('error' => 1, 'message' => '이미 등록된 전화번호 입니다.');
+      }
+    }
 
-      $result = array('error' => 0, 'message' => '');
+    if (empty($result)) {
+      $checkPhoneAuth = $this->member_model->checkPhoneAuth($phone1.$phone2.$phone3, $auth_code);
+      if (empty($checkPhoneAuth['idx'])) {
+        // 인증번호 없음
+        $result = array('error' => 1, 'message' => '인증번호가 일치하지 않습니다.');
+      } elseif ($checkPhoneAuth['created_at'] < ($now - 179)) {
+        // 인증번호 유효시간 만료
+        $result = array('error' => 1, 'message' => '인증번호 유효시간이 만료되었습니다.');
+      }
+    }
+
+    if (empty($result)) {
+      $insertValues = array(
+        'club_idx'      => $clubIdx,
+        'userid'        => $userid,
+        'nickname'      => $nickname,
+        'password'      => md5($password),
+        'phone'         => $phone1 . '-' . $phone2 . '-' . $phone3,
+        'connect'       => 1,
+        'regdate'       => $now
+      );
+      $idx = $this->member_model->insertMember($insertValues);
+
+      if (empty($idx)) {
+        $result = array('error' => 1, 'message' => '등록에 실패했습니다.');
+      } else {
+        // 인증번호 삭제
+        $updateValues = array('deleted_at' => time());
+        $this->member_model->deletePhoneAuth($updateValues, $checkPhoneAuth['idx']);
+
+        // 회원 가입 기록
+        setHistory($clubIdx, LOG_ENTRY, $idx, $idx, $nickname, '', $now);
+        $result = array('error' => 0, 'message' => '');
+      }
     }
 
     $this->output->set_output(json_encode($result));
   }
 
   /**
-   * 사진 삭제
+   * 인증번호 발송
    *
    * @return json
    * @author bjchoi
    **/
-  public function photo_delete()
+  public function send_auth()
   {
-    $filename = html_escape($this->input->post('filename'));
-    if (file_exists(UPLOAD_PATH . $filename)) unlink(UPLOAD_PATH . $filename);
-    if (file_exists(PHOTO_PATH . $filename)) unlink(PHOTO_PATH . $filename);
+    $now = time();
+    $phone1 = html_escape($this->input->post('phone1'));
+    $phone2 = html_escape($this->input->post('phone2'));
+    $phone3 = html_escape($this->input->post('phone3'));
 
-    $result = array('error' => 0);
+    mt_srand($now);
+    $auth_code = mt_rand(100000, 999999);
+
+    $checkPhone = $this->member_model->checkPhone($phone1.'-'.$phone2.'-'.$phone3);
+
+    if ($phone1 != '010' || strlen($phone2) != 4 || strlen($phone3) != 4) {
+      $result = array('error' => 1, 'message' => '전화번호 형식이 올바르지 않습니다.');
+    } elseif (!empty($checkPhone['idx'])) {
+      // 중복된 전화번호
+      $result = array('error' => 1, 'message' => '이미 등록된 전화번호 입니다.');
+    } else {
+      $phone = $phone1 . $phone2 . $phone3;
+
+      // 같은 번호로 이미 받은 인증번호가 있을 경우 삭제
+      $checkPhoneAuth = $this->member_model->checkPhoneAuth($phone);
+      if (!empty($checkPhoneAuth['idx'])) {
+        $updateValues = array('deleted_at' => time());
+        $this->member_model->deletePhoneAuth($updateValues, $checkPhoneAuth['idx']);
+      }
+
+      // -----------------------------------------------
+      // 네이버 SMS 인증 (SENS)
+      // -----------------------------------------------
+      if (ENVIRONMENT == 'production') {
+        $timestamp = $now * 1000;
+        $access_key = '92904DEA15554D9C3B4C';
+        $secret_key = 'CB401160F131F7DDECD42C8F960EECA47FF55C74';
+        $url = 'https://sens.apigw.ntruss.com';
+        $uri = '/sms/v2/services/ncp:sms:kr:264893982314:tripkorea/messages';
+        $string = "POST {$uri}\n{$timestamp}\n{$access_key}";
+        $message = '[경인웰빙투어] 인증번호는 ' . $auth_code . ' 입니다.';
+        $body = array(
+          'type' => 'SMS',
+          'from' => '01080715227',
+          'content' => $message,
+          'messages' => array(array('content' => $message, 'to' => $phone))
+        );
+        $header = array(
+          'Content-Type: application/json; charset=utf-8',
+          'x-ncp-apigw-timestamp: ' . $timestamp,
+          'x-ncp-iam-access-key: ' . $access_key,
+          'x-ncp-apigw-signature-v2: ' . base64_encode(hash_hmac('sha256', $string, $secret_key, true))
+        );
+
+        $ch = curl_init($url . $uri);
+        curl_setopt_array($ch, array(
+          CURLOPT_POST => true,
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_HTTPHEADER => $header,
+          CURLOPT_POSTFIELDS => json_encode($body)
+        ));
+        $response = curl_exec($ch);
+        curl_close($ch);
+        // -----------------------------------------------
+        $response = json_decode($response);
+      } else {
+        $response->statusCode = '202';
+      }
+
+      if (!empty($response->statusCode) && $response->statusCode == '202') {
+        // 새로운 인증번호 등록
+        $insertValues = array(
+          'phone_number'  => $phone,
+          'auth_code'     => $auth_code,
+          'created_at'    => $now,
+        );
+        $idx = $this->member_model->insertPhoneAuth($insertValues);
+      }
+
+      if (empty($idx)) {
+        $result = array('error' => 1, 'message' => '인증번호 발송에 실패했습니다.');
+      } else {
+        $result = array('error' => 0, 'message' => '인증번호가 발송되었습니다.');
+      }
+    }
+
     $this->output->set_output(json_encode($result));
   }
 
@@ -282,10 +576,10 @@ class Login extends MY_Controller
    **/
   public function forgot()
   {
-    $clubIdx = get_cookie('COOKIE_CLUBIDX');
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
     checkUserLoginRedirect(BASE_URL); // 로그인 상태의 회원은 메인 페이지로
 
-    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+    $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
 
     // 페이지 타이틀
     $viewData['pageTitle'] = '아이디/비밀번호 찾기';
@@ -301,7 +595,6 @@ class Login extends MY_Controller
    **/
   public function search_id()
   {
-    $clubIdx        = html_escape($this->input->post('clubIdx'));
     $realname       = html_escape($this->input->post('realname'));
     $gender         = html_escape($this->input->post('gender'));
     $birthday_year  = html_escape($this->input->post('birthday_year'));
@@ -311,7 +604,7 @@ class Login extends MY_Controller
     $phone2         = html_escape($this->input->post('phone2'));
     $phone3         = html_escape($this->input->post('phone3'));
 
-    $userData = $this->member_model->searchId($clubIdx, $realname, $gender, $birthday_year . '/' . $birthday_month . '/' . $birthday_day, $phone1 . '-' . $phone2 . '-' . $phone3);
+    $userData = $this->member_model->searchId($realname, $gender, $birthday_year . '/' . $birthday_month . '/' . $birthday_day, $phone1 . '-' . $phone2 . '-' . $phone3);
 
     if (empty($userData['userid'])) {
       $result = array('error' => 1, 'message' => $this->lang->line('error_search_id'));
@@ -332,7 +625,6 @@ class Login extends MY_Controller
    **/
   public function change_pw()
   {
-    $clubIdx        = html_escape($this->input->post('clubIdx'));
     $userid         = html_escape($this->input->post('uid'));
     $realname       = html_escape($this->input->post('realname'));
     $gender         = html_escape($this->input->post('gender'));
@@ -348,7 +640,7 @@ class Login extends MY_Controller
     $result = array('error' => 1, 'message' => $this->lang->line('error_search_id'));
 
     // 해당 회원이 있는지 검색
-    $userData = $this->member_model->searchId($clubIdx, $realname, $gender, $birthday_year . '/' . $birthday_month . '/' . $birthday_day, $phone1 . '-' . $phone2 . '-' . $phone3, $userid);
+    $userData = $this->member_model->searchId($realname, $gender, $birthday_year . '/' . $birthday_month . '/' . $birthday_day, $phone1 . '-' . $phone2 . '-' . $phone3, $userid);
 
     if (!empty($userData['idx']) && !empty($updateValues['password'])) {
       // 비밀번호 변경
@@ -365,7 +657,7 @@ class Login extends MY_Controller
   /**
    * OAuth 로그인
    *
-   * @return json
+   * @return redirect
    * @author bjchoi
    **/
   public function oauth()
@@ -382,7 +674,7 @@ class Login extends MY_Controller
 
     switch ($provider) {
       case 'kakao':
-        $url = 'https://kauth.kakao.com/oauth/authorize?client_id=' . API_KAKAO . '&redirect_uri=' . base_url() . API_KAKAO_URL . '&response_type=code&state=' . $state;
+        $url = 'https://kauth.kakao.com/oauth/authorize?client_id=' . API_KAKAO . '&redirect_uri=' . $redirectUrl. '&response_type=code&state=' . $state;
         break;
     }
 
@@ -416,7 +708,7 @@ class Login extends MY_Controller
     curl_setopt($ch, CURLOPT_URL, 'https://kauth.kakao.com/oauth/token');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($ch, CURLOPT_POST, TRUE);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, 'grant_type=authorization_code&client_id=' . API_KAKAO . '&redirect_uri=' . base_url() . API_KAKAO_URL . '&code=' . $code);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, 'grant_type=authorization_code&client_id=' . API_KAKAO . '&redirect_uri=' . BASE_URL . '/' . API_KAKAO_URL . '&code=' . $code);
     $response = curl_exec($ch);
     curl_close($ch);
 
@@ -468,7 +760,7 @@ class Login extends MY_Controller
       $this->session->set_userdata('userData', $userData);
     } else {
       // 기존 사용자는 로그인
-      $rescount = $this->admin_model->cntMemberReservation($userData['userid']);
+      $rescount = $this->reserve_model->cntMemberReserve($clubIdx, $userData['idx']);
       $updateValues['rescount'] = $rescount['cnt']; // 예약 횟수 갱신 (회원 레벨 체크를 위해)
       $updateValues['connect'] = $userData['connect'] + 1;
       $updateValues['lastdate'] = $now;
@@ -486,7 +778,7 @@ class Login extends MY_Controller
       $this->session->unset_userdata('redirectUrl');
       redirect($redirectUrl);
     } else {
-      redirect(base_url());
+      redirect(BASE_URL());
     }
   }
 
@@ -506,6 +798,9 @@ class Login extends MY_Controller
     $viewData['userData'] = $this->load->get_var('userData');
     $viewData['userLevel'] = $this->load->get_var('userLevel');
 
+    // 클럽 메뉴
+    $viewData['listAbout'] = $this->club_model->listAbout($viewData['view']['idx']);
+
     if (!empty($viewData['view'])) {
       // 진행 중 산행
       $viewData['listFooterNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
@@ -520,20 +815,6 @@ class Login extends MY_Controller
         if ($value['reply_type'] == REPLY_TYPE_SHOP):   $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/shop/item/' . $value['story_idx']; endif;
       }
 
-      // 최신 사진첩
-      $paging['perPage'] = 2; $paging['nowPage'] = 0;
-      $viewData['listFooterAlbum'] = $this->club_model->listAlbum($viewData['view']['idx'], $paging);
-
-      foreach ($viewData['listFooterAlbum'] as $key => $value) {
-        $photo = $this->file_model->getFile('album', $value['idx'], NULL, 1);
-        if (!empty($photo[0]['filename'])) {
-          //$viewData['listAlbum'][$key]['photo'] = PHOTO_URL . 'thumb_' . $photo[0]['filename'];
-          $viewData['listFooterAlbum'][$key]['photo'] = PHOTO_URL . $photo[0]['filename'];
-        } else {
-          $viewData['listFooterAlbum'][$key]['photo'] = '/public/images/noimage.png';
-        }
-      }
-
       // 클럽 대표이미지
       $files = $this->file_model->getFile('club', $viewData['view']['idx']);
       if (!empty($files[0]['filename']) && file_exists(PHOTO_PATH . $files[0]['filename'])) {
@@ -543,11 +824,11 @@ class Login extends MY_Controller
         $viewData['view']['main_photo_height'] = $size[1];
       }
 
-      $pageHeader = '/club/header_' . $viewData['view']['main_design'];
-      $pageFooter = '/club/footer_' . $viewData['view']['main_design'];
+      $viewHeader = 'club/header_' . $viewData['view']['main_design'];
+      $viewFooter = 'club/footer_' . $viewData['view']['main_design'];
     } else {
-      $pageHeader = 'header';
-      $pageFooter = 'footer';
+      $viewHeader = 'header';
+      $viewFooter = 'footer';
     }
 
     // 로그인 쿠키 처리
@@ -566,12 +847,21 @@ class Login extends MY_Controller
     if ($_SERVER['SERVER_PORT'] == '80') $HTTP_HEADER = 'http://'; else $HTTP_HEADER = 'https://';
     $viewData['redirectUrl'] = $HTTP_HEADER . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
+    // 분류별 기사
+    $viewData['listArticleCategory'] = $this->desk_model->listArticleCategory();
+
+    // 분류별 기사 카운트
+    foreach ($viewData['listArticleCategory'] as $key => $value) {
+      $cnt = $this->desk_model->cntArticle($value['code']);
+      $viewData['listArticleCategory'][$key]['cnt'] = $cnt['cnt'];
+    }
+
     // 방문자 기록
     setVisitor();
 
-    $this->load->view($pageHeader, $viewData);
+    $this->load->view($viewHeader, $viewData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view($pageFooter, $viewData);
+    $this->load->view($viewFooter, $viewData);
   }
 }
 ?>
