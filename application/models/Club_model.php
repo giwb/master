@@ -11,15 +11,19 @@ class Club_model extends CI_Model
   }
 
   // 산악회정보 - 목록
-  public function listClub($search=NULL, $keyword=NULL)
+  public function listClub($search=NULL, $keyword=NULL, $order=NULL)
   {
     $this->db->select('*')
           ->from(DB_CLUBS)
-          ->where('deleted_at', NULL)
-          ->order_by('title', 'asc');
+          ->where('deleted_at', NULL);
 
     if (!is_null($search) && !is_null($keyword)) {
       $this->db->like($search, $keyword);
+    }
+    if (!empty($order)) {
+      $this->db->order_by('idx', 'desc');
+    } else {
+      $this->db->order_by('title', 'asc');
     }
 
     return $this->db->get()->result_array();
@@ -51,15 +55,43 @@ class Club_model extends CI_Model
     return $this->db->update(DB_CLUBS);
   }
 
+  // 산악회정보 - 소개 메뉴
+  public function listAbout($clubIdx)
+  {
+    $this->db->select('idx, title, content')
+          ->from(DB_CLUB_DETAIL)
+          ->where('deleted_at', NULL)
+          ->where('club_idx', $clubIdx)
+          ->order_by('sort_idx', 'asc');
+    return $this->db->get()->result_array();
+  }
+
+  // 산악회정보 - 소개 메뉴 보기
+  public function viewAbout($clubIdx, $idx)
+  {
+    $this->db->select('idx, title, content')
+          ->from(DB_CLUB_DETAIL)
+          ->where('deleted_at', NULL)
+          ->where('club_idx', $clubIdx)
+          ->where('idx', $idx);
+    return $this->db->get()->row_array(1);
+  }
+
   // 백산백소
-  public function listAuth()
+  public function listAuth($limit=NULL)
   {
     $this->db->select('nickname, COUNT(idx) AS cnt')
           ->from(DB_AUTH)
           ->where('nickname !=', '캔총무')
+          ->where('nickname !=', '아띠')
           ->group_by('nickname')
           ->order_by('cnt', 'desc')
           ->order_by('nickname', 'asc');
+
+    if (!is_null($limit)) {
+      $this->db->limit($limit);
+    }
+
     return $this->db->get()->result_array();
   }
 
@@ -76,17 +108,18 @@ class Club_model extends CI_Model
   }
 
   // 앨범 목록
-  public function listAlbum($clubIdx, $paging)
+  public function listAlbum($clubIdx, $paging, $search=NULL)
   {
-    $this->db->select('a.*, b.nickname')
+    $this->db->select('a.*, b.nickname, c.idx AS notice_idx, c.subject AS notice_subject, c.startdate AS notice_startdate')
           ->from(DB_ALBUM . ' a')
           ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
+          ->join(DB_NOTICE . ' c', 'a.notice_idx=c.idx', 'left')
           ->where('a.club_idx', $clubIdx)
           ->where('a.deleted_at', NULL)
-          ->order_by('a.idx', 'desc');
+          ->order_by('c.startdate, a.idx', 'desc');
 
-    if (!empty($paging['keyword'])) {
-      $this->db->like('a.subject', $paging['keyword']);
+    if (!empty($search['created_by'])) {
+      $this->db->where('a.created_by', $search['created_by']);
     }
     if (!empty($paging)) {
       $this->db->limit($paging['perPage'], $paging['nowPage']);
@@ -96,12 +129,17 @@ class Club_model extends CI_Model
   }
 
   // 앨범 카운트
-  public function cntAlbum($clubIdx)
+  public function cntAlbum($clubIdx, $search=NULL)
   {
     $this->db->select('COUNT(*) AS cnt')
           ->from(DB_ALBUM)
           ->where('club_idx', $clubIdx)
           ->where('deleted_at', NULL);
+
+    if (!empty($search['created_by'])) {
+      $this->db->where('created_by', $search['created_by']);
+    }
+
     return $this->db->get()->row_array(1);
   }
 
@@ -130,13 +168,32 @@ class Club_model extends CI_Model
     return $this->db->update(DB_ALBUM);
   }
 
-  // 도메인 찾기
+  // 페이지 주소로 찾기
+  public function getUrl($url)
+  {
+    $this->db->select('idx')
+          ->from(DB_CLUBS)
+          ->where('url', $url);
+    return $this->db->get()->row_array(1);
+  }
+
+  // 도메인으로 찾기
   public function getDomain($domain)
   {
     $this->db->select('idx')
           ->from(DB_CLUBS)
           ->where('domain', $domain);
     return $this->db->get()->row_array(1);
+  }
+
+  // 여행기 - 동영상 목록
+  public function listVideo()
+  {
+    $this->db->select('*')
+          ->from(DB_VIDEOS)
+          ->where('deleted_at', NULL)
+          ->order_by('idx', 'desc');
+    return $this->db->get()->result_array();
   }
 }
 ?>

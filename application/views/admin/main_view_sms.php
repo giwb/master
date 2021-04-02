@@ -21,9 +21,8 @@
                 <?=$value['date']?> (<?=$value['week']?>요<?=$value['dist']?>)<br>
                 <?=$value['subject']?><br>
                 <?=$value['nickname']?>님<br>
-                <?php if ($view['busTotal'] > 1): ?><?=$value['bus']?>호차<?php endif; ?>
                 <?=$value['time']?> <?=$value['title']?><br>
-                <?=!empty($value['bus_name']) ? $value['bus_name'] : ''?><br>
+                <?php if ($view['busTotal'] > 1): ?><?=$value['bus']?>호차 <?php endif; ?><?=!empty($value['bus_name']) ? $value['bus_name'] : ''?><br>
                 <?=$value['seat']?>번 좌석<br>
                 경인웰빙산악회<br>
                 <br>

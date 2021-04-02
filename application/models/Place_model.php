@@ -18,6 +18,9 @@ class Place_model extends CI_Model
           ->where('deleted_at', NULL)
           ->order_by('title', 'asc');
 
+    if (!empty($search['code'])) {
+      $this->db->where('category', $search['code']);
+    }
     if (!is_null($search) && !is_null($keyword)) {
       $this->db->like($search, $keyword);
     }

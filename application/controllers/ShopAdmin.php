@@ -9,7 +9,7 @@ class ShopAdmin extends Admin_Controller
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
     $this->load->library(array('image_lib', 'session'));
-    $this->load->model(array('file_model', 'member_model', 'shop_model'));
+    $this->load->model(array('file_model', 'member_model', 'shop_model', 'story_model'));
   }
 
   /**
@@ -430,6 +430,7 @@ class ShopAdmin extends Admin_Controller
    **/
   public function change_status()
   {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $now = time();
     $adminIdx = html_escape($this->session->userData['idx']);
     $idx = html_escape($this->input->post('idx'));
@@ -455,25 +456,25 @@ class ShopAdmin extends Admin_Controller
     switch ($status) {
       case ORDER_PAY: // 입금확인
         // 관리자 입금확인 로그 기록
-        setHistory(LOG_ADMIN_SHOP_DEPOSIT_CONFIRM, $idx, $viewPurchase['userid'], $viewPurchase['nickname'], $subject, $now);
+        setHistory($clubIdx, LOG_ADMIN_SHOP_DEPOSIT_CONFIRM, $idx, $viewPurchase['userid'], $viewPurchase['nickname'], $subject, $now);
         break;
 
       case ORDER_CANCEL: // 구매취소
         // 관리자 구매 취소 로그 기록
-        setHistory(LOG_ADMIN_SHOP_CANCEL, $idx, $viewPurchase['userid'], $viewPurchase['nickname'], $subject, $now);
+        setHistory($clubIdx, LOG_ADMIN_SHOP_CANCEL, $idx, $viewPurchase['userid'], $viewPurchase['nickname'], $subject, $now);
 
         if ($viewPurchase['point'] > 0) {
           // 사용했던 포인트 환불
           $this->member_model->updatePoint(1, $viewPurchase['userid'], ($viewPurchase['userPoint'] + $viewPurchase['point']));
 
           // 포인트 환불 로그 기록
-          setHistory(LOG_POINTUP, $idx, $viewPurchase['userid'], $viewPurchase['nickname'], '관리자 구매 취소', $now, $viewPurchase['point']);
+          setHistory($clubIdx, LOG_POINTUP, $idx, $viewPurchase['userid'], $viewPurchase['nickname'], '관리자 구매 취소', $now, $viewPurchase['point']);
         }
         break;
 
       case ORDER_END: // 판매완료
         // 관리자 판매완료 로그 기록
-        setHistory(LOG_ADMIN_SHOP_COMPLETE, $idx, $viewPurchase['userid'], $viewPurchase['nickname'], $subject, $now);
+        setHistory($clubIdx, LOG_ADMIN_SHOP_COMPLETE, $idx, $viewPurchase['userid'], $viewPurchase['nickname'], $subject, $now);
         break;
     }
 
@@ -627,7 +628,9 @@ class ShopAdmin extends Admin_Controller
     $viewData['viewClub'] = $this->club_model->viewClub($viewData['clubIdx']);
 
     // 진행중 산행
-    $viewData['listNotice'] = $this->reserve_model->listNotice($viewData['clubIdx'], array(STATUS_ABLE, STATUS_CONFIRM));
+    $search['clubIdx'] = $viewData['clubIdx'];
+    $search['status'] = array(STATUS_ABLE, STATUS_CONFIRM);
+    $viewData['listNoticeFooter'] = $this->admin_model->listNotice($search);
 
     // 클럽 대표이미지
     $files = $this->file_model->getFile('club', $viewData['clubIdx']);
@@ -638,14 +641,26 @@ class ShopAdmin extends Admin_Controller
       $viewData['viewClub']['main_photo_height'] = $size[1];
     }
 
+    // 최신 댓글
+    $paging['perPage'] = 5; $paging['nowPage'] = 0;
+    $viewData['listFooterReply'] = $this->admin_model->listReply($viewData['clubIdx'], $paging);
+
+    foreach ($viewData['listFooterReply'] as $key => $value) {
+      if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/story/view/' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/admin/main_view_progress/' . $value['story_idx']; endif;
+      if ($value['reply_type'] == REPLY_TYPE_SHOP):   $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/shop/item/' . $value['story_idx']; endif;
+    }
+
     // 리다이렉트 URL 추출
     if ($_SERVER['SERVER_PORT'] == '80') $HTTP_HEADER = 'http://'; else $HTTP_HEADER = 'https://';
     $viewData['redirectUrl'] = $HTTP_HEADER . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
-    $this->load->view('admin/header', $viewData);
+    if (empty($viewData['viewClub']['main_design'])) $viewData['viewClub']['main_design'] = 1;
+
+    $this->load->view('admin/header_' . $viewData['viewClub']['main_design'], $viewData);
     if (!empty($viewData['headerMenu'])) $this->load->view('admin/' . $viewData['headerMenu'], $viewData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view('admin/footer');
+    $this->load->view('admin/footer_' . $viewData['viewClub']['main_design'], $viewData);
   }
 }
 ?>

@@ -9,62 +9,74 @@ class Place extends MY_Controller
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
     $this->load->library(array('image_lib'));
-    $this->load->model(array('area_model', 'file_model', 'place_model'));
+    $this->load->model(array('area_model', 'desk_model', 'file_model', 'place_model', 'story_model'));
   }
 
   public function index()
   {
-    $viewData['search'] = $this->input->get('search');
-    $viewData['keyword'] = $this->input->get('keyword');
-    $viewData['list'] = $this->place_model->listPlace($viewData['search'], $viewData['keyword']);
+    $viewData['code'] = $search['code'] = !empty($this->input->get('code')) ? html_escape($this->input->get('code')) : '';
+    $viewData['viewType'] = !empty($this->input->get('view')) ? html_escape($this->input->get('view')) : $viewData['viewType'] = 'list';
+    $viewData['listPlace'] = $this->place_model->listPlace($search);
 
-    foreach ($viewData['list'] as $key => $value) {
-      $file = $this->file_model->getFile('place', $value['idx'], TYPE_MAIN, 1);
-      if (!empty($file[0]['filename'])) {
-        $viewData['list'][$key]['photo'] = PHOTO_URL . 'thumb_' . $file[0]['filename'];
-      } else {
-        $viewData['list'][$key]['photo'] = '/public/images/noimage.png';
+    foreach ($viewData['listPlace'] as $key1 => $value) {
+      // 지역
+      $viewData['area_sido'] = $this->area_model->listSido();
+      if (!empty($value['area_sido'])) {
+        $area_sido = unserialize($value['area_sido']);
+        $area_gugun = unserialize($value['area_gugun']);
+
+        foreach ($area_sido as $key2 => $value2) {
+          $sido = $this->area_model->getName($value2);
+          $gugun = $this->area_model->getName($area_gugun[$key2]);
+          $viewData['listPlace'][$key1]['sido'][$key2] = $sido['name'];
+          $viewData['listPlace'][$key1]['gugun'][$key2] = $gugun['name'];
+        }
       }
     }
 
-    switch ($viewData['keyword']) {
-      case 'type2': $viewData['pageTitle'] = '산림청 선정 100대 명산'; break;
-      case 'type3': $viewData['pageTitle'] = '블랙야크 명산100'; break;
-      case 'type4': $viewData['pageTitle'] = '죽기전에 꼭 가봐야 할 국내여행 1001'; break;
-      case 'type5': $viewData['pageTitle'] = '백두대간'; break;
-      case 'type6': $viewData['pageTitle'] = '도보트레킹'; break;
-      case 'type7': $viewData['pageTitle'] = '투어'; break;
-      case 'type8': $viewData['pageTitle'] = '섬'; break;
-      default: $viewData['pageTitle'] = '전체보기';
+    switch ($search['code']) {
+      case 'forest': 
+        $viewData['pageTitle'] = '여행정보 - 산림청 100대 명산';
+        break;
+      case 'bac': 
+        $viewData['pageTitle'] = '여행정보 - 블랙야크 명산 100';
+        break;
+      default:
+        $viewData['pageTitle'] = '여행정보 - 전체보기';
     }
-
-    // 공통 메뉴
-    $viewData['commonMenu'] = $this->load->view('place/menu', $viewData, true);
 
     $this->_viewPage('place/index', $viewData);
   }
 
   public function view($idx)
   {
-    $viewData['view'] = $this->place_model->viewPlace($idx);
-    $viewData['view']['photo'] = array();
-    $viewData['view']['reason'] = reset_html_escape($viewData['view']['reason']);
-    $viewData['view']['content'] = reset_html_escape($viewData['view']['content']);
-    $viewData['view']['around'] = reset_html_escape($viewData['view']['around']);
-    $viewData['view']['course'] = reset_html_escape($viewData['view']['course']);
+    if (is_null($idx)) {
+      $viewData['view']['title'] = '';
+      $viewData['view']['content'] = '<div style="pt-5 pb-5">관련 기사가 없습니다.</div>';
+    } else {
+      $viewData['view'] = $this->place_model->viewPlace($idx);
+    }
 
-    $files = $this->file_model->getFile('place', $idx);
+    // 조회수 올리기
+    $updateValues['refer'] = $viewData['view']['refer'] + 1;
+    $this->place_model->updatePlace($updateValues, $idx);
 
-    foreach ($files as $key => $value) {
-      if ($value['filename'] != '') {
-        $viewData['view']['photo_' . $value['type']][$key] = $value['filename'];
-      } else {
-        $viewData['view']['photo_' . $value['type']][$key] = '';
+    // 지역
+    $viewData['area_sido'] = $this->area_model->listSido();
+    if (!empty($viewData['view']['area_sido'])) {
+      $area_sido = unserialize($viewData['view']['area_sido']);
+      $area_gugun = unserialize($viewData['view']['area_gugun']);
+
+      foreach ($area_sido as $key2 => $value2) {
+        $sido = $this->area_model->getName($value2);
+        $gugun = $this->area_model->getName($area_gugun[$key2]);
+        $viewData['view']['sido'][$key2] = $sido['name'];
+        $viewData['view']['gugun'][$key2] = $gugun['name'];
       }
     }
 
-    // 공통 메뉴
-    $viewData['commonMenu'] = $this->load->view('place/menu', $viewData, true);
+    $search['category'] = $viewData['view']['category'];
+    $viewData['listPlace'] = $this->place_model->listPlace($search);
 
     $this->_viewPage('place/view', $viewData);
   }
@@ -129,9 +141,6 @@ class Place extends MY_Controller
       $viewData['area_gugun'] = array();
     }
 
-    // 공통 메뉴
-    $viewData['commonMenu'] = $this->load->view('place/menu', $viewData, true);
-
     $this->_viewPage('place/entry', $viewData);
   }
 
@@ -147,17 +156,12 @@ class Place extends MY_Controller
     $files = array();
     $input_data = $this->input->post();
 
-    if (empty($input_data['title']) || empty($input_data['content']) || empty($input_data['file_' . TYPE_MAIN])) {
-      $return = array(
-        'error' => 1,
-        'message' => '필수 항목은 꼭 입력해주세요.'
-      );
-    } else {
+    if (!empty($input_data['title']) || !empty($input_data['content']) || !empty($input_data['file_' . TYPE_MAIN])) {
       if (!empty($input_data['file_' . TYPE_MAIN])) $files[TYPE_MAIN] = explode(',', html_escape($input_data['file_' . TYPE_MAIN]));
       if (!empty($input_data['file_' . TYPE_ADDED])) $files[TYPE_ADDED] = explode(',', html_escape($input_data['file_' . TYPE_ADDED]));
       if (!empty($input_data['file_' . TYPE_ADDED])) $files[TYPE_ADDED] = explode(',', html_escape($input_data['file_' . TYPE_MAP]));
 
-      $insert_values  = array(
+      $insertValues  = array(
         'title'       => html_escape($input_data['title']),
         'area_sido'   => make_serialize($input_data['area_sido']),
         'area_gugun'  => make_serialize($input_data['area_gugun']),
@@ -172,14 +176,9 @@ class Place extends MY_Controller
         'created_at'  => $now
       );
 
-      $idx = $this->place_model->insertPlace($insert_values);
+      $idx = $this->place_model->insertPlace($insertValues);
 
-      if (!$idx) {
-        $return = array(
-          'error' => 1,
-          'message' => '등록에 실패했습니다.'
-        );
-      } else {
+      if (!empty($idx)) {
         // 파일 등록
         foreach ($files as $key => $file) {
           if ($file[0] != '') {
@@ -215,14 +214,9 @@ class Place extends MY_Controller
           }
         }
 
-        $return = array(
-          'error' => 0,
-          'message' => '등록이 완료되었습니다.'
-        );
+        redirect('/place');
       }
     }
-
-    $this->output->set_output(json_encode($return));
   }
 
   /**
@@ -423,9 +417,54 @@ class Place extends MY_Controller
     if ($_SERVER['SERVER_PORT'] == '80') $HTTP_HEADER = 'http://'; else $HTTP_HEADER = 'https://';
     $viewData['redirectUrl'] = $HTTP_HEADER . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
-    $this->load->view('header', $viewData);
+    // 회원 정보
+    $viewData['userData'] = $this->load->get_var('userData');
+
+    // 분류별 기사
+    $viewData['listPlaceCategory'] = $this->desk_model->listPlaceCategory();
+
+    // 분류별 기사 카운트
+    foreach ($viewData['listPlaceCategory'] as $key => $value) {
+      $cnt = $this->desk_model->cntPlace($value['code']);
+      $viewData['listPlaceCategory'][$key]['cnt'] = $cnt['cnt'];
+    }
+
+    // 여행일정
+    $viewData['listFooterNotice'] = $this->reserve_model->listNotice(NULL, array(STATUS_ABLE, STATUS_CONFIRM), 'asc');
+
+    foreach ($viewData['listFooterNotice'] as $key1 => $value) {
+      $viewClub = $this->club_model->viewClub($value['club_idx']);
+      $viewData['listFooterNotice'][$key1]['club_name'] = $viewClub['title'];
+      $viewData['listFooterNotice'][$key1]['url'] = base_url() . $viewClub['url'] . '/reserve/list/' . $value['idx'];
+
+      // 댓글수
+      $cntReply = $this->story_model->cntStoryReply($value['idx'], REPLY_TYPE_NOTICE);
+      $viewData['listFooterNotice'][$key1]['reply_cnt'] = $cntReply['cnt'];
+
+      // 지역
+      if (!empty($value['area_sido'])) {
+        $area_sido = unserialize($value['area_sido']);
+        $area_gugun = unserialize($value['area_gugun']);
+
+        foreach ($area_sido as $key2 => $value2) {
+          $sido = $this->area_model->getName($value2);
+          $gugun = $this->area_model->getName($area_gugun[$key2]);
+          $viewData['listFooterNotice'][$key1]['sido'][$key2] = $sido['name'];
+          $viewData['listFooterNotice'][$key1]['gugun'][$key2] = $gugun['name'];
+        }
+      }
+
+      // 사진
+      if (!empty($value['photo']) && file_exists(PHOTO_PATH . $value['photo'])) {
+        $viewData['listFooterNotice'][$key1]['photo'] = PHOTO_URL . $value['photo'];
+      } else {
+        $viewData['listFooterNotice'][$key1]['photo'] = '/public/images/nophoto.png';
+      }
+    }
+
+    $this->load->view('/header', $viewData);
     $this->load->view($viewPage, $viewData);
-    $this->load->view('footer');
+    $this->load->view('/footer', $viewData);
   }
 }
 ?>

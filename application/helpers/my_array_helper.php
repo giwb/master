@@ -2,7 +2,7 @@
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 $CI = get_instance();
-$CI->load->model(array('admin_model', 'member_model', 'reserve_model'));
+$CI->load->model(array('admin_model', 'member_model', 'reserve_model', 'desk_model'));
 
 // html_escape 리셋
 if (!function_exists('reset_html_escape')) {
@@ -87,9 +87,9 @@ if (!function_exists('getHeight'))
       $result = number_format($n, $d);
       $result = rtrim($result, 0);
       $result = rtrim($result, '.');
-      $result = '해발 ' . $result . 'm<br>';
+      $result = '해발 ' . $result . 'm';
     } else {
-      $result = '해발 0m<br>';
+      $result = '해발 0m';
     }
     return $result;
   }
@@ -118,11 +118,11 @@ if (!function_exists('getAreaName')) {
 
 // 클럽 홈 URL
 if (!function_exists('goHome')) {
-  function goHome($domain) {
-    if (strstr($domain, '.')) {
-      $result = 'http://' . $domain;
-    } else {
-      $result = base_url() . $domain;
+  function goHome($club) {
+    if (!empty($club['domain'])) {
+      $result = $club['domain'];
+    } elseif (!empty($club['url'])) {
+      $result = base_url() . $club['url'];
     }
     return $result;
   }
@@ -137,13 +137,13 @@ if (!function_exists('setVisitor')) {
       $userData = $CI->load->get_var('userData');
       $ipAddress = $_SERVER['REMOTE_ADDR'];
 
-      if (!empty($clubIdx)) {
+      if (!empty($clubIdx) && !empty($userData['idx'])) {
         $visitor = $GLOBALS['CI']->member_model->viewVisitor($clubIdx, NULL, $ipAddress);
 
         // 최근 30분 이내 접속했다면 동일 접속으로 취급
         $limitTime = time() - (60 * 30);
 
-        if ($visitor['ip_address'] == $ipAddress && empty($visitor['created_by']) && !empty($userData['idx'])) {
+        if ($visitor['ip_address'] == $ipAddress && empty($visitor['created_by'])) {
           // 직전 접속한 같은 IP의 사람이 로그인 했다면 닉네임으로 변경
           $updateValues = array(
             'created_by' => $userData['idx']
@@ -419,27 +419,20 @@ if (!function_exists('calcDistance')) {
 
 // 승차위치
 if (!function_exists('arrLocation')) {
-  function arrLocation($starttime=NULL, $location=NULL, $stitle=NULL) {
-    if (!is_null($starttime)) {
-      $starttime = strtotime($starttime);
-    }
-    $result = array(
-      array('no' => '0', 'time' => '', 'title' => '', 'stitle' => ''),
-      array('no' => '1', 'time' => !is_null($starttime) ? date('H:i', $starttime) : '', 'title' => '계산역 4번출구', 'stitle' => '계산'),
-      array('no' => '2', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 4)) : '', 'title' => '작전역 5번출구', 'stitle' => '작전'),
-      array('no' => '3', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 8)) : '', 'title' => '갈산역 4번출구', 'stitle' => '갈산'),
-      array('no' => '4', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 12)) : '', 'title' => '부평구청역 4번출구', 'stitle' => '부평'),
-      array('no' => '5', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 15)) : '', 'title' => '삼산체육관 맞은편', 'stitle' => '삼산'),
-      array('no' => '6', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 20)) : '', 'title' => '부천터미널 소풍', 'stitle' => '소풍'),
-      array('no' => '7', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 25)) : '', 'title' => '복사골 문화센터', 'stitle' => '복사'),
-      array('no' => '8', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * 30)) : '', 'title' => '송내남부 맥도날드', 'stitle' => '송내'),
-      array('no' => '9', 'time' => !is_null($starttime) ? date('H:i', $starttime + (60 * -20)) : '', 'title' => '원종동', 'stitle' => '원종'),
-    );
-    if (!empty($location)) {
-      if (!empty($stitle)) {
-        $result = $result[$location]['stitle'];
-      } else {
-        $result = $result[$location]['title'];
+  function arrLocation($club_geton=NULL, $starttime=NULL) {
+    $result = array(array('time' => '', 'title' => '', 'short' => ''));
+    if (!empty($club_geton)) {
+      if (!is_null($starttime)) {
+        $starttime = strtotime($starttime);
+      }
+      $arrGeton = unserialize($club_geton);
+
+      foreach ($arrGeton as $key => $value) {
+        $buf = explode('|', $value);
+        if (empty($buf[2])) $buf[2] = 0; // 시간이 비었을때는 계산을 위해 0으로 고정
+
+        $arr = array('time' => !is_null($starttime) ? date('H:i', strtotime(date('H:i', $starttime) . '+' . $buf[2] . ' minutes')) : '', 'title' => $buf[1], 'short' => $buf[0]);
+        array_push($result, $arr);
       }
     }
     return $result;
@@ -529,9 +522,13 @@ if (!function_exists('getBusTableMake')) {
         if ($seat != 1 && $seat%4 == 1 && $seat < 43) $result = '</tr><tr>';
         elseif ($seat%4 == 3 && $seat < 43) $result = '<td colspan="2" class="table-blank"></td>';
         break;
+      case '31': // 31석
+        if ($seat != 1 && $seat%3 == 1 && $seat < 29) $result = '</tr><tr>';
+        elseif ($seat%3 == 0 && $seat < 29) $result = '<td colspan="2" class="table-blank"></td>';
+        break;
       case '28': // 28석
-        if ($seat != 1 && $seat%4 == 1) $result = '</tr><tr>';
-        elseif ($seat%4 == 3) $result = '<td colspan="2" class="table-blank"></td>';
+        if ($seat != 1 && $seat%3 == 1 && $seat < 26) $result = '</tr><tr>';
+        elseif ($seat%3 == 0 && $seat < 26) $result = '<td colspan="2" class="table-blank"></td>';
         break;
       case '25': // 25석
         if ($seat != 1 && $seat%4 == 1 && $seat < 23) $result = '</tr><tr>';
@@ -545,6 +542,19 @@ if (!function_exists('getBusTableMake')) {
         if ($seat == 2) $result = '<td colspan="2"></td>';
         elseif ($seat%3 == 0) $result = '</tr><tr>';
         break;
+    }
+    return $result;
+  }
+}
+
+// 버스별 보조석
+if (!function_exists('getBusAssist')) {
+  function getBusAssist($assist, $i) {
+    $result = '가이드석';
+    $value = unserialize($assist);
+    $bus = $i - 1;
+    if (!empty($value[$bus])) {
+      $result = $value[$bus];
     }
     return $result;
   }
@@ -590,40 +600,42 @@ if (!function_exists('checkDirection')) {
 if (!function_exists('getReserveAdmin')) {
   function getReserveAdmin($reserve, $bus, $seat, $userData, $boarding=0) {
     if ($boarding == 1) {
-      $result = array('idx' => '', 'userid' => '', 'nickname' => '', 'class' => '');
+      $result = array('idx' => '', 'user_idx' => '', 'nickname' => '', 'class' => '');
     } else {
-      $result = array('idx' => '', 'userid' => '', 'nickname' => '', 'class' => 'seat');
+      $result = array('idx' => '', 'user_idx' => '', 'nickname' => '', 'class' => '');
     }
 
     foreach ($reserve as $key => $value) {
       if ($value['bus'] == $bus && $value['seat'] == $seat) {
         $result['idx'] = $value['idx'];
-        $result['userid'] = $value['userid'];
+        $result['user_idx'] = $value['user_idx'];
         $result['nickname'] = $value['nickname'];
 
         if ($value['status'] == RESERVE_PAY) {
-          $result['class'] .= ' paid';
+          $result['class'] .= 'seat paid ';
         } elseif ($value['status'] == RESERVE_WAIT) {
-          $result['class'] .= ' wait';
+          $result['class'] .= 'seat wait ';
         } else {
           if ($value['nickname'] != '1인우등' && $value['nickname'] != '2인우선') {
             if ($value['gender'] == 'M') {
-              $result['class'] .= ' male';
+              $result['class'] .= 'seat male ';
             } elseif ($value['gender'] == 'F') {
-              $result['class'] .= ' female';
+              $result['class'] .= 'seat female ';
             }
           }
         }
         if (!empty($value['priority'])) {
-          $result['class'] .= ' priority';
+          $result['class'] .= 'priority';
           $result['priority'] = $value['priority'];
         } elseif (!empty($value['honor'])) {
-          $result['class'] .= ' honor';
+          $result['class'] .= 'honor';
           $result['honor'] = $value['honor'];
         }
       }
       $checkGender[$value['bus']][$value['seat']] = $value['gender'];
     }
+
+    if (empty($result['class'])) $result['class'] = 'seat';
 
     return $result;
   }
@@ -631,15 +643,15 @@ if (!function_exists('getReserveAdmin')) {
 
 // 예약자 정보 (일반용)
 if (!function_exists('getReserve')) {
-  function getReserve($reserve, $bus, $seat, $userData, $status) {
+  function getReserve($reserve, $bus, $seat, $userData, $status, $seatType) {
     if ($status == STATUS_CLOSED) {
-      $result = array('idx' => '', 'userid' => '', 'nickname' => '', 'class' => '');
+      $result = array('idx' => '', 'user_idx' => '', 'nickname' => '', 'class' => '');
     } else {
-      $result = array('idx' => '', 'userid' => '', 'nickname' => '예약가능', 'class' => 'seat');
+      $result = array('idx' => '', 'user_idx' => '', 'nickname' => '예약가능', 'class' => 'seat');
     }
     foreach ($reserve as $key => $value) {
       if ($value['bus'] == $bus && $value['seat'] == $seat) {
-        if (!empty($value['userid']) && $userData['userid'] == $value['userid']) {
+        if (!empty($value['user_idx']) && $userData['idx'] == $value['user_idx']) {
           if (!empty($value['priority'])) {
             $value['class'] = 'my-priority';
           } elseif (!empty($value['honor'])) {
@@ -671,6 +683,8 @@ if (!function_exists('getReserve')) {
       }
       $checkGender[$value['bus']][$value['seat']] = $value['gender'];
     }
+
+    /* 여성우선 관련 알고리즘인데, 코로나 대응과 우등버스 대응으로 인해 잠시 가려둠. 추후 우등버스에 여성우선 관련 알고리즘이 제대로 작동할 수 있도록 수정 (2020/12/09)
     if ($result['idx'] == '') {
       // 붙어있는 좌석은 같은 성별로만
       if ($status == STATUS_CLOSED) {
@@ -699,6 +713,66 @@ if (!function_exists('getReserve')) {
         }
       }
     }
+    */
+
+    /* 여성우선 관련 알고리즘 - 우등버스 대응 (2021/03/29) */
+    if ($result['idx'] == '') {
+      if ($status == STATUS_CLOSED) {
+        // 종료된 산행
+        $message = '';
+      } else {
+        // 붙어있는 좌석은 같은 성별로만
+        if ($userData['gender'] == 'F') $message = '<span class="text-primary">남성우선</span>';
+        elseif ($userData['gender'] == 'M') $message = '<span class="text-danger">여성우선</span>';
+        else $message = '예약가능';
+      }
+      if ($seat <= $seatType-4) {
+        if ($seat %3 == 1) {
+          // 현재 좌석은 홀수
+          $nextSeat = $seat + 1;
+          if (!empty($checkGender[$bus][$nextSeat]) && $userData['gender'] != $checkGender[$bus][$nextSeat]) {
+            if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
+            $result['nickname'] = $message;
+          }
+        } elseif ($seat %3 == 2) {
+          // 현재 좌석은 짝수
+          $prevSeat = $seat - 1;
+          if (!empty($checkGender[$bus][$prevSeat]) && $userData['gender'] != $checkGender[$bus][$prevSeat]) {
+            if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
+            $result['nickname'] = $message;
+          }
+        }
+      } else {
+        if ($seat %3 == 0) {
+          // 현재 좌석은 홀수
+          $nextSeat = $seat + 1;
+          if (!empty($checkGender[$bus][$nextSeat]) && $userData['gender'] != $checkGender[$bus][$nextSeat]) {
+            if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
+            $result['nickname'] = $message;
+          }
+        } elseif ($seat %3 == 1) {
+          // 현재 좌석은 홀수
+          $nextSeat = $seat + 1;
+          $prevSeat = $seat - 1;
+          if (!empty($checkGender[$bus][$nextSeat]) && $userData['gender'] != $checkGender[$bus][$nextSeat]) {
+            if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
+            $result['nickname'] = $message;
+          }
+          if ($prevSeat > $seatType-4 && !empty($checkGender[$bus][$prevSeat]) && $userData['gender'] != $checkGender[$bus][$prevSeat]) {
+            if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
+            $result['nickname'] = $message;
+          }
+        } elseif ($seat %3 == 2) {
+          // 현재 좌석은 짝수
+          $prevSeat = $seat - 1;
+          if ($prevSeat > $seatType-4 && !empty($checkGender[$bus][$prevSeat]) && $userData['gender'] != $checkGender[$bus][$prevSeat]) {
+            if (empty($userData['gender'])) $result['class'] = 'seat'; else $result['class'] = '';
+            $result['nickname'] = $message;
+          }
+        }
+      }
+    }
+
     return $result;
   }
 }
@@ -887,11 +961,12 @@ if (!function_exists('getClubGetonoff')) {
 
 // 로그 기록
 if (!function_exists('setHistory')) {
-  function setHistory($action, $fkey, $userid, $nickname, $subject, $regdate, $point=NULL) {
+  function setHistory($clubIdx, $action, $fkey, $userIdx, $nickname, $subject, $regdate, $point=NULL) {
     $data = array(
+      'club_idx' => $clubIdx,
       'action' => $action,
       'fkey' => $fkey,
-      'userid' => $userid,
+      'user_idx' => $userIdx,
       'nickname' => $nickname,
       'subject' => $subject,
       'regdate' => $regdate,
@@ -1056,6 +1131,37 @@ if (!function_exists('getUserAgent')) {
     }
 
     return $result;
+  }
+}
+
+// 기사 콘텐츠 깔끔하게 가져오기
+if (!function_exists('articleContent')) {
+  function articleContent($content, $limit=100) {
+    $content = ksubstr(trim(str_replace('&nbsp;', ' ', strip_tags(reset_html_escape($content)))), $limit);
+    return $content;
+  }
+}
+
+// 기사 썸네일 가져오기
+if (!function_exists('getThumbnail')) {
+  function getThumbnail($content) {
+    preg_match("/<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i", reset_html_escape($content), $match);
+    if (empty($match[1])) {
+      //$match[1] = '/public/images/noimage.png';
+      $match[1] = '';
+    } else {
+      $match[1] = str_replace('/article/', '/article/thumb_', $match[1]);
+    }
+    return $match[1];
+  }
+}
+
+// 기사 댓글수 가져오기
+if (!function_exists('cntReply')) {
+  function cntReply($idx) {
+    $CI =& get_instance();
+    $result = $GLOBALS['CI']->story_model->cntStoryReply($idx, REPLY_TYPE_NOTICE);
+    return $result['cnt'];
   }
 }
 ?>

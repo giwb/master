@@ -158,7 +158,7 @@
             }
 
             $.ajax({
-              url: '/admin/main_schedule_update',
+              url: '<?=BASE_URL?>/admin/main_schedule_update',
               data: data,
               dataType: 'json',
               type: 'post',
@@ -166,7 +166,7 @@
                 if (result.error == 1) {
                   $('.error-message').text(result.message).slideDown();
                 } else {
-                  location.replace('/admin/main_schedule?d=' + sdate);
+                  location.replace('<?=BASE_URL?>/admin/main_schedule?d=' + sdate);
                 }
               }
             });
@@ -174,7 +174,7 @@
             var sdate = $('input[name=sdate]').val();
 
             $.ajax({
-              url: '/admin/main_schedule_delete',
+              url: '<?=BASE_URL?>/admin/main_schedule_delete',
               data: 'idx=' + $('input[name=idx]').val(),
               dataType: 'json',
               type: 'post',
@@ -182,7 +182,7 @@
                 if (result.error == 1) {
                   $('.error-message').text(result.message).slideDown();
                 } else {
-                  location.replace('/admin/main_schedule?d=' + sdate);
+                  location.replace('<?=BASE_URL?>/admin/main_schedule?d=' + sdate);
                 }
               }
             });
@@ -200,7 +200,7 @@
             $('#scheduleModal').modal('show');
 
             $.ajax({
-              url: '/admin/main_schedule_past',
+              url: '<?=BASE_URL?>/admin/main_schedule_past',
               data: 'sdate=' + sdate + '&edate=' + edate,
               dataType: 'json',
               type: 'post',
@@ -218,7 +218,7 @@
             $('#scheduleModal').modal('show');
 
             $.ajax({
-              url: '/admin/main_schedule_past',
+              url: '<?=BASE_URL?>/admin/main_schedule_past',
               data: 'idx=' + idx,
               dataType: 'json',
               type: 'post',

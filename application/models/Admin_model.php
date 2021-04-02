@@ -85,18 +85,6 @@ class Admin_model extends CI_Model
     return $this->db->get()->row_array(1);
   }
 
-  // 회원 예약횟수
-  public function cntMemberReservation($userid)
-  {
-    $this->db->select('COUNT(a.userid) as cnt')
-          ->from(DB_RESERVATION . ' a')
-          ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
-          ->where('a.userid', $userid)
-          ->where('a.status', 1)
-          ->where('b.status', STATUS_CLOSED);
-    return $this->db->get()->row_array(1);
-  }
-
   // 산행 목록
   public function listNotice($search=NULL, $order='asc')
   {
@@ -217,7 +205,7 @@ class Admin_model extends CI_Model
   // 회원 예약 목록
   public function listReserve($paging, $search)
   {
-    $this->db->select('a.rescode, a.userid, a.nickname, a.bus, a.seat, a.loc, a.memo, b.startdate, b.starttime, b.subject, b.bus AS notice_bus, b.bustype AS notice_bustype, b.status AS notice_status, b.cost, b.cost_total, c.idx AS member_idx')
+    $this->db->select('a.idx, a.rescode, a.user_idx, a.nickname, a.bus, a.seat, a.loc, a.memo, b.startdate, b.starttime, b.subject, b.bus AS notice_bus, b.bustype AS notice_bustype, b.status AS notice_status, b.cost, b.cost_total, c.idx AS member_idx')
           ->from(DB_RESERVATION . ' a')
           ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
           ->join(DB_MEMBER . ' c', 'a.nickname=c.nickname', 'left')
@@ -227,6 +215,9 @@ class Admin_model extends CI_Model
 
     if (!empty($search['nickname'])) {
       $this->db->like('a.nickname', $search['nickname']);
+    }
+    if (!empty($search['keyword'])) {
+      $this->db->like('a.nickname', $search['keyword']);
     }
     if (!empty($search['clubIdx'])) {
       $this->db->where('b.club_idx', $search['clubIdx']);
@@ -291,23 +282,23 @@ class Admin_model extends CI_Model
   // 예약 정보 보기 : 종료시
   public function viewReserveClosed($rescode)
   {
-    $this->db->select('userid, honor')
+    $this->db->select('user_idx, honor')
           ->from(DB_RESERVATION)
           ->where('rescode', $rescode)
-          ->where('userid !=', '')
+          ->where('user_idx !=', '')
           ->where('status', RESERVE_PAY)
           ->where('penalty', 0)
-          ->group_by('userid');
+          ->group_by('user_idx');
     return $this->db->get()->result_array();
   }
 
   // 예약 정보 보기 : 종료시 추가 예약
-  public function viewReserveClosedAdded($rescode, $userid)
+  public function viewReserveClosedAdded($rescode, $userIdx)
   {
     $this->db->select('COUNT(*) AS cnt')
           ->from(DB_RESERVATION)
           ->where('rescode', $rescode)
-          ->where('userid', $userid)
+          ->where('user_idx', $userIdx)
           ->where('status', RESERVE_PAY)
           ->where('penalty', 0);
     return $this->db->get()->row_array(1);
@@ -316,7 +307,7 @@ class Admin_model extends CI_Model
   // 좌석 예약 확인
   public function checkReserve($idx, $bus, $seat)
   {
-    $this->db->select('idx, userid, nickname, priority, status')
+    $this->db->select('idx, user_idx, nickname, priority, status')
           ->from(DB_RESERVATION)
           ->where('rescode', $idx)
           ->where('bus', $bus)
@@ -354,6 +345,20 @@ class Admin_model extends CI_Model
           ->where('rescode', $rescode)
           ->where('bus', $bus)
           ->where('loc', $location)
+          ->where('manager !=', 1)
+          ->where_not_in('nickname', array('1인우등', '2인우선'))
+          ->order_by('seat', 'asc');
+    return $this->db->get()->result_array();
+  }
+
+  // 탑승위치 지정 없음
+  public function listReserveNoLocation($rescode, $bus)
+  {
+    $this->db->select('*')
+          ->from(DB_RESERVATION)
+          ->where('rescode', $rescode)
+          ->where('bus', $bus)
+          ->where('loc', NULL)
           ->where('manager !=', 1)
           ->where_not_in('nickname', array('1인우등', '2인우선'))
           ->order_by('seat', 'asc');
@@ -448,6 +453,32 @@ class Admin_model extends CI_Model
     return $this->db->update(DB_ADJUST);
   }
 
+  // 소개화면
+  public function listClubDetail($clubIdx)
+  {
+    $this->db->select('idx, title, content')
+          ->from(DB_CLUB_DETAIL)
+          ->where('club_idx', $clubIdx)
+          ->where('deleted_at', NULL)
+          ->order_by('sort_idx', 'asc');
+    return $this->db->get()->result_array();
+  }
+
+  // 소개화면 등록
+  public function insertClubDetail($data)
+  {
+    $this->db->insert(DB_CLUB_DETAIL, $data);
+    return $this->db->insert_id();
+  }
+
+  // 소개화면 수정
+  public function updateClubDetail($data, $idx)
+  {
+    $this->db->set($data);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_CLUB_DETAIL);
+  }
+
   // 문자양식
   public function listSMS($rescode)
   {
@@ -508,6 +539,9 @@ class Admin_model extends CI_Model
           ->from(DB_MEMBER)
           ->where('quitdate', NULL);
 
+    if (!empty($search['club_idx'])) {
+      $this->db->where('club_idx', $search['club_idx']);
+    }
     if (!empty($search['idx'])) {
       $this->db->where('idx', $search['idx']);
     }
@@ -530,16 +564,34 @@ class Admin_model extends CI_Model
   }
 
   // 산행횟수
-  public function cntPersonalReservation($userid)
+  public function cntPersonalReservation($userIdx)
   {
     $this->db->select('COUNT(b.idx) AS cnt')
           ->from(DB_RESERVATION . ' a')
           ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
-          ->where('a.userid', $userid)
+          ->where('a.user_idx', $userIdx)
           ->where('a.status', 1)
           ->where('b.status', 9)
           ->group_by('b.idx');
     return $this->db->get()->result_array();
+  }
+
+  // 백산백소 목록
+  public function listAuth()
+  {
+    $this->db->select('*')
+          ->from(DB_AUTH)
+          ->order_by('idx', 'desc');
+    return $this->db->get()->result_array();
+  }
+
+  // 백산백소 상세
+  public function viewAuth($idx)
+  {
+    $this->db->select('*')
+          ->from(DB_AUTH)
+          ->where('idx', $idx);
+    return $this->db->get()->row_array(1);
   }
 
   // 출석체크 - 산행
@@ -625,6 +677,21 @@ class Admin_model extends CI_Model
     return $this->db->insert_id();
   }
 
+  // 출석체크 - 인증현황 수정
+  public function updateAttendanceAuth($data, $idx)
+  {
+    $this->db->set($data);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_AUTH);
+  }
+
+  // 출석체크 - 인증현황 삭제
+  public function deleteAttendanceAuth($idx)
+  {
+    $this->db->where('idx', $idx);
+    return $this->db->delete(DB_AUTH);
+  }
+
   // 활동관리 - 회원 예약 기록
   public function listHistory($paging=NULL, $search=NULL)
   {
@@ -649,7 +716,7 @@ class Admin_model extends CI_Model
       $this->db->limit($paging['perPage'], $paging['nowPage']);
     }
     if (!empty($search['refund'])) {
-      $this->db->where('userid', '');
+      $this->db->where('user_idx', '');
     }
 
     return $this->db->get()->result_array();
@@ -675,7 +742,7 @@ class Admin_model extends CI_Model
       $this->db->like('nickname', $search['nickname']);
     }
     if (!empty($search['refund'])) {
-      $this->db->where('userid', '');
+      $this->db->where('user_idx', '');
     }
 
     return $this->db->get()->row_array(1);
@@ -919,6 +986,17 @@ class Admin_model extends CI_Model
   {
     $this->db->where('idx', $idx);
     return $this->db->delete(DB_CALENDAR);
+  }
+
+  // 북마크 목록
+  public function listBookmark($clubIdx)
+  {
+    $this->db->select('*')
+          ->from(DB_BOOKMARKS)
+          ->where('club_idx', $clubIdx)
+          ->where('deleted_at', NULL)
+          ->order_by('idx');
+    return $this->db->get()->result_array();
   }
 }
 ?>

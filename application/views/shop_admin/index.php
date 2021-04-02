@@ -4,8 +4,8 @@
           <div class="w-100 border mt-3 mb-3 p-3">
             <form id="formList" method="get" action="<?=BASE_URL?>/ShopAdmin/index" class="m-0">
               <input type="hidden" name="p" value="1">
-              <div class="row align-items-center w-100 text-center">
-                <div class="col-3 col-sm-1 p-0">대분류</div>
+              <div class="row no-gutters align-items-center w-100 text-center">
+                <div class="col-3 col-sm-1">대분류</div>
                 <div class="col-9 col-sm-5">
                   <select name="item_category1" class="form-control form-control-sm item-category">
                     <option value=''></option>
@@ -15,7 +15,7 @@
                   </select>
                 </div>
                 <div class="w-100 d-block d-sm-none pt-2"></div>
-                <div class="col-3 col-sm-1 p-0">소분류</div>
+                <div class="col-3 col-sm-1">소분류</div>
                 <div class="col-9 col-sm-5">
                   <select name="item_category2" class="form-control form-control-sm item-category-child">
                     <option value=''></option>
@@ -25,11 +25,11 @@
                   </select>
                 </div>
               </div>
-              <div class="row align-items-center w-100 pt-2 text-center">
-                <div class="col-3 col-sm-1 p-0">품명</div>
+              <div class="row no-gutters align-items-center w-100 pt-2 text-center">
+                <div class="col-3 col-sm-1">품명</div>
                 <div class="col-9 col-sm-9"><input type="text" name="item_name" class="form-control form-control-sm form-item-search" value="<?=!empty($search['item_name']) ? $search['item_name'] : ''?>"></div>
                 <div class="w-100 d-block d-sm-none pt-2"></div>
-                <div class="col-sm-2 text-left"><button class="btn btn-sm btn-default w-100 btn-item-search">검색</button></div>
+                <div class="col-sm-2 text-center"><button class="btn-custom btn-giwb btn-item-search pl-3 pr-3">검색</button></div>
               </div>
             </form>
           </div>
