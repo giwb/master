@@ -24,6 +24,7 @@
   var $grid = $('.grid').masonry({
     itemSelector: '.album-item',
     percentPosition: true,
+    horizontalOrder: true,
     gutter: 1,
   });
   $grid.imagesLoaded().progress(function() {
