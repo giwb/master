@@ -455,10 +455,12 @@ class Admin extends Admin_Controller
         $viewEntry['cost'] = $viewEntry['cost_total'] == 0 ? $viewEntry['cost'] : $viewEntry['cost_total'];
 
         // 우등버스 할증 (2020/12/08 추가)
+        /*
         if (!empty($busType[$viewReserve['bus']-1]['bus_type']) && $busType[$viewReserve['bus']-1]['bus_type'] == 1) {
           $viewEntry['cost'] = $viewEntry['cost'] + 10000;
           $viewEntry['cost_total'] = $viewEntry['cost_total'] + 10000;
         }
+        */
 
         // 비회원 입금취소의 경우, 환불내역 기록
         if (empty($viewReserve['user_idx'])) {
