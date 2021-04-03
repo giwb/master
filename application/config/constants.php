@@ -163,6 +163,7 @@ defined('DB_RESERVATION')       OR define('DB_RESERVATION', 'reservation'); // �
 defined('DB_SCHEDULES')         OR define('DB_SCHEDULES', 'schedule'); // 여행일정
 defined('DB_STORY')             OR define('DB_STORY', 'story'); // 스토리
 defined('DB_STORY_REPLY')       OR define('DB_STORY_REPLY', 'story_reply'); // 스토리 댓글
+defined('DB_STORY_REACTION')    OR define('DB_STORY_REACTION', 'story_reaction'); // 스토리 리액션
 defined('DB_SHOP')              OR define('DB_SHOP', 'shop'); // 판매대행
 defined('DB_SHOP_CATEGORY')     OR define('DB_SHOP_CATEGORY', 'shop_category'); // 판매대행 분류
 defined('DB_SHOP_PURCHASE')     OR define('DB_SHOP_PURCHASE', 'shop_purchase'); // 판매대행 주문내역
@@ -269,6 +270,12 @@ defined('SERVICE_TYPE_ALBUM')             OR define('SERVICE_TYPE_ALBUM', 5); //
 defined('REACTION_TYPE_LIKED')            OR define('REACTION_TYPE_LIKED', 1); // 좋아요
 defined('REACTION_TYPE_REFER')            OR define('REACTION_TYPE_REFER', 2); // 조회수 (중복이 안되는 조회수 체크)
 defined('REACTION_TYPE_SHARE')            OR define('REACTION_TYPE_SHARE', 3); // 공유하기
+
+/* 나중에 삭제 */
+defined('REACTION_KIND_LIKE')   OR define('REACTION_KIND_LIKE', 1); // 좋아요
+defined('REACTION_KIND_SHARE')  OR define('REACTION_KIND_SHARE', 2); // 공유하기
+defined('REACTION_TYPE_NOTICE')           OR define('REACTION_TYPE_NOTICE', 2);
+
 
 // 공유 형태
 defined('SHARE_TYPE_URL')       OR define('SHARE_TYPE_URL', 1); // 페이스북
