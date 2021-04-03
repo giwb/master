@@ -105,7 +105,6 @@ class Club extends MY_Controller
 
     // 조회수
     $search = array(
-      'club_idx' => $clubIdx,
       'target_idx' => $viewData['viewNews'][0]['idx'],
       'service_type' => SERVICE_TYPE_ARTICLE,
       'reaction_type' => REACTION_TYPE_REFER
@@ -134,7 +133,6 @@ class Club extends MY_Controller
 
     // 조회수
     $search = array(
-      'club_idx' => $clubIdx,
       'target_idx' => $viewData['viewLogs'][0]['idx'],
       'service_type' => SERVICE_TYPE_ARTICLE,
       'reaction_type' => REACTION_TYPE_REFER
