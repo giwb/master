@@ -276,8 +276,10 @@ defined('REACTION_TYPE_NOTICE')           OR define('REACTION_TYPE_NOTICE', 2);
 defined('REACTION_TYPE_SHOP')             OR define('REACTION_TYPE_SHOP', 3);
 
 // 기사 리액션 형태
-defined('REACTION_TYPE_REFER')            OR define('REACTION_TYPE_REFER', 1); // 기사 조회수
-defined('REACTION_TYPE_LIKED')            OR define('REACTION_TYPE_LIKED', 2); // 기사 좋아요
+defined('REACTION_TYPE_REFER')            OR define('REACTION_TYPE_REFER', 4); // 기사 조회수
+defined('REACTION_TYPE_LIKED')            OR define('REACTION_TYPE_LIKED', 5); // 기사 좋아요
+
+defined('REACTION_TYPE_ALBUM')            OR define('REACTION_TYPE_ALBUM', 6); // 앨범 좋아요
 
 // 쿠키 시간 (1년)
 define('COOKIE_STRAGE_PERIOD', 60 * 60 * 24 * 30 * 12);
