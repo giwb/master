@@ -86,45 +86,6 @@ class Desk_model extends CI_Model
     return $this->db->get()->row_array(1);
   }
 
-  // 기사 조회수
-  public function cntArticleReaction($idx, $type)
-  {
-    $this->db->select('COUNT(*) as cnt')
-          ->from(DB_ARTICLE_REACTION)
-          ->where('reaction_type', $type)
-          ->where('idx_article', $idx);
-
-    return $this->db->get()->row_array(1);
-  }
-
-  // 리액션 확인
-  public function viewArticleReaction($search)
-  {
-    $this->db->select('ip_address, created_by')
-          ->from(DB_ARTICLE_REACTION)
-          ->where('reaction_type', $search['reaction_type'])
-          ->where('idx_article', $search['idx_article']);
-
-    if (!empty($search['ip_address'])) {
-      $this->db->where('ip_address', $search['ip_address']);
-    }
-    if (!empty($search['created_by'])) {
-      $this->db->where('created_by', $search['created_by']);
-    }
-
-    return $this->db->get()->row_array(1);
-  }
-
-  // 리액션 삭제
-  public function deleteArticleReaction($table, $data)
-  {
-    $this->db->where('idx_article', $data['idx_article'])
-              ->where('reaction_type', $data['reaction_type'])
-              ->where('ip_address', $data['ip_address'])
-              ->where('created_by', $data['created_by']);
-    return $this->db->delete($table);
-  }
-
   // 댓글 개수
   public function cntReply($idx)
   {

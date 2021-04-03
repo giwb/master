@@ -8,7 +8,7 @@ class Welcome extends MY_Controller
   {
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
-    $this->load->model(array('area_model', 'club_model', 'desk_model', 'file_model', 'notice_model', 'story_model', 'reserve_model'));
+    $this->load->model(array('area_model', 'club_model', 'desk_model', 'file_model', 'notice_model', 'story_model', 'reaction_model', 'reserve_model'));
   }
 
   /**
@@ -31,11 +31,17 @@ class Welcome extends MY_Controller
     $viewData['listArticle'] = $this->desk_model->listMainArticle(NULL, $paging);
     foreach ($viewData['listArticle'] as $key => $value) {
       // 조회수
-      $cntRefer = $this->desk_model->cntArticleReaction($value['idx'], REACTION_TYPE_REFER);
+      $search = array(
+        'target_idx' => $value['idx'],
+        'service_type' => SERVICE_TYPE_ARTICLE,
+        'reaction_type' => REACTION_TYPE_REFER
+      );
+      $cntRefer = $this->reaction_model->cntReaction($search);
       $viewData['listArticle'][$key]['cntRefer'] = $cntRefer['cnt'];
 
       // 좋아요
-      $cntLiked = $this->desk_model->cntArticleReaction($value['idx'], REACTION_TYPE_LIKED);
+      $search['reaction_type'] = REACTION_TYPE_LIKED;
+      $cntLiked = $this->reaction_model->cntReaction($search);
       $viewData['listArticle'][$key]['cntLiked'] = $cntLiked['cnt'];
 
       // 댓글
@@ -117,28 +123,31 @@ class Welcome extends MY_Controller
       // 조회수 올리기
       $ipaddr = $_SERVER['REMOTE_ADDR'];
       $insertValues = array(
-        'idx_article' => $idx,
+        'target_idx' => $idx,
+        'service_type' => SERVICE_TYPE_ARTICLE,
         'reaction_type' => REACTION_TYPE_REFER,
         'ip_address' => $_SERVER['REMOTE_ADDR'],
         'created_by' => !empty($viewData['userData']['idx']) ? $viewData['userData']['idx'] : NULL,
         'created_at' => time(),
       );
-      $this->desk_model->insert(DB_ARTICLE_REACTION, $insertValues);
+      $this->reaction_model->insertReaction($insertValues);
 
       // 조회수
-      $viewData['refer'] = $this->desk_model->cntArticleReaction($idx, REACTION_TYPE_REFER);
-
-      // 좋아요 했는지 확인
       $search = array(
-        'idx_article' => $idx,
-        'reaction_type' => REACTION_TYPE_LIKED,
-        'ip_address' => $ipaddr,
-        'created_by' => !empty($viewData['userData']['idx']) ? $viewData['userData']['idx'] : NULL,
+        'target_idx' => $idx,
+        'service_type' => SERVICE_TYPE_ARTICLE,
+        'reaction_type' => REACTION_TYPE_REFER
       );
-      $viewData['checkLiked'] = $this->desk_model->viewArticleReaction($search);
+      $viewData['refer'] = $this->reaction_model->cntReaction($search);
 
       // 좋아요
-      $viewData['liked'] = $this->desk_model->cntArticleReaction($idx, REACTION_TYPE_LIKED);
+      $search['reaction_type'] = REACTION_TYPE_LIKED;
+      $viewData['liked'] = $this->reaction_model->cntReaction($search);
+
+      // 좋아요 했는지 확인
+      $search['ip_address'] = $ipaddr;
+      $search['created_by'] = !empty($viewData['userData']['idx']) ? $viewData['userData']['idx'] : NULL;
+      $viewData['checkLiked'] = $this->reaction_model->viewReaction($search);
 
       // 댓글
       $viewData['cntReply'] = $this->desk_model->cntReply($idx);
@@ -192,33 +201,45 @@ class Welcome extends MY_Controller
       $now = time();
       $ipaddr = $_SERVER['REMOTE_ADDR'];
       $search = array(
-        'idx_article' => $idx,
+        'target_idx' => $idx,
+        'service_type' => SERVICE_TYPE_ARTICLE,
         'reaction_type' => REACTION_TYPE_LIKED,
         'ip_address' => $ipaddr,
         'created_by' => !empty($viewData['userData']['idx']) ? $viewData['userData']['idx'] : NULL,
       );
-      $check = $this->desk_model->viewArticleReaction($search);
+      $check = $this->reaction_model->viewReaction($search);
 
       if (!empty($check)) {
-        $this->desk_model->deleteArticleReaction(DB_ARTICLE_REACTION, $search);
+        $this->reaction_model->deleteReaction($search);
 
-        // 좋아요
-        $liked = $this->desk_model->cntArticleReaction($idx, REACTION_TYPE_LIKED);
+        // 좋아요 개수
+        $search = array(
+          'target_idx' => $idx,
+          'service_type' => SERVICE_TYPE_ARTICLE,
+          'reaction_type' => REACTION_TYPE_LIKED,
+        );
+        $liked = $this->reaction_model->cntReaction($search);
 
         $result = array('error' => 0, 'message' => 0, 'liked' => $liked['cnt']);
       } else {
         // 좋아요 올리기
         $insertValues = array(
-          'idx_article' => $idx,
+          'target_idx' => $idx,
+          'service_type' => SERVICE_TYPE_ARTICLE,
           'reaction_type' => REACTION_TYPE_LIKED,
           'ip_address' => $ipaddr,
           'created_by' => !empty($viewData['userData']['idx']) ? $viewData['userData']['idx'] : NULL,
           'created_at' => $now,
         );
-        $this->desk_model->insert(DB_ARTICLE_REACTION, $insertValues);
+        $this->reaction_model->insertReaction($insertValues);
 
-        // 좋아요
-        $liked = $this->desk_model->cntArticleReaction($idx, REACTION_TYPE_LIKED);
+        // 좋아요 개수
+        $search = array(
+          'target_idx' => $idx,
+          'service_type' => SERVICE_TYPE_ARTICLE,
+          'reaction_type' => REACTION_TYPE_LIKED,
+        );
+        $liked = $this->reaction_model->cntReaction($search);
 
         $result = array('error' => 0, 'message' => 1, 'liked' => $liked['cnt']);
       }
@@ -261,8 +282,8 @@ class Welcome extends MY_Controller
       $cntReply = $this->desk_model->cntReply($articleIdx);
 
       // 아바타가 있는지 확인
-      if (file_exists(PHOTO_PATH . $viewData['userData']['idx'])) {
-        $avatar = PHOTO_URL . $viewData['userData']['idx'];
+      if (file_exists(AVATAR_PATH . $viewData['userData']['idx'])) {
+        $avatar = AVATAR_URL . $viewData['userData']['idx'];
       } else {
         $avatar = '/public/images/user.png';
       }

@@ -88,35 +88,21 @@
             <strong>댓글</strong> <span class="badge indigo reply-cnt"><?=$cntReply['cnt']?></span>
           </h5><hr width="100%" class="red title-hr">
 
-          <section>
-            <div class="comments-list text-left">
+          <section class="comments-list">
+            <div class="text-left">
               <div class="list-reply mt-4">
                 <?php foreach ($listReply as $value): ?>
                 <div class="item-reply media mb-4" data-idx="<?=$value['idx']?>">
-                  <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="<?=file_exists(AVATAR_PATH . $value['user_idx']) ? AVATAR_URL . $value['user_idx'] : '/public/images/user.png'?>">
+                  <img class="d-flex rounded-circle icon-avatar-reply z-depth-1-half mr-3" src="<?=file_exists(AVATAR_PATH . $value['user_idx']) ? AVATAR_URL . $value['user_idx'] : '/public/images/user.png'?>">
                   <div class="media-body">
-                    <h5 class="mt-0 font-weight-bold"><?=$value['nickname']?></h5>
+                    <h6 class="mt-0 font-weight-bold"><?=$value['nickname']?><span class="small text-muted ml-2"><?=date('Y-m-d H:i', $value['created_at'])?><?php if (!empty($userData['idx'])): ?><a class="text-info ml-2 btn-reply-thread" data-idx="<?=$value['idx']?>">[댓글]</a><?php endif; ?><?php if (!empty($userData['idx']) && ($userData['idx'] == $value['created_by']) || ($userData['idx'] == 1)): ?><a class="text-danger ml-2 btn-reply-delete-modal" data-idx="<?=$value['idx']?>" data-article-idx="<?=$viewArticle['idx']?>">[삭제]</a><?php endif; ?></span></h6>
                     <p class="dark-grey-text article"><?=$value['content']?></p>
-                    <p class="small text-muted">
-                      <?=date('Y-m-d H:i', $value['created_at'])?>
-                      <?php if (!empty($userData['idx'])): ?>
-                      <a class="text-info ml-2 btn-reply-thread" data-idx="<?=$value['idx']?>">[댓글]</a>
-                      <?php endif; ?>
-                      <?php if (!empty($userData['idx']) && ($userData['idx'] == $value['created_by']) || ($userData['idx'] == 1)): ?>
-                      <a class="text-danger ml-2 btn-reply-delete-modal" data-idx="<?=$value['idx']?>" data-article-idx="<?=$viewArticle['idx']?>">[삭제]</a>
-                      <?php endif; ?>
-                    </p>
                     <?php foreach ($value['listReplyThread'] as $thread): ?>
-                    <div class="item-reply media mb-4" data-idx="<?=$thread['idx']?>">
-                      <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="<?=file_exists(AVATAR_PATH . $thread['user_idx']) ? AVATAR_URL . $thread['user_idx'] : '/public/images/user.png'?>">
+                    <div class="item-reply media" data-idx="<?=$thread['idx']?>">
+                      <img class="d-flex rounded-circle icon-avatar-reply z-depth-1-half mr-3" src="<?=file_exists(AVATAR_PATH . $thread['user_idx']) ? AVATAR_URL . $thread['user_idx'] : '/public/images/user.png'?>">
                       <div class="media-body">
-                        <h5 class="mt-0 font-weight-bold"><?=$thread['nickname']?></h5>
+                        <h6 class="mt-0 font-weight-bold"><?=$thread['nickname']?><span class="small text-muted ml-2"><?=date('Y-m-d H:i', $thread['created_at'])?><?php if (!empty($userData['idx']) && ($userData['idx'] == $thread['created_by']) || ($userData['idx'] == 1)): ?><a class="text-danger ml-2 btn-reply-delete-modal" data-idx="<?=$thread['idx']?>" data-article-idx="<?=$viewArticle['idx']?>">[삭제]</a><?php endif; ?></span></h6>
                         <p class="dark-grey-text article"><?=$thread['content']?></p>
-                        <p class="small text-muted">
-                          <?=date('Y-m-d H:i', $thread['created_at'])?>
-                          <?php if (!empty($userData['idx']) && ($userData['idx'] == $thread['created_by']) || ($userData['idx'] == 1)): ?>
-                          <a class="text-danger ml-2 btn-reply-delete-modal" data-idx="<?=$thread['idx']?>" data-article-idx="<?=$viewArticle['idx']?>">[삭제]</a></p>
-                          <?php endif; ?>
                       </div>
                     </div>
                     <?php endforeach; ?>
@@ -126,8 +112,8 @@
               </div>
               <?php if (!empty($userData['idx'])): ?>
               <div class="row reply-input mt-2" data-idx='0'>
-                <div class="col-8 col-sm-10 pr-0"><input type="hidden" name="idx" class="reply-idx" value="0"><input type="hidden" name="nickname" class="reply-nickname" value="<?=$userData['nickname']?>"><textarea cols="100" class="form-control reply-content" rows="3" placeholder="댓글을 입력해주세요."></textarea></div>
-                <div class="col-4 col-sm-2 pl-0"><button type="button" data-article-idx="<?=$viewArticle['idx']?>" class="btn btn-primary btn-reply pt-4 pb-4 pl-4 pr-4">등록</button></div>
+                <div class="col-8 col-sm-9 pr-0"><input type="hidden" name="idx" class="reply-idx" value="0"><input type="hidden" name="nickname" class="reply-nickname" value="<?=$userData['nickname']?>"><textarea cols="100" class="form-control reply-content" rows="3" placeholder="댓글을 입력해주세요."></textarea></div>
+                <div class="col-4 col-sm-2"><button type="button" data-article-idx="<?=$viewArticle['idx']?>" class="btn btn-primary btn-reply h-100 m-0">등록</button></div>
               </div>
               <?php endif; ?>
             </div>

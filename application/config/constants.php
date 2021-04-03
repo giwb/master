@@ -137,7 +137,6 @@ defined('DB_ATTENDANCE')        OR define('DB_ATTENDANCE', 'attendance'); // 출
 defined('DB_AREAS')             OR define('DB_AREAS', 'areas'); // 지역
 defined('DB_ARTICLE')           OR define('DB_ARTICLE', 'article'); // 한국여행 기사
 defined('DB_ARTICLE_CATEGORY')  OR define('DB_ARTICLE_CATEGORY', 'article_category'); // 한국여행 기사 카테고리
-defined('DB_ARTICLE_REACTION')  OR define('DB_ARTICLE_REACTION', 'article_reaction'); // 한국여행 리액션
 defined('DB_ARTICLE_REPLY')     OR define('DB_ARTICLE_REPLY', 'article_reply'); // 한국여행 리액션
 defined('DB_AUTH')              OR define('DB_AUTH', 'auth'); // 백산백소 인증
 defined('DB_BOARD')             OR define('DB_BOARD', 'board'); // 안부방 (OLD)
@@ -159,10 +158,10 @@ defined('DB_NOTICE')            OR define('DB_NOTICE', 'notice'); // 산행공�
 defined('DB_NOTICE_DETAIL')     OR define('DB_NOTICE_DETAIL', 'notice_detail'); // 산행공지 상세
 defined('DB_PLACES')            OR define('DB_PLACES', 'places'); // 산행정보
 defined('DB_PLACES_CATEGORY')   OR define('DB_PLACES_CATEGORY', 'places_category'); // 산행정보 카테고리
+defined('DB_REACTION')          OR define('DB_REACTION', 'reaction'); // 리액션
 defined('DB_RESERVATION')       OR define('DB_RESERVATION', 'reservation'); // 예약
 defined('DB_SCHEDULES')         OR define('DB_SCHEDULES', 'schedule'); // 여행일정
 defined('DB_STORY')             OR define('DB_STORY', 'story'); // 스토리
-defined('DB_STORY_REACTION')    OR define('DB_STORY_REACTION', 'story_reaction'); // 스토리 좋아요/공유
 defined('DB_STORY_REPLY')       OR define('DB_STORY_REPLY', 'story_reply'); // 스토리 댓글
 defined('DB_SHOP')              OR define('DB_SHOP', 'shop'); // 판매대행
 defined('DB_SHOP_CATEGORY')     OR define('DB_SHOP_CATEGORY', 'shop_category'); // 판매대행 분류
@@ -198,17 +197,6 @@ defined('ORDER_END')          OR define('ORDER_END', 9); // 판매완료
 // 산행 숨김
 defined('VISIBLE_NONE')       OR define('VISIBLE_NONE', 0); // 숨김
 defined('VISIBLE_ABLE')       OR define('VISIBLE_ABLE', 1); // 공개
-
-// 스토리 리액션 형태
-defined('REACTION_KIND_LIKE')   OR define('REACTION_KIND_LIKE', 1); // 좋아요
-defined('REACTION_KIND_SHARE')  OR define('REACTION_KIND_SHARE', 2); // 공유하기
-
-// 스토리 공유 형태
-defined('SHARE_TYPE_URL')       OR define('SHARE_TYPE_URL', 1); // 페이스북
-defined('SHARE_TYPE_FACEBOOK')  OR define('SHARE_TYPE_FACEBOOK', 2); // 페이스북
-defined('SHARE_TYPE_TWITTER')   OR define('SHARE_TYPE_TWITTER', 3); // 트위터
-defined('SHARE_TYPE_KAKAO')     OR define('SHARE_TYPE_KAKAO', 4); // 카카오톡
-defined('SHARE_TYPE_DAUM')      OR define('SHARE_TYPE_DAUM', 5); // 다음
 
 // 로그 키
 /*
@@ -270,16 +258,24 @@ defined('REPLY_TYPE_STORY')               OR define('REPLY_TYPE_STORY', 1);
 defined('REPLY_TYPE_NOTICE')              OR define('REPLY_TYPE_NOTICE', 2);
 defined('REPLY_TYPE_SHOP')                OR define('REPLY_TYPE_SHOP', 3);
 
+// 리액션 서비스 형태
+defined('SERVICE_TYPE_STORY')             OR define('SERVICE_TYPE_STORY', 1); // 스토리 (지금은 쓰이지 않음)
+defined('SERVICE_TYPE_NOTICE')            OR define('SERVICE_TYPE_NOTICE', 2); // 예약/공지사항
+defined('SERVICE_TYPE_SHOP')              OR define('SERVICE_TYPE_SHOP', 3); // 용품샵
+defined('SERVICE_TYPE_ARTICLE')           OR define('SERVICE_TYPE_ARTICLE', 4); // 기사
+defined('SERVICE_TYPE_ALBUM')             OR define('SERVICE_TYPE_ALBUM', 5); // 사진첩
+
+// 리액션 형태
+defined('REACTION_TYPE_LIKED')            OR define('REACTION_TYPE_LIKED', 1); // 좋아요
+defined('REACTION_TYPE_REFER')            OR define('REACTION_TYPE_REFER', 2); // 조회수 (중복이 안되는 조회수 체크)
+defined('REACTION_TYPE_SHARE')            OR define('REACTION_TYPE_SHARE', 3); // 공유하기
+
 // 공유 형태
-defined('REACTION_TYPE_STORY')            OR define('REACTION_TYPE_STORY', 1);
-defined('REACTION_TYPE_NOTICE')           OR define('REACTION_TYPE_NOTICE', 2);
-defined('REACTION_TYPE_SHOP')             OR define('REACTION_TYPE_SHOP', 3);
-
-// 기사 리액션 형태
-defined('REACTION_TYPE_REFER')            OR define('REACTION_TYPE_REFER', 4); // 기사 조회수
-defined('REACTION_TYPE_LIKED')            OR define('REACTION_TYPE_LIKED', 5); // 기사 좋아요
-
-defined('REACTION_TYPE_ALBUM')            OR define('REACTION_TYPE_ALBUM', 6); // 앨범 좋아요
+defined('SHARE_TYPE_URL')       OR define('SHARE_TYPE_URL', 1); // 페이스북
+defined('SHARE_TYPE_FACEBOOK')  OR define('SHARE_TYPE_FACEBOOK', 2); // 페이스북
+defined('SHARE_TYPE_TWITTER')   OR define('SHARE_TYPE_TWITTER', 3); // 트위터
+defined('SHARE_TYPE_KAKAO')     OR define('SHARE_TYPE_KAKAO', 4); // 카카오톡
+defined('SHARE_TYPE_DAUM')      OR define('SHARE_TYPE_DAUM', 5); // 다음
 
 // 쿠키 시간 (1년)
 define('COOKIE_STRAGE_PERIOD', 60 * 60 * 24 * 30 * 12);

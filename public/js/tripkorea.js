@@ -150,24 +150,29 @@ $(document).on('click', '.login-popup', function() {
         $('.reply-content').val('');
         if (replyIdx != 0) {
           $('.btn-reply-thread').removeClass('active');
-          $('.reply-input[data-idx=' + replyIdx + ']').parent().parent().append('<div class="item-reply media mb-4" data-idx="' + result.idx + '"><img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="' + result.avatar + '"><div class="media-body"><h5 class="mt-0 font-weight-bold">' + nickname + '</h5><p class="dark-grey-text article">' + content + '</p><p class="small text-muted">' + result.date + ' <a class="text-danger ml-2 btn-reply-delete-modal" data-idx="' + result.idx + '">[삭제]</a></p></div></div>');
+          $('.reply-input[data-idx=' + replyIdx + ']').parent().parent().parent().append('<div class="item-reply media" data-idx="' + result.idx + '"><img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="' + result.avatar + '"><div class="media-body"><h6 class="mt-0 font-weight-bold">' + nickname + '<span class="small text-muted ml-2">' + result.date + '<a class="text-danger ml-2 btn-reply-delete-modal" data-idx="' + result.idx + '">[삭제]</a></span></h6><p class="dark-grey-text article">' + content + '</p></div></div>');
           $('.reply-input[data-idx=' + replyIdx + ']').remove();
         } else {
-          $('.list-reply').append('<div class="item-reply media mb-4" data-idx="' + result.idx + '"><img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="' + result.avatar + '"><div class="media-body"><h5 class="mt-0 font-weight-bold">' + nickname + '</h5><p class="dark-grey-text article">' + content + '</p><p class="small text-muted">' + result.date + ' <a class="text-info ml-2 btn-reply-thread" data-idx="' + result.idx + '">[댓글]</a> <a class="text-danger ml-2 btn-reply-delete-modal" data-idx="' + result.idx + '">[삭제]</a></p></div></div>');
+          $('.list-reply').append('<div class="item-reply media" data-idx="' + result.idx + '"><img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="' + result.avatar + '"><div class="media-body"><h6 class="mt-0 font-weight-bold">' + nickname + '<span class="small text-muted ml-2">' + result.date + '<a class="text-info ml-2 btn-reply-thread" data-idx="' + result.idx + '">[댓글]</a><a class="text-danger ml-2 btn-reply-delete-modal" data-idx="' + result.idx + '">[삭제]</a></span></h6><p class="dark-grey-text article">' + content + '</p></div></div>');
         }
       }
+      $('.reply-input[data-idx=0]').show();
     }
   });
 }).on('click', '.btn-reply-thread', function() {
   // 대댓글 출력
-  var $dom = $('.reply-input[data-idx=0]').clone();
+  var idx = $(this).data('idx');
   if ($(this).hasClass('active')) {
-    return false;
+    $('.reply-input[data-idx=' + idx + ']').remove();
+    $(this).removeClass('active');
+    $('.reply-input[data-idx=0]').show();
   } else {
+    var $dom = $('.reply-input[data-idx=0]').clone();
     $(this).addClass('active');
-    $dom.attr('data-idx', $(this).data('idx'));
-    $dom.find('.reply-idx').val($(this).data('idx'));
+    $dom.attr('data-idx', idx);
+    $dom.find('.reply-idx').val(idx);
     $(this).parent().append($dom);
+    $('.reply-input[data-idx=0]').hide();
   }
 }).on('click', '.btn-reply-delete-modal', function() {
   // 댓글 삭제 모달
@@ -192,7 +197,7 @@ $(document).on('click', '.login-popup', function() {
     success: function(result) {
       if (result.error == 0) {
         $btn.css('opacity', '1').prop('disabled', false);
-        $('.reply-cnt').text(Number($('.reply-cnt').text() - 1));
+        $('.reply-cnt').text(result.message);
         $('.item-reply[data-idx=' + idx + ']').remove();
         $dom.modal('hide');
       }

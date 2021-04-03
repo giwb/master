@@ -9,7 +9,7 @@ class Club extends MY_Controller
     parent::__construct();
     $this->load->helper(array('cookie', 'security', 'url', 'my_array_helper'));
     $this->load->library(array('cart', 'image_lib'));
-    $this->load->model(array('admin_model', 'area_model', 'club_model', 'desk_model', 'file_model', 'notice_model', 'member_model', 'reserve_model', 'shop_model', 'story_model'));
+    $this->load->model(array('admin_model', 'area_model', 'club_model', 'desk_model', 'file_model', 'notice_model', 'member_model', 'reaction_model', 'reserve_model', 'shop_model', 'story_model'));
   }
 
   /**
@@ -104,18 +104,25 @@ class Club extends MY_Controller
     }
 
     // 조회수
-    $cntRefer = $this->desk_model->cntArticleReaction($viewData['viewNews'][0]['idx'], REACTION_TYPE_REFER);
+    $search = array(
+      'club_idx' => $clubIdx,
+      'target_idx' => $viewData['viewNews'][0]['idx'],
+      'service_type' => SERVICE_TYPE_ARTICLE,
+      'reaction_type' => REACTION_TYPE_REFER
+    );
+    $cntRefer = $this->reaction_model->cntReaction($search);
     $viewData['viewNews'][0]['cntRefer'] = $cntRefer['cnt'];
 
     // 좋아요
-    $cntLiked = $this->desk_model->cntArticleReaction($viewData['viewNews'][0]['idx'], REACTION_TYPE_LIKED);
+    $search['reaction_type'] = REACTION_TYPE_LIKED;
+    $cntLiked = $this->reaction_model->cntReaction($search);
     $viewData['viewNews'][0]['cntLiked'] = $cntLiked['cnt'];
 
     // 댓글
     $cntReply = $this->desk_model->cntReply($viewData['viewNews'][0]['idx']);
     $viewData['viewNews'][0]['cntReply'] = $cntReply['cnt'];
 
-    /* 여행 후기 */
+    // 여행 후기
     $search['clubIdx'] = $clubIdx;
     $search['code'] = 'review';
     $viewData['viewLogs'] = $this->desk_model->listMainArticle($search, $paging);
@@ -126,11 +133,18 @@ class Club extends MY_Controller
     }
 
     // 조회수
-    $cntRefer = $this->desk_model->cntArticleReaction($viewData['viewLogs'][0]['idx'], REACTION_TYPE_REFER);
+    $search = array(
+      'club_idx' => $clubIdx,
+      'target_idx' => $viewData['viewLogs'][0]['idx'],
+      'service_type' => SERVICE_TYPE_ARTICLE,
+      'reaction_type' => REACTION_TYPE_REFER
+    );
+    $cntRefer = $this->reaction_model->cntReaction($search);
     $viewData['viewLogs'][0]['cntRefer'] = $cntRefer['cnt'];
 
     // 좋아요
-    $cntLiked = $this->desk_model->cntArticleReaction($viewData['viewLogs'][0]['idx'], REACTION_TYPE_LIKED);
+    $search['reaction_type'] = REACTION_TYPE_LIKED;
+    $cntLiked = $this->reaction_model->cntReaction($search);
     $viewData['viewLogs'][0]['cntLiked'] = $cntLiked['cnt'];
 
     // 댓글
@@ -167,6 +181,7 @@ class Club extends MY_Controller
   public function article($idx=NULL)
   {
     $idx = html_escape($idx);
+    $ipaddr = $_SERVER['REMOTE_ADDR'];
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     if (empty($userData['idx'])) $userData['idx'] = NULL;
@@ -185,30 +200,34 @@ class Club extends MY_Controller
       $viewData['categoryParent'] = $this->desk_model->viewArticleParentCategory($viewData['category']['parent']);
 
       // 조회수 올리기
-      $ipaddr = $_SERVER['REMOTE_ADDR'];
       $insertValues = array(
-        'idx_article' => $idx,
+        'club_idx' => $viewData['clubIdx'],
+        'target_idx' => $idx,
+        'service_type' => SERVICE_TYPE_ARTICLE,
         'reaction_type' => REACTION_TYPE_REFER,
-        'ip_address' => $_SERVER['REMOTE_ADDR'],
-        'created_by' => !empty($viewData['userData']['idx']) ? $viewData['userData']['idx'] : NULL,
+        'ip_address' => $ipaddr,
+        'created_by' => !empty($userData['idx']) ? $userData['idx'] : NULL,
         'created_at' => time(),
       );
-      $this->desk_model->insert(DB_ARTICLE_REACTION, $insertValues);
+      $this->reaction_model->insertReaction($insertValues);
 
       // 조회수
-      $viewData['refer'] = $this->desk_model->cntArticleReaction($idx, REACTION_TYPE_REFER);
-
-      // 좋아요 했는지 확인
       $search = array(
-        'idx_article' => $idx,
-        'reaction_type' => REACTION_TYPE_LIKED,
-        'ip_address' => $ipaddr,
-        'created_by' => !empty($viewData['userData']['idx']) ? $viewData['userData']['idx'] : NULL,
+        'club_idx' => $viewData['clubIdx'],
+        'target_idx' => $idx,
+        'service_type' => SERVICE_TYPE_ARTICLE,
+        'reaction_type' => REACTION_TYPE_REFER
       );
-      $viewData['checkLiked'] = $this->desk_model->viewArticleReaction($search);
+      $viewData['refer'] = $this->reaction_model->cntReaction($search);
 
       // 좋아요
-      $viewData['liked'] = $this->desk_model->cntArticleReaction($idx, REACTION_TYPE_LIKED);
+      $search['reaction_type'] = REACTION_TYPE_LIKED;
+      $viewData['liked'] = $this->reaction_model->cntReaction($search);
+
+      // 좋아요 했는지 확인
+      $search['ip_address'] = $ipaddr;
+      $search['created_by'] = $userData['idx'];
+      $viewData['checkLiked'] = $this->reaction_model->viewReaction($search);
 
       // 댓글
       $viewData['cntReply'] = $this->desk_model->cntReply($idx);

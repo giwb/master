@@ -1993,7 +1993,7 @@ span[data-jarallax-element]{display:inline-block}
 @media only screen and (max-width:540px){.carousel-thumbnails{margin-bottom:3.75rem}
 .carousel-thumbnails .carousel-indicators{margin-bottom:-3.44rem}}
 .wrapper-carousel-fix .carousel-fade .active.carousel-item-left,.wrapper-carousel-fix .carousel-fade .active.carousel-item-right{-webkit-transition:-webkit-transform .6s ease;-o-transition:transform .6s ease;transition:transform .6s ease;transition:transform .6s ease,-webkit-transform .6s ease;-webkit-transition-property:opacity;-o-transition-property:opacity;transition-property:opacity}
-.comments-list .avatar,.reply-form .avatar{max-width:100px}
+.comments-list .avatar,.reply-form .avatar{max-width:50px}
 .collapsible .active .rotate-icon{-webkit-transform:rotate(180deg);-ms-transform:rotate(180deg);transform:rotate(180deg);-webkit-transition:all 150ms ease-in 0s;-o-transition:all 150ms ease-in 0s;transition:all 150ms ease-in 0s}
 .ps{-ms-touch-action:auto;touch-action:auto;overflow:hidden!important}
 .ps.ps--active-x>.ps__scrollbar-x-rail,.ps.ps--active-y>.ps__scrollbar-y-rail{display:block;background-color:transparent}
@@ -2198,6 +2198,12 @@ main#footer { padding-top: 0px!important; }
 .header-menu a:before { position: absolute; right: 5px; content: '>'; font-family: 'sans-serif'; }
 .header-menu .header-menu-item { flex-basis: 0; flex-grow: 1; padding: 4px; }
 .header-menu .header-menu-item.active a { background-color: #FF6600; color: #fff; }
+
+/* 댓글 레이어 */
+section.comments-list { width: 100%; }
+section.comments-list .icon-avatar-reply { max-width:50px!important; }
+.media-body { width: 100%; position: relative; }
+.media-body .reply-input { width: 100%; position: absolute; z-index: 2; }
 
 @media (max-width:740px) {
   main { padding-top: 100px!important; }
