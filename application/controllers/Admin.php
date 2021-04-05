@@ -3365,6 +3365,22 @@ class Admin extends Admin_Controller
   }
 
   /**
+   * 설정 - 메인 페이지 슬라이더 그림 이동
+   *
+   * @return redirect
+   * @author bjchoi
+   **/
+  public function setup_topimage_move()
+  {
+    // 클럽ID
+    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
+
+    $topImages = explode(',', html_escape($this->input->post('topimages')));
+    $updateValues = array('topimage' => serialize($topImages));
+    $this->club_model->updateClub($updateValues, $viewData['clubIdx']);
+  }
+
+  /**
    * 설정 - 메인 페이지 슬라이더 그림 파일 삭제
    *
    * @return redirect

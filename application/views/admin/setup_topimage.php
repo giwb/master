@@ -4,14 +4,17 @@
           <div class="area-page mt-4">
             <h4>■ 첫 페이지 사진 관리</h4><hr>
             <div class="text-center">
-              <form id="formTopImage" method="post" action="<?=BASE_URL?>/admin/setup_topimage_upload" enctype="multipart/form-data">
-                <input type="file" name="file"> <button type="buton" class="btn btn-default btn-submit-topimage">사진 올리기</button>
-                <div class="text-danger mt-2">※ 첫 페이지 사진은 1900 x 650 사이즈로 올려주세요.</div>
+              <form id="formTopImage" method="post" action="<?=BASE_URL?>/admin/setup_topimage_upload" enctype="multipart/form-data" class="row no-gutters align-items-center">
+                <div class="col-7 text-right"><input type="file" name="file" class="border p-2"></div>
+                <div class="col-5 text-left"><button type="buton" class="btn btn-default btn-submit-topimage">사진 올리기</button></div>
               </form>
+              <div class="text-danger mt-2">※ 대표사진은 1900 x 650 사이즈로 올려주세요.</div>
             </div><hr>
-            <?php if (!empty($arrTopImage)): foreach ($arrTopImage as $value): ?>
-              <div class="mb-3"><img class="w-100 btn-delete-topimage-modal" data-filename="<?=$value?>" src="<?=FRONT_URL . $value?>"></div>
-            <?php endforeach; endif; ?>
+            <div id="sortable">
+              <?php if (!empty($arrTopImage)): foreach ($arrTopImage as $value): ?>
+              <div class="mb-3 pl-5 pr-5"><img class="topimages btn-delete-topimage-modal w-100" data-filename="<?=$value?>" src="<?=FRONT_URL . $value?>"></div>
+              <?php endforeach; endif; ?>
+            </div>
           </div>
         </div>
 
@@ -51,5 +54,25 @@
           }).on('click', '.btn-delete-topimage', function() {
             $(this).css('opacity', '0.5').prop('disabled', true).text('삭제중..');
             $('#formTopImageDelete').submit();
+          });
+
+          $(function() {
+            $('#sortable').disableSelection().sortable({
+              stop: function(event, ui) {
+                var arrSort = new Array();
+
+                $('.topimages').each(function() {
+                  arrSort.push($(this).data('filename'));
+                })
+
+                $.ajax({
+                  url: '<?=BASE_URL?>/admin/setup_topimage_move',
+                  data: 'topimages=' + arrSort,
+                  dataType: 'json',
+                  type: 'post',
+                  success: function() {}
+                });
+              }
+            });
           });
         </script>
