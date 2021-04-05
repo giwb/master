@@ -10,9 +10,9 @@
               </form>
               <div class="text-danger mt-2">※ 대표사진은 1900 x 650 사이즈로 올려주세요.</div>
             </div><hr>
-            <div id="sortable">
+            <div id="sortable" class="pl-5 pr-5">
               <?php if (!empty($arrTopImage)): foreach ($arrTopImage as $value): ?>
-              <div class="mb-3 pl-5 pr-5"><img class="topimages btn-delete-topimage-modal w-100" data-filename="<?=$value?>" src="<?=FRONT_URL . $value?>"></div>
+              <div class="mb-3"><img class="topimages btn-delete-topimage-modal w-100" data-filename="<?=$value?>" src="<?=FRONT_URL . $value?>"></div>
               <?php endforeach; endif; ?>
             </div>
           </div>
