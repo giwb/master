@@ -841,9 +841,8 @@ class Admin extends Admin_Controller
     // 산행예약 금액
     if ($viewData['view']['cost_total'] != 0) $viewData['view']['cost'] = $viewData['view']['cost_total'];
 
+/*
     // 1인우등 수량
-    $search['rescode'] = $idx;
-    $search['club_idx'] = $viewData['clubIdx'];
     $search['honor'] = 1;
     $viewData['view']['honor'] = $this->admin_model->cntReserve($search);
 
@@ -860,8 +859,10 @@ class Admin extends Admin_Controller
 
     // 우등수량
     $viewData['view']['cntHonor'] = ($viewData['view']['honor']['cnt'] / 2) + $cntHonorBus;
-
+*/
     // 평생회원 수량
+    $search['club_idx'] = $viewData['clubIdx'];
+    $search['rescode'] = $idx;
     $search['honor'] = NULL;
     $search['vip'] = 1;
     $viewData['view']['vip'] = $this->admin_model->cntReserve($search);
@@ -875,7 +876,8 @@ class Admin extends Admin_Controller
     $viewData['view']['point_cost'] = $this->admin_model->viewReservePoint($search);
 
     // 초기 합계 금액
-    $viewData['view']['total'] = (($viewData['view']['cntRes'] * $viewData['view']['cost']) + ($viewData['view']['cntHonor'] * 10000)) - (($viewData['view']['vip']['cnt'] * 5000) + $viewData['view']['point_cost']['total']);
+    //$viewData['view']['total'] = (($viewData['view']['cntRes'] * $viewData['view']['cost']) + ($viewData['view']['cntHonor'] * 10000)) - (($viewData['view']['vip']['cnt'] * 5000) + $viewData['view']['point_cost']['total']);
+    $viewData['view']['total'] = ($viewData['view']['cntRes'] * $viewData['view']['cost']) - (($viewData['view']['vip']['cnt'] * 5000) + $viewData['view']['point_cost']['total']);
 
     // 페이지 타이틀
     $viewData['pageTitle'] = '정산 관리';

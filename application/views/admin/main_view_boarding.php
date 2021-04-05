@@ -3,7 +3,7 @@
         <?=$headerMenuView?>
         <div id="content" class="mb-5">
           <div class="sub-contents">
-            <h2 class="m-0 p-0 pb-2"><b><?=viewStatus($view['status'])?></b> <?=$view['subject']?></h2>
+            <h4 class="font-weight-bold m-0 p-0 pb-2"><?=viewStatus($view['status'])?> <?=$view['subject']?></h4>
             <?php if (!empty($view['type'])): ?><div class="ti"><strong>・유형</strong> : <?=$view['type']?></div><?php endif; ?>
             <div class="ti"><strong>・일시</strong> : <?=$view['startdate']?> (<?=calcWeek($view['startdate'])?>) <?=$view['starttime']?></div>
             <?php $view['cost'] = $view['cost_total'] == 0 ? $view['cost'] : $view['cost_total']; if (!empty($view['cost'])): ?>

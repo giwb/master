@@ -2317,7 +2317,7 @@ body { font-family: 'Noto Sans KR', sans-serif; }
 #club .list-reply a { min-height: auto; font-size: 12px; padding: 8px 5px; }
 #club .list-reply a span { font-size: 14px; color: #FF6C00; }
 
-#club .sub-contents { width: 100%!important; clear: both; margin: 0px; font-size: 14px; }
+#club .sub-contents, #content .sub-contents { width: 100%!important; clear: both; margin: 0px; font-size: 14px; }
 #club .sub-contents h2.notice-title { font-size: 1.8rem; margin: 0px; padding: 0px; }
 #club .sub-contents .area-reservation { width: 100%; }
 #club .sub-contents .area-reservation .area-btn { height: 30px; margin: 20px 0 10px 0; }
