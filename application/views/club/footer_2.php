@@ -160,13 +160,13 @@
           </section>
           <?php endif; ?>
 
-          <!-- 애드핏 -->
+          <!-- 애드핏 
           <section class="section mt-4 mb-4">
             <div class="card">
               <ins class="kakao_ad_area" style="display:none;" data-ad-unit    = "DAN-CMBlCe8nHsLwMdHn" data-ad-width   = "320" data-ad-height  = "100"></ins>
               <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
             </div>
-          </section>
+          </section>-->
 
           <!-- 구글 광고 -->
           <section class="section">
