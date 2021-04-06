@@ -73,7 +73,7 @@ class Club extends MY_Controller
       }
 
       if (!empty($value['photo'])) {
-        $viewData['listNotice'][$key1]['photo'] = PHOTO_URL . $value['photo'];
+        $viewData['listNotice'][$key1]['photo'] = PHOTO_URL . 'thumb_' . $value['photo'];
       } else {
         $viewData['listNotice'][$key1]['photo'] = '/public/images/noimage.png';
       }

@@ -238,6 +238,12 @@ class Reserve extends MY_Controller
           $viewData['listNotice'][$key1]['gugun'][$key2] = $gugun['name'];
         }
       }
+
+      if (!empty($value['photo'])) {
+        $viewData['listNotice'][$key1]['photo'] = PHOTO_URL . 'thumb_' . $value['photo'];
+      } else {
+        $viewData['listNotice'][$key1]['photo'] = '/public/images/nophoto_big.png';
+      }
     }
 
     $this->_viewPage('reserve/schedule', $viewData);
