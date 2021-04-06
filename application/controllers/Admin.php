@@ -60,6 +60,8 @@ class Admin extends Admin_Controller
     // 오늘 방문자수
     $viewData['cntTodayVisitor'] = $this->admin_model->cntTodayVisitor($viewData['clubIdx']);
 
+    $viewData['pageTitle'] = '관리페이지';
+
     $this->_viewPage('admin/index', $viewData);
   }
 

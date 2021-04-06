@@ -2161,7 +2161,7 @@ body { font-family: 'Noto Sans KR', sans-serif; }
 .btn-default { background-color: #FF6600!important; }
 .btn-upload, .btn-entry-photo-delete { width: 85px; }
 .text-default { color: #FF6600!important; background-color: #FF6600!important; }
-.icon-default { color: #FF6600!important; }
+.icon-default { font-size: 1.5rem; color: #FF6600!important; }
 
 @media (max-width:740px) {
     .h2, h2 { font-size: 1.5rem; }
