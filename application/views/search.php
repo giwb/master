@@ -10,13 +10,13 @@
           <section class="section extra-margins listing-section">
             <div class="row align-items-center">
               <div class="col-7">
-                <h4 class="font-weight-bold"><strong>기사 검색 : <?=$type?></strong></h4>
+                <h4 class="font-weight-bold"><strong>기사 검색 - <?=$type?></strong></h4>
               </div>
               <div class="col-5 text-right">
                 <?php if ($code == 'review'): ?>
-                <a href="<?=$baseUrl?>article_post/?code=<?=$code?>" class="btn-custom btn-giwbred">여행후기 작성</a>
+                <a href="<?=$baseUrl?>article_post/?code=<?=$code?>" class="btn-custom btn-giwbred" rel="nofollow">여행후기 작성</a>
                 <?php elseif ($code == 'news'): ?>
-                <a href="<?=$baseUrl?>article_post/?code=<?=$code?>" class="btn-custom btn-giwbred">여행소식 작성</a>
+                <a href="<?=$baseUrl?>article_post/?code=<?=$code?>" class="btn-custom btn-giwbred" rel="nofollow">여행소식 작성</a>
                 <?php endif; ?>
               </div>
             </div><hr class="red mt-2">
@@ -25,7 +25,7 @@
               <div class="header-menu mt-3 mb-3">
                 <div class="header-menu-item col-6"><a href="<?=BASE_URL?>/album">사진첩</a></div>
                 <div class="header-menu-item col-6"><a href="<?=BASE_URL?>/club/video">동영상</a></div>
-                <div class="header-menu-item col-6<?=$code == 'news' ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/search/?code=news">여행정보</a></div>
+                <div class="header-menu-item col-6<?=$code == 'news' ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/search/?code=news">여행소식</a></div>
                 <div class="header-menu-item col-6<?=$code == 'review' ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/search/?code=review">여행후기</a></div>
               </div>
             </div>
