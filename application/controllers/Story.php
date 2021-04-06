@@ -20,6 +20,9 @@ class Story extends MY_Controller
    **/
   public function index($storyIdx=NULL)
   {
+    redirect(BASE_URL);
+    exit;
+
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $storyIdx = html_escape($storyIdx);
     $page = html_escape($this->input->post('p'));
@@ -52,6 +55,9 @@ class Story extends MY_Controller
    **/
   public function view($storyIdx=NULL)
   {
+    redirect(BASE_URL);
+    exit;
+
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
     $viewData['storyIdx'] = html_escape($storyIdx);
     $viewData['userData'] = $this->session->userData;
@@ -74,6 +80,9 @@ class Story extends MY_Controller
    **/
   public function edit($storyIdx=NULL)
   {
+    redirect(BASE_URL);
+    exit;
+
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
     $viewData['storyIdx'] = html_escape($storyIdx);
     $viewData['userData'] = $this->session->userData;
