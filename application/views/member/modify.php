@@ -93,7 +93,7 @@
             </dl>
             <dl>
               <dt>사진</dt>
-              <dd><img class="photo" src="<?=$viewMember['photo']?>"><input type="file" name="photo" class="file d-none"><button type="button" class="btn-custom btn-giwbred btn-upload mt-1">사진올리기</button><input type="hidden" name="filename"></dd>
+              <dd><img class="photo" src="<?=$viewMember['photo']?>"><input type="file" name="photo" class="file d-none"><button type="button" class="btn-custom btn-giwbblue btn-upload mt-1">사진올리기</button><input type="hidden" name="filename" value="<?=$viewMember['photo']?>"><br><button type="button" class="btn-custom btn-giwbred btn-entry-photo-delete mt-1">사진삭제</button></dd>
             </dl>
             <div class="area-btn">
               <button type="button" class="btn btn-primary btn-member-update">수정합니다</button>

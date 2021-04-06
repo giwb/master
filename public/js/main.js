@@ -96,14 +96,13 @@
     var baseUrl = $('input[name=baseUrl]').val();
 
     $.ajax({
-      url: baseUrl + '/login/photo_delete',
-      data: 'filename=' + $('input[name=filename]').val(),
+      url: baseUrl + '/member/photo_delete',
+      data: '',
       dataType: 'json',
       type: 'post',
       success: function() {
         $('input[name=filename]').val('');
-        $('.photo').attr('src', baseUrl + 'public/images/noimage.png');
-        $btn.addClass('d-none');
+        $('.photo').attr('src', '/public/images/user.png');
       }
     });
   }).on('click', '.btn-modify-photo-delete', function() {

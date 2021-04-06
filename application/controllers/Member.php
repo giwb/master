@@ -795,6 +795,27 @@ class Member extends MY_Controller
   }
 
   /**
+   * 아바타 삭제
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function photo_delete()
+  {
+    $userData = $this->load->get_var('userData');
+
+    if (file_exists(PHOTO_PATH . $userData['idx'])) {
+      unlink(PHOTO_PATH . $userData['idx']);
+    }
+    if (file_exists(AVATAR_PATH . $userData['idx'])) {
+      unlink(AVATAR_PATH . $userData['idx']);
+    }
+    $result = array('error' => 0, 'message' => '');
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 탈퇴하기
    *
    * @return json

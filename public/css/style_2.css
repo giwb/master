@@ -2159,6 +2159,7 @@ body { font-family: 'Noto Sans KR', sans-serif; }
 .viewContent { text-align: justify; padding: 0 30px 15px 30px; }
 .page-footer p { margin-bottom: 0.2rem; }
 .btn-default { background-color: #FF6600!important; }
+.btn-upload, .btn-entry-photo-delete { width: 85px; }
 .text-default { color: #FF6600!important; background-color: #FF6600!important; }
 
 @media (max-width:740px) {
