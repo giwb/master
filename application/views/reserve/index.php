@@ -222,13 +222,3 @@
             </div>
           </div>
         </div>
-
-        <script>
-          $(document).on('click', '.btn-video', function() {
-            var $dom = $('#videoModal');
-            var source = $(this).data('source');
-            window.open(source, '', 'width=400,height=335');
-            //$('.area-frame', $dom).attr('src', 'http://cctv.giwb.kr/public/video.php?link=' + source);
-            //$dom.modal('show');
-          });
-        </script>

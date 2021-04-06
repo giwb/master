@@ -1408,6 +1408,8 @@ $(document).on('click', '.btn-comment', function() {
     $('header').addClass('page-mask');
     $dom.addClass('active');
   }
+}).on('click', '.btn-video', function() {
+  window.open($(this).data('source'), '', 'width=400,height=335');
 });
 
 $(document).ready(function() {
