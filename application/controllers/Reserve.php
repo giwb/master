@@ -307,7 +307,7 @@ class Reserve extends MY_Controller
     $viewData['listReply'] = $this->load->view('story/reply', $viewData, true);
 
     // 페이지 타이틀
-    $viewData['pageTitle'] = '산행 공지사항';
+    $viewData['pageTitle'] = $viewData['notice']['title'] . ' 공지사항';
 
     $this->_viewPage('reserve/notice', $viewData);
   }
