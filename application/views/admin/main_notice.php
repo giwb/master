@@ -32,7 +32,7 @@
               <div class="area-notice">
                 <div class="mt-3 border-top border-bottom">
                   <div class="row no-gutters align-items-center mt-3 mb-3">
-                    <div class="col-3 col-sm-2 p-0 pl-2">대표 사진<br><small>※ 최적크기 : 135 x 76</small></div>
+                    <div class="col-3 col-sm-2 p-0 pl-2">대표 사진<br><small>※ 최적크기 : 500 x 300</small></div>
                     <div class="col-7 col-sm-7 p-0 pr-2">
                       <?php if (!empty($view['photo']) && file_exists(PHOTO_PATH . 'thumb_' . $view['photo'])): ?>
                       <a target="_blank" href="<?=PHOTO_URL . $view['photo']?>"><img src="<?=PHOTO_URL . 'thumb_' . $view['photo']?>"></a>
