@@ -2268,7 +2268,7 @@ body { font-family: 'Noto Sans KR', sans-serif; }
 .story-reply .story-reply-item.response .reply-response { display: inline-block; margin: 0 0 10px 20px; }
 
 #club .club-main .sub-header { text-align: center; border-bottom: 1px solid #999; margin-top: .5rem; padding: 0 0 20px; }
-#club .club-main .sub-notice-header { width: 100%; font-weight: bold; background-color: #d9d9d9; border: 1px solid #999; border-width: 1px 0; margin: 0px; padding: 7px 15px; cursor: pointer; }
+#club .club-main .sub-notice-header { width: 100%; font-size: 1.2rem; font-weight: bold; background-color: #d9d9d9; border: 1px solid #999; border-width: 1px 0; margin: 0px; padding: 7px 15px 8px; cursor: pointer; }
 #club .club-main .sub-header-row { color: #fff; margin: 0px; padding: 5px; }
 #club .club-main .sub-header-row div a { color: #fff; }
 #club .club-main .sub-header-row div { padding: 8px 0; border-right: 1px solid #fff; }
