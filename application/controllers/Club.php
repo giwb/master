@@ -502,6 +502,9 @@ class Club extends MY_Controller
       }
     }
 
+    // 페이지 타이틀
+    $viewData['pageTitle'] = '동영상 여행기';
+
     $this->_viewPage('club/video', $viewData);
   }
 
