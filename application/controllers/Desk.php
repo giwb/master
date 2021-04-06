@@ -639,9 +639,6 @@ class Desk extends Desk_Controller
     if (empty($inputData['title'])) {
       $result = array('error' => 1, 'message' => $this->lang->line('error_no_title'));
     }
-    if (empty($inputData['url'])) {
-      $result = array('error' => 1, 'message' => $this->lang->line('error_no_url'));
-    }
     if (empty($inputData['phone'])) {
       $result = array('error' => 1, 'message' => $this->lang->line('error_no_phone'));
     }

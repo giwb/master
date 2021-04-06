@@ -75,7 +75,16 @@ $(document).on('click', '.login-popup', function() {
     }
   });
 }).on('click', '.area-link', function() {
-  location.href = $(this).data('link');
+  var link = $(this).data('link');
+  var target = $(this).data('target');
+  if (typeof link == 'undefined' || link == '') return false;
+  else {
+    if (target == 'new') {
+      window.open(link);
+    } else {
+      location.href = link;
+    }
+  }
 }).on('click', '.btn-more', function() {
   // 더보기
   var $btn = $(this);

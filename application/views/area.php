@@ -12,7 +12,7 @@
               <div class="col-md-6 my-3">
                 <div class="card">
                   <div class="card-body">
-                    <h5 class="row no-gutters align-items-center font-weight-bold">
+                    <h5 class="row no-gutters align-items-center font-weight-bold area-link" data-link="<?=!empty($value['domain']) ? 'http://' . $value['domain'] : !empty($value['url']) ? base_url() . $value['url'] : ''?>" data-target="new">
                       <div class="col-2 col-sm-1"><img class="w-100" src="<?=$value['thumbnail']?>"></div>
                       <div class="col-10 col-sm-11 pl-2"><?=$value['title']?></div>
                     </h5>

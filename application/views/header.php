@@ -48,19 +48,19 @@
             aria-expanded="false"><i class="fas fa-mountain"></i> 산악회</a>
           <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" href="<?=base_url()?>area">전체보기</a>
-            <a class="dropdown-item" href="<?=base_url()?>area/?=area_sido&k=11000">서울특별시</a>
-            <a class="dropdown-item" href="<?=base_url()?>area/?=area_sido&k=12000">부산광역시</a>
-            <a class="dropdown-item" href="<?=base_url()?>area/?=area_sido&k=13000">대구광역시</a>
-            <a class="dropdown-item" href="<?=base_url()?>area/?=area_sido&k=14000">인천광역시</a>
-            <a class="dropdown-item" href="<?=base_url()?>area/?=area_sido&k=15000">광주광역시</a>
-            <a class="dropdown-item" href="<?=base_url()?>area/?=area_sido&k=16000">대전광역시</a>
-            <a class="dropdown-item" href="<?=base_url()?>area/?=area_sido&k=17000">울산광역시</a>
-            <a class="dropdown-item" href="<?=base_url()?>area/?=area_sido&k=19000">경기도</a>
-            <a class="dropdown-item" href="<?=base_url()?>area/?=area_sido&k=20000">강원도</a>
-            <a class="dropdown-item" href="<?=base_url()?>area/?=area_sido&k=22000">충청도</a>
-            <a class="dropdown-item" href="<?=base_url()?>area/?=area_sido&k=24000">전라도</a>
-            <a class="dropdown-item" href="<?=base_url()?>area/?=area_sido&k=26000">경상도</a>
-            <a class="dropdown-item" href="<?=base_url()?>area/?=area_sido&k=27000">제주도</a>
+            <a class="dropdown-item" href="<?=base_url()?>area/?s=area_sido&k=11000">서울특별시</a>
+            <a class="dropdown-item" href="<?=base_url()?>area/?s=area_sido&k=12000">부산광역시</a>
+            <a class="dropdown-item" href="<?=base_url()?>area/?s=area_sido&k=13000">대구광역시</a>
+            <a class="dropdown-item" href="<?=base_url()?>area/?s=area_sido&k=14000">인천광역시</a>
+            <a class="dropdown-item" href="<?=base_url()?>area/?s=area_sido&k=15000">광주광역시</a>
+            <a class="dropdown-item" href="<?=base_url()?>area/?s=area_sido&k=16000">대전광역시</a>
+            <a class="dropdown-item" href="<?=base_url()?>area/?s=area_sido&k=17000">울산광역시</a>
+            <a class="dropdown-item" href="<?=base_url()?>area/?s=area_sido&k=19000">경기도</a>
+            <a class="dropdown-item" href="<?=base_url()?>area/?s=area_sido&k=20000">강원도</a>
+            <a class="dropdown-item" href="<?=base_url()?>area/?s=area_sido&k=22000">충청도</a>
+            <a class="dropdown-item" href="<?=base_url()?>area/?s=area_sido&k=24000">전라도</a>
+            <a class="dropdown-item" href="<?=base_url()?>area/?s=area_sido&k=26000">경상도</a>
+            <a class="dropdown-item" href="<?=base_url()?>area/?s=area_sido&k=27000">제주도</a>
           </div>
         </li>
         <li class="nav-item">

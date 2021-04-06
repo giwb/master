@@ -88,7 +88,7 @@ class Welcome extends MY_Controller
       $viewData['type'] = $search['keyword'];
     }
     if (!empty($this->input->get('code'))) {
-      $search['code'] = html_escape($this->input->get('code'));
+      $viewData['code'] = $search['code'] = html_escape($this->input->get('code'));
       $type = $this->desk_model->viewArticleCategory($search['code']);
       $viewData['type'] = $type['name'];
     }
