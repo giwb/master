@@ -956,6 +956,8 @@
       $('header').addClass('page-mask');
       $dom.addClass('active');
     }
+  }).on('click', '.btn-search', function() {
+    $('#formSearch').submit();
   });
 
   // 여행일자 계산 함수

@@ -4,10 +4,10 @@
             <div class="row no-gutters">
               <div class="col-5 col-sm-8"><h4 class="font-weight-bold">관리자 페이지</h4></div>
               <div class="col-7 col-sm-4 text-right">
-                <form method="post" action="<?=BASE_URL?>/admin/log_reserve">
-                  <div class="row no-gutters">
-                    <div class="col-9 col-sm-10 pr-2"><input type="text" name="k" value="<?=!empty($keyword) ? $keyword : ''?>" class="form-control form-control-sm"></div>
-                    <div class="col-3 col-sm-2"><button type="button" class="btn-custom btn-giwb h-100">검색</button></div>
+                <form id="formSearch" method="post" action="<?=BASE_URL?>/admin/log_reserve">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col-9 col-sm-9 pr-2"><input type="text" name="k" value="<?=!empty($keyword) ? $keyword : ''?>" class="form-control form-control-sm"></div>
+                    <div class="col-3 col-sm-3"><i class="fas fa-search mr-4 icon-default btn-search"></i><i class="fas fa-edit icon-default btn-bookmark-update"></i></div>
                   </div>
                 </form>
               </div>
@@ -37,10 +37,6 @@
               </div>
             </div>
           </section>
-
-          <div class="text-right">
-            <button type="button" class="btn-custom btn-giwb btn-bookmark-update">북마크 수정</button>
-          </div>
 
           <div class="modal fade" id="bookmarkDeleteModal" tabindex="-1" role="dialog" aria-labelledby="bookmarkDeleteModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
