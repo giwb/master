@@ -332,6 +332,7 @@ class Club extends MY_Controller
     // 클럽 정보
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
     $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
+    $viewData['code'] = '';
 
     if (!empty($this->input->get('keyword'))) {
       $search['keyword'] = html_escape($this->input->get('keyword'));
@@ -345,6 +346,13 @@ class Club extends MY_Controller
 
     // 기사 검색
     $viewData['listArticle'] = $this->desk_model->listMainArticle($search);
+
+    // 페이지 타이틀
+    if ($viewData['code'] == 'review') {
+      $viewData['pageTitle'] = '여행후기';
+    } else {
+      $viewData['pageTitle'] = '여행소식';
+    }
 
     $this->_viewPage('search', $viewData);
   }
@@ -408,6 +416,9 @@ class Club extends MY_Controller
     // 클럽 메뉴
     $viewData['viewAbout'] = $this->club_model->viewAbout($clubIdx, $viewData['pageIdx']);
 
+    // 페이지 타이틀
+    $viewData['pageTitle'] = $viewData['viewAbout']['title'];
+
     $this->_viewPage('club/about', $viewData);
   }
 
@@ -419,11 +430,22 @@ class Club extends MY_Controller
    **/
   public function page()
   {
-    $viewData['type'] = html_escape($this->input->get('type'));
+    $viewData['type'] = !empty($this->input->get('type')) ? html_escape($this->input->get('type')) : '';
 
     // 클럽 정보
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    // 페이지 타이틀
+    if ($viewData['type'] == 'agreement') {
+      $viewData['pageTitle'] = "이용약관";
+    } elseif ($viewData['type'] == 'personal') {
+      $viewData['pageTitle'] = "개인정보 취급방침";
+    } elseif ($viewData['type'] == 'mountain') {
+      $viewData['pageTitle'] = "경인웰빙 100대명산";
+    } else {
+      $viewData['pageTitle'] = "경인웰빙 100대명소";
+    }
 
     $this->_viewPage('club/page', $viewData);
   }

@@ -270,11 +270,12 @@ defined('SERVICE_TYPE_ALBUM')             OR define('SERVICE_TYPE_ALBUM', 5); //
 defined('REACTION_TYPE_LIKED')            OR define('REACTION_TYPE_LIKED', 1); // 좋아요
 defined('REACTION_TYPE_REFER')            OR define('REACTION_TYPE_REFER', 2); // 조회수 (중복이 안되는 조회수 체크)
 defined('REACTION_TYPE_SHARE')            OR define('REACTION_TYPE_SHARE', 3); // 공유하기
+defined('REACTION_TYPE_SHOP')             OR define('REACTION_TYPE_SHOP', 3);
 
 /* 나중에 삭제 */
 defined('REACTION_KIND_LIKE')   OR define('REACTION_KIND_LIKE', 1); // 좋아요
 defined('REACTION_KIND_SHARE')  OR define('REACTION_KIND_SHARE', 2); // 공유하기
-defined('REACTION_TYPE_NOTICE')           OR define('REACTION_TYPE_NOTICE', 2);
+defined('REACTION_TYPE_NOTICE') OR define('REACTION_TYPE_NOTICE', 2);
 
 
 // 공유 형태
