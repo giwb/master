@@ -79,7 +79,7 @@
           </script>
           <?php endif; ?>
 
-          <?php if (empty($uri) || $uri == 'giwb'): // 안부 인사와 인증현황은 메인 페이지에서만 보이게 ?>
+          <?php if (empty($uri)): // 안부 인사와 인증현황은 메인 페이지에서만 보이게 ?>
           <section class="section mt-5">
             <h4 class="row font-weight-bold">
               <div class="col-6"><strong>안부 인사</strong></div>
