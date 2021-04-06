@@ -9,7 +9,7 @@
     $distance = explode(' / ', $value['kilometer']);
     $str .= date('m/d', strtotime($value['startdate']));
     $str .= '(' . calcWeek($value['startdate']) . '요';
-    $str .= calcSchedule($value['schedule']);
+    $str .= calcTerm($value['startdate'], $value['starttime'], $value['enddate'], $value['schedule']);
     $str .= '/' . $value['starttime'] . ')
 ';
     $str .= $value['subject'] . '
