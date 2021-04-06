@@ -125,6 +125,9 @@ class Reserve extends MY_Controller
       // 시간대별 버스 승차위치
       $viewData['location'] = arrLocation($viewData['view']['club_geton'], $viewData['notice']['starttime'], NULL, NULL, 1);
 
+      // 페이지 타이틀
+      $viewData['pageTitle'] = $viewData['notice']['subject'] . ' 예약 페이지';
+
       $this->_viewPage('reserve/index', $viewData);
     } else { // 산행 예약확인
       $viewData['view']['noticeIdx'] = $noticeIdx;
@@ -199,6 +202,9 @@ class Reserve extends MY_Controller
         }
       }
       $viewData['listItem'] = $this->load->view('/shop/list', $viewData, true);
+
+      // 페이지 타이틀
+      $viewData['pageTitle'] = '예약 확인';
 
       $this->_viewPage('reserve/check', $viewData);
     }

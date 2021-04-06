@@ -3,12 +3,14 @@
   <main id="club">
     <div class="container-fluid club-main">
       <div class="row mt-1 mb-5">
-        <div class="col-xl-8 col-md-12 sub-contents area-reservation text-center">
+        <div class="col-xl-8 col-md-12 sub-contents area-reservation">
+          <h4 class="font-weight-bold">예약 정보 확인</h4>
+          <hr class="text-default">
           <div class="pt-5 pb-5">
-            <?php if (empty($listReserve)): ?>
-            <h2>예약 정보가 없습니다.</h2>
-            <?php else: ?>
-            <h2>예약이 완료되었습니다!</h2>
+          <?php if (empty($listReserve)): ?>
+            <h2 class="text-center pb-3">예약 정보가 없습니다.</h2>
+          <?php else: ?>
+            <h2 class="text-center">예약이 완료되었습니다!</h2>
           </div>
           <form id="reserveForm" method="post" class="border-top border-bottom text-left mt-4 mb-4 pt-3 pl-5 pr-5">
             <?php foreach ($listReserve as $key => $value): ?>
@@ -40,6 +42,7 @@
           </div>
           <?php endif; ?>
         </div>
+      </div>
 
       <!-- 결제정보 작성 -->
       <div class="modal fade" id="reservePaymentModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
