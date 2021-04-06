@@ -4,3 +4,5 @@ Disallow: /admin
 Disallow: /login
 Disallow: /member
 Disallow: /desk
+Disallow: /album/entry
+Disallow: /club/article_post
