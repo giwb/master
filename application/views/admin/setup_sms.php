@@ -6,6 +6,7 @@
 <?php
   $str = '';
   foreach ($list as $value):
+    $distance = explode(' / ', $value['kilometer']);
     $str .= date('m/d', strtotime($value['startdate']));
     $str .= '(' . calcWeek($value['startdate']) . '요';
     $str .= calcSchedule($value['schedule']);
@@ -13,6 +14,7 @@
 ';
     $str .= $value['subject'] . '
 ';
+    $str .= $distance[1] . ' / ';
     $str .= number_format($value['cost_total'] == 0 ? $value['cost'] : $value['cost_total']) . '원
 
 ';
