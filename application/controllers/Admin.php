@@ -3610,7 +3610,7 @@ class Admin extends Admin_Controller
     // 클럽 정보
     $viewData['viewClub'] = $this->club_model->viewClub($viewData['clubIdx']);
 
-    $search['status'] = array(STATUS_PLAN, STATUS_ABLE, STATUS_CONFIRM);
+    $search['status'] = array(STATUS_ABLE, STATUS_CONFIRM);
     $viewData['list'] = $this->admin_model->listNotice($search);
 
     // 페이지 타이틀
