@@ -79,7 +79,7 @@
           </script>
           <?php endif; ?>
 
-          <?php if (empty($uri)): // 안부 인사와 인증현황은 메인 페이지에서만 보이게 ?>
+          <?php if (empty($uri) || $uri == 'giwb'): // 안부 인사와 인증현황은 메인 페이지에서만 보이게 ?>
           <section class="section mt-5">
             <h4 class="row font-weight-bold">
               <div class="col-6"><strong>안부 인사</strong></div>
@@ -95,9 +95,9 @@
               <?php endforeach; ?>
               </div>
               <?php if (!empty($userData['idx'])): ?>
-              <div class="row border-bottom no-gutters pt-3 pb-2 pl-4 pr-3">
-                <div class="col-10 pl-0 pr-1"><textarea id="club-story-content" rows="3" class="form-control form-control-sm"></textarea></div>
-                <div class="col-2 pt-0 pl-0"><button type="button" class="btn btn-default btn-comment pt-4 pb-4 pl-3 pr-3 w-100">등록</button></div>
+              <div class="row border-bottom no-gutters pt-3 pb-3 pl-3 pr-3">
+                <div class="col-10 pl-0 pr-1"><textarea id="club-story-content" rows="3" class="form-control form-control-sm h-100"></textarea></div>
+                <div class="col-2 pt-0 pl-0"><button type="button" class="btn btn-default btn-comment m-0 pt-4 pb-4 pl-3 pr-3 w-100 h-100">등록</button></div>
               </div>
               <?php endif; ?>
             </div>
