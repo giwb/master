@@ -245,9 +245,13 @@
   $(document).ready(function() {
     // 북마크 설명 보여주기
     $('.link-bookmark').hover(function(){
+      var title = $(this).data('title');
       var memo = $(this).data('memo');
-      if (typeof memo != 'undefined' && memo != '') {
-        $(this).append('<div class="layer-memo">' + memo + '</div>')
+
+      if (typeof title != 'undefined') {
+        if (typeof memo != 'undefined' && memo != '') {
+          $(this).append('<div class="layer-memo">' + memo + '</div>')
+        }
       }
     }, function() {
       $('.layer-memo').remove();
