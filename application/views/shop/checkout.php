@@ -82,8 +82,7 @@
               <div class="row align-items-center border-bottom pt-2 pb-2 pl-3 pr-3">
                 <div class="col-4 col-md-3 font-weight-bold">은행 계좌</div>
                 <div class="col-8 col-md-9 p-0 pr-2">
-                  국민은행 / 288001-04-154630 / 경인웰빙산악회 (김영미)
-                  <!--국민은행 / 658101-01-783256 / 최병준(경인웰빙투어)-->
+                  국민은행 / 658101-01-783256 / 최병준(경인웰빙투어)
                 </div>
               </div>
               <div class="border-bottom font-weight-bold mt-5 pb-1">■ 인수방법</div>

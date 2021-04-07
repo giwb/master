@@ -223,6 +223,7 @@
       <div class="col-sm-5 logo-text">
         사업자등록번호 : 568-45-00657 / 관광사업등록번호 : 제 2021-000001호<br>
         서울 금천구 가산디지털 1로 137, 19층 1901호 (가산동, IT 캐슬 2차)<br>
+        입금계좌 : 국민은행 / 658101-01-783256 / 최병준(경인웰빙투어)<br>
         대표 : 최병준 / 개인정보보호책임자 : 최병성 (010-7271-3050)<br>
         Copyright© <script>document.write(new Date().getFullYear());</script> 경인웰빙투어, All Rights Reserved.
         <hr class="bg-secondary mt-2 mb-2">
