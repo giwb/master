@@ -27,10 +27,10 @@
             <div class="row no-gutters align-items-top area-bookmark">
               <?php if (!empty($listBookmark)): foreach ($listBookmark as $value): ?>
               <div class="col-sm-3 p-1 pb-5 text-center">
-                <div class="bk-header" data-idx="<?=$value['idx']?>"><a class="btn-bookmark btn-delete-bookmark" data-idx="<?=$value['idx']?>"><i class="fas fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-category" data-idx="<?=$value['idx']?>"><i class="fas fa-pen-square"></i></a> <span class="category"><?=$value['title']?></span></div>
+                <div class="bk-header" data-idx="<?=$value['idx']?>"><a class="btn-bookmark btn-delete-bookmark-modal" data-idx="<?=$value['idx']?>"><i class="fas fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-category" data-idx="<?=$value['idx']?>"><i class="fas fa-pen-square"></i></a> <span class="category"><?=$value['title']?></span></div>
                 <div class="bk-body text-left p-2">
                   <?php if (!empty($value['bookmark'])): foreach ($value['bookmark'] as $bookmark): ?>
-                    <div class="bk-item" data-idx="<?=$bookmark['idx']?>"><a class="btn-bookmark btn-delete-bookmark" data-idx="<?=$bookmark['idx']?>"><i class="far fa-minus-square"></i></a> <a target="_blank" href="<?=$bookmark['link']?>"><?=$bookmark['title']?></a></div>
+                    <div class="bk-item" data-idx="<?=$bookmark['idx']?>"><a class="btn-bookmark btn-delete-bookmark-modal" data-idx="<?=$bookmark['idx']?>"><i class="far fa-minus-square"></i></a> <a target="_blank" href="<?=$bookmark['link']?>"><?=$bookmark['title']?></a></div>
                   <?php endforeach; endif; ?>
                   <a class="btn-bookmark btn-add-bookmark" data-idx="<?=$value['idx']?>"><i class="far fa-plus-square"></i> 북마크 추가</a>
                 </div>
@@ -68,12 +68,15 @@
 
 <script>
   $(document).on('click', '.btn-bookmark-update', function() {
+    // 북마크 수정 토글
     $('.btn-bookmark').toggle();
   }).on('click', '.btn-add-category', function() {
+    // 북마크 카테고리 추가 입력폼 표시
     $('.area-add-category').remove();
     $('.area-bookmark').append('<div class="col-sm-3 p-1 pb-5 text-center bk-editing"><div class="row no-gutters align-items-center bk-header"><div class="col-9"><input type="text" name="title" class="form-control form-control-sm" placeholder="카테고리명 입력"></div><div class="col-3"><button type="button" class="btn-custom btn-giwb btn-add-category-submit">등록</button></div></div></div>');
     $('input[name=title]').focus();
   }).on('click', '.btn-edit-category', function() {
+    // 북마크 카테고리 수정 입력폼 표시
     var $dom = $(this).parent();
     var $domParent = $(this).parent().parent();
     var idx = $(this).data('idx');
@@ -82,6 +85,7 @@
     $domParent.prepend('<div class="bk-editing"><div class="row no-gutters align-items-center bk-header"><div class="col-9"><input type="text" name="title" class="form-control form-control-sm" value="' + title + '"></div><div class="col-3"><input type="hidden" name="idx" value="' + idx + '"><button type="button" class="btn-custom btn-giwb btn-add-category-submit">수정</button></div></div></div>');
     $('input[name=title]').focus();
   }).on('click', '.btn-add-category-submit', function() {
+    // 북마크 카테고리 추가/수정 처리
     var $btn = $(this);
     var idx = $('input[name=idx]').val();
     var title = $('input[name=title]').val();
@@ -101,18 +105,20 @@
         $('.bk-editing').remove();
         if (idx == '') {
           // 등록
-          $('.area-bookmark').append('<div class="col-sm-3 p-1 pb-5 text-center"><div class="bk-header"><a class="btn-bookmark btn-delete-bookmark" data-idx="' + result.message + '"><i class="fas fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-category" data-idx="' + result.message + '"><i class="fas fa-pen-square"></i></a> ' + title + '</div><div class="bk-body text-left p-2"><a class="btn-add-bookmark" data-idx="' + result.message + '"><i class="far fa-plus-square"></i> 북마크 추가</a></div></div><div class="col-sm-3 text-center area-add-category"><a class="btn-add-category"><i class="far fa-plus-square"></i> 카테고리 추가</a></div>');
+          $('.area-bookmark').append('<div class="col-sm-3 p-1 pb-5 text-center"><div class="bk-header"><a class="btn-bookmark btn-delete-bookmark-modal" data-idx="' + result.message + '"><i class="fas fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-category" data-idx="' + result.message + '"><i class="fas fa-pen-square"></i></a> ' + title + '</div><div class="bk-body text-left p-2"><a class="btn-add-bookmark" data-idx="' + result.message + '"><i class="far fa-plus-square"></i> 북마크 추가</a></div></div><div class="col-sm-3 text-center area-add-category"><a class="btn-add-category"><i class="far fa-plus-square"></i> 카테고리 추가</a></div>');
         } else {
           // 수정
-          $dom.prepend('<div class="bk-header"><a class="btn-bookmark btn-delete-bookmark" data-idx="' + result.message + '"><i class="fas fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-category" data-idx="' + result.message + '"><i class="fas fa-pen-square"></i></a> <span class="category">' + title + '</span></div>');
+          $dom.prepend('<div class="bk-header"><a class="btn-bookmark btn-delete-bookmark-modal" data-idx="' + result.message + '"><i class="fas fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-category" data-idx="' + result.message + '"><i class="fas fa-pen-square"></i></a> <span class="category">' + title + '</span></div>');
         }
         $('.btn-bookmark').show();
       }
     });
   }).on('click', '.btn-add-bookmark', function() {
+    // 북마크 추가 입력폼 표시
     $(this).parent().append('<div class="bk-editing"><div class="mt-1 mb-1"><input type="text" name="title" class="form-control form-control-sm" placeholder="북마크명"></div><div class="mb-1"><input type="text" name="link" class="form-control form-control-sm" placeholder="링크URL"></div><input type="hidden" name="parent_idx" value="' + $(this).data('idx') + '"><button type="button" class="btn-custom btn-giwb btn-add-bookmark-submit">등록</button></div>');
     $(this).remove();
   }).on('click', '.btn-add-bookmark-submit', function() {
+    // 북마크 추가/수정 처리
     var $btn = $(this);
     var $dom = $btn.parent().parent();
     var parent_idx = $dom.find('input[name=parent_idx]').val();
@@ -130,14 +136,16 @@
       success: function(result) {
         $btn.css('opacity', '1').prop('disabled', false);
         $('.bk-editing').remove();
-        $dom.append('<a class="btn-delete-bookmark" data-idx="' + result.message + '"><i class="far fa-minus-square"></i></a> <a target="_blank" href="' + link + '">' + title + '</a><br><a class="btn-add-bookmark" data-idx="' + parent_idx + '"><i class="far fa-plus-square"></i> 북마크 추가</a>');
+        $dom.append('<a class="btn-delete-bookmark-modal" data-idx="' + result.message + '"><i class="far fa-minus-square"></i></a> <a target="_blank" href="' + link + '">' + title + '</a><br><a class="btn-add-bookmark" data-idx="' + parent_idx + '"><i class="far fa-plus-square"></i> 북마크 추가</a>');
       }
     });
   }).on('click', '.btn-edit-memo', function() {
+    // 메모 수정 입력폼 표시
     var text = $('.area-memo').text();
     $('.area-edit-memo').hide();
     $('.area-memo').empty().append('<div class="row no-gutters bk-editing"><div class="col-12"><textarea name="memo" rows="10" class="form-control">' + text + '</textarea></div><div class="col-12 mt-2 mb-5 text-right"><input type="hidden" name="idx" value="' + $(this).data('idx') + '"><button type="button" class="btn-custom btn-giwb btn-edit-memo-submit">메모장 수정</button></div>')
   }).on('click', '.btn-edit-memo-submit', function() {
+    // 메모 수정 처리
     var $btn = $(this);
     var memo = $('textarea[name=memo]').val();
     if (memo == '') return false;
@@ -156,11 +164,13 @@
         $('.area-edit-memo').show();
       }
     });
-  }).on('click', '.btn-delete-bookmark', function() {
+  }).on('click', '.btn-delete-bookmark-modal', function() {
+    // 북마크 삭제 모달
     var $dom = $('#bookmarkDeleteModal');
     $('input[name=idx]', $dom).val($(this).data('idx'));
     $dom.modal('show');
   }).on('click', '.btn-delete-bookmark-submit', function() {
+    // 북마크 삭제 처리
     var $btn = $(this);
     var $dom = $('#bookmarkDeleteModal');
     var idx = $('input[name=idx]', $dom).val();
@@ -171,10 +181,10 @@
       dataType: 'json',
       type: 'post',
       beforeSend: function() {
-        $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+        $btn.css('opacity', '0.5').prop('disabled', true);
       },
       success: function() {
-        $btn.css('opacity', '1').prop('disabled', false).text('삭제합니다');
+        $btn.css('opacity', '1').prop('disabled', false);
         $('.bk-header[data-idx=' + idx + ']').parent().remove();
         $('.bk-item[data-idx=' + idx + ']').remove();
         $dom.modal('hide');

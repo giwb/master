@@ -5,7 +5,8 @@
 body, .se2_inputarea { margin: 0; padding: 0; font-family: 'Noto Sans KR',Dotum,Helvetica,Sans-serif; font-size: 12px; line-height: 1.5; background-color: #fff!important; }
 
 /* body,.se2_inputarea,.se2_inputarea th,.se2_inputarea td{margin:0;padding:0;font-family:'돋움',Dotum,Helvetica,Sans-serif;font-size:12px;line-height:1.5;color:#666} */
-.se2_inputarea p, .se2_inputarea br { margin: 0; padding: 0; }
+.se2_inputarea p { margin-top: 0; margin-bottom: 1rem; }
+.se2_inputarea br { margin: 0; padding: 0; }
 
 .se2_inputarea { font-size: 16px; margin: 15px; word-wrap: break-word; *word-wrap: normal; *word-break: break-all; }
 
