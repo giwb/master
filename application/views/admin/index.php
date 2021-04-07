@@ -110,7 +110,7 @@
         $('.bk-editing').remove();
         if (idx == '') {
           // 등록
-          $('.area-bookmark').append('<div class="col-sm-3 p-1 pb-5 text-center"><div class="bk-header"><a class="btn-bookmark btn-delete-bookmark-modal" data-idx="' + result.message + '"><i class="fas fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-category" data-idx="' + result.message + '"><i class="fas fa-pen-square"></i></a> ' + title + '</div><div class="bk-body text-left p-2"><a class="btn-add-bookmark" data-idx="' + result.message + '"><i class="far fa-plus-square"></i> 북마크 추가</a></div></div><div class="col-sm-3 text-center area-add-category"><a class="btn-add-category"><i class="far fa-plus-square"></i> 카테고리 추가</a></div>');
+          $('.area-bookmark').append('<div class="col-sm-3 p-1 pb-5 text-center"><div class="bk-header"><a class="btn-bookmark btn-delete-bookmark-modal" data-idx="' + result.message + '"><i class="fas fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-category" data-idx="' + result.message + '"><i class="fas fa-pen-square"></i></a> ' + title + '</div><div class="bk-body text-left p-2"><a class="btn-bookmark btn-add-bookmark" data-idx="' + result.message + '"><i class="far fa-plus-square"></i> 북마크 추가</a></div></div><div class="col-sm-3 text-center area-add-category"><a class="btn-add-category"><i class="far fa-plus-square"></i> 카테고리 추가</a></div>');
         } else {
           // 수정
           $dom.prepend('<div class="bk-header"><a class="btn-bookmark btn-delete-bookmark-modal" data-idx="' + result.message + '"><i class="fas fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-category" data-idx="' + result.message + '"><i class="fas fa-pen-square"></i></a> <span class="category">' + title + '</span></div>');
@@ -142,7 +142,8 @@
       success: function(result) {
         $btn.css('opacity', '1').prop('disabled', false);
         $('.bk-editing').remove();
-        $dom.append('<a class="btn-delete-bookmark-modal" data-idx="' + result.message + '"><i class="far fa-minus-square"></i></a> <a target="_blank" href="' + link + '">' + title + '</a><br><a class="btn-add-bookmark" data-idx="' + parent_idx + '"><i class="far fa-plus-square"></i> 북마크 추가</a>');
+        $dom.append('<a class="btn-bookmark btn-delete-bookmark-modal" data-idx="' + result.message + '"><i class="far fa-minus-square"></i></a> <a target="_blank" href="' + link + '">' + title + '</a><br><a class="btn-bookmark btn-add-bookmark" data-idx="' + parent_idx + '"><i class="far fa-plus-square"></i> 북마크 추가</a>');
+        $('.btn-bookmark').show();
       }
     });
   }).on('click', '.btn-edit-memo', function() {

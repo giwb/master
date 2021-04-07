@@ -4093,6 +4093,7 @@ class Admin extends Admin_Controller
   public function bookmark_update()
   {
     $now = time();
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $idx = !empty($this->input->post('idx')) ? html_escape($this->input->post('idx')) : NULL;
     $parent_idx = !empty($this->input->post('parent_idx')) ? html_escape($this->input->post('parent_idx')) : 0;
@@ -4100,7 +4101,7 @@ class Admin extends Admin_Controller
     $title = !empty($this->input->post('title')) ? html_escape($this->input->post('title')) : NULL;
     $memo = !empty($this->input->post('memo')) ? html_escape($this->input->post('memo')) : NULL;
 
-    $listBookmark = $this->admin_model->listBookmark($viewData['clubIdx']);
+    $listBookmark = $this->admin_model->listBookmark($clubIdx);
     $max = count($listBookmark);
 
     if (!empty($idx)) {
