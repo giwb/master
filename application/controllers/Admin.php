@@ -4101,8 +4101,12 @@ class Admin extends Admin_Controller
     $title = !empty($this->input->post('title')) ? html_escape($this->input->post('title')) : NULL;
     $memo = !empty($this->input->post('memo')) ? html_escape($this->input->post('memo')) : NULL;
 
-    $listBookmark = $this->admin_model->listBookmark($clubIdx);
-    $max = count($listBookmark);
+    if (empty($parent_idx)) {
+      $listBookmark = $this->admin_model->listBookmark($clubIdx);
+      $max = count($listBookmark);
+    } else {
+      $max = 0;
+    }
 
     if (!empty($idx)) {
       // 수정
