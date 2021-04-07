@@ -70,6 +70,11 @@
   $(document).on('click', '.btn-bookmark-update', function() {
     // 북마크 수정 토글
     $('.btn-bookmark').toggle();
+    if ($('.btn-bookmark').is(':visible') == false) {
+      $('#sortable').sortable('disable');
+    } else {
+      $('#sortable').sortable('enable');
+    }
   }).on('click', '.btn-add-category', function() {
     // 북마크 카테고리 추가 입력폼 표시
     $('.area-add-category').remove();
@@ -193,8 +198,21 @@
     });
   });
 
+  $(document).ready(function() {
+    // 북마크 설명 보여주기
+    $('.bk-item a').hover(function(){
+      var memo = $(this).data('memo');
+      if (typeof memo != 'undefined' && memo != '') {
+        $(this).append('<div class="layer-memo">' + memo + '</div>')
+      }
+    }, function() {
+      $('.layer-memo').remove();
+    });
+  });
+
   $('#sortable').disableSelection().sortable({
     // 정렬
+    disabled: true,
     stop: function(event, ui) {
       var arrSort = new Array();
 
@@ -210,17 +228,5 @@
         success: function() {}
       });
     }
-  });
-
-  $(document).ready(function() {
-    // 북마크 설명 보여주기
-    $('.bk-item a').hover(function(){
-      var memo = $(this).data('memo');
-      if (typeof memo != 'undefined' && memo != '') {
-        $(this).append('<div class="layer-memo">' + memo + '</div>')
-      }
-    }, function() {
-      $('.layer-memo').remove();
-    });
   });
 </script>
