@@ -4099,6 +4099,7 @@ class Admin extends Admin_Controller
     $parent_idx = !empty($this->input->post('parent_idx')) ? html_escape($this->input->post('parent_idx')) : 0;
     $link = !empty($this->input->post('link')) ? html_escape($this->input->post('link')) : NULL;
     $title = !empty($this->input->post('title')) ? html_escape($this->input->post('title')) : NULL;
+    $bgcolor = !empty($this->input->post('bgcolor')) ? html_escape($this->input->post('bgcolor')) : '#929fba';
     $memo = !empty($this->input->post('memo')) ? html_escape($this->input->post('memo')) : NULL;
 
     if ($parent_idx == 0) {
@@ -4114,6 +4115,7 @@ class Admin extends Admin_Controller
       $updateValues['sort_idx'] = $max;
       $updateValues['link'] = $link;
       $updateValues['title'] = $title;
+      $updateValues['bgcolor'] = $bgcolor;
       $updateValues['memo'] = $memo;
       $this->desk_model->update(DB_BOOKMARKS, $updateValues, $idx);
     } else {
@@ -4122,6 +4124,7 @@ class Admin extends Admin_Controller
       $insertValues['sort_idx'] = $max;
       $insertValues['link'] = $link;
       $insertValues['title'] = $title;
+      $insertValues['bgcolor'] = $bgcolor;
       $insertValues['memo'] = $memo;
       $insertValues['created_by'] = $userData['idx'];
       $insertValues['created_at'] = $now;
