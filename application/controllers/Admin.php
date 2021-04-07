@@ -1534,7 +1534,7 @@ class Admin extends Admin_Controller
   /**
    * 공지사항 수정 처리
    *
-   * @return view
+   * @return json
    * @author bjchoi
    **/
   public function main_notice_update()
@@ -1567,20 +1567,8 @@ class Admin extends Admin_Controller
     }
 
     if (!empty($noticeIdx)) {
-      // 삭제
-      $listNoticeDetail = $this->admin_model->listNoticeDetail($noticeIdx);
-      foreach ($listNoticeDetail as $value) {
-        if (!in_array($value['idx'], $inputData['idx'])) {
-          $updateValues = array(
-            'deleted_by' => $userIdx,
-            'deleted_at' => $now
-          );
-          $this->admin_model->updateNoticeDetail($updateValues, $value['idx']);
-        }
-      }
-
       foreach ($inputData['title'] as $key => $value) {
-        $idx = html_escape($inputData['idx'][$key]);
+        $idx = !empty($inputData['idx'][$key]) ? html_escape($inputData['idx'][$key]) : NULL;
         if (!empty($idx)) {
           // 수정
           $updateValues = array(
@@ -1590,7 +1578,7 @@ class Admin extends Admin_Controller
             'updated_by' => $userIdx,
             'updated_at' => $now
           );
-          $this->admin_model->updateNoticeDetail($updateValues, $idx);
+          $rtn = $this->admin_model->updateNoticeDetail($updateValues, $idx);
         } else {
           // 등록
           $insertValues = array(
@@ -1601,12 +1589,54 @@ class Admin extends Admin_Controller
             'created_by' => $userIdx,
             'created_at' => $now
           );
-          $this->admin_model->insertNoticeDetail($insertValues);
+          $rtn = $this->admin_model->insertNoticeDetail($insertValues);
         }
       }
     }
 
-    redirect(BASE_URL . '/admin/main_notice/' . $noticeIdx);
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+    } else {
+      $result = array('error' => 0, 'message' => $this->lang->line('msg_save_complete'));
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 공지사항 항목 삭제 처리
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function main_notice_item_delete()
+  {
+    $now = time();
+    $userIdx = html_escape($this->session->userData['idx']);
+    $idx = html_escape($this->input->post('idx'));
+    $noticeIdx = html_escape($this->input->post('noticeIdx'));
+
+    if (!empty($noticeIdx) && !empty($idx)) {
+      // 삭제
+      $listNoticeDetail = $this->admin_model->listNoticeDetail($noticeIdx);
+      foreach ($listNoticeDetail as $value) {
+        if ($value['idx'] == $idx) {
+          $updateValues = array(
+            'deleted_by' => $userIdx,
+            'deleted_at' => $now
+          );
+          $rtn = $this->admin_model->updateNoticeDetail($updateValues, $value['idx']);
+        }
+      }
+    }
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+    } else {
+      $result = array('error' => 0, 'message' => $this->lang->line('msg_save_complete'));
+    }
+
+    $this->output->set_output(json_encode($result));
   }
 
   /**
@@ -4122,6 +4152,61 @@ class Admin extends Admin_Controller
     }
 
     $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 멀티 사진 업로드
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function upload()
+  {
+    $this->load->view('admin/upload');
+  }
+
+  /**
+   * 멀티 사진 업로드 처리
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function upload_process()
+  {
+    $result = array();
+    $files = $_FILES['files'];
+    foreach ($files['tmp_name'] as $key => $value) {
+      if (!empty($value)) {
+        if ($files['type'][$key] == 'image/gif') {
+          $ext = ".gif";
+        } elseif ($files['type'][$key] == 'image/png') {
+          $ext = ".png";
+        } else {
+          $ext = ".jpg";
+        }
+        $filename = time() . mt_rand(10000, 99999) . $ext;
+        if (move_uploaded_file($value, EDITOR_PATH . $filename)) {
+          // 썸네일 만들기
+          $this->image_lib->clear();
+          $config['image_library'] = 'gd2';
+          $config['source_image'] = EDITOR_PATH . $filename;
+          $config['new_image'] = EDITOR_PATH . 'thumb_' . $filename;
+          $config['create_thumb'] = TRUE;
+          $config['maintain_ratio'] = TRUE;
+          $config['thumb_marker'] = '';
+          $config['width'] = 500;
+          $this->image_lib->initialize($config);
+          $this->image_lib->resize();
+        }
+        $buf = array(
+          'sFileName' => $filename,
+          'sFileURL' => EDITOR_URL . $filename,
+          'bNewLine' => 'true'
+        );
+        array_push($result, $buf);
+      }
+    }
+    $this->output->set_output(json_encode($result));    
   }
 
   /**

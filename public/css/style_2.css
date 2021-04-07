@@ -2425,6 +2425,8 @@ body { font-family: 'Noto Sans KR', sans-serif; }
 .admin-bus-table .paid { color: #333; }
 .admin-bus-table input.seat { width: 20px; }
 
+.se-content { width: 99%; }
+
 #addedInfo .reserve { font-size: 12px; background-color: #fff; border: 1px solid #999; margin: 10px 0; padding: 0.5rem 0 0.3rem 0.5rem; }
 #addedInfo .reserve input, #addedInfo .reserve select, .wait input, .wait select { font-size: 14px; }
 #addedInfo .reserve input { padding: 2px 4px; }
