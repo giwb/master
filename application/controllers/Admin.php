@@ -3473,7 +3473,7 @@ class Admin extends Admin_Controller
     $viewData['listClubDetail'] = $this->admin_model->listClubDetail($viewData['clubIdx']);
 
     // 페이지 타이틀
-    $viewData['pageTitle'] = '소개화면 만들기';
+    $viewData['pageTitle'] = '페이지관리';
 
     // 헤더 메뉴
     $viewData['headerMenu'] = 'setup_header';
@@ -3495,18 +3495,6 @@ class Admin extends Admin_Controller
     $userIdx = html_escape($this->session->userData['idx']);
 
     if (!empty($clubIdx)) {
-      // 삭제
-      $listClubDetail = $this->admin_model->listClubDetail($clubIdx);
-      foreach ($listClubDetail as $value) {
-        if (!in_array($value['idx'], $inputData['idx'])) {
-          $updateValues = array(
-            'deleted_by' => $userIdx,
-            'deleted_at' => $now
-          );
-          $this->admin_model->updateClubDetail($updateValues, $value['idx']);
-        }
-      }
-
       foreach ($inputData['title'] as $key => $value) {
         if (!empty($value)) {
           if (!empty($inputData['idx'][$key])) {
@@ -3535,7 +3523,40 @@ class Admin extends Admin_Controller
       }
     }
 
-    redirect(BASE_URL . '/admin/setup_pages');
+    $result = array('error' => 0, 'message' => '');
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 설정 - 소개 페이지 삭제
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function setup_pages_delete()
+  {
+    $now = time();
+    $inputData = $this->input->post();
+    $idx = html_escape($inputData['idx']);
+    $clubIdx = html_escape($inputData['clubIdx']);
+    $userIdx = html_escape($this->session->userData['idx']);
+
+    if (!empty($clubIdx)) {
+      // 삭제
+      $listClubDetail = $this->admin_model->listClubDetail($clubIdx);
+      foreach ($listClubDetail as $value) {
+        if ($value['idx'] == $idx) {
+          $updateValues = array(
+            'deleted_by' => $userIdx,
+            'deleted_at' => $now
+          );
+          $this->admin_model->updateClubDetail($updateValues, $idx);
+        }
+      }
+    }
+
+    $result = array('error' => 0, 'message' => '');
+    $this->output->set_output(json_encode($result));
   }
 
   /**

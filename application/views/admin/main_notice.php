@@ -36,7 +36,7 @@
                     </div>
                     <div class="col-2 col-sm-3 pr-2 text-right">
                       <?php if (!empty($view['photo'])): ?>
-                      <button type="button" class="btn-custom btn-giwbred btn-notice-photo-delete pl-2 pr-2">삭제</button>
+                      <button type="button" class="btn-custom btn-giwbred btn-notice-photo-delete">삭제</button>
                       <?php endif; ?>
                     </div>
                   </div>
@@ -46,7 +46,7 @@
                   <div class="item-notice pt-3">
                     <div class="row no-gutters align-items-center mb-2">
                       <div class="col-10 col-sm-11"><input type="hidden" name="idx[]" value="<?=$value['idx']?>"><input type="text" name="title[]" value="<?=$value['title']?>" class="form-control form-control-sm"></div>
-                      <div class="col-2 col-sm-1 pr-2 text-right"><button type="button" class="btn-custom btn-giwbred btn-delete-notice-modal pl-2 pr-2" data-idx="<?=$value['idx']?>">삭제</button></div>
+                      <div class="col-2 col-sm-1 pr-2 text-right"><button type="button" class="btn-custom btn-giwbred btn-delete-notice-modal" data-idx="<?=$value['idx']?>">삭제</button></div>
                     </div>
                     <textarea name="content[]" rows="10" cols="100" id="content_<?=$key?>" class="se-content"><?=$value['content']?></textarea>
                   </div>
@@ -85,7 +85,7 @@
         </div>
 
         <script type="text/javascript">
-          $('#sortable').disableSelection().sortable();
+          //$('#sortable').disableSelection().sortable();
 
           var cnt = 0;
           $('.se-content').each(function(n) {
@@ -150,7 +150,7 @@
             // 공지사항 항목 추가
             var cnt = 0;
             $('.se-content').each(function() { cnt++; });
-            var content = '<div class="item-notice pt-3"><div class="row no-gutters align-items-center mb-2"><div class="col-10 col-sm-11"><input type="text" name="title[]" class="form-control form-control-sm"></div><div class="col-2 col-sm-1 pr-2 text-right"><button type="button" class="btn-custom btn-giwbred btn-delete-notice-modal pl-2 pr-2">삭제</button></div></div><textarea name="content[]" rows="10" cols="100" id="content_' + cnt + '" class="se-content"></textarea></div>';
+            var content = '<div class="item-notice pt-3"><div class="row no-gutters align-items-center mb-2"><div class="col-10 col-sm-11"><input type="text" name="title[]" class="form-control form-control-sm"></div><div class="col-2 col-sm-1 pr-2 text-right"><button type="button" class="btn-custom btn-giwbred btn-delete-notice-modal">삭제</button></div></div><textarea name="content[]" rows="10" cols="100" id="content_' + cnt + '" class="se-content"></textarea></div>';
             $('.area-notice').append(content);
 
             oEditors[cnt] = [];
