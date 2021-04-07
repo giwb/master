@@ -78,7 +78,7 @@
   }).on('click', '.btn-add-category', function() {
     // 북마크 카테고리 추가 입력폼 표시
     $('.area-add-category').remove();
-    $('.area-bookmark').append('<div class="col-sm-3 p-1 pb-5 text-center bk-editing"><div class="row no-gutters align-items-center bk-header" style="background-color: #929fba;"><div class="col-7"><input type="text" name="title" class="form-control form-control-sm" placeholder="카테고리명 입력"></div><div class="col-2"><input type="text" name="bgcolor" class="form-control form-control-sm" placeholder="색"></div><div class="col-3"><button type="button" class="btn-custom btn-giwb btn-add-category-submit">등록</button></div></div></div>');
+    $('.area-bookmark').append('<div class="col-sm-3 p-1 pb-5 text-center bk-editing"><div class="row no-gutters align-items-center bk-header" style="background-color: #929fba;"><div class="col-6"><input type="text" name="title" class="form-control form-control-sm" placeholder="카테고리명 입력"></div><div class="col-3"><input type="text" name="bgcolor" class="form-control form-control-sm" placeholder="색"></div><div class="col-3"><button type="button" class="btn-custom btn-giwb btn-add-category-submit">등록</button></div></div></div>');
     $('input[name=title]').focus();
   }).on('click', '.btn-edit-category', function() {
     // 북마크 카테고리 수정 입력폼 표시
@@ -88,7 +88,7 @@
     var bgcolor = $(this).data('bgcolor');
     var title = $dom.find('.category').text();
     $dom.remove();
-    $domParent.prepend('<div class="bk-editing"><div class="row no-gutters align-items-center bk-header" style="background-color: #929fba;"><div class="col-7"><input type="text" name="title" class="form-control form-control-sm" value="' + title + '"></div><div class="col-2"><input type="text" name="bgcolor" class="form-control form-control-sm" value="' + bgcolor + '"></div><div class="col-3"><input type="hidden" name="idx" value="' + idx + '"><button type="button" class="btn-custom btn-giwb btn-add-category-submit">수정</button></div></div></div>');
+    $domParent.prepend('<div class="bk-editing"><div class="row no-gutters align-items-center bk-header" style="background-color: ' + bgcolor + ';"><div class="col-6"><input type="text" name="title" class="form-control form-control-sm" value="' + title + '"></div><div class="col-3"><input type="text" name="bgcolor" class="form-control form-control-sm" value="' + bgcolor + '"></div><div class="col-3"><input type="hidden" name="idx" value="' + idx + '"><button type="button" class="btn-custom btn-giwb btn-add-category-submit">수정</button></div></div></div>');
     $('input[name=title]').focus();
   }).on('click', '.btn-add-category-submit', function() {
     // 북마크 카테고리 추가/수정 처리
