@@ -31,7 +31,7 @@ class Admin extends Admin_Controller
     $listBookmark = $this->admin_model->listBookmark($viewData['clubIdx']);
 
     foreach ($listBookmark as $value) {
-      if (!empty($value['memo'])) {
+      if (empty($value['title']) && empty($value['link']) && !empty($value['memo'])) {
         $viewData['viewBookmark']['idx'] = $value['idx'];
         $viewData['viewBookmark']['memo'] = $value['memo'];
       } elseif (empty($value['parent_idx'])) {
@@ -46,6 +46,7 @@ class Admin extends Admin_Controller
             $viewData['listBookmark'][$key]['bookmark'][$key2]['idx'] = $bookmark['idx'];
             $viewData['listBookmark'][$key]['bookmark'][$key2]['link'] = $bookmark['link'];
             $viewData['listBookmark'][$key]['bookmark'][$key2]['title'] = $bookmark['title'];
+            if (!empty($bookmark['memo'])) $viewData['listBookmark'][$key]['bookmark'][$key2]['memo'] = $bookmark['memo']; else $viewData['listBookmark'][$key]['bookmark'][$key2]['memo'] = '';
           }
         }
       }

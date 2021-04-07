@@ -24,13 +24,13 @@
               <a class="btn-bookmark btn-edit-memo" data-idx="<?=!empty($viewBookmark['idx']) ? $viewBookmark['idx'] : ''?>"><i class="far fa-plus-square"></i> 메모장 편집</a>
             </div>
 
-            <div class="row no-gutters align-items-top area-bookmark">
+            <div id="sortable" class="row no-gutters align-items-top area-bookmark">
               <?php if (!empty($listBookmark)): foreach ($listBookmark as $value): ?>
               <div class="col-sm-3 p-1 pb-5 text-center">
                 <div class="bk-header" data-idx="<?=$value['idx']?>"><a class="btn-bookmark btn-delete-bookmark-modal" data-idx="<?=$value['idx']?>"><i class="fas fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-category" data-idx="<?=$value['idx']?>"><i class="fas fa-pen-square"></i></a> <span class="category"><?=$value['title']?></span></div>
                 <div class="bk-body text-left p-2">
                   <?php if (!empty($value['bookmark'])): foreach ($value['bookmark'] as $bookmark): ?>
-                    <div class="bk-item" data-idx="<?=$bookmark['idx']?>"><a class="btn-bookmark btn-delete-bookmark-modal" data-idx="<?=$bookmark['idx']?>"><i class="far fa-minus-square"></i></a> <a target="_blank" href="<?=$bookmark['link']?>"><?=$bookmark['title']?></a></div>
+                    <div class="bk-item" data-idx="<?=$bookmark['idx']?>"><a class="btn-bookmark btn-delete-bookmark-modal" data-idx="<?=$bookmark['idx']?>"><i class="far fa-minus-square"></i></a> <a target="_blank" href="<?=$bookmark['link']?>" data-memo="<?=!empty($bookmark['memo']) ? $bookmark['memo'] : ''?>"><?=$bookmark['title']?></a></div>
                   <?php endforeach; endif; ?>
                   <a class="btn-bookmark btn-add-bookmark" data-idx="<?=$value['idx']?>"><i class="far fa-plus-square"></i> 북마크 추가</a>
                 </div>
@@ -115,7 +115,7 @@
     });
   }).on('click', '.btn-add-bookmark', function() {
     // 북마크 추가 입력폼 표시
-    $(this).parent().append('<div class="bk-editing"><div class="mt-1 mb-1"><input type="text" name="title" class="form-control form-control-sm" placeholder="북마크명"></div><div class="mb-1"><input type="text" name="link" class="form-control form-control-sm" placeholder="링크URL"></div><input type="hidden" name="parent_idx" value="' + $(this).data('idx') + '"><button type="button" class="btn-custom btn-giwb btn-add-bookmark-submit">등록</button></div>');
+    $(this).parent().append('<div class="bk-editing"><div class="mt-1 mb-1"><input type="text" name="title" class="form-control form-control-sm" placeholder="북마크명"></div><div class="mb-1"><input type="text" name="link" class="form-control form-control-sm" placeholder="링크URL"></div><div class="mb-1"><input type="text" name="memo" class="form-control form-control-sm" placeholder="설명"></div><input type="hidden" name="parent_idx" value="' + $(this).data('idx') + '"><button type="button" class="btn-custom btn-giwb btn-add-bookmark-submit">등록</button></div>');
     $(this).remove();
   }).on('click', '.btn-add-bookmark-submit', function() {
     // 북마크 추가/수정 처리
@@ -124,10 +124,11 @@
     var parent_idx = $dom.find('input[name=parent_idx]').val();
     var title = $dom.find('input[name=title]').val();
     var link = $dom.find('input[name=link]').val();
+    var memo = $dom.find('input[name=memo]').val();
     if (title == '' || link == '') return false;
     $.ajax({
       url: '/admin/bookmark_update',
-      data: 'title=' + title + '&link=' + link + '&parent_idx=' + parent_idx,
+      data: 'title=' + title + '&link=' + link + '&memo=' + memo + '&parent_idx=' + parent_idx,
       dataType: 'json',
       type: 'post',
       beforeSend: function() {
@@ -189,6 +190,17 @@
         $('.bk-item[data-idx=' + idx + ']').remove();
         $dom.modal('hide');
       }
+    });
+  });
+
+  $(document).ready(function() {
+    $('.bk-item a').hover(function(){
+      var memo = $(this).data('memo');
+      if (typeof memo != 'undefined' && memo != '') {
+        $(this).append('<div class="layer-memo">' + memo + '</div>')
+      }
+    }, function() {
+      $('.layer-memo').remove();
     });
   });
 </script>
