@@ -18,7 +18,7 @@
               <button type="button" class="btn-custom btn-giwb btn-bookmark-update">북마크 수정</button>
             </div>
 
-            <div class="area-memo"><?=!empty($viewBookmark['memo']) ? nl2br($viewBookmark['memo']) : ''?></div>
+            <div class="area-memo d-none"><?=!empty($viewBookmark['memo']) ? nl2br($viewBookmark['memo']) : ''?></div>
 
             <div class="area-edit-memo mt-3 mb-3">
               <a class="btn-bookmark btn-edit-memo" data-idx="<?=!empty($viewBookmark['idx']) ? $viewBookmark['idx'] : ''?>"><i class="far fa-plus-square"></i> 메모장 편집</a>
@@ -30,7 +30,7 @@
                 <div class="bk-header" data-idx="<?=$value['idx']?>"><a class="btn-bookmark btn-delete-bookmark-modal"><i class="fas fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-category" data-idx="<?=$value['idx']?>"><i class="fas fa-pen-square"></i></a> <span class="category"><?=$value['title']?></span></div>
                 <div class="bk-body text-left p-2">
                   <?php if (!empty($value['bookmark'])): foreach ($value['bookmark'] as $bookmark): ?>
-                    <div class="bk-item" data-idx="<?=$bookmark['idx']?>"><a class="btn-bookmark btn-delete-bookmark-modal"><i class="far fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-bookmark"><i class="far fa-edit"></i></a> <a target="_blank" href="<?=$bookmark['link']?>" data-memo="<?=!empty($bookmark['memo']) ? $bookmark['memo'] : ''?>" class="link-bookmark"><?=$bookmark['title']?></a></div>
+                    <div class="bk-item" data-idx="<?=$bookmark['idx']?>"><a class="btn-bookmark btn-delete-bookmark-modal"><i class="far fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-bookmark"><i class="far fa-edit"></i></a> <?php if (!empty($bookmark['link']) && !empty($bookmark['title'])): ?><a target="_blank" href="<?=$bookmark['link']?>" data-memo="<?=!empty($bookmark['memo']) ? $bookmark['memo'] : ''?>" class="link-bookmark"><?=$bookmark['title']?></a><?php else: ?><?=!empty($bookmark['memo']) ? $bookmark['memo'] : ''?><?php endif; ?></div>
                   <?php endforeach; endif; ?>
                   <a class="btn-bookmark btn-add-bookmark" data-idx="<?=$value['idx']?>"><i class="far fa-plus-square"></i> 북마크 추가</a>
                 </div>
@@ -98,7 +98,7 @@
     if (title == '') return false;
     $.ajax({
       url: '/admin/bookmark_update',
-      data: 'idx=' + idx + '&title=' + title,
+      data: 'clubIdx=' + $('input[name=clubIdx]').val() + '&idx=' + idx + '&title=' + title,
       dataType: 'json',
       type: 'post',
       beforeSend: function() {
@@ -140,11 +140,10 @@
     var title = $dom.find('input[name=title]').val();
     var link = $dom.find('input[name=link]').val();
     var memo = $dom.find('input[name=memo]').val();
-    if (title == '' || link == '') return false;
     if (typeof idx == 'undefined' || idx == '') idx = '';
     $.ajax({
       url: '/admin/bookmark_update',
-      data: 'title=' + title + '&link=' + link + '&memo=' + memo + '&parent_idx=' + parent_idx + '&idx=' + idx,
+      data: 'clubIdx=' + $('input[name=clubIdx]').val() + '&title=' + title + '&link=' + link + '&memo=' + memo + '&parent_idx=' + parent_idx + '&idx=' + idx,
       dataType: 'json',
       type: 'post',
       beforeSend: function() {

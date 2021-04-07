@@ -989,13 +989,18 @@ class Admin_model extends CI_Model
   }
 
   // 북마크 목록
-  public function listBookmark($clubIdx)
+  public function listBookmark($clubIdx, $parent_idx=NULL)
   {
     $this->db->select('*')
           ->from(DB_BOOKMARKS)
           ->where('club_idx', $clubIdx)
           ->where('deleted_at', NULL)
           ->order_by('sort_idx, idx', 'asc');
+
+    if (!is_null($parent_idx)) {
+      $this->db->where('parent_idx', $parent_idx);
+    }
+
     return $this->db->get()->result_array();
   }
 }
