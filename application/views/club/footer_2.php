@@ -82,7 +82,7 @@
           <!-- 내부 광고 -->
           <section class="section mt-4 mb-4">
             <div class="card">
-              <a target="_blank" href="https://sayhome.co.kr"><img src="/public/images/banner_sayhome.png"></a>
+              <a target="_blank" href="https://sayhome.co.kr"><img class="w-100" src="/public/images/banner_sayhome.png"></a>
             </div>
           </section>
 
