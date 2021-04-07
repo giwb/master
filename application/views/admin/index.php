@@ -26,7 +26,7 @@
 
             <div id="sortable" class="row no-gutters align-items-top area-bookmark">
               <?php if (!empty($listBookmark)): foreach ($listBookmark as $value): ?>
-              <div class="col-sm-3 p-1 pb-5 text-center">
+              <div class="col-6 col-sm-3 p-1 pb-5 text-center">
                 <div class="bk-header" data-idx="<?=$value['idx']?>"><a class="btn-bookmark btn-delete-bookmark-modal"><i class="fas fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-category" data-idx="<?=$value['idx']?>"><i class="fas fa-pen-square"></i></a> <span class="category"><?=$value['title']?></span></div>
                 <div class="bk-body text-left p-2">
                   <?php if (!empty($value['bookmark'])): foreach ($value['bookmark'] as $bookmark): ?>
