@@ -30,7 +30,7 @@
                 <div class="bk-header" data-idx="<?=$value['idx']?>"><a class="btn-bookmark btn-delete-bookmark-modal"><i class="fas fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-category" data-idx="<?=$value['idx']?>"><i class="fas fa-pen-square"></i></a> <span class="category"><?=$value['title']?></span></div>
                 <div class="bk-body text-left p-2">
                   <?php if (!empty($value['bookmark'])): foreach ($value['bookmark'] as $bookmark): ?>
-                    <div class="bk-item" data-idx="<?=$bookmark['idx']?>"><a class="btn-bookmark btn-delete-bookmark-modal"><i class="far fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-bookmark"><i class="far fa-edit"></i></a> <?php if (!empty($bookmark['link']) && !empty($bookmark['title'])): ?><a target="_blank" href="<?=$bookmark['link']?>" data-memo="<?=!empty($bookmark['memo']) ? $bookmark['memo'] : ''?>" class="link-bookmark"><?=$bookmark['title']?></a><?php else: ?><?=!empty($bookmark['memo']) ? $bookmark['memo'] : ''?><?php endif; ?></div>
+                    <div class="bk-item" data-idx="<?=$bookmark['idx']?>"><a class="btn-bookmark btn-delete-bookmark-modal"><i class="far fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-bookmark"><i class="far fa-edit"></i></a> <?php if (!empty($bookmark['link']) && !empty($bookmark['title'])): ?><a target="_blank" href="<?=$bookmark['link']?>" data-memo="<?=!empty($bookmark['memo']) ? $bookmark['memo'] : ''?>" class="link-bookmark"><?=$bookmark['title']?><?php else: ?><?=!empty($bookmark['memo']) ? '<a data-memo="' . $bookmark['memo'] . '" class="link-bookmark">' . $bookmark['memo'] : ''?><?php endif; ?></a></div>
                   <?php endforeach; endif; ?>
                   <a class="btn-bookmark btn-add-bookmark" data-idx="<?=$value['idx']?>"><i class="far fa-plus-square"></i> 북마크 추가</a>
                 </div>
@@ -152,7 +152,11 @@
       success: function(result) {
         $btn.css('opacity', '1').prop('disabled', false);
         $('.bk-editing').remove();
-        $dom.append('<a class="btn-bookmark btn-delete-bookmark-modal"><i class="far fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-bookmark"><i class="far fa-edit"></i></a> <a target="_blank" href="' + link + '" data-memo="' + memo + '" class="link-bookmark">' + title + '</a>');
+        if (link == '' && title == '' && memo != '') {
+          $dom.append('<a class="btn-bookmark btn-delete-bookmark-modal"><i class="far fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-bookmark"><i class="far fa-edit"></i></a> <a data-memo="' + memo + '" class="link-bookmark">' + memo + '</a>');
+        } else {
+          $dom.append('<a class="btn-bookmark btn-delete-bookmark-modal"><i class="far fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-bookmark"><i class="far fa-edit"></i></a> <a target="_blank" href="' + link + '" data-memo="' + memo + '" class="link-bookmark">' + title + '</a>');
+        }
         if (idx == '') {
           $dom.append('<br><a class="btn-bookmark btn-add-bookmark" data-idx="' + parent_idx + '"><i class="far fa-plus-square"></i> 북마크 추가</a>');
         }
