@@ -995,7 +995,7 @@ class Admin_model extends CI_Model
           ->from(DB_BOOKMARKS)
           ->where('club_idx', $clubIdx)
           ->where('deleted_at', NULL)
-          ->order_by('idx');
+          ->order_by('sort_idx, idx', 'asc');
     return $this->db->get()->result_array();
   }
 }

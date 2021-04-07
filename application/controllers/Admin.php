@@ -4100,9 +4100,13 @@ class Admin extends Admin_Controller
     $title = !empty($this->input->post('title')) ? html_escape($this->input->post('title')) : NULL;
     $memo = !empty($this->input->post('memo')) ? html_escape($this->input->post('memo')) : NULL;
 
+    $listBookmark = $this->admin_model->listBookmark($viewData['clubIdx']);
+    $max = count($listBookmark);
+
     if (!empty($idx)) {
       // 수정
       $updateValues['parent_idx'] = $parent_idx;
+      $updateValues['sort_idx'] = $max;
       $updateValues['link'] = $link;
       $updateValues['title'] = $title;
       $updateValues['memo'] = $memo;
@@ -4110,6 +4114,7 @@ class Admin extends Admin_Controller
     } else {
       // 등록
       $insertValues['parent_idx'] = $parent_idx;
+      $updateValues['sort_idx'] = $max;
       $insertValues['link'] = $link;
       $insertValues['title'] = $title;
       $insertValues['memo'] = $memo;
@@ -4122,6 +4127,32 @@ class Admin extends Admin_Controller
       $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
     } else {
       $result = array('error' => 0, 'message' => $idx);
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 북마크 이동
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function bookmark_sort()
+  {
+    $idx = !empty($this->input->post('idx')) ? html_escape($this->input->post('idx')) : NULL;
+
+    if (empty($idx)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+    } else {
+      $arrIdx = explode(',', $idx);
+
+      foreach ($arrIdx as $key => $value) {
+        $updateValues['sort_idx'] = $key + 1;
+        $this->desk_model->update(DB_BOOKMARKS, $updateValues, $value);
+      }
+
+      $result = array('error' => 0, 'message' => '');
     }
 
     $this->output->set_output(json_encode($result));

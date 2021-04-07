@@ -193,7 +193,27 @@
     });
   });
 
+  $('#sortable').disableSelection().sortable({
+    // 정렬
+    stop: function(event, ui) {
+      var arrSort = new Array();
+
+      $('.bk-header').each(function() {
+        arrSort.push($(this).data('idx'));
+      })
+
+      $.ajax({
+        url: '/admin/bookmark_sort',
+        data: 'idx=' + arrSort,
+        dataType: 'json',
+        type: 'post',
+        success: function() {}
+      });
+    }
+  });
+
   $(document).ready(function() {
+    // 북마크 설명 보여주기
     $('.bk-item a').hover(function(){
       var memo = $(this).data('memo');
       if (typeof memo != 'undefined' && memo != '') {
