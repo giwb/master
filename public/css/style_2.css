@@ -2882,7 +2882,7 @@ main#footer .logo-img { margin-right: 10px; float: left; }
 #bookmark .bk-header { color: #fff; background-color: #929fba; padding: 9px 0 10px 0; border-radius: 5px; }
 #bookmark .bk-editing .bk-header { padding: 6px 10px; }
 #bookmark .bk-item { position: relative; }
-#bookmark .bk-item .layer-memo { position: absolute; border: 1px solid #3D3E40; font-size: 0.8rem; color: #3D3E40; background-color: #fff; padding: 5px 10px; }
+#bookmark .bk-item .layer-memo { position: absolute; border: 1px solid #3D3E40; font-size: 0.8rem; color: #3D3E40; background-color: #fff; padding: 5px 10px; z-index: 2; }
 #bookmark .btn-add-category { border: 1px solid #d9d9d9; margin: 5px 5px 0 5px; padding: 9px 0 10px 0; border-radius: 5px; display: block; }
 #bookmark .far { font-size: 0.9rem; color: #bbb!important; }
 #bookmark .btn-add-category, .btn-add-bookmark, .btn-edit-memo { font-size: 0.9rem; color: #bbb!important; }
