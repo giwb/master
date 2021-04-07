@@ -79,6 +79,13 @@
           </script>
           <?php endif; ?>
 
+          <!-- 내부 광고 -->
+          <section class="section mt-4 mb-4">
+            <div class="card">
+              <a target="_blank" href="https://sayhome.co.kr"><img src="/public/images/banner_sayhome.png"></a>
+            </div>
+          </section>
+
           <?php if (empty($uri)): // 안부 인사와 인증현황은 메인 페이지에서만 보이게 ?>
           <section class="section mt-5">
             <h4 class="row font-weight-bold">
