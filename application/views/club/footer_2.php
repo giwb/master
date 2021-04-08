@@ -82,7 +82,11 @@
           <!-- 내부 광고 -->
           <section class="section mt-4 mb-4">
             <div class="card">
+              <?php $banner = mt_rand(1, 2); if ($banner == 1): ?>
+              <a target="_blank" href="http://won04.co.kr"><img class="w-100" src="/public/images/banner_won04.png"></a>
+              <?php else: ?>
               <a target="_blank" href="https://sayhome.co.kr"><img class="w-100" src="/public/images/banner_sayhome.png"></a>
+              <?php endif; ?>
             </div>
           </section>
 
