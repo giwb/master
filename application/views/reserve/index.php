@@ -165,7 +165,7 @@
                 <input type="hidden" name="clubIdx" value="<?=!empty($view['idx']) ? $view['idx'] : ''?>">
                 <input type="hidden" name="userIdx" value="<?=!empty($userData['idx']) ? $userData['idx'] : ''?>">
                 <input type="hidden" name="noticeIdx" value="<?=!empty($notice['idx']) ? $notice['idx'] : ''?>">
-                <input type="hidden" name="addedInfo" value="<?=!empty($userData['location']) ? $userData['location'] : ''?>">
+                <input type="hidden" name="addedInfo" value="<?=!empty($userData['personal_code']) ? $userData['personal_code'] : ''?>">
                 <button type="button" class="btn btn-default btn-reserve-confirm">예약합니다</button>
                 <button type="button" class="btn btn-secondary btn-reserve-cancel d-none">취소합니다</button>
               </form>
