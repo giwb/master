@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>파일 업로드</title>
+  <title>사진 올리기</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
   <link href="/public/css/bootstrap.min.css" rel="stylesheet">
   <link href="/public/css/desk.css" rel="stylesheet">

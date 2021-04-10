@@ -85,7 +85,7 @@
               <?php //$banner = mt_rand(1, 2); if ($banner == 1): ?>
               <!--<a target="_blank" href="http://won04.co.kr"><img class="w-100" src="/public/images/banner_won04.png"></a>-->
               <?php //else: ?>
-              <a target="_blank" href="https://sayhome.co.kr"><img class="w-100" src="/public/images/banner_sayhome.png"></a>
+              <a target="_blank" href="https://sayhome.co.kr/?utm_source=giwb"><img class="w-100" src="/public/images/banner_sayhome.png"></a>
               <?php //endif; ?>
             </div>
           </section>
