@@ -9,7 +9,7 @@ class Member extends MY_Controller
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
     $this->load->library(array('image_lib', 'session'));
-    $this->load->model(array('club_model', 'file_model', 'member_model', 'reserve_model', 'shop_model', 'story_model'));
+    $this->load->model(array('area_model', 'club_model', 'file_model', 'member_model', 'reserve_model', 'shop_model', 'story_model'));
   }
 
   /**
@@ -724,6 +724,12 @@ class Member extends MY_Controller
     $viewData['viewMember']['phone2'] = $buf[1];
     $viewData['viewMember']['phone3'] = $buf[2];
 
+    // 거주지역 나누기
+    $buf = unserialize($viewData['viewMember']['area']);
+    $viewData['viewMember']['sido'] = $buf[0];
+    $viewData['viewMember']['gugun'] = $buf[1];
+    $viewData['viewMember']['dong'] = $buf[2];
+
     // 아이콘
     if (file_exists(AVATAR_PATH . $viewData['viewMember']['idx'])) {
       $viewData['viewMember']['photo'] = AVATAR_URL . $viewData['viewMember']['idx'];
@@ -731,6 +737,14 @@ class Member extends MY_Controller
       $viewData['viewMember']['photo'] = $viewData['viewMember']['icon_thumbnail'];
     } else {
       $viewData['viewMember']['photo'] = '/public/images/user.png';
+    }
+
+    // 지역
+    $viewData['area_sido'] = $this->area_model->listSido();
+    $viewData['area_gugun'] = array();
+
+    if (!empty($viewData['viewMember']['sido'])) {
+      $viewData['area_gugun'] = $this->area_model->listGugun($viewData['viewMember']['sido']);
     }
 
     // 페이지 타이틀
@@ -747,22 +761,33 @@ class Member extends MY_Controller
    **/
   public function update()
   {
-    $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
     $inputData = $this->input->post();
 
     if (empty($userData['idx'])) {
       $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
+    }
+
+    if (!empty($inputData['sido']) && !empty($inputData['gugun']) && !empty($inputData['dong'])) {
+      $area['sido'] = $inputData['sido'];
+      $area['gugun'] = $inputData['gugun'];
+      $area['dong'] = $inputData['dong'];
+      $inputData['area'] = make_serialize($area);
     } else {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+    }
+
+    if (empty($result)) {
       $updateValues = array(
-        'club_idx'      => html_escape($clubIdx),
         'nickname'      => html_escape($inputData['nickname']),
         'realname'      => html_escape($inputData['realname']),
+        'personal_code' => html_escape($inputData['personal_code']),
         'gender'        => html_escape($inputData['gender']),
-        'location'      => html_escape($inputData['location']),
-        'birthday'      => html_escape($inputData['birthday_year']) . '/' . html_escape($inputData['birthday_month']) . '/' . html_escape($inputData['birthday_day']),
-        'birthday_type' => html_escape($inputData['birthday_type']),
+        //'birthday'      => html_escape($inputData['birthday_year']) . '/' . html_escape($inputData['birthday_month']) . '/' . html_escape($inputData['birthday_day']),
+        //'birthday_type' => html_escape($inputData['birthday_type']),
         'phone'         => html_escape($inputData['phone1']) . '-' . html_escape($inputData['phone2']) . '-' . html_escape($inputData['phone3']),
+        'location'      => html_escape($inputData['location']),
+        'area'          => $inputData['area'],
       );
 
       // 비밀번호는 입력했을때만 저장
@@ -784,11 +809,13 @@ class Member extends MY_Controller
           }
           move_uploaded_file($filename, AVATAR_PATH . $userData['idx']);
         }
-
-        $result = array('error' => 0, 'message' => $this->lang->line('msg_update_complete'));
-      } else {
-        $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
       }
+    }
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+    } else {
+      $result = array('error' => 0, 'message' => $this->lang->line('msg_update_complete'));
     }
 
     $this->output->set_output(json_encode($result));

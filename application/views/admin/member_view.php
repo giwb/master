@@ -29,15 +29,10 @@
                   <div class="col-sm-10"><input type="text" name="realname" value="<?=$viewMember['realname']?>" class="form-control"></div>
                 </div>
                 <div class="row no-gutters align-items-center border-bottom mb-3 pb-3">
-                  <div class="col-sm-2">휴대폰</div>
-                  <div class="col-sm-10">
-                    <div class="row no-gutters">
-                      <div class="pr-2"><input type="text" size="4" name="phone1" value="<?=!empty($viewMember['phone'][0]) ? $viewMember['phone'][0] : ''?>" class="form-control"></div>
-                      <div class="pr-2"><input type="text" size="4" name="phone2" value="<?=!empty($viewMember['phone'][1]) ? $viewMember['phone'][1] : ''?>" class="form-control"></div>
-                      <div><input type="text" size="4" name="phone3" value="<?=!empty($viewMember['phone'][2]) ? $viewMember['phone'][2] : ''?>" class="form-control"></div>
-                    </div>
-                  </div>
+                  <div class="col-sm-2">주민등록번호</div>
+                  <div class="col-sm-10"><input type="text" name="personal_code" maxlength="6" value="<?=!empty($viewMember['personal_code']) ? $viewMember['personal_code'] : ''?>" class="form-control"></div>
                 </div>
+                <?php if (!empty($viewMember['birthday'][0])): ?>
                 <div class="row no-gutters align-items-center border-bottom mb-3 pb-3">
                   <div class="col-sm-2">생년월일</div>
                   <div class="col-sm-10">
@@ -73,11 +68,48 @@
                     </div>
                   </div>
                 </div>
+                <?php endif; ?>
                 <div class="row no-gutters align-items-center border-bottom mb-3 pb-3">
                   <div class="col-sm-2">성별</div>
                   <div class="col-sm-10 row no-gutters align-items-center">
                     <label class="col col-sm-2 m-0 pl-0"><input type="radio" name="gender" value="M"<?=$viewMember['gender'] == 'M' ? ' checked' : ''?>> 남성</label>
                     <label class="col col-sm-2 m-0"><input type="radio" name="gender" value="F"<?=$viewMember['gender'] == 'F' ? ' checked' : ''?>> 여성</label>
+                  </div>
+                </div>
+                <div class="row no-gutters align-items-center border-bottom mb-3 pb-3">
+                  <div class="col-sm-2">휴대폰</div>
+                  <div class="col-sm-10">
+                    <div class="row no-gutters">
+                      <div class="pr-2"><input type="text" size="4" name="phone1" value="<?=!empty($viewMember['phone'][0]) ? $viewMember['phone'][0] : ''?>" class="form-control"></div>
+                      <div class="pr-2"><input type="text" size="4" name="phone2" value="<?=!empty($viewMember['phone'][1]) ? $viewMember['phone'][1] : ''?>" class="form-control"></div>
+                      <div><input type="text" size="4" name="phone3" value="<?=!empty($viewMember['phone'][2]) ? $viewMember['phone'][2] : ''?>" class="form-control"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row no-gutters align-items-center border-bottom mb-3 pb-3">
+                  <div class="col-sm-2">거주지역</div>
+                  <div class="col-sm-10">
+                    <div class="row no-gutters">
+                      <div class="col-lg-3 mr-2">
+                        <select name="sido" class="form-control area-sido">
+                          <option value="">시/도</option>
+                          <?php foreach ($area_sido as $value): ?>
+                          <option<?=!empty($viewMember['sido']) && $viewMember['sido'] == $value['idx'] ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
+                          <?php endforeach; ?>
+                        </select>
+                      </div>
+                      <div class="col-lg-3 mr-2">
+                        <select name="gugun" class="form-control area-gugun">
+                          <option value="">시/군/구</option>
+                          <?php foreach ($area_gugun as $value): ?>
+                          <option<?=!empty($viewMember['gugun']) && $viewMember['gugun'] == $value['idx'] ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
+                          <?php endforeach; ?>
+                        </select>
+                      </div>
+                      <div class="col-lg-5 mr-2">
+                        <input type="text" name="dong" value="<?=!empty($viewMember['dong']) ? $viewMember['dong'] : ''?>" class="form-control" placeholder="동을 입력해주세요">
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="row no-gutters align-items-center border-bottom mb-3 pb-3">

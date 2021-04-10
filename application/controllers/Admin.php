@@ -2131,6 +2131,20 @@ class Admin extends Admin_Controller
     $viewData['viewMember']['phone'] = explode('-', $viewData['viewMember']['phone']);
     $viewData['viewMember']['memberLevel'] = memberLevel($viewData['viewMember']['rescount'], $viewData['viewMember']['penalty'], $viewData['viewMember']['level'], $viewData['viewMember']['admin']);
 
+    // 거주지역 나누기
+    $buf = unserialize($viewData['viewMember']['area']);
+    $viewData['viewMember']['sido'] = $buf[0];
+    $viewData['viewMember']['gugun'] = $buf[1];
+    $viewData['viewMember']['dong'] = $buf[2];
+
+    // 지역
+    $viewData['area_sido'] = $this->area_model->listSido();
+    $viewData['area_gugun'] = array();
+
+    if (!empty($viewData['viewMember']['sido'])) {
+      $viewData['area_gugun'] = $this->area_model->listGugun($viewData['viewMember']['sido']);
+    }
+
     // 예약 내역
     $paging['perPage'] = 5; $paging['nowPage'] = 0;
     $viewData['userReserve'] = $this->reserve_model->userReserve($viewData['clubIdx'], $viewData['viewMember']['idx'], NULL, $paging);
@@ -2295,14 +2309,25 @@ class Admin extends Admin_Controller
     $inputData = $this->input->post();
     $idx = html_escape($this->input->post('idx'));
 
+    if (!empty($inputData['sido']) && !empty($inputData['gugun']) && !empty($inputData['dong'])) {
+      $area['sido'] = $inputData['sido'];
+      $area['gugun'] = $inputData['gugun'];
+      $area['dong'] = $inputData['dong'];
+      $inputData['area'] = make_serialize($area);
+    } else {
+      $inputData['area'] = NULL;
+    }
+
     $updateValues = array(
       'nickname'      => html_escape($inputData['nickname']),
       'realname'      => html_escape($inputData['realname']),
+      'personal_code' => html_escape($inputData['personal_code']),
       'gender'        => html_escape($inputData['gender']),
       'birthday'      => html_escape($inputData['birthday_year']) . '/' . html_escape($inputData['birthday_month']) . '/' . html_escape($inputData['birthday_day']),
       'birthday_type' => html_escape($inputData['birthday_type']),
       'phone'         => html_escape($inputData['phone1']) . '-' . html_escape($inputData['phone2']) . '-' . html_escape($inputData['phone3']),
       'location'      => html_escape($inputData['location']),
+      'area'          => $inputData['area'],
     );
 
     // 평생회원, 무료회원, 드라이버

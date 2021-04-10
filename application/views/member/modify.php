@@ -33,6 +33,13 @@
               <dt>실명</dt>
               <dd><input type="text" name="realname" maxlength="20" class="form-control" value="<?=$viewMember['realname']?>"></dd>
             </dl>
+            <dl>
+              <dt>주민등록번호</dt>
+              <dd>
+                <input type="text" name="personal_code" maxlength="6" class="form-control" value="<?=!empty($viewMember['personal_code']) ? $viewMember['personal_code'] : ''?>">
+                <span class="text-danger">※ 주민등록번호 앞자리(6자리)를 입력해주세요. (예시) 650416</span>
+              </dd>
+            </dl>
             <dl class="pt-2 pb-2">
               <dt>성별</dt>
               <dd>
@@ -41,42 +48,37 @@
               </dd>
             </dl>
             <dl>
-              <dt>생년월일</dt>
-              <dd>
-                <div class="container mb-2">
-                  <div class="row w-100">
-                    <select name="birthday_year" class="form-control col-sm-4 mr-2 pl-1">
-                      <option value=''>--</option>
-                    <?php foreach (range(date('Y'), 1900) as $value): ?>
-                      <option<?=!empty($viewMember['birthday_year']) && $viewMember['birthday_year'] == $value ? ' selected' : ''?> value='<?=$value?>'><?=$value?>년</option>
-                    <?php endforeach; ?>
-                    </select>
-                    <select name="birthday_month" class="form-control col-sm-3 mr-2 pl-1">
-                      <option value=''>--</option>
-                    <?php foreach (range(1, 12) as $value): ?>
-                      <option<?=!empty($viewMember['birthday_month']) && $viewMember['birthday_month'] == $value ? ' selected' : ''?> value='<?=$value?>'><?=$value?>월</option>
-                    <?php endforeach; ?>
-                    </select>
-                    <select name="birthday_day" class="form-control col-sm-3 pl-1">
-                      <option value=''>--</option>
-                    <?php foreach (range(1, 31) as $value): ?>
-                      <option<?=!empty($viewMember['birthday_day']) && $viewMember['birthday_day'] == $value ? ' selected' : ''?> value='<?=$value?>'><?=$value?>일</option>
-                    <?php endforeach; ?>
-                    </select>
-                  </div>
+              <dt>전화번호</dt>
+              <dd">
+                <div class="row no-gutters w-100 p-0">
+                  <div class="col-3 col-sm-2 mr-1"><input type="text" name="phone1" maxlength="3" class="form-control" value="<?=$viewMember['phone1']?>"></div>
+                  <div class="col-4 col-sm-3 mr-1"><input type="text" name="phone2" maxlength="4" class="form-control" value="<?=$viewMember['phone2']?>"></div>
+                  <div class="col-4 col-sm-3"><input type="text" name="phone3" maxlength="4" class="form-control" value="<?=$viewMember['phone3']?>"></div>
                 </div>
-                <label><input type="radio" name="birthday_type" value="1"<?=$viewMember['birthday_type'] == '1' ? ' checked' : ''?>> 양력</label>
-                <label><input type="radio" name="birthday_type" value="2"<?=$viewMember['birthday_type'] == '2' ? ' checked' : ''?>> 음력</label>
               </dd>
             </dl>
             <dl>
-              <dt>전화번호</dt>
+              <dt>거주지역</dt>
               <dd>
-                <div class="container">
-                  <div class="row w-100">
-                    <div class="col-sm-2 mr-2 p-0"><input type="text" name="phone1" maxlength="3" class="form-control" value="<?=$viewMember['phone1']?>"></div>
-                    <div class="col-sm-3 mr-2 p-0"><input type="text" name="phone2" maxlength="4" class="form-control" value="<?=$viewMember['phone2']?>"></div>
-                    <div class="col-sm-3 p-0"><input type="text" name="phone3" maxlength="4" class="form-control" value="<?=$viewMember['phone3']?>"></div>
+                <div class="row no-gutters">
+                  <div class="col-lg-3 mr-2">
+                    <select name="sido" class="form-control area-sido">
+                      <option value="">시/도</option>
+                      <?php foreach ($area_sido as $value): ?>
+                      <option<?=!empty($viewMember['sido']) && $viewMember['sido'] == $value['idx'] ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                  <div class="col-lg-3 mr-2">
+                    <select name="gugun" class="form-control area-gugun">
+                      <option value="">시/군/구</option>
+                      <?php foreach ($area_gugun as $value): ?>
+                      <option<?=!empty($viewMember['gugun']) && $viewMember['gugun'] == $value['idx'] ? ' selected' : ''?> value='<?=$value['idx']?>'><?=$value['name']?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                  <div class="col-lg-5 mr-2">
+                    <input type="text" name="dong" value="<?=!empty($viewMember['dong']) ? $viewMember['dong'] : ''?>" class="form-control" placeholder="동을 입력해주세요">
                   </div>
                 </div>
               </dd>
@@ -126,5 +128,20 @@
         <script>
           $(document).ready(function() {
             $.checkNickname();
+          }).on('change', '.area-sido', function() {
+            var $dom = $(this);
+            var parent = $dom.val();
+            $.ajax({
+              url: '/place/list_gugun',
+              data: 'parent=' + parent,
+              dataType: 'json',
+              type: 'post',
+              success: function(result) {
+                $dom.parent().parent().find('.area-gugun').empty().append( $('<option value="">시/군/구</option>') );
+                for (var i=0; i<result.length; i++) {
+                  $dom.parent().parent().find('.area-gugun').append( $('<option value="' + result[i].idx + '">' + result[i].name + '</option>') );
+                }
+              }
+            });
           });
         </script>

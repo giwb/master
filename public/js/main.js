@@ -358,20 +358,28 @@
       $.openMsgModal('실명은 꼭 입력해주세요.');
       return false;
     }
+    if ($('input[name=personal_code]').val() == '') {
+      $.openMsgModal('주민등록번호 앞자리는 꼭 입력해주세요.');
+      return false;
+    }
     if ($('input:radio[name=gender]').is(':checked') == false) {
       $.openMsgModal('성별은 꼭 선택해주세요.');
       return false;
     }
-    if ($('select[name=birthday_year]').val() == '' || $('select[name=birthday_month]').val() == '' || $('select[name=birthday_day]').val() == '') {
+    /*if ($('select[name=birthday_year]').val() == '' || $('select[name=birthday_month]').val() == '' || $('select[name=birthday_day]').val() == '') {
       $.openMsgModal('생년월일은 꼭 선택해주세요.');
       return false;
     }
     if ($('input:radio[name=birthday_type]').is(':checked') == false) {
       $.openMsgModal('양력/음력은 꼭 선택해주세요.');
       return false;
-    }
+    }*/
     if ($('input[name=phone1]').val() == '' || $('input[name=phone2]').val() == '' || $('input[name=phone3]').val() == '') {
       $.openMsgModal('전화번호는 꼭 입력해주세요.');
+      return false;
+    }
+    if ($('select[name=sido]').val() == '' || $('select[name=gugun]').val() == '' || $('input[name=dong]').val() == '') {
+      $.openMsgModal('거주지역은 꼭 선택해주세요.');
       return false;
     }
     if ($('select[name=location]').val() == '') {
