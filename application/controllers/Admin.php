@@ -4158,7 +4158,6 @@ class Admin extends Admin_Controller
     if (!empty($idx)) {
       // 수정
       $updateValues['parent_idx'] = $parent_idx;
-      $updateValues['sort_idx'] = $max;
       $updateValues['link'] = $link;
       $updateValues['title'] = $title;
       $updateValues['bgcolor'] = $bgcolor;
