@@ -4139,6 +4139,7 @@ class Admin extends Admin_Controller
   public function bookmark_update()
   {
     $now = time();
+    $max = 0;
     $userData = $this->load->get_var('userData');
     $clubIdx = !empty($this->input->post('clubIdx')) ? html_escape($this->input->post('clubIdx')) : NULL;
     $idx = !empty($this->input->post('idx')) ? html_escape($this->input->post('idx')) : NULL;
@@ -4147,13 +4148,6 @@ class Admin extends Admin_Controller
     $title = !empty($this->input->post('title')) ? html_escape($this->input->post('title')) : NULL;
     $bgcolor = !empty($this->input->post('bgcolor')) ? html_escape($this->input->post('bgcolor')) : '#929fba';
     $memo = !empty($this->input->post('memo')) ? html_escape($this->input->post('memo')) : NULL;
-
-    if ($parent_idx == 0) {
-      $listBookmark = $this->admin_model->listBookmark($clubIdx, $parent_idx);
-      $max = count($listBookmark);
-    } else {
-      $max = 0;
-    }
 
     if (!empty($idx)) {
       // 수정
@@ -4165,6 +4159,11 @@ class Admin extends Admin_Controller
       $this->desk_model->update(DB_BOOKMARKS, $updateValues, $idx);
     } else {
       // 등록
+      if ($parent_idx == 0) {
+        $listBookmark = $this->admin_model->listBookmark($clubIdx, $parent_idx);
+        $max = count($listBookmark);
+      }
+
       $insertValues['parent_idx'] = $parent_idx;
       $insertValues['sort_idx'] = $max;
       $insertValues['link'] = $link;
