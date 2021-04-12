@@ -107,7 +107,7 @@
               </div>
               <div class="row no-gutters border-bottom">
                 <div class="col-3 text-center pt-2 pb-2 pr-0 bg-light">여행시기</div>
-                <div class="col-9 pt-2 pb-2 pl-2"><?=!empty($driving_add2) ? number_format($driving_add2) . '원 (성수기)' : '0원 (비수기)'?></div>
+                <div class="col-9 pt-2 pb-2 pl-2"><?=!empty($driving_add2) ? number_format($driving_add2) . '원<!-- (성수기)-->' : '0원<!-- (비수기)-->'?></div>
               </div>
               <div class="row no-gutters border-bottom">
                 <div class="col-3 text-center pt-2 pb-2 pr-0 bg-light">승객수당</div>
