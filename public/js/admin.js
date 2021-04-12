@@ -994,12 +994,16 @@
     }
 
     // 성수기 계산 (04/01 ~ 06/10, 07/21 ~ 08/20, 09/21 ~ 11/10)
+
+    /* 코로나 시즌 동안에는 성수기 멈춤 (2021/04/12 추가)
     var sPeak1 = new Date(sDateArr[0], '04', '01')
     var ePeak1 = new Date(sDateArr[0], '06', '10')
     var sPeak2 = new Date(sDateArr[0], '07', '21')
     var ePeak2 = new Date(sDateArr[0], '08', '20')
     var sPeak3 = new Date(sDateArr[0], '09', '21')
     var ePeak3 = new Date(sDateArr[0], '11', '10')
+    // 코로나 시즌 동안에는 성수기 멈춤 */
+
     // 동계예비비 계산 - 12/01 ~ 02/29
     //var sPeak4 = new Date(sDateArr[0], '12', '01')
     //var ePeak4 = new Date(sDateArr[0], '12', '31')
