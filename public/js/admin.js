@@ -1010,7 +1010,7 @@
     // 동계예비비 계산 - 01/01 ~ 02/29
     var sPeak5 = new Date(sDateArr[0], '01', '01')
     var ePeak5 = new Date(sDateArr[0], '02', '29')
-
+/*
     if ( (sDate >= sPeak1 && eDate <= ePeak1) || (sDate >= sPeak2 && eDate <= ePeak2) || (sDate >= sPeak3 && eDate <= ePeak3) ) {
       $('.cost-peak').val(40000); // 성수기 버스비용 추가
       if ($('.cost-added').val() == '0') {
@@ -1018,9 +1018,10 @@
       }
       $('.peak').val('1');
       $('.winter').val('');
-      result = result + ' (성수기)';
+      result = result + ' (성수기)';*/
     //} else if ( (sDate >= sPeak4 && eDate <= ePeak4) || (sDate >= sPeak5 && eDate <= ePeak5) ) {
-    } else if ( (sDate >= sPeak5 && eDate <= ePeak5) ) {
+    //} else 
+    if ( (sDate >= sPeak5 && eDate <= ePeak5) ) {
       $('.cost-peak').val('0'); // 동계예비비 버스비용 추가는 없음
       if ($('.cost-added').val() == '0') {
         $('.cost-added').val(Number($('.cost-added').val()) + 2000); // 동계예비비 요금 추가
