@@ -2466,6 +2466,7 @@ body { font-family: 'Noto Sans KR', sans-serif; }
 #calendar .fc-event.holiday { color: #fff!important; background-color: #dc3545!important; }
 #calendar .fc-event.dayname { color: #fff!important; background-color: #999!important; }
 #calendar .fc-view { border-bottom: 1px solid #d9d9d9; }
+#calendar .fc-day-content > div { height: 57px!important; }
 #calendar .fc-week .fc-day > div .fc-day-number { padding: 1px; }
 #calendar .fc-border-separate tr.fc-last th { border: 1px solid #cdcdcd; border-width: 1px 0; font-size: 14px; padding: 0px; line-height: 1.8rem; }
 #calendar .fc-sat, #calendar .fc-sun { width: 70px!important; }

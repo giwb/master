@@ -37,7 +37,6 @@
                   week: "yyyy년 MMMM",
                   day: 'yyyy년 MMMM'
                 },
-                firstDay: 1,
                 events: [
                   <?php
                     foreach ($listNoticeCalendar as $value):
@@ -75,6 +74,11 @@
                     endforeach;
                   ?>
                 ]
+              });
+              $('.fc-event').each(function() {
+                if ($(this).width() == 0) {
+                  $(this).css('width', '84px');
+                }
               });
             });
           </script>

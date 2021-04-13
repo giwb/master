@@ -56,6 +56,11 @@
                   ?>
                 ],
               });
+              $('.fc-event').each(function() {
+                if ($(this).width() == 0) {
+                  $(this).css('width', '84px');
+                }
+              });
             });
           </script>
           <?php endif; ?>
