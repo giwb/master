@@ -82,6 +82,7 @@
           </script>
           <?php endif; ?>
 
+          <?php if (empty($uri) || !in_array($uri, $arr)): ?>
           <!-- 내부 광고 -->
           <section class="section mt-4 mb-4">
             <div class="card">
@@ -92,6 +93,7 @@
               <?php //endif; ?>
             </div>
           </section>
+          <?php endif; ?>
 
           <?php if (empty($uri)): // 안부 인사와 인증현황은 메인 페이지에서만 보이게 ?>
           <section class="section mt-5">
