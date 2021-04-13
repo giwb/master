@@ -1118,6 +1118,9 @@
   // 일정추가
   $.calcAddSchedule = function(day, nosleep) {
     // 일정추가 (무박은 15만원, 1박은 25만원)
+    var totalDistance = $.calcTotalDistance();
+    $.calcBusCost(totalDistance);
+
     if (nosleep == 1) {
       $('.cost-add-schedule').val(150000 + (Number(day) * 250000));
       $('.cost-default').val(Number($('.cost-default').val()) + 5000 + (Number(day) * 15000)); // 무박은 5000원, 1박당 15000원 추가
