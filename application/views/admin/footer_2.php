@@ -13,17 +13,16 @@
             </div>
           </section>
           <script>
-            $(document).ready(function() {
-              $('#calendar').fullCalendar({
-                header: {
+            document.addEventListener('DOMContentLoaded', function() {
+              var calendarEl = document.getElementById('calendar');
+              var calendar = new FullCalendar.Calendar(calendarEl, {
+                views: {
+                  dayGridMonth: {}
+                },
+                headerToolbar: {
                   left: 'prev',
                   center: 'title',
                   right: 'next'
-                },
-                titleFormat: {
-                  month: 'yyyy년 MMMM',
-                  week: "yyyy년 MMMM",
-                  day: 'yyyy년 MMMM'
                 },
                 events: [
                   <?php
@@ -37,16 +36,16 @@
                   ?>
                   {
                     title: '<?=$value['mname']?>',
-                    start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>T00:00:00'),
-                    end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>T23:59:59'),
+                    start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>'),
+                    end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>'),
                     url: 'javascript:;',
                     className: '<?=$value['class']?>'
                   },
                   <?php else: ?>
                   {
                     title: '<?=$value['status'] != STATUS_PLAN ? $value['starttime'] . "\\n" : "[계획]\\n"?><?=$value['mname']?>',
-                    start: new Date('<?=date('Y', $startDate)?>/<?=date('m', $startDate)?>/<?=date('d', $startDate)?>/00:00:01'),
-                    end: new Date('<?=date('Y', $endDate)?>/<?=date('m', $endDate)?>/<?=date('d', $endDate)?>/23:59:59'),
+                    start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>'),
+                    end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>'),
                     url: '<?=BASE_URL?>/admin/main_view_progress/<?=$value['idx']?>',
                     className: 'notice-status<?=$value['status']?>'
                   },
@@ -54,13 +53,10 @@
                       endif;
                     endforeach;
                   ?>
-                ],
+                ]
               });
-              $('.fc-event').each(function() {
-                if ($(this).width() == 0) {
-                  $(this).css('width', '84px');
-                }
-              });
+              calendar.setOption('locale', 'ko');
+              calendar.render();
             });
           </script>
           <?php endif; ?>

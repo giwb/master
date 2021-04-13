@@ -28,7 +28,8 @@
   <script type="text/javascript" src="/public/js/jquery.ui.touch-punch.min.js"></script>
   <script type="text/javascript" src="/public/js/bootstrap.min.js"></script>
   <script src="/public/lib/touchSwipe/jquery.touchSwipe.min.js"></script>
-  <script src="/public/js/fullcalendar.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/locales-all.min.js" type="text/javascript"></script>
   <script src="/public/js/clipboard.min.js" type="text/javascript"></script>
   <script src="/public/photoswipe/photoswipe.min.js" type="text/javascript"></script>
   <script src="/public/photoswipe/photoswipe-ui-default.min.js" type="text/javascript"></script>
@@ -45,8 +46,7 @@
 
   <link href="/public/css/style_<?=$viewClub['main_design']?>.css?<?=time()?>" rel="stylesheet">
 
-  <link href="/public/css/fullcalendar.css" rel="stylesheet">
-  <link href="/public/css/fullcalendar.print.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.css" rel="stylesheet">
 </head>
 <body id="page-top" class="fixed-sn homepage-v2">
 
