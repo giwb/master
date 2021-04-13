@@ -172,7 +172,6 @@
               <img class="d-block d-sm-none busmap" src="/public/images/busmap_320.png">
             </div>
           </section>
-          <?php endif; ?>
 
           <!-- 애드핏 -->
           <section class="section mt-4 mb-4">
@@ -192,6 +191,7 @@
               <?php endif; ?>
             </div>
           </section>
+          <?php endif; ?>
         </div>
       </div>
     </div>
