@@ -2464,8 +2464,8 @@ body { font-family: 'Noto Sans KR', sans-serif; }
 .fc .fc-daygrid-day-number { font-size: 0.8em; }
 .fc .fc-daygrid-body-natural .fc-daygrid-day-events { margin-bottom: 2px!important; }
 #calendar .fc-col-header { background-color: #e9e9e9; }
-#calendar .fc-col-header .fc-day-sat { color: #1D73F2; }
-#calendar .fc-col-header .fc-day-sun { color: #FF0000; }
+#calendar .fc-day-sat { color: #1D73F2; }
+#calendar .fc-day-sun { color: #FF0000; }
 #calendar .fc-h-event { padding: 5px 5px 4px 5px; }
 #calendar .fc-h-event .fc-event-main { color: #000; }
 #calendar .fc-h-event:hover { opacity: 0.7; }
