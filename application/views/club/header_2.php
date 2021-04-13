@@ -32,7 +32,7 @@
   <script type="text/javascript" src="/public/js/jquery.easing.min.js"></script>
   <script type="text/javascript" src="/public/js/bootstrap.min.js"></script>
   <script src="/public/lib/touchSwipe/jquery.touchSwipe.min.js"></script>
-  <script src="/public/js/fullcalendar.js" type="text/javascript"></script>
+  <script src="/public/js/fullcalendar/main.min.js" type="text/javascript"></script>
   <script src="/public/js/clipboard.min.js" type="text/javascript"></script>
   <script src="/public/photoswipe/photoswipe.min.js" type="text/javascript"></script>
   <script src="/public/photoswipe/photoswipe-ui-default.min.js" type="text/javascript"></script>
@@ -47,9 +47,7 @@
   <link href="/public/photoswipe/default-skin/default-skin.css" rel="stylesheet">
 
   <link href="/public/css/style_<?=$view['main_design']?>.css?<?=time()?>" rel="stylesheet">
-
-  <link href="/public/css/fullcalendar.css" rel="stylesheet">
-  <link href="/public/css/fullcalendar.print.css" rel="stylesheet">
+  <link href="/public/js/fullcalendar/main.min.css" rel="stylesheet">
 
   <script type="text/javascript">
     //new ClipboardJS('.btn-share-url');
@@ -112,6 +110,7 @@
               aria-expanded="false"><i class="fas fa-map-marked-alt"></i> 여행기</a>
             <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
               <a class="dropdown-item" href="<?=BASE_URL?>/album">사진첩</a>
+              <a class="dropdown-item" href="<?=BASE_URL?>/album/best">추천 사진</a>
               <a class="dropdown-item" href="<?=BASE_URL?>/club/video">동영상</a>
               <a class="dropdown-item" href="<?=BASE_URL?>/club/search/?code=news">여행 소식</a>
               <a class="dropdown-item" href="<?=BASE_URL?>/club/search/?code=review">여행 후기</a>

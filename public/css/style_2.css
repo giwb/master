@@ -2456,21 +2456,32 @@ body { font-family: 'Noto Sans KR', sans-serif; }
 
 /* 관리자 끝 */
 
-#calendar .fc-event { padding: 5px 5px 4px 5px; }
-#calendar .fc-event.notice-status0 { background-color: #F8F9FC!important; }
-#calendar .fc-event.notice-status1 { color: #000; background-color: #FEECBF!important; }
-#calendar .fc-event.notice-status2 { color: #000; background-color: #F6C23E!important; }
-#calendar .fc-event.notice-status8 { background-color: #EFEFEF!important; }
-#calendar .fc-event.notice-status8 .fc-event-title { color: #999; text-decoration: line-through; }
-#calendar .fc-event.notice-status9 { background-color: #EFEFEF!important; }
-#calendar .fc-event.holiday { color: #fff!important; background-color: #dc3545!important; }
-#calendar .fc-event.dayname { color: #fff!important; background-color: #999!important; }
-#calendar .fc-view { border-bottom: 1px solid #d9d9d9; }
-#calendar .fc-day-content > div { height: 57px!important; }
-#calendar .fc-week .fc-day > div .fc-day-number { padding: 1px; }
-#calendar .fc-border-separate tr.fc-last th { border: 1px solid #cdcdcd; border-width: 1px 0; font-size: 14px; padding: 0px; line-height: 1.8rem; }
-#calendar .fc-sat, #calendar .fc-sun { width: 70px!important; }
-#calendar .fc-mon, #calendar .fc-tue, #calendar .fc-wed, #calendar .fc-thu, #calendar .fc-fri { width: 50px!important; }
+.fc .fc-toolbar.fc-header-toolbar { margin: 10px 0!important; padding: 0 10px; }
+.fc .fc-button-primary { background: transparent!important; border-color: #ff3b30!important; }
+.fc .fc-button .fc-icon { color: #ff3b30; }
+.fc .fc-button { padding: 0 5px!important; }
+.fc .fc-toolbar-title { font-size: 1.4em!important; }
+.fc .fc-daygrid-day-number { font-size: 0.8em; }
+.fc .fc-daygrid-body-natural .fc-daygrid-day-events { margin-bottom: 2px!important; }
+#calendar .fc-col-header { background-color: #e9e9e9; }
+#calendar .fc-col-header .fc-day-sat { color: #1D73F2; }
+#calendar .fc-col-header .fc-day-sun { color: #FF0000; }
+#calendar .fc-h-event { padding: 5px 5px 4px 5px; }
+#calendar .fc-h-event .fc-event-main { color: #000; }
+#calendar .fc-h-event:hover { opacity: 0.7; }
+#calendar .fc-h-event.notice-status0 { background-color: #F8F9FC!important; }
+#calendar .fc-h-event.notice-status1 { color: #000; background-color: #FEECBF!important; }
+#calendar .fc-h-event.notice-status2 { color: #000; background-color: #F6C23E!important; }
+#calendar .fc-h-event.notice-status8 { background-color: #EFEFEF!important; }
+#calendar .fc-h-event.notice-status8 { color: #999; text-decoration: line-through; }
+#calendar .fc-h-event.notice-status9 { background-color: #EFEFEF!important; }
+#calendar .fc-h-event.holiday { background-color: #dc3545!important; }
+#calendar .fc-h-event.dayname { background-color: #999!important; }
+#calendar .fc-h-event.holiday .fc-event-main, #calendar .fc-h-event.dayname .fc-event-main { color: #fff!important; }
+#calendar .fc-day-sat, #calendar .fc-day-sun { width: 80px!important; }
+#calendar .fc-day-mon, #calendar .fc-day-tue, #calendar .fc-day-wed, #calendar .fc-day-thu, #calendar .fc-day-fri { width: 40px!important; }
+#calendar .fc-h-event { border: 0px!important; }
+#calendar .fc-event-main-frame { white-space: normal; }
 
 /* Login Modal */
 #loginModal .modal-body { padding-top: 20px; }

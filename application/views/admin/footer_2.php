@@ -2,7 +2,7 @@
 
         </div>
         <div class="col-xl-4 col-md-12 widget-column mt-0 mb-5 pb-0">
-          <?php if (!empty($listNoticeSchedule) && !strstr($_SERVER['REQUEST_URI'], 'setup_calendar') && !strstr($_SERVER['REQUEST_URI'], 'main_schedule')): ?>
+          <?php if (!empty($listNoticeCalendar) && !strstr($_SERVER['REQUEST_URI'], 'setup_calendar') && !strstr($_SERVER['REQUEST_URI'], 'main_schedule')): ?>
           <section class="section mb-5">
             <h4 class="font-weight-bold"><strong>월간 일정</strong></h4>
             <hr class="text-default" style="margin-bottom: 33px;">
@@ -12,21 +12,31 @@
               </div>
             </div>
           </section>
-          <script>
+          <script type="text/javascript">
             document.addEventListener('DOMContentLoaded', function() {
               var calendarEl = document.getElementById('calendar');
               var calendar = new FullCalendar.Calendar(calendarEl, {
-                views: {
-                  dayGridMonth: {}
-                },
+                locale: 'ko',
+                height: 'auto',
+                displayEventTime: false,
+                displayEventEnd: false,
+                eventDisplay: 'block',
                 headerToolbar: {
                   left: 'prev',
                   center: 'title',
                   right: 'next'
                 },
+                dayCellContent: function(e) {
+                  e.dayNumberText = e.dayNumberText.replace('일','');
+                },
+                eventContent: function(e) {
+                  return {
+                    html: e.event.title.replace('\n','<br>')
+                  }
+                },
                 events: [
                   <?php
-                    foreach ($listNoticeSchedule as $value):
+                    foreach ($listNoticeCalendar as $value):
                       $startDate = strtotime($value['startdate']);
                       $value['mname'] = htmlspecialchars_decode($value['mname']);
                       if (!empty($value['enddate'])): $endDate = calcEndDate($value['startdate'], $value['enddate']);
@@ -43,7 +53,7 @@
                   },
                   <?php else: ?>
                   {
-                    title: '<?=$value['status'] != STATUS_PLAN ? $value['starttime'] . "\\n" : "[계획]\\n"?><?=$value['mname']?>',
+                    title: '<?=$value['status'] != STATUS_PLAN ? $value['starttime'] : "[계획]"?>\n<?=$value['mname']?>',
                     start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>'),
                     end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>'),
                     url: '<?=BASE_URL?>/admin/main_view_progress/<?=$value['idx']?>',
@@ -55,7 +65,6 @@
                   ?>
                 ]
               });
-              calendar.setOption('locale', 'ko');
               calendar.render();
             });
           </script>

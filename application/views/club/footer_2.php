@@ -25,17 +25,26 @@
             </div>
           </section>
           <script type="text/javascript">
-            $(document).ready(function() {
-              $('#calendar').fullCalendar({
-                header: {
+            document.addEventListener('DOMContentLoaded', function() {
+              var calendarEl = document.getElementById('calendar');
+              var calendar = new FullCalendar.Calendar(calendarEl, {
+                locale: 'ko',
+                height: 'auto',
+                displayEventTime: false,
+                displayEventEnd: false,
+                eventDisplay: 'block',
+                headerToolbar: {
                   left: 'prev',
                   center: 'title',
                   right: 'next'
                 },
-                titleFormat: {
-                  month: 'yyyy년 MMMM',
-                  week: "yyyy년 MMMM",
-                  day: 'yyyy년 MMMM'
+                dayCellContent: function(e) {
+                  e.dayNumberText = e.dayNumberText.replace('일','');
+                },
+                eventContent: function(e) {
+                  return {
+                    html: e.event.title.replace('\n','<br>')
+                  }
                 },
                 events: [
                   <?php
@@ -49,24 +58,17 @@
                   ?>
                   {
                     title: '<?=$value['mname']?>',
-                    start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>T00:00:00'),
-                    end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>T23:59:59'),
+                    start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>'),
+                    end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>'),
                     url: 'javascript:;',
                     className: '<?=$value['class']?>'
                   },
-                  <?php
-                      else:
-                        if ($value['status'] >= 1):
-                          $url = BASE_URL . '/reserve/index/' . $value['idx'];
-                        else:
-                          $url = 'javascript:;';
-                        endif;
-                  ?>
+                  <?php else: ?>
                   {
-                    title: '<?=$value['status'] != STATUS_PLAN ? $value['starttime'] . "\\n" : "[계획]\\n"?><?=$value['mname']?>',
-                    start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>T00:00:01'),
-                    end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>T23:59:59'),
-                    url: '<?=$url?>',
+                    title: '<?=$value['status'] != STATUS_PLAN ? $value['starttime'] : "[계획]"?>\n<?=$value['mname']?>',
+                    start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>'),
+                    end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>'),
+                    url: '<?=BASE_URL?>/admin/main_view_progress/<?=$value['idx']?>',
                     className: 'notice-status<?=$value['status']?>'
                   },
                   <?php
@@ -75,11 +77,7 @@
                   ?>
                 ]
               });
-              $('.fc-event').each(function() {
-                if ($(this).width() == 0) {
-                  $(this).css('width', '84px');
-                }
-              });
+              calendar.render();
             });
           </script>
           <?php endif; ?>
