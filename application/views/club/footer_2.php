@@ -37,6 +37,7 @@
                   week: "yyyy년 MMMM",
                   day: 'yyyy년 MMMM'
                 },
+                firstDay: 1,
                 events: [
                   <?php
                     foreach ($listNoticeCalendar as $value):
