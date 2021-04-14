@@ -571,7 +571,25 @@
         location.reload();
       }
     });
+  }).on('click', '.btn-reset-passwd', function() {
+    // 비밀번호 초기화
+    var $btn = $(this);
+    var baseUrl = $('input[name=baseUrl]').val();
+    $.ajax({
+      url: '/admin/reset_passwd',
+      data: 'idx=' + $(this).data('idx'),
+      dataType: 'json',
+      type: 'post',
+      beforeSend: function() {
+        $btn.css('opacity', '0.5').prop('disabled', true).text('잠시만 기다리세요..');
+      },
+      success: function(result) {
+        $btn.css('opacity', '1').prop('disabled', false).text('비밀번호 초기화');
+        $.openMsgModal('초기화가 완료되었습니다.');
+      }
+    });
   }).on('click', '.btn-user-login', function() {
+    // 이 사용자로 로그인
     var $btn = $(this);
     var baseUrl = $('input[name=baseUrl]').val();
     $.ajax({

@@ -5,18 +5,15 @@
             <hr class="text-default">
 
             <div id="content" class="mb-5">
-              <div class="row no-gutters border-bottom mb-3 pb-2">
-                <div class="col-sm-6">
-                  <h5>■ 기본 정보</h5>
-                </div>
-                <div class="col-sm-6 text-right">
-                  <a href="<?=BASE_URL?>/admin/member_list"><button type="button" class="btn-custom btn-gray">목록으로</button></a>
-                  <button type="button" class="btn-custom btn-giwbred btn-user-login" data-idx="<?=$viewMember['idx']?>">이 사용자로 로그인</button>
-                </div>
+              <div class="text-right small mb-3">
+                <a href="<?=BASE_URL?>/admin/member_list"><button type="button" class="btn-custom btn-gray">목록으로</button></a>
+                <button type="button" class="btn-custom btn-giwbblue btn-reset-passwd" data-idx="<?=$viewMember['idx']?>">비밀번호 초기화</button>
+                <button type="button" class="btn-custom btn-giwbred btn-user-login" data-idx="<?=$viewMember['idx']?>">이 사용자로 로그인</button>
               </div>
+              <h5 class="border-bottom pb-3">■ 기본 정보</h5>
               <form id="formMember" method="post" action="/admin/member_update">
                 <input type="hidden" name="idx" value="<?=$viewMember['idx']?>">
-                <div class="row no-gutters align-items-center border-bottom mb-3 pb-3">
+                <div class="row no-gutters align-items-center border-bottom mb-3 pt-2 pb-3">
                   <div class="col-sm-2">아이디</div>
                   <div class="col-sm-10"><input type="text" readonly name="userid" value="<?=$viewMember['userid']?>" class="form-control"></div>
                 </div>

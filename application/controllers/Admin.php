@@ -3972,6 +3972,28 @@ class Admin extends Admin_Controller
   }
 
   /**
+   * 비밀번호 초기화
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function reset_passwd()
+  {
+    $idx = html_escape($this->input->post('idx'));
+
+    if (empty($idx)) {
+      $result = array('error' => 1);
+    } else {
+      $updateValues['password'] = md5('123456'); // 초기화 패스워드 공통
+      $this->admin_model->updateMember($updateValues, $idx);
+
+      $result = array('error' => 0);
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
    * 사용자 로그인
    *
    * @return json

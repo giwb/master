@@ -27,7 +27,7 @@
             </dl>
             <dl>
               <dt>비밀번호 확인</dt>
-              <dd class="check-password check-password-message"><input type="password" name="password_check" class="form-control"></dd>
+              <dd class="check-password check-password-message"><input type="password" name="password_check" class="form-control"><div class="text-danger">※ 비밀번호는 변경하실때만 입력해주세요.</div></dd>
             </dl>
             <dl>
               <dt>실명</dt>
