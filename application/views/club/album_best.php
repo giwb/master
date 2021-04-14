@@ -22,7 +22,7 @@
 
           <div id="album" class="row align-items-center mt-4">
             <?php if (empty($listBestPhoto)): ?>
-            <div class="text-center pt-5 pb-5">아직 등록된 추천 사진이 없습니다.</div>
+            <div class="col-12 text-center pt-5 pb-5">아직 등록된 추천 사진이 없습니다.</div>
             <?php else: ?>
             <?php foreach ($listBestPhoto as $value): ?>
             <div class="col-4 mb-4">
