@@ -13,7 +13,7 @@
   $arr = array('album', 'login'); // 우측을 완전히 빼는 경우
 ?>
 
-        <?php if (empty($uri) || !in_array($uri, $arr)): ?>
+        <?php if (empty($uri) || strstr($uri, 'album/best') || !in_array($uri, $arr)): ?>
         <div class="col-xl-4 col-md-12 widget-column mt-0 pb-0">
           <section class="section">
             <h4 class="font-weight-bold"><strong>월간 일정</strong></h4>
@@ -82,7 +82,7 @@
           </script>
           <?php endif; ?>
 
-          <?php if (empty($uri) || !in_array($uri, $arr)): ?>
+          <?php if (empty($uri) || strstr($uri, 'album/best') || !in_array($uri, $arr)): ?>
           <!-- 내부 광고 -->
           <section class="section mt-4 mb-4">
             <div class="card">
@@ -140,8 +140,7 @@
               <?php endforeach; ?>
             </div>
           </section>
-
-          <?php elseif (!empty($uri) && !in_array($uri, $arr)): ?>
+          <?php elseif (!empty($uri) && strstr($uri, 'album/best') && !in_array($uri, $arr)): ?>
           <section class="section mt-5">
             <h4 class="font-weight-bold"><strong>현재 진행중인 여행</strong></h4>
             <hr class="text-default">
@@ -167,7 +166,7 @@
           </section>
           <?php endif; ?>
 
-          <?php if (empty($uri) || !in_array($uri, $arr)): ?>
+          <?php if (empty($uri) || strstr($uri, 'album/best') || !in_array($uri, $arr)): ?>
           <section class="section mt-4">
             <div class="card text-center p-2">
               <img class="d-none d-sm-block busmap" src="/public/images/busmap.png">
