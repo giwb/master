@@ -1,19 +1,10 @@
 <?php
   defined('BASEPATH') OR exit('No direct script access allowed');
-  $uri = explode('/', $_SERVER['REQUEST_URI']);
-  if (!empty($view['domain'])) {
-    $uri_cut = $uri[1];
-  } else {
-    if (empty($uri[2])) {
-      $uri_cut = '';
-    } else {
-      $uri_cut = $uri[2];
-    }
-  }
-  $arr = array('album', 'login'); // 우측을 완전히 빼는 경우
+  $uri = $_SERVER['REQUEST_URI'];
+  $uri_cut = explode('/', $uri);
 ?>
 
-        <?php if (empty($uri_cut) || in_array('best', $uri) || !in_array($uri_cut, $arr)): ?>
+        <?php if ((!strstr($uri, 'login') && !strstr($uri, 'album')) || strstr($uri, 'album/best')): ?>
         <div class="col-xl-4 col-md-12 widget-column mt-0 pb-0">
           <section class="section">
             <h4 class="font-weight-bold"><strong>월간 일정</strong></h4>
@@ -68,7 +59,7 @@
                     title: '<?=$value['status'] != STATUS_PLAN ? $value['starttime'] : "[계획]"?>\n<?=$value['mname']?>',
                     start: new Date('<?=date('Y', $startDate)?>-<?=date('m', $startDate)?>-<?=date('d', $startDate)?>'),
                     end: new Date('<?=date('Y', $endDate)?>-<?=date('m', $endDate)?>-<?=date('d', $endDate)?>'),
-                    url: '<?=BASE_URL?>/admin/main_view_progress/<?=$value['idx']?>',
+                    url: '<?=BASE_URL?>/reserve/list/<?=$value['idx']?>',
                     className: 'notice-status<?=$value['status']?>'
                   },
                   <?php
@@ -80,9 +71,7 @@
               calendar.render();
             });
           </script>
-          <?php endif; ?>
 
-          <?php if (empty($uri_cut) || in_array('best', $uri) || !in_array($uri_cut, $arr)): ?>
           <!-- 내부 광고 -->
           <section class="section mt-4 mb-4">
             <div class="card">
@@ -93,9 +82,8 @@
               <?php //endif; ?>
             </div>
           </section>
-          <?php endif; ?>
 
-          <?php if (empty($uri_cut)): // 안부 인사와 인증현황은 메인 페이지에서만 보이게 ?>
+          <?php if (empty($uri) || (empty($uri_cut[2]) && $uri_cut[1] == $view['url'])): // 안부 인사와 인증현황은 메인 페이지에서만 보이게 ?>
           <section class="section mt-5">
             <h4 class="row font-weight-bold">
               <div class="col-6"><strong>안부 인사</strong></div>
@@ -140,7 +128,7 @@
               <?php endforeach; ?>
             </div>
           </section>
-          <?php elseif ((!empty($uri_cut) && !in_array($uri_cut, $arr)) || in_array('best', $uri)): ?>
+          <?php else: ?>
           <section class="section mt-5">
             <h4 class="font-weight-bold"><strong>현재 진행중인 여행</strong></h4>
             <hr class="text-default">
@@ -166,7 +154,6 @@
           </section>
           <?php endif; ?>
 
-          <?php if (empty($uri_cut) || in_array('best', $uri) || !in_array($uri_cut, $arr)): ?>
           <section class="section mt-4">
             <div class="card text-center p-2">
               <img class="d-none d-sm-block busmap" src="/public/images/busmap.png">
@@ -199,11 +186,11 @@
   </main>
 
   <ul id="nav-footer">
-    <li<?=strstr($_SERVER['REQUEST_URI'], 'schedule') ? ' class="active"' : ''?>><a href="<?=BASE_URL?>/reserve/schedule"><i class="fa fa-calendar" aria-hidden="true"></i><br>일정</a></li>
-    <?php if (!empty($listAbout[0]['idx'])): ?><li<?=strstr($_SERVER['REQUEST_URI'], 'about') || strstr($_SERVER['REQUEST_URI'], 'past') ? ' class="active"' : ''?>><a href="<?=BASE_URL?>/club/about/<?=$listAbout[0]['idx']?>"><i class="fas fa-chalkboard"></i><br>소개</a></li><?php endif; ?>
-    <?php if ($view['idx'] == 1): ?><li<?=strstr($_SERVER['REQUEST_URI'], 'auth') || strstr($_SERVER['REQUEST_URI'], 'page') ? ' class="active"' : ''?>><a href="<?=BASE_URL?>/club/auth"><i class="fa fa-check-square" aria-hidden="true"></i><br>백산백소</a></li><?php endif; ?>
-    <li<?=strstr($_SERVER['REQUEST_URI'], 'album') || strstr($_SERVER['REQUEST_URI'], 'search') ? ' class="active"' : ''?>><a href="<?=BASE_URL?>/album"><i class="fas fa-map-marked-alt"></i></i><br>여행기</a></li>
-    <?php if ($view['idx'] == 1): ?><li<?=strstr($_SERVER['REQUEST_URI'], 'shop') ? ' class="active"' : ''?>><a href="<?=BASE_URL?>/shop"><i class="fa fa-shopping-cart" aria-hidden="true"></i><br>용품샵</a></li><?php endif; ?>
+    <li<?=strstr($uri, 'schedule') ? ' class="active"' : ''?>><a href="<?=BASE_URL?>/reserve/schedule"><i class="fa fa-calendar" aria-hidden="true"></i><br>일정</a></li>
+    <?php if (!empty($listAbout[0]['idx'])): ?><li<?=strstr($uri, 'about') || strstr($uri, 'past') ? ' class="active"' : ''?>><a href="<?=BASE_URL?>/club/about/<?=$listAbout[0]['idx']?>"><i class="fas fa-chalkboard"></i><br>소개</a></li><?php endif; ?>
+    <?php if ($view['idx'] == 1): ?><li<?=strstr($uri, 'auth') || strstr($uri, 'page') ? ' class="active"' : ''?>><a href="<?=BASE_URL?>/club/auth"><i class="fa fa-check-square" aria-hidden="true"></i><br>백산백소</a></li><?php endif; ?>
+    <li<?=strstr($uri, 'album') || strstr($uri, 'search') ? ' class="active"' : ''?>><a href="<?=BASE_URL?>/album"><i class="fas fa-map-marked-alt"></i></i><br>여행기</a></li>
+    <?php if ($view['idx'] == 1): ?><li<?=strstr($uri, 'shop') ? ' class="active"' : ''?>><a href="<?=BASE_URL?>/shop"><i class="fa fa-shopping-cart" aria-hidden="true"></i><br>용품샵</a></li><?php endif; ?>
   </ul>
 
   <input type="hidden" name="baseUrl" value="<?=BASE_URL?>">
