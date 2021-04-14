@@ -9,7 +9,7 @@ class Album extends MY_Controller
     parent::__construct();
     $this->load->helper(array('my_array_helper'));
     $this->load->library(array('image_lib'));
-    $this->load->model(array('club_model', 'file_model', 'story_model'));
+    $this->load->model(array('club_model', 'file_model', 'reaction_model', 'story_model'));
   }
 
   /**
@@ -47,6 +47,8 @@ class Album extends MY_Controller
         if (!empty($photo['filename'])) {
           $size = getImageSize(ALBUM_PATH . $photo['filename']);
           $size_thumb = getImageSize(ALBUM_PATH . 'thumb_' . $photo['filename']);
+          $viewData['photos'][$key]['file_idx'][] = $photo['idx'];
+          $viewData['photos'][$key]['pickup'][] = $photo['pickup'];
           $viewData['photos'][$key]['filename'][] = ALBUM_URL . 'thumb_' . $photo['filename'];
           $viewData['photos'][$key]['source'][] = $photo['filename'];
           $viewData['photos'][$key]['width'][] = $size[0];
@@ -351,6 +353,108 @@ class Album extends MY_Controller
   }
 
   /**
+   * 사진 추천 처리
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function pickup()
+  {
+    $fileIdx = !empty($this->input->post('file_idx')) ? html_escape($this->input->post('file_idx')) : NULL;
+
+    if (!empty($fileIdx)) {
+      $viewFile = $this->file_model->viewFile(NULL, $fileIdx);
+      if (!empty($viewFile['pickup']) && $viewFile['pickup'] == 'Y') {
+        // 이미 추천이 되어 있으면 추천 해제
+        $updateValues['pickup'] = NULL;
+      } else {
+        // 아무것도 없으면 추천
+        $updateValues['pickup'] = 'Y';
+      }
+      $rtn = $this->file_model->updateFile($updateValues, $fileIdx);
+    }
+
+    if (empty($rtn)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+    } else {
+      $result = array('error' => 0, 'message' => $updateValues['pickup']);
+    }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 추천 사진
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function best($idx=NULL)
+  {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
+    $userData = $this->load->get_var('userData');
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    if (!empty($idx)) {
+      // 추천 사진 보기
+      $viewData['viewBestPhoto'] = $this->club_model->viewBestPhoto($clubIdx, $idx);
+
+      // 추천 사진 조회수 올리기
+      $updateValues['refer'] = $viewData['viewBestPhoto']['refer'] = $viewData['viewBestPhoto']['refer'] + 1;
+      $this->file_model->updateFile($updateValues, $idx);
+
+      // 좋아요 개수
+      $search = array(
+        'club_idx'      => $clubIdx,
+        'target_idx'    => $idx,
+        'service_type'  => SERVICE_TYPE_ALBUM,
+        'reaction_type' => REACTION_TYPE_LIKED
+      );
+      $viewData['viewBestPhoto']['liked'] = $this->reaction_model->cntReaction($search);
+
+      // 좋아요 했는지 확인
+      $search['ip_address'] = $_SERVER['REMOTE_ADDR'];
+      $search['created_by'] = !empty($viewData['userData']['idx']) ? $viewData['userData']['idx'] : NULL;
+      $viewData['checkLiked'] = $this->reaction_model->viewReaction($search);
+
+      // 댓글
+      $viewData['cntReply'] = $this->desk_model->cntReply($idx);
+      $viewData['listReply'] = $this->desk_model->listReply($idx);
+
+      foreach ($viewData['listReply'] as $key => $value) {
+        $thread = $this->desk_model->listReply($idx, $value['idx']);
+        $viewData['listReply'][$key]['listReplyThread'] = $thread;
+      }
+
+      // 페이지 타이틀
+      $viewData['pageTitle'] = '추천 사진 보기';
+      $viewPage = 'club/album_best_detail';
+    } else {
+      // 추천 사진
+      $viewData['listBestPhoto'] = $this->club_model->listBestPhoto($clubIdx);
+
+      foreach ($viewData['listBestPhoto'] as $key => $value) {
+        // 좋아요 개수
+        $search = array(
+          'club_idx'      => $clubIdx,
+          'target_idx'    => $value['idx'],
+          'service_type'  => SERVICE_TYPE_ALBUM,
+          'reaction_type' => REACTION_TYPE_LIKED
+        );
+        $viewData['listBestPhoto'][$key]['liked'] = $this->reaction_model->cntReaction($search);
+      }
+
+      // 페이지 타이틀
+      $viewData['pageTitle'] = '추천 사진';
+      $viewPage = 'club/album_best';
+    }
+
+    $this->_viewPage($viewPage, $viewData);
+  }
+
+  /**
    * 파일 업로드
    *
    * @return json
@@ -359,7 +463,7 @@ class Album extends MY_Controller
   public function upload()
   {
     $maxSize = 2000;
-    $result = array('error' => 1, 'message' => $this->lang->line('error_ALBUM_upload'));
+    $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
 
     foreach ($_FILES['files']['tmp_name'] as $tmp_name) {
       if (!empty($tmp_name)) {
@@ -446,7 +550,7 @@ class Album extends MY_Controller
     $viewData['listAbout'] = $this->club_model->listAbout($viewData['view']['idx']);
 
     // 등록된 산행 목록
-    $viewData['listNoticeCalendar'] = $this->reserve_model->listNotice($viewData['view']['idx']);
+    $viewData['listNoticeFooter'] = $viewData['listNoticeCalendar'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
 
     // 캘린더 설정
     $listCalendar = $this->admin_model->listCalendar();
@@ -466,20 +570,6 @@ class Album extends MY_Controller
         'mname' => $value['dayname'],
         'class' => $class,
       );
-    }
-
-    // 안부 인사
-    $page = 1;
-    $paging['perPage'] = 8;
-    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
-    $viewData['listStory'] = $this->story_model->listStory($viewData['view']['idx'], $paging);
-
-    foreach ($viewData['listStory'] as $key => $value) {
-      if (file_exists(ALBUM_PATH . $value['user_idx'])) {
-        $viewData['listStory'][$key]['avatar'] = ALBUM_URL . $value['user_idx'];
-      } else {
-        $viewData['listStory'][$key]['avatar'] = '/public/images/user.png';
-      }
     }
 
     // 클럽 대표이미지

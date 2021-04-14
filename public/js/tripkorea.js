@@ -116,10 +116,18 @@ $(document).on('click', '.login-popup', function() {
 }).on('click', '.btn-liked', function() {
   // 좋아요
   var $btn = $(this);
+  var idx = $btn.data('idx');
+  var typeService = $btn.data('type-service');
+  var typeReaction = $btn.data('type-reaction');
+  var clubIdx = $('input[name=clubIdx]').val();
+
+  if (typeof typeService == 'undefined' || typeService == '') typeService = '';
+  if (typeof typeReaction == 'undefined' || typeReaction == '') typeReaction = '';
+  if (typeof clubIdx == 'undefined' || clubIdx == '') clubIdx = 0;
 
   $.ajax({
     url: '/welcome/liked',
-    data: 'idx=' + $btn.data('idx'),
+    data: 'idx=' + idx + '&club_idx=' + clubIdx + '&type_service=' + typeService + '&type_reaction=' + typeReaction,
     dataType: 'json',
     type: 'post',
     success: function(result) {

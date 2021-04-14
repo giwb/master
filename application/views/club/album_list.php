@@ -6,7 +6,7 @@
     <div class="album-item">
       <a class="btn-album-view" data-index="<?=$cnt?>" data-notice-idx="<?=!empty($value['notice_idx']) ? $value['notice_idx'] : 0?>" data-src="<?=$value['source'][$i]?>" data-width="<?=$value['width'][$i]?>" data-height="<?=$value['height'][$i]?>" data-title="<?=$value['subject']?>">
         <img class="album-photo" src="<?=$photo?>">
-        <div class="caption"><table width="100%"><tr><td><?=$value['subject']?><br><span class="small"><?=calcStoryTime($value['created_at'])?></span></td></tr></table></div>
+        <div class="caption"><table width="100%"><tr><td><?=$value['subject']?><br><span class="small"><?=calcStoryTime($value['created_at'])?></span></td></tr></table><?php if (!empty($userData['admin'])): ?><i class="<?=!empty($value['pickup'][$i]) ? 'fas' : 'far'?> fa-heart btn-pickup" data-file-idx="<?=$value['file_idx'][$i]?>"></i><?php endif; ?></div>
       </a>
     </div>
     <?php $cnt++; endforeach; ?>

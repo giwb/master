@@ -194,18 +194,23 @@ class Welcome extends MY_Controller
    **/
   public function liked()
   {
-    $viewData['userData'] = $this->load->get_var('userData');
-    $idx = html_escape($this->input->post('idx'));
+    $now          = time();
+    $userData     = $this->load->get_var('userData');
+    $userIdx      = !empty($userData['idx']) ? $userData['idx'] : NULL;
+    $idx          = !empty($this->input->post('idx')) ? html_escape($this->input->post('idx')) : NULL;
+    $clubIdx      = !empty($this->input->post('club_idx')) ? html_escape($this->input->post('club_idx')) : 0;
+    $typeService  = !empty($this->input->post('type_service')) ? html_escape($this->input->post('type_service')) : SERVICE_TYPE_ARTICLE;
+    $typeReaction = !empty($this->input->post('type_reaction')) ? html_escape($this->input->post('type_reaction')) : REACTION_TYPE_LIKED;
+    $ipAddress    = $_SERVER['REMOTE_ADDR'];
 
-    if (!empty($viewData['userData']) && !empty($idx)) {
-      $now = time();
-      $ipaddr = $_SERVER['REMOTE_ADDR'];
+    if (!empty($userData) && !empty($idx)) {
       $search = array(
-        'target_idx' => $idx,
-        'service_type' => SERVICE_TYPE_ARTICLE,
-        'reaction_type' => REACTION_TYPE_LIKED,
-        'ip_address' => $ipaddr,
-        'created_by' => !empty($viewData['userData']['idx']) ? $viewData['userData']['idx'] : NULL,
+        'club_idx'        => $clubIdx,
+        'target_idx'      => $idx,
+        'service_type'    => $typeService,
+        'reaction_type'   => $typeReaction,
+        'ip_address'      => $ipAddress,
+        'created_by'      => $userIdx,
       );
       $check = $this->reaction_model->viewReaction($search);
 
@@ -214,9 +219,10 @@ class Welcome extends MY_Controller
 
         // 좋아요 개수
         $search = array(
-          'target_idx' => $idx,
-          'service_type' => SERVICE_TYPE_ARTICLE,
-          'reaction_type' => REACTION_TYPE_LIKED,
+          'club_idx'      => $clubIdx,
+          'target_idx'    => $idx,
+          'service_type'  => $typeService,
+          'reaction_type' => $typeReaction,
         );
         $liked = $this->reaction_model->cntReaction($search);
 
@@ -224,20 +230,22 @@ class Welcome extends MY_Controller
       } else {
         // 좋아요 올리기
         $insertValues = array(
-          'target_idx' => $idx,
-          'service_type' => SERVICE_TYPE_ARTICLE,
-          'reaction_type' => REACTION_TYPE_LIKED,
-          'ip_address' => $ipaddr,
-          'created_by' => !empty($viewData['userData']['idx']) ? $viewData['userData']['idx'] : NULL,
-          'created_at' => $now,
+          'club_idx'      => $clubIdx,
+          'target_idx'    => $idx,
+          'service_type'  => $typeService,
+          'reaction_type' => $typeReaction,
+          'ip_address'    => $ipAddress,
+          'created_by'    => $userIdx,
+          'created_at'    => $now,
         );
         $this->reaction_model->insertReaction($insertValues);
 
         // 좋아요 개수
         $search = array(
-          'target_idx' => $idx,
-          'service_type' => SERVICE_TYPE_ARTICLE,
-          'reaction_type' => REACTION_TYPE_LIKED,
+          'club_idx'      => $clubIdx,
+          'target_idx'    => $idx,
+          'service_type'  => $typeService,
+          'reaction_type' => $typeReaction,
         );
         $liked = $this->reaction_model->cntReaction($search);
 

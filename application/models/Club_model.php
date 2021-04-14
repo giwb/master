@@ -168,6 +168,40 @@ class Club_model extends CI_Model
     return $this->db->update(DB_ALBUM);
   }
 
+  // 추천 사진
+  public function listBestPhoto($clubIdx)
+  {
+    $this->db->select('a.idx, a.filename, a.refer, b.subject, c.nickname, d.idx AS notice_idx, d.subject AS notice_subject, d.startdate AS notice_startdate')
+          ->from(DB_FILES . ' a')
+          ->join(DB_ALBUM . ' b', 'b.idx=a.page_idx', 'left')
+          ->join(DB_MEMBER . ' c', 'b.created_by=c.idx', 'left')
+          ->join(DB_NOTICE . ' d', 'b.notice_idx=d.idx', 'left')
+          ->where('a.pickup !=', NULL)
+          ->where('b.club_idx', $clubIdx)
+          ->where('b.deleted_at', NULL)
+          ->order_by('d.startdate desc, b.idx desc, a.idx asc');
+
+    if (!empty($paging)) {
+      $this->db->limit($paging['perPage'], $paging['nowPage']);
+    }
+
+    return $this->db->get()->result_array();
+  }
+
+  // 추천 사진 보기
+  public function viewBestPhoto($clubIdx, $idx)
+  {
+    $this->db->select('a.idx, a.filename, a.refer, b.subject, b.content, c.idx AS user_idx, c.nickname, d.idx AS notice_idx, d.subject AS notice_subject, d.startdate AS notice_startdate')
+          ->from(DB_FILES . ' a')
+          ->join(DB_ALBUM . ' b', 'b.idx=a.page_idx', 'left')
+          ->join(DB_MEMBER . ' c', 'b.created_by=c.idx', 'left')
+          ->join(DB_NOTICE . ' d', 'b.notice_idx=d.idx', 'left')
+          ->where('a.idx', $idx)
+          ->where('b.club_idx', $clubIdx)
+          ->where('b.deleted_at', NULL);
+    return $this->db->get()->row_array(1);
+  }
+
   // 페이지 주소로 찾기
   public function getUrl($url)
   {

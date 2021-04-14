@@ -92,4 +92,25 @@ $(document).on('click', '.btn-album-insert', function() {
       location.replace($('input[name=baseUrl]').val() + '/album');
     }
   });
+}).on('click', '.btn-pickup', function(e) {
+  // 사진 추천
+  e.stopPropagation();
+  var $dom = $(this);
+  $.ajax({
+    url: '/album/pickup',
+    data: 'file_idx=' + $dom.data('file-idx'),
+    dataType: 'json',
+    type: 'post',
+    success: function(result) {
+      if (result.message == 'Y') {
+        // 추천 성공
+        $dom.removeClass('far');
+        $dom.addClass('fas');
+      } else {
+        // 추천 해제
+        $dom.removeClass('fas');
+        $dom.addClass('far');
+      }
+    }
+  });
 });

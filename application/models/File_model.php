@@ -7,7 +7,7 @@ class File_model extends CI_Model
   // 파일 취득
   public function getFile($page, $page_idx, $type=NULL, $limit=NULL)
   {
-    $this->db->select('type, filename')
+    $this->db->select('idx, type, pickup, filename')
           ->from(DB_FILES)
           ->where('page', $page)
           ->where('page_idx', $page_idx)
@@ -24,11 +24,16 @@ class File_model extends CI_Model
   }
 
   // 파일 보기
-  public function viewFile($filename)
+  public function viewFile($filename, $idx=NULL)
   {
     $this->db->select('*')
-          ->from(DB_FILES)
-          ->where('filename', $filename);
+          ->from(DB_FILES);
+
+    if (!empty($idx)) {
+      $this->db->where('idx', $idx);
+    } else {
+      $this->db->where('filename', $filename);
+    }
     return $this->db->get()->row_array(1);
   }
 
@@ -37,6 +42,14 @@ class File_model extends CI_Model
   {
     $this->db->insert(DB_FILES, $data);
     return $this->db->insert_id();
+  }
+
+  // 파일 수정
+  public function updateFile($data, $idx)
+  {
+    $this->db->set($data);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_FILES);
   }
 
   // 파일 삭제
