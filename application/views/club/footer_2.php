@@ -2,18 +2,18 @@
   defined('BASEPATH') OR exit('No direct script access allowed');
   $uri = explode('/', $_SERVER['REQUEST_URI']);
   if (!empty($view['domain'])) {
-    $uri = $uri[1];
+    $uri_cut = $uri[1];
   } else {
     if (empty($uri[2])) {
-      $uri = '';
+      $uri_cut = '';
     } else {
-      $uri = $uri[2];
+      $uri_cut = $uri[2];
     }
   }
   $arr = array('album', 'login'); // 우측을 완전히 빼는 경우
 ?>
 
-        <?php if (empty($uri) || strstr($uri, 'album/best') || !in_array($uri, $arr)): ?>
+        <?php if (empty($uri_cut) || strstr($uri, 'album/best') || !in_array($uri_cut, $arr)): ?>
         <div class="col-xl-4 col-md-12 widget-column mt-0 pb-0">
           <section class="section">
             <h4 class="font-weight-bold"><strong>월간 일정</strong></h4>
@@ -82,7 +82,7 @@
           </script>
           <?php endif; ?>
 
-          <?php if (empty($uri) || strstr($uri, 'album/best') || !in_array($uri, $arr)): ?>
+          <?php if (empty($uri_cut) || strstr($uri, 'album/best') || !in_array($uri_cut, $arr)): ?>
           <!-- 내부 광고 -->
           <section class="section mt-4 mb-4">
             <div class="card">
@@ -95,7 +95,7 @@
           </section>
           <?php endif; ?>
 
-          <?php if (empty($uri)): // 안부 인사와 인증현황은 메인 페이지에서만 보이게 ?>
+          <?php if (empty($uri_cut)): // 안부 인사와 인증현황은 메인 페이지에서만 보이게 ?>
           <section class="section mt-5">
             <h4 class="row font-weight-bold">
               <div class="col-6"><strong>안부 인사</strong></div>
@@ -140,7 +140,7 @@
               <?php endforeach; ?>
             </div>
           </section>
-          <?php elseif (!empty($uri) && strstr($uri, 'album/best') && !in_array($uri, $arr)): ?>
+          <?php elseif (!empty($uri_cut) && strstr($uri, 'album/best') && !in_array($uri_cut, $arr)): ?>
           <section class="section mt-5">
             <h4 class="font-weight-bold"><strong>현재 진행중인 여행</strong></h4>
             <hr class="text-default">
@@ -166,7 +166,7 @@
           </section>
           <?php endif; ?>
 
-          <?php if (empty($uri) || strstr($uri, 'album/best') || !in_array($uri, $arr)): ?>
+          <?php if (empty($uri_cut) || strstr($uri, 'album/best') || !in_array($uri_cut, $arr)): ?>
           <section class="section mt-4">
             <div class="card text-center p-2">
               <img class="d-none d-sm-block busmap" src="/public/images/busmap.png">
