@@ -202,6 +202,31 @@ class Club_model extends CI_Model
     return $this->db->get()->row_array(1);
   }
 
+  // 랭킹 - 산행 참여
+  public function rankingRescount($clubIdx, $limit=NULL)
+  {
+    $this->db->select('nickname, rescount AS cnt')
+          ->from(DB_MEMBER)
+          ->where('club_idx', $clubIdx)
+          ->order_by('cnt', 'desc')
+          ->limit($limit);
+    return $this->db->get()->result_array();
+  }
+
+  // 랭킹 - 홈페이지 방문
+  public function rankingVisit($clubIdx, $limit=NULL)
+  {
+    $this->db->select('b.nickname, COUNT(a.idx) AS cnt')
+          ->from(DB_VISITOR . ' a')
+          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
+          ->where('a.club_idx', $clubIdx)
+          ->where_not_in('a.created_by', array(NULL, 1, 2))
+          ->group_by('b.nickname', 'desc')
+          ->order_by('cnt', 'desc')
+          ->limit($limit);
+    return $this->db->get()->result_array();
+  }
+
   // 페이지 주소로 찾기
   public function getUrl($url)
   {

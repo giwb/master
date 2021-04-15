@@ -621,16 +621,36 @@ class Club extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function ranking($type=NULL)
+  public function ranking()
   {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $viewData['userData'] = $this->session->userData;
-    $viewData['type'] = !empty($type) ? html_escape($type) : 1;
+    $viewData['type'] = !empty($this->input->get('type')) ? html_escape($this->input->get('type')) : 0;
 
     // 클럽 정보
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
-    $viewData['pageTitle'] = '회원통계';
+    switch ($viewData['type']) {
+      case '1':
+        $title = ' - 산행 참여';
+        $viewData['ranking'] = $this->club_model->rankingRescount($clubIdx, 100);
+        break;
+      case '2':
+        $title = ' - 백산백소 인증';
+        $viewData['ranking'] = $this->club_model->listAuth(50);
+        break;
+      case '3':
+        $title = ' - 홈페이지 방문';
+        $viewData['ranking'] = $this->club_model->rankingVisit($clubIdx, 100);
+        break;
+      case '4':
+        $title = ' - 회원 등급';
+        break;
+      default:
+        $title = ' - 전체보기';
+    }
+
+    $viewData['pageTitle'] = '회원통계' . $title;
 
     $this->_viewPage('club/ranking', $viewData);
   }

@@ -8,12 +8,11 @@
           <h4 class="font-weight-bold"><?=$pageTitle?></h4>
           <hr class="text-default">
 
-          <div class="d-block d-sm-none">
-            <div class="header-menu mt-3 mb-3">
-              <div class="header-menu-item active"><a href="<?=BASE_URL?>/club/auth">인증현황</a></div>
-              <div class="header-menu-item"><a href="<?=BASE_URL?>/club/page/?type=mountain">100대명산</a></div>
-              <div class="header-menu-item"><a href="<?=BASE_URL?>/club/page/?type=forest">100대명소</a></div>
-            </div>
+          <div class="header-menu mt-3 mb-3">
+            <div class="header-menu-item<?=empty($type) ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/ranking">전체보기</a></div>
+            <div class="header-menu-item<?=!empty($type) && $type == 1 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/ranking?type=1">산행 참여</a></div>
+            <div class="header-menu-item<?=!empty($type) && $type == 2 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/ranking?type=2">백산백소 인증</a></div>
+            <div class="header-menu-item<?=!empty($type) && $type == 3 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/ranking?type=3">홈페이지 방문</a></div>
           </div>
 
           <div class="sub-content"><br>
@@ -28,32 +27,25 @@
                 <th>닉네임</th>
                 <th>횟수</th>
               </tr>
-              <?php //foreach ($auth as $key => $value): ?>
-              <!--
+              <?php
+                $rank = 0; $buf = 0;
+                foreach ($ranking as $key => $value):
+                  if ($buf != $value['cnt']) { $rank = $key; $rank++; }
+              ?>
               <tr>
                 <td align="center">
-                  <?php if ($value['rank'] <= 5): ?><img src="/public/images/medal<?=$value['rank']?>.png">
-                  <?php else: ?><?=$value['rank']?><?php endif; ?>
+                  <?php if ($rank <= 5): ?><img src="/public/images/medal<?=$rank?>.png">
+                  <?php else: ?><?=$rank?><?php endif; ?>
                 </td>
                 <td nowrap><?=$value['nickname']?>님</td>
                 <td class="btn-open-auth" data-idx="<?=$key?>">
-                  <div class="auth-progress-bar"><div id="medal<?=$key?>" class="auth-gauge" cnt="<?=$value['cnt']?>"><?=$value['cnt']?>회</div></div>
-                  <div class="auth-title d-none" data-idx="<?=$key?>"><?=$value['title']?></div>
+                  <div class="auth-progress-bar"><div id="medal<?=$key?>" class="auth-gauge" cnt="<?=$value['cnt'] > 100 ? $value['cnt'] / 10 : $value['cnt']?>"><?=$value['cnt']?>회</div></div>
                 </td>
-              </tr>-->
-              <?php //endforeach; ?>
+              </tr>
+              <?php
+                  $buf = $value['cnt'];
+                endforeach;
+              ?>
             </table>
           </div>
         </div>
-
-        <script type="text/javascript">
-          $(document).on('click', '.btn-open-auth', function() {
-            var idx = $(this).data('idx');
-            var $dom = $('.auth-title[data-idx=' + idx + ']');
-            if ($dom.hasClass('d-none')) {
-              $dom.removeClass('d-none');
-            } else {
-              $dom.addClass('d-none');
-            }
-          });
-        </script>

@@ -1433,7 +1433,7 @@ $(document).ready(function() {
     var width = 1;
     var id = setInterval(frame, 10);
     function frame() {
-      if (width >= Number(maxWidth * 2)) {
+      if (width >= Number(maxWidth)) {
         clearInterval(id);
         i = 0;
       } else {

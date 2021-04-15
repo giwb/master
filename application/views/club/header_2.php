@@ -119,21 +119,16 @@
           <li class="nav-item">
             <a href="<?=BASE_URL?>/shop" class="nav-link"><i class="fas fa-shopping-cart"></i> 용품샵</a>
           </li>
-          <!--
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink4" data-toggle="dropdown" aria-haspopup="true"
               aria-expanded="false"><i class="fas fa-chart-line"></i> 회원랭킹</a>
             <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink4">
+              <a class="dropdown-item" href="<?=BASE_URL?>/club/ranking">전체보기</a>
               <a class="dropdown-item" href="<?=BASE_URL?>/club/ranking?type=1">산행 참여</a>
               <a class="dropdown-item" href="<?=BASE_URL?>/club/ranking?type=2">백산백소 인증</a>
               <a class="dropdown-item" href="<?=BASE_URL?>/club/ranking?type=3">홈페이지 방문</a>
-              <a class="dropdown-item" href="<?=BASE_URL?>/club/ranking?type=4">여행기 작성</a>
-              <a class="dropdown-item" href="<?=BASE_URL?>/club/ranking?type=5">좋아요</a>
-              <a class="dropdown-item" href="<?=BASE_URL?>/club/ranking?type=6">댓글</a>
-              <a class="dropdown-item" href="<?=BASE_URL?>/club/ranking?type=7">등급</a>
             </div>
           </li>
-          -->
           <?php if (empty($userData['idx'])): ?>
           <li class="nav-item">
             <a class="nav-link login-popup"><i class="fas fa-user-circle"></i> 로그인</a>
