@@ -83,7 +83,7 @@
             </div>
           </section>
 
-          <?php if (empty($uri) || (empty($uri_cut[2]) && $uri_cut[1] == $view['url'])): // 안부 인사와 인증현황은 메인 페이지에서만 보이게 ?>
+          <?php if ($uri == '/' || (empty($uri_cut[2]) && $uri_cut[1] == $view['url'])): // 안부 인사와 인증현황은 메인 페이지에서만 보이게 ?>
           <section class="section mt-5">
             <h4 class="row font-weight-bold">
               <div class="col-6"><strong>안부 인사</strong></div>
