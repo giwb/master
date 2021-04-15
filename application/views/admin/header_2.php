@@ -25,7 +25,6 @@
   <script type="text/javascript" src="/public/js/jquery-3.3.1.min.js"></script>
   <script type="text/javascript" src="/public/js/jquery-ui.min.js"></script>
   <script type="text/javascript" src="/public/js/jquery.easing.min.js"></script>
-  <script type="text/javascript" src="/public/js/jquery.ui.touch-punch.min.js"></script>
   <script type="text/javascript" src="/public/js/bootstrap.min.js"></script>
   <script src="/public/lib/touchSwipe/jquery.touchSwipe.min.js"></script>
   <script src="/public/js/fullcalendar/main.min.js" type="text/javascript"></script>

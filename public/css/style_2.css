@@ -2722,7 +2722,7 @@ main#footer .logo-img { margin-right: 10px; float: left; }
   .card-img-top { min-height: auto; }
 
   /* 기사 페이지 */
-  main { padding-top: 85px!important; }
+  main { padding-top: 65px!important; }
   main#mainpage { padding-top: 0px!important; }
   main#footer { padding: 20px!important; }
   .area-photo { max-height: 200px; overflow: hidden; }
@@ -2890,8 +2890,8 @@ main#footer .logo-img { margin-right: 10px; float: left; }
 }
 
 /* bookmark */
-#bookmark { font-size: 0.8rem; min-height: 600px; }
-#bookmark .bk-header { color: #fff; padding: 4px 0 6px 0; border-radius: 5px; }
+#bookmark { min-height: 600px; }
+#bookmark .bk-header { color: #fff; padding: 9px 0 10px 0; border-radius: 5px; }
 #bookmark .bk-editing .bk-header { padding: 6px 10px; }
 #bookmark .bk-item { position: relative; }
 #bookmark .bk-item .layer-memo { position: absolute; border: 1px solid #3D3E40; font-size: 0.8rem; color: #3D3E40; background-color: #fff; padding: 5px 10px; z-index: 2; }
@@ -2899,6 +2899,10 @@ main#footer .logo-img { margin-right: 10px; float: left; }
 #bookmark .far { font-size: 0.9rem; color: #bbb!important; }
 #bookmark .btn-add-category, .btn-add-bookmark, .btn-edit-memo { font-size: 0.9rem; color: #bbb!important; }
 #bookmark .btn-bookmark { display: none; }
+@media only screen and (max-width: 414px) {
+	#bookmark { font-size: 0.8rem; }
+	#bookmark .bk-header { padding: 3px 0 5px 0; }
+}
 
 /* 댓글 레이어 */
 section.comments-list { width: 100%; }
