@@ -641,7 +641,7 @@ class Club extends MY_Controller
         break;
       case '3':
         $title = ' - 홈페이지 방문';
-        $viewData['ranking'] = $this->club_model->rankingVisit($clubIdx, 100);
+        $viewData['ranking'] = $this->club_model->rankingVisit($clubIdx, 30);
         break;
       case '4':
         $title = ' - 회원 등급';
