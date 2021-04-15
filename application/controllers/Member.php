@@ -869,6 +869,24 @@ class Member extends MY_Controller
   }
 
   /**
+   * 회원 예약횟수 현실화
+   *
+   * @author bjchoi
+   **/
+  public function setup_rescount()
+  {
+    $userData = $this->load->get_var('userData');
+    if (!empty($userData['admin'])) {
+      $listMembers = $this->member_model->setupRescountMember();
+      foreach ($listMembers as $key => $value) {
+        $checkReservation = $this->member_model->setupRescountReservation($value['idx']);
+        $updateValues['rescount'] = !empty($checkReservation) ? count($checkReservation) : 0;
+        $this->member_model->updateMember($updateValues, $value['idx']);
+      }
+    }
+  }
+
+  /**
    * 페이지 표시
    *
    * @param $viewPage

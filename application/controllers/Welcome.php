@@ -862,17 +862,6 @@ class Welcome extends MY_Controller
     $this->load->view('calendar', $viewData);
   }
 
-  public function test()
-  {
-    $listMembers = $this->desk_model->listMembers();
-    foreach ($listMembers as $key => $value) {
-      $checkReservation = $this->desk_model->checkReservation($value['idx']);
-      $updateValues['rescount'] = !empty($checkReservation) ? count($checkReservation) : 0;
-      $updateValues['penalty'] = 0;
-      $this->desk_model->update(DB_MEMBER, $updateValues, $value['idx']);
-    }
-  }
-
   /**
    * 페이지 표시
    *

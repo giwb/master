@@ -117,6 +117,29 @@ class Member_model extends CI_Model
     return $this->db->get()->row_array(1);
   }
 
+  // 회원 예약횟수 현실화 - 회원 목록
+  public function setupRescountMember()
+  {
+    $this->db->select('idx, nickname, rescount, level, penalty, admin')
+          ->from(DB_MEMBER)
+          ->where('quitdate', NULL)
+          ->order_by('idx', 'asc');
+    return $this->db->get()->result_array();
+  }
+
+  // 회원 예약횟수 현실화 - 예약횟수
+  public function setupRescountReservation($idx)
+  {
+    $this->db->select('a.idx')
+          ->from(DB_RESERVATION . ' a')
+          ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
+          ->where('a.user_idx', $idx)
+          ->where('a.status', RESERVE_PAY)
+          ->where('b.status', STATUS_CLOSED)
+          ->group_by('a.rescode');
+    return $this->db->get()->result_array();
+  }
+
   // 회원 등록
   public function insertMember($data)
   {
