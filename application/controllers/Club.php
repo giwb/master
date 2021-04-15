@@ -616,7 +616,7 @@ class Club extends MY_Controller
   }
 
   /**
-   * 회원통계
+   * 회원랭킹
    *
    * @return view
    * @author bjchoi
@@ -653,7 +653,7 @@ class Club extends MY_Controller
         $title = ' - 전체보기';
     }
 
-    $viewData['pageTitle'] = '회원통계' . $title;
+    $viewData['pageTitle'] = '회원랭킹' . $title;
 
     $this->_viewPage('club/ranking', $viewData);
   }

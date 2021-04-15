@@ -189,7 +189,8 @@
     <li<?=strstr($uri, 'schedule') ? ' class="active"' : ''?>><a href="<?=BASE_URL?>/reserve/schedule"><i class="fa fa-calendar" aria-hidden="true"></i><br>일정</a></li>
     <?php if (!empty($listAbout[0]['idx'])): ?><li<?=strstr($uri, 'about') || strstr($uri, 'past') ? ' class="active"' : ''?>><a href="<?=BASE_URL?>/club/about/<?=$listAbout[0]['idx']?>"><i class="fas fa-chalkboard"></i><br>소개</a></li><?php endif; ?>
     <?php if ($view['idx'] == 1): ?><li<?=strstr($uri, 'auth') || strstr($uri, 'page') ? ' class="active"' : ''?>><a href="<?=BASE_URL?>/club/auth"><i class="fa fa-check-square" aria-hidden="true"></i><br>백산백소</a></li><?php endif; ?>
-    <li<?=strstr($uri, 'album') || strstr($uri, 'search') ? ' class="active"' : ''?>><a href="<?=BASE_URL?>/album"><i class="fas fa-map-marked-alt"></i></i><br>여행기</a></li>
+    <li<?=strstr($uri, 'album') || strstr($uri, 'search') ? ' class="active"' : ''?>><a href="<?=BASE_URL?>/album"><i class="fas fa-map-marked-alt"></i><br>여행기</a></li>
+    <li<?=strstr($uri, 'ranking') ? ' class="active"' : ''?>><a href="<?=BASE_URL?>/club/ranking"><i class="fas fa-chart-line"></i><br>회원랭킹</a></li>
     <?php if ($view['idx'] == 1): ?><li<?=strstr($uri, 'shop') ? ' class="active"' : ''?>><a href="<?=BASE_URL?>/shop"><i class="fa fa-shopping-cart" aria-hidden="true"></i><br>용품샵</a></li><?php endif; ?>
   </ul>
 
