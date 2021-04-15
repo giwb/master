@@ -165,6 +165,8 @@ class Club extends MY_Controller
         }
         $buf = $value['cnt'];
       }
+    } else {
+      $viewData['auth'] = array();
     }
 
     $this->_viewPage('club/index', $viewData);
