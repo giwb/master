@@ -24,18 +24,20 @@
               <a class="btn-bookmark btn-edit-memo" data-idx="<?=!empty($viewBookmark['idx']) ? $viewBookmark['idx'] : ''?>"><i class="far fa-plus-square"></i> 메모장 편집</a>
             </div>
 
-            <div id="sortable" class="row no-gutters align-items-top area-bookmark">
-              <?php if (!empty($listBookmark)): foreach ($listBookmark as $value): ?>
-              <div class="col-6 col-sm-3 p-1 pb-5 text-center">
-                <div class="bk-header" data-idx="<?=$value['idx']?>" style="background-color: <?=$value['bgcolor']?>"><a class="btn-bookmark btn-delete-bookmark-modal"><i class="fas fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-category" data-idx="<?=$value['idx']?>" data-bgcolor="<?=$value['bgcolor']?>"><i class="fas fa-pen-square"></i></a> <span class="category"><?=$value['title']?></span></div>
-                <div class="bk-body text-left p-2">
-                  <?php if (!empty($value['bookmark'])): foreach ($value['bookmark'] as $bookmark): ?>
-                    <div class="bk-item" data-idx="<?=$bookmark['idx']?>"><a class="btn-bookmark btn-delete-bookmark-modal"><i class="far fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-bookmark"><i class="far fa-edit"></i></a> <?php if (!empty($bookmark['link']) && !empty($bookmark['title'])): ?><a target="_blank" href="<?=$bookmark['link']?>" data-title="<?=$bookmark['title']?>" data-memo="<?=!empty($bookmark['memo']) ? $bookmark['memo'] : ''?>" class="link-bookmark"><?=$bookmark['title']?><?php else: ?><?=!empty($bookmark['memo']) ? '<a data-memo="' . $bookmark['memo'] . '" class="link-bookmark">' . $bookmark['memo'] : ''?><?php endif; ?></a></div>
-                  <?php endforeach; endif; ?>
-                  <a class="btn-bookmark btn-add-bookmark" data-idx="<?=$value['idx']?>"><i class="far fa-plus-square"></i> 북마크 추가</a>
+            <div class="m-3">
+              <div id="sortable" class="row no-gutters align-items-top area-bookmark">
+                <?php if (!empty($listBookmark)): foreach ($listBookmark as $value): ?>
+                <div class="col-6 col-sm-3 p-1 pb-5 text-center">
+                  <div class="bk-header" data-idx="<?=$value['idx']?>" style="background-color: <?=$value['bgcolor']?>"><a class="btn-bookmark btn-delete-bookmark-modal"><i class="fas fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-category" data-idx="<?=$value['idx']?>" data-bgcolor="<?=$value['bgcolor']?>"><i class="fas fa-pen-square"></i></a> <span class="category"><?=$value['title']?></span></div>
+                  <div class="bk-body text-left p-2">
+                    <?php if (!empty($value['bookmark'])): foreach ($value['bookmark'] as $bookmark): ?>
+                      <div class="bk-item" data-idx="<?=$bookmark['idx']?>"><a class="btn-bookmark btn-delete-bookmark-modal"><i class="far fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-bookmark"><i class="far fa-edit"></i></a> <?php if (!empty($bookmark['link']) && !empty($bookmark['title'])): ?><a target="_blank" href="<?=$bookmark['link']?>" data-title="<?=$bookmark['title']?>" data-memo="<?=!empty($bookmark['memo']) ? $bookmark['memo'] : ''?>" class="link-bookmark"><?=$bookmark['title']?><?php else: ?><?=!empty($bookmark['memo']) ? '<a data-memo="' . $bookmark['memo'] . '" class="link-bookmark">' . $bookmark['memo'] : ''?><?php endif; ?></a></div>
+                    <?php endforeach; endif; ?>
+                    <a class="btn-bookmark btn-add-bookmark" data-idx="<?=$value['idx']?>"><i class="far fa-plus-square"></i> 북마크 추가</a>
+                  </div>
                 </div>
+                <?php endforeach; endif; ?>
               </div>
-              <?php endforeach; endif; ?>
               <div class="col-sm-3 text-center area-add-category btn-bookmark">
                 <a class="btn-add-category"><i class="far fa-plus-square"></i> 카테고리 추가</a>
               </div>
