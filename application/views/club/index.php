@@ -167,13 +167,40 @@
 
           <section id="album" class="section extra-margins mt-3">
             <h4 class="row font-weight-bold">
-              <div class="col-6"><strong>산행 앨범</strong></div>
+              <div class="col-6"><strong>추천 사진</strong></div>
+              <div class="col-6 text-right"><a href="<?=BASE_URL?>/album/best" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a></div>
+            </h4>
+            <hr class="text-default mb-4">
+            <div class="row no-gutters mb-4">
+              <?php foreach ($listBestPhoto as $value): ?>
+              <div class="col-6 col-md-4 p-2">
+                <div class="card">
+                  <div class="view overlay">
+                    <img src="<?=ALBUM_URL . 'thumb_' . $value['filename']?>">
+                    <a href="<?=BASE_URL?>/album/best/<?=$value['idx']?>"><div class="mask rgba-white-slight"></div></a>
+                  </div>
+                </div>
+              </div>
+              <?php endforeach; ?>
+            </div>
+          </section>
+
+          <section id="album" class="section extra-margins mt-3">
+            <h4 class="row font-weight-bold">
+              <div class="col-6"><strong>새로 올라온 사진</strong></div>
               <div class="col-6 text-right"><a href="<?=BASE_URL?>/album" class="btn btn-default pt-2 pb-2 pl-4 pr-4 m-0">더 보기</a></div>
             </h4>
             <hr class="text-default mb-4">
-            <div class="row mb-4">
+            <div class="row no-gutters mb-4">
               <?php foreach ($listAlbum as $value): ?>
-              <div class="col-6 col-md-3"><a href="<?=BASE_URL?>/album"><img src="<?=$value['photo']?>" class="album-photo border mb-3"></a></div>
+              <div class="col-6 col-md-4 p-2">
+                <div class="card">
+                  <div class="view overlay">
+                    <img src="<?=$value['photo']?>">
+                    <a href="<?=BASE_URL?>/album"><div class="mask rgba-white-slight"></div></a>
+                  </div>
+                </div>
+              </div>
               <?php endforeach; ?>
             </div>
           </section>

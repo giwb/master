@@ -169,7 +169,7 @@ class Club_model extends CI_Model
   }
 
   // 추천 사진
-  public function listBestPhoto($clubIdx)
+  public function listBestPhoto($clubIdx, $paging=NULL)
   {
     $this->db->select('a.idx, a.filename, a.refer, b.subject, c.nickname, d.idx AS notice_idx, d.subject AS notice_subject, d.startdate AS notice_startdate')
           ->from(DB_FILES . ' a')

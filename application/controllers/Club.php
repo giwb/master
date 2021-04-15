@@ -79,8 +79,23 @@ class Club extends MY_Controller
       }
     }
 
+    // 추천 사진
+    $paging['perPage'] = 6; $paging['nowPage'] = 0;
+    $viewData['listBestPhoto'] = $this->club_model->listBestPhoto($viewData['view']['idx'], $paging);
+
+    foreach ($viewData['listBestPhoto'] as $key => $value) {
+      // 좋아요 개수
+      $search = array(
+        'club_idx'      => $viewData['view']['idx'],
+        'target_idx'    => $value['idx'],
+        'service_type'  => SERVICE_TYPE_ALBUM,
+        'reaction_type' => REACTION_TYPE_LIKED
+      );
+      $viewData['listBestPhoto'][$key]['liked'] = $this->reaction_model->cntReaction($search);
+    }
+
     // 최신 사진첩
-    $paging['perPage'] = 8; $paging['nowPage'] = 0;
+    $paging['perPage'] = 6; $paging['nowPage'] = 0;
     $viewData['listAlbum'] = $this->club_model->listAlbum($viewData['view']['idx'], $paging);
 
     foreach ($viewData['listAlbum'] as $key => $value) {
