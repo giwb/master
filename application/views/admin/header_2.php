@@ -49,25 +49,34 @@
 
   <header>
     <nav id="mainNav" class="navbar navbar-expand-lg navbar-dark">
-      <a class="navbar-brand" href="<?=BASE_URL?>/admin"><img width="45" src="/public/images/icon.png" style="margin-right: 10px; float: left;"><span class="logo">경인웰빙</span></a>
+      <a class="navbar-brand" href="<?=BASE_URL?>"><img width="45" src="/public/images/icon.png" style="margin-right: 10px; float: left;"><span class="logo">경인웰빙</span></a>
       <button class="navbar-toggler" type="button"><i class="fa fa-cog text-white" aria-hidden="true"></i>
       </button>
       <div class="navbar-sideview">
         <hr>
-        <a href="http://<?=goHome($viewClub)?>" class="nav-link"><i class="fas fa-chalkboard" aria-hidden="true"></i> 산악회 홈</a>
-        <a href="<?=BASE_URL?>/admin/main_list_progress" class="nav-link"><i class="fas fa-mountain" aria-hidden="true"></i> 산행관리</a>
-        <a href="<?=BASE_URL?>/ShopAdmin/order" class="nav-link"><i class="fas fa-shopping-cart" aria-hidden="true"></i> 구매대행</a>
-        <a href="<?=BASE_URL?>/admin/member_list" class="nav-link"><i class="fas fa-user" aria-hidden="true"></i> 회원관리</a>
-        <a href="<?=BASE_URL?>/admin/log_user" class="nav-link"><i class="fas fa-users" aria-hidden="true"></i> 활동관리</a>
-        <a href="<?=BASE_URL?>/admin/attendance_auth" class="nav-link"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소</a>
-        <a href="<?=BASE_URL?>/admin/setup_information" class="nav-link"><i class="fas fa-users" aria-hidden="true"></i> 기본설정</a>
-        <img src="/public/images/banner_cafe.png" onClick="window.open('https://cafe.daum.net/giwb');">
+        <?php if (empty($userData['idx'])): ?>
+        <a class="nav-link login-popup">로그인</a>
+        <a href="<?=BASE_URL?>/login/entry" class="nav-link">회원가입</a>
+        <?php else: ?>
+        <div class="text-center"><img src="<?=file_exists(AVATAR_PATH . $userData['idx']) ? AVATAR_URL . $userData['idx'] : '/public/images/user.png'?>" class="avatar"></div>
+        <div class="text-center"><strong><?=$userData['nickname']?></strong> <small>(<?=$userLevel['levelName']?>)</small></div><hr>
+        <a href="<?=BASE_URL?>/member" class="nav-link">마이페이지</a>
+        <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
+        <a href="<?=BASE_URL?>/member/driver" class="nav-link">드라이버 페이지</a>
+        <?php endif; ?>
+        <a href="<?=BASE_URL?>/member/modify" class="nav-link">개인정보수정</a>
+        <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
+        <a href="<?=BASE_URL?>/admin">관리 페이지</a>
+        <?php endif; ?>
+        <a class="nav-link logout">로그아웃</a>
+        <?php endif; ?>
+        <br><img src="/public/images/banner_cafe.png" onClick="window.open('https://cafe.daum.net/giwb');">
       </div>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a href="http://<?=goHome($viewClub)?>" class="nav-link"><i class="fas fa-chalkboard" aria-hidden="true"></i> 산악회 홈</a>
+            <a href="<?=BASE_URL?>/admin" class="nav-link"><i class="fas fa-chalkboard" aria-hidden="true"></i> 관리자 홈</a>
           </li>
           <li class="nav-item">
             <a href="<?=BASE_URL?>/admin/main_list_progress" class="nav-link"><i class="fas fa-mountain" aria-hidden="true"></i> 산행관리</a>
