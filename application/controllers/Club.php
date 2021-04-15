@@ -652,9 +652,9 @@ class Club extends MY_Controller
         $title = ' - 회원 등급';
         break;
       default:
-        $viewData['rankingRescount'] = $this->club_model->rankingRescount($clubIdx, 5);
-        $viewData['rankingAuth'] = $this->club_model->listAuth(5);
-        $viewData['rankingVisit'] = $this->club_model->rankingVisit($clubIdx, 5);
+        $viewData['rankingRescount'] = $this->club_model->rankingRescount($clubIdx, 10);
+        $viewData['rankingAuth'] = $this->club_model->listAuth(10);
+        $viewData['rankingVisit'] = $this->club_model->rankingVisit($clubIdx, 10);
         $title = ' - 전체보기';
     }
 
