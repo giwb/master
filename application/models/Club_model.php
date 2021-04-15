@@ -221,7 +221,7 @@ class Club_model extends CI_Model
           ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
           ->where('a.club_idx', $clubIdx)
           ->where('a.created_by !=', NULL)
-          ->where_not_in('a.created_by', array(1,2))
+          //->where_not_in('a.created_by', array(1,2))
           ->group_by('b.nickname', 'desc')
           ->order_by('cnt', 'desc')
           ->limit($limit);
