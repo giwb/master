@@ -40,7 +40,7 @@
                 </td>
                 <td nowrap><?=$value['nickname']?>님</td>
                 <td class="btn-open-auth" data-idx="<?=$key?>">
-                  <div class="auth-progress-bar"><div id="medal<?=$key?>" class="auth-gauge" cnt="<?=$type == 3 ? $value['cnt'] / 11 : $value['cnt']?>"><?=$value['cnt']?>회</div></div>
+                  <div class="auth-progress-bar"><div id="medal<?=$key?>" class="auth-gauge" cnt="<?=$type == 3 ? $value['cnt'] / 12 : $value['cnt']?>"><?=$value['cnt']?>회</div></div>
                 </td>
               </tr>
               <?php
@@ -141,7 +141,7 @@
                 </td>
                 <td nowrap><?=$value['nickname']?>님</td>
                 <td class="btn-open-auth" data-idx="<?=$key?>">
-                  <div class="auth-progress-bar"><div id="medal-visit<?=$key?>" class="auth-gauge" cnt="<?=$value['cnt'] / 11?>"><?=$value['cnt']?>회</div></div>
+                  <div class="auth-progress-bar"><div id="medal-visit<?=$key?>" class="auth-gauge" cnt="<?=$value['cnt'] / 12?>"><?=$value['cnt']?>회</div></div>
                 </td>
               </tr>
               <?php
