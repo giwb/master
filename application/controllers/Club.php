@@ -640,8 +640,13 @@ class Club extends MY_Controller
         $viewData['ranking'] = $this->club_model->listAuth(50);
         break;
       case '3':
-        $title = ' - 홈페이지 방문';
-        $viewData['ranking'] = $this->club_model->rankingVisit($clubIdx, 50);
+        if (!empty($viewData['userData']['admin']) && $viewData['userData']['admin'] == 1) {
+          $title = ' - 홈페이지 방문';
+          $viewData['ranking'] = $this->club_model->rankingVisit($clubIdx, 50);
+        } else {
+          $title = '';
+          $viewData['ranking'] = array();
+        }
         break;
       case '4':
         $title = ' - 회원 등급';
