@@ -9,10 +9,10 @@
           <hr class="text-default">
 
           <div class="header-menu mt-3 mb-3">
-            <div class="header-menu-item col-6<?=empty($type) ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/ranking">전체보기</a></div>
-            <div class="header-menu-item col-6<?=!empty($type) && $type == 1 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/ranking?type=1">산행 참여</a></div>
-            <div class="header-menu-item col-6<?=!empty($type) && $type == 2 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/ranking?type=2">백산백소 인증</a></div>
-            <div class="header-menu-item col-6<?=!empty($type) && $type == 3 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/ranking?type=3">홈페이지 방문</a></div>
+            <div class="header-menu-item<?=empty($type) ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/ranking">전체보기</a></div>
+            <div class="header-menu-item<?=!empty($type) && $type == 1 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/ranking?type=1">산행 참여</a></div>
+            <div class="header-menu-item<?=!empty($type) && $type == 2 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/ranking?type=2">백산백소 인증</a></div>
+            <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?><div class="header-menu-item<?=!empty($type) && $type == 3 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/ranking?type=3">홈페이지 방문</a></div><?php endif; ?>
           </div>
 
           <?php if (!empty($type)): ?>
@@ -117,6 +117,7 @@
               ?>
             </table><br>
 
+            <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
             <h5 class="mt-2">■ 홈페이지 방문</h5>
             <table width="100%" class="auth">
               <colgroup>
@@ -149,6 +150,7 @@
                 endforeach;
               ?>
             </table>
+            <?php endif; ?>
           </div>
           <?php endif; ?>
         </div>
