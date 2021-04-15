@@ -964,6 +964,10 @@
     $.calcTotalBus(); // 운행견적총액
   }).on('change', '.cost-added', function() {
     $.calcCost();
+  }).on('click', '.page-mask', function() {
+    // 아무데나 클릭해도 모바일 우측 메뉴 사라지게
+    $('header').removeClass('page-mask');
+    $('.navbar-sideview').removeClass('active');
   }).on('click', '.navbar-toggler', function() {
     // 모바일 우측 메뉴
     var $dom = $('.navbar-sideview');

@@ -60,17 +60,12 @@
         <?php else: ?>
         <div class="text-center"><img src="<?=file_exists(AVATAR_PATH . $userData['idx']) ? AVATAR_URL . $userData['idx'] : '/public/images/user.png'?>" class="avatar"></div>
         <div class="text-center"><strong><?=$userData['nickname']?></strong> <small>(<?=$userLevel['levelName']?>)</small></div><hr>
-        <a href="<?=BASE_URL?>/member" class="nav-link">마이페이지</a>
+        <a href="<?=BASE_URL?>/admin/setup_information" class="nav-link">기본설정</a>
         <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
         <a href="<?=BASE_URL?>/member/driver" class="nav-link">드라이버 페이지</a>
         <?php endif; ?>
-        <a href="<?=BASE_URL?>/member/modify" class="nav-link">개인정보수정</a>
-        <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
-        <a href="<?=BASE_URL?>/admin">관리 페이지</a>
-        <?php endif; ?>
         <a class="nav-link logout">로그아웃</a>
         <?php endif; ?>
-        <br><img src="/public/images/banner_cafe.png" onClick="window.open('https://cafe.daum.net/giwb');">
       </div>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
