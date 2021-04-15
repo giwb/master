@@ -641,12 +641,15 @@ class Club extends MY_Controller
         break;
       case '3':
         $title = ' - 홈페이지 방문';
-        $viewData['ranking'] = $this->club_model->rankingVisit($clubIdx, 30);
+        $viewData['ranking'] = $this->club_model->rankingVisit($clubIdx, 50);
         break;
       case '4':
         $title = ' - 회원 등급';
         break;
       default:
+        $viewData['rankingRescount'] = $this->club_model->rankingRescount($clubIdx, 5);
+        $viewData['rankingAuth'] = $this->club_model->listAuth(5);
+        $viewData['rankingVisit'] = $this->club_model->rankingVisit($clubIdx, 5);
         $title = ' - 전체보기';
     }
 
