@@ -33,7 +33,7 @@
 $(document).on('click', '.login-popup', function() {
   // 로그인 모달
   $('#loginModal').modal('show');
-}).on('click', '.btn-login', function(e) {
+}).on('click', '.btn-login-tripkorea', function(e) {
   // 로그인
   e.preventDefault();
   var $dom = $(this);
@@ -65,7 +65,7 @@ $(document).on('click', '.login-popup', function() {
       }
     }
   });
-}).on('click', '.logout', function() {
+}).on('click', '.btn-logout-tripkorea', function() {
   // 로그아웃
   $.ajax({
     url: '/login/logout',

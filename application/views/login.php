@@ -33,6 +33,27 @@
                 <a href="<?=BASE_URL?>/login/entry"><button type="button" class="btn btn-info pl-3 pr-3">회원가입</button></a>
                 <a href="<?=BASE_URL?>/login/forgot"><button type="button" class="btn btn-secondary pl-3 pr-3">아이디/비밀번호 찾기</button></a>
               </div>
+
+              <div style="width: 482px; margin: 0 auto;">
+                <!-- 애드핏 -->
+                <section class="section mt-4 mb-4">
+                  <div class="card">
+                    <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-nZvV4BAxj0QXpJeQ" data-ad-width="320" data-ad-height="100"></ins>
+                    <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+                  </div>
+                </section>
+
+                <?php if (ENVIRONMENT == 'production'): ?>
+                <!-- 구글 광고 -->
+                <section class="section">
+                  <div class="card text-center">
+                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2424708381875991" data-ad-slot="1285643193" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                    <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
+                  </div>
+                </section>
+                <?php endif; ?>
+              </div>
+
             </div>
             <div class="col-lg-3"></div>
           </form>

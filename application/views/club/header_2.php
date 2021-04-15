@@ -87,7 +87,7 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true"
               aria-expanded="false"><i class="fas fa-chalkboard"></i> 단체 소개</a>
-            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink1">
               <?php foreach ($listAbout as $value): ?>
               <a class="dropdown-item" href="<?=BASE_URL?>/club/about/<?=$value['idx']?>"><?=$value['title']?></a>
               <?php endforeach; ?>
@@ -99,16 +99,16 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true"
               aria-expanded="false"><i class="fa fa-check-square" aria-hidden="true"></i> 백산백소</a>
-            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink2">
               <a class="dropdown-item" href="<?=BASE_URL?>/club/auth">백산백소 인증현황</a>
               <a class="dropdown-item" href="<?=BASE_URL?>/club/page?type=mountain">경인웰빙 100대명산</a>
               <a class="dropdown-item" href="<?=BASE_URL?>/club/page?type=forest">경인웰빙 100대명소</a>
             </div>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true"
+            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink3" data-toggle="dropdown" aria-haspopup="true"
               aria-expanded="false"><i class="fas fa-map-marked-alt"></i> 여행기</a>
-            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink3">
               <a class="dropdown-item" href="<?=BASE_URL?>/album">사진첩</a>
               <a class="dropdown-item" href="<?=BASE_URL?>/album/best">추천 사진</a>
               <a class="dropdown-item" href="<?=BASE_URL?>/club/video">동영상</a>
@@ -119,6 +119,21 @@
           <li class="nav-item">
             <a href="<?=BASE_URL?>/shop" class="nav-link"><i class="fas fa-shopping-cart"></i> 용품샵</a>
           </li>
+          <!--
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink4" data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false"><i class="fas fa-chart-line"></i> 회원랭킹</a>
+            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink4">
+              <a class="dropdown-item" href="<?=BASE_URL?>/club/ranking?type=1">산행 참여</a>
+              <a class="dropdown-item" href="<?=BASE_URL?>/club/ranking?type=2">백산백소 인증</a>
+              <a class="dropdown-item" href="<?=BASE_URL?>/club/ranking?type=3">홈페이지 방문</a>
+              <a class="dropdown-item" href="<?=BASE_URL?>/club/ranking?type=4">여행기 작성</a>
+              <a class="dropdown-item" href="<?=BASE_URL?>/club/ranking?type=5">좋아요</a>
+              <a class="dropdown-item" href="<?=BASE_URL?>/club/ranking?type=6">댓글</a>
+              <a class="dropdown-item" href="<?=BASE_URL?>/club/ranking?type=7">등급</a>
+            </div>
+          </li>
+          -->
           <?php if (empty($userData['idx'])): ?>
           <li class="nav-item">
             <a class="nav-link login-popup"><i class="fas fa-user-circle"></i> 로그인</a>
@@ -128,9 +143,9 @@
           </li>
           <?php else: ?>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink3" data-toggle="dropdown" aria-haspopup="true"
+            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink5" data-toggle="dropdown" aria-haspopup="true"
               aria-expanded="false"><i class="fas fa-user"></i> 마이페이지</a>
-            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink" style="white-space: nowrap;">
+            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink5" style="white-space: nowrap;">
               <a><strong><?=$userData['nickname']?></strong> (<?=$userLevel['levelName']?>)</a><hr>
               <a href="<?=BASE_URL?>/member">마이페이지</a><br>
               <?php if ($userData['level'] == LEVEL_DRIVER || $userData['level'] == LEVEL_DRIVER_ADMIN || (!empty($userData['admin']) && $userData['admin'] == 1)): ?>
@@ -142,7 +157,7 @@
           </li>
           <?php endif; ?>
           <li class="nav-item">
-            <a href="http://giwb.co.kr" target="_blank" class="nav-link"><i class="fa fa-desktop"></i> 다음카페</a>
+            <a href="https://cafe.daum.net/giwb" target="_blank" class="nav-link"><i class="fa fa-desktop"></i> 다음카페</a>
           </li>
           <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?>
           <li class="nav-item">

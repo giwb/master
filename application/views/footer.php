@@ -190,7 +190,7 @@
         <div class="error-message"></div>
       </div>
       <div class="border-top text-center p-3">
-        <button type="button" class="btn btn-danger btn-login">로그인</button><br>
+        <button type="button" class="btn btn-danger btn-login-tripkorea">로그인</button><br>
         <a href="<?=base_url()?>login/entry"><button type="button" class="btn btn-info">회원가입</button></a>
         <a href="<?=base_url()?>login/forgot"><button type="button" class="btn btn-secondary">아이디/비밀번호 찾기</button></a>
       </div>

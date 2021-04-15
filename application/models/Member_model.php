@@ -37,6 +37,14 @@ class Member_model extends CI_Model
     return $this->db->get()->row_array(1);
   }
 
+  public function searchIdByPhone($phone)
+  {
+    $this->db->select('idx, userid, quitdate')
+          ->from(DB_MEMBER)
+          ->where('phone', $phone);
+    return $this->db->get()->row_array(1);
+  }
+
   // 아이디 중복 확인
   public function checkUserid($userid)
   {

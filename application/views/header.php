@@ -72,7 +72,7 @@
           <a href="<?=base_url()?>mypage" class="nav-link" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle"></i> 마이페이지</a>
         </li>-->
         <li class="nav-item">
-          <a href="javascript:;" class="nav-link logout" aria-haspopup="true" aria-expanded="false"><i class="fas fa-sign-out-alt"></i> 로그아웃</a>
+          <a href="javascript:;" class="nav-link btn-logout-tripkorea" aria-haspopup="true" aria-expanded="false"><i class="fas fa-sign-out-alt"></i> 로그아웃</a>
         </li>
         <?php else: ?>
         <li class="nav-item">

@@ -57,16 +57,16 @@ class Reserve_model extends CI_Model
   }
 
   // 회원 예약횟수
-  public function cntMemberReserve($clubIdx, $userIdx)
+  public function cntMemberReserve($userIdx)
   {
-    $this->db->select('COUNT(a.user_idx) as cnt')
+    $this->db->select('a.idx')
           ->from(DB_RESERVATION . ' a')
           ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
-          ->where('a.club_idx', $clubIdx)
           ->where('a.user_idx', $userIdx)
           ->where('a.status', RESERVE_PAY)
-          ->where('b.status', STATUS_CLOSED);
-    return $this->db->get()->row_array(1);
+          ->where('b.status', STATUS_CLOSED)
+          ->group_by('a.rescode');
+    return $this->db->get()->result_array();
   }
 
   // 산행 예약자 카운트

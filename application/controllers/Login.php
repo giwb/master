@@ -66,8 +66,8 @@ class Login extends MY_Controller
           );
         } else {
           // 로그인에 성공하면 회원정보 업데이트
-          $rescount = $this->reserve_model->cntMemberReserve($viewData['clubIdx'], $userData['idx']);
-          $updateValues['rescount'] = $rescount['cnt']; // 예약 횟수 갱신 (회원 레벨 체크를 위해)
+          $rescount = $this->reserve_model->cntMemberReserve($userData['idx']);
+          $updateValues['rescount'] = !empty($rescount) ? count($rescount) : 0; // 예약 횟수 갱신 (회원 레벨 체크를 위해)
           $updateValues['connect'] = $userData['connect'] + 1;
           $updateValues['lastdate'] = time();
 
@@ -267,24 +267,6 @@ class Login extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  /*
-  public function entry()
-  {
-    $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
-    checkUserLoginRedirect(BASE_URL); // 로그인 상태의 회원은 메인 페이지로
-
-    $viewData['view'] = $this->club_model->viewClub($viewData['clubIdx']);
-
-    $this->_viewPage('member/entry', $viewData);
-  }
-  */
-
-  /**
-   * 회원가입 페이지
-   *
-   * @return view
-   * @author bjchoi
-   **/
   public function entry()
   {
     $viewData['clubIdx'] = get_cookie('COOKIE_CLUBIDX');
@@ -331,62 +313,6 @@ class Login extends MY_Controller
 
     $this->output->set_output(json_encode($result));
   }
-
-  /**
-   * 회원 등록
-   *
-   * @return json
-   * @author bjchoi
-   **/
-  /*
-  public function insert()
-  {
-    $now = time();
-    $inputData = $this->input->post();
-
-    $clubIdx = html_escape($inputData['club_idx']);
-    $userid = html_escape($inputData['userid']);
-    $password = html_escape($inputData['password']);
-    $nickname = html_escape($inputData['nickname']);
-    $phone = html_escape($inputData['phone1']) . '-' . html_escape($inputData['phone2']) . '-' . html_escape($inputData['phone3']);
-
-    $checkUserid = $this->member_model->checkUserid($userid);
-    $checkNickname = $this->member_model->checkNickname(NULL, $nickname);
-    $checkPhone = $this->member_model->checkPhone($phone);
-
-    if (!empty($checkUserid['idx'])) {
-      // 중복된 아이디
-      $result = array('error' => 1, 'message' => '이미 등록된 아이디 입니다. 다른 아이디를 입력해주세요.');
-    } elseif ($checkNickname['idx']) {
-      // 중복된 닉네임
-      $result = array('error' => 1, 'message' => '이미 등록된 닉네임 입니다. 다른 닉네임을 입력해주세요.');
-    } elseif ($checkPhone['idx']) {
-      // 중복된 전화번호
-      $result = array('error' => 1, 'message' => '이미 등록된 전화번호 입니다.');
-    } else {
-      $insertValues = array(
-        'club_idx'      => $clubIdx,
-        'userid'        => $userid,
-        'nickname'      => $nickname,
-        'password'      => md5($password),
-        'phone'         => $phone,
-        'connect'       => 1,
-        'regdate'       => $now
-      );
-      $idx = $this->member_model->insertMember($insertValues);
-
-      if (empty($idx)) {
-        $result = array('error' => 1, 'message' => '등록에 실패했습니다.');
-      } else {
-        // 회원 가입 기록
-        setHistory($clubIdx, LOG_ENTRY, $idx, $idx, $nickname, '', $now);
-        $result = array('error' => 0, 'message' => '');
-      }
-    }
-
-    $this->output->set_output(json_encode($result));
-  }
-  */
 
   /**
    * 회원 등록
@@ -585,6 +511,45 @@ class Login extends MY_Controller
     $viewData['pageTitle'] = '아이디/비밀번호 찾기';
 
     $this->_viewPage('member/forgot', $viewData);
+  }
+
+  /**
+   * 아이디/비밀번호 찾기 처리
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function forgot_process()
+  {
+    $phone1 = !empty($this->input->post('phone1')) ? html_escape($this->input->post('phone1')) : NULL;
+    $phone2 = !empty($this->input->post('phone2')) ? html_escape($this->input->post('phone2')) : NULL;
+    $phone3 = !empty($this->input->post('phone3')) ? html_escape($this->input->post('phone3')) : NULL;
+    $auth_code = !empty($this->input->post('auth_code')) ? html_escape($this->input->post('auth_code')) : NULL;
+
+    if (empty($phone1) || empty($phone2) || empty($phone3)) {
+      $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
+    } else {
+      $checkPhoneAuth = $this->member_model->checkPhoneAuth($phone1.$phone2.$phone3, $auth_code);
+      if (empty($checkPhoneAuth['idx'])) {
+        // 인증번호 없음
+        $result = array('error' => 1, 'message' => '인증번호가 일치하지 않습니다.');
+      } elseif ($checkPhoneAuth['created_at'] < ($now - 179)) {
+        // 인증번호 유효시간 만료
+        $result = array('error' => 1, 'message' => '인증번호 유효시간이 만료되었습니다.');
+      }
+
+      $userData = $this->member_model->searchIdByPhone($phone1 . '-' . $phone2 . '-' . $phone3);
+
+      if (empty($userData['userid'])) {
+        $result = array('error' => 1, 'message' => $this->lang->line('error_search_id'));
+      } elseif (!empty($userData['quit'])) {
+        $result = array('error' => 1, 'message' => $this->lang->line('msg_quit_member'));
+      } else {
+        $result = array('error' => 0, 'message' => $userData['userid']);
+      }
+    }
+
+    $this->output->set_output(json_encode($result));
   }
 
   /**

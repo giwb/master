@@ -865,39 +865,13 @@ class Welcome extends MY_Controller
   public function test()
   {
     $listMembers = $this->desk_model->listMembers();
-    $cnt = 1;
-
-    echo "<table border='1' cellspacing='0' cellpadding='5'><tr><th>번호</th><th>닉네임</th><th>현재 예약수</th><th>개정 예약수</th><th>페널티</th><th>페널티 빼면</th></tr>";
     foreach ($listMembers as $key => $value) {
       $checkReservation = $this->desk_model->checkReservation($value['idx']);
-      $memberLevel1 = memberLevel($value['rescount'], !empty($value['penalty']) ? $value['penalty'] : 0, $value['level'], $value['admin']);
-      $memberLevel2 = memberLevel(!empty($checkReservation) ? count($checkReservation) : 0, !empty($value['penalty']) ? $value['penalty'] : 0, $value['level'], $value['admin']);
-      $memberLevel3 = memberLevel(!empty($checkReservation) ? count($checkReservation) : 0, 0, $value['level'], $value['admin']);
-
-      if ($memberLevel1['levelName'] != $memberLevel2['levelName']) {
-        $bgcolor = "#FFFFFF";
-
-      echo "<tr align='center' bgcolor='" . $bgcolor . "'><td>";
-      echo $cnt;
-      echo "</td><td>";
-      echo $value['nickname'];
-      echo "</td><td>";
-      echo $value['rescount'];
-      echo " (" . $memberLevel1['levelName'] . ")";
-      echo "</td><td>";
-      echo number_format(count($checkReservation));
-      echo " (" . $memberLevel2['levelName'] . ")";
-      echo "</td><td>";
-      echo $value['penalty'];
-      echo "</td><td>";
-      echo " (" . $memberLevel3['levelName'] . ")";
-      echo "</td></tr>";
-$cnt++;
+      $updateValues['rescount'] = !empty($checkReservation) ? count($checkReservation) : 0;
+      $updateValues['penalty'] = 0;
+      $this->desk_model->update(DB_MEMBER, $updateValues, $value['idx']);
     }
-    }
-    echo "</table>";
   }
-
 
   /**
    * 페이지 표시

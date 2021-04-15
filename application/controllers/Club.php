@@ -616,6 +616,26 @@ class Club extends MY_Controller
   }
 
   /**
+   * 회원통계
+   *
+   * @return view
+   * @author bjchoi
+   **/
+  public function ranking($type=NULL)
+  {
+    $clubIdx = get_cookie('COOKIE_CLUBIDX');
+    $viewData['userData'] = $this->session->userData;
+    $viewData['type'] = !empty($type) ? html_escape($type) : 1;
+
+    // 클럽 정보
+    $viewData['view'] = $this->club_model->viewClub($clubIdx);
+
+    $viewData['pageTitle'] = '회원통계';
+
+    $this->_viewPage('club/ranking', $viewData);
+  }
+
+  /**
    * 페이지 표시
    *
    * @param $viewPage
