@@ -1,33 +1,28 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
           <section id="bookmark" class="mb-5">
-            <div class="row no-gutters">
-              <div class="col-5 col-sm-8"><h4 class="font-weight-bold">관리자 페이지</h4></div>
-              <div class="col-7 col-sm-4 text-right">
-                <form method="post" action="<?=BASE_URL?>/admin/log_reserve">
-                  <div class="row no-gutters">
-                    <div class="col-9 col-sm-10 pr-2"><input type="text" name="k" value="<?=!empty($keyword) ? $keyword : ''?>" class="form-control form-control-sm"></div>
-                    <div class="col-3 col-sm-2"><button type="button" class="btn-custom btn-giwb h-100">검색</button></div>
-                  </div>
-                </form>
+            <div class="d-none d-sm-block">
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-8"><h4 class="font-weight-bold">관리자 페이지</h4></div>
+                <div class="col-7 col-sm-4 text-right">
+                  <form method="post" action="<?=BASE_URL?>/admin/log_reserve">
+                    <div class="row no-gutters">
+                      <div class="col-9 col-sm-10 pr-2"><input type="text" name="k" value="<?=!empty($keyword) ? $keyword : ''?>" class="form-control form-control-sm"></div>
+                      <div class="col-3 col-sm-2"><button type="button" class="btn-custom btn-giwb h-100">검색</button></div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <hr class="text-default mt-2">
+              <div class="text-right">
+                <button type="button" class="btn-custom btn-giwb btn-bookmark-update">북마크 수정</button>
               </div>
             </div>
-            <hr class="text-default mt-2">
 
-            <div class="text-right">
-              <button type="button" class="btn-custom btn-giwb btn-bookmark-update">북마크 수정</button>
-            </div>
-
-            <div class="area-memo d-none"><?=!empty($viewBookmark['memo']) ? nl2br($viewBookmark['memo']) : ''?></div>
-
-            <div class="area-edit-memo mt-3 mb-3">
-              <a class="btn-bookmark btn-edit-memo" data-idx="<?=!empty($viewBookmark['idx']) ? $viewBookmark['idx'] : ''?>"><i class="far fa-plus-square"></i> 메모장 편집</a>
-            </div>
-
-            <div class="m-3">
+            <div class="mr-3">
               <div id="sortable" class="row no-gutters align-items-top area-bookmark">
                 <?php if (!empty($listBookmark)): foreach ($listBookmark as $value): ?>
-                <div class="col-6 col-sm-3 p-1 pb-5 text-center">
+                <div class="col-6 col-sm-3 p-1 pb-3 text-center">
                   <div class="bk-header" data-idx="<?=$value['idx']?>" style="background-color: <?=$value['bgcolor']?>"><a class="btn-bookmark btn-delete-bookmark-modal"><i class="fas fa-minus-square"></i></a> <a class="btn-bookmark btn-edit-category" data-idx="<?=$value['idx']?>" data-bgcolor="<?=$value['bgcolor']?>"><i class="fas fa-pen-square"></i></a> <span class="category"><?=$value['title']?></span></div>
                   <div class="bk-body text-left p-2">
                     <?php if (!empty($value['bookmark'])): foreach ($value['bookmark'] as $bookmark): ?>
