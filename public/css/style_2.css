@@ -2890,8 +2890,8 @@ main#footer .logo-img { margin-right: 10px; float: left; }
 }
 
 /* bookmark */
-#bookmark { min-height: 600px; }
-#bookmark .bk-header { color: #fff; padding: 9px 0 10px 0; border-radius: 5px; }
+#bookmark { font-size: 0.8rem; min-height: 600px; }
+#bookmark .bk-header { color: #fff; padding: 4px 0 6px 0; border-radius: 5px; }
 #bookmark .bk-editing .bk-header { padding: 6px 10px; }
 #bookmark .bk-item { position: relative; }
 #bookmark .bk-item .layer-memo { position: absolute; border: 1px solid #3D3E40; font-size: 0.8rem; color: #3D3E40; background-color: #fff; padding: 5px 10px; z-index: 2; }
