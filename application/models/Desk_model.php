@@ -337,5 +337,32 @@ class Desk_model extends CI_Model
       return $this->db->truncate($table);
     }
   }
+
+
+
+
+
+
+  public function listMembers()
+  {
+    $this->db->select('idx, nickname, rescount, level, penalty, admin')
+          ->from(DB_MEMBER)
+          ->where('quitdate', NULL)
+          ->order_by('idx', 'asc');
+    return $this->db->get()->result_array();
+  }
+
+  public function checkReservation($idx)
+  {
+    $this->db->select('a.idx')
+          ->from(DB_RESERVATION . ' a')
+          ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
+          ->where('a.user_idx', $idx)
+          ->where('a.status', RESERVE_PAY)
+          ->where('b.status', STATUS_CLOSED)
+          ->group_by('a.rescode');
+    return $this->db->get()->result_array();
+  }
+
 }
 ?>
