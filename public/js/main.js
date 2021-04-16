@@ -1432,7 +1432,9 @@ $(document).ready(function() {
     i = 1;
     var elem = document.getElementById(elemId);
     var width = 1;
-    var id = setInterval(frame, 10);
+    var delay = 10;
+    if (maxWidth > 500) delay = 0;
+    var id = setInterval(frame, delay);
     function frame() {
       if (width >= Number(curWidth)) {
         clearInterval(id);
