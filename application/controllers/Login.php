@@ -411,18 +411,23 @@ class Login extends MY_Controller
   public function send_auth()
   {
     $now = time();
+    $dev = false;
     $phone1 = html_escape($this->input->post('phone1'));
     $phone2 = html_escape($this->input->post('phone2'));
     $phone3 = html_escape($this->input->post('phone3'));
+    $type   = !empty($this->input->post('type')) ? html_escape($this->input->post('type')) : NULL;
 
     mt_srand($now);
     $auth_code = mt_rand(100000, 999999);
 
-    $checkPhone = $this->member_model->checkPhone($phone1.'-'.$phone2.'-'.$phone3);
+    $checkPhone = $this->member_model->checkPhone($phone1 . '-' . $phone2 . '-' . $phone3);
 
     if ($phone1 != '010' || strlen($phone2) != 4 || strlen($phone3) != 4) {
       $result = array('error' => 1, 'message' => '전화번호 형식이 올바르지 않습니다.');
-    } elseif (!empty($checkPhone['idx'])) {
+    } elseif (empty($checkPhone['idx']) && !empty($type) && $type == 'forgot') {
+      // 등록된 회원이 아닌 경우
+      $result = array('error' => 1, 'message' => '등록된 회원이 아닙니다.');
+    } elseif (!empty($checkPhone['idx']) && empty($type)) {
       // 중복된 전화번호
       $result = array('error' => 1, 'message' => '이미 등록된 전화번호 입니다.');
     } else {
@@ -471,10 +476,10 @@ class Login extends MY_Controller
         // -----------------------------------------------
         $response = json_decode($response);
       } else {
-        $response->statusCode = '202';
+        $dev = true;
       }
 
-      if (!empty($response->statusCode) && $response->statusCode == '202') {
+      if ((!empty($response->statusCode) && $response->statusCode == '202') || $dev == true) {
         // 새로운 인증번호 등록
         $insertValues = array(
           'phone_number'  => $phone,
@@ -521,6 +526,7 @@ class Login extends MY_Controller
    **/
   public function forgot_process()
   {
+    $now = time();
     $phone1 = !empty($this->input->post('phone1')) ? html_escape($this->input->post('phone1')) : NULL;
     $phone2 = !empty($this->input->post('phone2')) ? html_escape($this->input->post('phone2')) : NULL;
     $phone3 = !empty($this->input->post('phone3')) ? html_escape($this->input->post('phone3')) : NULL;
@@ -536,47 +542,18 @@ class Login extends MY_Controller
       } elseif ($checkPhoneAuth['created_at'] < ($now - 179)) {
         // 인증번호 유효시간 만료
         $result = array('error' => 1, 'message' => '인증번호 유효시간이 만료되었습니다.');
-      }
-
-      $userData = $this->member_model->searchIdByPhone($phone1 . '-' . $phone2 . '-' . $phone3);
-
-      if (empty($userData['userid'])) {
-        $result = array('error' => 1, 'message' => $this->lang->line('error_search_id'));
-      } elseif (!empty($userData['quit'])) {
-        $result = array('error' => 1, 'message' => $this->lang->line('msg_quit_member'));
       } else {
-        $result = array('error' => 0, 'message' => $userData['userid']);
+        // 인증번호 일치
+        $checkPhone = $this->member_model->checkPhone($phone1 . '-' . $phone2 . '-' . $phone3);
+        $message = array(
+          'userid' => $checkPhone['userid'],
+          'phone1' => $phone1,
+          'phone2' => $phone2,
+          'phone3' => $phone3,
+          'auth_code' => $auth_code
+        );
+        $result = array('error' => 0, 'message' => $message);
       }
-    }
-
-    $this->output->set_output(json_encode($result));
-  }
-
-  /**
-   * 아이디 찾기
-   *
-   * @return json
-   * @author bjchoi
-   **/
-  public function search_id()
-  {
-    $realname       = html_escape($this->input->post('realname'));
-    $gender         = html_escape($this->input->post('gender'));
-    $birthday_year  = html_escape($this->input->post('birthday_year'));
-    $birthday_month = html_escape($this->input->post('birthday_month'));
-    $birthday_day   = html_escape($this->input->post('birthday_day'));
-    $phone1         = html_escape($this->input->post('phone1'));
-    $phone2         = html_escape($this->input->post('phone2'));
-    $phone3         = html_escape($this->input->post('phone3'));
-
-    $userData = $this->member_model->searchId($realname, $gender, $birthday_year . '/' . $birthday_month . '/' . $birthday_day, $phone1 . '-' . $phone2 . '-' . $phone3);
-
-    if (empty($userData['userid'])) {
-      $result = array('error' => 1, 'message' => $this->lang->line('error_search_id'));
-    } elseif (!empty($userData['quit'])) {
-      $result = array('error' => 1, 'message' => $this->lang->line('msg_quit_member'));
-    } else {
-      $result = array('error' => 0, 'message' => '회원님의 아이디는 ' . $userData['userid'] . ' 입니다.');
     }
 
     $this->output->set_output(json_encode($result));
@@ -590,30 +567,34 @@ class Login extends MY_Controller
    **/
   public function change_pw()
   {
-    $userid         = html_escape($this->input->post('uid'));
-    $realname       = html_escape($this->input->post('realname'));
-    $gender         = html_escape($this->input->post('gender'));
-    $birthday_year  = html_escape($this->input->post('birthday_year'));
-    $birthday_month = html_escape($this->input->post('birthday_month'));
-    $birthday_day   = html_escape($this->input->post('birthday_day'));
-    $phone1         = html_escape($this->input->post('phone1'));
-    $phone2         = html_escape($this->input->post('phone2'));
-    $phone3         = html_escape($this->input->post('phone3'));
-    $updateValues['password'] = md5(html_escape($this->input->post('new_password')));
+    $userid = !empty($this->input->post('userid')) ? html_escape($this->input->post('userid')) : NULL;
+    $phone1 = !empty($this->input->post('phone1')) ? html_escape($this->input->post('phone1')) : NULL;
+    $phone2 = !empty($this->input->post('phone1')) ? html_escape($this->input->post('phone2')) : NULL;
+    $phone3 = !empty($this->input->post('phone1')) ? html_escape($this->input->post('phone3')) : NULL;
+    $auth_code = !empty($this->input->post('auth_code')) ? html_escape($this->input->post('auth_code')) : NULL;
+    $updateValues['password'] = !empty($this->input->post('password')) ? md5(html_escape($this->input->post('password'))) : NULL;
 
-    // 에러 메세지
-    $result = array('error' => 1, 'message' => $this->lang->line('error_search_id'));
+    // 해당하는 회원이 있는지 확인
+    $userData = $this->member_model->searchId($userid, $phone1 . '-' . $phone2 . '-' . $phone3);
 
-    // 해당 회원이 있는지 검색
-    $userData = $this->member_model->searchId($realname, $gender, $birthday_year . '/' . $birthday_month . '/' . $birthday_day, $phone1 . '-' . $phone2 . '-' . $phone3, $userid);
+    // 인증번호 확인
+    $checkPhoneAuth = $this->member_model->checkPhoneAuth($phone1.$phone2.$phone3, $auth_code);
 
-    if (!empty($userData['idx']) && !empty($updateValues['password'])) {
+    if (empty($updateValues['password'])) {
+      $result = array('error' => 1, 'message' => '비밀번호가 입력되지 않았습니다.');
+    } elseif (empty($userData['idx'])) {
+      $result = array('error' => 1, 'message' => '등록된 회원이 아닙니다.');
+    } elseif (empty($auth_code) || empty($checkPhoneAuth['idx'])) {
+      $result = array('error' => 1, 'message' => '인증번호가 일치하지 않습니다.');
+    } else {
       // 비밀번호 변경
-      $rtn = $this->member_model->updateMember($updateValues, $userData['idx']);
+      $this->member_model->updateMember($updateValues, $userData['idx']);
 
-      if (!empty($rtn)) {
-        $result = array('error' => 0, 'message' => $this->lang->line('msg_change_password'));
-      }
+      // 인증번호 삭제
+      $updateValues = array('deleted_at' => time());
+      $this->member_model->deletePhoneAuth($updateValues, $checkPhoneAuth['idx']);
+
+      $result = array('error' => 0, 'message' => $this->lang->line('msg_change_password'));
     }
 
     $this->output->set_output(json_encode($result));

@@ -21,27 +21,13 @@ class Member_model extends CI_Model
   }
 
   // 아이디 찾기
-  public function searchId($realname, $gender, $birthday, $phone, $userid=NULL)
+  public function searchId($userid, $phone)
   {
-    $this->db->select('idx, userid, quitdate')
+    $this->db->select('idx')
           ->from(DB_MEMBER)
-          ->where('realname', $realname)
-          ->where('gender', $gender)
-          ->where('birthday', $birthday)
-          ->where('phone', $phone);
-
-    if (!is_null($userid)) {
-      $this->db->where('userid', $userid);
-    }
-
-    return $this->db->get()->row_array(1);
-  }
-
-  public function searchIdByPhone($phone)
-  {
-    $this->db->select('idx, userid, quitdate')
-          ->from(DB_MEMBER)
-          ->where('phone', $phone);
+          ->where('userid', $userid)
+          ->where('phone', $phone)
+          ->where('quitdate', NULL);
     return $this->db->get()->row_array(1);
   }
 
