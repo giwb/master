@@ -34,7 +34,7 @@
                 <a href="<?=BASE_URL?>/login/forgot"><button type="button" class="btn btn-secondary pl-3 pr-3">아이디/비밀번호 찾기</button></a>
               </div>
 
-              <div style="width: 482px; margin: 0 auto;">
+              <div class="area-ad">
                 <!-- 애드핏 -->
                 <section class="section mt-4 mb-4">
                   <div class="card">

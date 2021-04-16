@@ -79,7 +79,7 @@
                 </form>
               </div>
 
-              <div style="width: 482px; margin: 0 auto;">
+              <div class="area-ad">
                 <!-- 애드핏 -->
                 <section class="section mt-4 mb-4">
                   <div class="card">

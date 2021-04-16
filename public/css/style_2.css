@@ -2400,6 +2400,7 @@ body { font-family: 'Noto Sans KR', sans-serif; }
 .area-boarding dl dd { width: 80%; background-color: #fff; padding: 10px; display: table-cell; vertical-align: middle; }
 
 .area-wait { width: 100%; color: #333; margin-top: 20px; }
+.area-ad { width: 482px; margin: 0 auto; }
 
 .admin-bus-table { padding-top: 20px; }
 .admin-bus-table table { width: 100%; font-size: 12px; margin: 0px; }
@@ -2825,6 +2826,8 @@ main#footer .logo-img { margin-right: 10px; float: left; }
 
   /* 사진첩 */
   #album .album-photo { width: 100%; height: auto; }
+
+  .area-ad { width: 100%; }
 
   /* Admin */
   #club .club-main .area-button { bottom: 57px; }
