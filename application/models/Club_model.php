@@ -208,6 +208,7 @@ class Club_model extends CI_Model
     $this->db->select('nickname, rescount AS cnt')
           ->from(DB_MEMBER)
           ->where('club_idx', $clubIdx)
+          ->where_not_in('idx', array(1,2,674))
           ->order_by('cnt', 'desc')
           ->limit($limit);
     return $this->db->get()->result_array();
@@ -221,7 +222,7 @@ class Club_model extends CI_Model
           ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
           ->where('a.club_idx', $clubIdx)
           ->where('a.created_by !=', NULL)
-          //->where_not_in('a.created_by', array(1,2))
+          ->where_not_in('a.created_by', array(1,2,674))
           ->group_by('b.nickname', 'desc')
           ->order_by('cnt', 'desc')
           ->limit($limit);
