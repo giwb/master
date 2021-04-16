@@ -2,100 +2,72 @@
 
   <main id="club">
     <div class="container-fluid club-main">
-      <div class="row mt-1 mb-5">
-        <div class="col-lg-2"></div>
-        <div class="col-lg-8">
+      <div class="area-login">
 
-          <form id="memberForm" method="post">
-          <input type="hidden" name="club_idx" value="<?=!empty($clubIdx) ? $clubIdx : 0?>">
-          <div class="row">
-            <div class="col-12"><h2 class="mt-4 mb-4 pb-4 border-bottom text-center"><?=$view['title']?> 이용약관</h2></div>
-          </div>
-          <div class="border agree-box"><?php include(BASE_PATH . '/public/agree.php'); ?></div>
-          <div class="row">
-            <div class="col-12 text-center mt-3 mb-4"><label><input type="checkbox" name="agreement"> 이용약관에 동의합니다.</label></div>
-          </div>
-          <div class="row">
-            <div class="col-12"><h2 class="mt-3 mb-4 pb-4 border-bottom text-center">개인정보 취급방침</h2></div>
-          </div>
-          <div class="border agree-box"><?php include(BASE_PATH . '/public/personal.php'); ?></div>
-          <div class="row">
-            <div class="col-12 text-center mt-3 mb-4"><label><input type="checkbox" name="personal"> 개인정보 취급방침에 동의합니다.</label></div>
-          </div>
-          <div class="row">
-            <div class="col-12"><h2 class="mt-3 mb-4 pb-4 border-bottom text-center">회원가입 정보</h2></div>
-          </div>
-          <div class="row">
-            <div class="col-1 col-lg-2"></div>
-            <div class="col-lg-8 row align-items-center">
-              <div class="col-4 col-sm-3">아이디</div>
-              <div class="col-8 col-sm-9"><input type="text" name="userid" maxlength="20" class="form-control"></div>
-            </div>
-            <div class="col-1 col-lg-2"></div>
-          </div>
-          <div class="row mt-2">
-            <div class="col-1 col-lg-2"></div>
-            <div class="col-lg-8 row align-items-center">
-              <div class="col-4 col-sm-3">비밀번호</div>
-              <div class="col-8 col-sm-9"><input type="password" name="password" maxlength="30" class="form-control" autocomplete="new-password"></div>
-            </div>
-            <div class="col-1 col-lg-2"></div>
-          </div>
-          <div class="row mt-2">
-            <div class="col-1 col-lg-2"></div>
-            <div class="col-lg-8 row align-items-center">
-              <div class="col-4 col-sm-3">비밀번호 확인</div>
-              <div class="col-8 col-sm-9"><input type="password" name="password_check" maxlength="30" class="form-control" autocomplete="new-password"></div>
-            </div>
-            <div class="col-1 col-lg-2"></div>
-          </div>
-          <div class="row mt-2">
-            <div class="col-1 col-lg-2"></div>
-            <div class="col-lg-8 row align-items-center">
-              <div class="col-4 col-sm-3">닉네임</div>
-              <div class="col-8 col-sm-9"><input type="text" name="nickname" maxlength="10" class="form-control"></div>
-            </div>
-            <div class="col-1 col-lg-2"></div>
-          </div>
-          <div class="row mt-2">
-            <div class="col-1 col-lg-2"></div>
-            <div class="col-lg-8 row align-items-center">
-              <div class="col-4 col-sm-3">휴대폰 번호</div>
-              <div class="col-8 col-sm-9">
-                <div class="row w-100 no-gutters align-items-center">
-                  <div class="col-3 col-sm-2 mr-2 p-0"><input type="text" name="phone1" maxlength="3" class="form-control"></div>
-                  <div class="col-4 col-sm-3 mr-2 p-0"><input type="text" name="phone2" maxlength="4" class="form-control"></div>
-                  <div class="col-4 col-sm-3 p-0"><input type="text" name="phone3" maxlength="4" class="form-control"></div>
-                  <div class="col-sm-3 ml-2 p-0 d-none d-sm-block"><button type="button" class="btn btn-secondary btn-send-auth m-0 pt-2 pb-2 pl-3 pr-3">인증번호 발송</button></div>
-                  <div class="col-12 mt-2 p-0 d-block d-sm-none"><button type="button" class="btn btn-secondary btn-send-auth m-0 pt-2 pb-2 pl-5 pr-5">인증번호 발송</button></div>
-                </div>
-              </div>
-            </div>
-            <div class="col-1 col-lg-2"></div>
-          </div>
-          <div class="row mt-2">
-            <div class="col-1 col-lg-2"></div>
-            <div class="col-lg-8 row align-items-center">
-              <div class="col-4 col-sm-3">인증번호 확인</div>
-              <div class="col-8 col-sm-9">
-                <div class="row w-100 no-gutters align-items-center">
-                  <div class="col-6 col-sm-4 p-0"><input type="text" name="auth_code" maxlength="6" class="form-control"></div>
-                  <div class="col-6 col-sm-8 p-0"><span class="ml-2 auth-time"></span></div>
-                </div>
-              </div>
-            </div>
-            <div class="col-1 col-lg-2"></div>
-          </div>
-          <div class="border-top text-center mt-4 pt-2">
-            <div class="error-message"></div>
-            <button type="button" class="btn btn-danger btn-check mt-2">가입 신청</button>
-          </div>
-          </form>
+        <form id="memberForm" method="post">
+        <input type="hidden" name="club_idx" value="<?=!empty($clubIdx) ? $clubIdx : 0?>">
+        <div class="row">
+          <div class="col-12"><h2 class="mt-4 mb-4 pb-4 border-bottom text-center"><?=$view['title']?> 이용약관</h2></div>
         </div>
-        <div class="col-lg-4"></div>
+        <div class="border agree-box"><?php include(BASE_PATH . '/public/agree.php'); ?></div>
+        <div class="row">
+          <div class="col-12 text-center mt-3 mb-4"><label><input type="checkbox" name="agreement"> 이용약관에 동의합니다.</label></div>
+        </div>
+        <div class="row">
+          <div class="col-12"><h2 class="mt-3 mb-4 pb-4 border-bottom text-center">개인정보 취급방침</h2></div>
+        </div>
+        <div class="border agree-box"><?php include(BASE_PATH . '/public/personal.php'); ?></div>
+        <div class="row">
+          <div class="col-12 text-center mt-3 mb-4"><label><input type="checkbox" name="personal"> 개인정보 취급방침에 동의합니다.</label></div>
+        </div>
+        <div class="row">
+          <div class="col-12"><h2 class="mt-3 mb-4 pb-4 border-bottom text-center">회원가입 정보</h2></div>
+        </div>
+        <div class="row align-items-center mb-2">
+          <div class="col-4 col-sm-3">아이디</div>
+          <div class="col-8 col-sm-9"><input type="text" name="userid" maxlength="20" class="form-control"></div>
+        </div>
+        <div class="row align-items-center mb-2">
+          <div class="col-4 col-sm-3">비밀번호</div>
+          <div class="col-8 col-sm-9"><input type="password" name="password" maxlength="30" class="form-control" autocomplete="new-password"></div>
+        </div>
+        <div class="row align-items-center mb-2">
+          <div class="col-4 col-sm-3">비밀번호 확인</div>
+          <div class="col-8 col-sm-9"><input type="password" name="password_check" maxlength="30" class="form-control" autocomplete="new-password"></div>
+        </div>
+        <div class="row align-items-center mb-2">
+          <div class="col-4 col-sm-3">닉네임</div>
+          <div class="col-8 col-sm-9"><input type="text" name="nickname" maxlength="10" class="form-control"></div>
+        </div>
+        <div class="row align-items-center mb-2">
+          <div class="col-4 col-sm-3">휴대폰 번호</div>
+          <div class="col-8 col-sm-9">
+            <div class="row w-100 no-gutters align-items-center">
+              <div class="col-3 col-sm-2 mr-2 p-0"><input type="text" name="phone1" maxlength="3" class="form-control"></div>
+              <div class="col-4 col-sm-3 mr-2 p-0"><input type="text" name="phone2" maxlength="4" class="form-control"></div>
+              <div class="col-4 col-sm-3 p-0"><input type="text" name="phone3" maxlength="4" class="form-control"></div>
+              <div class="col-sm-3 ml-2 p-0 d-none d-sm-block"><button type="button" class="btn btn-secondary btn-send-auth m-0 pt-2 pb-2 pl-3 pr-3">인증번호 발송</button></div>
+              <div class="col-12 mt-2 p-0 d-block d-sm-none"><button type="button" class="btn btn-secondary btn-send-auth m-0 pt-2 pb-2 pl-5 pr-5">인증번호 발송</button></div>
+            </div>
+          </div>
+        </div>
+        <div class="row align-items-center">
+          <div class="col-4 col-sm-3">인증번호 확인</div>
+          <div class="col-8 col-sm-9">
+            <div class="row w-100 no-gutters align-items-center">
+              <div class="col-6 col-sm-4 p-0"><input type="text" name="auth_code" maxlength="6" class="form-control"></div>
+              <div class="col-6 col-sm-8 p-0"><span class="ml-2 auth-time"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="border-top text-center mt-4 mb-5 pt-2 pb-5">
+          <div class="error-message"></div>
+          <button type="button" class="btn btn-danger btn-check mt-2">가입 신청</button>
+        </div>
+        </form>
+
       </div>
     </div>
-    </form>
   </main>
 
   <script>

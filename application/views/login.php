@@ -6,18 +6,18 @@
         <h2 class="font-weight-bold text-center mt-2">로그인</h2>
         <hr class="bg-danger mb-5">
 
-        <form class="loginForm" method="post">
+        <form method="post">
           <div class="row align-items-center mb-2">
-            <div class="col-sm-3 font-weight-bold">아이디</div>
-            <div class="col-sm-8"><input type="text" name="login_userid" class="form-control" value="<?=get_cookie('cookie_userid')?>"></div>
+            <div class="col-4 font-weight-bold text-right">아이디</div>
+            <div class="col-7"><input type="text" name="login_userid" class="form-control" value="<?=get_cookie('cookie_userid')?>"></div>
           </div>
           <div class="row align-items-center mb-2">
-            <div class="col-sm-3 font-weight-bold">비밀번호</div>
-            <div class="col-sm-8"><input type="password" name="login_password" class="form-control" value="<?=get_cookie('cookie_passwd')?>"></div>
+            <div class="col-4 font-weight-bold text-right">비밀번호</div>
+            <div class="col-7"><input type="password" name="login_password" class="form-control" value="<?=get_cookie('cookie_passwd')?>"></div>
           </div>
           <div class="row align-items-center mb-2">
-            <div class="col-sm-3"></div>
-            <div class="col-sm-8"><label class="small"><input type="checkbox" name="save"> 아이디/비밀번호 저장</label></div>
+            <div class="col-4"></div>
+            <div class="col-7"><label class="small"><input type="checkbox" name="save"> 아이디/비밀번호 저장</label></div>
           </div>
           <div class="error-message text-danger text-center"></div>
           <div class="text-center mt-3 mb-2">
