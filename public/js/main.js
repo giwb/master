@@ -1424,21 +1424,22 @@ $(document).ready(function() {
   // 백산백소 인증 프로그래스바
   $('.auth-gauge').each(function(i) {
     var elemId = $(this).attr('id');
-    var maxWidth = $(this).attr('cnt');
-    move(i, elemId, maxWidth);
+    var curWidth = $(this).attr('cnt');
+    var maxWidth = $(this).attr('max');
+    move(i, elemId, curWidth, maxWidth);
   });
-  function move(i, elemId, maxWidth) {
+  function move(i, elemId, curWidth, maxWidth) {
     i = 1;
     var elem = document.getElementById(elemId);
     var width = 1;
     var id = setInterval(frame, 10);
     function frame() {
-      if (width >= Number(maxWidth)) {
+      if (width >= Number(curWidth)) {
         clearInterval(id);
         i = 0;
       } else {
         width++;
-        elem.style.width = width + "%";
+        elem.style.width = (width * (100/maxWidth)) + "%";
       }
     }
   }

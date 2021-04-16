@@ -59,7 +59,7 @@ class Reserve_model extends CI_Model
   // 회원 예약횟수
   public function cntMemberReserve($userIdx)
   {
-    $this->db->select('a.idx')
+    $this->db->select('a.rescode')
           ->from(DB_RESERVATION . ' a')
           ->join(DB_NOTICE . ' b', 'a.rescode=b.idx', 'left')
           ->where('a.user_idx', $userIdx)

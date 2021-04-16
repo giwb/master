@@ -121,7 +121,7 @@
                 </div>
                 <div class="col-4"><?=$value['nickname']?>님</div>
                 <div class="col-7 btn-open-auth" data-idx="<?=$key?>">
-                  <div class="auth-progress-bar"><div id="medal<?=$key?>" class="auth-gauge" cnt="<?=$value['cnt']?>"><?=$value['cnt']?>회</div></div>
+                  <div class="auth-progress-bar"><div id="medal<?=$key?>" class="auth-gauge" cnt="<?=$value['cnt']?>" max="<?=$auth[0]['cnt']?>"><?=$value['cnt']?>회</div></div>
                   <div class="auth-title d-none" data-idx="<?=$key?>"><?=$value['title']?></div>
                 </div>
               </div>

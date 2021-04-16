@@ -165,23 +165,19 @@ class Club extends MY_Controller
     $viewData['viewLogs'][0]['cntReply'] = $cntReply['cnt'];
 
     // 백산백소 랭킹
-    if (ENVIRONMENT == 'production') {
-      $rank = 0; $buf = 0;
-      $viewData['auth'] = $this->club_model->listAuth(5);
+    $rank = 0; $buf = 0;
+    $viewData['auth'] = $this->club_model->listAuth(5);
 
-      foreach ($viewData['auth'] as $key => $value) {
-        if ($buf != $value['cnt']) { $rank = $key; $rank++; }
-        $viewData['auth'][$key]['rank'] = $rank;
-        $viewData['auth'][$key]['title'] = '';
+    foreach ($viewData['auth'] as $key => $value) {
+      if ($buf != $value['cnt']) { $rank = $key; $rank++; }
+      $viewData['auth'][$key]['rank'] = $rank;
+      $viewData['auth'][$key]['title'] = '';
 
-        $authList = $this->club_model->listAuthNotice($value['nickname']);
-        foreach ($authList as $auth) {
-          $viewData['auth'][$key]['title'] .= "<a target='_blank' href='" . $auth['photo'] . "'>" . $auth['title'] . "</a> / ";
-        }
-        $buf = $value['cnt'];
+      $authList = $this->club_model->listAuthNotice($value['nickname']);
+      foreach ($authList as $auth) {
+        $viewData['auth'][$key]['title'] .= "<a target='_blank' href='" . $auth['photo'] . "'>" . $auth['title'] . "</a> / ";
       }
-    } else {
-      $viewData['auth'] = array();
+      $buf = $value['cnt'];
     }
 
     $this->_viewPage('club/index', $viewData);
@@ -637,12 +633,12 @@ class Club extends MY_Controller
         break;
       case '2':
         $title = ' - 백산백소 인증';
-        $viewData['ranking'] = $this->club_model->listAuth(50);
+        $viewData['ranking'] = $this->club_model->listAuth(100);
         break;
       case '3':
         if (!empty($viewData['userData']['admin']) && $viewData['userData']['admin'] == 1) {
           $title = ' - 홈페이지 방문';
-          $viewData['ranking'] = $this->club_model->rankingVisit($clubIdx, 50);
+          $viewData['ranking'] = $this->club_model->rankingVisit($clubIdx, 100);
         } else {
           $title = '';
           $viewData['ranking'] = array();

@@ -2645,7 +2645,7 @@ main#footer .logo-img { margin-right: 10px; float: left; }
 
 /* 백산백소 인증 프로그레스 바 */
 .auth-progress-bar { width: 100%; background-color: #d9d9d9; text-align: center; color: #fff; }
-.auth-gauge { width: 1%; height: 30px; background-color: #FF6600; padding-top: 3px; }
+.auth-gauge { width: 1%; height: 30px; background-color: #FF6600; padding-top: 3px; white-space: nowrap; }
 
 /* 메인페이지 안부글 스크롤 */
 #club-story { width: 100%; height: 333px; overflow-y: scroll; overflow-x: hidden; }
