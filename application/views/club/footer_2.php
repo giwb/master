@@ -211,7 +211,7 @@
           </button>
         </div>
         <div class="modal-body text-center">
-          <form class="loginForm" method="post">
+          <form id="formLogin" method="post">
             <dl>
               <dt>아이디</dt>
               <dd><input type="text" name="login_userid" class="form-control input-login" value="<?=!empty($cookieUserid) ? $cookieUserid : ''?>"></dd>

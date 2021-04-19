@@ -63,7 +63,7 @@
       <div class="navbar-sideview">
         <hr>
         <?php if (empty($userData['idx'])): ?>
-        <a class="nav-link login-popup">로그인</a>
+        <?php if (!strstr($_SERVER['REQUEST_URI'], 'login')): ?><a class="nav-link login-popup">로그인</a><?php endif; ?>
         <a href="<?=BASE_URL?>/login/entry" class="nav-link">회원가입</a>
         <?php else: ?>
         <div class="text-center"><img src="<?=file_exists(AVATAR_PATH . $userData['idx']) ? AVATAR_URL . $userData['idx'] : '/public/images/user.png'?>" class="avatar"></div>
@@ -129,9 +129,11 @@
             </div>
           </li>
           <?php if (empty($userData['idx'])): ?>
+          <?php if (!strstr($_SERVER['REQUEST_URI'], 'login')): ?>
           <li class="nav-item">
             <a class="nav-link login-popup"><i class="fas fa-user-circle"></i> 로그인</a>
           </li>
+          <?php endif; ?>
           <li class="nav-item">
             <a href="<?=BASE_URL?>/login/entry" class="nav-link"><i class="fas fa-user-plus"></i> 회원가입</a>
           </li>
