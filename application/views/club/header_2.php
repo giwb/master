@@ -38,7 +38,6 @@
   <script src="/public/photoswipe/photoswipe-ui-default.min.js" type="text/javascript"></script>
   <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
   <script src="/public/js/main.js?<?=time()?>" type="text/javascript"></script>
-  <script src="/public/js/tripkorea.js?<?=time()?>" type="text/javascript"></script>
   <?php if (ENVIRONMENT == 'production' && $_SERVER['REMOTE_ADDR'] != '49.166.0.82'): ?>
   <script data-ad-client="ca-pub-2424708381875991" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <?php endif; ?>

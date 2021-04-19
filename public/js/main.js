@@ -168,7 +168,7 @@
     // 로그인
     e.preventDefault();
     var $dom = $(this);
-    var formData = new FormData($('.loginForm')[0]);
+    var formData = new FormData($('#formLogin')[0]);
     var redirectUrl = $('input[name=redirectUrl]').val();
 
     if ($('input[name=login_userid]').val() == '' || $('input[name=login_password]').val() == '') {

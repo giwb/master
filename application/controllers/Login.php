@@ -54,20 +54,17 @@ class Login extends MY_Controller
 
         if (empty($userData['idx'])) {
           // 정보가 없으면 로그인 실패
-          $result = array(
-            'error' => 1,
-            'message' => '등록되지 않은 아이디입니다.'
-          );
+          $result = array('error' => 1, 'message' => '등록되지 않은 아이디입니다.');
         } elseif ($userData['password'] != md5($password)) {
           // 비밀번호가 다르면 로그인 실패
-          $result = array(
-            'error' => 1,
-            'message' => '비밀번호가 일치하지 않습니다.'
-          );
+          $result = array('error' => 1, 'message' => '비밀번호가 일치하지 않습니다.');
         } else {
           // 로그인에 성공하면 회원정보 업데이트
           $rescount = $this->reserve_model->cntMemberReserve($userData['idx']);
-          $updateValues['rescount'] = !empty($rescount) ? count($rescount) : 0; // 예약 횟수 갱신 (회원 레벨 체크를 위해)
+          if (!empty($rescount)) {
+            // 예약 횟수 갱신 (회원 레벨 체크를 위해)
+            $updateValues['rescount'] = count($rescount);
+          }
           $updateValues['connect'] = $userData['connect'] + 1;
           $updateValues['lastdate'] = time();
 
@@ -122,7 +119,7 @@ class Login extends MY_Controller
     $userid = html_escape($this->input->post('login_userid'));
     $password = html_escape($this->input->post('login_password'));
     $save = html_escape($this->input->post('save'));
-
+print_r($this->input->post());
     if (empty($userid) && empty($password)) {
       // 아이디와 패스워드가 없을때는 로그인 페이지를 보여준다.
       $result = array('error' => 1, 'message' => '아이디와 비밀번호를 입력해주세요.');

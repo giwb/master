@@ -167,6 +167,7 @@
         </div>
       </div>
 
+      <script type="text/javascript" src="/public/js/article.js"></script>
       <script id="javascript-sdk" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
       <script type="text/javascript">
         Kakao.init('bc341ce483d209b1712bf3a88b598ddb');

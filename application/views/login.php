@@ -3,10 +3,10 @@
   <main id="club">
     <div class="container-fluid club-main">
       <div class="area-login">
-        <h2 class="font-weight-bold text-center mt-2">로그인</h2>
+        <h2 class="font-weight-bold text-center mt-2"><?=$pageTitle?></h2>
         <hr class="bg-danger mb-5">
 
-        <form method="post">
+        <form id="formLogin" method="post">
           <div class="row align-items-center mb-2">
             <div class="col-4 font-weight-bold text-right">아이디</div>
             <div class="col-7"><input type="text" name="login_userid" class="form-control" value="<?=get_cookie('cookie_userid')?>"></div>
