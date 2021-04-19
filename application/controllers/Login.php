@@ -450,7 +450,7 @@ class Login extends MY_Controller
         $message = '[경인웰빙투어] 인증번호는 ' . $auth_code . ' 입니다.';
         $body = array(
           'type' => 'SMS',
-          'from' => '01080715227',
+          'from' => '01072713050',
           'content' => $message,
           'messages' => array(array('content' => $message, 'to' => $phone))
         );
