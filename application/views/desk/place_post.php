@@ -23,7 +23,7 @@
                                             <th class="text-center">분류</th>
                                             <td>
                                                 <?php foreach ($category as $value): ?>
-                                                <label class="mr-3"><input type="checkbox" name="category[]" value="<?=$value['code']?>"<?=!empty($view['category']) && $view['category'] == $value['code'] ? ' checked' : ''?>> <?=$value['name']?></label>
+                                                <label class="mr-3"><input type="checkbox" name="category[]" value="<?=$value['code']?>"<?=!empty($view['category']) && strstr($view['category'], $value['code']) ? ' checked' : ''?>> <?=$value['name']?></label>
                                                 <?php endforeach; ?>
                                                 <button type="button" class="btn btn-primary btn-modal-category">분류 편집</button>
                                             </td>
