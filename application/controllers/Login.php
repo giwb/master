@@ -744,6 +744,14 @@ class Login extends MY_Controller
     // 클럽 메뉴
     $viewData['listAbout'] = $this->club_model->listAbout($viewData['view']['idx']);
 
+    if (!empty($viewData['view'])) {
+      $viewHeader = 'club/header_' . $viewData['view']['main_design'];
+      $viewFooter = 'club/footer_' . $viewData['view']['main_design'];
+    } else {
+      $viewHeader = 'header';
+      $viewFooter = 'footer';
+    }
+
     // 로그인 쿠키 처리
     if (!empty(get_cookie('cookie_userid'))) {
       $viewData['cookieUserid'] = get_cookie('cookie_userid');
