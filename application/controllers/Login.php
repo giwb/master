@@ -119,7 +119,7 @@ class Login extends MY_Controller
     $userid = html_escape($this->input->post('login_userid'));
     $password = html_escape($this->input->post('login_password'));
     $save = html_escape($this->input->post('save'));
-print_r($this->input->post());
+
     if (empty($userid) && empty($password)) {
       // 아이디와 패스워드가 없을때는 로그인 페이지를 보여준다.
       $result = array('error' => 1, 'message' => '아이디와 비밀번호를 입력해주세요.');

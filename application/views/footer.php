@@ -172,25 +172,25 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body text-center">
-        <form class="loginForm" method="post">
+      <div class="modal-body text-center mt-2">
+        <form id="formLogin" method="post">
           <div class="row align-items-center">
             <div class="col-3">아이디</div>
-            <div class="col-9"><input type="text" name="login_userid" class="form-control input-login" value="<?=!empty($cookieUserid) ? $cookieUserid : ''?>"></div>
+            <div class="col-8"><input type="text" name="login_userid" class="form-control input-login" value="<?=!empty($cookieUserid) ? $cookieUserid : ''?>"></div>
           </div>
           <div class="row align-items-center pt-2">
             <div class="col-3">비밀번호</div>
-            <div class="col-9"><input type="password" name="login_password" class="form-control input-login" value="<?=!empty($cookiePasswd) ? $cookiePasswd : ''?>"></div>
+            <div class="col-8"><input type="password" name="login_password" class="form-control input-login" value="<?=!empty($cookiePasswd) ? $cookiePasswd : ''?>"></div>
           </div>
           <div class="row align-items-center pt-2">
             <div class="col-3"></div>
-            <div class="col-9 text-left"><label class="small"><input type="checkbox" name="save"> 아이디/비밀번호 저장</label></div>
+            <div class="col-8 text-left"><label class="small"><input type="checkbox" name="save"> 아이디/비밀번호 저장</label></div>
           </div>
         </form>
         <div class="error-message"></div>
       </div>
       <div class="border-top text-center p-3">
-        <button type="button" class="btn btn-danger btn-login-tripkorea">로그인</button><br>
+        <button type="button" class="btn btn-danger btn-login">로그인</button><br>
         <a href="<?=base_url()?>login/entry"><button type="button" class="btn btn-info">회원가입</button></a>
         <a href="<?=base_url()?>login/forgot"><button type="button" class="btn btn-secondary">아이디/비밀번호 찾기</button></a>
       </div>
