@@ -22,19 +22,10 @@
                                         <tr>
                                             <th class="text-center">분류</th>
                                             <td>
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <select name="category" class="form-control">
-                                                            <option value="">분류를 선택해주세요</option>
-                                                            <?php foreach ($category as $value): ?>
-                                                            <option<?=!empty($view['category']) && $view['category'] == $value['code'] ? ' selected' : ''?> value="<?=$value['code']?>"><?=$value['name']?></option>
-                                                            <?php endforeach; ?>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-6 pl-0">
-                                                        <button type="button" class="btn btn-primary btn-modal-category">분류 편집</button>
-                                                    </div>
-                                                </div>
+                                                <?php foreach ($category as $value): ?>
+                                                <label class="mr-3"><input type="checkbox" name="category[]" value="<?=$value['code']?>"<?=!empty($view['category']) && $view['category'] == $value['code'] ? ' checked' : ''?>> <?=$value['name']?></label>
+                                                <?php endforeach; ?>
+                                                <button type="button" class="btn btn-primary btn-modal-category">분류 편집</button>
                                             </td>
                                         </tr>
                                         <tr>

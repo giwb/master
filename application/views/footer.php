@@ -7,16 +7,16 @@
     <div class="col-xl-4 col-md-12 widget-column mt-0">
       <section class="section mb-4">
         <h4 class="font-weight-bold"><strong>
-          <?php if (strstr($_SERVER['REQUEST_URI'], 'place')): ?>
+          <?php if (strstr($uri, 'place')): ?>
           여행정보 분류
-          <?php elseif (strstr($_SERVER['REQUEST_URI'], 'schedule')): ?>
+          <?php elseif (strstr($uri, 'schedule')): ?>
           월간 여행일정
           <?php else: ?>
           분류별 기사
           <?php endif; ?>
         </strong></h4>
         <hr class="red">
-        <?php if (strstr($_SERVER['REQUEST_URI'], 'schedule')): ?>
+        <?php if (strstr($uri, 'schedule')): ?>
         <div class="card">
           <div class="view overlay">
             <div id="calendar"></div>
@@ -52,7 +52,7 @@
             });
           });
         </script>
-        <?php elseif (strstr($_SERVER['REQUEST_URI'], 'place')): ?>
+        <?php elseif (strstr($uri, 'place')): ?>
         <ul class="list-group z-depth-1 mt-4 mb-5">
           <?php foreach ($listPlaceCategory as $value): ?>
           <li class="list-group-item d-flex justify-content-between align-items-center">

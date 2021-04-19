@@ -309,9 +309,9 @@ class Desk extends Desk_Controller
       if (!empty($inputData['idx'])) {
         $idx = html_escape($inputData['idx']);
         $updateValues = array(
-          'area_sido'   => make_serialize(html_escape($inputData['area_sido'])),
-          'area_gugun'  => make_serialize(html_escape($inputData['area_gugun'])),
-          'category'    => html_escape($inputData['category']),
+          'area_sido'   => make_serialize($inputData['area_sido']),
+          'area_gugun'  => make_serialize($inputData['area_gugun']),
+          'category'    => make_serialize($inputData['category']),
           'altitude'    => html_escape($inputData['altitude']),
           'thumbnail'   => !empty($inputData['thumbnail_uploaded']) ? html_escape($inputData['thumbnail_uploaded']) : NULL,
           'title'       => html_escape($inputData['title']),
@@ -325,9 +325,9 @@ class Desk extends Desk_Controller
         $this->desk_model->update(DB_PLACES, $updateValues, $idx);
       } else {
         $updateValues = array(
-          'area_sido'   => make_serialize(html_escape($inputData['area_sido'])),
-          'area_gugun'  => make_serialize(html_escape($inputData['area_gugun'])),
-          'category'    => html_escape($inputData['category']),
+          'area_sido'   => make_serialize($inputData['area_sido']),
+          'area_gugun'  => make_serialize($inputData['area_gugun']),
+          'category'    => make_serialize($inputData['category']),
           'altitude'    => html_escape($inputData['altitude']),
           'thumbnail'   => !empty($inputData['thumbnail_uploaded']) ? html_escape($inputData['thumbnail_uploaded']) : NULL,
           'title'       => html_escape($inputData['title']),

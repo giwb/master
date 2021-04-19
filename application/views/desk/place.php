@@ -29,7 +29,7 @@
                                             <td class="text-center"><?=$max - $key?></td>
                                             <td class="text-center small"><?=date('Y-m-d H:i', $value['created_at'])?></td>
                                             <td class="text-center p-0"><img width="100" src="<?=!empty($value['thumbnail']) ? PHOTO_PLACE_URL . 'thumb_' . $value['thumbnail'] : '/public/images/noimage.png'?>"></td>
-                                            <td class="text-center"><?=$value['category_name']?></td>
+                                            <td class="text-center"><?php if (strstr($value['category'], '{')): $category = unserialize($value['category']); foreach ($category as $cate): echo getPlaceCategoryName($cate) . "<br>"; endforeach; endif; ?></td>
                                             <td><?=$value['title']?></td>
                                             <td class="text-center"><?=$value['nickname']?></td>
                                             <td class="text-center">

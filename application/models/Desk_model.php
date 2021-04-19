@@ -168,17 +168,16 @@ class Desk_model extends CI_Model
   {
     $this->db->select('COUNT(*) as cnt')
           ->from(DB_PLACES)
-          ->where('category', $code);
+          ->like('category', $code);
     return $this->db->get()->row_array(1);
   }
 
   // 여행정보 목록
   public function listPlace($search=NULL, $order='desc')
   {
-    $this->db->select('a.*, b.name AS category_name, c.nickname')
+    $this->db->select('a.*, b.nickname')
           ->from(DB_PLACES . ' a')
-          ->join(DB_PLACES_CATEGORY . ' b', 'a.category=b.code', 'left')
-          ->join(DB_MEMBER . ' c', 'a.created_by=c.idx', 'left')
+          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
           ->where('a.deleted_at', NULL)
           ->order_by('a.created_at', $order);
     return $this->db->get()->result_array();

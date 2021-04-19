@@ -1164,4 +1164,12 @@ if (!function_exists('cntReply')) {
     return $result['cnt'];
   }
 }
+
+// 한국여행 여행정보 분류명
+if (!function_exists('getPlaceCategoryName')) {
+  function getPlaceCategoryName($code) {
+    $result = $GLOBALS['CI']->desk_model->viewPlaceCategory($code);
+    return $result['name'];
+  }
+}
 ?>

@@ -19,7 +19,7 @@ class Place_model extends CI_Model
           ->order_by('title', 'asc');
 
     if (!empty($search['code'])) {
-      $this->db->where('category', $search['code']);
+      $this->db->like('category', $search['code']);
     }
     if (!is_null($search) && !is_null($keyword)) {
       $this->db->like($search, $keyword);
