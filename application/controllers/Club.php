@@ -681,6 +681,7 @@ class Club extends MY_Controller
     // 등록된 산행 목록
     $viewData['listNoticeFooter'] = $viewData['listNoticeCalendar'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
 
+    /* 캘린더가 복잡해지므로 2021년 4월 19일 삭제
     // 캘린더 설정
     $listCalendar = $this->admin_model->listCalendar();
 
@@ -700,6 +701,7 @@ class Club extends MY_Controller
         'class' => $class,
       );
     }
+    */
 
     // 안부 인사
     $page = 1;

@@ -552,6 +552,7 @@ class Album extends MY_Controller
     // 등록된 산행 목록
     $viewData['listNoticeFooter'] = $viewData['listNoticeCalendar'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
 
+    /* 캘린더가 복잡해지므로 2021년 4월 19일 삭제
     // 캘린더 설정
     $listCalendar = $this->admin_model->listCalendar();
 
@@ -571,15 +572,7 @@ class Album extends MY_Controller
         'class' => $class,
       );
     }
-
-    // 클럽 대표이미지
-    $files = $this->file_model->getFile('club', $viewData['view']['idx']);
-    if (!empty($files[0]['filename']) && file_exists(ALBUM_PATH . $files[0]['filename'])) {
-      $size = getImageSize(ALBUM_PATH . $files[0]['filename']);
-      $viewData['view']['main_photo'] = ALBUM_URL . $files[0]['filename'];
-      $viewData['view']['main_ALBUM_width'] = $size[0];
-      $viewData['view']['main_ALBUM_height'] = $size[1];
-    }
+    */
 
     // 로그인 쿠키 처리
     if (!empty(get_cookie('cookie_userid'))) {

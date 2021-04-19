@@ -908,6 +908,7 @@ class Member extends MY_Controller
     // 등록된 산행 목록
     $viewData['listNoticeFooter'] = $viewData['listNoticeCalendar'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
 
+    /* 캘린더가 복잡해지므로 2021년 4월 19일 삭제
     // 캘린더 설정
     $listCalendar = $this->admin_model->listCalendar();
 
@@ -927,29 +928,7 @@ class Member extends MY_Controller
         'class' => $class,
       );
     }
-
-    // 안부 인사
-    $page = 1;
-    $paging['perPage'] = 8;
-    $paging['nowPage'] = ($page * $paging['perPage']) - $paging['perPage'];
-    $viewData['listStory'] = $this->story_model->listStory($viewData['view']['idx'], $paging);
-
-    foreach ($viewData['listStory'] as $key => $value) {
-      if (file_exists(PHOTO_PATH . $value['user_idx'])) {
-        $viewData['listStory'][$key]['avatar'] = AVATAR_URL . $value['user_idx'];
-      } else {
-        $viewData['listStory'][$key]['avatar'] = '/public/images/user.png';
-      }
-    }
-
-    // 클럽 로고
-    $files = $this->file_model->getFile('club', $viewData['view']['idx']);
-    if (!empty($files[0]['filename']) && file_exists(PHOTO_PATH . $files[0]['filename'])) {
-      $size = getImageSize(PHOTO_PATH . $files[0]['filename']);
-      $viewData['view']['main_photo'] = PHOTO_URL . $files[0]['filename'];
-      $viewData['view']['main_photo_width'] = $size[0];
-      $viewData['view']['main_photo_height'] = $size[1];
-    }
+    */
 
     // 로그인 쿠키 처리
     if (!empty(get_cookie('cookie_userid'))) {

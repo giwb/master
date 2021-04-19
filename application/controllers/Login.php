@@ -744,36 +744,6 @@ class Login extends MY_Controller
     // 클럽 메뉴
     $viewData['listAbout'] = $this->club_model->listAbout($viewData['view']['idx']);
 
-    if (!empty($viewData['view'])) {
-      // 진행 중 산행
-      $viewData['listFooterNotice'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
-
-      // 최신 댓글
-      $paging['perPage'] = 5; $paging['nowPage'] = 0;
-      $viewData['listFooterReply'] = $this->admin_model->listReply($viewData['view']['idx'], $paging);
-
-      foreach ($viewData['listFooterReply'] as $key => $value) {
-        if ($value['reply_type'] == REPLY_TYPE_STORY):  $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/story/view/' . $value['story_idx']; endif;
-        if ($value['reply_type'] == REPLY_TYPE_NOTICE): $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/reserve/list/' . $value['story_idx']; endif;
-        if ($value['reply_type'] == REPLY_TYPE_SHOP):   $viewData['listFooterReply'][$key]['url'] = BASE_URL . '/shop/item/' . $value['story_idx']; endif;
-      }
-
-      // 클럽 대표이미지
-      $files = $this->file_model->getFile('club', $viewData['view']['idx']);
-      if (!empty($files[0]['filename']) && file_exists(PHOTO_PATH . $files[0]['filename'])) {
-        $size = getImageSize(PHOTO_PATH . $files[0]['filename']);
-        $viewData['view']['main_photo'] = PHOTO_URL . $files[0]['filename'];
-        $viewData['view']['main_photo_width'] = $size[0];
-        $viewData['view']['main_photo_height'] = $size[1];
-      }
-
-      $viewHeader = 'club/header_' . $viewData['view']['main_design'];
-      $viewFooter = 'club/footer_' . $viewData['view']['main_design'];
-    } else {
-      $viewHeader = 'header';
-      $viewFooter = 'footer';
-    }
-
     // 로그인 쿠키 처리
     if (!empty(get_cookie('cookie_userid'))) {
       $viewData['cookieUserid'] = get_cookie('cookie_userid');
@@ -789,15 +759,6 @@ class Login extends MY_Controller
     // 리다이렉트 URL 추출
     if ($_SERVER['SERVER_PORT'] == '80') $HTTP_HEADER = 'http://'; else $HTTP_HEADER = 'https://';
     $viewData['redirectUrl'] = $HTTP_HEADER . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-
-    // 분류별 기사
-    $viewData['listArticleCategory'] = $this->desk_model->listArticleCategory();
-
-    // 분류별 기사 카운트
-    foreach ($viewData['listArticleCategory'] as $key => $value) {
-      $cnt = $this->desk_model->cntArticle($value['code']);
-      $viewData['listArticleCategory'][$key]['cnt'] = $cnt['cnt'];
-    }
 
     // 방문자 기록
     setVisitor();
