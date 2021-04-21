@@ -1551,7 +1551,7 @@ class Admin extends Admin_Controller
       if (move_uploaded_file($_FILES['photo']['tmp_name'], PHOTO_PATH . $filename)) {
         // 사진 정보 입력
         $updateValues = array('photo' => $filename);
-        $this->admin_model->updateEntry($updateValues, $noticeIdx);
+        $rtn = $this->admin_model->updateEntry($updateValues, $noticeIdx);
 
         // 썸네일 만들기
         $this->image_lib->clear();
@@ -1567,7 +1567,7 @@ class Admin extends Admin_Controller
       }
     }
 
-    if (!empty($noticeIdx)) {
+    if (!empty($noticeIdx) && !empty($inputData['title'])) {
       foreach ($inputData['title'] as $key => $value) {
         $idx = !empty($inputData['idx'][$key]) ? html_escape($inputData['idx'][$key]) : NULL;
         if (!empty($idx)) {
