@@ -13,7 +13,7 @@ class Member_model extends CI_Model
   // 로그인 확인
   public function checkLogin($userid)
   {
-    $this->db->select('idx, club_idx, userid, password, nickname, realname, gender, birthday, birthday_type, phone, rescount, point, penalty, level, admin, connect')
+    $this->db->select('*')
           ->from(DB_MEMBER)
           ->where('userid', $userid)
           ->where('quitdate', NULL);

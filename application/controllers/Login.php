@@ -62,8 +62,11 @@ class Login extends MY_Controller
           // 로그인에 성공하면 회원정보 업데이트
           $rescount = $this->reserve_model->cntMemberReserve($userData['idx']);
           if (!empty($rescount)) {
-            // 예약 횟수 갱신 (회원 레벨 체크를 위해)
-            $updateValues['rescount'] = count($rescount);
+            $cnt = count($rescount);
+            if (!empty($cnt) && $cnt > $userData['rescount']) {
+              // 예약 횟수 갱신 (회원 레벨 체크를 위해)
+              $updateValues['rescount'] = $cnt;
+            }
           }
           $updateValues['connect'] = $userData['connect'] + 1;
           $updateValues['lastdate'] = time();
