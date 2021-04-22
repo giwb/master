@@ -400,12 +400,15 @@ class Story extends MY_Controller
           curl_close($ch);
           $response = json_decode($response);
           if ($replyType == REPLY_TYPE_SHOP) {
+            print_r($string);
+            print_r($message);
+            print_r($body);
             print_r($response);
           }
         }
         // -----------------------------------------------
 
-        //$result = array('error' => 0, 'message' => $html, 'reply_cnt' => $cntStoryReply['cnt']);
+        $result = array('error' => 0, 'message' => $html, 'reply_cnt' => $cntStoryReply['cnt']);
       }
     }
 
