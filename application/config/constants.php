@@ -299,3 +299,11 @@ defined('PROVIDER_ADMIN') OR define('PROVIDER_ADMIN', 9); // 관리자 등록
 defined('API_KAKAO')      OR define('API_KAKAO', 'ac8c155b86aa3885c643ba50a7cd4442');
 defined('API_KAKAO_JS')   OR define('API_KAKAO_JS', 'bc341ce483d209b1712bf3a88b598ddb');
 defined('API_KAKAO_URL')  OR define('API_KAKAO_URL', 'login/kakao');
+
+// NAVER SENS API
+defined('API_NAVER_SMS_ACCESS_KEY') OR define('API_NAVER_SMS_ACCESS_KEY', '92904DEA15554D9C3B4C');
+defined('API_NAVER_SMS_SECRET_KEY') OR define('API_NAVER_SMS_SECRET_KEY', 'CB401160F131F7DDECD42C8F960EECA47FF55C74');
+defined('API_NAVER_SMS_URL') OR define('API_NAVER_SMS_URL', 'https://sens.apigw.ntruss.com');
+defined('API_NAVER_SMS_URI') OR define('API_NAVER_SMS_URI', '/sms/v2/services/ncp:sms:kr:264893982314:tripkorea/messages');
+defined('API_NAVER_SMS_FROM') OR define('API_NAVER_SMS_FROM', '01080715227');
+//defined('API_NAVER_SMS_FROM') OR define('API_NAVER_SMS_FROM', '01072713050');

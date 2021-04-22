@@ -347,11 +347,10 @@ class Story extends MY_Controller
       }
 
       if (empty($rtn)) {
-        $result = array(
-          'error' => 0,
-          'content' => $this->lang->line('error_all')
-        );
+        // 저장 실패
+        $result = array('error' => 1, 'content' => $this->lang->line('error_all'));
       } else {
+        // 저장 성공
         if (file_exists(AVATAR_PATH . $userData['idx'])) {
           $size = getImageSize(AVATAR_PATH . $userData['idx']);
           $photo = AVATAR_URL . $userData['idx'];
@@ -374,14 +373,35 @@ class Story extends MY_Controller
           'created_at' => $now,
           'created_by' => $userData['idx']
         );
-
         $html = $this->_viewReplyContent($replyData, $userData, true);
 
-        $result = array(
-          'error' => 0,
-          'message' => $html,
-          'reply_cnt' => $cntStoryReply['cnt']
-        );
+        // -----------------------------------------------
+        // 운영자에게 SMS 전송
+        // -----------------------------------------------
+        $titleName = '';
+        if (ENVIRONMENT == 'production') {
+          if ($replyType == REPLY_TYPE_NOTICE) {
+            // 예약
+            $detailData = $this->notice_model->viewNotice($storyIdx);
+            $titleName = $detailData['subject'];
+          } elseif ($replyType == REPLY_TYPE_SHOP) {
+            // 상품
+            $detailData = $this->shop_model->viewItem($storyIdx);
+            $titleName = $detailData['item_name'];
+          }
+          $timestamp = $now * 1000;
+          $string = "POST " . API_NAVER_SMS_URI . "\n" . $timestamp . "\n" . API_NAVER_SMS_ACCESS_KEY;
+          $message = '[경인웰빙] ' . $titleName . ' - ' . $userData['nickname'] . '님 댓글 등록';
+          $body = array('type' => 'SMS', 'from' => API_NAVER_SMS_FROM, 'content' => $message, 'messages' => array(array('content' => $message, 'to' => API_NAVER_SMS_FROM)));
+          $header = array('Content-Type: application/json; charset=utf-8', 'x-ncp-apigw-timestamp: ' . $timestamp, 'x-ncp-iam-access-key: ' . API_NAVER_SMS_ACCESS_KEY, 'x-ncp-apigw-signature-v2: ' . base64_encode(hash_hmac('sha256', $string, API_NAVER_SMS_SECRET_KEY, true)));
+          $ch = curl_init($url . $uri);
+          curl_setopt_array($ch, array(CURLOPT_POST => true, CURLOPT_RETURNTRANSFER => true, CURLOPT_HTTPHEADER => $header, CURLOPT_POSTFIELDS => json_encode($body)));
+          $response = curl_exec($ch);
+          curl_close($ch);
+        }
+        // -----------------------------------------------
+
+        $result = array('error' => 0, 'message' => $html, 'reply_cnt' => $cntStoryReply['cnt']);
       }
     }
 
