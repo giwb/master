@@ -390,11 +390,11 @@ class Story extends MY_Controller
             $titleName = $detailData['item_name'];
           }
           $timestamp = $now * 1000;
-          $string = "POST {API_NAVER_SMS_URI}\n{$timestamp}\n{API_NAVER_SMS_ACCESS_KEY}";
+          $string = "POST " . API_NAVER_SMS_URI . "\n" . $timestamp . "\n" . API_NAVER_SMS_ACCESS_KEY;
           $message = '[경인웰빙] ' . $titleName . ' - ' . $userData['nickname'] . '님 댓글 등록';
-          $body = array('type' => 'SMS', 'from' => '01072713050', 'content' => $message, 'messages' => array(array('content' => $message, 'to' => API_NAVER_SMS_FROM)));
+          $body = array('type' => 'SMS', 'from' => API_NAVER_SMS_FROM, 'content' => $message, 'messages' => array(array('content' => $message, 'to' => API_NAVER_SMS_FROM)));
           $header = array('Content-Type: application/json; charset=utf-8', 'x-ncp-apigw-timestamp: ' . $timestamp, 'x-ncp-iam-access-key: ' . API_NAVER_SMS_ACCESS_KEY, 'x-ncp-apigw-signature-v2: ' . base64_encode(hash_hmac('sha256', $string, API_NAVER_SMS_SECRET_KEY, true)));
-          $ch = curl_init($url . $uri);
+          $ch = curl_init(API_NAVER_SMS_URL . API_NAVER_SMS_URI);
           curl_setopt_array($ch, array(CURLOPT_POST => true, CURLOPT_RETURNTRANSFER => true, CURLOPT_HTTPHEADER => $header, CURLOPT_POSTFIELDS => json_encode($body)));
           $response = curl_exec($ch);
           curl_close($ch);
