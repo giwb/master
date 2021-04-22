@@ -445,39 +445,19 @@ class Login extends MY_Controller
       // -----------------------------------------------
       if (ENVIRONMENT == 'production') {
         $timestamp = $now * 1000;
-        $access_key = '92904DEA15554D9C3B4C';
-        $secret_key = 'CB401160F131F7DDECD42C8F960EECA47FF55C74';
-        $url = 'https://sens.apigw.ntruss.com';
-        $uri = '/sms/v2/services/ncp:sms:kr:264893982314:tripkorea/messages';
-        $string = "POST {$uri}\n{$timestamp}\n{$access_key}";
-        $message = '[경인웰빙투어] 인증번호는 ' . $auth_code . ' 입니다.';
-        $body = array(
-          'type' => 'SMS',
-          'from' => '01072713050',
-          'content' => $message,
-          'messages' => array(array('content' => $message, 'to' => $phone))
-        );
-        $header = array(
-          'Content-Type: application/json; charset=utf-8',
-          'x-ncp-apigw-timestamp: ' . $timestamp,
-          'x-ncp-iam-access-key: ' . $access_key,
-          'x-ncp-apigw-signature-v2: ' . base64_encode(hash_hmac('sha256', $string, $secret_key, true))
-        );
-
-        $ch = curl_init($url . $uri);
-        curl_setopt_array($ch, array(
-          CURLOPT_POST => true,
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_HTTPHEADER => $header,
-          CURLOPT_POSTFIELDS => json_encode($body)
-        ));
+        $string = "POST " . API_NAVER_SMS_URI . "\n" . $timestamp . "\n" . API_NAVER_SMS_ACCESS_KEY;
+        $message = '[경인웰빙] 인증번호는 ' . $auth_code . ' 입니다.';
+        $body = array('type' => 'SMS', 'from' => API_NAVER_SMS_FROM, 'content' => $message, 'messages' => array(array('content' => $message, 'to' => $phone)));
+        $header = array('Content-Type: application/json; charset=utf-8', 'x-ncp-apigw-timestamp: ' . $timestamp, 'x-ncp-iam-access-key: ' . API_NAVER_SMS_ACCESS_KEY, 'x-ncp-apigw-signature-v2: ' . base64_encode(hash_hmac('sha256', $string, API_NAVER_SMS_SECRET_KEY, true)));
+        $ch = curl_init(API_NAVER_SMS_URL . API_NAVER_SMS_URI);
+        curl_setopt_array($ch, array(CURLOPT_POST => true, CURLOPT_RETURNTRANSFER => true, CURLOPT_HTTPHEADER => $header, CURLOPT_POSTFIELDS => json_encode($body)));
         $response = curl_exec($ch);
-        curl_close($ch);
-        // -----------------------------------------------
         $response = json_decode($response);
+        curl_close($ch);
       } else {
         $dev = true;
       }
+      // -----------------------------------------------
 
       if ((!empty($response->statusCode) && $response->statusCode == '202') || $dev == true) {
         // 새로운 인증번호 등록
