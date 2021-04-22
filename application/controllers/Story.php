@@ -398,6 +398,10 @@ class Story extends MY_Controller
           curl_setopt_array($ch, array(CURLOPT_POST => true, CURLOPT_RETURNTRANSFER => true, CURLOPT_HTTPHEADER => $header, CURLOPT_POSTFIELDS => json_encode($body)));
           $response = curl_exec($ch);
           curl_close($ch);
+          $response = json_decode($response);
+          if ($replyType == REPLY_TYPE_SHOP) {
+            print_r($response);
+          }
         }
         // -----------------------------------------------
 
