@@ -378,8 +378,8 @@ class Story extends MY_Controller
         // -----------------------------------------------
         // 운영자에게 SMS 전송
         // -----------------------------------------------
-        $titleName = '';
         if (ENVIRONMENT == 'production') {
+          $titleName = '';
           if ($replyType == REPLY_TYPE_NOTICE) {
             // 예약
             $detailData = $this->notice_model->viewNotice($storyIdx);
@@ -405,7 +405,7 @@ class Story extends MY_Controller
         }
         // -----------------------------------------------
 
-        $result = array('error' => 0, 'message' => $html, 'reply_cnt' => $cntStoryReply['cnt']);
+        //$result = array('error' => 0, 'message' => $html, 'reply_cnt' => $cntStoryReply['cnt']);
       }
     }
 
