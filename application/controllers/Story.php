@@ -399,9 +399,6 @@ class Story extends MY_Controller
           $response = curl_exec($ch);
           curl_close($ch);
           $response = json_decode($response);
-          if ($replyType == REPLY_TYPE_SHOP) {
-            print_r($response);
-          }
         }
         // -----------------------------------------------
 
