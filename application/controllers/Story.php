@@ -9,7 +9,7 @@ class Story extends MY_Controller
     parent::__construct();
     $this->load->helper(array('cookie', 'security', 'url', 'my_array_helper'));
     $this->load->library(array('image_lib', 'session'));
-    $this->load->model(array('club_model', 'file_model', 'reserve_model', 'story_model'));
+    $this->load->model(array('club_model', 'file_model', 'notice_model', 'reserve_model', 'shop_model', 'story_model'));
   }
 
   /**
