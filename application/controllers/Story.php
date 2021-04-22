@@ -383,11 +383,11 @@ class Story extends MY_Controller
           if ($replyType == REPLY_TYPE_NOTICE) {
             // 예약
             $detailData = $this->notice_model->viewNotice($storyIdx);
-            $titleName = $detailData['subject'];
+            $titleName = reset_html_escape($detailData['subject']);
           } elseif ($replyType == REPLY_TYPE_SHOP) {
             // 상품
             $detailData = $this->shop_model->viewItem($storyIdx);
-            $titleName = $detailData['item_name'];
+            $titleName = reset_html_escape($detailData['item_name']);
           }
           $timestamp = $now * 1000;
           $string = "POST " . API_NAVER_SMS_URI . "\n" . $timestamp . "\n" . API_NAVER_SMS_ACCESS_KEY;
