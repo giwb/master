@@ -875,14 +875,11 @@ class Member extends MY_Controller
    **/
   public function setup_rescount()
   {
-    $userData = $this->load->get_var('userData');
-    if (!empty($userData['admin'])) {
-      $listMembers = $this->member_model->setupRescountMember();
-      foreach ($listMembers as $key => $value) {
-        $checkReservation = $this->member_model->setupRescountReservation($value['idx']);
-        $updateValues['rescount'] = !empty($checkReservation) ? count($checkReservation) : 0;
-        $this->member_model->updateMember($updateValues, $value['idx']);
-      }
+    $listMembers = $this->member_model->setupRescountMember();
+    foreach ($listMembers as $key => $value) {
+      $checkReservation = $this->member_model->setupRescountReservation($value['idx']);
+      $updateValues['rescount'] = !empty($checkReservation) ? count($checkReservation) : 0;
+      $this->member_model->updateMember($updateValues, $value['idx']);
     }
   }
 
