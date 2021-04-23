@@ -677,8 +677,6 @@ class Login extends MY_Controller
       $this->session->set_userdata('userData', $userData);
     } else {
       // 기존 사용자는 로그인
-      $rescount = $this->reserve_model->cntMemberReserve($clubIdx, $userData['idx']);
-      $updateValues['rescount'] = $rescount['cnt']; // 예약 횟수 갱신 (회원 레벨 체크를 위해)
       $updateValues['connect'] = $userData['connect'] + 1;
       $updateValues['lastdate'] = $now;
 
