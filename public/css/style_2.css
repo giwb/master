@@ -2155,7 +2155,7 @@ body { font-family: 'Noto Sans KR', sans-serif; }
 .navbar { width: 100%; position: fixed; z-index: 10; }
 .nav-link { text-shadow: 1px 2px 2px #333!important; }
 .navbar-scrolled { background: rgba(0, 0, 0, 0.2)!important; }
-.listing-section .view{height:250px;}
+.listing-section .view{height:271px;}
 .viewContent { text-align: justify; padding: 0 30px 15px 30px; }
 .page-footer p { margin-bottom: 0.2rem; }
 .btn-default { background-color: #FF6600!important; }
