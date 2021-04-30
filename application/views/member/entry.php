@@ -40,6 +40,13 @@
           <div class="col-8 col-sm-9"><input type="text" name="nickname" maxlength="10" class="form-control"></div>
         </div>
         <div class="row align-items-center mb-2">
+          <div class="col-4 col-sm-3">성별</div>
+          <div class="col-8 col-sm-9 mt-1">
+            <label class="mr-4"><input type="radio" name="gender" value="M"> 남성</label>
+            <label><input type="radio" name="gender" value="F"> 여성</label>
+          </div>
+        </div>
+        <div class="row align-items-center mb-2">
           <div class="col-4 col-sm-3">휴대폰 번호</div>
           <div class="col-8 col-sm-9">
             <div class="row w-100 no-gutters align-items-center">
@@ -79,6 +86,7 @@
       var password = $('input[name=password]', $dom).val();
       var password_check = $('input[name=password_check]', $dom).val();
       var nickname = $('input[name=nickname]', $dom).val();
+      var gender = $('input[name=gender]:checked', $dom).val();
       var phone1 = $('input[name=phone1]', $dom).val();
       var phone2 = $('input[name=phone2]', $dom).val();
       var phone3 = $('input[name=phone3]', $dom).val();
@@ -145,6 +153,12 @@
           setTimeout(function() { $('.error-message').slideUp().text(''); }, 2000);
           return false;
         }
+      }
+
+      if (typeof gender == 'undefined' || gender == '') {
+        $('.error-message').text('성별은 꼭 선택해주세요.').slideDown();
+        setTimeout(function() { $('.error-message').slideUp().text(''); }, 2000);
+        return false;
       }
 
       if (phone1 == '' || phone2 == '' || phone3 == '') {

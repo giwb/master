@@ -317,15 +317,16 @@ class Login extends MY_Controller
     $inputData = $this->input->post();
     $result = array();
 
-    $clubIdx = html_escape($inputData['club_idx']);
-    $userid = html_escape($inputData['userid']);
-    $password = html_escape($inputData['password']);
-    $password_check = html_escape($inputData['password_check']);
-    $nickname = html_escape($inputData['nickname']);
-    $phone1 = html_escape($inputData['phone1']);
-    $phone2 = html_escape($inputData['phone2']);
-    $phone3 = html_escape($inputData['phone3']);
-    $auth_code = html_escape($inputData['auth_code']);
+    $clubIdx          = html_escape($inputData['club_idx']);
+    $userid           = html_escape($inputData['userid']);
+    $password         = html_escape($inputData['password']);
+    $password_check   = html_escape($inputData['password_check']);
+    $nickname         = html_escape($inputData['nickname']);
+    $gender           = html_escape($inputData['gender']);
+    $phone1           = html_escape($inputData['phone1']);
+    $phone2           = html_escape($inputData['phone2']);
+    $phone3           = html_escape($inputData['phone3']);
+    $auth_code        = html_escape($inputData['auth_code']);
 
     $checkUserid = $this->member_model->checkUserid($userid);
     if (!empty($checkUserid['idx'])) {
@@ -370,6 +371,7 @@ class Login extends MY_Controller
         'club_idx'      => $clubIdx,
         'userid'        => $userid,
         'nickname'      => $nickname,
+        'gender'        => $gender,
         'password'      => md5($password),
         'phone'         => $phone1 . '-' . $phone2 . '-' . $phone3,
         'connect'       => 1,
