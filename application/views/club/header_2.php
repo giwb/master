@@ -123,11 +123,11 @@
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink4" data-toggle="dropdown" aria-haspopup="true"
-              aria-expanded="false"><i class="fas fa-chart-line"></i> 회원랭킹</a>
+              aria-expanded="false"><i class="fas fa-chart-line"></i> 활동내역</a>
             <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink4">
               <a class="dropdown-item" href="<?=BASE_URL?>/club/ranking">전체보기</a>
-              <a class="dropdown-item" href="<?=BASE_URL?>/club/ranking?type=1">산행 참여</a>
-              <a class="dropdown-item" href="<?=BASE_URL?>/club/ranking?type=2">백산백소 인증</a>
+              <a class="dropdown-item" href="<?=BASE_URL?>/club/ranking?type=1">산행현황</a>
+              <a class="dropdown-item" href="<?=BASE_URL?>/club/ranking?type=2">백산백소 인증현황</a>
               <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?><a class="dropdown-item" href="<?=BASE_URL?>/club/ranking?type=3">홈페이지 방문</a><?php endif; ?>
             </div>
           </li>
