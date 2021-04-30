@@ -305,4 +305,5 @@ defined('API_NAVER_SMS_ACCESS_KEY') OR define('API_NAVER_SMS_ACCESS_KEY', '92904
 defined('API_NAVER_SMS_SECRET_KEY') OR define('API_NAVER_SMS_SECRET_KEY', 'CB401160F131F7DDECD42C8F960EECA47FF55C74');
 defined('API_NAVER_SMS_URL') OR define('API_NAVER_SMS_URL', 'https://sens.apigw.ntruss.com');
 defined('API_NAVER_SMS_URI') OR define('API_NAVER_SMS_URI', '/sms/v2/services/ncp:sms:kr:264893982314:tripkorea/messages');
-defined('API_NAVER_SMS_FROM') OR define('API_NAVER_SMS_FROM', '01072713050');
+defined('API_NAVER_SMS_FROM') OR define('API_NAVER_SMS_FROM', '01080715227');
+//defined('API_NAVER_SMS_FROM') OR define('API_NAVER_SMS_FROM', '01072713050');

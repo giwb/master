@@ -376,14 +376,14 @@ class Story extends MY_Controller
         $html = $this->_viewReplyContent($replyData, $userData, true);
 
         // -----------------------------------------------
-        // 운영자에게 SMS 전송
+        // 운영자에게 SMS 전송 (SENS)
         // -----------------------------------------------
         if (ENVIRONMENT == 'production') {
           $titleName = '';
           if ($replyType == REPLY_TYPE_NOTICE) {
             // 예약
             $detailData = $this->notice_model->viewNotice($storyIdx);
-            $titleName = reset_html_escape($detailData['subject']);
+            $titleName = reset_html_escape($detailData['mname']);
           } elseif ($replyType == REPLY_TYPE_SHOP) {
             // 상품
             $detailData = $this->shop_model->viewItem($storyIdx);
@@ -391,7 +391,11 @@ class Story extends MY_Controller
           }
           $timestamp = $now * 1000;
           $string = "POST " . API_NAVER_SMS_URI . "\n" . $timestamp . "\n" . API_NAVER_SMS_ACCESS_KEY;
-          $message = '[경인웰빙] ' . $titleName . ' - ' . $userData['nickname'] . '님 댓글 등록';
+          $message = '[' . $titleName . '] ' . $userData['nickname'] . ' - ' . $content;
+          if (strlen($message) > 80) {
+            // SMS 문자는 80바이트 이내
+            $message = ksubstr($message, 77, '..'); 
+          }
           $body = array('type' => 'SMS', 'from' => API_NAVER_SMS_FROM, 'content' => $message, 'messages' => array(array('content' => $message, 'to' => API_NAVER_SMS_FROM)));
           $header = array('Content-Type: application/json; charset=utf-8', 'x-ncp-apigw-timestamp: ' . $timestamp, 'x-ncp-iam-access-key: ' . API_NAVER_SMS_ACCESS_KEY, 'x-ncp-apigw-signature-v2: ' . base64_encode(hash_hmac('sha256', $string, API_NAVER_SMS_SECRET_KEY, true)));
           $ch = curl_init(API_NAVER_SMS_URL . API_NAVER_SMS_URI);
