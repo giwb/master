@@ -617,7 +617,7 @@ class Club extends MY_Controller
    * @return view
    * @author bjchoi
    **/
-  public function ranking()
+  public function status()
   {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $viewData['userData'] = $this->session->userData;
@@ -629,34 +629,34 @@ class Club extends MY_Controller
     switch ($viewData['type']) {
       case '1':
         $title = ' - 산행 참여';
-        $viewData['ranking'] = $this->club_model->rankingRescount($clubIdx, 100);
+        $viewData['status'] = $this->club_model->rankingRescount($clubIdx, 100);
         break;
       case '2':
         $title = ' - 백산백소 인증';
-        $viewData['ranking'] = $this->club_model->listAuth(100);
+        $viewData['status'] = $this->club_model->listAuth(100);
         break;
       case '3':
         if (!empty($viewData['userData']['admin']) && $viewData['userData']['admin'] == 1) {
           $title = ' - 홈페이지 방문';
-          $viewData['ranking'] = $this->club_model->rankingVisit($clubIdx, 100);
+          $viewData['status'] = $this->club_model->rankingVisit($clubIdx, 100);
         } else {
           $title = '';
-          $viewData['ranking'] = array();
+          $viewData['status'] = array();
         }
         break;
       case '4':
         $title = ' - 회원 등급';
         break;
       default:
-        $viewData['rankingRescount'] = $this->club_model->rankingRescount($clubIdx, 10);
-        $viewData['rankingAuth'] = $this->club_model->listAuth(10);
-        $viewData['rankingVisit'] = $this->club_model->rankingVisit($clubIdx, 10);
+        $viewData['statusRescount'] = $this->club_model->rankingRescount($clubIdx, 10);
+        $viewData['statusAuth'] = $this->club_model->listAuth(10);
+        $viewData['statusVisit'] = $this->club_model->rankingVisit($clubIdx, 10);
         $title = ' - 전체보기';
     }
 
-    $viewData['pageTitle'] = '회원랭킹' . $title;
+    $viewData['pageTitle'] = '활동내역' . $title;
 
-    $this->_viewPage('club/ranking', $viewData);
+    $this->_viewPage('club/status', $viewData);
   }
 
   /**

@@ -9,10 +9,10 @@
           <hr class="text-default">
 
           <div class="header-menu mt-3 mb-3">
-            <div class="header-menu-item<?=empty($type) ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/ranking">전체보기</a></div>
-            <div class="header-menu-item<?=!empty($type) && $type == 1 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/ranking?type=1">산행 참여</a></div>
-            <div class="header-menu-item<?=!empty($type) && $type == 2 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/ranking?type=2">백산백소 인증</a></div>
-            <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?><div class="header-menu-item<?=!empty($type) && $type == 3 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/ranking?type=3">홈페이지 방문</a></div><?php endif; ?>
+            <div class="header-menu-item<?=empty($type) ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/status">전체보기</a></div>
+            <div class="header-menu-item<?=!empty($type) && $type == 1 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/status?type=1">산행 참여</a></div>
+            <div class="header-menu-item<?=!empty($type) && $type == 2 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/status?type=2">백산백소 인증</a></div>
+            <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?><div class="header-menu-item<?=!empty($type) && $type == 3 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/status?type=3">홈페이지 방문</a></div><?php endif; ?>
           </div>
 
           <?php if (!empty($type)): ?>
@@ -30,7 +30,7 @@
               </tr>
               <?php
                 $rank = 0; $buf = 0;
-                foreach ($ranking as $key => $value):
+                foreach ($status as $key => $value):
                   if ($buf != $value['cnt']) { $rank = $key; $rank++; }
               ?>
               <tr>
@@ -40,7 +40,7 @@
                 </td>
                 <td nowrap><?=$value['nickname']?>님</td>
                 <td class="btn-open-auth" data-idx="<?=$key?>">
-                  <div class="auth-progress-bar"><div id="medal<?=$key?>" class="auth-gauge" cnt="<?=$value['cnt']?>" max="<?=$ranking[0]['cnt']?>"><?=$value['cnt']?>회</div></div>
+                  <div class="auth-progress-bar"><div id="medal<?=$key?>" class="auth-gauge" cnt="<?=$value['cnt']?>" max="<?=$status[0]['cnt']?>"><?=$value['cnt']?>회</div></div>
                 </td>
               </tr>
               <?php
@@ -65,7 +65,7 @@
               </tr>
               <?php
                 $rank = 0; $buf = 0;
-                foreach ($rankingRescount as $key => $value):
+                foreach ($statusRescount as $key => $value):
                   if ($buf != $value['cnt']) { $rank = $key; $rank++; }
               ?>
               <tr>
@@ -75,7 +75,7 @@
                 </td>
                 <td nowrap><?=$value['nickname']?>님</td>
                 <td class="btn-open-auth" data-idx="<?=$key?>">
-                  <div class="auth-progress-bar"><div id="medal-res<?=$key?>" class="auth-gauge" cnt="<?=$value['cnt']?>" max="<?=$rankingRescount[0]['cnt']?>"><?=$value['cnt']?>회</div></div>
+                  <div class="auth-progress-bar"><div id="medal-res<?=$key?>" class="auth-gauge" cnt="<?=$value['cnt']?>" max="<?=$statusRescount[0]['cnt']?>"><?=$value['cnt']?>회</div></div>
                 </td>
               </tr>
               <?php
@@ -98,7 +98,7 @@
               </tr>
               <?php
                 $rank = 0; $buf = 0;
-                foreach ($rankingAuth as $key => $value):
+                foreach ($statusAuth as $key => $value):
                   if ($buf != $value['cnt']) { $rank = $key; $rank++; }
               ?>
               <tr>
@@ -108,7 +108,7 @@
                 </td>
                 <td nowrap><?=$value['nickname']?>님</td>
                 <td class="btn-open-auth" data-idx="<?=$key?>">
-                  <div class="auth-progress-bar"><div id="medal-auth<?=$key?>" class="auth-gauge" cnt="<?=$value['cnt']?>" max="<?=$rankingAuth[0]['cnt']?>"><?=$value['cnt']?>회</div></div>
+                  <div class="auth-progress-bar"><div id="medal-auth<?=$key?>" class="auth-gauge" cnt="<?=$value['cnt']?>" max="<?=$statusAuth[0]['cnt']?>"><?=$value['cnt']?>회</div></div>
                 </td>
               </tr>
               <?php
@@ -132,7 +132,7 @@
               </tr>
               <?php
                 $rank = 0; $buf = 0;
-                foreach ($rankingVisit as $key => $value):
+                foreach ($statusVisit as $key => $value):
                   if ($buf != $value['cnt']) { $rank = $key; $rank++; }
               ?>
               <tr>
@@ -142,7 +142,7 @@
                 </td>
                 <td nowrap><?=$value['nickname']?>님</td>
                 <td class="btn-open-auth" data-idx="<?=$key?>">
-                  <div class="auth-progress-bar"><div id="medal-visit<?=$key?>" class="auth-gauge" cnt="<?=$value['cnt']?>" max="<?=$rankingVisit[0]['cnt']?>"><?=$value['cnt']?>회</div></div>
+                  <div class="auth-progress-bar"><div id="medal-visit<?=$key?>" class="auth-gauge" cnt="<?=$value['cnt']?>" max="<?=$statusVisit[0]['cnt']?>"><?=$value['cnt']?>회</div></div>
                 </td>
               </tr>
               <?php
