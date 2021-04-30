@@ -392,9 +392,9 @@ class Story extends MY_Controller
           $timestamp = $now * 1000;
           $string = "POST " . API_NAVER_SMS_URI . "\n" . $timestamp . "\n" . API_NAVER_SMS_ACCESS_KEY;
           $message = '[' . $titleName . '] ' . $userData['nickname'] . ' - ' . $content;
-          if (strlen($message) > 35) {
+          if (strlen($message) > 50) {
             // SMS 문자는 80바이트 이내
-            $message = ksubstr($message, 45, '..'); 
+            $message = ksubstr($message, 50, '..'); 
           }
           $body = array('type' => 'SMS', 'from' => API_NAVER_SMS_FROM, 'content' => $message, 'messages' => array(array('content' => $message, 'to' => API_NAVER_SMS_FROM)));
           $header = array('Content-Type: application/json; charset=utf-8', 'x-ncp-apigw-timestamp: ' . $timestamp, 'x-ncp-iam-access-key: ' . API_NAVER_SMS_ACCESS_KEY, 'x-ncp-apigw-signature-v2: ' . base64_encode(hash_hmac('sha256', $string, API_NAVER_SMS_SECRET_KEY, true)));
