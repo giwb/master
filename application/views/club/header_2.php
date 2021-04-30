@@ -83,9 +83,12 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a href="<?=BASE_URL?>/reserve/schedule" class="nav-link"><i class="far fa-calendar-alt"></i> 일정</a>
+          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true"
-              aria-expanded="false"><i class="fas fa-chalkboard"></i> 단체 소개</a>
+              aria-expanded="false"><i class="fas fa-chalkboard"></i> 소개</a>
             <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink1">
               <?php foreach ($listAbout as $value): ?>
               <a class="dropdown-item" href="<?=BASE_URL?>/club/about/<?=$value['idx']?>"><?=$value['title']?></a>

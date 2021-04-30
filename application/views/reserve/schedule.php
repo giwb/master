@@ -10,7 +10,7 @@
               <hr class="text-default">
             </div>
             <?php foreach ($listNotice as $value): ?>
-            <div class="col-md-6 my-3">
+            <div class="col-md-6 my-3 listing-section">
               <div class="card main-card">
                 <?php if (!empty($value['subject'])): ?>
                 <div class="view overlay">
