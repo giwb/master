@@ -650,7 +650,7 @@ class Club extends MY_Controller
       case '1':
         $title = ' - 포인트 적립';
 
-        $paging['perPage'] = 100; $paging['nowPage'] = 1;
+        $paging['perPage'] = 100; $paging['nowPage'] = 0;
         $search = array('clubIdx' => $clubIdx, 'action' => LOG_POINTUP);
         $viewData['status'] = $this->admin_model->listHistory($paging, $search);
 
@@ -680,7 +680,7 @@ class Club extends MY_Controller
         }
         break;
       default:
-        $paging['perPage'] = 10; $paging['nowPage'] = 1;
+        $paging['perPage'] = 10; $paging['nowPage'] = 0;
         $search = array('clubIdx' => $clubIdx, 'action' => LOG_POINTUP);
         $viewData['statusPoint'] = $this->admin_model->listHistory($paging, $search);
 
@@ -727,7 +727,7 @@ class Club extends MY_Controller
 
     // 회원 활동내역 (경인웰빙 전용)
     if ($viewData['view']['idx'] == 1) {
-      $paging['perPage'] = 10; $paging['nowPage'] = 1;
+      $paging['perPage'] = 10; $paging['nowPage'] = 0;
       $search = array('clubIdx' => $viewData['view']['idx'], 'action' => LOG_POINTUP);
       $viewData['listHistory'] = $this->admin_model->listHistory($paging, $search);
 
