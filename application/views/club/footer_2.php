@@ -117,8 +117,8 @@
                 <?php if (!empty($listHistory)): ?>
                 <?php foreach ($listHistory as $key => $value): ?>
                 <div class="row no-gutters align-items-center mb-3">
-                  <div class="col-1"><img class="avatar" src="<?=$value['avatar']?>"></div>
-                  <div class="col-11"><?=$value['subject']?> - <?=$value['point']?> 포인트 적립<br><small><?=$value['nickname']?>님 · <?=calcStoryTime($value['regdate'])?></small></div>
+                  <div class="col-2 col-sm-1"><img class="avatar" src="<?=$value['avatar']?>"></div>
+                  <div class="col-10 col-sm-11"><?=$value['subject']?> - <?=$value['point']?> 포인트 적립<br><small><?=$value['nickname']?>님 · <?=calcStoryTime($value['regdate'])?></small></div>
                 </div>
                 <?php endforeach; ?>
                 <?php else: ?><div class="text-center pt-5 pb-5">등록된 활동내역이 없습니다.</div>
