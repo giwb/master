@@ -108,6 +108,7 @@
           </section>
 
           <?php if ($view['idx'] == 1): // 경인웰빙 전용 ?>
+          <?php if (!empty($listHistory)): ?>
           <section class="section mt-5">
             <h4 class="font-weight-bold"><strong>회원 활동내역</strong></h4>
             <hr class="text-default">
@@ -125,7 +126,7 @@
               </div>
             </div>
           </section>
-
+          <?php endif; ?>
           <section class="section mt-4">
             <div class="card text-center p-2">
               <img class="d-none d-sm-block busmap" src="/public/images/busmap.png">
