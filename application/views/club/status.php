@@ -21,8 +21,8 @@
             <?php if ($type == 1): ?>
             <?php foreach ($status as $key => $value): ?>
             <div class="row no-gutters align-items-center mb-3">
-              <div class="col-1 text-right pr-4"><img class="avatar" src="<?=$value['avatar']?>"></div>
-              <div class="col-11"><?=$value['subject']?> - <?=$value['point']?> 포인트 적립<br><small><?=$value['nickname']?>님 · <?=calcStoryTime($value['regdate'])?></small></div>
+              <div class="col-2 col-sm-1 text-right pr-4"><img class="avatar" src="<?=$value['avatar']?>"></div>
+              <div class="col-10 col-sm-11"><?=$value['subject']?> - <?=$value['point']?> 포인트 적립<br><small><?=$value['nickname']?>님 · <?=calcStoryTime($value['regdate'])?></small></div>
             </div>
             <?php endforeach; ?>
             <?php else: ?>
@@ -64,8 +64,8 @@
             <h5 class="mt-2">■ 포인트 적립 현황</h5>
             <?php foreach ($statusPoint as $key => $value): ?>
             <div class="row no-gutters align-items-center mb-3">
-              <div class="col-1 text-right pr-4"><img class="avatar" src="<?=$value['avatar']?>"></div>
-              <div class="col-11"><?=$value['subject']?> - <?=$value['point']?> 포인트 적립<br><small><?=$value['nickname']?>님 · <?=calcStoryTime($value['regdate'])?></small></div>
+              <div class="col-2 col-sm-1 text-right pr-4"><img class="avatar" src="<?=$value['avatar']?>"></div>
+              <div class="col-10 col-sm-11"><?=$value['subject']?> - <?=$value['point']?> 포인트 적립<br><small><?=$value['nickname']?>님 · <?=calcStoryTime($value['regdate'])?></small></div>
             </div>
             <?php endforeach; ?><br>
 
