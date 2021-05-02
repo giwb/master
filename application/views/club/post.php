@@ -34,8 +34,8 @@
                                     <tr valign="middle">
                                         <th bgcolor="#d9d9d9" class="font-weight-bold text-center">분류</th>
                                         <td>
-                                          <label class="mr-4"><input type="radio" name="category" value="<?=!empty($viewArticle['category']) ? $viewArticle['category'] : 'news'?>"<?=!empty($viewArticle['category']) && $viewArticle['category'] == 'news' ? ' checked' : ''?>> 여행소식</label>
-                                          <label><input type="radio" name="category" value="<?=!empty($viewArticle['category']) ? $viewArticle['category'] : 'review'?>"<?=!empty($viewArticle['category']) && $viewArticle['category'] == 'review' ? ' checked' : ''?>> 여행후기</label>
+                                          <label class="mr-4"><input type="radio" name="category" value="news"<?=!empty($viewArticle['category']) && $viewArticle['category'] == 'news' ? ' checked' : ''?>> 여행소식</label>
+                                          <label><input type="radio" name="category" value="review"<?=!empty($viewArticle['category']) && $viewArticle['category'] == 'review' ? ' checked' : ''?>> 여행후기</label>
                                         </td>
                                     </tr>
                                     <tr valign="middle">

@@ -293,35 +293,55 @@ class Club extends MY_Controller
   public function article_update()
   {
     $now = time();
-    $userIdx = $this->session->userData['idx'];
+    $userData = $this->session->userData;
     $inputData = $this->input->post();
     $clubIdx = html_escape($inputData['club_idx']);
     $idx = !empty($inputData['idx']) ? html_escape($inputData['idx']) : NULL;
     $category = html_escape($inputData['category']);
+    $content = html_escape($inputData['content']);
 
-    if (empty($userIdx)) {
+    if (empty($userData['idx'])) {
       $result = array('error' => 1, 'message' => $this->lang->line('error_login'));
     } else {
       if (!empty($idx)) {
         $updateValues = array(
-          'category'    => $inputData['category'],
+          'category'    => $category,
           'title'       => html_escape($inputData['title']),
-          'content'     => html_escape($inputData['content']),
-          'updated_by'  => html_escape($userIdx),
+          'content'     => $content,
+          'updated_by'  => html_escape($userData['idx']),
           'updated_at'  => $now
         );
         $this->desk_model->update(DB_ARTICLE, $updateValues, $idx);
       } else {
         $insertValues = array(
           'club_idx'    => html_escape($clubIdx),
-          'category'    => $inputData['category'],
+          'category'    => $category,
           'title'       => html_escape($inputData['title']),
-          'content'     => html_escape($inputData['content']),
+          'content'     => $content,
           'viewing_at'  => $now,
-          'created_by'  => html_escape($userIdx),
+          'created_by'  => html_escape($userData['idx']),
           'created_at'  => $now
         );
         $idx = $this->desk_model->insert(DB_ARTICLE, $insertValues);
+
+        /* ----------------------------------------------------------------- */
+        // 기사 작성 포인트 지급 시작
+        /* ----------------------------------------------------------------- */
+        // 현재는 경인웰빙만 기사 작성 포인트 지급 (내용이 1KBytes 이상일 경우에만 지급)
+        if (!empty($clubIdx) && $clubIdx == 1 && strlen($content) > 1000) {
+          if ($category == 'review') {
+            $title = '후기 작성';
+          } else {
+            $title = '기사 작성';
+          }
+          // 기사 작성 포인트는 1000포인트
+          $addPoint = 1000;
+          $this->member_model->updatePoint($clubIdx, $userData['idx'], ($userData['point'] + $addPoint));
+          setHistory($clubIdx, LOG_POINTUP, $idx, $userData['idx'], $userData['nickname'], $title, $now, $addPoint);
+        }
+        /* ----------------------------------------------------------------- */
+        // 기사 작성 포인트 지급 끝
+        /* ----------------------------------------------------------------- */
       }
 
       if (empty($idx)) {
@@ -628,14 +648,29 @@ class Club extends MY_Controller
 
     switch ($viewData['type']) {
       case '1':
+        $title = ' - 포인트 적립';
+
+        $paging['perPage'] = 100; $paging['nowPage'] = 1;
+        $search = array('clubIdx' => $clubIdx, 'action' => LOG_POINTUP);
+        $viewData['status'] = $this->admin_model->listHistory($paging, $search);
+
+        foreach ($viewData['status'] as $key => $value) {
+          if (file_exists(AVATAR_PATH . $value['user_idx'])) {
+            $viewData['status'][$key]['avatar'] = AVATAR_URL . $value['user_idx'];
+          } else {
+            $viewData['status'][$key]['avatar'] = '/public/images/user.png';
+          }
+        }
+        break;
+      case '2':
         $title = ' - 산행 참여';
         $viewData['status'] = $this->club_model->rankingRescount($clubIdx, 100);
         break;
-      case '2':
+      case '3':
         $title = ' - 백산백소 인증';
         $viewData['status'] = $this->club_model->listAuth(100);
         break;
-      case '3':
+      case '4':
         if (!empty($viewData['userData']['admin']) && $viewData['userData']['admin'] == 1) {
           $title = ' - 홈페이지 방문';
           $viewData['status'] = $this->club_model->rankingVisit($clubIdx, 100);
@@ -644,13 +679,22 @@ class Club extends MY_Controller
           $viewData['status'] = array();
         }
         break;
-      case '4':
-        $title = ' - 회원 등급';
-        break;
       default:
-        $viewData['statusRescount'] = $this->club_model->rankingRescount($clubIdx, 10);
-        $viewData['statusAuth'] = $this->club_model->listAuth(10);
-        $viewData['statusVisit'] = $this->club_model->rankingVisit($clubIdx, 10);
+        $paging['perPage'] = 10; $paging['nowPage'] = 1;
+        $search = array('clubIdx' => $clubIdx, 'action' => LOG_POINTUP);
+        $viewData['statusPoint'] = $this->admin_model->listHistory($paging, $search);
+
+        foreach ($viewData['statusPoint'] as $key => $value) {
+          if (file_exists(AVATAR_PATH . $value['user_idx'])) {
+            $viewData['statusPoint'][$key]['avatar'] = AVATAR_URL . $value['user_idx'];
+          } else {
+            $viewData['statusPoint'][$key]['avatar'] = '/public/images/user.png';
+          }
+        }
+
+        $viewData['statusRescount'] = $this->club_model->rankingRescount($clubIdx, $paging['perPage']);
+        $viewData['statusAuth'] = $this->club_model->listAuth($paging['perPage']);
+        $viewData['statusVisit'] = $this->club_model->rankingVisit($clubIdx, $paging['perPage']);
         $title = ' - 전체보기';
     }
 
@@ -681,6 +725,21 @@ class Club extends MY_Controller
     // 등록된 산행 목록
     $viewData['listNoticeFooter'] = $viewData['listNoticeCalendar'] = $this->reserve_model->listNotice($viewData['view']['idx'], array(STATUS_ABLE, STATUS_CONFIRM));
 
+    // 회원 활동내역 (경인웰빙 전용)
+    if ($viewData['view']['idx'] == 1) {
+      $paging['perPage'] = 10; $paging['nowPage'] = 1;
+      $search = array('clubIdx' => $viewData['view']['idx'], 'action' => LOG_POINTUP);
+      $viewData['listHistory'] = $this->admin_model->listHistory($paging, $search);
+
+      foreach ($viewData['listHistory'] as $key => $value) {
+        if (file_exists(AVATAR_PATH . $value['user_idx'])) {
+          $viewData['listHistory'][$key]['avatar'] = AVATAR_URL . $value['user_idx'];
+        } else {
+          $viewData['listHistory'][$key]['avatar'] = '/public/images/user.png';
+        }
+      }
+    }
+
     /* 캘린더가 복잡해지므로 2021년 4월 19일 삭제
     // 캘린더 설정
     $listCalendar = $this->admin_model->listCalendar();
@@ -701,7 +760,6 @@ class Club extends MY_Controller
         'class' => $class,
       );
     }
-    */
 
     // 안부 인사
     $page = 1;
@@ -725,6 +783,7 @@ class Club extends MY_Controller
       $viewData['view']['main_photo_width'] = $size[0];
       $viewData['view']['main_photo_height'] = $size[1];
     }
+    */
 
     // 로그인 쿠키 처리
     if (!empty(get_cookie('cookie_userid'))) {

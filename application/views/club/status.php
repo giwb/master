@@ -10,13 +10,22 @@
 
           <div class="header-menu mt-3 mb-3">
             <div class="header-menu-item<?=empty($type) ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/status">전체보기</a></div>
-            <div class="header-menu-item<?=!empty($type) && $type == 1 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/status?type=1">산행 참여</a></div>
-            <div class="header-menu-item<?=!empty($type) && $type == 2 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/status?type=2">백산백소 인증</a></div>
-            <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?><div class="header-menu-item<?=!empty($type) && $type == 3 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/status?type=3">홈페이지 방문</a></div><?php endif; ?>
+            <div class="header-menu-item<?=!empty($type) && $type == 1 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/status?type=1">포인트 적립</a></div>
+            <div class="header-menu-item<?=!empty($type) && $type == 2 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/status?type=2">산행 참여</a></div>
+            <div class="header-menu-item<?=!empty($type) && $type == 3 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/status?type=3">백산백소 인증</a></div>
+            <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?><div class="header-menu-item<?=!empty($type) && $type == 4 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/status?type=4">홈페이지 방문</a></div><?php endif; ?>
           </div>
 
           <?php if (!empty($type)): ?>
           <div class="sub-content mb-5"><br>
+            <?php if ($type == 1): ?>
+            <?php foreach ($status as $key => $value): ?>
+            <div class="row no-gutters align-items-center mb-3">
+              <div class="col-1 text-right pr-4"><img class="avatar" src="<?=$value['avatar']?>"></div>
+              <div class="col-11"><?=$value['subject']?> - <?=$value['point']?> 포인트 적립<br><small><?=$value['nickname']?>님 · <?=calcStoryTime($value['regdate'])?></small></div>
+            </div>
+            <?php endforeach; ?>
+            <?php else: ?>
             <table width="100%" class="auth">
               <colgroup>
                 <col width="5%">
@@ -48,9 +57,18 @@
                 endforeach;
               ?>
             </table>
+            <?php endif; ?>
           </div>
           <?php else: ?>
           <div class="sub-content mb-5">
+            <h5 class="mt-2">■ 포인트 적립 현황</h5>
+            <?php foreach ($statusPoint as $key => $value): ?>
+            <div class="row no-gutters align-items-center mb-3">
+              <div class="col-1 text-right pr-4"><img class="avatar" src="<?=$value['avatar']?>"></div>
+              <div class="col-11"><?=$value['subject']?> - <?=$value['point']?> 포인트 적립<br><small><?=$value['nickname']?>님 · <?=calcStoryTime($value['regdate'])?></small></div>
+            </div>
+            <?php endforeach; ?><br>
+
             <h5 class="mt-2">■ 산행참여</h5>
             <table width="100%" class="auth">
               <colgroup>

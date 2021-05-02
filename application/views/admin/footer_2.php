@@ -103,7 +103,7 @@
                 <?php foreach ($listFooterReply as $key => $value): ?>
                 <div class="mb-3"><a href="<?=$value['url']?>"><?=ksubstr($value['content'], 35)?></a><br><small><?=$value['nickname']?> · <?=calcStoryTime($value['created_at'])?></small></div>
                 <?php endforeach; ?>
-                <?php else: ?><div class="text-center pt-5 pb-5">등록된 여행 정보가 없습니다.</div>
+                <?php else: ?><div class="text-center pt-5 pb-5">등록된 댓글이 없습니다.</div>
                 <?php endif; ?>
               </div>
             </div>

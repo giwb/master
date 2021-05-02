@@ -697,7 +697,6 @@ class Admin_model extends CI_Model
   {
     $this->db->select('*')
           ->from(DB_HISTORY)
-          ->where('status', $search['status'])
           ->order_by('idx', 'desc');
 
     if (!empty($search['clubIdx'])) {
@@ -711,6 +710,9 @@ class Admin_model extends CI_Model
     }
     if (!empty($search['nickname'])) {
       $this->db->like('nickname', $search['nickname']);
+    }
+    if (!empty($search['status'])) {
+      $this->db->where('status', $search['status']);
     }
     if (!is_null($paging)) {
       $this->db->limit($paging['perPage'], $paging['nowPage']);

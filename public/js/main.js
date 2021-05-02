@@ -161,6 +161,18 @@
     } else {
       $('.nav-sp-mypage').slideUp();
     }
+  }).on('click', '.area-link', function() {
+    // 링크
+    var link = $(this).data('link');
+    var target = $(this).data('target');
+    if (typeof link == 'undefined' || link == '') return false;
+    else {
+      if (target == 'new') {
+        window.open(link);
+      } else {
+        location.href = link;
+      }
+    }
   }).on('click', '.login-popup', function() {
     // 로그인 모달
     $('#loginModal').modal('show');

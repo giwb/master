@@ -29,6 +29,7 @@ $(document).on('click', '.btn-liked', function() {
 }).on('click', '.btn-reply', function() {
   // 댓글
   var $btn = $(this);
+  var clubIdx = $('input[name=clubIdx]').val();
   var replyIdx = $btn.parent().parent().find('.reply-idx').val();
   var nickname = $btn.parent().parent().find('.reply-nickname').val();
   var content = $btn.parent().parent().find('.reply-content').val();
@@ -36,10 +37,13 @@ $(document).on('click', '.btn-liked', function() {
   if (typeof content == 'undefined' || content == '') {
     return false;
   }
+  if (typeof clubIdx == 'undefined') {
+    clubIdx = '';
+  }
 
   $.ajax({
     url: '/welcome/reply_insert',
-    data: 'articleIdx=' + $btn.data('article-idx') + '&replyIdx=' + replyIdx + '&nickname=' + nickname + '&content=' + content,
+    data: 'clubIdx=' + clubIdx + '&articleIdx=' + $btn.data('article-idx') + '&replyIdx=' + replyIdx + '&nickname=' + nickname + '&content=' + content,
     dataType: 'json',
     type: 'post',
     beforeSend: function() {
@@ -52,10 +56,10 @@ $(document).on('click', '.btn-liked', function() {
         $('.reply-content').val('');
         if (replyIdx != 0) {
           $('.btn-reply-thread').removeClass('active');
-          $('.reply-input[data-idx=' + replyIdx + ']').parent().parent().parent().append('<div class="item-reply media" data-idx="' + result.idx + '"><img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="' + result.avatar + '"><div class="media-body"><h6 class="mt-0 font-weight-bold">' + nickname + '<span class="small text-muted ml-2">' + result.date + '<a class="text-danger ml-2 btn-reply-delete-modal" data-idx="' + result.idx + '">[삭제]</a></span></h6><p class="dark-grey-text article">' + content + '</p></div></div>');
+          $('.reply-input[data-idx=' + replyIdx + ']').parent().parent().parent().append('<div class="item-reply media" data-idx="' + result.idx + '"><img class="d-flex rounded-circle icon-avatar-reply z-depth-1-half mr-3" src="' + result.avatar + '"><div class="media-body"><h6 class="mt-0 font-weight-bold">' + nickname + '<span class="small text-muted ml-2">' + result.date + '<a class="text-danger ml-2 btn-reply-delete-modal" data-idx="' + result.idx + '">[삭제]</a></span></h6><p class="dark-grey-text article">' + content + '</p></div></div>');
           $('.reply-input[data-idx=' + replyIdx + ']').remove();
         } else {
-          $('.list-reply').append('<div class="item-reply media" data-idx="' + result.idx + '"><img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="' + result.avatar + '"><div class="media-body"><h6 class="mt-0 font-weight-bold">' + nickname + '<span class="small text-muted ml-2">' + result.date + '<a class="text-info ml-2 btn-reply-thread" data-idx="' + result.idx + '">[댓글]</a><a class="text-danger ml-2 btn-reply-delete-modal" data-idx="' + result.idx + '">[삭제]</a></span></h6><p class="dark-grey-text article">' + content + '</p></div></div>');
+          $('.list-reply').append('<div class="item-reply media" data-idx="' + result.idx + '"><img class="d-flex rounded-circle icon-avatar-reply z-depth-1-half mr-3" src="' + result.avatar + '"><div class="media-body"><h6 class="mt-0 font-weight-bold">' + nickname + '<span class="small text-muted ml-2">' + result.date + '<a class="text-info ml-2 btn-reply-thread" data-idx="' + result.idx + '">[댓글]</a><a class="text-danger ml-2 btn-reply-delete-modal" data-idx="' + result.idx + '">[삭제]</a></span></h6><p class="dark-grey-text article">' + content + '</p></div></div>');
         }
       }
       $('.reply-input[data-idx=0]').show();
@@ -85,12 +89,17 @@ $(document).on('click', '.btn-liked', function() {
   // 댓글 삭제
   var $btn = $(this);
   var $dom = $('#replyDeleteModal');
+  var clubIdx = $('input[name=clubIdx]').val();
   var idx = $('input[name=idx]', $dom).val();
   var idx_article = $('input[name=idx_article]', $dom).val();
 
+  if (typeof clubIdx == 'undefined') {
+    clubIdx = '';
+  }
+
   $.ajax({
     url: '/welcome/reply_delete',
-    data: 'idx=' + idx + '&idx_article=' + idx_article,
+    data: 'clubIdx=' + clubIdx + '&idx=' + idx + '&idx_article=' + idx_article,
     dataType: 'json',
     type: 'post',
     beforeSend: function() {
@@ -112,12 +121,17 @@ $(document).on('click', '.btn-liked', function() {
   // 기사 삭제
   var $btn = $(this);
   var $dom = $('#articleDeleteModal');
+  var clubIdx = $('input[name=clubIdx]').val();
   var idx = $('input[name=idx]', $dom).val();
   var code = $('input[name=code]', $dom).val();
 
+  if (typeof clubIdx == 'undefined') {
+    clubIdx = '';
+  }
+
   $.ajax({
     url: '/welcome/article_delete',
-    data: 'idx=' + idx,
+    data: 'clubIdx=' + clubIdx + '&idx=' + idx,
     dataType: 'json',
     type: 'post',
     beforeSend: function() {

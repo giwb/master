@@ -107,12 +107,32 @@
             </div>
           </section>
 
+          <?php if ($view['idx'] == 1): // 경인웰빙 전용 ?>
+          <section class="section mt-5">
+            <h4 class="font-weight-bold"><strong>회원 활동내역</strong></h4>
+            <hr class="text-default">
+            <div class="card">
+              <div class="view overlay p-3 small">
+                <?php if (!empty($listHistory)): ?>
+                <?php foreach ($listHistory as $key => $value): ?>
+                <div class="row no-gutters align-items-center mb-3">
+                  <div class="col-1"><img class="avatar" src="<?=$value['avatar']?>"></div>
+                  <div class="col-11"><?=$value['subject']?> - <?=$value['point']?> 포인트 적립<br><small><?=$value['nickname']?>님 · <?=calcStoryTime($value['regdate'])?></small></div>
+                </div>
+                <?php endforeach; ?>
+                <?php else: ?><div class="text-center pt-5 pb-5">등록된 활동내역이 없습니다.</div>
+                <?php endif; ?>
+              </div>
+            </div>
+          </section>
+
           <section class="section mt-4">
             <div class="card text-center p-2">
               <img class="d-none d-sm-block busmap" src="/public/images/busmap.png">
               <img class="d-block d-sm-none busmap" src="/public/images/busmap_320.png">
             </div>
           </section>
+          <?php endif; ?>
 
           <!-- 애드핏 -->
           <section class="section mt-4 mb-4">

@@ -8,7 +8,7 @@ class Welcome extends MY_Controller
   {
     parent::__construct();
     $this->load->helper(array('url', 'my_array_helper'));
-    $this->load->model(array('area_model', 'club_model', 'desk_model', 'file_model', 'notice_model', 'story_model', 'reaction_model', 'reserve_model'));
+    $this->load->model(array('area_model', 'club_model', 'desk_model', 'file_model', 'notice_model', 'member_model', 'story_model', 'reaction_model', 'reserve_model'));
   }
 
   /**
@@ -170,13 +170,36 @@ class Welcome extends MY_Controller
    **/
   public function article_delete()
   {
+    $now = time();
     $userData = $this->load->get_var('userData');
+    $clubIdx = html_escape($this->input->post('clubIdx'));
     $idx = html_escape($this->input->post('idx'));
 
     if (!empty($idx)) {
+      $viewArticle = $this->desk_model->viewArticle($idx);
+
       $updateValues['deleted_by'] = $userData['idx'];
-      $updateValues['deleted_at'] = time();
+      $updateValues['deleted_at'] = $now;
       $this->desk_model->update(DB_ARTICLE, $updateValues, $idx);
+
+      /* ----------------------------------------------------------------- */
+      // 기사 삭제 포인트 감소 시작
+      /* ----------------------------------------------------------------- */
+      // 현재는 경인웰빙만 기사 삭제 포인트 감소 (내용이 1KBytes 이상일 경우에만 지급)
+      if (!empty($clubIdx) && $clubIdx == 1 && strlen($viewArticle['content']) > 1000) {
+        if ($viewArticle['category'] == 'review') {
+          $title = '후기 삭제';
+        } else {
+          $title = '기사 삭제';
+        }
+        // 기사 삭제 포인트는 1000포인트
+        $removePoint = 1000;
+        $this->member_model->updatePoint($clubIdx, $userData['idx'], ($userData['point'] + $removePoint));
+        setHistory($clubIdx, LOG_POINTDN, $idx, $userData['idx'], $userData['nickname'], $title, $now, $removePoint);
+      }
+      /* ----------------------------------------------------------------- */
+      // 기사 삭제 포인트 감소 끝
+      /* ----------------------------------------------------------------- */
 
       $result = array('error' => 0, 'message' => '');
     } else {
@@ -215,7 +238,22 @@ class Welcome extends MY_Controller
       $check = $this->reaction_model->viewReaction($search);
 
       if (!empty($check)) {
+        // 좋아요 삭제
         $this->reaction_model->deleteReaction($search);
+
+        /* ----------------------------------------------------------------- */
+        // 좋아요 포인트 감소 시작
+        /* ----------------------------------------------------------------- */
+        // 현재는 경인웰빙만 좋아요 포인트 감소
+        if (!empty($clubIdx) && $clubIdx == 1) {
+          // 좋아요 포인트는 100포인트
+          $removePoint = 100;
+          $this->member_model->updatePoint($clubIdx, $userData['idx'], ($userData['point'] - $removePoint));
+          setHistory($clubIdx, LOG_POINTDN, $idx, $userData['idx'], $userData['nickname'], '좋아요 삭제', $now, $removePoint);
+        }
+        /* ----------------------------------------------------------------- */
+        // 좋아요 포인트 감소 끝
+        /* ----------------------------------------------------------------- */
 
         // 좋아요 개수
         $search = array(
@@ -239,6 +277,20 @@ class Welcome extends MY_Controller
           'created_at'    => $now,
         );
         $this->reaction_model->insertReaction($insertValues);
+
+        /* ----------------------------------------------------------------- */
+        // 좋아요 포인트 지급 시작
+        /* ----------------------------------------------------------------- */
+        // 현재는 경인웰빙만 좋아요 포인트 지급
+        if (!empty($clubIdx) && $clubIdx == 1) {
+          // 좋아요 포인트는 100포인트
+          $addPoint = 100;
+          $this->member_model->updatePoint($clubIdx, $userData['idx'], ($userData['point'] + $addPoint));
+          setHistory($clubIdx, LOG_POINTUP, $idx, $userData['idx'], $userData['nickname'], '좋아요', $now, $addPoint);
+        }
+        /* ----------------------------------------------------------------- */
+        // 좋아요 포인트 지급 끝
+        /* ----------------------------------------------------------------- */
 
         // 좋아요 개수
         $search = array(
@@ -267,7 +319,8 @@ class Welcome extends MY_Controller
   public function reply_insert()
   {
     $now = time();
-    $viewData['userData'] = $this->load->get_var('userData');
+    $userData = $this->load->get_var('userData');
+    $clubIdx = html_escape($this->input->post('clubIdx'));
     $articleIdx = html_escape($this->input->post('articleIdx'));
     $replyIdx = html_escape($this->input->post('replyIdx'));
     $nickname = html_escape($this->input->post('nickname'));
@@ -281,17 +334,31 @@ class Welcome extends MY_Controller
         'ip_address' => $ipaddr,
         'nickname' => $nickname,
         'content' => $content,
-        'created_by' => !empty($viewData['userData']['idx']) ? $viewData['userData']['idx'] : NULL,
+        'created_by' => !empty($userData['idx']) ? $userData['idx'] : NULL,
         'created_at' => $now,
       );
       $idx = $this->desk_model->insert(DB_ARTICLE_REPLY, $insertValues);
+
+      /* ----------------------------------------------------------------- */
+      // 댓글 포인트 지급 시작
+      /* ----------------------------------------------------------------- */
+      // 현재는 경인웰빙만 댓글 포인트 지급
+      if (!empty($clubIdx) && $clubIdx == 1) {
+        // 댓글 포인트는 100포인트
+        $addPoint = 100;
+        $this->member_model->updatePoint($clubIdx, $userData['idx'], ($userData['point'] + $addPoint));
+        setHistory($clubIdx, LOG_POINTUP, $articleIdx, $userData['idx'], $userData['nickname'], '댓글 작성', $now, $addPoint);
+      }
+      /* ----------------------------------------------------------------- */
+      // 댓글 포인트 지급 끝
+      /* ----------------------------------------------------------------- */
 
       // 댓글
       $cntReply = $this->desk_model->cntReply($articleIdx);
 
       // 아바타가 있는지 확인
-      if (file_exists(AVATAR_PATH . $viewData['userData']['idx'])) {
-        $avatar = AVATAR_URL . $viewData['userData']['idx'];
+      if (file_exists(AVATAR_PATH . $userData['idx'])) {
+        $avatar = AVATAR_URL . $userData['idx'];
       } else {
         $avatar = '/public/images/user.png';
       }
@@ -312,11 +379,29 @@ class Welcome extends MY_Controller
    **/
   public function reply_delete()
   {
+    $now = time();
+    $userData = $this->load->get_var('userData');
     $idx = html_escape($this->input->post('idx'));
+    $clubIdx = html_escape($this->input->post('clubIdx'));
     $articleIdx = html_escape($this->input->post('idx_article'));
 
     if (!empty($idx)) {
       $this->desk_model->deleteReply($idx);
+
+      /* ----------------------------------------------------------------- */
+      // 댓글 포인트 감소 시작
+      /* ----------------------------------------------------------------- */
+      // 현재는 경인웰빙만 댓글 포인트 감소
+      if (!empty($clubIdx) && $clubIdx == 1) {
+        // 댓글 포인트는 100포인트
+        $removePoint = 100;
+        $this->member_model->updatePoint($clubIdx, $userData['idx'], ($userData['point'] - $removePoint));
+        setHistory($clubIdx, LOG_POINTDN, $articleIdx, $userData['idx'], $userData['nickname'], '댓글 삭제', $now, $removePoint);
+      }
+      /* ----------------------------------------------------------------- */
+      // 댓글 포인트 감소 끝
+      /* ----------------------------------------------------------------- */
+
       $cntReply = $this->desk_model->cntReply($articleIdx);
       $result = array('error' => 0, 'message' => $cntReply['cnt']);
     } else {
