@@ -9,11 +9,11 @@
           <hr class="text-default">
 
           <div class="header-menu mt-3 mb-3">
-            <div class="header-menu-item<?=empty($type) ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/status">전체보기</a></div>
-            <div class="header-menu-item<?=!empty($type) && $type == 1 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/status?type=1">포인트 적립</a></div>
-            <div class="header-menu-item<?=!empty($type) && $type == 2 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/status?type=2">산행 참여</a></div>
-            <div class="header-menu-item<?=!empty($type) && $type == 3 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/status?type=3">백산백소 인증</a></div>
-            <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?><div class="header-menu-item<?=!empty($type) && $type == 4 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/status?type=4">홈페이지 방문</a></div><?php endif; ?>
+            <div class="header-menu-item col-6<?=empty($type) ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/status">전체보기</a></div>
+            <div class="header-menu-item col-6<?=!empty($type) && $type == 1 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/status?type=1">포인트 적립</a></div>
+            <div class="header-menu-item col-6<?=!empty($type) && $type == 2 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/status?type=2">산행 참여</a></div>
+            <div class="header-menu-item col-6<?=!empty($type) && $type == 3 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/status?type=3">백산백소 인증</a></div>
+            <?php if (!empty($userData['admin']) && $userData['admin'] == 1): ?><div class="header-menu-item col-6<?=!empty($type) && $type == 4 ? ' active' : ''?>"><a href="<?=BASE_URL?>/club/status?type=4">홈페이지 방문</a></div><?php endif; ?>
           </div>
 
           <?php if (!empty($type)): ?>
