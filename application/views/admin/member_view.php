@@ -322,3 +322,22 @@
               </div>
             </div>
           </section>
+
+          <script type="text/javascript">
+            $(document).on('change', '.area-sido', function() {
+                var $dom = $(this);
+                var parent = $dom.val();
+                $.ajax({
+                    url: '/place/list_gugun',
+                    data: 'parent=' + parent,
+                    dataType: 'json',
+                    type: 'post',
+                    success: function(result) {
+                        $dom.parent().parent().find('.area-gugun').empty().append( $('<option value="">시/군/구</option>') );
+                        for (var i=0; i<result.length; i++) {
+                            $dom.parent().parent().find('.area-gugun').append( $('<option value="' + result[i].idx + '">' + result[i].name + '</option>') );
+                        }
+                    }
+                });
+            });
+          </script>
