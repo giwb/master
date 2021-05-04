@@ -5,9 +5,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title><?=!empty($viewClub['title']) ? $viewClub['title'] : '한국여행 :: TripKorea.net'?><?=!empty($pageTitle) ? ' - ' . $pageTitle : ''?></title>
+  <title><?=!empty($view['title']) ? $view['title'] : '한국여행 :: TripKorea.net'?><?=!empty($pageTitle) ? ' - ' . $pageTitle : ''?></title>
 
-  <meta property="og:title" content="경인웰빙산악회" />
+  <meta property="og:title" content="<?=!empty($view['title']) ? $view['title'] : '한국여행 :: TripKorea.net'?>" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="<?=BASE_URL?>" />
   <meta property="og:image" content="/public/images/logo.png" />
@@ -48,7 +48,7 @@
 
   <header>
     <nav id="mainNav" class="navbar navbar-expand-lg navbar-dark">
-      <a class="navbar-brand" href="<?=BASE_URL?>"><img width="45" src="/public/images/icon.png" style="margin-right: 10px; float: left;"><span class="logo">경인웰빙</span></a>
+      <a class="navbar-brand" href="<?=BASE_URL?>"><img width="45" src="/public/images/icon.png" style="margin-right: 10px; float: left;"><span class="logo"><?=!empty($view['title']) ? $view['title'] : '한국여행 :: TripKorea.net'?></span></a>
       <button class="navbar-toggler" type="button"><i class="fa fa-cog text-white" aria-hidden="true"></i>
       </button>
       <div class="navbar-sideview">

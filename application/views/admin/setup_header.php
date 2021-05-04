@@ -10,7 +10,7 @@
             <div class="header-menu">
               <div class="header-menu-item col-6<?=strstr($uri, 'setup_information') ? ' active' : ''?>"><a href="<?=BASE_URL?>/admin/setup_information">기본정보</a></div>
               <div class="header-menu-item col-6<?=strstr($uri, 'setup_topimage') ? ' active' : ''?>"><a href="<?=BASE_URL?>/admin/setup_topimage">대표사진</a></div>
-              <div class="header-menu-item col-6<?=strstr($uri, 'setup_pages') ? ' active' : ''?>"><a href="<?=BASE_URL?>/admin/setup_pages">페이지관리</a></div>
+              <div class="header-menu-item col-6<?=strstr($uri, 'setup_pages') ? ' active' : ''?>"><a href="<?=BASE_URL?>/admin/setup_pages">단체소개관리</a></div>
               <div class="header-menu-item col-6<?=strstr($uri, 'setup_bustype') ? ' active' : ''?>"><a href="<?=BASE_URL?>/admin/setup_bustype">차종등록</a></div>
               <?php if ($viewClub['idx'] == 1): ?>
               <div class="header-menu-item col-6<?=strstr($uri, 'setup_sms') ? ' active' : ''?>"><a href="<?=BASE_URL?>/admin/setup_sms">문자양식</a></div>
