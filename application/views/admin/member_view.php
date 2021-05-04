@@ -7,11 +7,15 @@
             <div id="content" class="mb-5">
               <div class="text-right small mb-3">
                 <a href="<?=BASE_URL?>/admin/member_list"><button type="button" class="btn-custom btn-gray">목록으로</button></a>
+                <?php if ($viewClub['idx'] == 1): ?>
                 <button type="button" class="btn-custom btn-giwbblue btn-reset-passwd" data-idx="<?=$viewMember['idx']?>">비밀번호 초기화</button>
                 <button type="button" class="btn-custom btn-giwbred btn-user-login" data-idx="<?=$viewMember['idx']?>">이 사용자로 로그인</button>
+                <?php endif; ?>
               </div>
               <h5 class="border-bottom pb-3">■ 기본 정보</h5>
+              <?php if ($viewClub['idx'] == 1): ?>
               <form id="formMember" method="post" action="/admin/member_update">
+              <?php endif; ?>
                 <input type="hidden" name="idx" value="<?=$viewMember['idx']?>">
                 <div class="row no-gutters align-items-center border-bottom mb-3 pt-2 pb-3">
                   <div class="col-sm-2">아이디</div>
@@ -130,14 +134,17 @@
                     <label class="d-block m-0"><input<?=$viewMember['admin'] == 1 ? ' checked' : ''?> type="checkbox" name="admin" value="1"> 관리자</label>
                   </div>
                 </div>
+                <?php if ($viewClub['idx'] == 1): ?>
                 <div class="row no-gutters align-items-center border-bottom mb-3 pb-3">
                   <div class="col-sm-2">등급</div>
                   <div class="col-sm-10"><?=$viewMember['memberLevel']['levelName']?></div>
                 </div>
+                <?php endif; ?>
                 <div class="row no-gutters align-items-center border-bottom mb-3 pb-3">
                   <div class="col-sm-2">예약횟수</div>
                   <div class="col-sm-10"><?=$viewMember['rescount']?></div>
                 </div>
+                <?php if ($viewClub['idx'] == 1): ?>
                 <div class="row no-gutters align-items-center border-bottom mb-3 pb-3">
                   <div class="col-sm-2">포인트</div>
                   <div class="col-sm-10 row no-gutters align-items-center">
@@ -164,6 +171,7 @@
                     </div>
                   </div>
                 </div>
+                <?php endif; ?>
                 <div class="row no-gutters align-items-center border-bottom mb-3 pb-3">
                   <div class="col-sm-2">아이콘</div>
                   <div class="col-sm-10">
@@ -174,6 +182,7 @@
                     <?php endif; ?>
                   </div>
                 </div>
+                <?php if ($viewClub['idx'] == 1): ?>
                 <div class="pt-2 pb-5 text-center">
                   <div class="error-message"></div>
                   <input type="hidden" name="baseUrl" value="<?=BASE_URL?>">
@@ -181,6 +190,7 @@
                   <button type="button" class="btn-custom btn-giwb btn-member-update pt-2 pb-2 pl-4 pr-4 mr-2">수정합니다</button>
                   <button type="button" class="btn-custom btn-gray btn-member-delete-modal pt-2 pb-2 pl-4 pr-4 ml-2">삭제합니다</button>
                 </div>
+                <?php endif; ?>
               </form>
               <div class="mt-4 mb-3 pb-3">
                 <h5>■ 예약 내역</h5>

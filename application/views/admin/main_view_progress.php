@@ -91,6 +91,43 @@
                   </tbody>
                 </table>
               </div>
+              <div class="area-boarding">
+                <div class="mb-2">■ <strong>승차위치</strong> (<?=cntRes($view['idx'], $bus)?>명)</div>
+                <?php
+                  foreach ($value['listLocation'] as $cnt => $location):
+                    if (!empty($location['time'])):
+                ?>
+                <dl>
+                  <dt><?=$location['time']?> <?=$location['short']?> (<?=!empty($location['nickname']) ? count($location['nickname']) : 0?>명)</dt>
+                  <dd><?php if (!empty($location['nickname'])): foreach ($location['nickname'] as $n => $nickname): if ($n != 0): ?> / <?php endif; ?><?=$nickname?><?php endforeach; endif; ?></dd>
+                </dl>
+                <?php
+                    endif;
+                  endforeach;
+                ?>
+                <dl>
+                  <dt>미지정 (<?=!empty($value['listNoLocation'][0]['nickname']) ? count($value['listNoLocation'][0]['nickname']) : 0?>명)</dt>
+                  <dd><?php if (!empty($value['listNoLocation'][0]['nickname'])): foreach ($value['listNoLocation'][0]['nickname'] as $n => $nickname): if ($n != 0): ?> / <?php endif; ?><?=$nickname?><?php endforeach; endif; ?></dd>
+                </dl>
+              </div>
+              <div class="area-boarding">
+                <div class="mb-2">■ <strong>포인트 결제</strong> (<?=number_format($value['maxPoint'])?>명)</div>
+                <?php foreach ($value['listPoint'] as $point): ?>
+                <dl>
+                  <dt><?=checkDirection($point['seat'], $bus, $view['bustype'], $view['bus'])?>. <?=$point['nickname']?></dt>
+                  <dd><?=$point['point']?></dd>
+                </dl>
+                <?php endforeach; ?>
+              </div>
+              <div class="area-boarding">
+                <div class="mb-2">■ <strong>요청사항</strong> (<?=number_format($value['maxMemo'])?>명)</div>
+                <?php foreach ($value['listMemo'] as $memo): ?>
+                <dl>
+                  <dt><?=checkDirection($memo['seat'], $bus, $view['bustype'], $view['bus'])?>. <?=$memo['nickname']?></dt>
+                  <dd><?=$memo['memo']?></dd>
+                </dl>
+                <?php endforeach; ?>
+              </div>
               <?php endforeach; ?>
 
               <form id="reserveForm" method="post" action="/admin/reserve_complete">
@@ -99,6 +136,22 @@
                 <button type="button" class="btn-custom btn-giwb btn-reserve-confirm">확인</button>
               </form>
             </div>
+
+            <?php if ($viewClub['idx'] == 1): ?>
+            <div class="area-boarding">
+              <div class="mb-2">■ <strong>구매대행</strong> (<?=number_format($maxPurchase['cnt'])?>명)</div>
+              <?php foreach ($listPurchase as $purchase): ?>
+              <dl>
+                <dt><?=$purchase['nickname']?></dt>
+                <dd>
+                <?php foreach ($purchase['listCart'] as $key => $item): ?>
+                  <span class="area-status"><?=getPurchaseStatus($purchase['status'])?></span> <?=$item['name']?><br><small><?=!empty($item['option']) ? $item['option'] . ' - ' : ''?><?=number_format($item['amount'])?>개, <?=number_format($item['cost'] * $item['amount'])?>원</small><br>
+                <?php endforeach; ?>
+                </dd>
+              </dl>
+              <?php endforeach; ?>
+            </div>
+            <?php endif; ?>
 
             <?php if ($view['status'] == STATUS_ABLE || $view['status'] == STATUS_CONFIRM): ?>
             <div class="area-wait">

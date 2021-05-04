@@ -684,6 +684,91 @@ class Admin extends Admin_Controller
     // 예약 정보
     $viewData['reserve'] = $this->admin_model->viewReserve($viewData);
 
+    // 시간별 승차위치
+    $listLocation = arrLocation($viewData['viewClub']['club_geton'], $viewData['view']['starttime']);
+    $cnt = 0;
+
+    foreach ($viewData['busType'] as $key1 => $bus) {
+      $busNumber = $key1 + 1;
+      foreach ($listLocation as $key2 => $value) {
+        $viewData['busType'][$key1]['listLocation'][] = $value;
+
+        // 시간대별 탑승자 보기
+        $resData = $this->admin_model->listReserveLocation($viewData['rescode'], $busNumber, $value['short']);
+        foreach ($resData as $people) {
+          if (!empty($people['honor'])) {
+            $cnt++;
+            if ($cnt > 1) {
+              $viewData['busType'][$key1]['listLocation'][$key2]['nickname'][] = $people['nickname'];
+              $cnt = 0;
+            }
+          } else {
+            $viewData['busType'][$key1]['listLocation'][$key2]['nickname'][] = $people['nickname'];
+          }
+        }
+      }
+
+      // 탑승위치 지정 없음
+      $viewData['busType'][$key1]['listNoLocation'][] = $value;
+      $resData = $this->admin_model->listReserveNoLocation($viewData['rescode'], $busNumber);
+      foreach ($resData as $people) {
+        if (!empty($people['honor'])) {
+          $cnt++;
+          if ($cnt > 1) {
+            $viewData['busType'][$key1]['listNoLocation'][0]['nickname'][] = $people['nickname'];
+            $cnt = 0;
+          }
+        } else {
+          $viewData['busType'][$key1]['listNoLocation'][0]['nickname'][] = $people['nickname'];
+        }
+      }
+
+      // 포인트 결제
+      $viewData['busType'][$key1]['maxPoint'] = 0;
+      $viewData['busType'][$key1]['listPoint'] = array();
+      foreach ($viewData['reserve'] as $value) {
+        if ($value['bus'] == $busNumber && $value['point'] > 0) {
+          $viewData['busType'][$key1]['maxPoint']++;
+          $viewData['busType'][$key1]['listPoint'][] = array(
+            'seat' => $value['seat'],
+            'nickname' => $value['nickname'],
+            'point' => $value['point']
+          );
+        }
+      }
+      sort($viewData['busType'][$key1]['listPoint']);
+
+      // 요청사항
+      $viewData['busType'][$key1]['maxMemo'] = 0;
+      $viewData['busType'][$key1]['listMemo'] = array();
+      foreach ($viewData['reserve'] as $value) {
+        if ($value['bus'] == $busNumber && !empty($value['memo'])) {
+          $viewData['busType'][$key1]['maxMemo']++;
+          $viewData['busType'][$key1]['listMemo'][] = array(
+            'seat' => $value['seat'],
+            'nickname' => $value['nickname'],
+            'memo' => $value['memo']
+          );
+        }
+      }
+      sort($viewData['busType'][$key1]['listMemo']);
+    }
+
+    // 구매대행
+    $viewData['search'] = array('notice_idx' => $viewData['rescode']);
+    $viewData['maxPurchase'] = $this->shop_model->cntPurchase($viewData['search']);
+    $viewData['listPurchase'] = $this->shop_model->listPurchase(NULL, $viewData['search']);
+
+    foreach ($viewData['listPurchase'] as $key => $value) {
+      $items = unserialize($value['items']);
+      $viewData['listPurchase'][$key]['listCart'] = $items;
+
+      $viewData['listPurchase'][$key]['totalCost'] = 0;
+      foreach ($items as $item) {
+        $viewData['listPurchase'][$key]['totalCost'] += $item['cost'] * $item['amount'];
+      }
+    }
+
     // 대기자 정보
     $viewData['wait'] = $this->admin_model->listWait($viewData['rescode']);
 
@@ -1370,7 +1455,7 @@ class Admin extends Admin_Controller
     }
 
     // 페이지 타이틀
-    $viewData['pageTitle'] = '신규 산행 등록';
+    $viewData['pageTitle'] = '산행 등록';
 
     // 헤더 메뉴
     $viewData['headerMenu'] = 'main_header';

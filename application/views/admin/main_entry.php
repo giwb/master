@@ -12,6 +12,7 @@
               <div class="col-sm-9">
                 <h4>■ 기본정보</h4>
               </div>
+              <?php if ($viewClub['idx'] == 1): ?>
               <div class="col-sm-3 pb-2 text-right">
                 <select class="form-control search-notice">
                   <option value="">▼ 불러오기</option>
@@ -20,6 +21,7 @@
                   <?php endforeach; ?>
                 </select>
               </div>
+              <?php endif; ?>
             </div>
             <div class="row no-gutters align-items-center border-top mt-3 pt-3">
               <div class="col-sm-2 font-weight-bold">출발일시</div>
@@ -97,6 +99,7 @@
                 </div>
               </div>
             </div>
+            <?php if ($viewClub['idx'] == 1): ?>
             <div class="row no-gutters align-items-center border-top mt-3 pt-3">
               <div class="col-sm-2 font-weight-bold">날씨 URL</div>
               <div class="col-sm-10"><input type="text" name="weather" class="form-control" value="<?=$view['weather']?>"><a target="_blank" href="https://n.weather.naver.com">https://n.weather.naver.com</a></div>
@@ -119,6 +122,7 @@
                 </select>
               </div>
             </div>
+            <?php endif; ?>
             <div class="row no-gutters align-items-center border-top mt-3 pt-3">
               <div class="col-sm-2 font-weight-bold">산 이름</div>
               <div class="col-sm-10"><input type="text" name="mname" class="form-control" value="<?=$view['mname']?>"></div>
@@ -215,6 +219,7 @@
               <div class="col-sm-10"><textarea name="information" rows="5" cols="100" class="form-control"><?=$view['information']?></textarea></div>
             </div>
 
+            <?php if ($viewClub['idx'] == 1): ?>
             <div class="mt-5">
               <h4>■ 운행거리 및 통행료 산출</h4>
             </div>
@@ -336,6 +341,7 @@
                 <div class="col-sm-6 pr-2"><input class="form-control form-control-sm total-bus-cost" readonly type="text" size="4" name="driving_total" value="<?=$view['driving_total'] != '' ? $view['driving_total'] : ''?>"></div>
               </div>
             </div>
+            <?php endif; ?>
 
             <div class="mt-5">
               <h4>■ 참가비용</h4>
@@ -360,35 +366,39 @@
             <div class="border-top text-center mt-5 pt-3">
               <button type="button" class="btn-custom btn-giwb btn-entry pt-2 pb-2 pl-4 pr-4 mr-2"><?=$btn?></button>
               <button type="button" class="btn-custom btn-gray btn-list pt-2 pb-2 pl-4 pr-4 mr-4" data-action="admin/main_list_progress">목록</button>
+              <?php if (!empty($view['idx'])): ?>
               <?php if (!empty($view['visible']) && $view['visible'] == VISIBLE_ABLE): ?>
               <button type="button" class="btn-custom btn-dark btn-change-visible pt-2 pb-2 pl-4 pr-4" data-idx="<?=$view['idx']?>" data-visible="<?=VISIBLE_NONE?>">숨김</button>
               <?php else: ?>
               <button type="button" class="btn-custom btn-giwbblue btn-change-visible pt-2 pb-2 pl-4 pr-4" data-idx="<?=$view['idx']?>" data-visible="<?=VISIBLE_ABLE?>">공개</button>
               <?php endif; ?>
               <button type="button" class="btn-custom btn-giwbred btn-notice-delete pt-2 pb-2 pl-4 pr-4 ml-2" data-idx="<?=$view['idx']?>">삭제</button>
+              <?php endif; ?>
             </div>
           </form>
         </div>
         <script type="text/javascript" src="/public/js/moment.min.js"></script>
         <script type="text/javascript">
           $(document).ready(function(){
-            var totalDistance = $.calcTotalDistance(); // 총 거리 계산
-            $.calcRoadCost(); // 통행료 계산
-            $.calcFuel(); // 연비 계산 (총주행 / 3.5)
-            $.calcBusCost(totalDistance); // 버스비용/요금 기본비용 계산
-            $.calcTotalDriving(); // 운행비 합계
-            $.calcTotalFuel(); // 주유비 합계
-            $.calcAdd(); // 추가비용 합계
-            $.calcTotalBus(); // 추가비용 합계
-            $.calcSchedule($('#startDatePicker').val(), $('#startTime').val(), $('#endDatePicker').val()) // 여행기간 계산
-            $.calcCost(); // 요금 계산
-            <?php if (empty($view['idx']) || $view['status'] == STATUS_PLAN): ?>
-            // 통행료 계산
-            $('.road-cost').each(function(n) {
-              if (n == 0 && $(this).val() == '') {
-                $(this).val('0');
-              }
-            });
+            <?php if ($viewClub['idx'] == 1): ?>
+              var totalDistance = $.calcTotalDistance(); // 총 거리 계산
+              $.calcRoadCost(); // 통행료 계산
+              $.calcFuel(); // 연비 계산 (총주행 / 3.5)
+              $.calcBusCost(totalDistance); // 버스비용/요금 기본비용 계산
+              $.calcTotalDriving(); // 운행비 합계
+              $.calcTotalFuel(); // 주유비 합계
+              $.calcAdd(); // 추가비용 합계
+              $.calcTotalBus(); // 추가비용 합계
+              $.calcSchedule($('#startDatePicker').val(), $('#startTime').val(), $('#endDatePicker').val()) // 여행기간 계산
+              $.calcCost(); // 요금 계산
+              <?php if (empty($view['idx']) || $view['status'] == STATUS_PLAN): ?>
+              // 통행료 계산
+              $('.road-cost').each(function(n) {
+                if (n == 0 && $(this).val() == '') {
+                  $(this).val('0');
+                }
+              });
+              <?php endif; ?>
             <?php endif; ?>
 
             // 출발일시

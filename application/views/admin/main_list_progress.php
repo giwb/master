@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-        <div id="content" class="border-top mb-5">
+        <div id="content" class="mb-5">
           <?php if (empty($list)): ?>
           <div class="border-bottom pt-5 pb-5 text-center">
             등록된 산행이 없습니다.
