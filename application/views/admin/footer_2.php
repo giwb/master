@@ -229,7 +229,7 @@
   <!-- FOOTER -->
   <footer class="page-footer stylish-color-dark mt-4 pb-4">
     <main id="footer" class="row no-gutters white-text small align-items-center">
-      <div class="col-sm-2 text-center"><span class="logo"><?=!empty($view['title']) ? $view['title'] : '한국여행'?></span></div>
+      <div class="col-sm-2 text-center"><span class="logo"><?=!empty($viewClub['title']) ? $viewClub['title'] : '한국여행'?></span></div>
       <div class="col-sm-5 logo-text">
         사업자등록번호 : 568-45-00657 / 관광사업등록번호 : 제 2021-000001호<br>
         서울 금천구 가산디지털 1로 137, 19층 1901호 (가산동, IT 캐슬 2차)<br>
