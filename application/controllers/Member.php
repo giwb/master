@@ -777,6 +777,18 @@ class Member extends MY_Controller
       $result = array('error' => 1, 'message' => $this->lang->line('error_all'));
     }
 
+    // 사진 등록
+    $filename = html_escape($_FILES['photo']['tmp_name']);
+    if (!empty($filename) && file_exists($filename)) {
+      if (file_exists(PHOTO_PATH . $userData['idx'])) {
+        unlink(PHOTO_PATH . $userData['idx']);
+      }
+      if (file_exists(AVATAR_PATH . $userData['idx'])) {
+        unlink(AVATAR_PATH . $userData['idx']);
+      }
+      move_uploaded_file($filename, AVATAR_PATH . $userData['idx']);
+    }
+
     if (empty($result)) {
       $updateValues = array(
         'nickname'      => html_escape($inputData['nickname']),
@@ -796,20 +808,6 @@ class Member extends MY_Controller
       }
 
       $rtn = $this->member_model->updateMember($updateValues, $userData['idx']);
-
-      if (!empty($rtn)) {
-        // 사진 등록
-        $filename = html_escape($_FILES['photo']['tmp_name']);
-        if (!empty($filename) && file_exists($filename)) {
-          if (file_exists(PHOTO_PATH . $userData['idx'])) {
-            unlink(PHOTO_PATH . $userData['idx']);
-          }
-          if (file_exists(AVATAR_PATH . $userData['idx'])) {
-            unlink(AVATAR_PATH . $userData['idx']);
-          }
-          move_uploaded_file($filename, AVATAR_PATH . $userData['idx']);
-        }
-      }
     }
 
     if (empty($rtn)) {
