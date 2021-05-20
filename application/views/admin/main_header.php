@@ -7,6 +7,7 @@
             <div class="row no-gutters">
               <div class="col-4"><h4 class="font-weight-bold"><?=$pageTitle?></h4></div>
               <div class="col-8 text-right">
+                <a href="<?=BASE_URL?>/admin/main_schedule"><button class="btn-custom btn-danger small">계획</button></a>
                 <a href="<?=BASE_URL?>/admin/main_list_progress"><button class="btn-custom btn-blue small">진행</button></a>
                 <a href="<?=BASE_URL?>/admin/main_list_closed"><button class="btn-custom btn-gray small">종료</button></a>
                 <a href="<?=BASE_URL?>/admin/main_list_canceled"><button class="btn-custom btn-dark small">취소</button></a>
