@@ -6,9 +6,15 @@
                         <div class="col-5 text-right"><a href="/desk/place_post"><button class="btn btn-primary">여행정보 등록</button></a></div>
                     </div>
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">현재 등록된 정보 : <?=count($list)?>건</h6>
+                        <form method="get" action="/desk/place">
+                        <div class="row no-gutters align-items-center card-header">
+                            <div class="col-9"><h6 class="m-0 pt-1 font-weight-bold text-primary">현재 등록된 정보 : <?=count($list)?>건</h6></div>
+                            <div class="col-3 row no-gutters text-right">
+                                <div class="col-10"><input type="text" name="keyword" class="form-control" value="<?=!empty($keyword) ? $keyword : ''?>"></div>
+                                <div class="col-2"><button class="btn btn-primary">검색</button></div>
+                            </div>
                         </div>
+                        </form>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
