@@ -14,8 +14,11 @@
                                 <div class="col-2"><button class="btn btn-primary">검색</button></div>
                             </div>
                         </div>
-                        </form>
                         <div class="card-body">
+                            <div class="text-right">
+                                <label class="mr-4"><input type="radio" name="sort" class="btn-sort" value="idx"<?=empty($sort) || $sort == 'idx' ? ' checked' : ''?>> 등록순으로 정렬</label>
+                                <label><input type="radio" name="sort" class="btn-sort" value="title"<?=!empty($sort) && $sort == 'title' ? ' checked' : ''?>> 가나다순으로 정렬</label>
+                            </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
@@ -48,5 +51,12 @@
                                 </table>
                             </div>
                         </div>
+                        </form>
                     </div>
                 </div>
+
+                <script type="text/javascript">
+                    $(document).on('click', '.btn-sort', function() {
+                        location.replace('/desk/place/?sort=' + $(this).val() + '&keyword=<?=!empty($keyword) ? $keyword : ''?>');
+                    });
+                </script>

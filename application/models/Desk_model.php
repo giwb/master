@@ -173,16 +173,20 @@ class Desk_model extends CI_Model
   }
 
   // 여행정보 목록
-  public function listPlace($search=NULL, $order='desc')
+  public function listPlace($search=NULL)
   {
     $this->db->select('a.*, b.nickname')
           ->from(DB_PLACES . ' a')
           ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
-          ->where('a.deleted_at', NULL)
-          ->order_by('a.created_at', $order);
+          ->where('a.deleted_at', NULL);
 
     if (!empty($search['keyword'])) {
       $this->db->like('a.title', $search['keyword']);
+    }
+    if (empty($search['sort']) || $search['sort'] == 'idx') {
+      $this->db->order_by('a.idx', 'desc');
+    } elseif (!empty($search['sort'])) {
+      $this->db->order_by('a.title', 'asc');
     }
 
     return $this->db->get()->result_array();

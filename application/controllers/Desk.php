@@ -217,6 +217,7 @@ class Desk extends Desk_Controller
   public function place()
   {
     $viewData['keyword'] = $this->input->get('keyword');
+    $viewData['sort'] = $this->input->get('sort');
 
     $viewData['list'] = $this->desk_model->listPlace($viewData);
     $viewData['max'] = count($viewData['list']);
