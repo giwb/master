@@ -183,6 +183,12 @@ class Desk_model extends CI_Model
     if (!empty($search['keyword'])) {
       $this->db->like('a.title', $search['keyword']);
     }
+    if (!empty($search['cate'])) {
+      $cate = explode(',', $search['cate']);
+      foreach ($cate as $value) {
+        $this->db->like('a.category', $value);
+      }
+    }
     if (empty($search['sort']) || $search['sort'] == 'idx') {
       $this->db->order_by('a.idx', 'desc');
     } elseif (!empty($search['sort'])) {

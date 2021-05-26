@@ -218,7 +218,9 @@ class Desk extends Desk_Controller
   {
     $viewData['keyword'] = $this->input->get('keyword');
     $viewData['sort'] = $this->input->get('sort');
+    $viewData['cate'] = $this->input->get('cate');
 
+    $viewData['category'] = $this->desk_model->listPlaceCategory();
     $viewData['list'] = $this->desk_model->listPlace($viewData);
     $viewData['max'] = count($viewData['list']);
 
