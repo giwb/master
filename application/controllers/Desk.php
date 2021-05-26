@@ -220,6 +220,12 @@ class Desk extends Desk_Controller
     $viewData['sort'] = $this->input->get('sort');
     $viewData['cate'] = $this->input->get('cate');
 
+    if (!empty($viewData['sort'])) {
+      set_cookie('COOKIE_SORT', $viewData['sort'], COOKIE_STRAGE_PERIOD);
+    } else {
+      $viewData['sort'] = get_cookie('COOKIE_SORT');
+    }
+
     $viewData['category'] = $this->desk_model->listPlaceCategory();
     $viewData['list'] = $this->desk_model->listPlace($viewData);
 
