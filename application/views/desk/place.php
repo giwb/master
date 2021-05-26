@@ -8,25 +8,28 @@
                     <div class="card shadow mb-4">
                         <form method="get" action="/desk/place">
                         <div class="row no-gutters align-items-center card-header">
-                            <div class="col-9"><h6 class="m-0 pt-1 font-weight-bold text-primary">현재 등록된 정보 : <?=count($list)?>건</h6></div>
+                            <div class="col-9"><h6 class="m-0 pt-1 font-weight-bold text-primary">현재 등록된 정보 : <?=$max?>건</h6></div>
                             <div class="col-3 row no-gutters text-right">
                                 <div class="col-10"><input type="text" name="keyword" class="form-control" value="<?=!empty($keyword) ? $keyword : ''?>"></div>
                                 <div class="col-2"><button class="btn btn-primary">검색</button></div>
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="row no-gutters">
-                                <div class="col-6">
-                                    <?php foreach ($category as $value): ?>
-                                    <label class="mr-3"><input type="checkbox" class="btn-category" value="<?=$value['code']?>"<?=!empty($cate) && strstr($cate, $value['code']) == true ? ' checked' : ''?>> <?=$value['name']?></label>
-                                    <?php endforeach; ?>
+                            <div class="row no-gutters align-items-center">
+                                <div class="col-4">
+                                    <select class="btn-category form-control">
+                                        <option value="">전체보기 (<?=$max?>)</option>
+                                        <?php foreach ($category as $value): ?>
+                                        <option<?=!empty($cate) && $cate == $value['code'] ? ' selected' : ''?> value="<?=$value['code']?>"><?=$value['name']?> (<?=$value['count']?>)</option>
+                                        <?php endforeach; ?>
+                                    </select>
                                 </div>
-                                <div class="col-6 text-right">
+                                <div class="col-8 text-right">
                                     <label class="mr-4"><input type="radio" name="sort" class="btn-sort" value="idx"<?=empty($sort) || $sort == 'idx' ? ' checked' : ''?>> 등록순으로 정렬</label>
                                     <label><input type="radio" name="sort" class="btn-sort" value="title"<?=!empty($sort) && $sort == 'title' ? ' checked' : ''?>> 가나다순으로 정렬</label>
                                 </div>
                             </div>
-                            <div class="table-responsive">
+                            <div class="table-responsive mt-2">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr align="center" bgcolor="#e9e9e9">
@@ -65,13 +68,7 @@
                 <script type="text/javascript">
                     $(document).on('click', '.btn-sort', function() {
                         location.replace('/desk/place/?sort=' + $(this).val() + '&keyword=<?=!empty($keyword) ? $keyword : ''?>&cate=<?=!empty($cate) ? $cate : ''?>');
-                    }).on('click', '.btn-category', function() {
-                        var arrCategory = [];
-                        $('.btn-category').each(function() {
-                            if ($(this).is(':checked') ==  true) {
-                                arrCategory.push($(this).val());
-                            }
-                        });
-                        location.replace('/desk/place/?sort=' + $(this).val() + '&keyword=<?=!empty($keyword) ? $keyword : ''?>&cate=' + arrCategory);
+                    }).on('change', '.btn-category', function() {
+                        location.replace('/desk/place/?sort=' + $(this).val() + '&keyword=<?=!empty($keyword) ? $keyword : ''?>&cate=' + $(this).val());
                     });
                 </script>
