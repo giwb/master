@@ -7,9 +7,11 @@
           <h4 class="font-weight-bold"><?=$pageTitle?></h4>
           <hr class="text-default">
 
+          <?php if (empty($viewMember['location'])): ?>
           <div class="border font-weight-bold text-danger text-center p-4">
             <h5>아래 내용은 코로나 방역정책 및 산행 예약시 필요한 개인정보입니다.<br>번거로우시더라도 추가입력 부탁드립니다.</h5>
           </div>
+          <?php endif; ?>
 
           <form id="entryForm" method="post" action="/member/update">
           <input type="hidden" name="page" value="member">
