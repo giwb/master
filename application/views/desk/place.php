@@ -69,6 +69,6 @@
                     $(document).on('click', '.btn-sort', function() {
                         location.replace('/desk/place/?sort=' + $(this).val() + '&keyword=<?=!empty($keyword) ? $keyword : ''?>&cate=<?=!empty($cate) ? $cate : ''?>');
                     }).on('change', '.btn-category', function() {
-                        location.replace('/desk/place/?sort=' + $(this).val() + '&keyword=<?=!empty($keyword) ? $keyword : ''?>&cate=' + $(this).val());
+                        location.replace('/desk/place/?sort=<?=!empty($sort) ? $sort : ''?>&keyword=<?=!empty($keyword) ? $keyword : ''?>&cate=' + $(this).val());
                     });
                 </script>
