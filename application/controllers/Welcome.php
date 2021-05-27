@@ -964,6 +964,9 @@ class Welcome extends MY_Controller
     // 회원 정보
     $viewData['userData'] = $this->load->get_var('userData');
 
+    // 여행정보 카테고리
+    $viewData['listPlaceCategory'] = $this->desk_model->listPlaceCategory();
+
     // 분류별 기사
     $viewData['listArticleCategory'] = $this->desk_model->listArticleCategory();
 
