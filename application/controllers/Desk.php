@@ -228,10 +228,7 @@ class Desk extends Desk_Controller
 
     $viewData['category'] = $this->desk_model->listPlaceCategory();
     $viewData['list'] = $this->desk_model->listPlace($viewData);
-
-    // 최대 정보
-    $max = $this->desk_model->listPlace();
-    $viewData['max'] = count($max);
+    $viewData['max'] = count($viewData['list']);
 
     foreach ($viewData['category'] as $key => $value) {
       $search['cate'] = $value['code'];

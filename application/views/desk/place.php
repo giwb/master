@@ -8,7 +8,7 @@
                     <div class="card shadow mb-4">
                         <form method="get" action="/desk/place">
                         <div class="row no-gutters align-items-center card-header">
-                            <div class="col-9"><h6 class="m-0 pt-1 font-weight-bold text-primary">현재 등록된 정보 : <?=$max?>건</h6></div>
+                            <div class="col-9"><h6 class="m-0 pt-1 font-weight-bold text-primary"><!--현재 등록된 정보 : <?=$max?>건--></h6></div>
                             <div class="col-3 row no-gutters text-right">
                                 <div class="col-10"><input type="text" name="keyword" class="form-control" value="<?=!empty($keyword) ? $keyword : ''?>"></div>
                                 <div class="col-2"><button class="btn btn-primary">검색</button></div>
