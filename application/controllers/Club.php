@@ -456,7 +456,7 @@ class Club extends MY_Controller
   }
 
   /**
-   * 각 페이지
+   * 경인웰빙 전용 - 백산백소 페이지
    *
    * @return view
    * @author bjchoi
@@ -470,11 +470,7 @@ class Club extends MY_Controller
     $viewData['view'] = $this->club_model->viewClub($clubIdx);
 
     // 페이지 타이틀
-    if ($viewData['type'] == 'agreement') {
-      $viewData['pageTitle'] = "이용약관";
-    } elseif ($viewData['type'] == 'personal') {
-      $viewData['pageTitle'] = "개인정보 취급방침";
-    } elseif ($viewData['type'] == 'mountain') {
+    if ($viewData['type'] == 'mountain') {
       $viewData['pageTitle'] = "경인웰빙 100대명산";
     } else {
       $viewData['pageTitle'] = "경인웰빙 100대명소";

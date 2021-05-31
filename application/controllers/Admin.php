@@ -3631,6 +3631,21 @@ class Admin extends Admin_Controller
           }
         }
       }
+
+      // 경인웰빙 전용
+      if ($clubIdx == 1) {
+        $updateClubValues = array();
+
+        if (!empty($inputData['content_mountain'])) {
+          $updateClubValues['mountain'] = $inputData['content_mountain'];
+        }
+        if (!empty($inputData['content_place'])) {
+          $updateClubValues['place'] = $inputData['content_place'];
+        }
+        if (!empty($updateClubValues)) {
+          $this->admin_model->updateClub($updateClubValues, $clubIdx);
+        }
+      }
     }
 
     $result = array('error' => 0, 'message' => '');

@@ -453,6 +453,14 @@ class Admin_model extends CI_Model
     return $this->db->update(DB_ADJUST);
   }
 
+  // 클럽 수정
+  public function updateClub($data, $idx)
+  {
+    $this->db->set($data);
+    $this->db->where('idx', $idx);
+    return $this->db->update(DB_CLUBS);
+  }
+
   // 소개화면
   public function listClubDetail($clubIdx)
   {

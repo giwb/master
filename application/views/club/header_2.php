@@ -104,7 +104,7 @@
             <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink2">
               <a class="dropdown-item" href="<?=BASE_URL?>/club/auth">백산백소 인증현황</a>
               <a class="dropdown-item" href="<?=BASE_URL?>/club/page?type=mountain">경인웰빙 100대명산</a>
-              <a class="dropdown-item" href="<?=BASE_URL?>/club/page?type=forest">경인웰빙 100대명소</a>
+              <a class="dropdown-item" href="<?=BASE_URL?>/club/page?type=place">경인웰빙 100대명소</a>
             </div>
           </li>
           <li class="nav-item dropdown">

@@ -13,10 +13,28 @@
                   <div class="col-8 col-sm-10"><input type="hidden" name="idx[]" value="<?=$value['idx']?>"><input type="text" name="title[]" value="<?=$value['title']?>" class="form-control form-control-sm"></div>
                   <div class="col-2 col-sm-1 pr-2 text-right"><button type="button" class="btn-custom btn-giwbred btn-delete-page-modal" data-idx="<?=$value['idx']?>">삭제</button></div>
                 </div>
-                <textarea name="content[]" rows="10" cols="100" id="content_<?=$key?>" class="se-content"><?=$value['content']?></textarea>
+                <textarea name="content[]" rows="10" cols="100" id="content_<?=$key?>" class="se-content editor-count"><?=$value['content']?></textarea>
               </div>
               <?php endforeach; ?>
             </div>
+
+            <?php if ($view['idx'] == 1): // 경인웰빙 전용 ?>
+            <div class="pt-3">
+              <div class="row no-gutters align-items-center mb-2">
+                <div class="col-2 col-sm-1">페이지명</div>
+                <div class="col-8 col-sm-10"><input readonly type="text" value="경인웰빙 100대명산" class="form-control form-control-sm"></div>
+              </div>
+              <textarea name="content-mountain" rows="10" cols="100" id="content_mountain" class="se-content"><?=$view['mountain']?></textarea>
+            </div>
+            <div class="pt-3">
+              <div class="row no-gutters align-items-center mb-2">
+                <div class="col-2 col-sm-1">페이지명</div>
+                <div class="col-8 col-sm-10"><input readonly type="text" value="경인웰빙 100대명소" class="form-control form-control-sm"></div>
+              </div>
+              <textarea name="content-place" rows="10" cols="100" id="content_place" class="se-content"><?=$view['place']?></textarea>
+            </div>
+            <?php endif; ?>
+
             <div class="text-center mt-4">
               <button type="button" class="btn-custom btn-info btn-add-page mr-2 pt-2 pb-2 pl-4 pr-4">항목추가</button>
               <button type="button" class="btn-custom btn-giwb btn-page-update ml-2 mr-4 pt-2 pb-2 pl-4 pr-4">저장하기</button>
@@ -50,7 +68,7 @@
           //$('#sortable').disableSelection().sortable();
 
           var cnt = 0;
-          $('.se-content').each(function(n) {
+          $('.editor-count').each(function(n) {
             cnt++;
           });
 
@@ -74,6 +92,25 @@
             }
           });
 
+          <?php if ($view['idx'] == 1): // 경인웰빙 전용 ?>
+          var oEditor1 = []
+          nhn.husky.EZCreator.createInIFrame({
+            oAppRef: oEditor1,
+            elPlaceHolder: 'content_mountain',
+            sSkinURI: '/public/se2/SmartEditor2Skin_Club.html',
+            fCreator: 'createSEditor2',
+            htParams: { fOnBeforeUnload: function(){} }
+          });
+          var oEditor2 = []
+          nhn.husky.EZCreator.createInIFrame({
+            oAppRef: oEditor2,
+            elPlaceHolder: 'content_place',
+            sSkinURI: '/public/se2/SmartEditor2Skin_Club.html',
+            fCreator: 'createSEditor2',
+            htParams: { fOnBeforeUnload: function(){} }
+          });
+          <?php endif; ?>
+
           $(document).on('click', '.btn-page-update', function() {
             // 페이지 등록
             for (var i = 0; i < oEditors.length; i++) {
@@ -84,9 +121,16 @@
             var $dom = $('#formSetupPage');
             var formData = new FormData($dom[0]);
 
-            $('.se-content').each(function(n) {
+            $('.editor-count').each(function(n) {
               formData.append('content_' + n, $(this).val());
             });
+
+            <?php if ($view['idx'] == 1): // 경인웰빙 전용 ?>
+              oEditor1[0].exec("UPDATE_CONTENTS_FIELD", []);
+              oEditor2[0].exec("UPDATE_CONTENTS_FIELD", []);
+              formData.append('content_mountain', $('#content_mountain').val());
+              formData.append('content_place', $('#content_place').val());
+            <?php endif; ?>
 
             $.ajax({
               url: $dom.attr('action'),
@@ -105,8 +149,8 @@
           }).on('click', '.btn-add-page', function() {
             // 항목 추가
             var cnt = 0;
-            $('.se-content').each(function() { cnt++; });
-            var content = '<div class="item-notice pt-3"><div class="row no-gutters align-items-center mb-2"><div class="col-2 col-sm-1">페이지명</div><div class="col-8 col-sm-10"><input type="text" name="title[]" class="form-control form-control-sm"></div><div class="col-2 col-sm-1 pr-2 text-right"><button type="button" class="btn-custom btn-giwbred btn-delete-page-modal">삭제</button></div></div><textarea name="content[]" rows="10" cols="100" id="content_' + cnt + '" class="se-content"></textarea></div>';
+            $('.editor-count').each(function() { cnt++; });
+            var content = '<div class="item-notice pt-3"><div class="row no-gutters align-items-center mb-2"><div class="col-2 col-sm-1">페이지명</div><div class="col-8 col-sm-10"><input type="text" name="title[]" class="form-control form-control-sm"></div><div class="col-2 col-sm-1 pr-2 text-right"><button type="button" class="btn-custom btn-giwbred btn-delete-page-modal">삭제</button></div></div><textarea name="content[]" rows="10" cols="100" id="content_' + cnt + '" class="se-content editor-count"></textarea></div>';
             $('.area-page').append(content);
 
             oEditors[cnt] = [];
