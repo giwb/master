@@ -1199,24 +1199,27 @@ class Admin extends Admin_Controller
       $viewEntry = $this->admin_model->viewEntry($search['rescode']);
       $viewReserve = $this->admin_model->viewReserveClosed($search['rescode']);
 
-      foreach ($viewReserve as $value) {
-        $search['idx'] = $value['user_idx'];
-        $userData = $this->admin_model->viewMember($search);
+      // 이미 종료된 상태라면 포인트 지급 안함
+      if ($viewEntry['status'] != STATUS_CLOSED) {
+        foreach ($viewReserve as $value) {
+          $search['idx'] = $value['user_idx'];
+          $userData = $this->admin_model->viewMember($search);
 
-        if ($userData['level'] != 2 && $userData['admin'] != 1) { // 무료회원과 관리자는 적립금 없음
-          // 최초 1회는 자신의 레벨에 맞게 포인트 지급
-          $memberLevel = memberLevel($userData['rescount'], $userData['penalty'], $userData['level'], $userData['admin']);
-          $this->member_model->updatePoint($clubIdx, $userData['idx'], ($userData['point'] + $memberLevel['point']));
-          setHistory($clubIdx, LOG_POINTUP, $search['rescode'], $userData['idx'], $userData['nickname'], $viewEntry['subject'] . ' 본인 예약 포인트', $now, $memberLevel['point']);
+          if ($userData['level'] != 2 && $userData['admin'] != 1) { // 무료회원과 관리자는 적립금 없음
+            // 최초 1회는 자신의 레벨에 맞게 포인트 지급
+            $memberLevel = memberLevel($userData['rescount'], $userData['penalty'], $userData['level'], $userData['admin']);
+            $this->member_model->updatePoint($clubIdx, $userData['idx'], ($userData['point'] + $memberLevel['point']));
+            setHistory($clubIdx, LOG_POINTUP, $search['rescode'], $userData['idx'], $userData['nickname'], $viewEntry['subject'] . ' 본인 예약 포인트', $now, $memberLevel['point']);
 
-          // 같은 아이디로 추가 예약을 했을 경우 포인트 1000씩 지급 (1인우등은 제외)
-          if (empty($value['honor'])) {
-            $addedReserve = $this->admin_model->viewReserveClosedAdded($search['rescode'], $userData['idx']);
-            if ($addedReserve['cnt'] > 1) {
-              $addedPoint = ($addedReserve['cnt'] - 1) * 1000;
-              $userData = $this->admin_model->viewMember($search); // 갱신된 정보를 다시 불러옴
-              $this->member_model->updatePoint($clubIdx, $userData['idx'], ($userData['point'] + $addedPoint));
-              setHistory($clubIdx, LOG_POINTUP, $search['rescode'], $userData['idx'], $userData['nickname'], $viewEntry['subject'] . ' 일행 예약 포인트', $now, $addedPoint);
+            // 같은 아이디로 추가 예약을 했을 경우 포인트 1000씩 지급 (1인우등은 제외)
+            if (empty($value['honor'])) {
+              $addedReserve = $this->admin_model->viewReserveClosedAdded($search['rescode'], $userData['idx']);
+              if ($addedReserve['cnt'] > 1) {
+                $addedPoint = ($addedReserve['cnt'] - 1) * 1000;
+                $userData = $this->admin_model->viewMember($search); // 갱신된 정보를 다시 불러옴
+                $this->member_model->updatePoint($clubIdx, $userData['idx'], ($userData['point'] + $addedPoint));
+                setHistory($clubIdx, LOG_POINTUP, $search['rescode'], $userData['idx'], $userData['nickname'], $viewEntry['subject'] . ' 일행 예약 포인트', $now, $addedPoint);
+              }
             }
           }
         }
