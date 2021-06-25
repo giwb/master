@@ -50,21 +50,29 @@
             <div class="d-none d-sm-block">
               <div class="row no-gutters align-items-center bg-secondary text-white p-2">
                 <div class="col-sm-1">번호</div>
-                <div class="col-sm-2">아이디</div>
+                <div class="col-sm-1">아이디</div>
                 <div class="col-sm-2">닉네임</div>
                 <div class="col-sm-2">산행명</div>
                 <div class="col-sm-4">사진</div>
-                <div class="col-sm-1">편집</div>
+                <div class="col-sm-2 text-center">편집</div>
               </div>
             </div>
             <?php $max = count($listAuth); foreach ($listAuth as $key => $value): ?>
             <div class="row no-gutters align-items-center p-2 border-bottom small">
               <div class="col-sm-1"><?=$max - $key?></div>
-              <div class="col-sm-2"><?=$value['userid']?></div>
+              <div class="col-sm-1"><?=$value['userid']?></div>
               <div class="col-sm-2"><?=$value['nickname']?></div>
               <div class="col-sm-2"><?=$value['title']?></div>
               <div class="col-sm-4"><a target="_blank" href="<?=$value['photo']?>"><?=$value['photo']?></a></div>
-              <div class="col-sm-1" data-idx="<?=$value['idx']?>"><button type="button" class="btn-custom btn-gray btn-auth-update p-1">수정</button> <button type="button" class="btn-custom btn-giwbred btn-auth-delete-modal p-1">삭제</button></div>
+              <div class="col-sm-2 text-center" data-idx="<?=$value['idx']?>">
+                <?php if (empty($value['approve'])): ?>
+                <button type="button" class="btn-custom btn-giwbblue btn-auth-approve p-1">승인</button>
+                <?php else: ?>
+                <button disabled type="button" class="btn-custom p-1">완료</button>
+                <?php endif; ?>
+                <button type="button" class="btn-custom btn-gray btn-auth-update p-1">수정</button>
+                <button type="button" class="btn-custom btn-giwbred btn-auth-delete-modal p-1">삭제</button>
+              </div>
             </div>
             <?php endforeach; ?>
           </section>
@@ -145,6 +153,19 @@
                 },
                 success: function(result) {
                   location.replace('<?=BASE_URL?>/admin/attendance_auth');
+                }
+              });
+            }).on('click', '.btn-auth-approve', function() {
+              var $dom = $(this);
+              var idx = $(this).parent().data('idx');
+
+              $.ajax({
+                url: '/admin/attendance_auth_approve',
+                data: 'idx=' + idx,
+                dataType: 'json',
+                type: 'post',
+                success: function(result) {
+                  $dom.prop('disabled', true).removeClass('btn-giwbblue').removeClass('btn-auth-approve').text('완료');
                 }
               });
             });

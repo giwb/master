@@ -22,6 +22,7 @@ class Album extends MY_Controller
   {
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
+    $idx = !empty($this->input->get('n')) ? html_escape($this->input->get('n')) : NULL;
     $viewData['userIdx'] = !empty($userData['idx']) ? $userData['idx'] : '';
     $viewData['adminCheck'] = !empty($userData['admin']) ? $userData['admin'] : '';
 
@@ -38,7 +39,11 @@ class Album extends MY_Controller
     $viewData['cntAlbum'] = $this->club_model->cntAlbum($clubIdx);
 
     // 사진첩
-    $viewData['listAlbumMain'] = $this->club_model->listAlbum($clubIdx, $paging);
+    if (empty($idx)) {
+      $viewData['listAlbumMain'] = $this->club_model->listAlbum($clubIdx, $paging);
+    } else {
+      $viewData['listAlbumMain'] = $this->club_model->viewAlbum($idx);
+    }
 
     foreach ($viewData['listAlbumMain'] as $key => $value) {
       $photos = $this->file_model->getFile('album', $value['idx']);
@@ -148,6 +153,7 @@ class Album extends MY_Controller
 
     $clubIdx = get_cookie('COOKIE_CLUBIDX');
     $userData = $this->load->get_var('userData');
+    $viewData['flag'] = html_escape($this->input->get('flag'));
     $idx = html_escape($this->input->get('n'));
 
     // 클럽 정보
@@ -181,18 +187,37 @@ class Album extends MY_Controller
     $now = time();
     $userData = $this->load->get_var('userData');
     $postData = $this->input->post();
+    $clubIdx = html_escape($postData['clubIdx']);
+    $noticeIdx = html_escape($postData['noticeIdx']);
     $arrPhoto = $_FILES['files'];
     $pageName = 'album';
+    $viewNotice = $this->reserve_model->viewNotice($noticeIdx);
+
+    // 백산백소 인증용 플래그
+    $flag = !empty($postData['flag']) && $postData['flag'] == 'on' ? 1 : 0;
 
     $insertValues = array(
-      'club_idx'    => html_escape($postData['clubIdx']),
-      'notice_idx'  => html_escape($postData['noticeIdx']),
+      'club_idx'    => $clubIdx,
+      'notice_idx'  => $noticeIdx,
       'subject'     => html_escape($postData['subject']),
       'created_by'  => $userData['idx'],
       'created_at'  => $now,
+      'flag'        => $flag,
     );
-
     $idx = $this->club_model->insertAlbum($insertValues);
+
+    // 백산백소 인증 등록
+    if ($flag == 1) {
+      $insertValues = array(
+        'rescode'   => $noticeIdx,
+        'userid'    => $userData['userid'],
+        'nickname'  => $userData['nickname'],
+        'photo'     => '/album/?n=' . $idx,
+        'title'     => $viewNotice['mname'],
+        'regdate'   => $now
+      );
+      $this->admin_model->insertAttendanceAuth($insertValues);
+    }
 
     // 사진 처리
     foreach ($arrPhoto['tmp_name'] as $value) {

@@ -1,4 +1,4 @@
-<?php foreach ($album as $key => $photos): $cnt = 0; ?>
+<?php if (!empty($album)): foreach ($album as $key => $photos): $cnt = 0; ?>
   <div class="font-weight-bold mt-5 mb-3"><h4 class="font-weight-bold"><?=$photos['title']?></h4></div>
   <div class="grid">
   <?php foreach ($photos as $value): if (!empty($value['filename'])): ?>
@@ -12,7 +12,7 @@
     <?php $cnt++; endforeach; ?>
   <?php endif; endforeach; ?>
   </div>
-<?php endforeach; ?>
+<?php endforeach; endif; ?>
 
 <script type="text/javascript">
   var $grid = $('.grid').masonry({

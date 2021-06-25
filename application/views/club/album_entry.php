@@ -16,7 +16,15 @@
 
           <form id="formPhoto" method="post" action="<?=BASE_URL?>/album/insert" enctype="multipart/form-data">
             <input type="hidden" name="clubIdx" value="<?=$view['idx']?>">
+            <?php if ($view['idx'] == 1): // 백산백소는 경인웰빙만 ?>
             <div class="row align-items-center mt-4">
+              <div class="col-sm-2 font-weight-bold">백산백소 인증</div>
+              <div class="col-sm-10">
+                <label><input type="checkbox" name="flag"<?=!empty($flag) && $flag == 1 ? ' checked' : ''?>> 백산백소 인증용 사진은 체크해주세요.</label>
+              </div>
+            </div>
+            <?php endif; ?>
+            <div class="row align-items-center mt-2">
               <div class="col-sm-2 font-weight-bold">다녀온 여행</div>
               <div class="col-sm-10">
                 <select name="noticeIdx" class="form-control">

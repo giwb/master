@@ -84,6 +84,7 @@ class Club_model extends CI_Model
           ->from(DB_AUTH)
           ->where('nickname !=', '캔총무')
           ->where('nickname !=', '아띠')
+          ->where('approve', 1)
           ->group_by('nickname')
           ->order_by('cnt', 'desc')
           ->order_by('nickname', 'asc');
@@ -146,11 +147,14 @@ class Club_model extends CI_Model
   // 앨범 상세
   public function viewAlbum($idx)
   {
-    $this->db->select('*')
-          ->from(DB_ALBUM)
-          ->where('deleted_at', NULL)
-          ->where('idx', $idx);
-    return $this->db->get()->row_array(1);
+    $this->db->select('a.*, b.nickname, c.idx AS notice_idx, c.subject AS notice_subject, c.startdate AS notice_startdate')
+          ->from(DB_ALBUM . ' a')
+          ->join(DB_MEMBER . ' b', 'a.created_by=b.idx', 'left')
+          ->join(DB_NOTICE . ' c', 'a.notice_idx=c.idx', 'left')
+          ->where('a.idx', $idx)
+          ->where('a.deleted_at', NULL);
+
+    return $this->db->get()->result_array();
   }
 
   // 앨범 등록

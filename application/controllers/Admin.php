@@ -2759,6 +2759,12 @@ class Admin extends Admin_Controller
     // 백산백소 목록
     $viewData['listAuth'] = $this->admin_model->listAuth();
 
+    foreach ($viewData['listAuth'] as $key => $value) {
+      if (!strstr($value['photo'], 'cafe.daum.net')) {
+        $viewData['listAuth'][$key]['photo'] = BASE_URL . $value['photo'];
+      }
+    }
+
     // 페이지 타이틀
     $viewData['pageTitle'] = '백산백소 인증';
 
@@ -2768,7 +2774,7 @@ class Admin extends Admin_Controller
   /**
    * 인증현황 등록/수정
    *
-   * @return view
+   * @return json
    * @author bjchoi
    **/
   public function attendance_auth_update()
@@ -2806,6 +2812,29 @@ class Admin extends Admin_Controller
     } else {
       $result = array('error' => 0, 'message' => $message);
     }
+
+    $this->output->set_output(json_encode($result));
+  }
+
+  /**
+   * 인증현황 승인
+   *
+   * @return json
+   * @author bjchoi
+   **/
+  public function attendance_auth_approve()
+  {
+    // 클럽ID
+    $idx = !empty($this->input->post('idx')) ? html_escape($this->input->post('idx')) : NULL;
+
+    if (!empty($idx)) {
+      $updateValues = array(
+        'approve' => 1,
+      );
+      $this->admin_model->updateAttendanceAuth($updateValues, $idx);
+    }
+
+    $result = array('error' => 0, 'message' => '');
 
     $this->output->set_output(json_encode($result));
   }
