@@ -709,10 +709,9 @@ class Reserve extends MY_Controller
           }
         }
 
-        $this->member_model->updatePenalty($clubIdx, $userReserve['user_idx'], ($userData['penalty'] + $penalty));
-
         // 예약 페널티 로그 기록
         if ($penalty > 0) {
+          $this->member_model->updatePenalty($clubIdx, $userReserve['user_idx'], ($userData['penalty'] + $penalty));
           setHistory($clubIdx, LOG_PENALTYUP, $userReserve['resCode'], $userReserve['user_idx'], $userReserve['nickname'], $userReserve['subject'] . ' 예약 취소', $nowDate, $penalty);
         }
 

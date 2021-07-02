@@ -26,13 +26,14 @@
             </dl>
             <?php endforeach; ?>
           </form>
+          <div class="text-center">
+            결제정보입력은 아래 버튼을 눌러서 곧바로 진행하실 수 있으며,<br>
+            추후 마이페이지에서도 입력하실 수 있습니다.<br><br><br>
 
-          결제정보입력은 아래 버튼을 눌러서 곧바로 진행하실 수 있으며,<br>
-          추후 마이페이지에서도 입력하실 수 있습니다.<br><br><br>
-
-          <?php if ($userData['level'] != LEVEL_FREE): ?><button type="button" class="btn btn-default btn-mypage-payment">결제정보입력</button></a><?php endif; ?>
-          <a href="<?=BASE_URL?>/reserve/list/<?=$view['noticeIdx']?>"><button type="button" class="btn btn-secondary">좌석현황보기</button></a>
-          <?php endif; ?>
+            <?php if ($userData['level'] != LEVEL_FREE): ?><button type="button" class="btn btn-default btn-mypage-payment">결제정보입력</button></a><?php endif; ?>
+            <a href="<?=BASE_URL?>/reserve/list/<?=$view['noticeIdx']?>"><button type="button" class="btn btn-secondary">좌석현황보기</button></a>
+            <?php endif; ?>
+          </div>
           <?php if (!empty($listItem)): ?>
           <div class="border-top mt-5 pt-5 pl-2"><h4>■ 추천상품</h4></div>
           <div id="shop" class="sub-content pl-3 pr-3 pb-3">
