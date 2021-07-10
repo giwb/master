@@ -49,7 +49,7 @@ class Album extends MY_Controller
       $photos = $this->file_model->getFile('album', $value['idx']);
 
       foreach ($photos as $i => $photo) {
-        if (!empty($photo['filename'])) {
+        if (!empty($photo['filename']) && file_exists(ALBUM_PATH . $photo['filename'])) {
           $size = getImageSize(ALBUM_PATH . $photo['filename']);
           $size_thumb = getImageSize(ALBUM_PATH . 'thumb_' . $photo['filename']);
           $viewData['photos'][$key]['file_idx'][] = $photo['idx'];
@@ -225,7 +225,23 @@ class Album extends MY_Controller
         $filename = $now . mt_rand(10000, 99999) . '.jpg';
 
         if (move_uploaded_file($value, ALBUM_PATH . $filename)) {
+          // 이미지 보정
+          imageRotateFix(ALBUM_PATH . $filename);
           $size = getImageSize(ALBUM_PATH . $filename);
+
+          // 사진 세로 크기가 1024가 넘으면 사이즈 조정
+          if ($size[1] >= 1024) {
+            $this->image_lib->clear();
+            $config['image_library'] = 'gd2';
+            $config['source_image'] = ALBUM_PATH . $filename;
+            $config['new_image'] = ALBUM_PATH . $filename;
+            $config['create_thumb'] = FALSE;
+            $config['maintain_ratio'] = TRUE;
+            $config['thumb_marker'] = '';
+            $config['height'] = 1024;
+            $this->image_lib->initialize($config);
+            $this->image_lib->resize();            
+          }
           $fileValues = array(
             'page' => $pageName,
             'page_idx' => $idx,
@@ -291,7 +307,7 @@ class Album extends MY_Controller
       $photos = $this->file_model->getFile('album', $value['idx']);
 
       foreach ($photos as $i => $photo) {
-        if (!empty($photo['filename'])) {
+        if (!empty($photo['filename']) && file_exists(ALBUM_PATH . $photo['filename'])) {
           $size = getImageSize(ALBUM_PATH . $photo['filename']);
           $size_thumb = getImageSize(ALBUM_PATH . 'thumb_' . $photo['filename']);
           $viewData['photos'][$key]['filename'][] = ALBUM_URL . 'thumb_' . $photo['filename'];

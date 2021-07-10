@@ -52,6 +52,40 @@ if (!function_exists('ksubstr'))
   }
 }
 
+// imageRotateFix
+if (!function_exists('imageRotateFix'))
+{
+  function imageRotateFix($filename)
+  {
+    $exifData = exif_read_data($filename);
+
+    if (isset($exifData['Orientation'])) {
+      if ($exifData['Orientation'] == 6)  $degree = 270;
+      elseif ($exifData['Orientation'] == 8) $degree = 90;
+      elseif ($exifData['Orientation'] == 3) $degree = 180;
+
+      if ($degree) {
+        if ($exifData['FileType'] == 1) {
+          $source = imagecreatefromgif($filename);
+          $source = imagerotate($source, $degree, 0);
+          imagegif($source, $filename);
+        }
+        elseif ($exifData['FileType'] == 2) {
+          $source = imagecreatefromjpeg($filename);
+          $source = imagerotate($source, $degree, 0);
+          imagejpeg($source, $filename);
+        }
+        elseif ($exifData['FileType'] == 3) {
+          $source = imagecreatefrompng($filename);
+          $source = imagerotate($source, $degree, 0);
+          imagepng($source, $filename);
+        }
+        imagedestroy($source);
+      }
+    }
+  }
+}
+
 // 여행 포인트
 if (!function_exists('getPoint')) {
   function getPoint($point) {
