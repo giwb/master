@@ -229,8 +229,8 @@ class Album extends MY_Controller
           imageRotateFix(ALBUM_PATH . $filename);
           $size = getImageSize(ALBUM_PATH . $filename);
 
-          // 사진 세로 크기가 1024가 넘으면 사이즈 조정
-          if ($size[1] >= 1024) {
+          // 사진 세로 크기가 2000이 넘으면 사이즈 조정
+          if ($size[1] >= 2000) {
             $this->image_lib->clear();
             $config['image_library'] = 'gd2';
             $config['source_image'] = ALBUM_PATH . $filename;
@@ -238,7 +238,7 @@ class Album extends MY_Controller
             $config['create_thumb'] = FALSE;
             $config['maintain_ratio'] = TRUE;
             $config['thumb_marker'] = '';
-            $config['height'] = 1024;
+            $config['height'] = 2000;
             $this->image_lib->initialize($config);
             $this->image_lib->resize();            
           }
