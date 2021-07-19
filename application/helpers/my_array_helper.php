@@ -678,7 +678,8 @@ if (!function_exists('getReserveAdmin')) {
 // 예약자 정보 (일반용)
 if (!function_exists('getReserve')) {
   function getReserve($reserve, $bus, $seat, $userData, $status, $seatType) {
-    if ($status == STATUS_CLOSED) {
+    // 예약이 닫혀있거나, 블랙리스트는 예약 불가
+    if ($status == STATUS_CLOSED || $userData['level'] == 9) {
       $result = array('idx' => '', 'user_idx' => '', 'nickname' => '', 'class' => '');
     } else {
       $result = array('idx' => '', 'user_idx' => '', 'nickname' => '예약가능', 'class' => 'seat');
@@ -1100,6 +1101,19 @@ if (!function_exists('getPurchaseStatus')) {
       case ORDER_CANCEL: $result = '<strong class="text-secondary">[구매취소]</strong>'; break;
       case ORDER_END: $result = '<strong class="text-primary">[인수완료]</strong>'; break;
       default: $result = '<strong class="text-danger">[입금대기]</strong>';
+    }
+    return $result;
+  }
+}
+
+// 구매 입금체크
+if (!function_exists('getPlaceType')) {
+  function getPlaceType($type) {
+    switch ($type) {
+      case 1: $result = '100대명산'; break;
+      case 2: $result = '자연휴양림'; break;
+      case 3: $result = '캠핑장'; break;
+      default: $result = '';
     }
     return $result;
   }
